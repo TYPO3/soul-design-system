@@ -8,14 +8,14 @@ namespace TYPO3\Soul\GuidesTheme;
  * Which glyph a social account carries, read out of its own URL.
  *
  * Nothing configures this. A social entry is an account on a service, and the
- * URL already names the service — a second place to say which one is a place
- * that can disagree with the link beside it, and a Mastodon glyph on a link
- * that opens Bluesky is a footer lying about where pressing it goes.
+ * URL already names the service. A second place to say which one is a place
+ * that can disagree with the link beside it. A Mastodon glyph on a link that
+ * opens Bluesky is a footer that lies about where a press goes.
  *
  * The identifiers are the icon set's own `actions-brand-*`, which is the whole
- * set there is. A host that is not below keeps its label and no glyph: a
- * service the set has no mark for is not one to substitute another mark for,
- * and a label alone is what the footer said yesterday.
+ * set there is. A host that is not below keeps its label and no glyph. A
+ * service the set has no mark for gets no other mark in its place, and a
+ * label alone is what the footer said yesterday.
  *
  * An instance somebody runs themselves — a GitLab of one's own, a Mastodon
  * that is not mastodon.social — is a host no URL can answer for. That is a
@@ -28,7 +28,7 @@ final class Brands
      * Host, without a leading `www.`, to the brand half of the identifier.
      *
      * `twitter.com` is X's old address and its glyph is X's: the mark follows
-     * the service, not the spelling a link was written in.
+     * the service, not the spelling of the link.
      *
      * @var array<string, string>
      */

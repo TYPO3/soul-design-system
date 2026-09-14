@@ -20,13 +20,13 @@ use TYPO3\Soul\GuidesTheme\Nodes\Terms;
 /**
  * The theme's settings, where a template can read them.
  *
- * A global rather than a function: `soul.signet` in a template is a value the
- * project set, and a template that had to call something to get it would
- * invite a template that computes it instead.
+ * A global rather than a function. `soul.signet` in a template is a value the
+ * project set. A template that has to call something to get it invites a
+ * template that computes it instead.
  *
- * The functions are for the opposite reason: each answers a question about the
- * document being rendered that only the page can be asked. Both answers are
- * worked out in a class of their own, where they can be read.
+ * The functions are for the opposite reason. Each answers a question about the
+ * document in hand that only the page can answer. Both answers come from a
+ * class of their own, where a reader can read them.
  */
 final class ThemeExtension extends AbstractExtension implements GlobalsInterface
 {
@@ -79,10 +79,10 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
      * A rendered node as the words in it, for a value that has to travel in an
      * attribute.
      *
-     * Rendering escapes and Twig escapes again on the way into the attribute,
+     * The render escapes and Twig escapes again on the way into the attribute,
      * so a type written `"string"` arrives as `&amp;quot;string&amp;quot;` and
-     * is read by nobody. Decoded here and escaped once by Twig, it arrives as
-     * it was written.
+     * nobody reads it. Decoded here and escaped once by Twig, it arrives as
+     * the author wrote it.
      */
     public function plain(string $rendered): string
     {
@@ -103,10 +103,10 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
     }
 
     /**
-     * What is on the page being rendered, as the entry the element beside the
-     * column is given. A node is asked for rather than the page alone: a
-     * document may carry more than one contents, and each is a list of
-     * whatever the author pointed it at.
+     * What is on the page in hand, as the entry the element beside the column
+     * gets. It asks for a node rather than the page alone. A document can
+     * carry more than one contents, and each is a list of whatever the author
+     * pointed it at.
      *
      * @param array{env?: RenderContext} $context
      *
@@ -114,7 +114,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
      */
     public function sections(array $context, ContentMenuNode $node): array
     {
-        return $this->sections->of($this->context($context, 'What is on a page is read off that page'), $node);
+        return $this->sections->of($this->context($context, 'What is on a page comes off that page'), $node);
     }
 
     /**
@@ -132,12 +132,12 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
 
     /**
      * The site as one entry, on every page alike: the contract every
-     * navigation of this theme is given.
+     * navigation of this theme gets.
      *
-     * A function with no node, unlike a directive's: the answer is the
-     * project's and not the document's, so any template can ask for it — and
-     * the one that does is the bar's, which draws as much of it as the width
-     * allows.
+     * A function with no node, unlike a directive's. The answer is the
+     * project's and not the document's, so any template can ask for it. The
+     * one that does is the bar's, which draws as much of it as the width
+     * permits.
      *
      * @param array{env?: RenderContext} $context
      *
@@ -155,7 +155,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
     }
 
     /**
-     * The page being rendered, or the reason there has to be one.
+     * The page in hand, or the reason there has to be one.
      *
      * @param array{env?: RenderContext} $context
      */
@@ -163,7 +163,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
     {
         $renderContext = $context['env'] ?? null;
         if (!$renderContext instanceof RenderContext) {
-            throw new \RuntimeException($because . ', so there has to be a page being rendered');
+            throw new \RuntimeException($because . ', so there has to be a page in hand');
         }
 
         return $renderContext;

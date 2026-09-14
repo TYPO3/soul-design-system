@@ -11,20 +11,21 @@ use phpDocumentor\Guides\Nodes\SectionNode;
 /**
  * A marketing page, as the run of bands it is.
  *
- * `.. band::` does not wrap a page in itself, it opens one: what follows
- * belongs to it, up to the next band, and what stands before the first one is
- * a band as well — a page opens on the canvas. That is how the source reads
- * like the page it makes, and it is the only way `.sds-band` works at all: a
- * band is full-bleed and takes the page inset itself, so two of them inside
- * one another indent their text by a gutter nobody asked for and the second
- * one stops at the width of the first.
+ * `.. band::` does not wrap a page in itself, it opens one. What follows
+ * belongs to it, up to the next band. What stands before the first one is a
+ * band as well — a page opens on the canvas. That is how the source reads
+ * like the page it makes, and it is the only way `.sds-band` works at all.
+ *
+ * A band is full-bleed and takes the page inset itself. Two of them inside one
+ * another indent their text by a gutter nobody asked for. The second one
+ * stops at the width of the first.
  *
  * The split has to reach through a section, because reStructuredText nests
- * everything under the heading above it — on a page with one `h1` the whole
+ * everything under the heading above it. On a page with one `h1` the whole
  * body is one section, and every band an author writes is inside it. So a
- * section that holds a band keeps its heading and everything up to it; from
- * there, the bands are what the page is made of. The `<div class="section">`
- * around the tail is what is lost, and it carries an anchor and no style.
+ * section that holds a band keeps its heading and everything up to it. From
+ * there, the bands are what the page consists of. The `<div class="section">`
+ * around the tail is what goes, and it carries an anchor and no style.
  */
 final class Bands
 {
@@ -86,7 +87,7 @@ final class Bands
 
             if ($node instanceof SectionNode && $this->holdsBand($node)) {
                 /* The title is already the section's first child, so the head
-                   is built from the title and filled from the second one on. */
+                   starts from the title and fills from the second one on. */
                 $head = new SectionNode($node->getTitle());
                 $tail = [];
                 foreach (array_slice($node->getChildren(), 1) as $child) {

@@ -18,14 +18,14 @@ use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
  * The contents an author did not write.
  *
  * What is on a page is the page's own, the way its breadcrumb and the way on
- * from it are: read out of the document rather than typed at the top of it, so
- * a heading added to a page reaches the list by itself and no page is missing
+ * from it are. Read out of the document rather than typed at the top of it.
+ * So a heading added to a page reaches the list by itself, and no page lacks
  * one because somebody forgot a line. `.. contents::` stays what it always
- * was and wins wherever it is written — with a caption, a `:depth:`, or
- * somewhere other than under the title.
+ * was and wins wherever it stands — with a caption, a `:depth:`, or somewhere
+ * other than under the title.
  *
- * It is the directive's own node that is inserted, so everything after this
- * point is the path a written one takes: the core fills the entries in, and
+ * The inserted node is the directive's own, so everything after this point is
+ * the path a written one takes. The core fills the entries in, and
  * `body/menu/content-menu.html.twig` draws them.
  */
 final class OnThisPage implements NodeTransformer
@@ -67,9 +67,9 @@ final class OnThisPage implements NodeTransformer
     }
 
     /**
-     * The section a page opens with. Everything a reader sees is under it —
-     * reStructuredText nests a document beneath its own title — and a page
-     * with a second one at that level is two pages in a file.
+     * The section a page opens with. Everything a reader sees is under it, as
+     * reStructuredText nests a document beneath its own title. A page with a
+     * second one at that level is two pages in a file.
      */
     private function opener(DocumentNode $document): ?SectionNode
     {
@@ -127,11 +127,11 @@ final class OnThisPage implements NodeTransformer
     }
 
     /**
-     * Under the title and above everything else, which is where an author
-     * writes one and the only place it reads as being about the page rather
-     * than about the section it landed in. The section is cloned rather than
-     * built again: a heading carries classes and options of its own, and a new
-     * node would be that heading with them dropped.
+     * Under the title and above everything else. That is where an author
+     * writes one, and the only place it reads as about the page rather than
+     * about the section it landed in. The section is a clone rather than a
+     * new build. A heading carries classes and options of its own, and a new
+     * node is that heading without them.
      */
     private function with(SectionNode $section, DocumentNode $document): SectionNode
     {

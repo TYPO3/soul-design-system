@@ -14,9 +14,9 @@ use phpDocumentor\Guides\TemplateRenderer;
  * A directive the parser left under its own name, as Markdown.
  *
  * The core reaches these by name rather than by node class — a lookup, not a
- * mapping — so the format has to do its own. What it does differently is the
- * miss: a directive with no Markdown of its own renders what was written in
- * it, a shape Markdown does not have being still a passage somebody wrote.
+ * map — so the format has to do its own. What it does differently is the
+ * miss. A directive with no Markdown of its own renders its source, as a
+ * shape Markdown does not have is still a passage somebody wrote.
  *
  * @implements NodeRenderer<GeneralDirectiveNode>
  */

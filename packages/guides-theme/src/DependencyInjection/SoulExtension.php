@@ -40,9 +40,9 @@ use TYPO3\Soul\GuidesTheme\Nodes\SwatchNode;
  * What a project using this theme can set, and where it says so.
  *
  * Guides' own `<project>` element carries a title, a version, a release and a
- * copyright, and nothing else — there is no place in it for a mark. An
+ * copyright, and nothing else. There is no place in it for a mark. An
  * `<extension>` element, though, hands everything inside it to the extension
- * it names, which is what makes this configuration rather than a template
+ * it names. That is what makes this configuration rather than a template
  * somebody has to copy:
  *
  *     <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
@@ -56,13 +56,14 @@ use TYPO3\Soul\GuidesTheme\Nodes\SwatchNode;
 final class SoulExtension extends Extension implements ConfigurationInterface, PrependExtensionInterface
 {
     /**
-     * What a tab icon is announced as, by the only thing that knows: its name.
+     * What a tab icon announces itself as, by the only thing that knows: its
+     * name.
      *
-     * A `type` is what lets a browser pick between the files without fetching
-     * them first, which is the whole point of listing more than one. It is
-     * read here rather than configured for the same reason a social link's
-     * glyph is: a second place to say what a file is, is a place that can
-     * disagree with the file.
+     * A `type` is what lets a browser pick between the files before any
+     * fetch. That is the whole point of a list of more than one. It comes
+     * from here rather than from configuration, for the same reason a social
+     * link's glyph does. A second place to say what a file is, is a place
+     * that can disagree with the file.
      *
      * @var array<string, string>
      */
@@ -88,38 +89,37 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
             ->fixXmlConfig('favicon')
             ->children()
                 /* A path, relative to the documentation root, of a file the
-                   renderer can see — so it is copied into the output with the
-                   documents rather than pointing at something that only exists
+                   renderer can see. So it goes into the output with the
+                   documents rather than points at something that only exists
                    on the machine that built the site. */
                 ->scalarNode('signet')->defaultNull()->end()
-                /* The same mark, in the tab. Written as one element per file
-                   and not as one path, because this system draws a signet at
-                   three optical sizes and a browser picks between them at the
-                   link — a media query inside an SVG only sees its own
-                   viewport:
+                /* The same mark, in the tab. One element per file and not
+                   one path. This system draws a signet at three optical
+                   sizes, and a browser picks between them at the link. A
+                   media query inside an SVG only sees its own viewport:
 
                        <favicon href="_images/signet-s.svg" sizes="16x16"/>
                        <favicon href="_images/signet-l.svg" sizes="32x32"/>
 
-                   Left out entirely, the signet is the tab icon: a bar with a
-                   mark above a tab with none is one site saying two things,
-                   and the file already has to survive being rendered on its
+                   Left out entirely, the signet is the tab icon. A bar with a
+                   mark above a tab with none is one site that says two
+                   things. And the file already has to survive a render on its
                    own — that is what the hex fallback beside every `var()` in
                    it is for. */
                 ->arrayNode('favicons')
                     ->arrayPrototype()
                         ->children()
                             ->scalarNode('href')->isRequired()->end()
-                            /* The slot this file is drawn for, as the
-                               attribute is spelled: `16x16`. One entry may
+                            /* The slot this file exists for, spelt as the
+                               attribute spells it: `16x16`. One entry can
                                leave it out, and then it is the file for
                                whatever a browser did not find a size for. */
                             ->scalarNode('sizes')->defaultNull()->end()
                         ->end()
                     ->end()
                 ->end()
-                /* The name in the bar, when it is not the project's own title:
-                   a manual that documents one product inside a larger project
+                /* The name in the bar, when it is not the project's own title.
+                   A manual that documents one product inside a larger project
                    says the product. */
                 ->scalarNode('product')->defaultNull()->end()
                 /* Whose product it is, where that is a second name — the first
@@ -142,18 +142,17 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                        <pager>true</pager>
 
                    Off by default, and that is a decision rather than caution.
-                   The renderer computes no such thing — its own prev/next
-                   block has been commented out of the core template for
-                   years — so this is the theme offering a path, and a
-                   reference nobody reads front to back is a reference where
-                   that path is a row of noise under every page. A manual says
-                   true. */
+                   The renderer computes no such thing, as its own prev/next
+                   block has sat commented out of the core template for years.
+                   So this is the theme's offer of a path. A reference nobody
+                   reads front to back is a reference where that path is a
+                   row of noise under every page. A manual says true. */
                 ->booleanNode('pager')->defaultFalse()->end()
                 /* The footer, because a marketing page has one and a manual
                    does not get to invent it. Its columns are the toctree and
-                   are configured nowhere; what is set here is what the tree
-                   cannot know — a column pointing somewhere else, the social
-                   accounts, and the line that says what this is:
+                   no configuration touches them. What stands here is what
+                   the tree cannot know. A column that points somewhere else,
+                   the social accounts, and the line that says what this is:
 
                        <footer>
                            <group title="Elsewhere">
@@ -168,7 +167,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                    least a page can say. */
                 /* The handful of places a site has, in the bar. Left out, it
                    is the top level of the tree, so a project that says nothing
-                   still has one; the toctree entire is the rail's job, and a
+                   still has one. The toctree entire is the rail's job, and a
                    manual's every page in the bar is not navigation. */
                 ->arrayNode('navigation')
                     ->fixXmlConfig('link')
@@ -179,7 +178,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                                     ->scalarNode('href')->isRequired()->end()
                                     /* Only where the tree has no page to take
                                        the name from — somebody else's site.
-                                       A section is called what its own
+                                       A section's name is what its own
                                        `:navigation-title:` says. */
                                     ->scalarNode('label')->defaultNull()->end()
                                     ->booleanNode('external')->defaultFalse()->end()
@@ -200,12 +199,12 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                                     ->arrayNode('links')
                                         ->arrayPrototype()
                                             ->children()
-                                                /* A document, written the way
+                                                /* A document, spelt the way
                                                    a `:doc:` reference is —
                                                    `/frontend`, not
-                                                   `frontend.html`. It is
-                                                   resolved per page, because a
-                                                   footer is rendered on every
+                                                   `frontend.html`. It
+                                                   resolves per page, because a
+                                                   footer renders on every
                                                    one of them and they are not
                                                    all at the same depth. An
                                                    external link is a URL and
@@ -241,28 +240,28 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
     /**
      * The theme's own nodes, and the two that print themselves without this.
      *
-     * A node with no template is rendered as its text, which is how
-     * `:navigation-title:` came to stand in the `<head>` of every page — and
+     * A node with no template renders as its text. That is how
+     * `:navigation-title:` came to stand in the `<head>` of every page, and
      * from there, hoisted by the browser, above the shell. Declared here so a
-     * project writes none of it: a theme that needed six lines of mapping in
-     * every consumer's config would be a theme that ships broken by default.
+     * project writes none of it. A theme that needs six lines of map in every
+     * consumer's config is a theme that ships broken by default.
      */
     public function prepend(ContainerBuilder $container): void
     {
-        /* The two packages this theme requires, registered as if the project
+        /* The two packages this theme needs, registered as if the project
            had named them. A composer dependency the consumer still has to
-           repeat in their own config is a dependency they can get wrong, and
-           without the first one every code block on the site renders as
+           repeat in their own config is a dependency they can get wrong.
+           Without the first one every code block on the site renders as
            unmarked text. */
         $this->registerDependency($container, new CodeExtension());
         $this->registerDependency($container, new MarkdownExtension());
 
         $blank = 'structure/header/blank.html.twig';
         $container->prependExtensionConfig('guides', [
-            /* A theme rather than a list of template paths. A path is searched
-               after the packaged templates, so a file replacing one of theirs
-               is never reached; a theme's templates come first, which is what
-               a theme is for. Select it with `theme="soul"`. */
+            /* A theme rather than a list of template paths. The search reaches
+               a path after the packaged templates, so a file that replaces one
+               of theirs never wins. A theme's templates come first, which is
+               what a theme is for. Select it with `theme="soul"`. */
             'themes' => [
                 'soul' => [
                     'extends' => 'default',
@@ -292,15 +291,15 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => ExampleNode::class, 'file' => 'body/directive/example.html.twig', 'format' => 'html'],
                 /* And the same documents as Markdown, node for node. The
                    format's name is the file extension the renderer writes and
-                   the one every reference inside it resolves to, so the twin
+                   the one every reference inside it resolves to. So the twin
                    is a site of its own rather than a file beside a page. */
                 ...$this->markdown(),
             ],
             /* The two the renderer writes by default, and ours where the
                project has not turned it off. Read out of the raw config
-               rather than taken from `load()`: a format has to be declared
-               before the container is compiled, and by the time a setting has
-               been processed the render is already configured. */
+               rather than out of `load()`. A format has to exist before the
+               container compiles, and by the time a setting has gone through
+               the render already has its configuration. */
             'output_format' => $this->wants($container, 'markdown')
                 ? ['html', 'interlink', 'md', 'llms']
                 : ['html', 'interlink'],
@@ -317,10 +316,10 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
         $container->setParameter('soul.product', $config['product']);
         $container->setParameter('soul.brand', $config['brand']);
         $container->setParameter('soul.home', $config['home']);
-        /* The glyph is worked out here rather than in the template, because it
-           is a fact about the URL and not about the page it is rendered on —
-           and a template that computes is a template a project ends up
-           copying. */
+        /* The glyph comes from here rather than from the template. It is a
+           fact about the URL and not about the page it renders on. A
+           template that computes is a template a project ends up with a copy
+           of. */
         $footer = $config['footer'] ?? [];
         foreach ($footer['socials'] ?? [] as $index => $social) {
             $footer['socials'][$index]['icon'] = Brands::icon($social['href']);
@@ -329,7 +328,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
         $container->setParameter('soul.footer', $footer);
         $container->setParameter('soul.navigation', $config['navigation'] ?? []);
         $container->setParameter('soul.pager', $config['pager']);
-        /* The head names the twin, and may only name one that is written. */
+        /* The head names the twin, and can only name one that exists. */
         $container->setParameter('soul.markdown', $config['markdown']);
 
         $loader = new PhpFileLoader($container, new FileLocator(dirname(__DIR__, 2) . '/resources/config'));
@@ -337,9 +336,9 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
     }
 
     /**
-     * The Markdown map, as the renderer takes its templates — written out
+     * The Markdown map, as the renderer takes its templates. Written out
      * rather than through the core's `templateArray()`, a function in another
-     * package's file scope that exists only where that file was loaded.
+     * package's file scope that exists only where that file loaded.
      *
      * @return list<array{node: string, file: string, format: string}>
      */
@@ -373,8 +372,8 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
 
     /**
      * A package this theme cannot render without, registered for the project.
-     * It arrives too late in the prepend pass for its own `prepend()` to be
-     * called, so that is done here. A project naming it itself is left alone,
+     * It arrives too late in the prepend pass for its own `prepend()` to run,
+     * so that happens here. A project that names it itself stays as it is,
      * because an element in `guides.xml` is there to configure it.
      */
     private function registerDependency(ContainerBuilder $container, ExtensionInterface $extension): void
@@ -394,9 +393,9 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
     /**
      * The tab icons, each with the type its own filename gives it.
      *
-     * Worked out here and not in the head, for the reason a social glyph is:
-     * it is a fact about the file, and a template that computes is a template
-     * a project ends up copying.
+     * From here and not from the head, for the reason a social glyph is. It
+     * is a fact about the file, and a template that computes is a template a
+     * project ends up with a copy of.
      *
      * @param array<string, mixed> $config
      *

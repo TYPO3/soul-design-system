@@ -20,12 +20,12 @@ use TYPO3\Soul\GuidesTheme\Nodes\BandNode;
  *
  *        Anything at all.
  *
- * Bands are how a marketing page is built: the ground runs edge to edge, the
- * content inside is held to the page measure, and two of them share one
- * hairline rather than drawing two. `:quiet:` is the second ground — the one
- * that makes a run of bands read as alternating rather than as a wall.
+ * Bands are what a marketing page consists of. The ground runs edge to edge,
+ * the content inside stays on the page measure, and two of them share one
+ * hairline rather than draw two. `:quiet:` is the second ground — the one
+ * that makes a run of bands read as alternate rather than as a wall.
  *
- * On a page whose layout is not `marketing` a band still works; it is simply
+ * On a page whose layout is not `marketing` a band still works. It is simply
  * a section inside a column, which is what it looks like.
  */
 final class BandDirective extends SubDirective
@@ -40,10 +40,10 @@ final class BandDirective extends SubDirective
         CollectionNode $collectionNode,
         Directive $directive,
     ): ?Node {
-        /* The title is an option and not a section heading, because a section
-           heading inside a directive is not one: reStructuredText parses
-           sections at document level, so a page that wrote `====` under a line
-           in here would ship the line and the equals signs as text. */
+        /* The title is an option and not a section heading. A section
+           heading inside a directive is not one. reStructuredText parses
+           sections at document level. A page that writes `====` under a line
+           in here ships the line and the equals signs as text. */
         return (new BandNode($collectionNode->getChildren()))->withOptions([
             'quiet' => $directive->hasOption('quiet'),
             'id' => $directive->getOption('id')->getValue(),

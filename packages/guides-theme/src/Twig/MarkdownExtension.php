@@ -9,14 +9,14 @@ use Twig\TwigFilter;
 use TYPO3\Soul\GuidesTheme\Nodes\Opening;
 
 /**
- * What a Markdown template cannot do with the language it is written in.
+ * What a Markdown template cannot do with its own language.
  *
- * Markdown is a whitespace format: a block is separated by a blank line, a
- * nested one by a prefix on every line of it, and a fence by a run of
- * backticks longer than anything inside it. None of that is a string
- * operation, and a template computing it in `replace` filters is a template
- * nobody can read — so each is a filter here, and a container separates the
- * blocks it holds rather than every template guessing what follows it.
+ * Markdown is a whitespace format. A blank line separates a block, and a
+ * prefix on every line marks a nested one. A run of backticks longer than
+ * anything inside it fences a block. None of that is a string operation. A
+ * template that computes it in `replace` filters is a template nobody can
+ * read, so each is a filter here. And a container separates the blocks it
+ * holds rather than every template guesses what follows it.
  */
 final class MarkdownExtension extends AbstractExtension
 {
@@ -46,8 +46,8 @@ final class MarkdownExtension extends AbstractExtension
     public function tidy(?string $text): string
     {
         $text = str_replace("\r\n", "\n", $text ?? '');
-        /* Trailing blanks are what an indented block leaves behind, and a line
-           that is only whitespace is not a blank line to a parser. */
+        /* Blanks at the end are what an indented block leaves behind. A
+           line that is only whitespace is not a blank line to a parser. */
         $text = (string)preg_replace('/[ \t]+$/m', '', $text);
 
         return trim((string)preg_replace('/\n{3,}/', "\n\n", $text));
@@ -81,9 +81,9 @@ final class MarkdownExtension extends AbstractExtension
     }
 
     /**
-     * A code block, fenced longer than anything in it: a block quoting
-     * Markdown carries three backticks of its own and would otherwise close
-     * the fence on its first line.
+     * A code block, fenced longer than anything in it. A block that quotes
+     * Markdown carries three backticks of its own and otherwise closes the
+     * fence on its first line.
      */
     public function fence(?string $code, string $language = ''): string
     {
@@ -100,9 +100,9 @@ final class MarkdownExtension extends AbstractExtension
     }
 
     /**
-     * Text that is not markup, kept from reading as some — the punctuation
-     * anywhere, and the line openers a paragraph would become a heading or a
-     * list by.
+     * Text that is not markup, kept from a read as some. The punctuation
+     * anywhere, and the line openers that turn a paragraph into a heading or
+     * a list.
      */
     public function escape(?string $text): string
     {
@@ -112,9 +112,9 @@ final class MarkdownExtension extends AbstractExtension
     }
 
     /**
-     * One line of a line block, ending in the break that keeps it one: a verse
-     * is lines because the author wrote lines, and a Markdown reader joins two
-     * of them into a paragraph unless the first ends in a break.
+     * One line of a line block, with the break at its end that keeps it one.
+     * A verse is lines because the author wrote lines. A Markdown reader
+     * joins two of them into a paragraph unless the first ends in a break.
      */
     public function lineBreak(?string $text): string
     {
@@ -124,8 +124,8 @@ final class MarkdownExtension extends AbstractExtension
     }
 
     /**
-     * A literal, in the backticks that can hold it: one carrying a backtick of
-     * its own needs a longer run around it and a space inside, which is the
+     * A literal, in the backticks that can hold it. One with a backtick of
+     * its own needs a longer run around it and a space inside. That is the
      * one place a run of them is not a mistake.
      */
     public function code(?string $text): string
@@ -158,10 +158,10 @@ final class MarkdownExtension extends AbstractExtension
     }
 
     /**
-     * A value in the front matter, as one YAML scalar. Always quoted: a JSON
-     * string is a YAML double-quoted scalar to the letter, and the plain form
-     * is a list of exceptions — `yes` is a boolean, `2024` a number, `a: b` a
-     * map — that a title falls into one day without anyone reading it.
+     * A value in the front matter, as one YAML scalar. Always quoted. A JSON
+     * string is a YAML double-quoted scalar to the letter. The plain form is
+     * a list of exceptions: `yes` a boolean, `2024` a number, `a: b` a map.
+     * A title falls into one of them one day, and nobody reads it.
      */
     public function yaml(?string $text): string
     {
@@ -169,9 +169,9 @@ final class MarkdownExtension extends AbstractExtension
     }
 
     /**
-     * One cell of a table, the only place a pipe means anything — which is
-     * why it is escaped here and not wherever text is: escaped in prose it is
-     * a backslash nobody wrote, and escaped twice it is two.
+     * One cell of a table, the only place a pipe means anything. That is why
+     * the escape is here and not wherever text is. Escaped in prose it is a
+     * backslash nobody wrote, and escaped twice it is two.
      */
     public function cell(?string $text): string
     {

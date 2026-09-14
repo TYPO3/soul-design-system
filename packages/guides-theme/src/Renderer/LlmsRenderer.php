@@ -18,10 +18,10 @@ use TYPO3\Soul\GuidesTheme\Twig\MarkdownExtension;
  * `llms.txt` at the publish root: the site's own table of contents, for a
  * reader that arrived with no navigation.
  *
- * One file for the whole project rather than one per document, which is the
- * shape `objects.inv` is written in and the reason this is a format of its
- * own. It names the twins and never the pages: a program that follows a link
- * from here stays in Markdown for the rest of the site.
+ * One file for the whole project rather than one per document. That is the
+ * shape of `objects.inv` and the reason this is a format of its own. It
+ * names the twins and never the pages. A program that follows a link from
+ * here stays in Markdown for the rest of the site.
  */
 final class LlmsRenderer implements TypeRenderer
 {
@@ -54,8 +54,8 @@ final class LlmsRenderer implements TypeRenderer
         $root = $project->getRootDocumentEntry();
         $lines = ['# ' . $this->markdown->escape($project->getTitle() ?? $root->getTitle()->toString())];
 
-        /* The line under a page is what its twin opens with as `description`
-           — see `Opening` — so a reader following one to the other finds the
+        /* The line under a page is what its twin opens with as `description`.
+           See `Opening`. A reader who follows one to the other finds the
            same sentence. */
         $summary = Opening::of($documents[$root->getFile()] ?? null);
         if ($summary !== '') {
@@ -64,9 +64,9 @@ final class LlmsRenderer implements TypeRenderer
         }
 
         /* A section per branch of the tree, which is what the bar carries and
-           what a reader would have been given as navigation. A page with
-           nothing under it is not a section — those are gathered at the end,
-           under the one heading a list needs to stand in. */
+           what a reader gets as navigation. A page with nothing under it is
+           not a section. Those collect at the end, under the one heading a
+           list needs to stand in. */
         $loose = [];
         foreach ($this->entries($root) as $entry) {
             if ($entry->getChildren() === []) {
@@ -112,7 +112,7 @@ final class LlmsRenderer implements TypeRenderer
     }
 
     /**
-     * Every page under this one, however deep: `llms.txt` has one heading
+     * Every page under this one, at any depth. `llms.txt` has one heading
      * level to put a list under, whatever the tree does.
      *
      * @return list<DocumentEntryNode>

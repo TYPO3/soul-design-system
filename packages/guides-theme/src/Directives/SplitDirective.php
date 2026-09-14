@@ -26,24 +26,24 @@ use TYPO3\Soul\GuidesTheme\Nodes\SplitNode;
  *
  *           .. figure:: /_images/flow.svg
  *
- * A split holds columns and nothing else, so a child written without `half`
- * becomes one here: a run of paragraphs is a run of columns until something
- * says where one of them ends. No width and no count — the halves fold under
- * each other by their own minimum, the way every other set in this system
- * reflows.
+ * A split holds columns and nothing else, so a child with no `half` becomes
+ * one here. A run of paragraphs is a run of columns until something says
+ * where one of them ends. No width and no count — the halves fold under each
+ * other by their own minimum, the way every other set in this system reflows.
  *
- * The two options are the two things the author knows and the layout cannot:
- * how a short half stands against a tall one, and which of them a phone should
- * be given first. That second one is not the first by definition — a picture
+ * The two options are the two things the author knows and the layout cannot.
+ * How a short half stands against a tall one, and which of them a phone must
+ * get first. That second one is not the first by definition. A picture
  * belongs on the right of the sentence it illustrates and above it once there
- * is one column, and reading order is not source order at every width.
+ * is one column. The order a reader reads is not source order at every
+ * width.
  */
 final class SplitDirective extends SubDirective
 {
     /** Where the shorter half sits against the taller one. */
     private const ALIGNMENTS = ['start', 'center', 'end'];
 
-    /** Which half is read first once the two have stacked. */
+    /** Which half a reader reads first once the two have stacked. */
     private const LEADS = ['start', 'end'];
 
     public function getName(): string
@@ -59,9 +59,9 @@ final class SplitDirective extends SubDirective
         $align = (string)($directive->getOption('align')->getValue() ?? '');
         $leads = (string)($directive->getOption('leads')->getValue() ?? '');
 
-        /* A split lays out columns, so a child written without `half` becomes
-           one here rather than reaching the template as a shape it would have
-           to recognise. One node more, and no exception in the stylesheet. */
+        /* A split lays out columns. So a child with no `half` becomes one
+           here rather than reaches the template as a shape it has to
+           recognise. One node more, and no exception in the stylesheet. */
         $halves = array_map(
             static fn(Node $child): Node => $child instanceof HalfNode ? $child : new HalfNode([$child]),
             $collectionNode->getChildren(),

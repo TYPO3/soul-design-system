@@ -12,12 +12,12 @@ use phpDocumentor\Guides\Nodes\Node;
 /**
  * A node whose argument is inline markup carrying where it goes.
  *
- * That is not a preference: TYPO3 documentation writes the target into the
+ * That is not a preference. TYPO3 documentation writes the target into the
  * words — `.. card:: :ref:`Introduction <introduction>`` — so the argument
  * arrives as a reference and not as a string. The words are the title and the
- * reference is where it goes, and both are read off here instead of in the
- * template: what the two are is a fact about the node, and a template that
- * worked it out would be a template a project ends up copying.
+ * reference is where it goes, and both come off here instead of in the
+ * template. What the two are is a fact about the node. A template that
+ * works it out is a template a project ends up with a copy of.
  */
 abstract class LinkedNode extends BlockNode
 {
@@ -32,7 +32,7 @@ abstract class LinkedNode extends BlockNode
         return $this->title;
     }
 
-    /** The link the title is, where it is one. Its URL is resolved at render. */
+    /** The link the title is, where it is one. Its URL resolves at render. */
     public function getLink(): ?LinkInlineNode
     {
         return $this->linkIn($this->title);

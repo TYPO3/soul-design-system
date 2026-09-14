@@ -22,16 +22,15 @@ use TYPO3\Soul\GuidesTheme\Nodes\ButtonBarNode;
  *           :href: https://example.org/manual
  *           :variant: secondary
  *
- * Named for what it holds, and the shape it holds them in.
- * A row of controls is layout and not a component, so it is `.sds-actions` and
- * carries no variant: the whole of it is that the things in it sit on one line
- * and are centred against each other, which is what a link beside a button
- * needs.
+ * Named for what it holds, and the shape it holds them in. A row of controls
+ * is layout and not a component, so it is `.sds-actions` and carries no
+ * variant. The whole of it is that the things in it sit on one line and
+ * centre against each other. That is what a link beside a button needs.
  *
- * It holds whatever a page puts in it and buttons above all. One of them is the
- * primary and the rest are not — a second `:variant: primary` in a row makes
- * neither of them mean anything — but that is a rule about writing, and a
- * directive that enforced it would be a directive that rewrote what an author
+ * It holds whatever a page puts in it and buttons above all. One of them is
+ * the primary and the rest are not. A second `:variant: primary` in a row
+ * makes neither of them mean anything. But that is a rule about the text, and
+ * a directive that enforces it is a directive that rewrites what an author
  * said.
  */
 final class ButtonBarDirective extends SubDirective
@@ -47,9 +46,9 @@ final class ButtonBarDirective extends SubDirective
         Directive $directive,
     ): ?Node {
         return (new ButtonBarNode($collectionNode->getChildren()))->withOptions([
-            /* An author who wrote `:class:` meant it for their own stylesheet,
-               and dropping what a theme does not understand is the one thing
-               it must not do. Carried the way `card` carries it. */
+            /* An author who wrote `:class:` meant it for their own stylesheet.
+               To drop what a theme does not understand is the one thing it
+               must not do. Carried the way `card` carries it. */
             'class' => $directive->getOption('class')->getValue(),
         ]);
     }

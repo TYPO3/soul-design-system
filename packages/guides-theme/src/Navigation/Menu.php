@@ -12,12 +12,12 @@ use phpDocumentor\Guides\RenderContext;
 use phpDocumentor\Guides\Renderer\UrlGenerator\UrlGeneratorInterface;
 
 /**
- * The site, as the one entry every navigation of this theme is given.
+ * The site, as the one entry every navigation of this theme gets.
  *
- * Label, target, what is under it, and what is true of it on the page being
- * rendered — `current` for the page itself and `here` for the entries it sits
- * under. The renderer knows all of that and the elements work none of it out;
- * a bar draws as much of the entry as the width allows, and a rail draws the
+ * Label, target, what is under it, and what is true of it on the page in
+ * hand. `current` for the page itself and `here` for the entries it sits
+ * under. The renderer knows all of that and the elements work none of it out.
+ * A bar draws as much of the entry as the width permits, and a rail draws the
  * section of it the reader is in.
  *
  * `front` is the one thing the tree cannot say: which of a site's sections are
@@ -45,10 +45,10 @@ final class Menu
         foreach ($context->getProjectNode()->getGlobalMenues() as $menu) {
             foreach ($menu->getMenuEntries() as $entry) {
                 $items[] = $this->entry($entry, $context, $current, $rootline);
-                /* The document rather than the href beside it: a configured
-                   link names `/guide/index`, while the href is resolved
-                   against the page being rendered and reads `../guide/`
-                   from anywhere but the root. */
+                /* The document rather than the href beside it. A configured
+                   link names `/guide/index`, while the href resolves against
+                   the page in hand and reads `../guide/` from anywhere but
+                   the root. */
                 $documents[] = $entry instanceof ExternalMenuEntryNode ? null : trim($entry->getUrl(), '/');
             }
         }
@@ -88,9 +88,8 @@ final class Menu
         if ($url === $current) {
             $entry['current'] = true;
         } elseif (in_array($url, $rootline, true)) {
-            /* On the way to the page rather than the page itself: a section a
-               reader is inside is where they are, without being what they are
-               reading. */
+            /* On the way to the page rather than the page itself. A section a
+               reader is inside is where they are, and not what they read. */
             $entry['here'] = true;
         }
 
@@ -110,15 +109,15 @@ final class Menu
      * Which entries stand in the bar's row, and in which order.
      *
      * A written list wins over the tree, as it does for anything the tree
-     * cannot know, and it decides the order of the whole menu: the row is the
-     * top of the list rather than a second list beside it, so a reader who
+     * cannot know, and it decides the order of the whole menu. The row is the
+     * top of the list rather than a second list beside it. So a reader who
      * opens the drawer finds the sections in the order the bar had them.
      * Everything the configuration did not name follows, in the tree's own
      * order. With nothing written, every section is a front door — a site that
      * has said nothing still has a bar to move around in.
      *
      * A front door the tree has no page for is a page it does not reach or
-     * somebody else's site; either way it joins the menu, because on a phone
+     * somebody else's site. Either way it joins the menu, because on a phone
      * the drawer is the only navigation there is.
      *
      * @param list<array<string, mixed>> $items
@@ -147,9 +146,9 @@ final class Menu
             $at = array_search($href, $documents, true);
             if ($at !== false) {
                 $named[] = $at;
-                /* Named by the page and not by the link: a section is called
-                   what its own `:navigation-title:` says, everywhere it is
-                   named — the bar, the drawer, the rail's heading, the trail,
+                /* The page names it, not the link. A section's name is what
+                   its own `:navigation-title:` says, everywhere the name
+                   stands: the bar, the drawer, the rail's heading, the trail,
                    the footer's column. A label written here as well is a
                    second name for one section, and the one no page carries. */
                 $named[] = $at;
@@ -179,9 +178,9 @@ final class Menu
      * @return array<string, mixed>
      */
     /**
-     * What a document calls itself in a navigation: its `:navigation-title:`
-     * where it wrote one, its own title otherwise — the same order the tree
-     * uses for every other entry, and the reason a section is named once.
+     * What a document calls itself in a navigation. Its `:navigation-title:`
+     * where it wrote one, its own title otherwise. The same order the tree
+     * uses for every other entry, and the reason a section has one name.
      */
     private function titled(string $document, RenderContext $context, string $written): string
     {
@@ -204,10 +203,10 @@ final class Menu
     ): array {
         $away = ($link['external'] ?? false) === true || str_contains($document, '://');
         $entry = [
-            /* Named by the page here too, where there is one to ask: a link to
+            /* The page names it here too, where there is one to ask. A link to
                a document the tree does not list — the root itself, most often
-               — still has a title of its own. The written label is what is
-               left for somebody else's site, which this renderer cannot ask. */
+               — still has a title of its own. The written label remains for
+               somebody else's site, which this renderer cannot ask. */
             'label' => $away ? (string)($link['label'] ?? '') : $this->titled($document, $context, (string)($link['label'] ?? '')),
             'href' => $away ? (string)($link['href'] ?? '') : $this->urlGenerator->generateCanonicalOutputUrl($context, $document),
             'front' => true,

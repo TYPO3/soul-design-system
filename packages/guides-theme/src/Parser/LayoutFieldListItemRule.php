@@ -13,9 +13,9 @@ use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
 /**
  * Reads `:layout:` from the field list at the top of a document.
  *
- * A field nobody claims is rendered as a definition list in the body, so this
- * rule is not decoration: without it, `:layout: marketing` would appear as
- * visible text on the page it was meant to configure.
+ * A field nobody claims renders as a definition list in the body, so this
+ * rule is not decoration. Without it, `:layout: marketing` appears as visible
+ * text on the page it exists to configure.
  */
 final class LayoutFieldListItemRule implements FieldListItemRule
 {

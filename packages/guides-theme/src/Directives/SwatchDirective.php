@@ -19,13 +19,13 @@ use TYPO3\Soul\GuidesTheme\Nodes\SwatchNode;
  *        :resolved: #FF8700
  *
  * The value that paints the chip is the argument, because it is what the line
- * is about; what the colour is called and what it resolves to are options.
- * There is no body: a colour a page has to explain in a paragraph is a rule
- * about where it may be used, and that is prose beside the palette rather than
- * inside one entry of it.
+ * is about. The colour's name and what it resolves to are options. There is
+ * no body. A colour a page has to explain in a paragraph is a rule about
+ * where it can go. That is prose beside the palette rather than inside one
+ * entry of it.
  *
- * `:kind: line` is for a value that is one pixel wide wherever it is really
- * used. Filled, a hairline is a different job being done by the same number.
+ * `:kind: line` is for a value that is one pixel wide wherever it stands in
+ * practice. As a fill, a hairline is a different job done by the same number.
  *
  * Written inside `.. grid::`, which lays a set side by side.
  *
@@ -49,9 +49,9 @@ final class SwatchDirective extends SubDirective
             'name' => $directive->getOption('name')->getValue(),
             'resolved' => $directive->getOption('resolved')->getValue(),
             'kind' => $directive->getOption('kind')->getValue(),
-            /* An author who wrote `:class:` meant it for their own stylesheet,
-               and dropping what a theme does not understand is the one thing
-               it must not do. Carried the way `card` carries it. */
+            /* An author who wrote `:class:` meant it for their own stylesheet.
+               To drop what a theme does not understand is the one thing it
+               must not do. Carried the way `card` carries it. */
             'class' => $directive->getOption('class')->getValue(),
         ]);
     }

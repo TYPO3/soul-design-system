@@ -8,12 +8,12 @@ use phpDocumentor\Guides\Nodes\CodeNode;
 use phpDocumentor\Guides\Nodes\Node;
 
 /**
- * What was written, and what it renders as — from the one body.
+ * The source, and what it renders as — from the one body.
  *
- * The source is a `CodeNode` because a code block on this site is highlighted
- * on the server and carries a head and a copy button. It is held beside the
- * children rather than among them: a template that had to know the first child
- * was the source could be handed a body starting with something else.
+ * The source is a `CodeNode`. A code block on this site gets its colour on
+ * the server and carries a head and a copy button. It stands beside the
+ * children rather than among them. A template that has to know the first
+ * child is the source can get a body that starts with something else.
  */
 final class ExampleNode extends BlockNode
 {

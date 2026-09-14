@@ -10,16 +10,16 @@ use Twig\TwigFilter;
 /**
  * A unified diff, read into the rows `sds-diff` draws.
  *
- * The element takes its rows as data and colours them itself; it never gets
+ * The element takes its rows as data and colours them itself. It never gets
  * markup, because a row's own class is the element's name for its own node
- * and no renderer may write one. So the reading happens here — the same
- * arrangement `sds-tabs` and `sds-nav-breadcrumb` are fed by, and the reason a reader
- * with no JavaScript still gets a coloured diff.
+ * and no renderer must write one. So the read happens here. It is the same
+ * arrangement that feeds `sds-tabs` and `sds-nav-breadcrumb`, and the reason
+ * a reader with no JavaScript still gets a coloured diff.
  *
- * `+++` and `---` are the file headers rather than changed lines: the block's
- * head already says which file this is, and tinting them green and red says a
- * file was added and removed. Everything else unmarked is context, which
- * covers `@@` and `diff --git` without naming them.
+ * `+++` and `---` are the file headers rather than changed lines. The block's
+ * head already says which file this is, and a green and a red tint on them
+ * says a file came and went. Everything else unmarked is context, which
+ * covers `@@` and `diff --git` with no need to name them.
  */
 final class DiffExtension extends AbstractExtension
 {

@@ -7,12 +7,12 @@ namespace TYPO3\Soul\GuidesTheme\Nodes;
 use phpDocumentor\Guides\Nodes\Metadata\MetadataNode;
 
 /**
- * Which shell a page is set in.
+ * Which shell a page sits in.
  *
  * A manual page and a landing page are not the same shape and never were. One
- * is read in a column beside a list of pages, held to a measure; the other is
- * a run of full-bleed bands with no rail at all, because there is nothing to
- * navigate yet — that is the whole point of a landing page.
+ * reads in a column beside a list of pages, on a measure. The other is a run
+ * of full-bleed bands with no rail at all. There is nothing to navigate yet,
+ * and that is the whole point of a landing page.
  *
  * Written at the top of a document, beside `:navigation-title:`:
  *

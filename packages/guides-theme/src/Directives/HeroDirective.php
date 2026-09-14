@@ -14,8 +14,8 @@ use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
 /**
  * The opening copy beside a decorative image.
  *
- * The document title remains the page heading and is joined to this node by
- * `Bands`, so navigation and document structure keep their source.
+ * The document title remains the page heading, and `Bands` joins it to this
+ * node, so navigation and document structure keep their source.
  */
 final class HeroDirective extends SubDirective
 {

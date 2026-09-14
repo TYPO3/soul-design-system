@@ -22,13 +22,13 @@ use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
  *
  *           Measured over the last release.
  *
- * No column count, and that is the design: three across on a desk, two on a
- * tablet and one on a phone, decided by how narrow an item may get rather than
- * by a breakpoint somebody picked.
+ * No column count, and that is the design. Three across on a desk, two on a
+ * tablet and one on a phone. How narrow an item can get decides, rather than
+ * a breakpoint somebody picked.
  *
  * The argument is that minimum, said as what the items hold rather than as a
- * number — `wide` for a card carrying a picture and a paragraph, `dense` for a
- * figure or a name and a glyph, `flush` for the gutter taken out so the set
+ * number. `wide` for a card with a picture and a paragraph, `dense` for a
+ * figure or a name and a glyph. `flush` for the gutter taken out so the set
  * reads as one wall. Anything else is the width every set gets unless it says
  * otherwise, because a name nobody defined is not a licence to invent one.
  */
@@ -48,8 +48,8 @@ final class GridDirective extends SubDirective
         Directive $directive,
     ): ?Node {
         /* The width is the one decision the set makes about itself, so it is
-           the argument rather than an option; `:variant:` is the same thing
-           written the way an option-only directive would say it. */
+           the argument rather than an option. `:variant:` is the same thing
+           spelt the way an option-only directive says it. */
         $asked = $directive->getData() !== ''
             ? $directive->getData()
             : $directive->getOption('variant')->getValue();

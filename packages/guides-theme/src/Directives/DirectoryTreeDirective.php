@@ -30,16 +30,16 @@ use TYPO3\Soul\GuidesTheme\Nodes\DirectoryTreeNode;
  *
  * A nested list, because that is what a tree is. The spelling is the one TYPO3
  * documentation already uses, so a page written for the other theme renders
- * here without being touched.
+ * here untouched.
  *
  * **The name is the first literal in the item and the rest of the line is what
- * it is for.** No syntax of this directive's own: a filename is written as a
- * literal anyway, and prose after it is prose about it. An item with no literal
- * is a name and nothing else.
+ * it is for.** No syntax of this directive's own: a filename is a literal
+ * anyway, and prose after it is prose about it. An item with no literal is a
+ * name and nothing else.
  *
- * `:level:` is how deep it stands **open**, and not how deep it is drawn. The
- * theme this was taken from stops rendering below the level, which loses what a
- * reader came for and cannot be undone by them; a fold can.
+ * `:level:` is how deep it stands **open**, and not how deep it draws. The
+ * theme this comes from stops the render below the level, which loses what a
+ * reader came for and the reader cannot undo it. A fold they can.
  */
 final class DirectoryTreeDirective extends SubDirective
 {

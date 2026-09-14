@@ -26,22 +26,22 @@ use TYPO3\Soul\GuidesTheme\Nodes\ExampleNode;
  *
  *              Two sentences.
  *
- * **The block a reader copies is the block that was run.** A page that shows
+ * **The block a reader copies is the block that ran.** A page that shows
  * markup in a `code-block` and then writes it a second time to render it holds
- * two copies of one example, and the one nobody checks is the one being copied.
- * This is `specimen` a level down: there the picture and the card are the same
- * file, here the print and the render are the same body.
+ * two copies of one example. The one nobody checks is the one readers copy.
+ * This is `specimen` a level down. There the picture and the card are the same
+ * file; here the print and the render are the same body.
  *
- * The body is printed from the lines the parser was handed and then parsed
- * from those same lines — so the options above it are not in the print, and
- * the indentation is the author's, unindented once as any directive body is.
- * The rendering stands in `.sds-example`, dashed and unfilled: the frame is
- * not part of the page, and what is inside keeps its real ground.
+ * The print comes from the lines the parser got, and the parse from those same
+ * lines. So the options above it are not in the print, and the indentation is
+ * the author's, unindented once as any directive body is. The render stands in
+ * `.sds-example`, dashed and unfilled. The frame is not part of the page, and
+ * what is inside keeps its real ground.
  *
  * **A band, a hero and `:layout:` are not for this.** They are the shape of a
- * page: a band nested inside anything indents its text by a gutter and stops
- * at its parent's width, which is a rendering of something nobody would write.
- * Those three keep a `code-block` beside prose that says what they do.
+ * page. A band nested inside anything indents its text by a gutter and stops
+ * at its parent's width, which is a render of something nobody writes. Those
+ * three keep a `code-block` beside prose that says what they do.
  */
 final class ExampleDirective extends SubDirective
 {
@@ -73,19 +73,19 @@ final class ExampleDirective extends SubDirective
         }
 
         return (new ExampleNode($source, $collectionNode->getChildren()))->withOptions([
-            /* An author who wrote `:class:` meant it for their own stylesheet,
-               and dropping what a theme does not understand is the one thing
-               it must not do. Carried the way `card` carries it. */
+            /* An author who wrote `:class:` meant it for their own stylesheet.
+               To drop what a theme does not understand is the one thing it
+               must not do. Carried the way `card` carries it. */
             'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 
     /**
-     * The lines the parser was given, with the blank ones at either end gone.
+     * The lines the parser got, with the blank ones at either end gone.
      *
-     * `toArray()` is the whole block and not what is left of it: the iterator
-     * has been read to the end by the rule that parsed the children, and the
-     * print has to be the same body they came from.
+     * `toArray()` is the whole block and not what remains of it. The rule that
+     * parsed the children read the iterator to the end, and the print has to
+     * be the same body they came from.
      *
      * @return list<string>
      */

@@ -15,12 +15,12 @@ use Twig\TwigFunction;
 /**
  * Where a reference points, as a string a template can put in an attribute.
  *
- * A reference is turned into a URL by a pre-renderer as the link itself is
- * rendered, which is no use to a template that hands the target to a component
- * as a property instead of writing an `<a>`. This asks the same resolvers the
- * same question, so the answer cannot differ from the one an ordinary link
- * gets, and warns in the same place when there is no answer — a card pointing
- * at a document nobody wrote is a broken page, not an unlinked title.
+ * A pre-renderer turns a reference into a URL as the link itself renders.
+ * That is no use to a template that hands the target to a component as a
+ * property instead of writes an `<a>`. This asks the same resolvers the same
+ * question, so the answer cannot differ from the one an ordinary link gets.
+ * And it warns in the same place when there is no answer. A card that
+ * points at a document nobody wrote is a broken page, not an unlinked title.
  */
 final class LinkExtension extends AbstractExtension
 {
@@ -49,7 +49,7 @@ final class LinkExtension extends AbstractExtension
         if (!$this->resolver->resolve($node, $renderContext, $messages)) {
             $this->logger->warning(
                 $messages->getLastWarning()?->getMessage() ?? sprintf(
-                    'Reference %s could not be resolved in %s',
+                    'Reference %s did not resolve in %s',
                     $node->getTargetReference(),
                     $renderContext->getCurrentFileName(),
                 ),

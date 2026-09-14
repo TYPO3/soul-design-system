@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 /**
- * Every node this theme can be handed, as Markdown.
+ * Every node this theme can get, as Markdown.
  *
- * The shape the core uses for `html` and `tex`: one file per node, named for
- * the format, so a document is written twice from one tree rather than read
- * back out of the first rendering. A node missing here is rendered as its own
- * children, and one whose content is a string is an error the render stops on
- * — which is what keeps this list honest.
+ * The shape the core uses for `html` and `tex`. One file per node, named for
+ * the format, so a document comes out twice from one tree rather than out of
+ * the first render. A node absent here renders as its own children. One whose
+ * content is a string is an error the render stops on, which is what keeps
+ * this list honest.
  */
 
 use phpDocumentor\Guides\Nodes\AdmonitionNode;
@@ -100,9 +100,9 @@ return [
     SidebarNode::class => 'structure/sidebar.md.twig',
     AnchorNode::class => 'inline/anchor.md.twig',
 
-    /* What a page says about itself, as the front matter the twin opens with
-       — one field per node, and the base class last: a field that means
-       something to the renderer and nothing to a reader is written nowhere. */
+    /* What a page says about itself, as the front matter the twin opens with.
+       One field per node, and the base class last: a field that means
+       something to the renderer and nothing to a reader lands nowhere. */
     AuthorNode::class => 'structure/header/author.md.twig',
     AuthorsNode::class => 'structure/header/authors.md.twig',
     OrganizationNode::class => 'structure/header/organization.md.twig',
@@ -148,11 +148,11 @@ return [
     OptionNode::class => 'body/directive/option.md.twig',
     TabsNode::class => 'body/directive/tabs.md.twig',
 
-    /* Inline, and the compound one last: a renderer supports the node it is
-       mapped for *and everything below it*, and the first one that supports a
+    /* Inline, and the compound one last. A renderer supports the node of its
+       map entry *and everything below it*, and the first one that supports a
        node is the one that renders it. Emphasis, strong and every kind of
-       link are compound nodes, so a compound mapping written above them takes
-       all three and a page loses its marks without losing a word. */
+       link are compound nodes. A compound map above them takes all three, and
+       a page loses its marks and not a word. */
     PlainTextInlineNode::class => 'inline/plain-text.md.twig',
     LiteralInlineNode::class => 'inline/literal.md.twig',
     VariableInlineNode::class => 'inline/variable.md.twig',

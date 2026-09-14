@@ -24,31 +24,29 @@ use TYPO3\Soul\GuidesTheme\Nodes\AccordionNode;
  *           PHP 8.2 or newer, and a project it can read.
  *
  * The fold is `<details>`, so it works before any script runs and find-in-page
- * opens the answer it lands in — which is why `sds-accordion` draws it and no
+ * opens the answer it lands in. That is why `sds-accordion` draws it and no
  * template here writes one.
  *
- * **The group is written on the set and on every answer in it**, and that is
- * not two sources of truth: `<details name>` is the platform's own exclusivity
- * and it lives on each answer. In a browser the set hands its name down; a
- * renderer hands nothing anywhere, so it is done here, once, over the children
- * this directive already holds. `:multiple:` empties the group, which is what
- * makes the answers independent.
+ * **The group stands on the set and on every answer in it**, and that is not
+ * two sources of truth. `<details name>` is the platform's own exclusivity and
+ * it lives on each answer. In a browser the set hands its name down. A
+ * renderer hands nothing anywhere, so that happens here, once, over the
+ * children this directive already holds. `:multiple:` empties the group, which
+ * is what makes the answers independent.
  *
- * A set nobody named gets one, rather than sharing a default with every other
- * set on the page: two exclusive groups that close each other's answers is the
- * one thing a name is for.
+ * A set nobody named gets a name of its own rather than a default every other
+ * set on the page shares. Two exclusive groups that close each other's answers
+ * is the one thing a name is for.
  *
- * The group is `:group:` and not `:name:`, which it was: `:name:` is what a
- * document says everywhere else to give something an address, and an answer
- * takes it in that meaning. One spelling meaning two things inside one pair of
- * directives is the worse half of the two-doors problem — and it was not only
- * a reader's problem. A node carries `:name:` as `name` whether or not a
- * directive reads it, so the group handed down under that key was overwritten
- * by an answer's own address, and the set stopped closing.
+ * The group is `:group:` and not `:name:`. `:name:` is what a document says
+ * everywhere else to give something an address, and an answer takes it in
+ * that meaning. A node carries `:name:` as `name` even if no directive reads
+ * it. So a group under that key loses to an answer's own address, and the set
+ * no longer closes.
  */
 final class AccordionDirective extends SubDirective
 {
-    /** Sets rendered so far, for the ones that were not named. */
+    /** Sets rendered so far, for the ones with no name. */
     private int $unnamed = 0;
 
     public function getName(): string

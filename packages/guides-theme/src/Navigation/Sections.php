@@ -10,14 +10,14 @@ use phpDocumentor\Guides\RenderContext;
 use phpDocumentor\Guides\Renderer\UrlGenerator\UrlGeneratorInterface;
 
 /**
- * What is on this page, as the entry every navigation of this theme is given.
+ * What is on this page, as the entry every navigation of this theme gets.
  *
- * The sections of the document being rendered, nested as deep as the document
- * nests them, so the element beside the column is handed a list and owns all
- * of its markup — including the entry the reader has scrolled to, which is the
+ * The sections of the document in hand, nested as deep as the document nests
+ * them. So the element beside the column gets a list and owns all of its
+ * markup, the entry the reader has scrolled to included. That entry is the
  * one thing about this list no renderer can work out.
  *
- * Separate from `Menu`, which reads the tree the site is: this reads one
+ * Separate from `Menu`, which reads the tree the site is. This reads one
  * document, and the two lists answer different questions with the same shape.
  */
 final class Sections
@@ -66,11 +66,11 @@ final class Sections
     }
 
     /**
-     * The anchor alone where the section is on the page being rendered, which
-     * is every section a contents lists: a fragment moves the page a reader
-     * already has, while the document's own URL before it fetches that page
-     * again to arrive in the same place. A document is named where it is
-     * somebody else's, which is what a list of another page's sections is.
+     * The anchor alone where the section is on the page in hand, which is
+     * every section a contents lists. A fragment moves the page a reader
+     * already has. The document's own URL before it fetches that page again
+     * to arrive in the same place. The document's name stands where it
+     * is somebody else's, which is what a list of another page's sections is.
      */
     private function href(SectionMenuEntryNode $node, RenderContext $context): string
     {

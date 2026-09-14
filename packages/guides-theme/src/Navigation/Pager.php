@@ -10,16 +10,16 @@ use phpDocumentor\Guides\RenderContext;
 use phpDocumentor\Guides\Renderer\UrlGenerator\UrlGeneratorInterface;
 
 /**
- * The pages either side of this one, in the order a manual is read.
+ * The pages either side of this one, in the order a reader reads a manual.
  *
- * The renderer computes nothing of the kind — its own prev/next block has been
- * commented out of the core template for as long as this theme has existed —
- * so the order is the tree flattened depth first, which is the order the rail
- * lists and the order somebody reading a manual front to back would take.
+ * The renderer computes nothing of the kind. Its own prev/next block has sat
+ * commented out of the core template for as long as this theme has existed.
+ * So the order is the tree flattened depth first. That is the order the rail
+ * lists and the order somebody takes through a manual front to back.
  *
- * A page the tree does not hold has no neighbours rather than the first two:
- * an orphan is reached from somewhere else, and a row offering the way onward
- * from a page that is not on the way is a row that invents a path.
+ * A page the tree does not hold has no neighbours rather than the first two.
+ * An orphan has its way in from somewhere else. A row that offers the way
+ * onward from a page that is not on the way is a row that invents a path.
  */
 final class Pager
 {
@@ -32,11 +32,11 @@ final class Pager
      */
     public function of(RenderContext $context): array
     {
-        /* The root first, and by hand: a toctree lists what is under a page
-           and never the page it is written on, so the one document every
-           reader starts at is the one the tree does not hold. Without it the
-           way on begins on the second page and the first page of a manual
-           offers none. */
+        /* The root first, and by hand. A toctree lists what is under a page
+           and never the page it stands on. So the one document every reader
+           starts at is the one the tree does not hold. Without it the way on
+           begins on the second page and the first page of a manual offers
+           none. */
         $root = $context->getRootDocumentNode();
         $pages = [[
             'label' => $root->getNavigationTitle() ?? $root->getTitle()?->toString() ?? '',

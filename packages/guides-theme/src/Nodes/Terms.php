@@ -11,11 +11,11 @@ use phpDocumentor\Guides\Nodes\Node;
 /**
  * The entries of a glossary, wherever the parser put them.
  *
- * A directive holds its body in whatever the content rule produced — one
- * definition list, or a collection with one inside it — and a template that
- * guessed which would render nothing on the day the other arrived. So the
- * terms are looked for rather than reached for, and a body that holds none is
- * an empty list the template can fall back from.
+ * A directive holds its body in whatever the content rule produced: one
+ * definition list, or a collection with one inside it. A template that
+ * guesses which renders nothing on the day the other arrives. So this
+ * searches for the terms rather than reaches for them. A body that holds
+ * none is an empty list the template can fall back from.
  */
 final class Terms
 {

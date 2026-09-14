@@ -55,8 +55,8 @@ return static function (ContainerConfigurator $container): void {
         ->instanceof(SubDirective::class)
         ->bind('$startingRule', service(DirectiveContentRule::class))
 
-        /* The specimen directive is tagged so the parser finds it without the
-           project saying anything. */
+        /* The specimen directive carries the tag so the parser finds it
+           before the project says anything. */
         ->set(SpecimenDirective::class)
         ->tag('phpdoc.guides.directive')
 
@@ -96,17 +96,17 @@ return static function (ContainerConfigurator $container): void {
         ->set(ButtonBarDirective::class)
         ->tag('phpdoc.guides.directive')
 
-        /* The questions a manual folds its answers behind, spelled the way
-           TYPO3 documentation spells them — see `AccordionDirective` for why
+        /* The questions a manual folds its answers behind, spelt the way
+           TYPO3 documentation spells them. See `AccordionDirective` for why
            the set hands its group to the answers in it. */
         ->set(AccordionDirective::class)
         ->tag('phpdoc.guides.directive')
         ->set(AccordionItemDirective::class)
         ->tag('phpdoc.guides.directive')
 
-        /* A directory as the shape it has on disk, spelled the way TYPO3
-           documentation spells it — see `DirectoryTreeDirective` for how a name
-           and what it is for are told apart without a syntax of its own. */
+        /* A directory as the shape it has on disk, spelt the way TYPO3
+           documentation spells it. See `DirectoryTreeDirective` for how a name
+           and what it is for stand apart with no syntax of its own. */
         ->set(DirectoryTreeDirective::class)
         ->tag('phpdoc.guides.directive')
 
@@ -117,7 +117,7 @@ return static function (ContainerConfigurator $container): void {
         ->set(StepDirective::class)
         ->tag('phpdoc.guides.directive')
 
-        /* What was written and what it renders as, from one body — see
+        /* The source and what it renders as, from one body — see
            `ExampleDirective` for why the print cannot be a second copy. */
         ->set(ExampleDirective::class)
         ->tag('phpdoc.guides.directive')
@@ -135,8 +135,8 @@ return static function (ContainerConfigurator $container): void {
         ->set(OnThisPage::class)
         ->tag('phpdoc.guides.compiler.nodeTransformers')
 
-        /* The site as the one entry every navigation is given, worked out
-           where it can be read. It resolves links itself, so it takes the
+        /* The site as the one entry every navigation gets, worked out where
+           a reader can read it. It resolves links itself, so it takes the
            renderer's url generator — autowired, unlike the extension below,
            whose arguments are all settings. */
         ->set(Menu::class)
@@ -145,16 +145,16 @@ return static function (ContainerConfigurator $container): void {
         ->set(Rail::class)
 
         /* And the one list that is a document rather than the tree: the
-           sections of the page being rendered, for the column beside it. */
+           sections of the page in hand, for the column beside it. */
         ->set(Sections::class)
 
-        /* And the way on from the page being rendered, worked out the same
-           way and for the same reason: the order a manual is read in is the
+        /* And the way on from the page in hand, worked out the same way and
+           for the same reason. The order a reader reads a manual in is the
            tree walked, which a template can only fake. */
         ->set(Pager::class)
 
         /* The languages the highlighter this site renders with does not
-           ship — see `Grammars`. Wrapped around it rather than replacing it,
+           ship — see `Grammars`. Wrapped around it rather than in its place,
            so everything it already colours it still colours. */
         ->set(Grammars::class)
         ->decorate(Highlighter::class)
@@ -171,7 +171,7 @@ return static function (ContainerConfigurator $container): void {
         ->tag('twig.extension')
 
         /* And the rows of a diff, read out of the block a `code-block:: diff`
-           carries — see `DiffExtension` for why the reading is not the
+           carries. See `DiffExtension` for why the read is not the
            template's and not the element's. */
         ->set(DiffExtension::class)
         ->tag('twig.extension')
@@ -188,19 +188,19 @@ return static function (ContainerConfigurator $container): void {
         ])
 
         /* And the twin's own table of contents at the publish root, for a
-           reader that arrived with no navigation — one file for the whole
+           reader that arrived with no navigation. One file for the whole
            project, which is why it is a renderer of its own rather than a
            template. See `LlmsRenderer`. */
         ->set(LlmsRenderer::class)
         ->tag('phpdoc.renderer.typerenderer', ['format' => 'llms'])
 
         /* A directive the core reaches by name rather than by node class, in
-           the second format — see `GeneralDirectiveMarkdownRenderer` for why a
+           the second format. See `GeneralDirectiveMarkdownRenderer` for why a
            miss renders the passage instead of a warning. */
         ->set(GeneralDirectiveMarkdownRenderer::class)
         ->tag('phpdoc.guides.noderenderer.md')
 
-        /* And what a Markdown template cannot say in Twig: the blank line
+        /* And what a Markdown template cannot say in Twig. The blank line
            between two blocks, the prefix on a nested one, a fence longer than
            what it holds — see `MarkdownExtension`. */
         ->set(MarkdownExtension::class)

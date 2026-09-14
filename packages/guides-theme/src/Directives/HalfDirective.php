@@ -19,10 +19,10 @@ use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
  *        Its paragraph and the press under it are one side of the split
  *        rather than three of its columns.
  *
- * It has nothing to say on its own and takes no position — where a half stands
- * is the split's decision, because the other half is what it is standing
- * against. Written anywhere else it is the run of blocks it holds, in the
- * rhythm a page sets between them.
+ * It has nothing to say on its own and takes no position. Where a half stands
+ * is the split's decision, because the other half is what it stands against.
+ * Anywhere else it is the run of blocks it holds, in the rhythm a page sets
+ * between them.
  */
 final class HalfDirective extends SubDirective
 {
@@ -37,12 +37,12 @@ final class HalfDirective extends SubDirective
         Directive $directive,
     ): ?Node {
         return (new HalfNode($collectionNode->getChildren()))->withOptions([
-            /* A section title inside a directive is parsed as text. The
+            /* A section title inside a directive parses as text. The
                argument gives the grouped side a real heading instead. */
             'heading' => $directive->getData(),
-            /* An author who wrote `:class:` meant it for their own stylesheet,
-               and dropping what a theme does not understand is the one thing
-               it must not do. Carried the way `card` carries it. */
+            /* An author who wrote `:class:` meant it for their own stylesheet.
+               To drop what a theme does not understand is the one thing it
+               must not do. Carried the way `card` carries it. */
             'class' => $directive->getOption('class')->getValue(),
         ]);
     }

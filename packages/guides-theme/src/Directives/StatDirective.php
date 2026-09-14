@@ -21,14 +21,15 @@ use TYPO3\Soul\GuidesTheme\Nodes\StatNode;
  *
  *        Measured over the last release, on a warm index.
  *
- * The figure is the argument, because it is what the line is about; the body
+ * The figure is the argument, because it is what the line is about. The body
  * is what bounds it, and it is a paragraph rather than an option since out of
- * a document it carries links. **Without that line the number is a boast** —
- * which is the whole reason `sds-stat` is a component and not two divs, and it
- * is why the directive cannot offer a shorter form that leaves it out.
+ * a document it carries links. **Without that line the number is a boast.**
+ * That is the whole reason `sds-stat` is a component and not two divs. It is
+ * why the directive cannot offer a shorter form that leaves it out.
  *
- * `:of:` is the whole the figure is a part of. It is said and drawn, and only
- * where the figure really is a part: a measurement is out of nothing.
+ * `:of:` is the whole the figure is a part of. It stands in words and in the
+ * drawing, and only where the figure really is a part: a measurement is out
+ * of nothing.
  *
  * **The options cover that element and leave nothing of it out**, spelt the
  * way the element spells them — see `CardDirective` for why both hold.
@@ -51,9 +52,9 @@ final class StatDirective extends SubDirective
             'label' => $directive->getOption('label')->getValue(),
             'of' => $directive->getOption('of')->getValue(),
             'icon' => $directive->getOption('icon')->getValue(),
-            /* An author who wrote `:class:` meant it for their own stylesheet,
-               and dropping what a theme does not understand is the one thing
-               it must not do. Carried the way `card` carries it. */
+            /* An author who wrote `:class:` meant it for their own stylesheet.
+               To drop what a theme does not understand is the one thing it
+               must not do. Carried the way `card` carries it. */
             'class' => $directive->getOption('class')->getValue(),
         ]);
     }
