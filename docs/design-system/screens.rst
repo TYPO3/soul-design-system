@@ -4,50 +4,44 @@
 Screens
 =======
 
-Whole surfaces, not components. Each one is a **Starting Point**: a consuming
-project offers these in a picker to seed a new design, so they have to be
-finished pages rather than sketches.
+Whole surfaces, not components. Each one is a **Starting Point**. A consumer
+offers these in a picker to seed a new design, so each is a complete page,
+not a sketch.
 
-They are marked by an ``@startingPoint`` comment on their first line —
-section, subtitle and the viewport they are rendered at — which is the
-contract with the Design System pane, and ``make verify`` enforces it. A
-screen is its own thumbnail; there is no thumbnail file anywhere.
+An ``@startingPoint`` comment on the first line marks one: section, subtitle
+and the viewport it renders at. That is the contract with the Design System
+pane, and ``make verify`` enforces it. A screen is its own thumbnail.
 
-Every one of them is a **live page** under **Pages** in the sidebar, and the
-files here are their static export. Open one there and click through it: the
-rail folds, a pill answers, the tabs filter the list, a filter that matches
-nothing answers, a form that fails says where, the block copies itself, the
-mode switch moves the whole page. That is the difference that matters — every
-story is opened by the test suite, so a live page is a page under test, and a
-page of static markup proves the layout and nothing else.
+Every screen is a **live page** under **Pages** in the sidebar, and the files
+here are their static export. Open one there and click through it. The rail
+folds, a pill answers, the tabs filter the list, a form that fails says
+where, the mode switch moves the whole page. The test suite opens every
+story, so a live page is a page under test. Static markup proves the layout
+and nothing else.
 
-One composition serves both, and the branch appears only where the two
-genuinely differ: a component that takes its content between the tags cannot
-be exported, because Lit's SSR emits authored children beside the element's
-own template. Those use the markup function the element itself renders.
+One composition serves both. The branch appears only where the two differ.
+A component that takes its content between the tags has no export, because
+Lit's SSR emits authored children beside the element's own template. Those
+use the markup function the element itself renders.
 
-**A page is where this system finds out what it is missing.** Every one below
-grew something, and the ones that grew nothing are worth as much: the
-get-started page needed no new word, which is how you learn the vocabulary is
-finished rather than merely large. Where a page did need something, the gap
-was closed in the component and never in the page — see the list at the end.
+**A page is where this system finds out what it lacks.** Every page
+below grew something, or proved that the vocabulary is complete. A gap closes
+in the component and never in the page; see the list at the end.
 
 Two shapes of page
 ==================
 
-Everything here is one of two layouts, and the choice is not decoration.
+Every screen is one of two layouts, and the choice is not decoration.
 
 **A page that reports** is ``sds-page``: one measure, one ground, sections
-stacked down it. Right for an answer, a reference, a document — the reader
-came for something specific and the page's job is to be out of the way. Where
-it needs a list of its own sections beside it, that is ``sds-body`` with an
-``sds-nav-rail``.
+stacked down it. Right for an answer, a reference, a document. The reader
+came for one thing, and the page stays out of the way. A list of its own
+sections beside it is ``sds-body`` with an ``sds-nav-rail``.
 
 **A page that argues** is ``sds-bands``: full-bleed sections whose *ground*
-changes, contents held to the same measure. Right where the parts of the page
-are steps in an argument — a pitch, then who it is for, then what it costs —
-and wrong everywhere else, because a change of ground that means nothing is a
-change of ground the reader stops believing.
+changes, contents held to one measure. Right where the parts are steps in an
+argument, a pitch, then who it is for, then what it costs. Wrong everywhere
+else: a change of ground that means nothing loses the reader's trust.
 
 Arriving — pages that argue
 ===========================
@@ -55,9 +49,9 @@ Arriving — pages that argue
 The landing page
 ----------------
 
-The first page a project shows: the pitch, what the system is made of, and how
-to start. Every element on it is the real one, so a change to a button or a
-code block arrives here without anybody editing this page.
+The first page a project shows: the pitch, the parts of the system, and how
+to start. Every element on it is the real one. A change to a button or a code
+block arrives here without an edit to this page.
 
 .. specimen:: screens/landing.html
    :viewport: 1440x900
@@ -66,10 +60,9 @@ code block arrives here without anybody editing this page.
 A feature in full
 -----------------
 
-The page a product site owes each of its claims: what the thing is, how it
-works, what it changes in a result, what it costs, and what it does **not** do.
-The last of those is the one most feature pages leave out, and it is the reason
-this one is trusted.
+The page a product site owes each claim. What the thing is, how it works,
+what it changes, what it costs, and what it does **not** do. The last one is
+the reason a reader trusts this page.
 
 .. specimen:: screens/feature.html
    :viewport: 1440x900
@@ -78,10 +71,9 @@ this one is trusted.
 Which way to run it
 -------------------
 
-A comparison whose gaps are the point. A matrix in which everything is present
-somewhere tells a reader nothing they could not have guessed — and every mark
-carries the name of the column it is in, so the table is readable without
-seeing it.
+A comparison whose gaps are the point. A matrix with everything present
+somewhere tells a reader nothing. Every mark carries the name of its column,
+so the table reads without sight.
 
 .. specimen:: screens/compare.html
    :viewport: 1440x900
@@ -90,9 +82,9 @@ seeing it.
 Who is behind it
 ----------------
 
-Who is answerable, why it exists, how it is paid for, and what happens if it
-stops. No photographs: a face is a file to fetch, keep in step and licence, and
-none of that is what naming a maintainer is for.
+Who answers for it, why it exists, who pays for it, and what happens if it
+stops. No photographs: a face is a file to fetch, keep in step and licence,
+and none of that names a maintainer.
 
 .. specimen:: screens/about.html
    :viewport: 1440x900
@@ -101,10 +93,9 @@ none of that is what naming a maintainer is for.
 Get started
 -----------
 
-The three questions a careful reader asks before running someone else's code:
-which file is mine, is it the one that was published, and what happens when it
-does not answer. It needed no new component, which is the result worth
-recording.
+The three questions a careful reader asks before they run somebody else's
+code. Which file is mine, is it the published one, and what happens when it
+does not answer. It needed no new component.
 
 .. specimen:: screens/get-started.html
    :viewport: 1440x900
@@ -116,10 +107,9 @@ Finding — pages that distribute
 The list
 --------
 
-News, releases, references and search results are the same page with different
-rows. What it has to prove is the set rather than any one entry — and the state
-a list page usually skips: a filter that matches nothing, answering with how
-much was read.
+News, releases, references and search results are the same page with
+different rows. It proves the set, not one entry, and the state a list page
+usually skips: a filter that matches nothing, with how much it read.
 
 .. specimen:: screens/news.html
    :viewport: 1440x900
@@ -128,10 +118,9 @@ much was read.
 The results
 -----------
 
-The query stays in the field, so refining is not retyping. The facets say how
-many are behind each of them, so narrowing is a decision rather than a guess.
-And a source that answered with nothing says so, rather than leaving a blank
-column.
+The query stays in the field, so a refinement is not a retype. The facets say
+how many stand behind each, so a narrower search is a decision. A source that
+answered with nothing says so.
 
 .. specimen:: screens/search.html
    :viewport: 1440x900
@@ -143,9 +132,9 @@ Reading — pages that hold text
 The documentation surface
 -------------------------
 
-The one place where the documentation *is* the product presentation: a
-visitor gets the pitch and keeps scrolling into the reference without a seam.
-210px tool rail, a 1200px page measure, 48px gutters.
+The one place where the documentation *is* the product presentation. A
+visitor gets the pitch and scrolls into the reference without a seam. 210px
+tool rail, a 1200px page measure, 48px gutters.
 
 .. specimen:: screens/documentation.html
    :viewport: 1440x900
@@ -154,10 +143,10 @@ visitor gets the pitch and keeps scrolling into the reference without a seam.
 An article
 ----------
 
-One column of running text with the things a text needs standing in it — a
-drawing, a borrowed sentence, a block the machine wrote — and its contents
-beside it. Those contents are ``sds-nav-rail``: an article's table of contents is a
-list of links beside a column, which is what the rail already is.
+One column of text with what a text needs in it: a drawing, a borrowed
+sentence, a block the machine wrote. Its contents stand beside it as
+``sds-nav-rail``, because a table of contents is a list of links beside a
+column.
 
 .. specimen:: screens/article.html
    :viewport: 1440x900
@@ -166,9 +155,9 @@ list of links beside a column, which is what the rail already is.
 The questions
 -------------
 
-A list of questions rather than a wall of answers. ``sds-accordion`` is a real
-``<details>``, so the fold works before any script has run and find-in-page
-opens the answer it lands in.
+A list of questions, not a wall of answers. ``sds-accordion`` is a real
+``<details>``, so the fold works before a script runs and find-in-page opens
+the answer it lands in.
 
 .. specimen:: screens/questions.html
    :viewport: 1440x900
@@ -178,7 +167,7 @@ An answer
 ---------
 
 An answer always carries its source, its version binding, and what it leaves
-out. Every state in Guidelines → States exists to carry exactly that.
+out. Every state in Guidelines → States carries exactly that.
 
 .. specimen:: screens/answer.html
    :viewport: 1440x900
@@ -187,8 +176,8 @@ out. Every state in Guidelines → States exists to carry exactly that.
 The tool reference
 ------------------
 
-The full tool surface at compact density — the least room a row can be read
-in, because here the list *is* the work and scanning beats reading.
+The full tool surface at compact density: the least room a row reads in. Here
+the list *is* the work, and a scan beats a read.
 
 .. specimen:: screens/tool-reference.html
    :viewport: 1440x900
@@ -200,12 +189,10 @@ Acting and edges
 The form
 --------
 
-Three states, and most forms are drawn in the first one and shipped without the
-other two: the form, what it does when it fails, and what it says when it
-worked. The failure is the one that matters — a summary at the top, focused,
-each line a link to the field it is about, because marking the boxes is enough
-for whoever sees the whole form at once and nothing at all for whoever does
-not.
+Three states: the form, what it does when it fails, and what it says when it
+worked. The failure matters most. A summary at the top, focused, each line a
+link to its field. A mark on the box is enough for a reader who sees the
+whole form, and nothing for one who does not.
 
 .. specimen:: screens/contact.html
    :viewport: 1440x900
@@ -214,10 +201,10 @@ not.
 The page that is not there
 --------------------------
 
-Said as a page says things: the address that was asked is the headline, what
-answered is the lead under it, and the search field is the nearest real thing.
-Three named pages rather than a link to the front page. It keeps its chrome,
-because a 404 stripped of the header has also lost the navigation.
+The address the reader asked for is the headline, the source that answered is
+the lead, and the search field is the nearest real thing. Three named pages,
+not a link to the front page. It keeps its chrome: a 404 without the header
+has also lost the navigation.
 
 .. specimen:: screens/not-found.html
    :viewport: 1440x900
@@ -226,10 +213,10 @@ because a 404 stripped of the header has also lost the navigation.
 The status
 ----------
 
-It reports **sources**, not a service: nothing here is hosted for anyone to
-depend on. Two of the six are the reader's own machine and are stated as
-unreportable rather than left blank. The one page whose subject is carried by
-the status colours — and they still sit only in badges and result rows.
+It reports **sources**, not a service: nothing here runs on a host. Two of the
+sources are the reader's own machine, and the page says so instead of a blank.
+The status colours carry the subject, and they still sit only in badges and
+result rows.
 
 .. specimen:: screens/status.html
    :viewport: 1440x900
@@ -238,18 +225,15 @@ the status colours — and they still sit only in badges and result rows.
 One source
 ----------
 
-The page behind a row of the status list, and the only one here with **work
-going on in it**. Every other surface reports something that has already
-settled: an answer arrived, a release was cut, a source was reachable when it
-was last checked. This one is read while a job is running — a share above, the
-stops it is going through below, and what each one wrote inside the stop that
-wrote it.
+The page behind a row of the status list, and the only one with **work in
+progress**. Every other surface reports something settled. A reader reads
+this one while a job runs. A share above, the stops below, and what each one
+wrote inside the stop that wrote it.
 
-That is what makes it worth having rather than a fourth reference page. A
-layout only finds out what it is missing under a page that changes while it is
-open: what a stop that is still ahead offers (nothing to open), where the block
-a row opens onto begins, and what the row being worked on is told apart by when
-the two status colours are already spoken for.
+A layout finds out what it lacks only under a page that changes while it is
+open. What does a stop still ahead offer? Where does the block a row opens
+onto start? What marks the current row when both status colours already mean
+something?
 
 .. specimen:: screens/source.html
    :viewport: 1440x900
@@ -258,8 +242,8 @@ the two status colours are already spoken for.
 What the pages asked for
 ========================
 
-Every one of these came from a page that could not say something, and every one
-was closed in the component rather than in the page:
+Every entry came from a page that had no words for something, and every one
+closed in the component:
 
 .. list-table::
    :header-rows: 1
@@ -269,21 +253,21 @@ was closed in the component rather than in the page:
    * - a section whose ground changes
      - ``sds-band``, and ``sds-page`` stayed what it was
    * - where the reader is
-     - ``sds-nav-breadcrumb`` — the one navigation with no active mark
-   * - a number stated as a fact
-     - ``sds-stat``, whose ``note`` is what keeps it from being a boast
-   * - a drawing at the size it was drawn
+     - ``sds-nav-breadcrumb``, the one navigation with no active mark
+   * - a number as a fact
+     - ``sds-stat``, whose ``note`` keeps it from a boast
+   * - a drawing at the size of its drawing
      - ``sds-figure`` + ``sds-lightbox``, and ``sds-art`` under both
    * - the end of a *site*
-     - ``sds-footer``, whose ``note`` is required
+     - ``sds-footer``, whose ``note`` is mandatory
    * - an entry, and a hit
-     - ``sds-card`` and ``sds-search-result`` — an invitation and an answer are not
-       the same shape
+     - ``sds-card`` and ``sds-search-result``: an invitation and an answer
+       have different shapes
    * - where the list continues
      - ``sds-nav-pagination``
-   * - a boundary drawn as an answer
-     - nothing new — a page says it in its own headline and a list says it in
-       an ``info`` note, which is what the states guideline shows
+   * - a boundary as an answer
+     - nothing new. A page says it in its headline, a list in an ``info``
+       note
    * - a borrowed sentence, a byline
      - ``sds-quote``, ``sds-byline``
    * - questions that fold
@@ -291,13 +275,11 @@ was closed in the component rather than in the page:
    * - a form anybody can answer
      - ``sds-checkbox``, ``sds-radio``, ``sds-form-errors``, and
        ``sds-field`` grew the row a form owes a control
-   * - work being done rather than work to do
-     - ``sds-run`` — not a state on ``sds-steps``: an instruction is rendered
-       before the page is served and never changes, and a run arrives one stop
-       at a time, folds onto what each wrote, and ends on a verdict
+   * - work in progress, not work to do
+     - ``sds-run``, not a state on ``sds-steps``. An instruction never
+       changes; a run arrives one stop at a time and ends on a verdict
 
-And four bugs the pages found, each of them older than the page that found it:
-a scrollable table that made every table narrower, a button with no ``type``
-that submitted the form it stood in, a field row with no ``min-width: 0`` that
-pushed a phone sideways, and ``lang="json"`` on a code block telling a screen
-reader to switch to a language that does not exist.
+The pages also found four older bugs. A scrollable table that made every
+table narrower. A button with no ``type`` that submitted its form. A field
+row with no ``min-width: 0`` that pushed a phone sideways. And ``lang="json"``
+on a code block.

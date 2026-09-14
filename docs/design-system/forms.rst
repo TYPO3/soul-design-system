@@ -4,13 +4,9 @@
 Forms
 =====
 
-A form is the one surface where the reader has to do something rather than read
-something, and it is the surface this system had least for: a text field, a
-select and an error message, with everything around them left to whoever was
-building the page.
-
-What follows is not styling. Every rule here is about whether the form can be
-answered by somebody who cannot see all of it at once.
+A form is the one surface where the reader acts instead of reads. Every rule
+here is about one question: can somebody who does not see the whole form at
+once answer it?
 
 .. specimen:: components/core/form.card.html
    :viewport: 700x725
@@ -19,18 +15,16 @@ answered by somebody who cannot see all of it at once.
 A placeholder is not a label
 ============================
 
-``sds-field`` has two shapes and the difference is ``caption``. Without one it
-is the bare control — right in a header, a toolbar, a filter row, where the
-surface around it says what it is for. With one it renders the row a form owes
-a control: **label above, hint under, error under both.**
+``sds-field`` has two shapes, and ``caption`` is the difference. Without one
+it is the bare control, right in a header, a toolbar or a filter row, where
+the surface says what it is for. With one it renders the row a form owes a
+control: **label above, hint under, error under both.**
 
-The label is a real ``<label>`` pointing at the control's own id, so pressing
-the words reaches the field and an error summary can send a reader straight to
-it.
+The label is a real ``<label>`` for the control's own id. A press on the
+words reaches the field, and an error summary can send a reader to it.
 
-A placeholder cannot do that job. It leaves exactly when it is needed — the
-moment someone starts typing — and it is invisible to anything reading the page
-as a document.
+A placeholder cannot do that job. It leaves the moment somebody types, and it
+is invisible to anything that reads the page as a document.
 
 .. code-block:: html
 
@@ -43,31 +37,30 @@ as a document.
      required
    ></sds-field>
 
-**Required is said in words.** An asterisk is a convention that needs a legend
-somewhere else on the page, and the legend is the thing that gets cut.
+**``required`` is a word on the page.** An asterisk needs a legend somewhere
+on the page, and the legend is the first thing to go.
 
-``type`` **is the browser's business.** ``email``, ``tel``, ``url`` — it
+``type`` **is the browser's business.** ``email``, ``tel``, ``url``: it
 decides which keyboard a phone offers and what the platform validates before
-anything of ours runs.
+any script runs.
 
 An error is a sentence
 ======================
 
-``error`` sets the message *and* the invalid state, because a field that says
-what is wrong without being marked wrong is two halves of one state, and halves
-drift. The sentence sits under the control — never as a tooltip, which is an
-error the pointer has to find and the keyboard never surfaces at all.
+``error`` sets the message *and* the invalid state. A field that says what is
+wrong without the mark is two halves of one state, and halves drift. The
+sentence sits under the control, never in a tooltip: the pointer has to find
+a tooltip, and the keyboard never does.
 
 The summary nobody writes
 =========================
 
-Marking the boxes is enough for a reader who can see the whole form. For anyone
-who cannot, a failed submit looks like a page that did nothing.
+A mark on the box is enough for a reader who sees the whole form. For anyone
+else, a failed submit looks like a page that did nothing.
 
-``sds-form-errors`` is a summary at the top: focused when the reader pressed
-send, announced, and every line a link to the field it names. It renders
-``sds-note`` rather than drawing its own box — what a failure looks like is
-decided once.
+``sds-form-errors`` is a summary at the top. The reader's send focuses it, a
+screen reader announces it, and every line links to its field. It renders
+``sds-note`` instead of a box of its own, so a failure looks one way.
 
 .. code-block:: html
 
@@ -76,58 +69,53 @@ decided once.
      announce
    ></sds-form-errors>
 
-``announce`` is the caller's word for *this is the result of a submit the
-reader just made*. Without it the summary is drawn and takes nothing, which is
-what a page returned by a server with its errors already in it needs — taking
-the focus on load moves a reader who was going somewhere else.
+``announce`` means *this is the result of a submit the reader just made*.
+Without it the summary draws and takes no focus. A server that returns the
+page with its errors in it needs that. Focus on load moves a reader who was
+on the way somewhere else.
 
 Choices
 =======
 
-``sds-checkbox`` is one fact: a consent, an opt-in. ``sds-radio`` is
-one answer out of a few, all of them visible — and the *group* is the
-component, because a radio on its own cannot be unset and means nothing.
-``sds-checkbox-group`` is the same shape for the other question: several
-answers, any number of which may hold.
+``sds-checkbox`` is one fact: a consent, an opt-in. ``sds-radio`` is one
+answer out of a few, all visible. The *group* is the component, because a
+radio alone cannot unset and means nothing. ``sds-checkbox-group`` is the
+same shape for the other question: several answers, any number of them.
 
-Above roughly five answers, that is ``sds-select``. The line is not a count, it
-is whether the reader is scanning the answers or already knows the one they
-want. A select keeps the answers it cannot offer *on* the list, disabled: a
-reader who cannot find a release at all does not learn that it is gone.
+Above about five answers, that is ``sds-select``. The line is not a count.
+It is if the reader scans the answers or already knows the one they want. A
+select keeps the answers it cannot offer *on* the list, disabled. A reader
+who cannot find a release learns nothing.
 
-All of them are the platform's own controls. What a hand-built box has to
-re-implement is the keyboard, the tap target on a phone, the indeterminate
-state and how the whole thing reads out — and the ones that skip a part skip
-the part nobody on the team tests with.
+All of them are the platform's own controls. A hand-built box has to
+re-implement the keyboard, the tap target on a phone, the indeterminate state
+and how the whole thing reads out. The one that skips a part skips the part
+nobody on the team tests with.
 
 The one list this system draws
 ==============================
 
-``sds-select`` is the exception, and it is worth saying why, because the rule
-it breaks is the one above.
+``sds-select`` is the exception to the rule above, and it has a reason.
 
 A browser's own option list is not part of the page. It opens in a window the
-page has no reach into — the operating system's colours on the operating
-system's canvas — so a dark page opens a light list, and the headings of a
-grouped one come out in a grey nothing here chose. That is not a styling
-preference: it is a control whose open state belongs to a different design
-system than the one it stands in.
+page has no reach into, in the operating system's colours. So a dark page
+opens a light list, and the headings of a grouped one come out in a grey
+nobody chose. That is a control whose open state belongs to a different
+design system.
 
-So the list is drawn, and everything the platform was doing is put back by
-hand: ``role="combobox"`` over ``role="listbox"``, the arrows, ``Home`` and
-``End``, type-ahead, ``Enter`` and ``Escape``, and ``aria-activedescendant`` so
-the focus never leaves the button a reader arrived on. The list is a popover,
-so the top layer holds it and a press outside dismisses it the way the platform
-dismisses one.
+So the element draws the list, and puts back by hand what the platform did.
+``role="combobox"`` over ``role="listbox"``, the arrows, ``Home`` and
+``End``, type-ahead, ``Enter`` and ``Escape``. And ``aria-activedescendant``,
+so the focus stays on the button. The list is a popover. The top layer holds
+it, and a press outside closes it the way the platform closes one.
 
-**The real** ``<select>`` **stays underneath.** It is what the form submits, and
-until the element upgrades it is the whole control — a page that runs no script
-gets the browser's list rather than nothing. That is the whole of the exception:
-the picture is ours, the value and the fallback are still the platform's.
+**The real** ``<select>`` **stays underneath.** It is what the form submits,
+and until the element upgrades it is the whole control. A page with no script
+gets the browser's list, not nothing. That is the whole exception: the
+picture is ours, the value and the fallback are the platform's.
 
-This is the only place the trade is worth making. Reach for it nowhere else:
-what a drawn control loses is invisible in a screenshot and expensive to find
-out about later.
+This is the only place where the trade is worth it. A drawn control loses
+things a screenshot does not show.
 
 A switch is not a checkbox
 ==========================
@@ -136,55 +124,51 @@ A switch is not a checkbox
    :viewport: 700x436
    :title: Beyond the text field
 
-``sds-checkbox`` answers a question the form asks and is sent when the form is
-sent. ``sds-switch`` turns something on **now**. A reader who has to press Save
-after flipping one has been told the wrong thing by the control, and a page of
-switches that only take effect on submit is a settings page that lies.
+``sds-checkbox`` answers a question the form asks, and the submit sends it.
+``sds-switch`` turns something on **now**. A reader who has to press Save
+after a flip got the wrong message from the control. A page of switches that
+wait for a submit is a settings page that lies.
 
-``sds-range`` is for the value where the *position* is the answer and the exact
-number is not — a zoom, a threshold somebody is feeling their way to. It always
-carries its number in an ``<output>``: a slider with nothing beside it is a
-value nobody can read back or report. Where the number is what the reader
-already knows, that is a field with ``type="number"``, which can be typed into
-and pasted.
+``sds-range`` is for a value where the *position* is the answer and the exact
+number is not: a zoom, a threshold. It always carries its number in an
+``<output>``. A slider with nothing beside it is a value nobody can read
+back. Where the reader knows the number, that is a field with
+``type="number"``, which takes typed and pasted input.
 
 ``sds-file`` keeps the browser's own picker and paints its button. The picker
-opens only for a press on a real file input, so the drawn box with a hidden
-input behind it — which photographs well and drops nothing — is a control the
-keyboard cannot reach at all.
+opens only for a press on a real file input. A drawn box with a hidden input
+behind it is a control the keyboard cannot reach.
 
-The form knows about the controls
-=================================
+The form knows the controls
+===========================
 
-Every control is form-associated through ``ElementInternals``. That is what
-makes it a member of the form rather than a box that happens to contain one: a
-reset reaches the element itself, a ``<fieldset disabled>`` disables everything
-under it, and ``error`` becomes a validity the browser refuses to submit past
-and reports on the right box.
+Every control is form-associated through ``ElementInternals``. That makes it
+a member of the form, not a box with a control in it. A reset reaches the
+element, a ``<fieldset disabled>`` disables everything under it, and
+``error`` becomes a validity the browser refuses to submit past.
 
-The value is still the real ``<input>``'s. Every one of these renders a named
-control into the light DOM, so a page rendered ahead of time submits what it
-shows before a single line of script has run — which is the case this system is
-built for and the one a value held in JavaScript quietly loses.
+The value is still the real ``<input>``'s. Every control renders a named
+input into the light DOM, so a prerendered page submits what it shows before
+a line of script runs. That is the case this system serves, and the one a
+value in JavaScript loses.
 
 .. warning::
 
    The tick is ``--text-primary``, not ``--accent``. The accent marks three
-   things in this system; a form of nine ticked boxes would spend the loudest
-   colour it has on what somebody typed.
+   things in this system. A form of nine ticked boxes spends the loudest
+   colour on what somebody typed.
 
 The button that submits says so
 ===============================
 
 ``sds-button`` renders ``type="button"`` unless told otherwise, and that
-default is load-bearing: a ``<button>`` with no type inside a ``<form>`` is a
-submit button, so a filter, a toggle or a Cancel drawn with this element
-submits the form it stands in. The browser then blocks that on the first
-invalid required field and moves the focus there — a page doing something
-nobody asked it to, decided by an attribute nobody wrote.
+default carries weight. A ``<button>`` with no type inside a ``<form>`` is a
+submit button. So a filter, a toggle or a Cancel submits the form it stands
+in. The browser then blocks on the first invalid field and moves the focus
+there.
 
 A real submit says ``type="submit"``. Then Enter in a text field submits too,
-which is behaviour a form should have and only one button should carry.
+which is right, and only one button carries it.
 
 Hand-written markup carries the same rule:
 ``<button class="sds-btn" type="button">``.
@@ -192,17 +176,17 @@ Hand-written markup carries the same rule:
 The measure
 ===========
 
-``sds-form`` is one column at ``--measure-lead``. Fields side by side are
-faster to scan and slower to complete, and this is the one surface where
-completing is the point.
+``sds-form`` is one column at ``--measure-lead``. Fields side by side scan
+faster and complete slower, and this is the one surface where completion is
+the point.
 
-Three states exist and most forms ship one. Pages → Contact has all three: the
-form, what it does when it fails, and what it says when it worked — including
-what was sent, what happens to it, and how long that takes. A page that says
-"thank you" and stops has taken something and given nothing back.
+Three states exist, and most forms ship one. Pages → Contact has all three:
+the form, what it does when it fails, and what it says when it worked. The
+last one says what went, what happens to it, and how long that takes. A page
+that says "thank you" and stops took something and gave nothing back.
 
 .. seealso::
 
    :doc:`/frontend/components/forms` is the same set of controls as a
-   reference: every attribute each one takes, what a reset puts back, and the
-   markup a server writes where no script will run.
+   reference: every attribute, what a reset puts back, and the markup a
+   server writes where no script runs.

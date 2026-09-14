@@ -4,10 +4,10 @@
 Design system
 =============
 
-What the system decided, and a card that renders the decision beside it. Every
-page here states a rule and then shows it: the specimens are the same files the
-design pane opens and Storybook embeds, generated from the stories that produce
-them, so a rule and its rendering cannot drift apart.
+What the system decided, and a card that renders the decision beside it.
+Every page here states a rule and then shows it. The specimens are the same
+files the design pane opens and Storybook embeds, generated from the stories.
+So a rule and its rendering cannot drift apart.
 
 .. toctree::
    :titlesonly:
@@ -30,29 +30,31 @@ them, so a rule and its rendering cannot drift apart.
 Non-negotiable
 ==============
 
-These rules are not preferences. Each exists because breaking it made
-something worse in a way that took a while to see.
+These rules are not preferences. Each exists because a break made something
+worse in a way that took time to see.
 
-- **One accent.** ``--accent`` marks exactly three things: the active
-  navigation item, the shell prompt in a code block, the pipe in the wordmark.
+- **One accent.** ``--accent`` marks exactly three things. The active
+  navigation item, the shell prompt in a code block, the pipe in the
+  wordmark.
 - **A shadow says a surface has left the page, and nothing else says it.**
-  ``--shadow-flyout`` under what the bar opens over the text, and the named
-  steps beside it — ``basic``, ``strong``, ``tooltip``, ``dialog``,
-  ``window`` — for whatever else genuinely floats. Everything that stays on
-  the page separates with a hairline plus ``--surface-overlay``; the focus
-  ring is a state rather than depth.
-- **No emoji.** Status is a colour plus a glyph from ``packages/frontend/assets/icons/``.
-- **Mono is semantic.** Anything the machine reads, writes or names is Source
-  Code Pro, verbatim, at every size.
+  ``--shadow-flyout`` under what the bar opens over the text. The named steps
+  beside it, ``basic``, ``strong``, ``tooltip``, ``dialog``, ``window``, for
+  whatever else floats. Everything on the page separates
+  with a hairline plus ``--surface-overlay``. The focus ring is a state, not
+  depth.
+- **No emoji.** Status is a colour plus a glyph from
+  ``packages/frontend/assets/icons/``.
+- **Mono is semantic.** Everything the machine reads, writes or names is
+  Source Code Pro, verbatim, at every size.
 - **16px is the floor** for the signet and the icons.
-- **Interaction never changes size.** A linked card alone may lift 2px and
-  light its frame; a flush wall and reduced motion hold it still.
+- **Interaction never changes size.** A linked card alone can lift 2px and
+  light its frame. A flush wall and reduced motion hold it still.
 
 .. seealso::
 
    ``SKILL.md`` is the operating instruction. The pages in this section put
-   each rule beside its reason. Read the matching page before extending or
-   breaking a rule.
+   each rule beside its reason. Read the page before you extend or break a
+   rule.
 
 Where the rules live
 ====================
@@ -63,18 +65,18 @@ Where the rules live
    * - ``packages/frontend/src/tokens/*.css``
      - the values: colour, type, control scale, spacing, radius, motion
    * - ``packages/frontend/src/styles/styles.css``
-     - the single entry point — tokens, then the component layer
+     - the single entry point: tokens, then the component layer
    * - ``packages/frontend/src/styles/components.css``
-     - the ``sds-`` class vocabulary every surface is built from
+     - the ``sds-`` class vocabulary every surface uses
    * - ``packages/frontend/src/styles/components/prose.css``
-     - ``sds-prose``: the box a passage stands in, and the line block, whose
-       two names the parser rather than a template writes
+     - ``sds-prose``: the box a passage stands in, and the line block. The
+       parser writes those two names, not a template
    * - ``packages/frontend/src/components/*.ts``
      - the elements, which emit exactly those classes
    * - ``stories/**/*.stories.ts``
-     - what every specimen card is generated from
+     - the source of every specimen card
    * - ``specimens/guidelines/*.card.html``
-     - the token-layer cards embedded in these pages
+     - the token-layer cards these pages embed
 
-The direction of truth runs story → card. A card is **generated**: edit the
-story, never the card, and ``make verify`` fails on a card no story produces.
+Truth runs story → card. **A task generates the card**: edit the story,
+never the card, and ``make verify`` fails on a card no story produces.

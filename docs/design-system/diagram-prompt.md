@@ -1,36 +1,33 @@
 # Explanatory diagrams
 
 A diagram carries a claim. An illustration only sets a register beside the
-heading it stands under, and if position, connection or quantity in the image
-does not have to be understood, draw one of those instead —
+heading it stands under. If a reader need not understand a position, a
+connection or a quantity in the image, draw an illustration instead:
 `docs/design-system/illustration-prompt.md` is that prompt.
 
-Unlike an illustration this is not generated as a picture. It is one SVG file
-written to the grammar below and shipped as source, because the colours in it
-are tokens a page can reach into and the shapes are read back out for the
-specimen cards.
+A diagram does not come back as a picture. It is one SVG file in the grammar
+below, shipped as source. The colours in it are tokens a page can reach into,
+and `make diagrams` reads the shapes back out for the specimen cards.
 
 ## The fixed language
 
-- **Canvas:** `viewBox="0 0 1200 H"` — always 1200 wide, the height to fit. A
-  flat rectangle at `var(--surface-canvas, #FBFAF7)` fills it, with no radius,
+- **Canvas:** `viewBox="0 0 1200 H"`, always 1200 wide, the height to fit. A
+  flat rectangle at `var(--surface-canvas, #FBFAF7)` fills it. No radius,
   shadow, gradient or texture.
 - **Margin:** 60 units every side. Nothing enters it, labels included.
 - **Type:** Source Sans 3, with identifiers, paths and flags in Source Code
   Pro. Title 36 · lead 17 · node title 16 · node body 14 · label 13. **13 is
-  the floor** — a diagram that needs smaller type is carrying too much.
+  the floor.** A diagram that needs smaller type carries too much.
 - **Stroke:** 1 node outline, 1.5 connector or boundary, 2 for the one
   accented connector.
 - **Radius:** 6 node or boundary, 4 bar, 2 unit square. Never above 6.
-- **The two states:** solid means there; a dashed outline of the same shape in
-  the same place means missing or not yet reachable, so a shortfall has a
-  *size* rather than a sentence. Dashed means nothing else.
-- **Colour:** peers are told apart by their names, never by hue. Exactly one
-  element carries the accent, and it is often a connector rather than a box,
-  since the claim is usually a relation.
-- **Accessibility:** the drawing is the explanation, so it is never
-  decorative. The root names a `<title>` carrying the claim and a `<desc>`
-  saying what is plotted against what.
+- **The two states:** solid means there. A dashed outline of the same shape
+  in the same place means absent or not yet reachable. So a shortfall has a
+  *size*, not a sentence. Dashed means nothing else.
+- **Colour:** names tell peers apart, never hue. Exactly one element carries
+  the accent, often a connector, since the claim is usually a relation.
+- **Accessibility:** the drawing is the explanation, never decoration. The
+  root names a `<title>` with the claim and a `<desc>` with the axes.
 
 ## Prompt
 
@@ -101,35 +98,33 @@ sets, isometric or three-dimensional treatment, clip art, dense small type,
 fine hatching and decorative clutter.
 ```
 
-## Choosing the claim
+## The claim
 
-Write the claim as a sentence before drawing anything. A topic — "how the
-sources work" — has nothing to draw yet; a claim — "bundled knowledge is the
-only source that spans the whole axis" — decides the structure by itself,
-because it names the thing being compared and the scale it is compared along.
+Write the claim as a sentence before you draw. A topic, "how the sources
+work", has nothing to draw. A claim, "bundled knowledge is the only source
+that spans the whole axis", decides the structure by itself. It names the
+thing under comparison and the scale of the comparison.
 
 The title states the claim and the closing line states its consequence. Two
-claims are two diagrams, and a drawing that has to carry both ends up as boxes
-joined by arrows, which is the shape a claim takes when it has stopped being
-one.
+claims are two diagrams. A drawing that carries both ends up as boxes joined
+by arrows, the shape of a claim that has stopped being one.
 
-Then pick the structure from the claim rather than from the shapes: a span
-along a scale wants an axis, a thing that has to happen before another wants a
-sequence, a thing that holds others wants containment. Boxes and arrows are
-what is left when none of those fits.
+Then pick the structure from the claim, not from the shapes. A span along a
+scale wants an axis. A thing that must happen before another wants a
+sequence. A thing that holds others wants containment. Boxes and arrows are
+what remains when none of those fits.
 
-Which drawings a set already holds is a property of that set, not of this
-prompt. `packages/frontend/assets/diagrams/` owns that list; copying it here
-would turn the instructions for the next drawing into an inventory that can
-quietly fall behind the files.
+Which drawings a set holds is a property of that set, not of this prompt.
+`packages/frontend/assets/diagrams/` owns that list. A copy here is an
+inventory that falls behind the files.
 
 ## What to hand back
 
-One file in `packages/frontend/assets/diagrams/`, named after the claim rather
-than the drawing. Then `make diagrams`, which reads the shapes out from under
-`soul-ref` for the specimen cards and refuses a file that is missing the
-group, the `viewBox`, or that carries a malformed comment.
+One file in `packages/frontend/assets/diagrams/`, named after the claim, not
+the drawing. Then `make diagrams`. It reads the shapes out from under
+`soul-ref` for the specimen cards. It refuses a file without the group or
+the `viewBox`, and a file with a comment that is not valid XML.
 
-Look at it twice: at 1200 wide, where the type is read, and at the width a
-card gives it, where only position, length and alignment survive. If the
-second view no longer makes the claim, the claim was in the labels.
+Look at it twice. At 1200 wide, where a reader reads the type. And at the
+width a card gives it, where only position, length and alignment survive. If
+the second view no longer makes the claim, the claim was in the labels.

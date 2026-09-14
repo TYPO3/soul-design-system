@@ -4,24 +4,22 @@
 Accessibility
 =============
 
-What the system answers for, and what it leaves to the page built on it. Most
-of it is not a feature added on top: it is the reason a rule elsewhere in this
-manual is written the way it is, collected here because a project evaluating
-the system asks this before it asks anything else.
+What the system answers for, and what it leaves to the page. Most of it is
+not a feature on top. It is the reason a rule elsewhere in this manual reads
+the way it does, collected here because a project asks this first.
 
 The ring is the only shadow on the page
 =======================================
 
 ``--border-emphasis`` of ``--accent`` at ``--focus-offset``, with a
-``--focus-halo`` of ``--accent-ring`` behind it — see :doc:`states` for the
-values those hold. It is the one ``box-shadow`` anything standing *in* the page
-draws, and it is a state rather than depth: what stays on the page separates
-with a hairline, and only a surface that has left it — what the bar opens over
-the text — carries a shadow of its own. A ring nobody can mistake for a raised
-surface is a ring that still reads on a page full of surfaces.
+``--focus-halo`` of ``--accent-ring`` behind it; :doc:`states` has the
+values. It is the one ``box-shadow`` anything *in* the page draws, and it is
+a state, not depth. What stays on the page separates with a hairline. Only a
+surface that has left the page carries a shadow of its own. A ring nobody
+mistakes for a raised surface still reads on a page full of surfaces.
 
-Always ``:focus-visible`` and never ``:focus``: a pointer should not leave a
-ring behind. **Nothing in this system is reachable by pointer only.**
+Always ``:focus-visible``, never ``:focus``: a pointer must not leave a ring
+behind. **Nothing in this system is reachable by pointer only.**
 
 .. specimen:: guidelines/states-focus.card.html
    :viewport: 700x230
@@ -30,126 +28,117 @@ ring behind. **Nothing in this system is reachable by pointer only.**
 Colour never carries it alone
 =============================
 
-Every result tone carries a glyph as well as a colour, because colour alone
-leaves the meaning to anyone who cannot tell the hues apart. Status is a
-colour **plus** a mark from the icon set — never an emoji, which is a
-different typeface with a different meaning per platform.
+Every result tone carries a glyph and a colour. Colour alone leaves the
+meaning to anyone who cannot tell the hues apart. Status is a colour **plus**
+a mark from the icon set, never an emoji, which is a different typeface with
+a different meaning per platform.
 
-The same rule runs through the components: a badge states its tone in words,
-an admonition keeps the type's own word in the glyph's accessible name even
-where the tone no longer tells two types apart, and a figure's bound is text
-rather than a bar.
+The same rule runs through the components. A badge states its tone in words.
+An admonition keeps the type's own word in the glyph's accessible name. A
+figure's bound is text, not a bar.
 
 A glyph says what it is
 =======================
 
-A handful of glyphs may stand without a label, and they earned it by appearing
-in one meaning only, everywhere: :doc:`icons` names them and says what each
-one means. Everything else takes a label.
+A few glyphs can stand without a label, because each appears in one meaning
+only, everywhere. :doc:`icons` names them. Everything else takes a label.
 
-An icon-only control is the case worth naming: the label becomes the control's
-accessible name rather than being dropped, so a square button is still
-announced as what it does — see :doc:`/frontend/components/controls`.
+An icon-only control keeps its label as the control's accessible name, so a
+square button still announces what it does. See
+:doc:`/frontend/components/controls`.
 
 .. _said-only:
 
 Some of a page is said and not drawn
 ====================================
 
-A label answers for a control. What a *page* owes the reading is the other
-half: the name of the thing, where the lockup above already shows it; the
-heading of a column whose head is a glyph; the word that says which of forty
-alike rows this one is. ``sds-said-only`` is the register that carries it —
-the text stands in the reading order at the place it belongs and takes no room
-on the page.
+A label answers for a control. A *page* owes the reading the other half. The
+name of the thing the lockup above already shows. The heading of a column
+whose head is a glyph. The word that says which of forty rows this one is.
 
-It is a register and not a way of hiding: ``display: none`` and the ``hidden``
-attribute take a passage out of the reading as well, which is the opposite of
-what this is for. Use it where the picture is the whole of what a reader who
-can see it needs, and never to say something *different* from what is drawn —
-two answers to one question is worse than one.
+``sds-said-only`` is the register for it. The text stands in the reading
+order at its place and takes no room on the page.
+
+It is a register, not a way to hide. ``display: none`` and the ``hidden``
+attribute take a passage out of the reading as well, which is the opposite.
+Use it where the picture is all a sighted reader needs. Never use it to say
+something *different* from the drawing.
 
 Contrast holds everywhere
 =========================
 
-Normal text meets the WCAG AA minimum of 4.5:1 against every surface on which
-the system allows it to appear, in light and dark. The weakest permitted
-pairing is the test, not the canvas alone. Token values keep some headroom
-above the minimum so rounding, rendering and a nearby surface do not turn a
-passing value into a borderline one.
+Normal text meets the WCAG AA minimum of 4.5:1 against every surface the
+system permits it on, in light and dark. The weakest permitted pair is the
+test, not the canvas alone. Token values keep headroom above the minimum, so
+rounding and a nearby surface do not turn a pass into a borderline.
 
 Quiet text is still text. ``--text-muted`` carries metadata and placeholders,
-``--syntax-comment`` carries code comments, and a status token may carry a
-label inside a result or badge. Their lower visual rank comes from their place
-in the hierarchy, not from accepting contrast below the text requirement.
+``--syntax-comment`` carries code comments, and a status token can carry a
+label in a result or a badge. Their lower rank comes from the hierarchy, not
+from a lower contrast.
 
 A token change reaches every copy of its value. SVG diagrams carry a light
-fallback for the case where no page tokens exist, and specimens may print a
-value as evidence; update those sources with the token rather than leaving the
-published explanation behind. :doc:`artwork` explains when a drawing's
-standalone fallback deliberately belongs to the artwork instead.
+fallback for a page without tokens, and a specimen can print a value as
+evidence. Update those with the token. :doc:`artwork` says when a drawing's
+fallback belongs to the artwork on purpose.
 
 Both modes are one declaration
 ==============================
 
-Light and dark sit in the same ``light-dark()`` value, so a contrast decision
-cannot be made in one mode and forgotten in the other. There is no second
-palette to keep in step, which is the failure this arrangement exists to
-prevent rather than a convenience.
+Light and dark sit in one ``light-dark()`` value. So a contrast decision in
+one mode cannot go missing in the other. There is no second palette to keep
+in step.
 
 Reduced motion
 ==============
 
-Under ``prefers-reduced-motion: reduce`` the system stops moving the page
-without taking anything away from it:
+Under ``prefers-reduced-motion: reduce`` the system stops the page from
+movement and takes nothing away:
 
-- the spinner and the skeleton stop animating;
-- the transitions across a layout band go — **the step stays, what goes is
-  the travel across it**, because a new width is simply the width;
+- the spinner and the skeleton stop;
+- the transitions across a layout band go. **The step stays; the travel
+  across it goes.** A new width is the width;
 - a fold opens and closes with no travel, and still opens and closes;
-- a card is held still under the pointer, while its fill and hairline still
-  answer, so the surface is not left unresponsive.
+- a card holds still under the pointer, while its fill and hairline answer.
 
-Nothing is disabled by the preference. What it removes is movement, never a
-state a reader needs to see.
+The preference disables nothing. It removes movement, never a state a reader
+needs to see.
 
 It works before the script does
 ===============================
 
 Every element renders light DOM and upgrades markup that already carries the
-whole visual system, so a page is complete before any JavaScript runs. A fold
-is a ``<details>``, which means the keyboard reaches it, find-in-page opens
-the answer it lands in, and what closes the others is the platform rather than
-a listener. Where behaviour is genuinely the element's — the copy button, the
-tab bar's arrow keys — its absence costs the reader nothing that carries
-meaning.
+whole visual system. So a page is complete before JavaScript runs. A fold is
+a ``<details>``: the keyboard reaches it, find-in-page opens the answer it
+lands in, and the platform closes the others. Where a behaviour is the
+element's own, the copy button, the tab bar's arrow keys, its absence costs
+the reader no meaning.
 
 Direction
 =========
 
-The layout is written in logical properties, so ``dir="rtl"`` on ``<html>``
-mirrors it and the glyphs the system uses to mean *onward* turn with it. See
-:doc:`/frontend/layout` for what a project has to do and what it still owes.
+The layout uses logical properties. ``dir="rtl"`` on ``<html>`` mirrors it,
+and the glyphs that mean *onward* turn with it. :doc:`/frontend/layout` says
+what a project has to do.
 
-What is actually checked
-========================
+What the suite checks
+=====================
 
 ``make test`` runs axe over the specimens in **both modes** and fails on
-serious and critical violations. Only those two: the specimens deliberately
-draw states no automated pass can interpret — a control drawn disabled, a ring
-on an element that does not have focus — and failing on ``minor`` would train
-everyone to ignore the run.
+serious and critical violations. Only those two. The specimens draw states no
+automated pass can interpret, a control drawn disabled, a ring on an element
+without focus. A fail on ``minor`` trains everyone to ignore the run.
 
 .. important::
 
    **A green run is not a claim of conformance.** axe reaches contrast,
-   names, roles and structure. It cannot judge whether a label says the right
-   thing, whether an order makes sense to somebody reading with one, or
-   whether an empty state answers the question that was asked. Those are the
-   rules in :doc:`states` and they are checked by reading, not by a runner.
+   names, roles and structure. It cannot judge if a label says the right
+   thing, or if an order makes sense to a reader. It cannot judge if an empty
+   state answers the question. Those are the rules in :doc:`states`, and
+   review holds them.
 
 .. seealso::
 
    :doc:`states` for what each state has to say, :doc:`colours` for the
-   contrast the planes are built on, and :doc:`icons` for the set and the
-   label rule.
+   contrast the planes rest on, and :doc:`icons` for the set and the label
+   rule.

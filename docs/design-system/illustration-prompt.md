@@ -1,34 +1,33 @@
 # Editorial spot-colour illustrations
 
-These illustrations give a tool or an article a visual register without
-explaining it. A diagram carries a claim; an illustration only supports the
-subject already named by the adjacent heading and summary. If position,
-connection or quantity in the image has to be understood, draw a diagram
-instead.
+An illustration gives a tool or an article a visual register without an
+explanation. A diagram carries a claim. An illustration only supports the
+subject the heading and summary beside it name. If a reader must understand
+a position, a connection or a quantity in the image, draw a diagram instead.
 
 ## The fixed language
 
-- **Format:** 1200 × 750 PNG. One file is used unchanged in light and dark
-  mode; there is no mode pair.
+- **Format:** 1200 × 750 PNG. One file serves light and dark mode. There is
+  no mode pair.
 - **Composition:** one person, object or still-life gesture, drawn as five to
-  eight large silhouettes in a flattened, almost orthographic view. Leave
+  eight large silhouettes in a flat, almost orthographic view. Leave
   generous, crop-safe space around it.
-- **Colour:** quiet, nearly neutral warm-white ground, near-black charcoal, warm greys and
-  taupes, plus exactly one small `#FF8700` detail. No second accent.
-- **Form:** broad, hard-edged matte planes with deliberately simplified
-  proportions. A sparse dark line may describe a cable, edge or joint, but
-  never a relationship or process.
+- **Colour:** a quiet, almost neutral warm-white ground, near-black charcoal,
+  warm greys and taupes, plus exactly one small `#FF8700` detail. No second
+  accent.
+- **Form:** broad, hard-edged matte planes with simplified proportions. A
+  sparse dark line can describe a cable, an edge or a joint, never a relation
+  or a process.
 - **Texture:** one regular halftone field in one contained plane. It is the
-  print texture of the illustration, not the dashed-state vocabulary of a
-  diagram.
-- **Depth:** use overlap and at most two flat tones per object. One pale,
-  shape-like ground wash is allowed; realistic cast shadows, highlights,
-  materials and continuous modelling are not. The wash does not license a
-  CSS shadow, elevation or another interface gradient; the linked card's lit
-  frame remains the only one.
+  print texture of the illustration, not the dashed state of a diagram.
+- **Depth:** use overlap and at most two flat tones per object. You can add
+  one pale, shape-like ground wash. Realistic cast shadows, highlights,
+  materials and continuous modelling are out. The wash does not license a CSS
+  shadow or an interface gradient. The linked card's lit frame stays the only
+  one.
 - **People:** adult proportions, quiet posture, no identifiable facial detail.
 - **Accessibility:** the files are decorative support. Use an empty `alt`
-  when the adjacent copy already names the subject.
+  when the copy beside it already names the subject.
 
 ## Prompt
 
@@ -71,18 +70,18 @@ travel posters, speech bubbles, dense detail, fine hatching and decorative
 clutter.
 ```
 
-## Choosing the subject
+## The subject
 
-One concrete thing, taken from what the heading beside it already names: an
-object, or a person handling an object. The copy carries the subject, and the
-image only sets a register beside it, so the thing itself is enough and the
-idea behind it is not wanted.
+One concrete thing, taken from what the heading beside it names: an object,
+or a person with an object. The copy carries the subject, and the image only
+sets a register beside it. So the thing itself is enough, and the idea behind
+it is not the subject.
 
-Draw it at rest rather than at work. A drawer with no cards in it, an
-unwritten sheet, one module outside its socket — the moment before or after
-the work reads as an object, where the work itself needs position, sequence
-and quantity, and that is a diagram.
+Draw it at rest, not at work. A drawer with no cards in it, an unwritten
+sheet, one module outside its socket. The moment before or after the work
+reads as an object. The work itself needs position, sequence and quantity,
+and that is a diagram.
 
 Which subjects a set has spent is a property of that set, not of this prompt.
-It produces one image and knows nothing of the others; a view that shows
-several cards at once is assembled by someone who can see all of them.
+The prompt produces one image and knows nothing of the others. Somebody who
+sees all the cards at once composes the view that shows them.

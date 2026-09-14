@@ -4,27 +4,26 @@
 Diagrams
 ========
 
-Diagrams carry the explanation that prose alone would make slower to see, and
-form the system's visual leitmotif. A shared grammar keeps them from becoming
-one-off redraws whose colour, geometry and meaning have to be relearned each
-time.
+A diagram carries an explanation that prose alone shows slower, and the set
+is the system's visual leitmotif. A shared grammar keeps them from one-off
+drawings whose colour, geometry and meaning a reader learns again each time.
 
 **One claim per diagram.** The title states it, the closing line states its
 consequence. Two claims are two diagrams.
 
-**If the drawing would still work as a bulleted list, it is not a diagram.**
-Meaning is carried by position, length or alignment. Boxes and arrows are
-the last resort, not the starting vocabulary.
+**If the drawing still works as a bulleted list, it is not a diagram.**
+Position, length or alignment carries the meaning. Boxes and arrows are the
+last resort, not the first vocabulary.
 
-Solid means there; a dashed outline of the same shape means missing or not
-yet reachable — so a shortfall has a *size*, not a sentence. Where the
-missing part is a degradation rather than a precondition, the dashed outline
-carries ``--status-warn``.
+Solid means there. A dashed outline of the same shape means absent or not yet
+reachable, so a shortfall has a *size*, not a sentence. Where the absent part
+is a degradation, not a precondition, the dashed outline carries
+``--status-warn``.
 
-Orange marks the one thing the diagram is about — exactly one element per
-drawing, and often a connector rather than a box, since the claim is usually
-a relation. When the drawing is about degradation or failure, status colour
-replaces the accent and orange stays out entirely.
+Orange marks the one thing the diagram is about: exactly one element per
+drawing, often a connector, since the claim is usually a relation. When the
+drawing is about degradation or failure, status colour replaces the accent
+and orange stays out.
 
 The numbers
 ===========
@@ -33,7 +32,7 @@ The numbers
    :header-rows: 0
 
    * - Canvas
-     - ``viewBox="0 0 1200 H"`` — always 1200 wide, height to fit, no radius,
+     - ``viewBox="0 0 1200 H"``, always 1200 wide, height to fit. No radius,
        shadow, gradient or texture
    * - Margin
      - 60 units every side. Nothing enters it, labels included
@@ -48,27 +47,27 @@ The numbers
      - 6 node or boundary, 4 bar, 2 unit square. Never above 6
    * - Node
      - ``--surface-raised``, 1px ``--border-subtle``, radius 6. Peers share
-       one treatment and are distinguished by their names, not their hues
+       one treatment; their names tell them apart, not their hues
    * - Boundary
-     - Hairline only, **no fill** — a filled container makes depth out of
+     - Hairline only, **no fill**. A filled container makes depth out of
        colour
    * - Connector
-     - 1.5px, orthogonal, one arrowhead, ``--text-muted``. No curves; dashed
-       means optional or not yet and nothing else
+     - 1.5px, orthogonal, one arrowhead, ``--text-muted``. No curves. Dashed
+       means optional or not yet, and nothing else
 
 .. warning::
 
-   **Colour is written as attributes**, never a ``<style>`` block — GitHub
-   strips those. Each attribute is the token with the light hex behind it,
-   ``fill="var(--text-primary, #1C1A17)"``, so the hex is what a page shows and
-   the token is ready for the day it can be read. Ship that one file and wrap
-   its shapes in ``<g id="soul-ref">`` — the handle ``make diagrams`` reads them
-   out from under, for the specimen cards. :doc:`artwork` holds the complete
-   file contract and its failure modes.
+   **Colour is an attribute**, never a ``<style>`` block, which GitHub
+   strips. Each attribute is the token with the light hex behind it,
+   ``fill="var(--text-primary, #1C1A17)"``. The hex is what a page shows, and
+   the token is ready for the day a page can read it. Ship that one file and
+   wrap its shapes in ``<g id="soul-ref">``, the handle ``make diagrams``
+   reads them out from under for the specimen cards. :doc:`artwork` holds
+   the whole file contract.
 
-Diagrams sit on ``--surface-sunken``. The drawing brings its own canvas, and
-that is what makes it read as a figure with clear space — put it on
-``--surface-canvas`` and it dissolves into the page with no boundary at all.
+A diagram sits on ``--surface-sunken``. The drawing brings its own canvas,
+which makes it read as a figure with clear space. On ``--surface-canvas`` it
+dissolves into the page.
 
 Drawing rules
 =============
@@ -81,8 +80,7 @@ Worked examples
 ===============
 
 Different shapes of claim need different structures. The examples below use
-an axis, a sequence and containment rather than forcing every explanation into
-boxes joined by arrows.
+an axis, a sequence and containment instead of boxes joined by arrows.
 
 .. specimen:: guidelines/diagrams-overview.card.html
    :viewport: 1400x966
@@ -96,19 +94,19 @@ boxes joined by arrows.
    :viewport: 1400x1034
    :title: Fallback — a sequence without a flowchart
 
-Drawing another one
-===================
+Another one
+===========
 
-The rules above written as something to hand to a drawing tool, with the file
-contract and the negative constraints around them. It is here in full rather
-than behind a link because it is handed over rather than read: copy the whole
-block and replace ``[CLAIM]`` and ``[CONSEQUENCE]``, which are the only two
-fields that change. Rewriting the numbers or the two states starts a second
-grammar, and a set in two grammars has to be relearned at every drawing.
+The rules above as an instruction for a drawing tool, with the file contract
+and the negative constraints. It stands here in full because it is a thing
+to hand over. Copy the whole block and replace ``[CLAIM]`` and
+``[CONSEQUENCE]``, the only two fields that change. New numbers or new states
+start a second grammar, and a set in two grammars costs a reader at every
+drawing.
 
-A diagram is the one drawing that is not generated as a picture. What is handed
-back is the SVG itself, because the colours in it are tokens and the shapes are
-read out for the cards above by ``make diagrams``.
+A diagram is the one drawing that does not come back as a picture. The
+result is the SVG itself, because its colours are tokens and ``make
+diagrams`` reads its shapes out for the cards above.
 
 .. literalinclude:: diagram-prompt.md
    :language: markdown

@@ -4,80 +4,82 @@
 Colours
 =======
 
-Every colour in this system is a semantic token, declared once as
-``light-dark(light, dark)`` against a ``:root`` that sets ``color-scheme``.
-There is no second block for dark mode, which is why light and dark **cannot
-drift**: they are the same declaration.
+Every colour in this system is a semantic token, one ``light-dark(light,
+dark)`` against a ``:root`` that sets ``color-scheme``. There is no second
+block for dark mode. So light and dark **cannot drift**: they are one
+declaration.
 
-Light and dark are equal surfaces. Light is warm paper rather than pure white;
-dark is the terminal rather than a dimmed copy of the light palette. With no
-``data-theme`` the reader's operating-system preference decides, so neither
-mode is presented as the exception.
+Light and dark are equal surfaces. Light is warm paper, not pure white. Dark
+is the terminal, not a dimmed copy of the light palette. With no
+``data-theme`` the reader's operating system decides, so neither mode is the
+exception.
 
-Force a mode on a subtree with ``data-theme="light"`` or ``data-theme="dark"``.
-Put it on ``<html>`` for a whole page — set it deeper and the browser's own
-chrome, its scrollbars and form controls, stays in the other mode.
+Force a mode on a subtree with ``data-theme="light"`` or
+``data-theme="dark"``. Put it on ``<html>`` for a whole page. Deeper, the
+browser's own chrome, scrollbars and form controls, stays in the other mode.
 
-A mode choice is a product control rather than a preference screen.
-:ref:`sds-theme <component-sds-theme>` shows the available choices in place
-and returns to the machine's setting when the active choice is pressed again.
-The document writes a remembered choice before the first paint; the control
-then reads the document instead of keeping a second idea of the current mode.
+A mode choice is a product control, not a preference screen. :ref:`sds-theme
+<component-sds-theme>` shows the choices in place and returns to the
+machine's setting when the active choice gets a second press. The document
+writes a remembered choice before the first paint. The control then reads
+the document instead of a second idea of the mode.
 
 Scrollbars belong to the surface as well. They use the border token for the
-thumb, the muted text token under the pointer and a transparent track. Relying
-on ``color-scheme`` alone would leave their exact treatment to the browser and
-make the edge of the same page look unrelated across engines.
+thumb, the muted text token under the pointer and a transparent track. With
+``color-scheme`` alone, the browser decides, and the edge of one page looks
+different per engine.
 
 .. warning::
 
    **Never set a colour literal.** Not a hex, not an ``rgb()``, not a named
-   colour. If nothing here fits, the answer is a new token, not a local value.
+   colour. If nothing here fits, the answer is a new token, not a local
+   value.
 
 Surfaces
 ========
 
-Each plane means something, and a thing that means nothing sits on the canvas.
-A **card** is a hairline and 6px with no fill of its own.
+Each plane means something, and a thing that means nothing sits on the
+canvas. A **card** is a hairline and 6px with no fill of its own.
 
 .. list-table::
    :header-rows: 1
 
    * - Token
      - The plane
-     - Reach for it when
+     - Use it when
    * - ``--surface-canvas``
      - the ground
      - ``.sds-app`` puts it under the page, and everything else sits on it
    * - ``--surface-raised``
      - lifted off that ground
-     - a panel or a modal has to read as a plane of its own, a table row
-       answers a pointer
+     - a panel or a modal reads as a plane of its own, a table row answers a
+       pointer
    * - ``--surface-sunken``
      - machine output
-     - a code block, a log, the ground a diagram is drawn on
+     - a code block, a log, the ground of a diagram
    * - ``--surface-inset``
      - a well inside another surface
-     - a skeleton, a tick box under the pointer, the facts on a reference entry
+     - a skeleton, a tick box under the pointer, the facts on a reference
+       entry
    * - ``--surface-accent-quiet``
      - the one tinted plane
-     - a selected row, an accent badge — with ``--border-accent-quiet`` as its
+     - a selected row, an accent badge, with ``--border-accent-quiet`` as its
        frame and ``--text-accent-quiet`` as its ink
    * - ``--surface-overlay``
      - the wash under a floating surface
-     - a dialog is open, and the page behind it is out of use. It says that
-       rather than depth — what merely stands in front of the page carries a
-       shadow and leaves it readable
+     - a dialog is open, and the page behind it is out of use. What only
+       stands in front of the page carries a shadow and leaves it readable
    * - ``--shadow-flyout``
      - a surface that has left the page
-     - what the bar opens over the text: its panels, its drawer. Its neighbours
-       are ``--shadow-basic``, ``--shadow-strong``, ``--shadow-tooltip``,
-       ``--shadow-dialog`` and ``--shadow-window`` — the job rather than the
-       distance, over a raw ``--shadow-2…64`` scale no design writes
+     - what the bar opens over the text: its panels, its drawer. Its
+       neighbours are ``--shadow-basic``, ``--shadow-strong``,
+       ``--shadow-tooltip``, ``--shadow-dialog`` and ``--shadow-window``. The
+       job, not the distance, over a raw ``--shadow-2…64`` scale no design
+       writes
    * - ``--surface-art``
      - the ground under a picture that brought its own colours
-     - **it does not flip.** A drawing exported elsewhere is light whatever
-       the page is
+     - **it does not flip.** A drawing from elsewhere is light whatever the
+       page is
 
 .. specimen:: guidelines/colors-surfaces.card.html
    :viewport: 700x277
@@ -96,14 +98,13 @@ Text
    * - ``--text-secondary``
      - the line beside it, and the glyph that stands with a label
    * - ``--text-muted``
-     - what the machine named — a path, a separator, a step that cannot be
-       taken
+     - what the machine named: a path, a separator, a step out of reach
    * - ``--text-link``, ``--text-link-hover``
-     - a link in running text, and the same link under the pointer
+     - a link in text, and the same link under the pointer
    * - ``--text-accent-quiet``
      - ink on the tinted plane
    * - ``--text-on-accent``
-     - ink on the accent fill. It does not flip either — the accent is one
+     - ink on the accent fill. It does not flip either. The accent is one
        colour in both modes, so what stands on it is one colour too
 
 .. specimen:: guidelines/colors-text.card.html
@@ -113,11 +114,11 @@ Text
 Borders
 =======
 
-Hairlines do the structural work. Nothing that stays on the page is separated
-by elevation, so the focus halo is the only ``box-shadow`` a page draws, and it
-communicates keyboard state rather than depth — see :doc:`accessibility`. What
-has left the page is the exception the shadow scale exists for, and the table
-above says which surfaces those are.
+Hairlines do the structural work. Nothing that stays on the page separates
+by elevation. So the focus halo is the only ``box-shadow`` a page draws, and
+it says keyboard state, not depth; see :doc:`accessibility`. What has left
+the page is the exception the shadow scale exists for, and the table above
+names those surfaces.
 
 .. list-table::
    :header-rows: 1
@@ -125,11 +126,11 @@ above says which surfaces those are.
    * - Token
      - Draws
    * - ``--border-subtle``
-     - the hairline that does the structural work: a card's frame, a table's
-       rules, the gaps a grid is separated by
+     - the structural hairline: a card's frame, a table's rules, the gaps of
+       a grid
    * - ``--border-strong``
-     - the frame a control carries — a secondary button, a badge, a field —
-       and the line under a table head
+     - the frame a control carries, a secondary button, a badge, a field, and
+       the line under a table head
    * - ``--border-accent-quiet``
      - the frame of the tinted plane, and nothing else
 
@@ -140,24 +141,24 @@ above says which surfaces those are.
 Accent
 ======
 
-``--accent`` is ``#FF8700``, and it marks exactly three things: the active
+``--accent`` is ``#FF8700``, and it marks exactly three things. The active
 navigation item, the shell prompt in a code block, and the pipe in the
 wordmark. No second accent.
 
-``--accent-glow`` is one of the system's two gradients: light falling across
+``--accent-glow`` is one of the system's two gradients. Light falls across
 the top of a linked card's hairline under the pointer or keyboard focus, then
-fading down the frame. It is a state rather than another accented object.
-Keeping it on a layer of its own lets that light fade without replacing the
-card's background. The other is the hatch a running ``sds-progress`` draws
-inside its own fill — one ink at two strengths, and motion rather than colour.
-Neither licenses a gradient anywhere else.
+fades down the frame. It is a state, not another accented object. A layer of
+its own lets that light fade without a change to the card's background. The
+other gradient is the hatch a running ``sds-progress`` draws inside its own
+fill: one ink at two strengths, and motion, not colour. Neither licenses a
+gradient anywhere else.
 
 Page grounds stay flat: no photograph or illustration behind text, no
-repeating texture and no decorative gradient. Artwork occupies an explicit
-media slot, where its edge and purpose remain visible.
+texture, no decorative gradient. Artwork sits in an explicit media slot,
+where its edge and purpose stay visible.
 
-Use ``--accent``, never the raw ``--orange-*`` scale — that scale exists to
-derive the token and is not for use in a design.
+Use ``--accent``, never the raw ``--orange-*`` scale. That scale derives the
+token and appears in no design.
 
 .. specimen:: guidelines/colors-accent.card.html
    :viewport: 700x134
@@ -167,17 +168,17 @@ Status and syntax
 =================
 
 ``--status-ok``, ``--status-warn`` and ``--status-error`` appear inside code
-output, badges, result rows and status-about diagrams. **Never as page
-furniture.** A status colour on a heading or a border means the page is
-telling you something is wrong when nothing is.
+output, badges, result rows and status diagrams. **Never as page
+furniture.** A status colour on a heading or a border says something is
+wrong when nothing is.
 
-One control is the exception, and it is written here so that it stays one: the
-press that cannot be undone. ``sds-btn--danger`` carries ``--status-error`` as
-ink and as a hairline and takes a fill only under the pointer, because a filled
-red button outranks ``--accent`` — the one thing on a page allowed to do that.
-The colour marks the press; it does not explain it. The label names what goes —
-"Delete 3 pages", never "OK" — and the question above it says what that costs,
-so a reader who cannot tell the tones apart still reads the consequence.
+One control is the exception, and it stands here so it stays one: the press
+with no undo. ``sds-btn--danger`` carries ``--status-error`` as ink and as a
+hairline and takes a fill only under the pointer. A filled red button
+outranks ``--accent``, the one thing on a page with that right. The colour
+marks the press; it does not explain it. The label names what goes, "Delete
+3 pages", never "OK". The question above it says what that costs, so a
+reader who cannot tell the tones apart still reads the consequence.
 
 .. specimen:: guidelines/colors-status.card.html
    :viewport: 700x226
