@@ -4,71 +4,70 @@
 Core markup, and what it becomes
 ================================
 
-Most of a page is not written with this theme's directives. It is written with
-the renderer's own — an admonition, a code block, a table, a ``confval`` — and
-what those come out as is the theme's real subject. This page says what each
-one becomes, and where the answer was a decision rather than a mapping.
+Most of a page does not use this theme's directives. It uses the renderer's
+own, an admonition, a code block, a table, a ``confval``, and what those
+come out as is the theme's real subject. This page says what each one
+becomes, and where the answer was a decision, not a mapping.
 
-Nothing here is something an author writes differently. The source is
-ordinary reStructuredText; the theme is what stands between it and the markup.
+Nothing here changes what an author writes. The source is ordinary
+reStructuredText. The theme stands between it and the markup.
 
-Rendered before publishing
-==========================
+Rendered before the publish
+===========================
 
-One arrangement runs under everything below, so it is worth saying once.
+One arrangement runs under everything below, so it stands here once.
 
-Every template here *addresses* a component — ``<sds-card heading="…">``,
-``<sds-nav-rail entry="…">`` — and writes none of its markup. That is the whole
-point of there being components: what a card looks like is decided in one file,
+Every template here *addresses* a component, ``<sds-card heading="…">``,
+``<sds-nav-rail entry="…">``, and writes none of its markup. That is the
+whole point of components. What a card looks like is one file's decision,
 and a page this theme renders cannot drift from a page a product wrote.
 
-On its own that would cost the reader with no JavaScript everything, because an
-element addressed by attributes draws nothing until it upgrades. So it is
-rendered earlier instead: ``make guides`` runs every element in the output
-through the same renderer the design system uses to export its specimen cards,
-and writes the markup back into the page inside the element's own tag. The
-document that is published already holds the card, the rail and the frame; in
-a browser the element upgrades over its own rendering and takes over the
+On its own that costs the reader with no JavaScript everything, because an
+element addressed by attributes draws nothing until it upgrades. So the
+render happens earlier. ``make guides`` runs every element in the output
+through the renderer the design system uses for its specimen cards. It
+writes the markup back into the page inside the element's own tag. The
+published document already holds the card, the rail and the frame. In a
+browser the element upgrades over its own rendering and takes the
 behaviour.
 
-What follows is visible from the outside:
+What follows is visible from outside:
 
-- **A page works with scripting off.** Not a reduced version of it — the same
-  markup, minus the parts that are behaviour: a tab bar that cannot switch, a
-  copy button that cannot copy.
-- **A directive's options are the element's properties.** If a component grows
-  one, the directive gains it in the same commit, and it is spelt the same way
-  on both sides. Nothing in this theme is a translation of a component.
+- **A page works with the script off.** Not a reduced version: the same
+  markup, minus the behaviour. A tab bar that cannot switch, a copy button
+  that cannot copy.
+- **A directive's options are the element's properties.** If a component
+  grows one, the directive gains it in the same commit, with the same
+  spelling on both sides. Nothing in this theme translates a component.
 
 Component contract
 ------------------
 
-Every element used by the theme must render in Node. The prerenderer creates
-an element and calls its template without browser lifecycle hooks, so rendering
-cannot depend on ``document``, ``navigator`` or ``customElements``. ``make
-verify ARGS=ssr`` keeps that requirement executable.
+Every element the theme uses must render in Node. The prerenderer creates
+an element and calls its template without browser lifecycle hooks. So a
+render cannot depend on ``document``, ``navigator`` or ``customElements``.
+``make verify ARGS=ssr`` holds that as a check.
 
 Content has to reach the same template by either route. In a browser the
-element lifts what an author wrote between its tags; during server rendering
-there are no connected children, so the prerenderer passes that markup through
-the element's ``content`` property. A component reads the browser value when
-it exists and the property otherwise. Anything it would decide by inspecting
-children — tab labels or whether a control contains only a glyph — must also
-be expressible as a property, or the server and browser can reach different
-answers.
+element lifts what an author wrote between its tags. In a server render
+there are no connected children, so the prerenderer passes that markup
+through the element's ``content`` property. A component reads the browser
+value when it exists and the property otherwise. Anything it decides from
+its children, tab labels or a control with only a glyph, must also be a
+property. Otherwise the server and the browser reach different answers.
 
 The published element keeps the author's original content in an inert
 ``<template data-sds-content>`` before its rendered markup. The template is
-written even when that content is empty: it tells the upgrading element which
-children came from the author and which came from its own earlier rendering.
-Without that distinction the element would lift its rendered frame as input
-and draw a second copy around it.
+there even when that content is empty. It tells the upgraded element which
+children came from the author and which from its own earlier render.
+Without that, the element lifts its rendered frame as input and draws a
+second copy around it.
 
 Admonitions
 ===========
 
-The renderer has more types than this system has tones, and the mapping below
-is Sphinx's own grouping rather than a ladder of severity.
+The renderer has more types than this system has tones. The mapping below is
+Sphinx's own grouping, not a ladder of severity.
 
 .. list-table::
    :header-rows: 1
@@ -77,7 +76,7 @@ is Sphinx's own grouping rather than a ladder of severity.
      - Tone
    * - ``note``, ``hint``, ``important``, ``seealso``, ``todo``, and any
        generic ``.. admonition::``
-     - ``info`` — the tone that does not tint
+     - ``info``, the tone that does not tint
    * - ``tip``
      - ``ok``
    * - ``attention``, ``caution``, ``warning``
@@ -85,41 +84,40 @@ is Sphinx's own grouping rather than a ladder of severity.
    * - ``danger``, ``error``
      - ``error``
 
-``important`` sits on the quiet side of that line on purpose: Sphinx splits
-these into note-like and warning-like, and ``important`` is emphasis rather
-than a hazard. An author writing it today means what Sphinx means by it, and a
-mapping that turned it into an alarm would change what their page says.
+``important`` sits on the quiet side of that line on purpose. Sphinx splits
+these into note-like and warning-like, and ``important`` is emphasis, not a
+hazard. An author who writes it means what Sphinx means by it. A mapping
+that turns it into an alarm changes what their page says.
 
-**The type's own word survives the mapping.** ``caution`` and ``danger`` both
-become ``warn``, so the tone can no longer tell them apart — but the glyph's
-accessible name is the type's word and not the tone's, and a reader who cannot
-see the colour still hears which one this was.
+**The type's own word survives the mapping.** ``caution`` and ``danger``
+both become ``warn``, so the tone no longer tells them apart. But the
+glyph's accessible name is the type's word, not the tone's. A reader who
+cannot see the colour still hears which one this was.
 
-**No category heading.** Almost none of the types carry a title at all, and
-printing "Note" over each one would be the category name ``sds-note`` forbids
-its heading to be. Where an author did write a title, it is theirs and it goes
-in as a label — as text, because a heading is an attribute and markup inside it
-would arrive as visible angle brackets. A title that leans on inline markup is
-a title doing a paragraph's job.
+**No category heading.** Almost none of the types carry a title, and "Note"
+over each one is the category name ``sds-note`` forbids as a heading. Where
+an author wrote a title, it is theirs and goes in as a label, as text. A
+heading is an attribute, and markup inside it arrives as visible angle
+brackets. A title that leans on inline markup does a paragraph's job.
 
-Anything an admonition holds — paragraphs, lists, a whole code block — is
-carried between the element's tags rather than handed to it as a property,
-which is the rule the whole document layer follows here.
+Everything an admonition holds, paragraphs, lists, a whole code block, goes
+between the element's tags, not into a property. That is the rule the whole
+document layer follows here.
 
 Code blocks
 ===========
 
-**The colour is the server's.** ``guides-code`` highlights with a PHP port of
-highlight.js, so what lands in the page already carries ``hljs-`` classes, and
-``soul.css`` maps exactly those onto this system's three syntax colours. The
-page is coloured with no JavaScript on it at all, which is the point of a
-generator that ships HTML.
+**The colour is the server's.** ``guides-code`` highlights with a PHP port
+of highlight.js. So what lands in the page already carries ``hljs-``
+classes, and ``soul.css`` maps exactly those onto this system's three
+syntax colours. The page has its colour with no JavaScript, which is the
+point of a generator that ships HTML.
 
-``<sds-code>`` still wraps it, and in a browser it does the same job the other
-way round: markup that already carries ``hljs-`` classes is handed back
-untouched — wrapper, line numbers and emphasised lines included — and what the
-element adds is the head, the language label and the copy button. Only a block
-that arrived uncoloured is coloured by the element.
+``<sds-code>`` still wraps it, and in a browser it does the same job the
+other way round. Markup that already carries ``hljs-`` classes stays as it
+is, wrapper, line numbers and emphasised lines included. The element adds
+the head, the language label and the copy button. Only a block that arrived
+without colour gets it from the element.
 
 .. code-block:: text
    :caption: The caption goes above the block, where this system puts it
@@ -129,31 +127,31 @@ that arrived uncoloured is coloured by the element.
 
       return ['siteTitle' => 'TYPO3'];
 
-TypoScript is coloured too
-==========================
+TypoScript has colour too
+=========================
 
-The PHP port ships no TypoScript grammar, and the theme registers one, so
-``.. code-block:: typoscript`` is coloured on the server like every other
-block. What it reads is the shape of the language rather than a list of names
-that would go stale a release later: the object path being assigned to, an
-all-caps object type standing alone on the right of an assignment, the value,
-a ``{$constant}``, a ``[condition]``, an ``@import``, and a comment — which
-TypoScript only has at the start of a line, so a ``#`` in the middle of one
-stays the colour it is.
+The PHP port ships no TypoScript grammar, and the theme registers one. So
+``.. code-block:: typoscript`` gets its colour on the server like every
+other block. The grammar reads the shape of the language, not a list of
+names that goes stale a release later. The object path on the left of an
+assignment, and an all-caps object type alone on the right. The value, a
+``{$constant}``, a ``[condition]``, an ``@import``, and a comment. TypoScript
+has a comment only at the start of a line, so a ``#`` in the middle of one
+keeps its colour.
 
-It is the same grammar ``<sds-code>`` uses in the browser — one file, written
-in the design system and handed to both — so a block does not change colour
-the moment a script runs. :doc:`/frontend/components/data` names the languages
-the element declares and shows each one set.
+It is the same grammar ``<sds-code>`` uses in the browser: one file, written
+in the design system and handed to both. So a block does not change colour
+the moment a script runs. :doc:`/frontend/components/data` names the
+languages the element declares and shows each one set.
 
-Diffs change the body
-=====================
+A diff changes the body
+=======================
 
-``.. code-block:: diff`` is drawn by ``sds-diff`` rather than ``sds-code``:
-the same frame and the same head, and rows that carry status colour — the one
-place in this system a fill marks a line. It is the spelling an author already
-writes, so a page that documents an upgrade gets it without being rewritten,
-and ``:caption:`` names the file the way the element's own ``path`` does.
+``sds-diff`` draws ``.. code-block:: diff``, not ``sds-code``. The same
+frame and the same head, and rows with status colour, the one place in this
+system a fill marks a line. It is the spelling an author already writes, so
+a page that documents an upgrade gets it as it is. ``:caption:`` names the
+file the way the element's own ``path`` does.
 
 .. code-block:: text
 
@@ -179,49 +177,49 @@ That source, on this page:
    +    "typo3/cms-core": "^13.4"
     }
 
-The two file headers of the format stay context rather than reading as a line
-added and a line removed — the head above them already says which file this
-is. Everything else unmarked is context, which covers ``@@`` and
-``diff --git`` without either being named. The rows are read on the server, so
-a reader with no JavaScript gets the colour too; ``:linenos:`` and
-``:emphasize-lines:`` do not apply, because a diff states which lines changed
-and a gutter of numbers nobody cites is decoration.
+The two file headers of the format stay context, not a line added and a
+line removed. The head above them already says which file this is.
+Everything else unmarked is context, which covers ``@@`` and ``diff --git``
+without a name for either. The server reads the rows, so a reader with no
+JavaScript gets the colour too. ``:linenos:`` and ``:emphasize-lines:`` do
+not apply. A diff states which lines changed, and a gutter of numbers nobody
+cites is decoration.
 
 .. warning::
 
-   A fenced Markdown block with **no language** kills a render. The Markdown
-   parser leaves the language ``null``, the highlighter's filter declares a
-   string, and the render dies with a ``TypeError`` three packages deep naming
-   a template nobody wrote. This theme's code template defaults it to ``text``,
-   which escapes the block and colours nothing — the honest answer when nobody
+   A fenced Markdown block with **no language** kills a render. The
+   Markdown parser leaves the language ``null``, the highlighter's filter
+   declares a string, and the render dies with a ``TypeError`` three
+   packages deep. This theme's code template defaults it to ``text``, which
+   escapes the block and colours nothing, the honest answer when nobody
    said what it is.
 
-Tabs, in both of its spellings
-==============================
+Tabs, in both spellings
+=======================
 
 ``.. tabs::`` and ``.. configuration-block::`` are two directives with
-different markup and the same intent, and both become ``<sds-tabs>``. A reader
-must not have to work out which one an author reached for.
+different markup and the same intent, and both become ``<sds-tabs>``. A
+reader must not have to work out which one an author used.
 
-Left alone, neither works: the core renders a row of buttons and every panel
-under it, and the script that would switch them is not something the renderer
-ships. The element builds its own tab bar and wires the arrow keys. With
-JavaScript off the bar is there and the panels stack open under it, because a
-button that cannot switch anything must not hide what it would have switched.
+Alone, neither works. The core renders a row of buttons and every panel
+under it, and the renderer ships no script to switch them. The element
+builds its own tab bar and wires the arrow keys. With JavaScript off the
+bar is there and the panels stack open under it. A button that cannot
+switch anything must not hide what it switches.
 
-**What ``configuration-block`` is for, and ``.. tabs::`` is not:** the same
-setting appears on a page four times, and the reader chooses a language once.
-Every block of a document follows the choice, and it outlives the page — a
-manual is read across ten of them. That is ``sds-tabs`` carrying ``sync``, a
-word the template sets and an author does not: two blocks of one document that
-disagreed would be the bug it prevents. A ``.. tabs::`` set beside them, whose
-labels the author wrote, follows nothing and is followed by nothing.
+**What ``configuration-block`` is for, and ``.. tabs::`` is not.** The same
+setting appears on a page four times, and the reader chooses a language
+once. Every block of a document follows the choice, and it outlives the
+page: a reader reads a manual across ten of them. That is ``sds-tabs`` with
+``sync``, a word the template sets and an author does not. Two blocks of
+one document that disagree is the bug it prevents. A ``.. tabs::`` set
+beside them, with the author's own labels, follows nothing, and nothing
+follows it.
 
-The choice is an order rather than a word. A reader who picks ``bash`` in the
-one block that offers it has not stopped preferring PHP to YAML everywhere
-else, so every word they choose is kept, most recent first, and each set takes
-the first of them it has. A set that has none of them keeps the panel it is
-showing rather than falling back to its first.
+The choice is an order, not a word. A reader who picks ``bash`` in the one
+block that offers it still prefers PHP to YAML everywhere else. So every
+word they choose stays, most recent first, and each set takes the first of
+them it has. A set with none of them keeps the panel it shows.
 
 Reference nodes
 ===============
@@ -231,147 +229,151 @@ Reference nodes
    :required: true
    :default: "this one"
 
-   ``confval`` is the backbone of any TYPO3-adjacent reference, and it becomes
-   ``sds-confval`` — see :doc:`/frontend/components/data`. It has a component
-   of its own because a reference is dozens of these in a column, and how they
-   read together is a design rather than a mapping.
+   ``confval`` is the backbone of any TYPO3-adjacent reference, and it
+   becomes ``sds-confval``; see :doc:`/frontend/components/data`. It has a
+   component of its own because a reference is dozens of these in a column.
+   How they read together is a design, not a mapping.
 
-The name is mono and carries the anchor, ``required`` is a badge, and the type,
-the default and any further option the author set stand in a grid under the
-name — each behind its own label, because "type script" with the type
-upper-cased reads as the name of a language. An entry is separated by a
-hairline and nothing else: forty boxes in a column are not a list. A
-``confval`` holds blocks, including admonitions, so its description is not one
-line of text and is not rendered as though it were.
+The name is mono and carries the anchor, and ``required`` is a badge. The
+type, the default and every further option stand in a grid under the name.
+Each behind its own label, because "type script" with the type in upper
+case reads as the name of a language. A hairline and nothing else separates
+an entry: forty boxes in a column are not a list. A ``confval`` holds
+blocks, admonitions included, so its description is not one line of text
+and does not render as one.
 
-``:type:`` and ``:default:`` are parsed inline and reach the element as text.
-That is a decision and not an oversight: a type is written ``array<string>`` as
-often as it is written as a reference, and a value that is read as markup is a
-value with half of itself missing.
+``:type:`` and ``:default:`` parse inline and reach the element as text.
+That is a decision, not an oversight. A type is ``array<string>`` as often
+as it is a reference, and a value read as markup is a value with half of
+itself gone.
 
-**Option lists** — the ``.. option::`` directive a command-line reference uses
-— and plain **definition lists** come out through the same document-layer
+**Option lists**, the ``.. option::`` directive of a command-line reference,
+and plain **definition lists** come out through the same document-layer
 rules. A **field list** at the top of a document, the author-version-date
-block, is the one place the theme adds a class the core did not write: without
-it a docinfo block is a bare ``<table>``, and a bare table in a document is a
-data table with ruled rows and a header. It is neither.
+block, is the one place with a class the core did not write. Without it a
+docinfo block is a bare ``<table>``. A bare table in a document is a data
+table with ruled rows and a header. It is neither.
 
 Set-apart blocks
 ================
 
-``.. topic::`` and ``.. sidebar::`` are both an ``<aside>`` on ``.sds-panel``:
-a hairline, a fill, and a title that labels the box. They are drawn alike
-because they are alike — a digression with a heading — and the core rendering
-``sidebar`` as an admonition is where that went wrong. An admonition says
-something about the reader's situation and carries a glyph that names which
-one; a topic says nothing about the reader.
+``.. topic::`` and ``.. sidebar::`` are both an ``<aside>`` on
+``.sds-panel``: a hairline, a fill, and a title that labels the box. They
+draw alike because they are alike, a digression with a heading. The core
+renders ``sidebar`` as an admonition, and that is where it went wrong. An
+admonition says something about the reader's situation and carries a glyph
+that names which one. A topic says nothing about the reader.
 
-A sidebar does not float here. In a column held to sixty-six characters there
-is nothing for it to float beside, and a box pulled out of a measure that
+A sidebar does not float here. In a column held to sixty-six characters
+there is nothing for it to float beside. A box pulled out of a measure that
 narrow leaves both halves too thin to read.
 
 ``.. versionadded::``, ``.. versionchanged::`` and ``.. deprecated::`` are
-notes, and not as loosely as that sounds: "Changed in version 1.2" is a fact
-stated as a heading, and the paragraph under it is what that fact costs
-somebody reading the page today — which is the shape ``sds-note`` already is.
-**Only deprecation carries a tone.** ``warn`` is this system's degraded but
-usable answer, which is exactly what a deprecated thing is; the other two are
-facts about the surface with nothing gone wrong, so they are ``info``, the tone
-that does not tint. On an API page carrying one of these every third paragraph,
-tinting them all would make the page read as an alarm about itself.
+notes, and not loosely. "Changed in version 1.2" is a fact as a heading.
+The paragraph under it is what that fact costs a reader today, which is the
+shape ``sds-note`` already is.
+
+**Only deprecation carries a tone.** ``warn``
+is this system's degraded but usable answer, which is exactly what a
+deprecated thing is. The other two are facts about the surface with nothing
+wrong, so they are ``info``, the tone that does not tint. On an API page
+with one of these every third paragraph, a tint on all of them reads as an
+alarm about the page.
 
 Navigation the document asks for
 ================================
 
-The **toctree** feeds the rail on every manual page, and where a page writes
-one in its body it prints there too — as a list of documents to read, which
-must not look like the rail beside it saying where the reader is.
+The **toctree** feeds the rail on every manual page. Where a page writes one
+in its body, it prints there too, as a list of documents to read. It must
+not look like the rail beside it, which says where the reader is.
 
-**What is on this page** is written by the theme, not by the author. Every
-manual page with headings to list gets the contents a ``.. contents::`` would
-have made, inserted under the title — the same node the directive builds, so
-what happens to it after that is one path and not two. A page whose sections
-are one heading gets none, and a landing page gets none: there is nothing to
-navigate on the way in. ``.. contents::`` still stands wherever it is written
-and wins there, which is how a page asks for a caption, a ``:depth:`` or a
-place of its own.
+**What is on this page** comes from the theme, not from the author. Every
+manual page with headings to list gets the contents a ``.. contents::``
+makes, under the title. It is the same node the directive builds, so what
+happens to it after that is one path, not two. A page whose sections are
+one heading gets none, and a landing page gets none. There is nothing to
+navigate on the way in.
 
-Where the page is at its full measure, that list leaves the column and stands
-beside it on the right, resting at the line the rail rests at, so the sections
-of the page are reachable from anywhere in it. The column gives the width up
-rather than the list taking it, which is why nothing runs underneath. A window
-narrower than the page measure has no width to give, and the list is a block
-under the title again.
+``.. contents::`` still stands wherever an author
+writes it and wins there. That is how a page asks for a caption, a
+``:depth:`` or a place of its own.
+
+At the page's full measure, that list leaves the column and stands beside
+it on the right, at the line the rail rests at. So the
+sections of the page are reachable from anywhere in it. The column gives
+the width up, and the list does not take it, which is why nothing runs
+underneath. A window narrower than the page measure has no width to give,
+and the list is a block under the title again.
 
 The list is :ref:`sds-nav-toc <component-sds-nav-toc>`, addressed with the
-sections rather than written as markup, so it **marks the section the reader
-has scrolled to** — a fact about the page that no renderer can put in a
-template. Above the first heading nothing is marked, which is where a page
-opens.
+sections, not written as markup. So it **marks the section the reader has
+scrolled to**, a fact about the page no renderer can put in a template.
+Above the first heading nothing has the mark, which is where a page opens.
 
-Its entries are built from the current document plus an anchor rather than from
-the renderer's link answer, which for the page being rendered is ``#`` — that
-is how a local contents ends up as a row of links pointing at nothing.
+Its entries come from the current document plus an anchor, not from the
+renderer's link answer. For the page in render that answer is ``#``, which
+is how a local contents ends up as a row of links to nothing.
 
-**Breadcrumbs** sit above the title, from the same tree. **Footnotes** get the
-number the compiler assigned rather than the label the author typed, so a mark
-in the line and the note at the foot of the page agree — ``[#name]_`` prints
+**Breadcrumbs** sit above the title, from the same tree. **Footnotes** get
+the number the compiler assigned, not the label the author typed. So a mark
+in the line and the note at the foot of the page agree: ``[#name]_`` prints
 ``[1]`` at both ends.
 
 Tables
 ======
 
-A table becomes ``<sds-table>``, and what the theme writes inside it is the
-table's own children — the caption, the ``<colgroup>`` a ``:widths:`` option
-worked out, the head and the body, cells and all. A cell carries a link, a
-literal or an emphasis, and ``colspan`` and ``rowspan`` are on it; none of that
-fits in a property, which is why this is the one component a document hands
-markup to rather than values.
+A table becomes ``<sds-table>``, and the theme writes the table's own
+children inside it. The caption, the ``<colgroup>`` from a ``:widths:``
+option, the head and the body, cells and all. A cell carries a link, a
+literal or an emphasis, and ``colspan`` and ``rowspan`` stand on it. None
+of that fits in a property, which is why this is the one component a
+document hands markup to, not values.
 
-It survives because every element is rendered before the page is published:
-what the finishing step leaves in the page is the drawn table and, beside it,
-the rows in a ``<template>``, which is the one place the parser keeps a
-``<thead>`` that is not inside a ``<table>``.
+It survives because every element renders before the publish. The finishing
+step leaves the drawn table in the page and, beside it, the rows in a
+``<template>``. That is the one place the parser keeps a ``<thead>``
+outside a ``<table>``.
 
-The ``<table>`` itself is the element's, and so is its density and the box it
-scrolls in. That box has to be *around* the table: ``overflow-x`` on the table
-itself needs ``display: block``, which takes it out of table layout and makes
-every table shrink-wrap — a four-column reference sitting in the left third of
-the page with nothing beside it. Wrapped, nothing about the table changes, and
-it overflows only where its own minimum is wider than the column.
+The ``<table>`` itself is the element's, and so is its density and the box
+it scrolls in. That box has to be *around* the table. ``overflow-x`` on the
+table itself needs ``display: block``, which takes it out of table layout
+and shrink-wraps every table. A four-column reference then sits in the left
+third of the page with nothing beside it. In a wrapper, nothing about the
+table changes, and it overflows only where its own minimum is wider than the
+column.
 
-What does not survive is the renderer's own class list — ``colwidths-auto``,
-``align-*``, ``grid-*``. No stylesheet here defines them, so they drew nothing
-before either. ``:width:`` does survive, as the element's own property.
+What does not survive is the renderer's own class list: ``colwidths-auto``,
+``align-*``, ``grid-*``. No stylesheet here defines them, so they drew
+nothing before either. ``:width:`` survives, as the element's own property.
 
 Pictures
 ========
 
-``.. figure::`` and ``.. image::`` are the same picture to a reader, and both
-become ``<sds-figure>``. What the renderer writes on its own is a bare
-``<figure>`` — no frame around the picture, no ground under one that does not
-fill the column it was put in, and a caption set as running text at the size of
-the prose beside it. A drawing exported on white then stands in a hole on a
-dark page, and one exported on nothing has no edge saying where it ends.
+``.. figure::`` and ``.. image::`` are the same picture to a reader, and
+both become ``<sds-figure>``. What the renderer writes on its own is a bare
+``<figure>``. No frame around the picture, and no ground under one that
+does not fill its column. A caption as text at the size of the prose. A
+drawing exported on white then stands in a hole on a dark page. One
+exported on nothing has no edge to say where it ends.
 
-The two directives differ in one thing, and it is the caption: a figure is a
-picture the author made a claim about, an image is one they dropped in. The
-claim is drawn under the frame in the register a caption belongs to, quieter
-and smaller than the text; a picture that makes none gets the frame alone,
-rather than an empty line under it.
+The two directives differ in one thing, the caption. A figure is a picture
+with the author's claim about it, an image is one they dropped in. The claim
+draws under the frame in a caption's register, quieter and smaller than the
+text. A picture that makes none gets the frame alone, not an empty line
+under it.
 
-Every picture is linked, whatever is in the file: one ``<img>``, and a drawing in
-the colours it was written with. So a picture dropped into a project arrives
-whatever was done to it — and it is the same picture in light and in dark, on
-the one ground drawn for those colours. :doc:`/design-system/artwork` says why
-it is not read into the page instead, and what would have to change.
+Every picture is a link, whatever is in the file: one ``<img>``, and a
+drawing in the colours of its file. So a picture dropped into a project
+arrives as it is. It is the same picture in light and in dark, on the one
+ground drawn for those colours. :doc:`/design-system/artwork` says why
+the page does not read it in, and what has to change.
 
-``:zoomable:`` opens the picture at full size: the frame becomes a press and
-the viewer carries the caption into its own head. A picture is drawn at the
-width of the column it stands in, which is not the width a diagram was made
-for — and this is the option that gives that back. It is written rather than
-assumed, because most pictures in a document are read where they stand, and a
-press on every one of them offers the same answer down a whole page.
+``:zoomable:`` opens the picture at full size. The frame becomes a press,
+and the viewer carries the caption into its own head. A picture draws at
+the width of its column, which is not the width of a diagram's drawing.
+This option gives that back. It is a choice, not a default, because a reader
+reads most pictures in a document where they stand. A press on every one of
+them offers the same answer down a whole page.
 
 .. code-block:: text
 
@@ -381,66 +383,66 @@ press on every one of them offers the same answer down a whole page.
 
       What the drawing claims, in the caption the viewer takes with it.
 
-``:target:`` stays a link around the picture, and it is the one place
-``:zoomable:`` is ignored: the author's link is already around the whole
-picture, and the press would be a second anchor inside it. ``:align:`` is
-dropped, for the reason the sidebar is: a measure this narrow has nothing to
+``:target:`` stays a link around the picture, and it is the one place the
+theme ignores ``:zoomable:``. The author's link already wraps the whole
+picture, and the press is a second anchor inside it. ``:align:`` drops, for
+the reason the sidebar's float does. A measure this narrow has nothing to
 float beside.
 
 Embedded documents
 ==================
 
-``.. youtube::`` and this theme's own ``specimen`` (:doc:`directives`) are the
-same node — a document of somebody else's, shown inside this one — and both
-become ``<sds-embed>``. Left as the renderer writes it, that node is a bare
-``<iframe>``: the browser's own inset ridge around it, no ground under it, and
-as wide as the ``width`` option says whatever the column can hold.
+``.. youtube::`` and this theme's own ``specimen`` (:doc:`directives`) are
+the same node, a document of somebody else's inside this one, and both
+become ``<sds-embed>``. As the renderer writes it, that node is a bare
+``<iframe>``. The browser's own inset ridge around it, no ground under it,
+and as wide as the ``width`` option says, whatever the column can hold.
 
-The element states which of two shapes the frame has, because an embed has no
-proportions of its own to fall back on. A player **fills the column and holds
-its ratio** — its native size is what it was authored at and not what it
-wants, and 560 pixels of player in a narrower column is a player with its
-right-hand side cut off. A specimen **keeps the size it was measured at** and
-scrolls below it, the same answer a wide table gets here: a card reflowed to
-fit would be documenting a layout the gate never checked.
+The element states which of two shapes the frame has, because an embed has
+no proportions of its own. A player **fills the column and holds its
+ratio**. Its native size is the size of its authoring, not what it wants.
+560 pixels of player in a narrower column loses its right-hand side. A
+specimen **keeps the size of its measurement** and scrolls below it, the
+answer a wide table gets here. A card reflowed to fit documents a layout the
+gate never checked.
 
-The frame itself is still written by the renderer, between the element's tags,
-and the element lifts it rather than writing a second one — the document is
-fetched once, and the page shows its evidence with no script running. It is
-never lazy: a frame that loads on scroll is blank in every screenshot taken of
-the page, which is the one place somebody looks at all of them at once.
+The renderer still writes the frame itself, between the element's tags, and
+the element lifts it. It does not write a second one. One fetch of the
+document, and the page shows its evidence with no script. It is never
+lazy. A frame that loads on scroll is blank in every screenshot of the page,
+the one place somebody looks at all of them at once.
 
 Everything else
 ===============
 
-What is left is running text — paragraphs, lists, quotes, transitions, inline
-literals, the six heading levels — and no template can reach it,
-because the renderer writes no name on any of it. That is the document layer's
-half of the job, and :doc:`/frontend/documents` is where it is written down.
+What remains is text: paragraphs, lists, quotes, transitions, inline
+literals, the six heading levels. No template can reach it, because the
+renderer writes no name on any of it. That is the document layer's half of
+the job, and :doc:`/frontend/documents` writes it down.
 
-A heading is the one place both halves meet: the six levels are the document
-layer's, and the ``#`` beside one is a template's, because the id it points at
-is on the section and only the renderer knows it.
+A heading is the one place both halves meet. The six levels are the document
+layer's. The ``#`` beside one is a template's, because the id it points at is
+on the section, and only the renderer knows it.
 
 The classes an author writes
 ============================
 
-``.. container:: whatever`` and ``:class:`` put a name straight into the markup
-that no system chose. The name is carried through untouched, and it means
-nothing more than it did in the source.
+``.. container:: whatever`` and ``:class:`` put a name into the markup that
+no system chose. The name goes through as it is, and it means nothing more
+than it did in the source.
 
 **Nothing here will ever grow a rule that matches one.** A stylesheet that
-started drawing ``.a-class-from-the-source`` would make every author's private
-vocabulary public API of this design system, and two projects that happened to
-pick the same word would be handed each other's design. What is inside the
-container is still set, because it is document content; the box around it is
-not, because nobody said what it is.
+draws ``.a-class-from-the-source`` makes every author's private vocabulary
+public API of this design system. Two projects with the same word get each
+other's design. What is inside the container still gets its style, because
+it is document content. The box around it does not, because nobody said
+what it is.
 
-The system's own names are the exception that proves it: they are defined here,
-and the class layer is deliberately hand-writable — a surface with no
-JavaScript is what it exists for. ``.. container:: sds-panel`` therefore works
-and is honest about what it gets: the class layer's drawing of a panel, and not
-one thing a component would have added on top of it.
+The system's own names are the exception that proves it. This system
+defines them, and the class layer is hand-writable on purpose. A surface
+with no JavaScript is what it exists for. So ``.. container:: sds-panel``
+works and is honest about what it gets. The class layer's drawing of a
+panel, and not one thing a component adds on top.
 
 Which template does which
 =========================
@@ -459,7 +461,7 @@ Which template does which
    * - ``structure/footer``
      - groups, socials, the note
    * - ``structure/sidebar``
-     - ``.. sidebar::`` as a topic rather than an admonition
+     - ``.. sidebar::`` as a topic, not an admonition
    * - ``structure/header-title``
      - the mark that hands over the place a heading names
    * - ``structure/pager``
@@ -481,7 +483,7 @@ Which template does which
    * - ``body/directive/confval``
      - the reference entry, and its labels
    * - ``body/directive/glossary``
-     - a definition list whose terms can be pointed at
+     - a definition list whose terms take a link
    * - ``body/menu/*``
      - the rail, the trail, the printed toctree, the local contents
    * - ``body/figure``, ``body/image``
@@ -491,11 +493,11 @@ Which template does which
    * - ``inline/footnote``
      - the mark that matches the note it points at
    * - ``body/directive/{band,grid}``
-     - the landing page — see :doc:`directives`
+     - the landing page; see :doc:`directives`
    * - ``body/directive/card``
-     - the cards a manual is signposted with — see :doc:`directives`
+     - the cards that signpost a manual; see :doc:`directives`
    * - ``body/directive/{accordion,accordion-item}``
-     - the questions a page folds its answers behind — see :doc:`directives`
+     - the questions a page folds its answers behind; see :doc:`directives`
 
-Anything not in that list is the renderer's own template, rendering the
+Anything not in that list is the renderer's own template, with the
 renderer's own markup, and it lands on the document layer.

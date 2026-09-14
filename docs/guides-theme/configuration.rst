@@ -4,14 +4,14 @@
 Configuration
 =============
 
-Everything a site says on every page — the mark, the sections in the bar, the
-footer — is configuration and not markup. A theme that read those from the
-documents would have every page free to disagree with the others by the third
-one, and a theme that hard-coded them would fit exactly one project.
+Everything a site says on every page, the mark, the sections in the bar, the
+footer, is configuration, not markup. A theme that read those from the
+documents lets every page disagree with the others by the third one. A
+theme with them hard-coded fits exactly one project.
 
-It is written in two places in the same file: the attributes on ``<guides>``,
-which are the renderer's own, and an ``<extension>`` element, which is how
-Guides hands a block of configuration to the extension that claims it.
+It stands in two places in the same file. The attributes on ``<guides>``
+are the renderer's own. The ``<extension>`` element is how Guides hands a
+block of configuration to the extension that claims it.
 
 What the renderer needs
 =======================
@@ -20,42 +20,42 @@ What the renderer needs
    :type: string
    :required: true
 
-   ``soul``. The attribute selects a theme; the ``<extension>`` element below
-   is what makes one called ``soul`` exist, and a project that sets the
-   attribute without loading the extension stops on *Theme "soul" is not
-   registered*. Selecting it is what puts the theme's templates in front of
-   the packaged ones.
+   ``soul``. The attribute selects a theme. The ``<extension>`` element
+   below makes one called ``soul`` exist, and a project that sets the
+   attribute without the extension stops on ``Theme "soul" is not
+   registered``. The selection puts the theme's templates in front of the
+   packaged ones.
 
-   A theme is not a list of template paths. Paths are searched **after** the
-   renderer's own templates, so a file replacing one of theirs is never
-   reached — which is the difference, and the reason a theme exists as a
-   concept at all.
+   A theme is not a list of template paths. The renderer searches paths
+   **after** its own templates, so a file that replaces one of theirs never
+   loads. That is the difference, and the reason a theme exists as a
+   concept.
 
 .. confval:: links_are_relative
    :type: bool
    :default: false
 
-   Leave it false and every asset URL is absolute, which is a site that only
-   works served from a domain root. Anything published under a repository
-   path — GitHub Pages, most of the time — needs this on.
+   False, every asset URL is absolute, which is a site that only works from
+   a domain root. Anything published under a repository path, GitHub Pages
+   most of the time, needs this on.
 
 .. confval:: default_code_language
    :type: string
    :default: none
 
-   The language a fenced block is highlighted as when it does not say. Set it,
-   and know that the Markdown parser does not consult it: a bare fence arrives
-   with the language ``null``, and this theme's code template is what stops
-   that being fatal.
+   The language of a fenced block that does not say. Set it, and know that
+   the Markdown parser does not read it. A bare fence arrives with the
+   language ``null``, and this theme's code template is what keeps that from
+   a fatal error.
 
 .. confval:: input-format
    :type: string
    :default: "rst"
 
-   ``rst`` or ``md``. Both parsers arrive with the theme, so this is the whole
-   of choosing between them, and it names a file extension: a project is one
-   format, and files in the other are not documents. See the note in
-   :doc:`installation` on what the Markdown parser cannot spell.
+   ``rst`` or ``md``. Both parsers arrive with the theme, so this is the
+   whole choice, and it names a file extension. A project is one format, and
+   files in the other are not documents. See the note in :doc:`installation`
+   on what the Markdown parser cannot spell.
 
 The project element
 ===================
@@ -64,12 +64,12 @@ The project element
 
    <project title="Your project" version="1.0" copyright="© 2026 Acme"/>
 
-The **title** is the name in the bar when nothing else is configured, and the
-name after the em dash in every ``<title>`` tag. The **version** is a badge at
-the end of the bar rather than part of the mark: it is a fact about the
-documentation the reader is in, not about the product, so it stands with the
-search and the mode switch and it is the first thing the bar drops when it
-narrows. The **copyright**, where there is one, prints in the footer.
+The **title** is the name in the bar without other settings, and the name
+after the em dash in every ``<title>`` tag. The **version** is a badge at
+the end of the bar, not part of the mark. It is a fact about the
+documentation the reader is in, not about the product. So it stands with
+the search and the mode switch, and it is the first thing the bar drops when
+it narrows. The **copyright**, where there is one, prints in the footer.
 
 The theme element
 =================
@@ -97,11 +97,11 @@ The theme element
        </footer>
    </extension>
 
-**The element itself is not optional** — it is what registers the theme — but
-everything inside it is. Written empty, the bar carries the project title and
-the site's own sections, and the footer carries those sections again with the
-pages under them, beside that title and the copyright — which is the least a
-page can say and still be honest about what it is.
+**The element itself is mandatory**, because it registers the theme, but
+everything inside it is optional. Empty, the bar carries the project title
+and the site's own sections. The footer carries those sections again with
+the pages under them, beside that title and the copyright. That is the least
+a page can say and still be honest about what it is.
 
 The mark
 --------
@@ -111,63 +111,61 @@ The mark
    :default: none
 
    A path relative to the documentation root, and it must be a file the
-   renderer can **see**: put it beside the documents, so it is copied into the
-   output with them rather than pointing at something that only exists on the
-   machine that built the site. ``_images/`` is the conventional place.
+   renderer can **see**. Put it beside the documents, so the render copies
+   it into the output. A file that only exists on the build machine is not
+   in the site. ``_images/`` is the conventional place.
 
-   The mark is linked like every other picture, so any format works and what is
-   drawn is the file's own colours — the same mark in light and in dark. Write
-   an SVG's as ``var(--token, #hex)`` anyway: :doc:`/design-system/artwork` says
-   what that buys and what has to ship in Firefox and Safari before a mark can
-   take the page's ink.
+   The mark is a link like every other picture, so any format works. The
+   file's own colours draw it: the same mark in light and in dark. Write
+   an SVG's colours as ``var(--token, #hex)`` anyway.
+   :doc:`/design-system/artwork` says what that buys, and what Firefox and
+   Safari have to ship before a mark can take the page's ink.
 
    A signet is not an icon. It ships at three optical sizes with different
-   construction, and bar height is the small one's job — see
-   :doc:`/design-system/brand` for which file to hand over.
+   construction, and bar height is the small one's job.
+   :doc:`/design-system/brand` says which file to hand over.
 
 .. confval:: favicon
    :type: href, sizes
    :default: the signet
 
-   The mark in the tab. Written once per file rather than as one path, because
-   a browser picks between them at the link: ``sizes`` is the slot a file is
-   drawn for, spelled the way the attribute is, and one entry may leave it out
-   to be the file for everything else. Paths follow the same rule as the
-   signet — inside the documentation tree, where the renderer can see them.
+   The mark in the tab. Once per file, not as one path, because a browser
+   picks between them at the link. ``sizes`` is the slot of a file, spelt as
+   the attribute is. One entry can leave it out as the file for everything
+   else. Paths follow the signet's rule: inside the documentation
+   tree, where the renderer can see them.
 
-   Set nothing and the signet is the tab icon, which is the right answer for a
-   project with one drawing: a bar with a mark above a tab without one is a
-   site saying two things. Set the sizes where there is more than one drawing.
-   This system ships three, at three optical sizes with different
-   construction, precisely because scaling one of them is what a favicon slot
-   cannot do — see :doc:`/design-system/brand`. A media query inside the file
-   cannot pick either: linked, an SVG only ever sees its own viewport.
+   Set nothing, and the signet is the tab icon, the right answer for a
+   project with one drawing. A bar with a mark above a tab without one is a
+   site that says two things. Set the sizes where there is more than one
+   drawing. This system ships three, at three optical sizes, because a
+   favicon slot cannot scale one. A media query inside the file cannot pick
+   either. As a link, an SVG only sees its own viewport.
 
 .. confval:: product
    :type: string
    :default: the project title
 
-   The name in the bar, when it is not the project's own title: a manual that
-   documents one product inside a larger project says the product.
+   The name in the bar, when it is not the project's own title. A manual
+   that documents one product inside a larger project says the product.
 
 .. confval:: brand
    :type: string
    :default: none
 
-   Whose product it is, where that is a second name. It becomes the first half
-   of a lockup, with the accent rule between the two halves — one of exactly
-   three places that colour appears. With no brand the mark is one name in the
-   mark's own weight, because a single name is not the quiet half of a lockup
-   with nothing beside it.
+   Whose product it is, where that is a second name. It becomes the first
+   half of a lockup, with the accent rule between the two halves, one of
+   exactly three places that colour appears. With no brand the mark is one
+   name in the mark's own weight. A single name is not the quiet half of a
+   lockup with nothing beside it.
 
 .. confval:: home
    :type: string
    :default: the project's index
 
-   Where the mark leads. Resolved as an asset path, for the case where the
-   documentation sits under a marketing page that is not part of the rendered
-   project. Left out, the mark leads to ``/index``, which is where it should
-   lead.
+   Where the mark leads. Resolved as an asset path, for a manual under a
+   marketing page outside the rendered project. Without it the mark leads
+   to ``/index``.
 
 The bar's sections
 ------------------
@@ -180,61 +178,61 @@ The bar's sections
        <link href="https://github.com/…" label="Source" external="true"/>
    </navigation>
 
-The handful of places a site has. Left out, the bar carries the top level of
-the toctree — the same source the footer's columns come from, so a project that
-configures nothing still has a bar to move around in. What is written here wins
-over that, because which of a site's sections are its front doors is the one
-thing the tree cannot know: this manual leaves a page out of its bar that the
-tree has, and adds nothing the tree has not.
+The few places a site has. Without it the bar carries the top level of the
+toctree, the same source as the footer's columns. So a project with no
+configuration still has a bar. What stands here wins over that. Which of
+a site's sections are its front doors is the one thing the tree cannot
+know. This manual leaves a page out of its bar that the tree has, and adds
+nothing the tree lacks.
 
-Not the toctree entire: that is the rail's job, and a manual's every page in
+Not the toctree entire. That is the rail's job, and a manual's every page in
 the bar is not navigation. A site whose top level *is* every page is a site
-that should write the handful it wants.
+that writes the few it wants.
 
-The whole tree is handed over all the same, on every page: the bar is given the
-site as one entry, with the page the reader is on marked wherever it sits, and
-draws as much of it as the width allows — the front doors in the row, a
-section's pages under it, and one level at a time in the drawer where the row
-has none of it. That is not configured and cannot be left out: which sections
-are front doors is a choice, and being able to reach the rest of the site from
-a phone is not.
+The bar gets the whole tree all the same, on every page: the site as one
+entry, with the reader's page marked wherever it sits. It draws as much as
+the width permits. The front doors in the row, a section's pages under it.
+One level at a time in the drawer where the row has none of it.
+
+That is not configuration and cannot go. Which sections are front doors is
+a choice. To reach the rest of the site from a phone is not.
 
 .. confval:: link
    :type: href, label, external
 
-   ``href`` is a **document** — ``/guide/index``, written the way a ``:doc:``
-   reference is — unless ``external="true"``, in which case it is a URL and
-   opens in a new tab with the external marker on it.
+   ``href`` is a **document**, ``/guide/index``, as a ``:doc:`` reference
+   spells it. With ``external="true"`` it is a URL, opens in a new tab and
+   carries the external marker.
 
-   ``label`` names the second kind only. A document is named by its own
-   ``:navigation-title:``, everywhere it is named.
+   ``label`` names the second kind only. A document's own
+   ``:navigation-title:`` names it, everywhere.
 
-   A section is marked current on its own page **and on every page under it**,
-   which is the toctree walked upwards: a page three levels inside the guide
-   still marks Guide. Marking only the exact page leaves the bar saying nothing
-   on all but a handful of pages.
+   A section is current on its own page **and on every page under it**,
+   which is the toctree walked upwards. A page three levels inside the guide
+   still marks Guide. A mark on the exact page only leaves the bar silent on
+   all but a few pages.
 
 The rail
 --------
 
-The rail is derived from the toctree rather than configured separately. The
-theme finds the current page's top-level section by walking its rootline
-upwards, so the answer does not depend on how deeply the page is nested. The
-bar and rail therefore mark the same section by construction.
+The rail derives from the toctree, with no configuration of its own. The
+theme finds the current page's top-level section on its rootline, so the
+answer does not depend on how deep the page sits. So the bar and the rail
+mark the same section by construction.
 
-On a section with children, the heading above the list **is** the way to the
-section's own page.
-A page with descendants is a row with the marker that opens them beside it,
-and what it holds is set in by one step. A section that is itself a single page
-has no rail at all — the bar naming it is the whole of what there is to say —
-and neither has the root, which is in no section: what the bar carries there is
-the whole site, as on every other page.
+On a section with children, the heading above the list **is** the way to
+the section's own page. A page with descendants is a row with the marker
+that opens them beside it, and what it holds sits in by one step. A section
+that is one page has no rail. The bar names it, and that is all there is to
+say. Neither has the root, which is in no section. The bar carries the whole
+site there, as on every page.
 
-``packages/guides-theme/src/Navigation/Menu.php`` turns the tree into that one
-entry and ``Rail.php`` takes the section of it a page's column carries. The transformation is recursive application logic rather than template
-markup, so Twig receives a finished heading, item tree and active position.
-The document template renders that result before the bar and body: an empty
-rail then removes both its column and its opening control from the same answer.
+``packages/guides-theme/src/Navigation/Menu.php`` turns the tree into that
+one entry, and ``Rail.php`` takes the section a page's column carries. The
+transformation is recursive application logic, not template markup, so Twig
+receives a complete heading, item tree and active position. The document
+template renders that result before the bar and the body. An empty rail
+then removes its column and its opening control from one answer.
 
 The way on
 ----------
@@ -244,20 +242,19 @@ The way on
    :default: false
 
    The pages either side of this one, as two links at the end of the column.
-   The order is the toctree flattened — the order the rail lists, and the
-   order somebody reading front to back would take — with the root first,
-   because a toctree lists what is under a page and never the page it is
-   written on.
+   The order is the toctree flat: the order of the rail, and the order of a
+   read from front to back, with the root first. A toctree lists what is
+   under a page and never the page it stands on.
 
-   Off unless a project says otherwise, and that is a decision rather than
-   caution: the renderer computes no such thing, so this is the theme offering
-   a path, and a reference nobody reads front to back is a reference where
-   that path is a row of noise under every page. A manual that *is* read in
-   order says ``true``.
+   Off unless a project says otherwise, and that is a decision, not
+   caution. The renderer computes no such thing, so this is the theme with
+   a path on offer. In a reference nobody reads front to back, that path is
+   a row of noise under every page. A manual with a reading order says
+   ``true``.
 
-   A page the tree does not hold gets no row at all. An orphan is reached from
-   somewhere else, and a way onward from a page that is not on the way is a
-   path this theme invented.
+   A page outside the tree gets no row. A reader reaches an orphan from
+   somewhere else. A way onward from a page that is not on the way is a path
+   this theme invented.
 
 The twin
 --------
@@ -266,33 +263,35 @@ The twin
    :type: boolean
    :default: true
 
-   The same documents, written a second time as Markdown — ``page.md`` beside
-   ``page.html``, with every page naming its own twin:
+   The same documents, a second time as Markdown: ``page.md`` beside
+   ``page.html``, and every page names its own twin:
 
    .. code-block:: html
 
       <link rel="alternate" type="text/markdown" href="stylesheets.md" />
       <link rel="canonical" href="stylesheets.html" />
 
-   It is a second *output format*, not a conversion of the page. The renderer
-   writes both from the same parsed document, node by node, so a directive
-   decides what it is in Markdown the same way it decides what it is in HTML —
-   and what has no shape in Markdown, like a grid or a band, is what it holds
-   rather than a box drawn in characters. The format's name is the file
-   extension every reference inside it resolves to, which is what makes the
-   twin a site of its own: a link from one twin lands on the next twin, and
-   nothing following those links is ever handed a page.
+   It is a second *output format*, not a conversion of the page. The
+   renderer writes both from the same parsed document, node by node. So a
+   directive decides what it is in Markdown the same way it decides what it
+   is in HTML. What has no shape in Markdown, a grid or a band, is what it
+   holds, not a box drawn in characters.
 
-   Written as GitHub Flavoured Markdown, because that is the dialect with a
-   table, a fenced block that carries its language, a footnote and an alert —
-   an admonition comes out as ``> [!WARNING]``. The document's own anchors are
-   written into it too, one ``<a id>`` above every heading and wherever a
-   label was declared: a reader that had to derive them from the words would
-   derive them its own way, and a reference carrying a fragment has to land.
+   The format's name is the file extension every reference inside it
+   resolves to. That makes the twin a site of its own. A link from one twin
+   lands on the next twin, and nothing that follows those links ever gets a
+   page.
 
-   What the page carries in its head, the twin carries as front matter, and
-   it is the first byte of the file because that is the only place front
-   matter is read as such:
+   The dialect is GitHub Flavoured Markdown, the one with a table, a fenced
+   block with its language, a footnote and an alert. An admonition comes out
+   as ``> [!WARNING]``. The document's own anchors go into it too, one ``<a
+   id>`` above every heading and wherever a label stands. A reader that
+   derives them from the words derives them its own way, and a reference
+   with a fragment has to land.
+
+   What the page carries in its head, the twin carries as front matter. It
+   is the first byte of the file, because that is the only place a reader
+   reads front matter as such:
 
    .. code-block:: yaml
 
@@ -303,54 +302,55 @@ The twin
       navigation-title: "Stylesheets"
       ---
 
-   ``title`` is the page's; ``canonical`` is the page this file is the twin
-   of, the same relative name the page writes in its own ``rel="canonical"``,
-   so the pair points both ways. ``description`` is what the page says it is
-   about: an ``:abstract:`` field or a ``description`` written into ``..
-   meta::`` where the author wrote one, and the first sentence of the first
-   paragraph where they did not. Every other field written above the title —
-   ``:author:``, ``:date:``, ``:copyright:``, the rest of ``.. meta::`` —
-   lands under its own name; a field that speaks to the renderer and says
-   nothing to a reader, like ``:orphan:`` or ``:nosearch:``, is written
-   nowhere. Every value is quoted, because the plain form is a list of
-   exceptions — ``yes`` is a boolean, ``2024`` a number — that a title falls
-   into one day without anyone reading it.
+   ``title`` is the page's. ``canonical`` is the page this file is the twin
+   of, the same relative name the page writes in its own ``rel="canonical"``.
+   So the pair points both ways. ``description`` is what the page says it is
+   about. An ``:abstract:`` field or a ``description`` in ``.. meta::`` where
+   the author wrote one, and the first sentence of the first paragraph where
+   they did not.
 
-   The same setting writes ``llms.txt`` at the publish root — the site's own
-   table of contents, which is what a reader that arrived with no navigation
-   is otherwise missing. It is the toctree: a heading per section, a line per
-   page with the same ``description`` its twin opens with, and every link a
-   twin.
+   Every other field above the title lands under its own name: ``:author:``,
+   ``:date:``, ``:copyright:``, the rest of ``.. meta::``. A field that
+   speaks to the renderer and says nothing to a reader, like ``:orphan:`` or
+   ``:nosearch:``, lands nowhere. Every value carries quotes. The plain form
+   is a list of exceptions, ``yes`` a boolean and ``2024`` a number. A title
+   falls into one of them one day, and nobody reads it.
 
-   A twin is written at its page's own path, so a project that keeps a
-   ``.md`` file as an *asset* beside a document of the same name — a prompt, a
-   snippet, something handed over whole — has it overwritten by the twin of
-   that document. Name one or the other something else; this site keeps its
-   prompts under names no page carries.
+   The same setting writes ``llms.txt`` at the publish root: the site's own
+   table of contents, which a reader with no navigation lacks. It is the
+   toctree. A heading per section, a line per page with the same
+   ``description`` its twin opens with, and every link a twin.
 
-   On unless a project says otherwise, and that is the decision: a reader that
-   is a program — an agent following a link, a model asked to read the manual
-   — is a reader this theme has, and it is served a page whose navigation,
-   scripts and framing are none of what it came for. Off is for a project that
-   does not want to publish its documents twice.
+   A twin lands at its page's own path. A project can keep a ``.md`` file
+   as an *asset* beside a document of the same name, a prompt, a snippet.
+   The twin then overwrites it. Name one or the other something
+   else. This site keeps its prompts under names no page carries.
+
+   On unless a project says otherwise, and that is the decision. A reader
+   that is a program, an agent on a link, a model asked to read the manual,
+   is a reader this theme has. A page with navigation, scripts and a frame
+   is none of what it came for. Off is for a project that does not want its
+   documents published twice.
 
 The footer
 ----------
 
-The columns are the site itself, and nothing configures them: the top level of
-the toctree is one column per section, and under each of them the pages that
-section holds. A page added below a section is in the footer the moment it is
-written, the same way it reaches the rail and the breadcrumb. A section with
-nothing under it is the link itself, and the tree is read two levels deep — a
-section and its pages is a footer, a section and its pages and *their* sections
-is a sitemap, which is a page rather than the end of every page.
+The columns are the site itself, and nothing configures them. The top level
+of the toctree is one column per section, and under each the pages that
+section holds. A page under a section is in the footer the moment it
+exists, the same way it reaches the rail and the breadcrumb. A section with
+nothing under it is the link itself.
+
+The footer reads the tree two levels deep. A section and its pages is a
+footer. A section, its pages and *their* sections is a sitemap, which is a
+page, not the end of every page.
 
 The heading of such a column is that section's own page. The bar carries a
-written list of front doors and a section may not be on it, so the footer is
-where a reader reaches one that is not — a column that named a section without
-linking it published a page nothing on the site pointed at.
+written list of front doors, and a section can be off it. So the footer is
+where a reader reaches one that is. A column that names a section without a
+link has published a page nothing on the site points at.
 
-What is configured is what the tree cannot know:
+What is configuration is what the tree cannot know:
 
 .. code-block:: xml
 
@@ -362,30 +362,30 @@ What is configured is what the tree cannot know:
        <note>A tool for TYPO3 community projects.</note>
    </footer>
 
-``<group>`` is a column of links under a label, and it follows the site's own
-columns; ``<link>`` follows the same document-or-URL rule as the bar's.
-``<social>`` is always a URL and sits at the end of the last line. It carries
-the mark of the service before its name, and there is nothing to set: the host
-says which service it is, so a glyph cannot name one the link does not go to.
-A host the icon set has no brand mark for keeps its label and no glyph — as
-does an instance somebody runs themselves, which is a host no URL can be read
-for. ``<note>`` is the sentence that says what this is — what the project
-does and who it is for, beside the product name and the copyright.
+``<group>`` is a column of links under a label, after the site's own
+columns. ``<link>`` follows the bar's document-or-URL rule. ``<social>`` is
+always a URL and sits at the end of the last line. It carries the mark of
+the service before its name, and there is nothing to set. The host says
+which service it is, so a glyph cannot name one the link does not go to.
+
+A host without a brand mark in the icon set keeps its label and no glyph.
+So does an instance somebody runs themselves, a host no URL reveals.
+``<note>`` is the sentence that says what this is, what the project does and
+who it is for, beside the product name and the copyright.
 
 .. note::
 
-   Both lists resolve their document links **per page**, because a bar and a
-   footer render on every one of them and they are not all at the same depth.
-   That is why ``/overview`` and not ``overview.html``: the second resolves
-   from wherever the reader happens to be standing, and lands in nothing one
-   directory down.
+   Both lists resolve their document links **per page**, because a bar and
+   a footer render on every one of them, at different depths. That is why
+   ``/overview`` and not ``overview.html``. The second resolves from
+   wherever the reader stands, and lands in nothing one directory down.
 
 Per-page settings
 =================
 
-Two fields at the top of a document, before the title. Both are read by the
-theme; anything the parser does not claim renders as a definition list in the
-body, which is what a stray field looks like when it is misspelled.
+Two fields at the top of a document, before the title. The theme reads
+both. A field the parser does not claim renders as a definition list in the
+body, which is what a misspelt field looks like.
 
 .. code-block:: text
 
@@ -400,12 +400,12 @@ body, which is what a stray field looks like when it is misspelled.
    :type: string
    :default: the page title
 
-   What the rail, the trail and the browser tab call this page. The renderer's
-   own field, and the reason it exists is that a page title written for the
-   page is often too long for a list of thirty of them.
+   What the rail, the trail and the browser tab call this page. The
+   renderer's own field. A page title written for the page is often too
+   long for a list of thirty.
 
 ``:layout: marketing`` builds the page as a run of full-bleed bands with no
-rail; anything else, and any page that writes no such field, is the manual
-shape — a column beside the rail, held to the measure. It is written down in
+rail. Anything else, and a page with no such field, is the manual shape: a
+column beside the rail, held to the measure. It stands in
 :doc:`directives`, beside the directives that fill a marketing page, because
 on its own it is a page shape with nothing in it.

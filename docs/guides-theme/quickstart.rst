@@ -5,15 +5,15 @@ Quick start
 ===========
 
 Render a local documentation site from an empty project directory. Run every
-command below from that directory; the renderer lives under ``.renderer/`` and
-the documents under ``docs/``.
+command below from that directory. The renderer lives under ``.renderer/``
+and the documents under ``docs/``.
 
 What the machine needs
 ======================
 
-PHP 8.2 or newer, Composer and Node. The theme brings phpDocumentor Guides, the
-syntax highlighter, the Markdown parser, the frontend drop-in and the finishing
-step with it.
+PHP 8.2 or newer, Composer and Node. The theme brings phpDocumentor Guides,
+the syntax highlighter, the Markdown parser, the frontend drop-in and the
+finishing step with it.
 
 Write the project files
 =======================
@@ -33,8 +33,8 @@ Create ``docs/guides.xml``:
        <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension"/>
    </guides>
 
-The ``<extension>`` element registers the theme and is required even when it
-has no configuration of its own.
+The ``<extension>`` element registers the theme. It is mandatory, even with
+no configuration of its own.
 
 Create the entry page:
 
@@ -56,7 +56,7 @@ Create the entry page:
 Install the renderer
 ====================
 
-The package is installed outside the documentation tree:
+The package lives outside the documentation tree:
 
 .. code-block:: bash
 
@@ -69,9 +69,9 @@ The package is installed outside the documentation tree:
 Render and finish the site
 ==========================
 
-The render writes the documents. The finishing step copies the drop-in, draws
-the custom elements into the HTML, writes the search index and checks the
-references introduced after the render:
+The render writes the documents. The finishing step copies the drop-in and
+draws the custom elements into the HTML. It writes the search index and
+checks the references the render did not know:
 
 .. code-block:: bash
 
@@ -79,9 +79,9 @@ references introduced after the render:
    node .renderer/vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
    php -S localhost:8000 -t site
 
-Open ``http://localhost:8000``. The page should carry the Soul type, canvas,
-header, mode switch and footer. It remains readable with JavaScript disabled;
-JavaScript adds the interactive behaviour rather than the content.
+Open ``http://localhost:8000``. The page carries the Soul type, canvas,
+header, mode switch and footer. It stays readable with JavaScript off.
+JavaScript adds the behaviour, not the content.
 
 Where to continue
 =================
@@ -93,11 +93,11 @@ Where to continue
      - Read
    * - a complete project and GitHub Pages workflow to copy
      - :doc:`example`
-   * - every setting available in ``guides.xml``
+   * - every setting in ``guides.xml``
      - :doc:`configuration`
    * - cards, grids, tabs, accordions and landing-page bands
      - :doc:`directives`
-   * - the build, finishing step and publication boundary
+   * - the build, the finishing step and the publication boundary
      - :doc:`publishing`
    * - the renderer's own reStructuredText and Markdown output
      - :doc:`markup`
