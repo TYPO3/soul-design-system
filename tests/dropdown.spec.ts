@@ -1,13 +1,13 @@
 /* The dropdown's panel, which is a popover.
 
-   Everything that used to be written into the element is the browser's now:
-   opening, the press outside that closes it, Escape, the focus going back to
-   the button, and the top layer that keeps an ancestor's overflow from
-   clipping it. That is a good trade only as long as it is true, and none of it
-   is visible in a screenshot of a closed control — so it is pressed here.
+   Everything that once stood in the element is the browser's now. The open,
+   the press outside that closes it, Escape, the focus back on the button. And
+   the top layer that keeps an ancestor's overflow off it. That is a good
+   trade only as long as it is true. None of it is visible in a screenshot of
+   a closed control, so the press happens here.
 
-   The panel is placed inside a box that clips, because the clipping is the
-   whole reason the top layer was worth moving to. */
+   The panel sits inside a box that clips, because the clip is the whole
+   reason the top layer was the right move. */
 
 import { test, expect } from '@playwright/test';
 
@@ -68,8 +68,8 @@ test('the button opens the panel and says so', async ({ page }) => {
 });
 
 /* The reason the panel is a popover at all. A box with `overflow: hidden`
-   used to cut it off, and nothing in the element could reach out of it. */
-test('the panel is not clipped by a box that clips', async ({ page }) => {
+   used to cut it off, and nothing in the element can reach out of it. */
+test('a box that clips does not clip the panel', async ({ page }) => {
   await page.locator(button('pages')).click();
   const box = await page.locator(panel('pages')).boundingBox();
   const clip = await page.locator('#clip').boundingBox();
@@ -80,9 +80,9 @@ test('the panel is not clipped by a box that clips', async ({ page }) => {
   await expect(page.locator(panel('pages'))).toBeVisible();
 });
 
-/* The other edge of the same question. The top layer is not clipped by a box
-   on the page, but it is by the window — and a panel that has left the window
-   cannot be scrolled back onto it, because nothing in that layer scrolls. */
+/* The other edge of the same question. No box on the page clips the top
+   layer, but the window does. A panel that has left the window cannot scroll
+   back onto it, because nothing in that layer scrolls. */
 test('the panel stays inside the window when the button is at its edge', async ({ page }) => {
   const room = page.viewportSize()!.width;
   await page.locator(button('edge')).click();
@@ -106,10 +106,10 @@ test('the panel hangs under the button it came from', async ({ page }) => {
 });
 
 /* The other placement. This browser has anchor positioning, so every test
-   above takes the stylesheet's path and the element's own is never run — which
+   above takes the stylesheet's path and the element's own never runs. That
    is exactly the half that breaks unwatched. `CSS.supports` is what the
-   element asks, so answering it differently is what puts it on the other
-   route, and the inline edge it writes is the proof it went there. */
+   element asks, so a different answer to it puts it on the other route. The
+   inline edge it writes is the proof it went there. */
 test('where the engine cannot anchor, the element places the panel itself', async ({ page }) => {
   await page.addInitScript(() => {
     const real = CSS.supports.bind(CSS);
@@ -141,9 +141,9 @@ test('a press outside closes it, and Escape puts the reader back on the button',
   await expect(page.locator(button('pages'))).toBeFocused();
 });
 
-/* What is in the list decides what the list is: targets make it a disclosure
+/* What is in the list decides what the list is. Targets make it a disclosure
    of links, and no targets make it a menu the arrows walk. */
-test('entries with a target are links, and are not announced as commands', async ({ page }) => {
+test('entries with a target are links, and no screen reader calls them commands', async ({ page }) => {
   await page.locator(button('pages')).click();
   await expect(page.locator(panel('pages'))).not.toHaveAttribute('role', 'menu');
   const rows = page.locator(`${panel('pages')} .sds-dropdown__item`);
@@ -154,7 +154,7 @@ test('entries with a target are links, and are not announced as commands', async
   await expect(rows.nth(1)).toHaveAttribute('hreflang', 'de');
 });
 
-/* The announcement is what the two kinds differ in — not whether a reader can
+/* The announcement is what the two kinds differ in — not if a reader can
    reach the list. Down from the button opens it and steps in; up comes in from
    the other end. */
 test('the arrows open a list of pages too, and walk it', async ({ page }) => {
@@ -191,7 +191,7 @@ test('entries with no target are a menu the arrows walk', async ({ page }) => {
   await expect(rows.nth(1)).toBeFocused();
 });
 
-test('choosing reports the entry and closes the panel', async ({ page }) => {
+test('a choice reports the entry and closes the panel', async ({ page }) => {
   await page.evaluate(() => {
     (window as unknown as { chosen: unknown[] }).chosen = [];
     document.addEventListener('sds-dropdown-choose', (event) => {

@@ -1,7 +1,7 @@
 /* What a page gets before it reaches for a class.
 
-   A consumer's own content arrives without classes, so the elements are the
-   reset and the classes are what you write when the element cannot say it. The
+   A consumer's own content arrives without classes. So the elements are the
+   reset, and the classes are what you write when the element cannot say it. The
    fixture's body carries **no** `sds-app` on purpose: linking the stylesheet is
    the opt-in.
 
@@ -42,7 +42,7 @@ const HTML = `<!doctype html>
 const size = async (page: import('@playwright/test').Page, id: string): Promise<number> =>
   page.locator(`#${id}`).evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
 
-/** How wide it actually drew, which is the only way a measure can be read. */
+/** How wide it drew, which is the only way to read a measure. */
 const width = async (page: import('@playwright/test').Page, id: string): Promise<number> =>
   page.locator(`#${id}`).evaluate((el) => el.getBoundingClientRect().width);
 
@@ -52,10 +52,10 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/defaults-fixture.html', { waitUntil: 'load' });
 });
 
-test('bare elements are already dressed, with no wrapper class', async ({ page }) => {
-  /* Descending, and none of them at the browser's 32/24/18px defaults. What is
-     asserted is the *order and the distance*, not four literals that would
-     have to be edited every time the scale moves. */
+test('bare elements already have their style, with no wrapper class', async ({ page }) => {
+  /* Down the scale, and none of them at the browser's 32/24/18px defaults.
+     The claim is the *order and the distance*, not four literals that need
+     an edit every time the scale moves. */
   const h1 = await size(page, 'bare-h1');
   const h2 = await size(page, 'bare-h2');
   const h3 = await size(page, 'bare-h3');
@@ -67,44 +67,44 @@ test('bare elements are already dressed, with no wrapper class', async ({ page }
   expect(h3).toBeGreaterThan(h4);
   expect(p).toBeGreaterThan(15);
 
-  /* The browser's own defaults, which are what a page gets when the element
-     rules are missing: 2em, 1.5em, 1.17em of a 16px root. */
-  expect(h1, 'h1 should not be at the browser default').not.toBe(32);
-  expect(h2, 'h2 should not be at the browser default').not.toBe(24);
+  /* The browser's own defaults, which are what a page gets with no element
+     rules: 2em, 1.5em, 1.17em of a 16px root. */
+  expect(h1, 'h1 must not be at the browser default').not.toBe(32);
+  expect(h2, 'h2 must not be at the browser default').not.toBe(24);
 
-  /* Nothing carries a margin above it. Every distance in this system is stated
-     below the block it belongs to — one direction, so nothing collapses, the
-     number an element computes is the one a reader sees, and the air above a
+  /* Nothing carries a margin above it. Every distance in this system stands
+     below the block it belongs to. One direction, so nothing collapses, and
+     the number an element computes is the one a reader sees. The air above a
      heading is the step below whatever stands before it. */
   const above = (id: string) =>
     page.locator(`#${id}`).evaluate((el) => getComputedStyle(el).marginBlockStart);
   for (const id of ['bare-h1', 'bare-h2', 'bare-h3', 'bare-p']) {
-    expect(await above(id), `${id} should carry no margin above it`).toBe('0px');
+    expect(await above(id), `${id} must carry no margin above it`).toBe('0px');
   }
 
-  /* The step *below* is the element's, because the box a paragraph lands in is
-     as often a component's as a document's — an answer, a note, a modal — and
-     none of those is `.sds-prose`. Two paragraphs with nothing between them is
+  /* The step *below* is the element's. The box a paragraph lands in is as
+     often a component's as a document's — an answer, a note, a modal. None
+     of those is `.sds-prose`. Two paragraphs with nothing between them is
      what this file exists to catch. */
   const under = (id: string) =>
     page.locator(`#${id}`).evaluate((el) => getComputedStyle(el).marginBlockEnd);
   expect(await under('plain-p'), 'a paragraph carries the step under it').toBe('16px');
-  /* And more where a heading follows: the air above a heading is stated below
+  /* And more where a heading follows. The air above a heading stands below
      the block before it, because that is the block with a box to put it on. */
   expect(await under('before-head'), 'and more where a heading follows').toBe('32px');
   /* A heading's own step is the small one — it belongs to what follows. This
      is the only heading in the fixture with text after it rather than another
-     heading; the ones above carry the air of the heading that follows them,
-     which is the same rule seen from the other side. */
+     heading. The ones above carry the air of the heading that follows them,
+     which is the same rule from the other side. */
   expect(await under('bare-h4'), 'a heading sits close to its own text').toBe('8px');
   expect(await under('bare-h1'), 'and carries the next heading’s air where one follows').toBe('40px');
 
   /* And no measure on one. A paragraph stands in a component's box as often as
-     in a document, so the reading width is the passage's decision rather than
-     the element's — which makes it a class, and the class is `.sds-prose`. */
+     in a document. So the reading width is the passage's decision rather than
+     the element's, which makes it a class, and the class is `.sds-prose`. */
   const bare = await width(page, 'bare-p');
-  expect(bare, 'a bare paragraph runs to the box it was given').toBeGreaterThan(900);
-  expect(await width(page, 'prose-p'), 'and is held inside a passage').toBeLessThan(900);
+  expect(bare, 'a bare paragraph runs to the box it has').toBeGreaterThan(900);
+  expect(await width(page, 'prose-p'), 'and stops inside a passage').toBeLessThan(900);
 });
 
 test('a class always overrides the element it sits on', async ({ page }) => {
@@ -112,29 +112,29 @@ test('a class always overrides the element it sits on', async ({ page }) => {
   expect(await size(page, 'two-at-three')).toBe(await size(page, 'bare-h3'));
   expect(await size(page, 'two-at-three')).not.toBe(await size(page, 'bare-h2'));
 
-  /* And the other direction, where a level is set larger than its own step. */
+  /* And the other direction, where a level sets larger than its own step. */
   expect(await size(page, 'one-at-display')).toBeGreaterThan(await size(page, 'bare-h1'));
 
-  /* A paragraph set as a lead takes the lead's size and its shorter measure —
-     shorter in *characters*, which is what a measure is. The tokens are stated
-     in pixels and the two are close enough there that comparing them directly
-     proves nothing, so each is divided by its own font size. Both inside the
-     passage, because that is where body copy has a measure to be shorter than —
-     and a lead that lost its own there is what the passage's rule is written
-     weightless to prevent. */
+  /* A paragraph set as a lead takes the lead's size and its shorter measure.
+     Shorter in *characters*, which is what a measure is. The tokens stand in
+     pixels and the two are close enough there that a direct comparison proves
+     nothing. So each divides by its own font size. Both inside the passage,
+     because that is where body copy has a measure to be shorter than. A lead
+     that lost its own there is what the passage's weightless rule exists to
+     prevent. */
   const leadSize = await size(page, 'p-as-lead');
   const proseSize = await size(page, 'prose-p');
   expect(leadSize).toBeGreaterThan(proseSize);
 
   const lead = await width(page, 'lead-in-prose') / (await size(page, 'lead-in-prose'));
   const prose = await width(page, 'prose-p') / proseSize;
-  expect(lead, 'a lead is held to fewer characters than body copy').toBeLessThan(prose);
+  expect(lead, 'a lead stops at fewer characters than body copy').toBeLessThan(prose);
 });
 
 /* The other half of that rule, from the side the platform owns. Three ways to
-   be given a `display` by this system, and the word that takes it back — plus
-   the one `hidden` the browser answers with something other than `display`,
-   which a blanket rule would have broken for every consumer at once. */
+   get a `display` from this system, and the word that takes it back. Plus the
+   one `hidden` the browser answers with something other than `display`, which
+   a blanket rule breaks for every consumer at once. */
 const HIDDEN = `<!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -145,7 +145,7 @@ const HIDDEN = `<!doctype html>
   <p id="bare" hidden>Nothing set a display on this one.</p>
   <div id="classed" class="sds-note" hidden>A block the class layer lays out.</div>
   <sds-note id="host" hidden>An element the base layer states a display for.</sds-note>
-  <p id="findable" hidden="until-found">The one a find-in-page may open.</p>
+  <p id="findable" hidden="until-found">The one a find-in-page can open.</p>
   <h2 id="said" class="sds-said-only">The name of the thing</h2>
   <p id="after">What follows it.</p>
 </body>
@@ -159,22 +159,23 @@ test('a hidden element stays hidden, whatever this system set a display to', asy
   const display = (id: string) =>
     page.locator(`#${id}`).evaluate((el) => getComputedStyle(el).display);
 
-  /* The bare one is the browser's own and proves nothing on its own; the two
+  /* The bare one is the browser's own and proves nothing on its own. The two
      below it are what an author rule had put back on the page. */
   expect(await display('bare')).toBe('none');
-  expect(await display('classed'), 'a class may not draw what is hidden').toBe('none');
-  expect(await display('host'), 'nor may the display an element is given').toBe('none');
+  expect(await display('classed'), 'a class must not draw a hidden thing').toBe('none');
+  expect(await display('host'), 'nor must the display an element gets').toBe('none');
 
-  /* Left alone: this one is hidden by `content-visibility`, and a page that
-     wants find-in-page to reach it keeps it. */
+  /* Left alone: `content-visibility` hides this one, and a page that wants
+     find-in-page to reach it keeps it. */
   expect(await display('findable'), 'until-found is the browser’s to answer').not.toBe('none');
 });
 
-/* The same question from the other end. A page owes the reading things the
-   picture already gives whoever can see it, and the register that carries them
-   has to stay *in* the reading — which `display: none` and `hidden` do not, and
-   which is why it is neither. What it may not do is take room. */
-test('what is said and not drawn stays in the reading and takes no room', async ({ page }) => {
+/* The same question from the other end. A page owes the reader who listens
+   things the picture already gives whoever can see it. The register that
+   carries them has to stay *in* the reading, which `display: none` and
+   `hidden` do not, and which is why it is neither. What it must not do is
+   take room. */
+test('what a page says and does not draw stays in the reading and takes no room', async ({ page }) => {
   await page.route('**/hidden-fixture.html', (route) =>
     route.fulfill({ contentType: 'text/html', body: HIDDEN }));
   await page.goto('/hidden-fixture.html', { waitUntil: 'load' });
@@ -187,16 +188,16 @@ test('what is said and not drawn stays in the reading and takes no room', async 
     const r = el.getBoundingClientRect();
     return { w: r.width, h: r.height, display: getComputedStyle(el).display };
   });
-  expect(box.display, 'nothing that is read may be display:none').not.toBe('none');
+  expect(box.display, 'nothing a reader hears can be display:none').not.toBe('none');
   expect(box.w, 'and it takes no width').toBeLessThanOrEqual(1);
   expect(box.h, 'and no height').toBeLessThanOrEqual(1);
 
   /* And no room in the flow either: the paragraph after it stands where it
-     would stand if the heading were not there at all. */
+     stands with no heading there at all. */
   const top = await page.locator('#after').evaluate((el) => el.getBoundingClientRect().top);
   await said.evaluate((el) => el.remove());
   const without = await page.locator('#after').evaluate((el) => el.getBoundingClientRect().top);
-  expect(top, 'the page is laid out as though it were not there').toBe(without);
+  expect(top, 'the page lays out as though it were not there').toBe(without);
 });
 
 /* The rest of what arrives without a class: a link, a phrase in mono, a
@@ -233,7 +234,7 @@ test('content that arrives without a class is still the system', async ({ page }
 
   /* A 1200px picture inside a 200px column stays inside it. */
   const img = await page.locator('#wide').evaluate((el) => el.getBoundingClientRect().width);
-  expect(img, 'an image is held to the box it is in').toBeLessThanOrEqual(200);
+  expect(img, 'an image stops at the box it is in').toBeLessThanOrEqual(200);
 
   /* Mono, and smaller than the sentence around it rather than the same size,
      which is what makes a name read as a name. */
@@ -241,9 +242,9 @@ test('content that arrives without a class is still the system', async ({ page }
   expect(code).toContain('Source Code Pro');
 
   /* Not the browser's blue. And the underline says which of the two kinds of
-     link it is: inside a sentence there is nothing to stand apart from, so it
-     is drawn at rest — colour alone does not reach 3:1 against body text. A
-     link that is a block of its own is told apart by standing alone. */
+     link it is. Inside a sentence there is nothing to stand apart from, so it
+     draws at rest — colour alone does not reach 3:1 against body text. A
+     link that is a block of its own stands apart on its own. */
   const link = (id: string) =>
     page.locator(`#${id}`).evaluate((el) => {
       const s = getComputedStyle(el);
@@ -251,18 +252,18 @@ test('content that arrives without a class is still the system', async ({ page }
     });
   const inSentence = await link('bare-a');
   expect(inSentence.color).not.toBe('rgb(0, 0, 238)');
-  expect(inSentence.decoration, 'a link inside a sentence is underlined at rest').toBe('underline');
+  expect(inSentence.decoration, 'a link inside a sentence carries an underline at rest').toBe('underline');
   expect((await link('standalone-a')).decoration,
     'a link that is a block of its own is not').toBe('none');
 
   /* And where the container states the step itself, the element gives its own
-     up: a gap and a margin stacked are neither of the two values. */
+     up. A gap and a margin stacked are neither of the two values. */
   const inColumn = await page.locator('#in-column').evaluate((el) => getComputedStyle(el).marginBlockEnd);
   expect(inColumn, 'a column states its own step, so the paragraph drops its').toBe('0px');
 
-  /* One hairline, no radius — and far more air than any block carries, because
-     a rule separates two sections of a text rather than standing in the flow as
-     one more block. The same distance wherever it is written. */
+  /* One hairline, no radius. And far more air than any block carries. A rule
+     separates two sections of a text rather than stands in the flow as one
+     more block. The same distance wherever it stands. */
   const rule = await page.locator('#rule').evaluate((el) => {
     const s = getComputedStyle(el);
     return { top: s.borderTopWidth, bottom: s.borderBottomWidth, margin: s.marginBlockStart };
@@ -273,11 +274,11 @@ test('content that arrives without a class is still the system', async ({ page }
 });
 
 /* Lists, which arrive without a class more often than anything else here. The
-   third case is worth a test rather than an eye: an ordered list counts the way
-   its *source* said, and the `type` attribute saying so carries no weight in
-   the cascade — one `ol { list-style: decimal }` renumbers every lettered list
-   on every page, invisibly. */
-test('a list is set by the element, and the source still picks the marker', async ({ page }) => {
+   third case deserves a test rather than an eye. An ordered list counts the
+   way its *source* said, and the `type` attribute that says so carries no
+   weight in the cascade. One `ol { list-style: decimal }` renumbers every
+   lettered list on every page, unseen. */
+test('the element sets a list, and the source still picks the marker', async ({ page }) => {
   await page.route('**/content-fixture.html', (route) =>
     route.fulfill({ contentType: 'text/html', body: CONTENT }));
   await page.goto('/content-fixture.html', { waitUntil: 'load' });
@@ -297,18 +298,18 @@ test('a list is set by the element, and the source still picks the marker', asyn
   expect(bullets.above).toBe('0px');
   expect(bullets.under).toBe('16px');
 
-  /* A level in is a different mark, so nesting is visible without indent
-     alone having to carry it. And a nested list is part of the item it hangs
-     under rather than a block after it, so it adds no step of its own — that
-     one closes with the item, and a second one would open a gap mid-list. */
+  /* A level in is a different mark, so the nest is visible and the indent
+     does not carry it alone. A nested list is part of the item it hangs under
+     rather than a block after it, so it adds no step of its own. That one
+     closes with the item, and a second one opens a gap mid-list. */
   expect((await list('nested')).marker).toBe('circle');
   expect((await list('nested')).under).toBe('0px');
 
-  /* And the attribute the renderer wrote is left speaking. */
+  /* And the attribute the renderer wrote still speaks. */
   expect((await list('lettered')).marker).toBe('lower-alpha');
 
-  /* A list of links is marked by being links. Both halves: no marker, and the
-     indent that was only there to hold one. */
+  /* A list of links has its links as its mark. Both halves: no marker, and
+     the indent that was only there to hold one. */
   const plain = await list('plain');
   expect(plain.marker).toBe('none');
   expect(plain.indent).toBe('0px');
@@ -318,8 +319,8 @@ test('a list is set by the element, and the source still picks the marker', asyn
 
    Not every consumer renders through a directive: a page is a `<section>`, a
    heading, a paragraph and whatever block the writer reached for. Everything
-   here is markup the system never emitted, and the question is only whether it
-   arrives with the same rhythm as markup that came out of a component. */
+   here is markup the system never emitted. The question is only if it arrives
+   with the same rhythm as markup that came out of a component. */
 const HAND = `<!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -356,16 +357,16 @@ test('markup written by hand keeps the rhythm markup from a component has', asyn
     }, [a, b]);
 
   /* The one a container's own step can silently take away. A heading's distance
-     to the text under it is inside the block rather than between two of them,
-     so a wrapper somebody wrote between the column and the heading must not
-     cost it — and the classed heading has to measure what the bare one does,
-     or the same page reads two ways depending on which the writer used. */
+     to the text under it is inside the block rather than between two of them.
+     So a wrapper somebody wrote between the column and the heading must not
+     cost it. The classed heading has to measure what the bare one does, or
+     the same page reads two ways by which the writer used. */
   expect(await gap('classed-head', 'after-classed')).toBe(12);
   expect(await gap('bare-head', 'after-bare')).toBe(12);
 
   /* And the blocks a document reaches for that no component draws. Left to the
      browser, a figure and a quote arrive indented forty pixels with no step at
-     all — which reads as a broken column rather than as a missing rule. */
+     all. That reads as a broken column rather than as an absent rule. */
   const box = (id: string) =>
     page.locator(`#${id}`).evaluate((el) => {
       const s = getComputedStyle(el);
@@ -385,10 +386,10 @@ test('markup written by hand keeps the rhythm markup from a component has', asyn
 
 /* The rhythm a column actually produces.
 
-   The gate measured whether a distance was on the grid, and 32px is on it as
-   surely as 16px — so a change that doubled every step passed everything and
-   was found by looking at a page. This pins the numbers instead: one step
-   between blocks, and a heading buys one more. */
+   The gate measured if a distance was on the grid, and 32px is on it as
+   surely as 16px. So a change that doubled every step passed everything, and
+   a look at a page found it. This pins the numbers instead: one step between
+   blocks, and a heading buys one more. */
 const RHYTHM = `<!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -422,9 +423,9 @@ test('a column produces one step between blocks and two above a heading', async 
   /* Two paragraphs: the column's own gap and nothing else. */
   expect(await gap('r-a', 'r-b'), 'two paragraphs are one step apart').toBe(16);
 
-  /* A block a component draws carries a step of its own for the flow it may
-     land in. Inside a column that step is the gap, and it is taken back —
-     stacked, the two would read as one distance nobody chose. */
+  /* A block a component draws carries a step of its own for the flow it can
+     land in. Inside a column that step is the gap, and the column takes it
+     back. Stacked, the two read as one distance nobody chose. */
   expect(await gap('r-b', 'r-note'), 'a component block is one step below the text').toBe(16);
   expect(await gap('r-note', 'r-c'), 'and one step above the text under it').toBe(16);
 
@@ -438,9 +439,9 @@ test('a column produces one step between blocks and two above a heading', async 
 /* The two containers, calibrated.
 
    `Specimens/Spacing/Containers` draws these numbers; this holds them. A demo
-   page can be wrong in its markup and in the system at once and there is no
-   telling which by looking — so the smallest case that shows a rhythm is the
-   one that decides. */
+   page can be wrong in its markup and in the system at once, and a look
+   cannot tell which. So the smallest case that shows a rhythm is the one that
+   decides. */
 const CONTAINERS = `<!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -475,7 +476,7 @@ test('a column is a flow and a stack is one distance', async ({ page }) => {
     }, [a, b]);
 
   /* A column ranks what is in it: the blocks carry their own step, and the one
-     before a heading carries more. Every distance is stated below the block it
+     before a heading carries more. Every distance stands below the block it
      belongs to, so what an element computes is what a reader sees. */
   expect(await gap('c-a', 'c-b'), 'two blocks are one step apart').toBe(16);
   expect(await gap('c-b', 'c-h'), 'the block before a heading carries more').toBe(32);

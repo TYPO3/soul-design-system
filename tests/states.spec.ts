@@ -1,11 +1,11 @@
 /* What a state changes, and what it must not.
 
-   A state assigns into a component's own set, and a property whose default
-   reads the one a state assigns from it is a cycle — invalid at computed
+   A state assigns into a component's own set. A property whose default reads
+   the one a state assigns from it is a cycle. That is invalid at computed
    value, which is not an error anywhere: the declaration simply drops. The
-   button lost its border under the pointer and shrank by it, and its ink fell
+   button lost its border under the pointer and shrank by it. Its ink fell
    back to whatever the page inherits, which on the accent fill is unreadable.
-   Nothing in the tree could see that, because a card is never hovered. */
+   Nothing in the tree can see that, because nothing hovers over a card. */
 
 import { test, expect } from '@playwright/test';
 
@@ -66,9 +66,9 @@ test('every colour the pointer draws with resolves', async ({ page }) => {
   }
 });
 
-/* The state has to do something, or the cycle is back in the other direction:
-   three declarations that drop are three declarations nobody sees drop. Read
-   after the transition rather than at the press — the three colours are the
+/* The state has to do something, or the cycle is back in the other direction.
+   Three declarations that drop are three declarations nobody sees drop. Read
+   after the transition rather than at the press. The three colours are the
    ones the button animates, so at the moment of the hover they are all still
    at rest. */
 test('the pointer changes the fill, and leaves the ink that has to stay', async ({ page }) => {
@@ -79,16 +79,16 @@ test('the pointer changes the fill, and leaves the ink that has to stay', async 
   await page.waitForTimeout(400);
   const [inkOver, fillOver] = await at.evaluate(read);
   expect(fillOver, 'the accent did not answer the pointer').not.toBe(fill);
-  /* The ink over the accent is the accent's own, and falling back to the
+  /* The ink over the accent is the accent's own, and the fall back to the
      page's is what made it unreadable. */
   expect(inkOver).toBe(ink);
   expect(await at.evaluate(() => getComputedStyle(document.body).color)).not.toBe(inkOver);
 });
 
-/* The press is the state nothing in this tree can hold still: a card is never
-   pressed, so three properties that compute to nothing would be wrong only
-   under a finger. Read while the button is held, which is the one place it
-   exists — and the box is read there too, because the rule that a state moves
+/* The press is the state nothing in this tree can hold still. Nobody presses
+   a card, so three properties that compute to nothing are wrong only under a
+   finger. Read while the finger holds the button, which is the one place it
+   exists. The box reads there too, because the rule that a state moves
    nothing does not stop at the pointer. */
 test('the press answers, moves nothing, and resolves every colour', async ({ page }) => {
   const fill = (el: Element) => getComputedStyle(el).backgroundColor;
@@ -120,10 +120,10 @@ test('the press answers, moves nothing, and resolves every colour', async ({ pag
   }
 });
 
-/* Waiting is a state too, and two of its rules are ones no card can show: a
-   bar has to stand in a cell as tall as the row it is standing in for, or the
-   table jumps the moment the answer lands, and a row that cannot answer
-   anything may not light up under the pointer as though it could. */
+/* The wait is a state too, and two of its rules are ones no card can show. A
+   bar has to stand in a cell as tall as the row it stands in for. Otherwise
+   the table jumps the moment the answer lands. A row that cannot answer anything
+   must not light up under the pointer as though it can. */
 const WAITING = `<!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -155,7 +155,7 @@ test('a table waiting for its rows holds their height and answers no pointer', a
   expect(await bar.evaluate((el) => getComputedStyle(el).backgroundColor)).not.toBe('');
 
   const height = (id: string) => page.locator(`#${id} tbody tr:first-child`).evaluate((el) => el.getBoundingClientRect().height);
-  expect(await height('waiting'), 'the table would jump when the rows arrive').toBeCloseTo(await height('answered'), 0);
+  expect(await height('waiting'), 'the table jumps when the rows arrive').toBeCloseTo(await height('answered'), 0);
 
   const row = page.locator('#waiting tbody tr:first-child');
   await row.hover();

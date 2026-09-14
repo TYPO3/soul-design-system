@@ -1,10 +1,9 @@
 /* A value the reader takes away.
 
-   The clipboard is the one thing here nothing else can see: a card is a
-   picture, the markup says only that there is a button, and a browser with no
-   clipboard is supposed to get no button at all. Pressed here, and read back
-   out of the clipboard rather than off the element that claims to have
-   written it. */
+   The clipboard is the one thing here nothing else can see. A card is a
+   picture, and the markup says only that there is a button. A browser with no
+   clipboard must get no button at all. Pressed here, and read back out of
+   the clipboard rather than off the element that claims to have written it. */
 
 import { test, expect, type Page } from '@playwright/test';
 
@@ -49,7 +48,7 @@ test('the press puts the value on the clipboard, and nothing that frames it', as
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('companion_14_3_dev');
 });
 
-test('each button says what it copies, so two of them can be told apart', async ({ page }) => {
+test('each button says what it copies, so a reader can tell two of them apart', async ({ page }) => {
   await expect(page.locator('#dir button')).toHaveAttribute('aria-label', 'Copy Directory');
   await expect(page.locator('#dir button')).toHaveAttribute('title', 'Copy Directory');
   await expect(page.locator('#db button')).toHaveAttribute('aria-label', 'Copy Database');
@@ -67,7 +66,8 @@ test('a press that worked says so, in the glyph and out loud', async ({ page }) 
   await expect(page.locator('#dir [data-icon="actions-check"]')).toBeVisible();
   await expect(page.locator('#dir [data-icon="actions-duplicate"]')).toHaveCount(0);
   await expect(page.locator('#dir button')).toHaveClass(/is-copied/);
-  /* A word that changes in place is not announced; a node that was empty is. */
+  /* A screen reader announces no word that changes in place; a node that was
+     empty, it does. */
   await expect(said, 'a press that only changed a glyph is one a reader never hears about')
     .toHaveText('Copied Directory');
 
@@ -78,10 +78,10 @@ test('a press that worked says so, in the glyph and out loud', async ({ page }) 
 
 test.describe('an origin that is not a secure context', () => {
   /* Exactly what `http://a-host.test:6006` gives a browser: no async clipboard
-     at all. A LAN address or a `.test` domain over http is where a design
-     system is looked at, and asking whether the API is there and drawing
-     nothing when it is not left no icon, no press and no hover on every one of
-     those — which reads as a component that does not work. */
+     at all. A LAN address or a `.test` domain over http is where a reader
+     looks at a design system. A button drawn only where the API exists left
+     no button on every one of those, which reads as a component that does not
+     work. */
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => {
       Object.defineProperty(navigator, 'clipboard', { get: () => undefined, configurable: true });
@@ -94,9 +94,9 @@ test.describe('an origin that is not a secure context', () => {
     await expect(page.locator('#dir button')).toBeVisible();
     await expect(page.locator('#dir [data-icon="actions-duplicate"]')).toBeVisible();
 
-    /* The older way, which every browser has and no context withholds. What it
-       put on the clipboard cannot be read back here — the read side is the same
-       API that is missing — so the event the browser fires is the witness. */
+    /* The older way, which every browser has and no context withholds. Nothing
+       can read back what it put on the clipboard here, as the read side is the
+       same absent API. So the event the browser fires is the witness. */
     const heard = await page.evaluate(async () => {
       let taken: string | null = null;
       document.addEventListener('copy', (event) => {
@@ -146,8 +146,8 @@ test('the value gives up the room, never the press', async ({ page }) => {
 
 test.describe('a value cut instead of wrapped', () => {
   /* Which end survives, read off the characters themselves rather than off the
-     declarations that are supposed to cut them: the box is narrower than the
-     path, so one end of the string stands outside it and the other does not. */
+     declarations that have to cut them. The box is narrower than the path, so
+     one end of the string stands outside it and the other does not. */
   const ends = (page: Page, id: string) => page.evaluate((sel) => {
     const value = document.querySelector(`${sel} .sds-copy__value`) as HTMLElement;
     /* The text itself, past the markers lit leaves around a binding. */
@@ -172,11 +172,11 @@ test.describe('a value cut instead of wrapped', () => {
 
   test('the front goes, and the name the path ends on stays', async ({ page }) => {
     const shape = await ends(page, 'head');
-    expect(shape.lines, 'one line — a cut value that wrapped would be neither').toBe('nowrap');
+    expect(shape.lines, 'one line — a cut value that wraps is neither').toBe('nowrap');
     expect(shape.dots).toBe('ellipsis');
     expect(shape.clipped, 'the column is narrower than the path').toBe(true);
-    expect(shape.last, 'the segment a worktree is told apart by').toBe(true);
-    expect(shape.first, 'the front is what was given up').toBe(false);
+    expect(shape.last, 'the segment that tells a worktree apart').toBe(true);
+    expect(shape.first, 'the front is what went').toBe(false);
   });
 
   test('or the back goes, and the root it begins at stays', async ({ page }) => {
@@ -186,15 +186,15 @@ test.describe('a value cut instead of wrapped', () => {
     expect(shape.last).toBe(false);
   });
 
-  test('what is cut is still under the pointer, and still copies whole', async ({ page }) => {
+  test('the cut part is still under the pointer, and still copies whole', async ({ page }) => {
     await expect(page.locator('#head .sds-copy__value'))
       .toHaveAttribute('title', '~/projects/blog/.worktrees/14-3-dev');
-    /* Nothing is hidden on a value that wraps, so nothing has to be said twice. */
+    /* Nothing hides on a value that wraps, so nothing has to stand twice. */
     await expect(page.locator('#dir .sds-copy__value')).not.toHaveAttribute('title', /./);
 
     await page.locator('#head button').click();
     expect(await page.evaluate(() => navigator.clipboard.readText()),
-      'the press writes the property, never what is drawn')
+      'the press writes the property, never the visible text')
       .toBe('~/projects/blog/.worktrees/14-3-dev');
   });
 });

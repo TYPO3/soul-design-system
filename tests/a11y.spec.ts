@@ -1,11 +1,11 @@
-/* Accessibility, on the specimens that can honestly be judged by a machine.
+/* Accessibility, on the specimens a machine can judge with honesty.
 
    SKILL.md commits to `:focus-visible` rings, contrast in both modes and
-   nothing reachable by pointer only. axe checks some of that, so this asserts
-   on the part it can. Only serious and critical violations fail: the specimens
-   deliberately show states no automated pass can interpret — a control drawn
-   disabled, a ring on an element that does not have focus — and failing on
-   `minor` would train everyone to ignore the run. */
+   nothing reachable by pointer only. Axe checks some of that, so this asserts
+   on the part it can. Only serious and critical violations fail. The specimens
+   show states on purpose that no automated pass can interpret. A control
+   drawn disabled, a ring on an element that does not have focus. A failure
+   on `minor` trains everyone to ignore the run. */
 
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
@@ -23,27 +23,26 @@ async function storyIds(request: import('@playwright/test').APIRequestContext): 
   return Object.values(index.entries).filter((e) => e.type === 'story');
 }
 
-/** Every story a card is generated from, minus the whole pages, which have
-    their own sweep below. Read out of the index rather than listed here: a
-    list kept by hand is one a new component is quietly missing from, and
-    nothing says so — the page sweep has read the index for that reason all
-    along, and this one had not. */
+/** Every story a card comes from, minus the whole pages, which have their
+    own sweep below. Read out of the index rather than listed here. A list
+    kept by hand is one a new component is quietly absent from, and nothing
+    says so. */
 async function specimenIds(request: import('@playwright/test').APIRequestContext): Promise<StoryEntry[]> {
   return (await storyIds(request)).filter((e) => e.name === 'Specimen' && !e.title.startsWith('Pages/'));
 }
 
 /* Sharded so the sweep stays parallel, the way the render pass in
-   `stories.spec.ts` is. Each specimen is opened once per test and gets one
-   axe run on that page: several `analyze()` calls against the same page hit
-   "Axe is already running" — axe is a single global with one run at a time,
-   and awaiting the previous call is not enough to clear it. */
+   `stories.spec.ts` is. Each specimen opens once per test and gets one axe
+   run on that page. Several `analyze()` calls against the same page hit "Axe
+   is already running". Axe is a single global with one run at a time, and an
+   await on the previous call is not enough to clear it. */
 const SPECIMEN_SHARDS = 4;
 
 for (const theme of ['dark', 'light'] as const) {
   for (let shard = 0; shard < SPECIMEN_SHARDS; shard++) {
     test(`specimens have no serious axe violations in ${theme}, shard ${shard + 1}`, async ({ page, request }) => {
       const specimens = await specimenIds(request);
-      expect(specimens.length, 'there should be specimens to check').toBeGreaterThan(10);
+      expect(specimens.length, 'there must be specimens to check').toBeGreaterThan(10);
       const assigned = specimens.filter((_, index) => index % SPECIMEN_SHARDS === shard);
       test.setTimeout(Math.max(30_000, assigned.length * 3_000));
 
@@ -54,7 +53,7 @@ for (const theme of ['dark', 'light'] as const) {
 
         const results = await new AxeBuilder({ page })
           .include('#storybook-root')
-          /* Colour contrast is checked separately below, on the surfaces where
+          /* Colour contrast has its own check below, on the surfaces where
              the result means something. Run here it flags every muted caption
              in the specimen chrome, which is annotation and not product text. */
           .disableRules(['color-contrast'])
@@ -72,15 +71,14 @@ for (const theme of ['dark', 'light'] as const) {
 }
 
 /* Contrast, held to zero and not to a baseline. The assertion is on the *set
-   of failing foreground colours* rather than on selectors, which would be
-   brittle, or on a count, which would drift with every added row.
+   of foreground colours that fail*. Not on selectors, which are brittle, and
+   not on a count, which drifts with every new row.
 
-   There is no list of tolerated colours. What such a list held was either a
-   token to fix or a control that is unavailable — and WCAG exempts the second
-   already, so the way to say it is the state in the markup, where a reader
-   with a screen reader is told the same thing. axe skips a node that is
-   disabled; a hex written down here is skipped by nobody and outlives whatever
-   drew it. */
+   There is no list of tolerated colours. What such a list holds is either a
+   token to fix or a control that is unavailable. WCAG exempts the second
+   already. So the way to say it is the state in the markup, where a reader
+   with a screen reader hears the same thing. Axe skips a disabled node. A
+   hex written down here, nobody skips, and it outlives whatever drew it. */
 
 for (const theme of ['dark', 'light'] as const) {
   for (let shard = 0; shard < SPECIMEN_SHARDS; shard++) {
@@ -117,7 +115,7 @@ for (const theme of ['dark', 'light'] as const) {
       expect(
         failing,
         `low-contrast foreground colour(s) on a specimen (${theme}). Fix the token, or — where the ` +
-          `colour is saying a control is unavailable — say that in the markup and axe stops asking.\n` +
+          `colour says a control is unavailable — say that in the markup and axe asks no more.\n` +
           failing.map((c) => `  ${c}: ${found.get(c)}`).join('\n'),
       ).toEqual([]);
     });
@@ -126,9 +124,9 @@ for (const theme of ['dark', 'light'] as const) {
 
 /* The whole pages, which is where the machine-checkable part lives. A specimen
    is a fragment with no landmarks, no heading order and no form, and everything
-   axe is genuinely good at needs a page. One test per theme rather than per
-   page: the index decides which pages exist, so nothing here is kept in step
-   with what has been built. */
+   axe is good at needs a page. One test per theme rather than per page. The
+   index decides which pages exist, so nothing here has to keep in step with
+   the build. */
 async function pageIds(request: import('@playwright/test').APIRequestContext): Promise<StoryEntry[]> {
   return (await storyIds(request)).filter((e) => e.title.startsWith('Pages/'));
 }
@@ -136,7 +134,7 @@ async function pageIds(request: import('@playwright/test').APIRequestContext): P
 for (const theme of ['dark', 'light'] as const) {
   test(`every page has no serious axe violations in ${theme}`, async ({ page, request }) => {
     const pages = await pageIds(request);
-    expect(pages.length, 'there should be pages to check').toBeGreaterThan(1);
+    expect(pages.length, 'there must be pages to check').toBeGreaterThan(1);
     test.setTimeout(Math.max(30_000, pages.length * 3_000));
 
     const failures: string[] = [];
@@ -147,8 +145,8 @@ for (const theme of ['dark', 'light'] as const) {
       const results = await new AxeBuilder({ page })
         .include('#storybook-root')
         /* Contrast is the sweep below this one, on the colours rather than on
-           the nodes — a page repeats the same muted label thirty times and
-           what is worth asserting is the colour, once. */
+           the nodes. A page repeats the same muted label thirty times and
+           the thing to assert is the colour, once. */
         .disableRules(['color-contrast'])
         .analyze();
 
@@ -162,10 +160,10 @@ for (const theme of ['dark', 'light'] as const) {
   });
 }
 
-/* And the colours those pages are actually made of: the specimens carry the
-   system's controls, a page carries prose, labels, captions and status text at
-   the sizes a reader meets them. Same assertion as above — the set of failing
-   foreground colours, not a count and not a selector. */
+/* And the colours those pages consist of. The specimens carry the system's
+   controls; a page carries prose, labels, captions and status text at the
+   sizes a reader meets them. Same assertion as above — the set of foreground
+   colours that fail, not a count and not a selector. */
 for (const theme of ['dark', 'light'] as const) {
   test(`no page introduces a low-contrast colour in ${theme}`, async ({ page, request }) => {
     const pages = await pageIds(request);
@@ -190,7 +188,7 @@ for (const theme of ['dark', 'light'] as const) {
     expect(
       failing,
       `low-contrast foreground colour(s) on a page (${theme}). Fix the token, or — where the colour ` +
-        `is saying a control is unavailable — say that in the markup and axe stops asking.\n` +
+        `says a control is unavailable — say that in the markup and axe asks no more.\n` +
         failing.map((c) => `  ${c}: ${found.get(c)}`).join('\n'),
     ).toEqual([]);
   });
@@ -198,14 +196,13 @@ for (const theme of ['dark', 'light'] as const) {
 
 /* And the ring axe cannot ask about.
 
-   A card hands its anchor's ring over — the whole card is the target, so the
-   ring belongs round the frame — and for as long as the frame was never given
-   one, a keyboard reader got a card that changed colour and nothing that said
-   which one they were on. Nothing saw it: axe reports a focusable element, not
-   an invisible focus, and the specimens draw the ring on an element that does
-   not have focus. So it is pressed for here, in both walls, because a tile
-   turns the ring inwards and that is the case where drawing it wrong is
-   drawing nothing. */
+   A card hands its anchor's ring over: the whole card is the target, so the
+   ring belongs round the frame. A frame with none gives a keyboard reader a
+   card that changes colour and nothing that says which one they are on.
+   Nothing sees it. Axe reports a focusable element, not an invisible focus,
+   and the specimens draw the ring on an element that does not have focus. So
+   the press happens here, in both walls. A tile turns the ring inwards, and
+   that is the case where a wrong drawing is no drawing. */
 const RINGED: readonly (readonly [wall: string, story: string, halo: boolean])[] = [
   ['an ordinary wall', 'components-grid--default', true],
   ['a flush wall', 'components-grid--flush', false],
@@ -215,9 +212,9 @@ for (const [wall, story, halo] of RINGED) {
   test(`a card in ${wall} draws the ring when the keyboard reaches it`, async ({ page }) => {
     await gotoStory(page, story);
 
-    /* Tabbed to rather than focused: `:focus-visible` is the browser's answer
-       about how focus arrived, and a card focused by script is a card a reader
-       never gets. */
+    /* Reached with Tab rather than focused. `:focus-visible` is the browser's
+       answer about how focus arrived, and a card focused by script is a card
+       a reader never gets. */
     for (let press = 0; press < 6; press++) {
       await page.keyboard.press('Tab');
       if (await page.evaluate(() => !!document.activeElement?.closest('.sds-card__title'))) break;
@@ -239,10 +236,10 @@ for (const [wall, story, halo] of RINGED) {
       };
     });
 
-    expect(ring, 'the keyboard should reach a card title').not.toBeNull();
+    expect(ring, 'the keyboard must reach a card title').not.toBeNull();
     expect(ring!.style, 'the frame draws the ring').toBe('solid');
     expect(ring!.width, 'the ring is --border-emphasis wide').toBe(ring!.emphasis);
-    expect(ring!.onWords, 'and the words it was moved off do not draw a second one').toBe('none');
+    expect(ring!.onWords, 'and the words it moved off do not draw a second one').toBe('none');
     expect(ring!.halo, halo ? 'with its halo' : 'and a tile drops the halo it cannot show').toBe(halo);
     /* Outwards on a card, inwards on a tile: the wall clips its corners. */
     expect(Math.sign(ring!.offset), `the ring stands ${halo ? 'off' : 'inside'} the box`).toBe(halo ? 1 : -1);

@@ -1,19 +1,18 @@
 /* The drop-in works the way a consumer takes it.
 
-   `dist/` is built and committed so a surface with no build step can copy it
-   and link two files. Nothing here opened those two files: the cards, the
-   stories and every other test render against `src/`, so the shipped artefact
-   was the one thing in the repository that was never used.
+   `dist/` is a build in git, so a surface with no build step can copy it
+   and link two files. The cards, the stories and every other test render
+   against `src/`, so nothing else opens the shipped artefact.
 
-   This is a page assembled the way the README says to assemble one — no
-   bundler, no `lit` installed, no import map — and it asserts the two things
+   This is a page assembled the way the README says to assemble one: no
+   bundler, no `lit` installed, no import map. It asserts the two things
    that make it a drop-in: the stylesheet paints, and the elements upgrade. */
 
 import { test, expect } from '@playwright/test';
 
-/* Served over http, not opened from disk: a module script loaded from a
-   `file://` page is subject to CORS and never runs, which says nothing about
-   the drop-in. Storybook serves `dist/` at `/dist` for exactly this. */
+/* Served over http, not opened from disk. A module script on a `file://`
+   page is subject to CORS and never runs, which says nothing about the
+   drop-in. Storybook serves `dist/` at `/dist` for exactly this. */
 const HTML = `<!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -33,7 +32,7 @@ const HTML = `<!doctype html>
 </body>
 </html>`;
 
-test('a page that only links dist/ gets styled, upgraded components', async ({ page }) => {
+test('a page that only links dist/ has its components upgrade with their style', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
 
@@ -44,23 +43,23 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
   await page.evaluate(() => customElements.whenDefined('sds-button'));
   await page.evaluate(() => customElements.whenDefined('sds-diff'));
 
-  /* Upgraded: the element framed the content it was given. Addressed by its
-     language, because the page carries a second block — see below. */
+  /* Upgraded: the element framed its content. Addressed by its language,
+     because the page carries a second block — see below. */
   const body = page.locator('sds-code[code-lang="json"] .sds-code__body');
   await expect(body).toContainText('"versions": ["12.4"]');
   await expect(page.locator('sds-code[code-lang="json"] .sds-code__lang')).toHaveText('json');
 
   /* A grammar this system wrote itself, out of the built bundle. It is the
-     one thing here that is not highlight.js's: registered from a module the
-     build has to have carried, and a block that arrives grey is the drop-in
-     shipping a language it declares and cannot colour. */
+     one thing here that is not highlight.js's. Registered from a module the
+     build has to have carried. A block that arrives grey is a drop-in that
+     ships a language it declares and cannot colour. */
   const written = page.locator('sds-code[code-lang="typoscript"] code [class^="hljs-"]');
   expect(await written.count(), 'the written grammar did not reach the bundle').toBeGreaterThan(1);
 
   /* Painted: the sunken surface a code block sits on, and the accent on the
      primary button. A missing stylesheet leaves both transparent. */
   const surface = await body.evaluate((el) => getComputedStyle(el.closest('.sds-code')!).backgroundColor);
-  expect(surface, 'the code block should sit on a painted surface').not.toBe('rgba(0, 0, 0, 0)');
+  expect(surface, 'the code block must sit on a painted surface').not.toBe('rgba(0, 0, 0, 0)');
 
   /* A diff's path is product metadata, not specimen annotation. It must take
      its mono register from soul.css alone; `_specimen.css` is absent here. */
@@ -75,7 +74,7 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
 
   const button = await page.locator('button.sds-btn--primary')
     .evaluate((el) => getComputedStyle(el).backgroundColor);
-  expect(button, 'the primary button should carry the accent').toBe('rgb(255, 135, 0)');
+  expect(button, 'the primary button must carry the accent').toBe('rgb(255, 135, 0)');
 
   /* The variable faces travel with the bundle. They cover the weight axis and
      stay optional so a late response never replaces text after paint. */
@@ -90,27 +89,27 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
     }));
   });
   expect(faces.some((f) => f.family === 'Source Sans 3' && f.status === 'loaded'),
-    'the bundled faces should load').toBe(true);
+    'the bundled faces must load').toBe(true);
   expect(faces.filter((f) => f.family === 'Source Sans 3' || f.family === 'Source Code Pro')
     .every((f) => f.weight === '200 900' && f.display === 'optional'),
-  'every bundled face should be variable and resist a late swap').toBe(true);
+  'every bundled face must be variable and resist a late swap').toBe(true);
 
   /* An icon is a `<use>` into the sprite that ships beside the bundle. A
-     wrong path is a 404 and a blank glyph, and the size comes from the class
-     rather than the attribute — both are silent until someone looks. */
+     wrong path is a 404 and a blank glyph. The size comes from the class
+     rather than the attribute. Both are silent until someone looks. */
   const glyphs = page.locator('svg[data-icon="actions-search"]');
   await expect(glyphs).toHaveCount(4);
   const sizes = await glyphs.evaluateAll((els) =>
     els.map((e) => Math.round(e.getBoundingClientRect().width)));
-  /* Both ways of asking. The class is how hand-written markup asks and the
-     property is how an element does; a stylesheet rule beats a presentation
-     attribute, so the property has to be written as a style — and only when
-     it was asked for, or the default would override the class.
+  /* Both ways to ask. The class is how hand-written markup asks and the
+     property is how an element does. A stylesheet rule beats a presentation
+     attribute, so the property has to go in as a style. And only on request,
+     or the default overrides the class.
 
-     The default is `em` and therefore whatever the text around it is, so it
-     is asserted as that and not as a number: pinning the number here makes
-     this spec fail the day the base size moves, which says nothing about the
-     icon. The other three are the scale and are pinned. */
+     The default is `em` and therefore whatever the text around it is. So the
+     claim is that and not a number. A pinned number here makes this spec
+     fail the day the base size moves, which says nothing about the icon. The
+     other three are the scale and stay pinned. */
   const base = await page.locator('body').evaluate((el) => Math.round(parseFloat(getComputedStyle(el).fontSize)));
   expect(sizes, 'default, class, property, and a whole multiple').toEqual([base, 20, 24, 32]);
 
@@ -120,22 +119,22 @@ test('a page that only links dist/ gets styled, upgraded components', async ({ p
     const use = el.querySelector('use');
     return Boolean(use && (use as SVGUseElement).getBoundingClientRect().width > 0);
   });
-  expect(painted, 'the sprite reference should resolve').toBe(true);
+  expect(painted, 'the sprite reference must resolve').toBe(true);
 
-  expect(errors, 'the drop-in should boot clean').toEqual([]);
+  expect(errors, 'the drop-in must boot clean').toEqual([]);
 });
 
 /* Nothing moves when the bundle lands. An element is the box it draws, so the
-   space an icon takes is the element's own on both sides of the upgrade — and
-   before it there is nothing inside to give it a size. The stylesheet reserves
-   it, which helps only if it is the box the element then renders: two rules in
+   space an icon takes is the element's own on both sides of the upgrade.
+   Before it there is nothing inside to give it a size. The stylesheet reserves
+   it, which helps only if it is the box the element then renders. Two rules in
    two files that nothing else holds together. */
 test('an icon takes the same space before the script and after', async ({ page }) => {
   const MARKUP = ['', 'size="16"', 'size="20"', 'size="24"', 'size="32"', 'class="sds-icon sds-icon--20"']
     .map((attrs) => `<span style="font-size:13px"><sds-icon name="actions-search" ${attrs}></sds-icon></span>`)
     .join('\n  ');
 
-  /* The stylesheet only. The module is added after the measurement, so this
+  /* The stylesheet only. The module arrives after the measurement, so this
      page really is the state a reader sees while the bundle is in flight. */
   await page.route('**/reserve-fixture.html', (route) => route.fulfill({
     contentType: 'text/html',
@@ -152,7 +151,7 @@ test('an icon takes the same space before the script and after', async ({ page }
       els.map((el) => Math.round(el.getBoundingClientRect().width * 100) / 100));
 
   const before = await boxes('sds-icon');
-  expect(before, 'every icon should have a box before the script').not.toContain(0);
+  expect(before, 'every icon must have a box before the script').not.toContain(0);
 
   await page.addScriptTag({ url: '/dist/soul.js', type: 'module' });
   await page.evaluate(() => customElements.whenDefined('sds-icon'));
@@ -161,14 +160,14 @@ test('an icon takes the same space before the script and after', async ({ page }
       .map((el) => (el as HTMLElement & { updateComplete: Promise<unknown> }).updateComplete),
   ));
 
-  expect(await boxes('sds-icon'), 'the reserved box should be the one the element renders').toEqual(before);
+  expect(await boxes('sds-icon'), 'the reserved box must be the one the element renders').toEqual(before);
 });
 
 /* The same rule one level up, where it costs the whole page rather than one
-   glyph. The bar is the first thing on every surface built on this system, and
-   an empty host is inline until the bundle lands — so the page is laid out once
-   without it and again with it. What a jump has to clear is the same fact read
-   from the other end, and it is answered before the script for the same reason. */
+   glyph. The bar is the first thing on every surface built on this system.
+   An empty host is inline until the bundle lands, so the page lays out once
+   without it and again with it. What a jump has to clear is the same fact
+   from the other end, and it too has its answer before the script. */
 test('the bar holds its room, and the jump its offset, before the script', async ({ page }) => {
   await page.route('**/bar-fixture.html', (route) => route.fulfill({
     contentType: 'text/html',
@@ -184,9 +183,9 @@ test('the bar holds its room, and the jump its offset, before the script', async
   const room = () => page.locator('sds-nav-main')
     .evaluate((el) => Math.round(el.getBoundingClientRect().height));
   const before = await room();
-  expect(before, 'the bar should have a box before the script').toBeGreaterThan(0);
+  expect(before, 'the bar must have a box before the script').toBeGreaterThan(0);
 
-  /* And the offset a target scrolled to the top keeps, so the heading does not
+  /* And the offset a target scrolled to the top keeps. So the heading does not
      land underneath the bar in the window before the element upgrades. */
   const jump = await page.evaluate(() =>
     parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop));
@@ -197,17 +196,18 @@ test('the bar holds its room, and the jump its offset, before the script', async
   await page.evaluate(() => (document.querySelector('sds-nav-main') as
     HTMLElement & { updateComplete: Promise<unknown> }).updateComplete);
 
-  expect(await room(), 'the reserved room should be the room the bar takes').toBe(before);
+  expect(await room(), 'the reserved room must be the room the bar takes').toBe(before);
 });
 
-/* The other way the drop-in is taken: bundled. A bundler moves the module away
-   from the assets beside it, so the reference resolved against the module points
-   at nothing. Saying where the sprites went is the only fix, and it has to be
-   reachable from the entry — a build that cannot say it ships every icon blank.
+/* The other way a consumer takes the drop-in: bundled. A bundler moves the
+   module away from the assets beside it, so the reference resolved against the
+   module points at nothing. The only fix is to say where the sprites went, and
+   that has to be reachable from the entry. A build that cannot say it ships
+   every icon blank.
 
-   The *directory*, because there is one sprite per category: a glyph from the
-   second one is what proves the element resolves its own file rather than
-   pointing everything at the first. */
+   The *directory*, because there is one sprite per category. A glyph from the
+   second one is what proves the element resolves its own file and does not
+   point everything at the first. */
 test('a bundling consumer can say where the sprites went', async ({ page }) => {
   for (const category of ['actions', 'spinner']) {
     await page.route(`**/somewhere-else/${category}.svg`, (route) =>
@@ -220,8 +220,8 @@ test('a bundling consumer can say where the sprites went', async ({ page }) => {
     route.fulfill({ contentType: 'text/html', body: HTML }));
   await page.goto('/sprite-fixture.html', { waitUntil: 'load' });
 
-  /* The entry comes in as an argument: a literal specifier here would be a
-     path this project has to resolve, and it is one the browser resolves. */
+  /* The entry comes in as an argument. A literal specifier here is a path
+     this project has to resolve, and it is one the browser resolves. */
   const hrefs = await page.evaluate(async (entry) => {
     const module = await import(entry) as { setIconSprites: (dir: string) => void };
     module.setIconSprites('/somewhere-else/');
@@ -243,16 +243,16 @@ test('a bundling consumer can say where the sprites went', async ({ page }) => {
      asks the one that was just appended. */
   await expect.poll(
     () => page.locator('#repointed use').evaluate((el) => el.getBoundingClientRect().width),
-    { message: 'the repointed reference should resolve' },
+    { message: 'the repointed reference must resolve' },
   ).toBeGreaterThan(0);
 });
 
-/* And the form a bundler actually emits: one classic script, no modules left.
-   `import.meta` does not survive that, so anything resolved against it at
-   import time throws before a line of the bundle runs — nothing registers, and
+/* And the form a bundler emits: one classic script, no modules left.
+   `import.meta` does not survive that. Anything resolved against it at
+   import time throws before a line of the bundle runs. Nothing registers, and
    the only clue is one `Invalid URL` in the console. Bundled here rather than
-   from a fixture, which would stop being the current `soul.js`. */
-test('the bundle survives being built into a classic script', async ({ page }) => {
+   from a fixture, which drifts from the current `soul.js`. */
+test('the bundle survives a build into a classic script', async ({ page }) => {
   const { build } = await import('esbuild');
   const bundled = await build({
     entryPoints: ['packages/frontend/dist/soul.js'],
@@ -281,18 +281,18 @@ test('the bundle survives being built into a classic script', async ({ page }) =
     customElements.whenDefined('sds-icon').then(() => true),
     new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 5_000)),
   ]));
-  expect(errors, 'the bundle should evaluate without throwing').toEqual([]);
-  expect(upgraded, 'the elements should register').toBe(true);
+  expect(errors, 'the bundle must evaluate with no throw').toEqual([]);
+  expect(upgraded, 'the elements must register').toBe(true);
 });
 
 /* The mode switch, as a page that copies the drop-in gets it.
 
    `soul-boot.js` and `<sds-theme>` are two shipped files that have to agree on
-   what `data-theme` means, and nothing rendered against `src/` can catch them
-   disagreeing. Boot used to resolve the machine's setting into the attribute;
-   the element read that back as a choice, so the press that gives the machine
-   its setting back had it written straight on again. On a machine set to dark
-   that was a button which moved nothing, however often it was pressed. */
+   what `data-theme` means, and nothing rendered against `src/` can catch a
+   disagreement. Boot that resolves the machine's setting into the attribute
+   is one. The element reads that back as a choice, so the press that gives
+   the machine its setting back writes it straight on again. On a machine set
+   to dark that is a button that moves nothing, at any number of presses. */
 test.describe('the mode switch a machine set to dark starts in', () => {
   test.use({ colorScheme: 'dark' });
 
@@ -322,8 +322,8 @@ test.describe('the mode switch a machine set to dark starts in', () => {
     const press = page.locator('sds-theme button');
 
     /* Nobody has chosen, so the attribute is not there and the mark is the
-       device: the page is in dark because the machine is, not because it was
-       told to be. */
+       device. The page is in dark because the machine is, not because anybody
+       said so. */
     await expect.poll(() => written(page)).toBeNull();
     await expect(page.locator('.sds-theme__mark--machine')).toHaveCSS('opacity', '1');
 
@@ -336,7 +336,7 @@ test.describe('the mode switch a machine set to dark starts in', () => {
     await press.click();
     await expect.poll(() => written(page)).toBeNull();
     expect(await page.evaluate(() => localStorage.getItem('soul-theme')),
-      'the machine’s setting is a stop, so nothing is stored at it').toBeNull();
+      'the machine’s setting is a stop, so the store holds nothing at it').toBeNull();
     await expect(page.locator('.sds-theme__mark--machine')).toHaveCSS('opacity', '1');
   });
 
@@ -346,7 +346,7 @@ test.describe('the mode switch a machine set to dark starts in', () => {
     await page.addInitScript(() => localStorage.setItem('soul-theme', 'light'));
     await page.goto('/theme-fixture.html', { waitUntil: 'commit' });
 
-    /* Read before the module can have run: this is boot's whole job, and an
+    /* Read before the module can have run. This is boot's whole job, and an
        attribute that only arrives with `soul.js` is the flash it exists to
        prevent. */
     await expect.poll(() => written(page)).toBe('light');

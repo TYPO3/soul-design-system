@@ -1,13 +1,13 @@
 /* A directory, as the shape it has on disk.
 
-   The claim worth holding is that it folds with **no script**: a `<details>`
-   per directory, so a page rendered on a server and served to a reader who
-   runs nothing still opens and closes. That is invisible in the markup — a
-   `<details>` looks the same whether or not anything works — so it is pressed
-   here with JavaScript switched off.
+   The claim that matters is that it folds with **no script**. A `<details>`
+   per directory, so a page from a server still opens and closes for a reader
+   who runs nothing. That is invisible in the markup, as a `<details>` looks
+   the same with or without anything that works. So the press happens here
+   with JavaScript switched off.
 
-   And that a level is how deep it stands open and not how deep it is drawn:
-   the theme this spelling comes from stops rendering below the level, which
+   And that a level is how deep it stands open and not how deep it draws. The
+   theme this spelling comes from renders nothing below the level, which
    takes away what a reader came for. */
 
 import { test, expect } from '@playwright/test';
@@ -45,7 +45,7 @@ async function open(p: import('@playwright/test').Page, level: number, icons = f
   await expect(p.locator('#t .sds-tree__name').first()).toBeVisible();
 }
 
-test('a level is how deep it stands open, and nothing below it is dropped', async ({ page: p }) => {
+test('a level is how deep it stands open, and nothing below it goes', async ({ page: p }) => {
   await open(p, 1);
   const state = await p.evaluate(() => {
     const folds = [...document.querySelectorAll('#t details')] as HTMLDetailsElement[];
@@ -57,7 +57,7 @@ test('a level is how deep it stands open, and nothing below it is dropped', asyn
   /* Every name the entries hold is in the page — three levels below the one
      that stands open included. */
   expect(state.names).toEqual(['docs/', 'Index.rst', 'Introduction/', 'Deep.rst', 'Deeper.rst', 'composer.json']);
-  expect(state.open, 'the first level stands open and the rest is folded').toEqual([true, false, false]);
+  expect(state.open, 'the first level stands open and the rest stands closed').toEqual([true, false, false]);
 
   await open(p, 9);
   expect(await p.evaluate(() => [...document.querySelectorAll('#t details')].every((f) => (f as HTMLDetailsElement).open)))
@@ -66,15 +66,15 @@ test('a level is how deep it stands open, and nothing below it is dropped', asyn
 
 test('it folds with no script at all', async ({ browser }) => {
   /* The whole reason for `<details>` over a framework's collapse: a document
-     is rendered on a server and read by somebody running nothing. */
+     renders on a server, and somebody who runs nothing reads it. */
   const context = await browser.newContext({ javaScriptEnabled: false });
   const p = await context.newPage();
   await p.route('**/tree-fixture.html', (route) =>
     route.fulfill({ contentType: 'text/html', body: page(1) }));
   await p.goto('/tree-fixture.html', { waitUntil: 'load' });
 
-  /* Prerendered markup is what a document carries; here the fixture has none,
-     so the element is written out by hand the way the renderer writes it. */
+  /* Prerendered markup is what a document carries. Here the fixture has none,
+     so the element stands written out by hand the way the renderer writes it. */
   await p.setContent(`<!doctype html><html lang="en" data-theme="dark"><head>
     <meta charset="utf-8"><link rel="stylesheet" href="${new URL('/dist/soul.css', p.url()).href}">
     </head><body class="sds-app">
@@ -104,12 +104,12 @@ test('a leaf name begins where a directory name does', async ({ page: p }) => {
     };
     return { directory: at('Introduction/'), leaf: at('Index.rst') };
   });
-  /* Both sit one level under `docs/`, so a fold mark on one of them may not
-     move the other's name: the mark keeps its box on every row. */
+  /* Both sit one level under `docs/`, so a fold mark on one of them must not
+     move the other's name. The mark keeps its box on every row. */
   expect(left.leaf).toBe(left.directory);
 });
 
-test('a mark for a directory and one for a file, where they were asked for', async ({ page: p }) => {
+test('a mark for a directory and one for a file, on request', async ({ page: p }) => {
   await open(p, 9);
   expect(await p.locator('#t .sds-tree__glyph').count(), 'off unless asked for').toBe(0);
 

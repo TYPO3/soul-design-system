@@ -1,12 +1,12 @@
-/* Every story renders, in both themes, without saying anything on the way.
+/* Every story renders, in both themes, and says nothing on the way.
 
    A story that throws still shows *something* — an error overlay, or a blank
-   frame that reads as an empty specimen — and the screenshot diff only compares
+   frame that reads as an empty specimen. The screenshot diff only compares
    cards. So this walks the built index and opens every story for real.
 
-   Console output is part of the assertion: an unregistered element is silent,
-   and a Lit warning about a duplicate registration is the first sign the bundle
-   was imported twice. */
+   Console output is part of the assertion. An unregistered element is silent,
+   and a Lit warning about a duplicate registration is the first sign of a
+   bundle imported twice. */
 
 import { test, expect } from '@playwright/test';
 import { readdirSync, readFileSync } from 'node:fs';
@@ -17,8 +17,8 @@ import { gotoStory, setStoryTheme } from './lib/story.ts';
 
 const STORIES = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'stories');
 
-/** How many story files generate a specimen card — the opt-in is exporting
-    `specimenHtml`, which `scripts/cards.ts` looks for. */
+/** How many story files generate a specimen card — the opt-in is an export
+    of `specimenHtml`, which `scripts/cards.ts` looks for. */
 function generators(): number {
   const walk = (dir: string): string[] =>
     readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
@@ -37,14 +37,14 @@ interface StoryEntry {
   importPath: string;
 }
 
-/* Lit's dev build announces itself on every page. It is expected here and
+/* Lit's dev build announces itself on every page. That is normal here and
    never in the published bundle, which esbuild builds in production mode. */
 const EXPECTED = [/Lit is in dev mode/];
 const STORY_SHARDS = 6;
 
 async function storyIds(request: import('@playwright/test').APIRequestContext): Promise<StoryEntry[]> {
   const res = await request.get('/index.json');
-  expect(res.ok(), 'the built Storybook’s index.json should be served').toBeTruthy();
+  expect(res.ok(), 'the built Storybook’s index.json must answer').toBeTruthy();
   const index = (await res.json()) as { entries: Record<string, StoryEntry> };
   return Object.values(index.entries).filter((e) => e.type === 'story');
 }
@@ -57,17 +57,16 @@ test('the index lists every component and specimen group', async ({ request }) =
   /* The written pages are not here any more: they are reStructuredText under
      `docs/`, rendered by Guides and published. What Storybook keeps is what
      only Storybook can do — a component with its controls, and the specimen
-     each card is generated from. So the list checks those, and a specimen
-     group vanishing is still a page that stopped documenting anything. */
+     each card comes from. So the list checks those, and a specimen group
+     that vanishes is still a page that documents nothing any more. */
   const groups = new Set([...titles].map((t) => t.split('/').slice(0, 2).join('/')));
   for (const group of ['Specimens/Brand', 'Specimens/Colours', 'Specimens/Type', 'Specimens/States']) {
-    expect(groups, `${group} should have specimens`).toContain(group);
+    expect(groups, `${group} must have specimens`).toContain(group);
   }
 
   for (const expected of [
-    /* One page per component, and the list is the check: a component that is
-       split out of a file and never given a page of its own documents
-       nothing. */
+    /* One page per component, and the list is the check. A component split
+       out of a file with no page of its own documents nothing. */
     'Components/Badge',
     'Components/Button',
     'Components/Code',
@@ -91,17 +90,17 @@ test('the index lists every component and specimen group', async ({ request }) =
     'Components/Table density',
     'Components/Tabs',
     'Components/Theme',
-    /* The parts of a form are their own section: they are looked up together,
-       by somebody building one, and a reader after a field does not want to
+    /* The parts of a form are their own section. Somebody who builds one
+       looks them up together. A reader after a field does not want to
        arrive by way of the figure and the footer. */
     'Forms/Field',
     'Forms/Field error',
     'Forms/Form errors',
     'Forms/Checkbox',
     'Forms/Radio',
-    /* And the whole layouts. They are live in Storybook on purpose — every
-       story here is opened by the pass below, so a page is a page under test
-       rather than a picture of one. */
+    /* And the whole layouts. They are live in Storybook on purpose. The pass
+       below opens every story here, so a page is a page under test rather
+       than a picture of one. */
     'Pages/Answer',
     'Pages/Documentation',
     'Pages/Feature',
@@ -115,11 +114,11 @@ test('the index lists every component and specimen group', async ({ request }) =
 for (let shard = 0; shard < STORY_SHARDS; shard++) {
   test(`every story renders cleanly in both themes, shard ${shard + 1}`, async ({ page, request }) => {
     const stories = await storyIds(request);
-    expect(stories.length, 'there should be stories to check').toBeGreaterThan(20);
+    expect(stories.length, 'there must be stories to check').toBeGreaterThan(20);
     const assigned = stories.filter((_, index) => index % STORY_SHARDS === shard);
 
     /* Both themes are one CSS declaration and the toolbar changes only
-       `data-theme`, so a story need not be downloaded twice to exercise both. */
+       `data-theme`, so a story need not load twice to exercise both. */
     test.setTimeout(Math.max(30_000, assigned.length * 1_500));
 
     const problems: string[] = [];
@@ -150,11 +149,11 @@ for (let shard = 0; shard < STORY_SHARDS; shard++) {
   });
 }
 
-/* What a control does: the story is rendered a second time, into elements that
+/* What a control does. The story renders a second time, into elements that
    took what stood between their tags on the first — see the decorator in
-   `.storybook/preview.ts`. Nothing else here renders a story twice, so a
-   component that only breaks on the second one reads as green everywhere: the
-   pass above opens each story once. */
+   `.storybook/preview.ts`. Nothing else here renders a story twice. So a
+   component that only breaks on the second one reads as green everywhere, as
+   the pass above opens each story once. */
 const STORY = 'components-button--primary';
 const CHANGED = { label: 'Stop the checks', variant: 'secondary' };
 
@@ -180,13 +179,13 @@ test('a control change rebuilds the story on the canvas', async ({ page }) => {
 
   await expect(page.locator('.sds-btn')).toHaveText(CHANGED.label);
   await expect(page.locator('.sds-btn')).toHaveClass(/sds-btn--secondary/);
-  expect(problems, 'a control change should render silently').toEqual([]);
+  expect(problems, 'a control change must render in silence').toEqual([]);
 });
 
-/* The same change on the page the controls are actually on: every component is
-   tagged `!dev`, so what the menu offers is the docs page. It fails differently
-   too — the throw is caught and printed into the story's own block, where no
-   console listener hears it. */
+/* The same change on the page the controls are on. Every component carries
+   `!dev`, so what the menu offers is the docs page. It fails differently
+   too — the throw lands in the story's own block, where no console listener
+   hears it. */
 test('a control change rebuilds the story in its docs page', async ({ page }) => {
   await page.goto('/iframe.html?viewMode=docs&id=components-button--docs&globals=theme:dark');
   await page.waitForSelector('.sds-btn', { timeout: 20_000 });
@@ -200,16 +199,16 @@ test('a control change rebuilds the story in its docs page', async ({ page }) =>
   await expect(block.locator('.sds-btn')).toHaveClass(/sds-btn--secondary/);
 });
 
-/* The specimen stories are the ones the cards are generated from, so a
-   difference between what Storybook shows and what the card ships would be a
-   difference the pixel diff cannot see — it never opens Storybook. */
+/* The specimen stories are the ones the cards come from. So a difference
+   between what Storybook shows and what the card ships is a difference the
+   pixel diff cannot see — it never opens Storybook. */
 test('every card generator has a specimen story', async ({ request }) => {
   const specimens = (await storyIds(request)).filter((s) => s.name === 'Specimen');
   /* Counted against the story files that generate a card rather than a number
-     written here. A file opts in by exporting `specimenHtml`, and the story a
+     written here. A file opts in with an export of `specimenHtml`. The story a
      card is a picture of is the one named Specimen, so the two sets are the
      same by construction. */
-  expect(specimens.length, 'each story that generates a card should have a Specimen story').toBe(generators());
+  expect(specimens.length, 'each story that generates a card must have a Specimen story').toBe(generators());
 });
 
 for (let shard = 0; shard < STORY_SHARDS; shard++) {
@@ -221,7 +220,7 @@ for (let shard = 0; shard < STORY_SHARDS; shard++) {
     for (const story of specimens) {
       await gotoStory(page, story.id);
 
-      /* The subject is drawn from system classes or tokens, not literal values. */
+      /* The subject draws from system classes or tokens, not literal values. */
       const built = await page.evaluate(() => {
         const root = document.querySelector('#storybook-root');
         const classes = [...(root?.querySelectorAll('[class]') ?? [])]
@@ -231,10 +230,10 @@ for (let shard = 0; shard < STORY_SHARDS; shard++) {
       });
       expect(
         built.classes > 0 || built.tokens,
-        `${story.title} should be drawn from the system — its classes, or its tokens`,
+        `${story.title} must draw from the system — its classes, or its tokens`,
       ).toBe(true);
 
-      /* Cards open without JavaScript, so no custom element may survive. */
+      /* Cards open without JavaScript, so no custom element can survive. */
       const elements = await page.evaluate(() =>
         [...document.querySelectorAll('#storybook-root *')]
           .map((el) => el.tagName.toLowerCase())

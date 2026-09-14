@@ -155,8 +155,8 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
           label="Matched nothing"
           heading="Nothing here is tagged ${current?.label ?? ''}"
           .body="${html`<p>
-            All ${ENTRIES.length} entries were read and none carries that tag. Tags
-            are applied by hand, so an entry may be about the subject without wearing it.
+            The filter covered all ${ENTRIES.length} entries and none carries that tag.
+            Tags come from a person, so an entry can be about the subject and not carry it.
           </p>
           ${flat
             ? buttonMarkup({ variant: 'ghost', size: 'sm' }, 'Show every entry')

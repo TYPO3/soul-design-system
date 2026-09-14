@@ -2,8 +2,8 @@
 
    The toolbar's entries are ordinary screen sizes; the stylesheet thinks in
    width queries that cut the scale into bands. The two lists have no reason to
-   agree, so a size list can quietly miss a band — and then a state of the
-   layout exists with no way to look at it.
+   agree, so a size list can quietly miss a band. Then a state of the layout
+   exists with no way to look at it.
 
    Not a check that the sizes *are* the breakpoints; they are deliberately not.
    This asks only that the menu reaches everywhere. No browser: both sides are
@@ -42,7 +42,7 @@ function breakpoints(): number[] {
 }
 
 /* Which band a width falls in: 0 above every query, then one per query as they
-   start applying. `max-width` includes its own value, so a width equal to a
+   take effect. `max-width` includes its own value, so a width equal to a
    breakpoint is already inside it. */
 const band = (width: number, folds: readonly number[]): number =>
   folds.filter((fold) => width <= fold).length;
@@ -58,7 +58,7 @@ function bandLabel(index: number, folds: readonly number[]): string {
 
 test('every state of the layout has a size that reaches it', () => {
   const folds = breakpoints();
-  expect(folds.length, 'the layout should have breakpoints to cover').toBeGreaterThan(0);
+  expect(folds.length, 'the layout must have breakpoints to cover').toBeGreaterThan(0);
 
   const reached = new Set(VIEWPORT_WIDTHS.map((width) => band(width, folds)));
   const missing = Array.from({ length: folds.length + 1 }, (_, index) => index)
@@ -69,10 +69,10 @@ test('every state of the layout has a size that reaches it', () => {
 });
 
 test('the list reads widest first', () => {
-  /* Not a formality: the map was first keyed by the widths themselves, and an
-     object hands back integer-like keys in ascending order however they went
-     in, so the toolbar read bottom-up. Order is a property of the keys here,
-     which means it can be lost again by renaming one. */
+  /* Not a formality. An object hands back integer-like keys smallest first,
+     whatever order they went in. So a map keyed by the widths reads bottom-up
+     in the toolbar. Order is a property of the keys here, which means a new
+     name for one can lose it again. */
   expect(Object.values(VIEWPORTS).map((viewport) => viewport.styles.width)).toEqual(
     [...VIEWPORT_WIDTHS].sort((a, b) => b - a).map((width) => `${width}px`),
   );

@@ -1,16 +1,14 @@
 /* The way into a row.
 
-   A list of things with a detail behind each of them carries a control at the
-   end of the row. What has to hold is that it is a link and not a press
-   handler — a middle click, a new tab and a copied address are the whole
-   reason for the choice, and none of them survives a handler — that it is one
-   keyboard stop per row, and that it leaves the rest of the row alone: a cell
-   with a link of its own, a cell with a tooltip, and text somebody selects all
-   stay what they were.
+   A list with a detail behind each row carries a control at the end of the
+   row, and three things have to hold. It is a link and not a press handler.
+   A middle click, a new tab and a copied address are the whole reason for
+   the choice, and a handler loses them. It is one keyboard stop per row. And
+   it leaves the rest of the row alone. A cell with its own link, a cell with
+   a tooltip, and text somebody selects all stay what they were.
 
-   That last one is what a stretched row link would have taken, and it is why
-   this shape was chosen over it. It is asserted here so the trade cannot be
-   quietly reversed. */
+   That last one is what a stretched row link takes, and it is why this shape
+   won over it. The claim is here so nobody can quietly reverse the trade. */
 
 import { test, expect } from '@playwright/test';
 
@@ -37,8 +35,8 @@ const PAGE = `<!doctype html>
 </html>`;
 
 /* Built from the page, so the cells hold real elements rather than the text of
-   them: the address is a link of its own and the database name a cell with a
-   tooltip, which are the two things the way in must not swallow. */
+   them. The address is a link of its own and the database name a cell with a
+   tooltip. Those are the two things the way in must not swallow. */
 const ROWS = `
   const table = document.querySelector('#checkouts');
   const cell = (name, i) => \`
@@ -62,8 +60,8 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('the way in is an anchor, not a handler', async ({ page }) => {
-  /* The whole reason for this shape over a press handler on the row: what the
-     platform does with a link is what nobody has to reimplement. */
+  /* The whole reason for this shape over a press handler on the row. What the
+     platform does with a link is what nobody has to build again. */
   const into = page.locator('#into-0 a');
   await expect(into).toHaveAttribute('href', '#open-0');
   await expect(into).toHaveClass(/sds-btn/);
@@ -95,14 +93,14 @@ test('the column holds the control and no more', async ({ page }) => {
   /* Held to what the control needs: the name column, which carries the reading,
      keeps the room. */
   expect(shape.widths[0]).toBeLessThan(shape.nameWidth);
-  expect(shape.headText, 'a head over it would name the button rather than a fact').toBe('');
+  expect(shape.headText, 'a head over it names the button rather than a fact').toBe('');
   expect(shape.align).toBe('end');
   expect(shape.wrap).toBe('nowrap');
 });
 
-test('the rest of the row is left alone', async ({ page }) => {
-  /* Nothing is laid over the cells, which is the whole trade against a link
-     stretched across the row: what the browser hits in a cell is that cell. */
+test('the rest of the row stays as it is', async ({ page }) => {
+  /* Nothing lies over the cells, which is the whole trade against a link
+     stretched across the row. What the browser hits in a cell is that cell. */
   const hit = await page.evaluate(() => {
     const at = (el: Element): string | null => {
       const box = el.getBoundingClientRect();
@@ -116,7 +114,7 @@ test('the rest of the row is left alone', async ({ page }) => {
     };
   });
   expect(hit.database, 'the cell with the tooltip is what the pointer finds').toBe('db-0');
-  expect(hit.address, 'a cell may keep a link to somewhere else entirely').toBe('site-0');
+  expect(hit.address, 'a cell can keep a link to somewhere else entirely').toBe('site-0');
   expect(hit.name, 'and the name is text a reader can select').toBe('td');
 
   /* And it still goes where it goes, rather than where the row goes. */
@@ -124,7 +122,7 @@ test('the rest of the row is left alone', async ({ page }) => {
   await expect(page).toHaveURL(/#site-0$/);
 });
 
-test('one keyboard stop per row, in the order the row is read', async ({ page }) => {
+test('one keyboard stop per row, in the row\'s order', async ({ page }) => {
   await page.locator('#site-0').focus();
   await page.keyboard.press('Tab');
   await expect(page.locator('#into-0 a'), 'the way in comes last in its row').toBeFocused();
@@ -132,9 +130,9 @@ test('one keyboard stop per row, in the order the row is read', async ({ page })
   await expect(page.locator('#site-1'), 'and the next row starts over').toBeFocused();
 });
 
-test('a column stands at the edge it is read down, head and cells alike', async ({ page }) => {
-  /* A table of its own: the one above was handed its rows as markup, which is
-     the other form and not what a column's options travel through. */
+test('a column stands at the edge a reader reads it down, head and cells alike', async ({ page }) => {
+  /* A table of its own. The one above got its rows as markup, which is the
+     other form and not what a column's options travel through. */
   await page.evaluate(() => {
     const table = document.createElement('sds-table') as HTMLElement & { columns: unknown; rows: unknown };
     table.id = 'log';
@@ -168,7 +166,7 @@ test('a column stands at the edge it is read down, head and cells alike', async 
   /* The head goes with the cells, or it names the column beside it. */
   expect(laid.whenCell.align).toBe('end');
   expect(laid.whenHead.align, 'a head over a column it does not stand at').toBe('end');
-  expect(laid.whenCell.figures, 'the right edge is only worth having when the digits line up').toContain('tabular-nums');
+  expect(laid.whenCell.figures, 'the right edge only pays when the digits line up').toContain('tabular-nums');
 
   /* Held to what they hold, and the reading takes the slack. */
   expect(laid.subject.width).toBeGreaterThan(laid.hash.width + laid.whenCell.width);

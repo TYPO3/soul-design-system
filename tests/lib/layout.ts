@@ -1,12 +1,11 @@
-/* What a page is measured for, wherever it came from.
+/* What a page measures for, wherever it came from.
 
-   The three ways a layout fails without saying so: it grows wider than the
-   screen, two things end up in the same place, or a box is smaller than what
-   is inside it and the rest is simply not drawn. None of them raises an error
-   and each reads as a page that is merely a little off, so they are measured
-   rather than looked at — by the story layouts in `pages.spec.ts` and by the
-   rendered documentation in `guides.spec.ts`, which is the same page written
-   by somebody else. */
+   A layout fails in silence three ways: too wide for the screen, two things
+   in the same place, or a box smaller than its content. None of them raises
+   an error. Each reads as a page that is merely a little off, so they get a
+   measurement rather than a look. From the story layouts in `pages.spec.ts`
+   and from the rendered documentation in `guides.spec.ts`, which is the same
+   page in somebody else's hand. */
 
 import type { Page } from '@playwright/test';
 
@@ -28,11 +27,10 @@ export async function pageOverflow(page: Page): Promise<{ scroll: number; client
   });
 }
 
-/* Nothing on a page may be painted over anything else. Only boxes holding their
-   own line are compared: an inline `<span>` in a wrapping paragraph has a rect
-   as wide as the paragraph and overlaps every line above it, which is how text
-   works. Anything out of flow is left out — an overlay is over the page on
-   purpose. */
+/* Nothing on a page can paint over anything else. Only boxes with their own
+   line compare. An inline `<span>` in a wrapped paragraph has a rect as wide
+   as the paragraph and overlaps every line above it. That is how text works.
+   Anything out of flow stays out — an overlay is over the page on purpose. */
 export async function pageOverlaps(page: Page): Promise<string[]> {
   return page.evaluate(() => {
     const inFlow = (el: Element): boolean => {
@@ -48,9 +46,9 @@ export async function pageOverlaps(page: Page): Promise<string[]> {
       if (!el.checkVisibility({ contentVisibilityAuto: true, opacityProperty: true, visibilityProperty: true })) return false;
       if (!/^(block|flex|grid|list-item|table)/.test(getComputedStyle(el).display)) return false;
       if (!inFlow(el)) return false;
-      /* Leaves only: a section and the heading inside it share their box
-         by definition, and `contains` already covers that pair — this
-         keeps the comparison to what actually paints. */
+      /* Leaves only. A section and the heading inside it share their box
+         by definition, and `contains` already covers that pair. This keeps
+         the comparison to what paints. */
       return ![...el.children].some((child) => child.textContent?.trim());
     });
 
@@ -76,21 +74,21 @@ export async function pageOverlaps(page: Page): Promise<string[]> {
 }
 
 /* Something drawn outside the box that cuts it off, with no way to reach the
-   rest. This is the failure a picture would show and the other two measurements
-   cannot: the page draws, a block is simply cut — a code block ending mid
-   command, an answer showing its first line.
+   rest. This is the failure a picture shows and the other two measurements
+   cannot. The page draws, a block is simply cut — a code block that ends mid
+   command, an answer with only its first line.
 
    Measured against the nearest ancestor that clips rather than against the
-   element itself, because the box with the wrong height is rarely the box doing
-   the cutting: the height went onto a host that spills, and what took the rest
-   away was the fold above it. A `<details>` counts as one of those — its clip
-   is on `::details-content`, which no selector reaches, and its own content box
-   is where that clip lands. An ancestor that scrolls is not cutting anything:
-   what a reader can scroll to is not hidden from them. */
+   element itself. The box with the wrong height is rarely the box that cuts.
+   The height went onto a host that spills, and what took the rest away was
+   the fold above it. A `<details>` counts as one of those. Its clip is on
+   `::details-content`, which no selector reaches, and its own content box is
+   where that clip lands. An ancestor that scrolls cuts nothing: what a reader
+   can scroll to is in reach. */
 export async function pageClipped(page: Page): Promise<string[]> {
   return page.evaluate(() => {
-    /* `className` is an object on an SVG, and a `<use>` is as worth naming as
-       anything else that goes missing. */
+    /* `className` is an object on an SVG, and a `<use>` deserves a name as
+       much as anything else that goes astray. */
     const named = (el: Element): string => {
       const classes = (el.getAttribute('class') ?? '').trim();
       return `${el.tagName.toLowerCase()}${classes ? `.${classes.split(/\s+/).join('.')}` : ''}`;
@@ -98,9 +96,9 @@ export async function pageClipped(page: Page): Promise<string[]> {
 
     const out: string[] = [];
     for (const el of document.body.querySelectorAll<HTMLElement>('*')) {
-      /* Inside a drawing nothing is laid out: a shape is placed by the viewBox
-         and clipped by it on purpose, and a `<use>` reports the box it was
-         drawn at rather than the one it is shown in. */
+      /* Inside a drawing nothing has a layout. The viewBox places a shape and
+         clips it on purpose, and a `<use>` reports its own drawn box rather
+         than the one it shows in. */
       if (el.namespaceURI !== 'http://www.w3.org/1999/xhtml') continue;
       if (!el.checkVisibility({ contentVisibilityAuto: true, opacityProperty: true, visibilityProperty: true })) continue;
       const box = el.getBoundingClientRect();
@@ -113,10 +111,10 @@ export async function pageClipped(page: Page): Promise<string[]> {
         const hidesX = fold || /^(hidden|clip)$/.test(style.overflowX);
         if (!hidesX && !hidesY && style.overflowX === 'visible' && style.overflowY === 'visible') continue;
 
-        /* The nearest one decides, whether it cuts or lets through — as long as
-           it is drawn at all. A fold written `display: contents` is a marker
-           the rail folds by and has no box, so it clips nothing and the box
-           that does is further up. */
+        /* The nearest one decides, if it cuts or lets through — as long as
+           it draws at all. A fold written `display: contents` is a marker the
+           rail folds by and has no box. So it clips nothing and the box that
+           does is further up. */
         const edge = up.getBoundingClientRect();
         if (edge.width < 1 && edge.height < 1) continue;
         const lost = Math.max(

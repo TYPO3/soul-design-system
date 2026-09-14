@@ -1,13 +1,13 @@
 /* Content written between an element's tags survives its upgrade.
 
-   `sds-code` has two ways in, and the property path is already watched by the
-   cards and the pixel diff. Content between the tags is not: the element
+   `sds-code` has two ways in, and the cards and the pixel diff already watch
+   the property path. Content between the tags has no watch. The element
    renders light DOM, so `render()` replaces its children, and the whole feature
    is the one line in `connectedCallback` that lifts them out first. Delete it
    and every content-form block is an empty frame with the cards identical.
 
-   `renderStatic` refuses this form deliberately, which is checked here too. The
-   browser is where the form works, so the browser is where it is proven. */
+   `renderStatic` refuses this form on purpose, which this checks too. The
+   browser is where the form works, so the browser is where the proof is. */
 
 import { test, expect } from '@playwright/test';
 import { gotoStory } from './lib/story.ts';
@@ -18,9 +18,9 @@ test('a code block frames the content written between its tags', async ({ page }
   const block = page.locator('sds-code');
   await expect(block).toHaveCount(1);
 
-  /* The frame is the component's, and the content is inside it — not beside
+  /* The frame is the component's, and the content is inside it. Not beside
      it, which is what the export produces and what a lost `connectedCallback`
-     would leave behind. */
+     leaves behind. */
   const body = block.locator('.sds-code__body');
   await expect(body).toHaveCount(1);
   await expect(body.locator('code.language-json')).toHaveCount(1);
@@ -29,7 +29,7 @@ test('a code block frames the content written between its tags', async ({ page }
   /* Nothing stranded outside the body. */
   const stray = await block.evaluate((el) =>
     [...el.children].filter((c) => !c.classList.contains('sds-code')).length);
-  expect(stray, 'the element should hold nothing but the frame it renders').toBe(0);
+  expect(stray, 'the element must hold nothing but the frame it renders').toBe(0);
 });
 
 test('the head carries the language and a working copy button', async ({ page, context }) => {
@@ -42,29 +42,29 @@ test('the head carries the language and a working copy button', async ({ page, c
   await expect(copy).toHaveCount(1);
   await copy.click();
 
-  /* The clipboard holds the block and nothing else — asserted whole, because
-     `toContain` passed for a year while the head came with it: a paste began
+  /* The clipboard holds the block and nothing else, asserted whole.
+     `toContain` passes while the head comes with it, and a paste then begins
      `json copy` and then the first line. What frames a block is not part of
      it, and the element renders that frame into its own light DOM. */
   const written = await page.evaluate(() => navigator.clipboard.readText());
   expect(written).toBe('{\n  "domains": ["labels", "xlf"],\n  "versions": ["12.4", "13.4", "14.3"]\n}');
 
-  /* The class alone was asserted once and it was not enough: the stylesheet
-     hid the duplicate on `is-copied` without ever showing the check, so the
-     button lost a glyph and gained nothing while this test stayed green.
-     What a person sees is which glyph is on screen. */
+  /* The class alone is not enough. A stylesheet that hides the duplicate on
+     `is-copied` and never shows the check leaves a button that lost a glyph
+     and gained nothing. The class is still in place. What a person sees is
+     which glyph is on screen. */
   await expect(copy).toHaveClass(/is-copied/);
   await expect(copy.locator('.sds-code__copied')).toBeVisible();
   await expect(copy.locator('.sds-code__glyph')).toBeHidden();
   await expect(copy).toHaveText(/copied/);
 });
 
-/* A caption written between the tags is the second thing this form carries,
-   and it must not become the first: everything else the component does with
-   its children reads them as the block. The theme drew the caption beside the
-   element for exactly this reason, and that put the placement of a block's own
-   caption outside the block. */
-test('a caption written between the tags is kept, above the frame and off the clipboard', async ({ page, context }) => {
+/* A caption between the tags is the second thing this form carries, and it
+   must not become the first. Everything else the component does with its
+   children reads them as the block. The theme drew the caption beside the
+   element for exactly this reason, and that put the placement of a block's
+   own caption outside the block. */
+test('a caption between the tags stays, above the frame and off the clipboard', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await gotoStory(page, 'components-code--captioned-from-content');
 
@@ -91,9 +91,9 @@ test('a caption written between the tags is kept, above the frame and off the cl
 });
 
 /* The frame a renderer wrote, kept rather than written again. A block rendered
-   twice is a nuisance; a frame written twice is a *document fetched twice* — a
-   video that starts loading, is dropped and starts again. The theme rests on
-   the server writing the frame, so the element takes that node. */
+   twice is a nuisance. A frame written twice is a *document fetched twice*: a
+   video that starts to load, stops and starts again. The theme rests on the
+   server's frame, so the element takes that node. */
 test('an embed keeps the frame written between its tags, and fetches it once', async ({ page }) => {
   await gotoStory(page, 'components-embed--given');
 
@@ -101,14 +101,14 @@ test('an embed keeps the frame written between its tags, and fetches it once', a
   const frame = embed.locator('.sds-embed__frame');
   await expect(frame).toHaveCount(1);
 
-  /* One frame, and it is the one the renderer wrote — the same node, moved
+  /* One frame, and it is the one the renderer wrote. The same node, moved
      into the element's own frame rather than a second one beside it. */
   const frames = embed.locator('iframe');
   await expect(frames).toHaveCount(1);
   await expect(frames).toHaveAttribute('src', /colors-borders\.card\.html$/);
   expect(await frame.locator('> iframe').count(), 'the frame the element renders holds it').toBe(1);
 
-  /* The caption written beside it is placed where the component puts
+  /* The caption written beside it lands where the component puts
      captions — under the frame, with its markup intact. */
   const order = await embed.locator('.sds-embed').evaluate((el) =>
     [...el.children].map((c) => c.className));
@@ -116,20 +116,20 @@ test('an embed keeps the frame written between its tags, and fetches it once', a
   await expect(embed.locator('.sds-embed__caption .sds-mono')).toHaveText('700x240');
 });
 
-/* A card is embedded at the size it was measured at, and a player at none.
+/* A card embeds at its measured size, and a player at none.
 
    The two shapes are the whole component, and neither is visible in a
-   screenshot of a page wide enough for both: what separates them is what
+   screenshot of a page wide enough for both. What separates them is what
    happens when the column is narrower than the document inside. */
-test('an embed holds its ratio where it is fluid and its size where it is fixed', async ({ page }) => {
+test('an embed holds its ratio where it is fluid and its size where it stays fixed', async ({ page }) => {
   await page.setViewportSize({ width: 520, height: 800 });
   await gotoStory(page, 'components-embed--fixed');
 
   const fixed = page.locator('.sds-embed__frame--fixed');
   const inner = await fixed.locator('iframe').evaluate((el) => el.getBoundingClientRect().width);
   /* Narrower than the card, so the frame scrolls and the card keeps the width
-     its `@dsCard` header declares. A frame that had squeezed it would report
-     the column's width here. */
+     its `@dsCard` header declares. A frame that squeezed it reports the
+     column's width here. */
   expect(Math.round(inner)).toBe(700);
   expect(await fixed.evaluate((el) => el.scrollWidth > el.clientWidth)).toBe(true);
 
@@ -149,10 +149,10 @@ test('an embed holds its ratio where it is fluid and its size where it is fixed'
   expect(Math.round(filled.frame)).toBe(filled.inside);
 });
 
-/* And the same form on the figure, where the stakes are the picture itself: a
-   renderer writes the `<img>` for a reader with no script, an element
-   rebuilding it from `src` would fetch the file again, and one ignoring the
-   children would frame nothing with the picture stranded beside it. */
+/* And the same form on the figure, where the stakes are the picture itself. A
+   renderer writes the `<img>` for a reader with no script. An element that
+   rebuilds it from `src` fetches the file again, and one that ignores the
+   children frames nothing, with the picture stranded beside it. */
 test('a figure keeps the picture and the caption written between its tags', async ({ page }) => {
   await gotoStory(page, 'components-figure--given');
 
@@ -162,17 +162,17 @@ test('a figure keeps the picture and the caption written between its tags', asyn
   expect(await figure.locator('.sds-figure__frame > img').count(), 'inside the frame, not beside it').toBe(1);
 
   /* The caption is the renderer's own node, under the picture, with the
-     markup an attribute could not have carried. */
+     markup an attribute cannot carry. */
   const order = await figure.locator('figure.sds-figure').evaluate((el) =>
     [...el.children].map((c) => c.tagName.toLowerCase()));
   expect(order).toEqual(['div', 'figcaption']);
   await expect(figure.locator('figcaption.sds-figure__caption code')).toHaveText('literal');
 });
 
-/* The drawing at the size it was drawn, which the viewer is the only place to
-   get. Three parts hold together and only the first shows in a screenshot: the
-   trigger is a real link, so a surface with no script still opens it; the
-   element takes the press over on upgrade; and Escape gives the focus back. */
+/* The drawing at its own size, which the viewer is the only place to get.
+   Three parts hold together and only the first shows in a screenshot. The
+   trigger is a real link, so a surface with no script still opens it. The
+   element takes the press over on upgrade. Escape gives the focus back. */
 test('a figure opens its drawing, and stays a link where nothing upgraded', async ({ page }) => {
   await gotoStory(page, 'components-figure--zoomable');
 
@@ -188,17 +188,17 @@ test('a figure opens its drawing, and stays a link where nothing upgraded', asyn
   await expect(dialog).toBeVisible();
   /* The page did not navigate to the file — the element took the press. */
   expect(page.url()).toContain('components-figure--zoomable');
-  /* The same file the frame shows, at the size it was drawn. */
+  /* The same file the frame shows, at its own size. */
   await expect(dialog.locator('img.sds-art')).toHaveAttribute('src', /answer-sources\.svg$/);
 
-  /* The whole drawing, in one screen: a viewer that scrolls shows a picture cut
-     off at the foot, which is the one thing opening it was supposed to fix. */
+  /* The whole drawing, in one screen. A viewer that scrolls shows a picture cut
+     off at the foot, which is the one thing the viewer exists to fix. */
   const pane = dialog.locator('.sds-lightbox__art');
   expect(await pane.evaluate((el) => el.scrollHeight - el.clientHeight)).toBeLessThanOrEqual(0);
   expect(await pane.evaluate((el) => el.scrollWidth - el.clientWidth)).toBeLessThanOrEqual(0);
   /* And the page under it holds still. The platform makes the rest inert, which
-     a wheel over the backdrop is not — so the document is locked while it is
-     open, and released with it. */
+     a wheel over the backdrop is not. So the document locks while it is
+     open, and unlocks with it. */
   const overflow = (): Promise<string> => page.evaluate(() => getComputedStyle(document.documentElement).overflowY);
   expect(await overflow()).toBe('hidden');
 
@@ -208,10 +208,10 @@ test('a figure opens its drawing, and stays a link where nothing upgraded', asyn
 });
 
 /* The same three parts on the element with no caption under it. A figure is the
-   way in for a picture that states its claim in a sentence; a picture without
+   way in for a picture that states its claim in a sentence. A picture without
    one had no way in at all, and the viewer is the only place the drawing is at
-   the size it was made. The viewer's name falls back to the alt text, which is
-   the only sentence an image carries. */
+   its own size. The viewer's name falls back to the alt text, which is the
+   only sentence an image carries. */
 test('an image opens its picture, and stays a link where nothing upgraded', async ({ page }) => {
   await gotoStory(page, 'components-image--zoomable');
 
@@ -231,17 +231,16 @@ test('an image opens its picture, and stays a link where nothing upgraded', asyn
   await expect(dialog).toBeHidden();
 });
 
-/* A table takes the rows as markup: a cell carries a link or a literal,
+/* A table takes the rows as markup. A cell carries a link or a literal,
    `colspan` is on the cell, and a caption has no property at all. What the
    table *is* stays the element's, so the two forms cannot draw two different
    tables.
 
-   Handed over as `content` rather than written between the tags, and that is
-   the form and not a shortcut: the parser drops a `<thead>` that is not inside
-   a `<table>`, so these rows survive only where they were parsed inside a
-   `<template>` — which is what the property carries and what the finishing
-   step leaves in the page. */
-test('a table draws the rows it was given as markup', async ({ page }) => {
+   Handed over as `content` rather than between the tags, and that is the form
+   and not a shortcut. The parser drops a `<thead>` outside a `<table>`, so
+   these rows survive only inside a `<template>`. That is what the property
+   carries and what the finish step leaves in the page. */
+test('a table draws the rows it gets as markup', async ({ page }) => {
   await gotoStory(page, 'components-table--from-content');
 
   const table = page.locator('sds-table > .sds-table-scroll > table.sds-table');
@@ -249,7 +248,7 @@ test('a table draws the rows it was given as markup', async ({ page }) => {
   await expect(table).toHaveClass(/sds-table--medium/);
 
   /* The rows are inside that table and not stranded beside it, which is what a
-     lost `connectedCallback` would leave behind. */
+     lost `connectedCallback` leaves behind. */
   const order = await table.evaluate((el) => [...el.children].map((c) => c.tagName.toLowerCase()));
   expect(order).toEqual(['caption', 'thead', 'tbody']);
   await expect(table.locator('td code').first()).toHaveText('typo3_rule_lookup');
@@ -272,11 +271,11 @@ test('a surface holds the passage written between its tags', async ({ page }) =>
 
   const stray = await page.locator('sds-surface').evaluate((el) =>
     [...el.children].filter((c) => !c.classList.contains('sds-panel')).length);
-  expect(stray, 'the element should hold nothing but the plane it renders').toBe(0);
+  expect(stray, 'the element must hold nothing but the plane it renders').toBe(0);
 });
 
 /* And a quotation keeps the sentence it borrowed. A line composed for a
-   product surface fits in a property; a passage lifted out of a page brings
+   product surface fits in a property. A passage lifted out of a page brings
    its links and its emphasis, which an attribute cannot carry. */
 test('a quote keeps the sentence written between its tags', async ({ page }) => {
   await gotoStory(page, 'components-quote--from-content');
@@ -285,11 +284,11 @@ test('a quote keeps the sentence written between its tags', async ({ page }) => 
   await expect(body.locator('em')).toHaveText('Not saying it was a fallback');
   await expect(body.locator('a')).toHaveAttribute('href', '#');
 
-  /* The attribution is drawn from the properties around that markup, so the
-     two channels meet in one element rather than one displacing the other. */
+  /* The attribution comes from the properties around that markup, so the
+     two channels meet in one element rather than one displaces the other. */
   await expect(page.locator('sds-quote .sds-quote__by .sds-byline')).toHaveCount(1);
 
   const stray = await page.locator('sds-quote').evaluate((el) =>
     [...el.children].filter((c) => c.tagName.toLowerCase() !== 'figure').length);
-  expect(stray, 'the element should hold nothing but the figure it renders').toBe(0);
+  expect(stray, 'the element must hold nothing but the figure it renders').toBe(0);
 });

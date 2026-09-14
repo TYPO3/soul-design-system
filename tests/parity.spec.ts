@@ -1,13 +1,13 @@
 /* The invariant the whole arrangement rests on.
 
-   A component is written once and rendered two ways: by Lit when the element
-   upgrades, and by `@lit-labs/ssr` when `make cards` writes the card. Nothing
-   else checks that the two agree — let them disagree and the cards keep passing
-   while the components ship different markup.
+   A component exists once and renders two ways: through Lit when the element
+   upgrades, and through `@lit-labs/ssr` when `make cards` writes the card.
+   Nothing else checks that the two agree. Let them disagree and the cards stay
+   green while the components ship different markup.
 
-   Where a component takes its content between the tags the static side cannot,
-   so those export the markup function the element renders and the case pairs
-   the two. That pairing is the part most worth checking. */
+   Where a component takes its content between the tags the static side cannot.
+   So those export the markup function the element renders, and the case pairs
+   the two. That pair is the part that most deserves a check. */
 
 import { test, expect, type Page } from '@playwright/test';
 import { html, type TemplateResult } from 'lit';
@@ -40,11 +40,11 @@ async function mount(page: Page, markup: string): Promise<string> {
     /* Two normalisations. Lit's client renderer leaves comment markers between
        bindings and its SSR renderer leaves different ones, and neither set is
        markup. And components compose components, which the browser upgrades in
-       place while the static export flattens away — so unwrapping compares the
-       two renderings rather than the two depths they are printed at. */
-    /* An icon is drawn two ways on purpose: the browser references a sprite,
-       and the static export, having none, inlines the glyph. Comparing those
-       bodies would only ever say "they differ", so `data-icon` is compared
+       place while the static export flattens away. So the unwrap compares the
+       two renderings rather than the two depths they print at. */
+    /* An icon draws two ways on purpose. The browser references a sprite,
+       and the static export, with none, inlines the glyph. A comparison of
+       those bodies only ever says "they differ", so `data-icon` compares
        instead. Everything else about the two renderings still has to agree. */
     for (const svg of host.querySelectorAll('svg[data-icon]')) svg.replaceChildren();
 
@@ -69,9 +69,9 @@ async function mount(page: Page, markup: string): Promise<string> {
   }, markup);
 }
 
-/* Whitespace is normalised on both sides. The templates carry the newlines
+/* Whitespace normalises on both sides. The templates carry the newlines
    and indentation that keep a generated card diffable, and the browser
-   reflows them; that difference is formatting and not markup. */
+   reflows them; that difference is format and not markup. */
 const flat = (s: string): string =>
   /* The export's inlined glyph, emptied the same way the browser's is. */
   s.replace(/(<svg[^>]*data-icon="[^"]*"[^>]*>)[\s\S]*?(<\/svg>)/g, '$1$2')
@@ -169,14 +169,14 @@ for (const c of CASES) {
 /* Every element is the box it draws.
 
    A block that stands in a flow is a block: it carries the step, and what it
-   draws inside gives it up. A part standing in a line of text or a row of
-   controls is inline, so the line lays out the element itself. Either way a
-   distance is read off the element it belongs to rather than assembled from
-   two of them, and no rule in this system reaches past one to find a block.
+   draws inside gives it up. A part in a line of text or a row of controls is
+   inline, so the line lays out the element itself. Either way a distance
+   reads off the element it belongs to rather than assembles from two of them.
+   No rule in this system reaches past one to find a block.
 
-   The exception is named rather than defaulted to: what a dialog or an overlay
-   draws is in the top layer or fixed to the viewport, so a box where it stands
-   is one nothing would ever fill. Nothing else may be invisible. */
+   The exception has a name rather than a default. What a dialog or an overlay
+   draws is in the top layer or fixed to the viewport. A box where it stands
+   is one nothing ever fills. Nothing else can be invisible. */
 test('every element is the box it draws', async ({ page }) => {
   const seen = await page.evaluate(async () => {
     const blocks = ['sds-card', 'sds-note', 'sds-grid', 'sds-stat', 'sds-surface', 'sds-table',
@@ -206,14 +206,13 @@ test('every element is the box it draws', async ({ page }) => {
   }
 });
 
-/* And what it draws fills the box it was handed.
+/* And what it draws fills the box it got.
 
    The test above is the element's own box; this is the one a wall gives it. A
-   grid stretches every cell to the tallest item in the row, and an element
-   whose frame stopped at its own prose left a card ending short of its cell, a
-   foot lined up with nothing and a hole in a flush wall — on every rendered
-   page, for as long as the sets shown anywhere said the same amount twice. So
-   the pairs below are uneven on purpose: a wall of equal items cannot fail. */
+   grid stretches every cell to the tallest item in the row. An element whose
+   frame stops at its own prose leaves a card short of its cell. A foot lined
+   up with nothing, a hole in a flush wall. So the pairs below are uneven
+   on purpose: a wall of equal items cannot fail. */
 const WALLS: readonly (readonly [set: string, frame: string, long: string, short: string])[] = [
   ['cards', '.sds-card',
     '<sds-card heading="Long" href="#" action="Read it" body="One two three four five six seven eight. One two three four five six seven eight. One two three."></sds-card>',
@@ -266,7 +265,7 @@ for (const [set, frame, long, short] of WALLS) {
       wall.remove();
 
       /* The same two at the width the wall gave them, each on its own: what
-         they measure when nothing is stretching them. */
+         they measure when nothing stretches them. */
       const alone: number[] = [];
       for (const markup of [long, short]) {
         const one = await mount(markup, track);
@@ -277,22 +276,22 @@ for (const [set, frame, long, short] of WALLS) {
     }, { frame, long, short });
 
     /* The two disagree, or this measures nothing at all. */
-    expect(seen.alone[0], `a long one of the ${set} should stand taller alone than a short one`)
+    expect(seen.alone[0], `a long one of the ${set} must stand taller alone than a short one`)
       .toBeGreaterThan(seen.alone[1]!);
     expect(seen.rows).toHaveLength(2);
     for (const row of seen.rows) {
-      expect(row.drawn, `one of the ${set} draws the cell it was given, not its own contents`).toBe(row.cell);
+      expect(row.drawn, `one of the ${set} draws the cell it has, not its own contents`).toBe(row.cell);
     }
   });
 }
 
 /* And a tile in a flush wall is a tile.
 
-   The wall takes the gutter out, so a card in one gives up its frame, its
-   corner and its rise and paints the ground the line shows through. All of that
-   used to be stated beside the wall in `layout`, which is below the layer the
-   card states itself in — so none of it ever applied, and a tile lifted out of
-   the wall under the pointer with its own hairline and corners, tearing the two
+   The wall takes the gutter out. So a card in one gives up its frame, its
+   corner and its rise, and paints the ground the line shows through. All of
+   that once stood beside the wall in `layout`, below the layer the card
+   states itself in. So none of it ever applied. A tile lifted out of the
+   wall under the pointer with its own hairline and corners and tore the two
    lines it shares. Read under the pointer, because that is where it showed. */
 test('a tile in a flush wall keeps the wall', async ({ page }) => {
   const seen = await page.evaluate(async () => {
@@ -325,7 +324,7 @@ test('a tile in a flush wall keeps the wall', async ({ page }) => {
     };
     const tiles = [...host.querySelectorAll<HTMLElement>('.sds-card')];
     const rest = read(tiles[0]!);
-    /* The state itself, since a hover cannot be dispatched: the same rule the
+    /* The state itself, since nothing can dispatch a hover: the same rule the
        pointer matches, read off the property it moves. */
     const moves = getComputedStyle(tiles[0]!).transitionProperty.includes('transform');
     host.remove();
@@ -336,7 +335,7 @@ test('a tile in a flush wall keeps the wall', async ({ page }) => {
   expect(seen.rest.border, 'a tile has no frame — the wall has').toBe(0);
   expect(seen.rest.radius, 'and no corner of its own').toBe(0);
   expect(seen.rest.glow, 'and nothing to light: a lit frame is a frame').toBe('none');
-  expect(seen.rest.lift, 'and it does not rise, however the card behaves elsewhere').toBe('0px');
+  expect(seen.rest.lift, 'and it does not rise, whatever the card does elsewhere').toBe('0px');
   expect(seen.moves, 'the transition stays — only the distance is nothing').toBe(true);
   /* Painted, not left transparent: what a tile does not paint is the line. */
   expect(seen.rest.fill).not.toBe('rgba(0, 0, 0, 0)');
@@ -344,24 +343,24 @@ test('a tile in a flush wall keeps the wall', async ({ page }) => {
 
 /* And the two renderings occupy the same space.
 
-   Matching markup is not the same claim: an element wraps the box it draws, so
-   live there are two boxes where the export has one, and a step on the wrapper
+   Equal markup is not the same claim. An element wraps the box it draws, so
+   live there are two boxes where the export has one. A step on the wrapper
    that the box inside does not give up is a page that measures differently
-   depending on whether a script ran. Nothing above sees that — the markup is
-   identical either way — and it is what a reader sees first.
+   with a script and without. Nothing above sees that — the markup is identical
+   either way — and it is what a reader sees first.
 
    Both mounted at one width, in one page, and compared box for box.
 
-   What this cannot say is whether either is *right*. A byline inside a quote's
-   caption carried a step it did not owe, in both renderings equally, and this
-   passed the pair while the quote stood 16px open. Equal is not correct —
-   `make audit` measures the seams, and a person looking at the thing beats
+   What this cannot say is if either one is *right*. A byline inside a quote's
+   caption carried a step it did not owe, in both renderings equally. This
+   passed the pair while the quote stood 16px open. Equal is not correct.
+   `make audit` measures the seams, and a person who looks at the thing beats
    both. */
 async function boxes(page: Page, markup: string): Promise<{ total: number; rows: string[] }> {
   return page.evaluate(async (source) => {
-    /* The faces first, and asked for by name: `font-display: optional` never
-       swaps one in after a box was laid out, so a mount that beats the load
-       keeps its fallback for good — which is one rendering measured in the
+    /* The faces first, and asked for by name. `font-display: optional` never
+       swaps one in after a box has its layout, so a mount that beats the load
+       keeps its fallback for good. That is one rendering measured in the
        shipped face and the other in whatever the machine had. */
     await Promise.all([document.fonts.load('13px "Source Code Pro"'), document.fonts.load('16px "Source Sans 3"')]);
     await document.fonts.ready;
@@ -398,7 +397,7 @@ for (const c of CASES) {
   test(`${c.name} takes the same space either way`, async ({ page }) => {
     const live = await boxes(page, c.markup);
     const flatRender = await boxes(page, renderStatic(c.template));
-    expect(live.total, 'the element and the markup it renders should be the same height').toBe(flatRender.total);
+    expect(live.total, 'the element and the markup it renders must be the same height').toBe(flatRender.total);
     expect(live.rows).toEqual(flatRender.rows);
   });
 }

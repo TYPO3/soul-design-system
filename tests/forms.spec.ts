@@ -1,11 +1,11 @@
 /* A form built out of these elements is a form.
 
-   Every component renders into the light DOM — `createRenderRoot` returns the
-   element itself — so the `<input>` a component draws is a real descendant of
-   the `<form>` around it and the browser submits it with the rest. That is a
-   decision in `lib/element.ts` and not a property of any markup here: move one
-   control behind a shadow root and every form on every consuming site stops
-   carrying its answer, silently, with nothing else in the suite noticing. */
+   Every component renders into the light DOM, as `createRenderRoot` returns
+   the element itself. So the `<input>` a component draws is a real descendant
+   of the `<form>` around it and the browser submits it with the rest. That is
+   a decision in `lib/element.ts` and not a property of any markup here. Move
+   one control behind a shadow root and every form on every consuming site
+   loses its answer, in silence. Nothing else in the suite notices. */
 
 import { test, expect } from '@playwright/test';
 
@@ -13,12 +13,12 @@ import { gotoStory } from './lib/story.ts';
 
 const CONTACT = 'pages-contact--page';
 
-/** What the browser would send. Read from the real form, not from properties:
+/** What the browser sends. Read from the real form, not from properties:
     the question is what leaves the page, not what the elements believe. */
 async function submitted(page: import('@playwright/test').Page): Promise<Record<string, string>> {
   return page.evaluate(() => {
     const form = document.querySelector('form.sds-form') as HTMLFormElement | null;
-    if (!form) throw new Error('the contact page should hold a form');
+    if (!form) throw new Error('the contact page must hold a form');
     return Object.fromEntries([...new FormData(form).entries()].map(([k, v]) => [k, String(v)]));
   });
 }
@@ -32,12 +32,12 @@ test('every control on the page carries its answer into the form data', async ({
   expect(data['scope'], 'a ticked box with no value of its own').toBe('on');
   expect(data, 'an unticked box sends nothing at all').not.toHaveProperty('public');
   /* The two fields on this page are placeholders — `value` without `filled` is
-     a prompt, which is the field's own rule and is worth submitting nothing. */
+     a prompt, which is the field's own rule and deserves an empty submit. */
   expect(data['email'], 'a placeholder is not an answer').toBe('');
   expect(data['message'], 'nor is the one in the textarea').toBe('');
 });
 
-test('choosing another answer is what the form then sends', async ({ page }) => {
+test('a choice of another answer is what the form then sends', async ({ page }) => {
   await gotoStory(page, CONTACT);
 
   await page.getByRole('radio', { name: 'In the repository' }).check();
@@ -56,12 +56,12 @@ test('a reset puts back what the markup said, not what was last clicked', async 
   await page.evaluate(() => (document.querySelector('form.sds-form') as HTMLFormElement).reset());
 
   const data = await submitted(page);
-  expect(data['reply'], 'the answer the page was drawn with').toBe('email');
+  expect(data['reply'], 'the answer the page came with').toBe('email');
   expect(data['scope'], 'the box the markup ticked').toBe('on');
 
   /* And the elements agree with the form they sit in. A reset moves the
-     controls without firing a change, so a component that only listens for
-     one holds an answer the page no longer shows. */
+     controls and fires no change, so a component that only listens for one
+     holds an answer the page no longer shows. */
   const held = await page.evaluate(() => ({
     reply: (document.querySelector('sds-radio') as HTMLElement & { value: string }).value,
     scope: (document.querySelector('sds-checkbox[name="scope"]') as HTMLElement & { checked: boolean }).checked,
@@ -71,8 +71,8 @@ test('a reset puts back what the markup said, not what was last clicked', async 
 
 /* The controls that are not a box you type in, in a form of their own. What
    each one sends, what a reset puts back, and what a `<fieldset disabled>`
-   reaches — the last of which arrives through `formDisabledCallback` and
-   through nothing anybody wrote on the controls themselves. */
+   reaches. The last arrives through `formDisabledCallback` and through
+   nothing anybody wrote on the controls themselves. */
 
 const PANEL = 'forms-in-a-form--default';
 
@@ -127,10 +127,10 @@ test('a reset puts back what the markup said, for all of them', async ({ page })
   expect(data['scope'], 'the box the markup ticked').toBe('versions');
   expect(data['digest'], 'the switch the markup turned on').toBe('on');
   expect(data['per-page'], 'where the markup put the thumb').toBe('30');
-  expect(data['release'], 'the answer the page was drawn with').toBe('13.4');
+  expect(data['release'], 'the answer the page came with').toBe('13.4');
 
-  /* And the elements agree with the form they sit in: a reset moves the
-     controls without firing a change, so an element that only listens for one
+  /* And the elements agree with the form they sit in. A reset moves the
+     controls and fires no change, so an element that only listens for one
      holds an answer the page no longer shows. */
   const held = await page.evaluate(() => ({
     scope: (document.querySelector('sds-checkbox-group') as HTMLElement & { values: string[] }).values,
@@ -141,8 +141,8 @@ test('a reset puts back what the markup said, for all of them', async ({ page })
 });
 
 /* An error the caller wrote is a validity the browser holds, not a colour a
-   reader has to notice: the element is form-associated, so the send is blocked
-   and reported on the box rather than passing silently. */
+   reader has to notice. The element is form-associated, so the browser blocks
+   the send and reports on the box rather than passes in silence. */
 test('a control the caller marked wrong will not let the form go', async ({ page }) => {
   await gotoStory(page, 'forms-select--invalid');
 
@@ -154,15 +154,15 @@ test('a control the caller marked wrong will not let the form go', async ({ page
   expect(blocked.said).toContain('Say which release');
 });
 
-/* A set whose question the page already asks. The legend stays — it is what
+/* A set whose question the page already asks. The legend stays. It is what
    names the group, and an empty one leaves a `<fieldset>` announced as a group
-   with no name — so it is said and not drawn instead. What this holds is that
-   both halves are true at once: still named, and not on the page twice. */
+   with no name. So it speaks and does not draw instead. What this holds is
+   that both halves are true at once: still named, and not on the page twice. */
 test('a set can say its question without drawing it', async ({ page }) => {
   await gotoStory(page, 'forms-checkbox--group-question-above');
 
   const set = page.locator('fieldset.sds-choices');
-  await expect(set, 'the set is still named by its own legend')
+  await expect(set, 'the set still takes its name from its own legend')
     .toHaveAccessibleName('What may we attach to the report?');
 
   /* Drawn once. The heading above it is what a reader sees; the legend takes
@@ -172,12 +172,12 @@ test('a set can say its question without drawing it', async ({ page }) => {
     const r = el.getBoundingClientRect();
     return { w: r.width, h: r.height, display: getComputedStyle(el).display };
   });
-  expect(box.display, 'a legend that is read may not be display:none').not.toBe('none');
+  expect(box.display, 'a legend a reader hears cannot be display:none').not.toBe('none');
   expect(box.w, 'and takes no width').toBeLessThanOrEqual(1);
   expect(box.h, 'and no height').toBeLessThanOrEqual(1);
 
   const first = await set.locator('.sds-check').first()
     .evaluate((el) => el.getBoundingClientRect().top);
   const top = await set.evaluate((el) => el.getBoundingClientRect().top);
-  expect(first - top, 'and leaves no gap where it would have stood').toBeLessThan(4);
+  expect(first - top, 'and leaves no gap where it stood').toBeLessThan(4);
 });

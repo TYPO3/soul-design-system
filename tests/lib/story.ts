@@ -1,10 +1,10 @@
-/* Opening a story deterministically.
+/* A story opened the same way every time.
 
-   `?globals=theme:light` is a request, not a fact: Storybook applies globals
-   when the preview boots, and only then is `data-theme` written onto `<html>`.
-   Measure before that lands and the page is still in the previous theme, which
-   is how a contrast test passes alone and fails in a parallel run. So: wait for
-   the theme asked for, and for the story to have rendered. */
+   `?globals=theme:light` is a request, not a fact. Storybook applies globals
+   when the preview boots, and only then does `data-theme` land on `<html>`.
+   Measure before that lands and the page is still in the previous theme. That
+   is how a contrast test passes alone and fails in a parallel run. So: wait
+   for the theme asked for, and for the story to have rendered. */
 
 import type { Page } from '@playwright/test';
 
@@ -52,9 +52,9 @@ export async function setStoryTheme(page: Page, theme: Theme): Promise<void> {
 export async function gotoStory(page: Page, id: string, theme?: Theme): Promise<void> {
   const url = `/iframe.html?id=${id}&viewMode=story${theme ? `&globals=theme:${theme}` : ''}`;
   await page.goto(url);
-  /* `attached`, not the default `visible`: a modal `<dialog>` is moved to the
+  /* `attached`, not the default `visible`. A modal `<dialog>` moves to the
      top layer, which leaves its container with no box at all. The question
-     here is whether the story rendered, not whether it has a size. */
+     here is if the story rendered, not if it has a size. */
   await page.waitForSelector('#storybook-root > *', { state: 'attached', timeout: 15_000 });
 
   if (theme) {
@@ -65,8 +65,8 @@ export async function gotoStory(page: Page, id: string, theme?: Theme): Promise<
     );
   }
 
-  /* Wait for every element to upgrade before anything measures: a custom
-     element upgrades asynchronously, so a colour read too early is read off
+  /* Wait for every element to upgrade before anything measures. A custom
+     element upgrades asynchronously, so a colour read too early comes off
      markup that does not exist yet. Twice, because a nested element only exists
      once its parent has rendered. */
   await settleElements(page);
@@ -75,20 +75,20 @@ export async function gotoStory(page: Page, id: string, theme?: Theme): Promise<
      in a vendored family that arrives over the network like any other. */
   await loadFonts(page);
 
-  /* Freeze transitions before anything measures. Switching `data-theme` changes
-     every token at once and several components carry `transition: color`, so
-     axe reading inside that window sees an intermediate value and reports a
-     contrast failure belonging to neither theme. Injected after navigation, so
-     the stylesheet outranks the component layer. */
+  /* Freeze transitions before anything measures. A switch of `data-theme`
+     changes every token at once and several components carry `transition:
+     color`. An axe read inside that window sees an intermediate value and
+     reports a contrast failure that belongs to neither theme. Injected after
+     navigation, so the stylesheet outranks the component layer. */
   await page.addStyleTag({
     content: '*, *::before, *::after { transition: none !important; animation: none !important; }',
   });
 }
 
-/* Wait until no axe run is in flight. The addon is configured not to run
-   automatically, but the guard stays: axe is a single global with one run at a
-   time, and a second caller is thrown "Axe is already running" rather than
-   queued — a failure that only appears under parallelism. */
+/* Wait until no axe run is in flight. The addon's configuration stops the
+   automatic run, but the guard stays. Axe is a single global with one run at
+   a time. A second caller gets "Axe is already running" rather than a place
+   in a queue — a failure that only appears under parallelism. */
 export async function axeIdle(page: Page): Promise<void> {
   await page
     .waitForFunction(

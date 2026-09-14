@@ -1,27 +1,27 @@
 /* sds-dialog — the question, and the answer coming back.
 
    A confirmation is the platform's own: the pair is a `<form method="dialog">`,
-   so pressing one closes the dialog and records which. That buys a question
-   written entirely in markup, and it holds only as long as the two events say
-   what was pressed — including at a second opening, where a `returnValue` left
-   standing would have the dialog answering with the last reader's press.
+   so a press on one closes the dialog and records which. That buys a question
+   written entirely in markup. It holds only as long as the two events say
+   which press it was, at a second open included. A `returnValue` left in
+   place there makes the dialog answer with the last reader's press.
 
-   The size scale is measured beside it because a cap is only a cap if
-   something gives: the body is what scrolls. And the head is measured in every
-   surface that draws one — it is `sds-modal`'s node standing in a `<dialog>`
-   and in a lightbox, which is where a set read off the wrong ancestor showed
-   up as a close button in the corner of the border. */
+   The size scale measures beside it because a cap is only a cap if something
+   gives: the body is what scrolls. And the head measures in every surface
+   that draws one. It is `sds-modal`'s node in a `<dialog>` and in a lightbox.
+   The lightbox is where a set read off the wrong ancestor showed up as a
+   close button in the corner of the border. */
 
 import { test, expect } from '@playwright/test';
 
 const LONG = 'Every size stops somewhere, and this is what it stops. '.repeat(40);
 
-/* A heading nobody shortened, and a word nothing can break — the two ways a
+/* A heading nobody shortened, and a word nothing can break. The two ways a
    title takes the whole row and pushes what is beside it out of the box. */
 const WIDE = 'Publish the task skills into the workspace and record the setup?';
 const UNBREAKABLE = 'Reindexierungsauftragsbestaetigungsbenachrichtigungsdienst';
 
-/* A drawing that needs no server: the lightbox is here for its head, which is
+/* A drawing that needs no server. The lightbox is here for its head, which is
    the modal's, and the stage under it only has to have something in it. */
 const DRAWING =
   'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 4 3%22%3E%3C/svg%3E';
@@ -80,9 +80,9 @@ test('a button that names the dialog opens it, and the pair is the labels', asyn
   await page.locator('#open').click();
   await expect(page.locator(box('confirm'))).toBeVisible();
 
-  /* The way out first and the press that cannot be undone last — the order
-     the rest of the system reads in, and the reason the tone is on the second
-     button rather than announced in the heading. */
+  /* The way out first and the press with no way back last. That is the order
+     the rest of the system reads in. It is also the reason the tone is on the
+     second button rather than in the heading. */
   const buttons = page.locator(`${foot('confirm')} button`);
   await expect(buttons).toHaveCount(2);
   await expect(buttons.nth(0)).toHaveText('Keep it');
@@ -124,8 +124,8 @@ test('the cancel button, the header X and Escape are all a cancel', async ({ pag
   ]);
 });
 
-/* `returnValue` outlives a close. Left standing, the second question would be
-   answered by whoever pressed the first one. */
+/* `returnValue` outlives a close. Left in place, whoever pressed the first
+   question answers the second. */
 test('an answered question does not answer the next one', async ({ page }) => {
   await page.locator('#open').click();
   await page.locator(`${foot('confirm')} button`).nth(1).click();
@@ -138,7 +138,7 @@ test('an answered question does not answer the next one', async ({ page }) => {
   expect(await heard(page)).toEqual(['sds-dialog-confirm:confirm', 'sds-dialog-cancel:confirm']);
 });
 
-test('ask() settles on what was pressed', async ({ page }) => {
+test('ask() settles on the press', async ({ page }) => {
   const answer = page.evaluate(() =>
     (document.querySelector('#confirm') as HTMLElement & { ask(): Promise<boolean> }).ask());
   await expect(page.locator(box('confirm'))).toBeVisible();
@@ -146,8 +146,8 @@ test('ask() settles on what was pressed', async ({ page }) => {
   expect(await answer).toBe(true);
 });
 
-/* Both directions of one size: the width it takes, and the height it stops at
-   — past which the head and the foot stay where they are and the body is the
+/* Both directions of one size: the width it takes, and the height it stops at.
+   Past that the head and the foot stay where they are and the body is the
    part that gives. */
 test('a size is a width and a height, and the body is what scrolls', async ({ page }) => {
   await page.locator('#open-long').click();
@@ -163,9 +163,9 @@ test('a size is a width and a height, and the body is what scrolls', async ({ pa
   expect(scrolls).toBe(true);
 });
 
-/* The head is one row in three surfaces, and every value it draws with used to
-   be read off `.sds-modal` — which a lightbox is not, so its whole set arrived
-   as nothing: no padding, no rule, and the close button against the corner. */
+/* The head is one row in three surfaces. Every value it draws with once came
+   off `.sds-modal`, which a lightbox is not. So its whole set arrived as
+   nothing: no padding, no rule, and the close button against the corner. */
 test('the head places its title and its close alike in every surface', async ({ page }) => {
   const heads: Record<string, unknown>[] = [];
   for (const id of ['confirm', 'wide', 'word', 'drawing']) {
@@ -178,8 +178,8 @@ test('the head places its title and its close alike in every surface', async ({ 
       const close = root.querySelector('.sds-modal__close')!.getBoundingClientRect();
       const glyph = root.querySelector('.sds-modal__close svg')!.getBoundingClientRect();
       return {
-        /* The title starts where the mark ends: a square around a glyph reaches
-           the padding edge, and the head gives that half back so the two marks
+        /* The title starts where the mark ends. A square around a glyph reaches
+           the padding edge. The head gives that half back, so the two marks
            stand the same distance from their own edges. */
         titleInset: Math.round(title.left - surface.left),
         glyphInset: Math.round(surface.right - glyph.right),
@@ -197,8 +197,8 @@ test('the head places its title and its close alike in every surface', async ({ 
   for (const head of heads.slice(1)) expect(head).toEqual(first);
 });
 
-/* Both strips are a row of controls, and the foot's are the taller — so the
-   head is given that band as a floor rather than the height its own smaller
+/* Both strips are a row of controls, and the foot's are the taller. So the
+   head gets that band as a floor rather than the height its own smaller
    button happens to make. Unequal, the body sits in a lopsided sandwich. */
 test('the head and the foot are the same band', async ({ page }) => {
   await page.locator('#open').click();

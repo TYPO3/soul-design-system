@@ -1,11 +1,11 @@
-/* The one control in this system whose list is drawn rather than the browser's.
+/* The one control in this system that draws its own list, not the browser's.
 
-   A native `<select>` opens a window the page has no reach into — the operating
-   system's colours on the operating system's canvas — so a dark page opens a
-   light list. Drawing it is what buys the list back, and what it costs is
-   everything the platform was doing for free. This suite is that bill: the
-   keyboard, what the list says about itself, and the real `<select>` underneath
-   still being what the form sends.
+   A native `<select>` opens a window the page has no reach into: the operating
+   system's colours on the operating system's canvas. So a dark page opens a
+   light list. A drawn list buys the list back, and what it costs is
+   everything the platform did for free. This suite is that bill. The
+   keyboard, what the list says about itself, and the real `<select>`
+   underneath still as what the form sends.
 
    Nothing here shows in a screenshot, which is why the card cannot hold it. */
 
@@ -51,16 +51,16 @@ test('it opens on the keys, at the answer in force', async ({ page }) => {
   await button(page).focus();
   await page.keyboard.press('ArrowDown');
   await expect(list(page)).toBeVisible();
-  /* Opened where the reader already is, not at the top: a list that starts over
+  /* Opened where the reader already is, not at the top. A list that starts over
      every time makes them find their own answer again before they can move. */
   await onEntry(page, '13.4', 'opened on the answer in force');
 
   /* The focus never leaves the button — that is what `aria-activedescendant` is
-     for, and it is why the list can be walked without anything being blurred. */
+     for, and it is why a reader can walk the list and nothing blurs. */
   await expect(button(page)).toBeFocused();
 });
 
-test('the arrows walk it, the ends jump, and a closed answer is stepped over', async ({ page }) => {
+test('the arrows walk it, the ends jump, and the walk steps over a closed answer', async ({ page }) => {
   await gotoStory(page, GROUPED);
   await button(page).focus();
   await page.keyboard.press('ArrowDown');
@@ -76,7 +76,7 @@ test('the arrows walk it, the ends jump, and a closed answer is stepped over', a
   await onEntry(page, '14.3', 'and Home goes back to the first');
 });
 
-test('typing goes to the answer, open or closed', async ({ page }) => {
+test('a typed word goes to the answer, open or closed', async ({ page }) => {
   await gotoStory(page, GROUPED);
   await button(page).focus();
 
@@ -86,8 +86,8 @@ test('typing goes to the answer, open or closed', async ({ page }) => {
   await expect(list(page)).toBeHidden();
   await expect(button(page)).toHaveText('main');
 
-  /* What is typed in one breath is one word: `m` then `a` is "ma" and not a
-     second search for `a`, which is what makes a list of near-identical labels
+  /* Typed in one breath is one word. `m` then `a` is "ma" and not a second
+     search for `a`, which is what makes a list of near-identical labels
      reachable at all. A second past the last key, the word starts over. */
   await page.keyboard.press('ArrowDown');
   await page.waitForTimeout(1100);
@@ -114,14 +114,14 @@ test('Enter takes what the keys are on, Escape leaves the answer alone', async (
   await expect(button(page), 'walked past and left').toHaveText('14.3');
 });
 
-test('an answer on the list and not on offer cannot be taken', async ({ page }) => {
+test('an answer on the list and not on offer refuses the press', async ({ page }) => {
   await gotoStory(page, GROUPED);
   await button(page).click();
 
   const closed = page.getByRole('option', { name: '11.5' });
   await expect(closed).toHaveAttribute('aria-disabled', 'true');
-  /* Forced, because the pointer would not reach it: the press is what has to be
-     refused, and a control the pointer cannot reach is only half of that. */
+  /* Forced, because the pointer does not reach it. The press is what has to
+     fail, and a control the pointer cannot reach is only half of that. */
   await closed.click({ force: true });
   await expect(button(page), 'the answer did not move').toHaveText('13.4');
   await expect(list(page), 'and the list stayed open').toBeVisible();
@@ -138,6 +138,6 @@ test('the real select underneath is what carries the value', async ({ page }) =>
     const control = document.querySelector('sds-select select') as HTMLSelectElement;
     return { value: control.value, hidden: getComputedStyle(control).opacity };
   });
-  expect(held.value, 'moved with the drawn list, before anything was announced').toBe('14.3');
-  expect(held.hidden, 'and it is not what the reader is looking at').toBe('0');
+  expect(held.value, 'moved with the drawn list, before any announcement').toBe('14.3');
+  expect(held.hidden, 'and it is not what the reader looks at').toBe('0');
 });

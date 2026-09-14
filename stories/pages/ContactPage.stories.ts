@@ -159,7 +159,7 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
   const sent = html`<div class="sds-stack">
           <sds-note
             tone="ok"
-            heading="The report was sent · 6 answers, and the server scope"
+            heading="The report went out · 6 answers, and the server scope"
             .body="${html`Nothing else left this machine. The scope is attached exactly as the
               page showed it, and the address is used for the reply alone.`}"
           ></sds-note>

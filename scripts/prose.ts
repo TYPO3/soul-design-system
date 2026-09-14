@@ -328,6 +328,9 @@ function strings(source: string, ext: string): Finding[] {
       .replace(/&[a-z]+;|&#\d+;/g, ' ');
     for (const piece of text.split('\n')) {
       const p = inline(piece);
+      /* A command is words too, but a path or a flag among them says it is
+         one, and a command is not prose. */
+      if (/\/|--/.test(p) && !/[.:!?]\s|[A-Z]/.test(p)) continue;
       if (words(p) >= 4 && /[a-z]{2,}\s+[a-z]{2,}\s+[a-z]{2,}/.test(p) && !/[{};=]/.test(p)) {
         blocks.add(p, t.line, true);
         blocks.flush();

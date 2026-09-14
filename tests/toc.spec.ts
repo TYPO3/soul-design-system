@@ -1,20 +1,20 @@
 /* The contents list, and where it says the reader is.
 
-   `sds-nav-toc` is the one navigation whose current entry nothing rendering
-   the page can name, so it reads the page instead — and past the width that
-   stands it beside the column it is a box of its own that scrolls and shows
-   only two levels. Both of those can leave the list marking a place the
-   reader cannot see, which is the list saying nothing at all while looking
-   exactly like a list that is working.
+   `sds-nav-toc` is the one navigation whose current entry no renderer can
+   name, so it reads the page instead. Past the width that stands it beside
+   the column it is a box of its own that scrolls and shows only two levels.
+   Both of those can leave the list with a mark on a place the reader cannot
+   see. That is a list that says nothing at all and looks exactly like a list
+   that works.
 
-   Neither is visible in a screenshot or in the markup: it takes a page long
+   Neither is visible in a screenshot or in the markup. It takes a page long
    enough to scroll and a box too short to hold the list. */
 
 import { test, expect } from '@playwright/test';
 
-/** Sections enough to outrun the list's own box, each tall enough to be
-    scrolled to on its own. Three levels, because the list beside the column
-    draws two and the third is what the page still has headings for. */
+/** Sections enough to outrun the list's own box, each tall enough to scroll
+    to on its own. Three levels, because the list beside the column draws two
+    and the third is what the page still has headings for. */
 const SECTIONS = Array.from({ length: 12 }, (_, i) => ({
   id: `part-${i}`,
   label: `Part ${i + 1}`,
@@ -69,8 +69,8 @@ const PAGE = `<!doctype html>
 </html>`;
 
 /* Wide enough that the list stands beside the column, and short enough that it
-   does not fit in the reserve — which is a laptop, and the state the list was
-   never read in. */
+   does not fit in the reserve. That is a laptop, and the state nobody read
+   the list in. */
 test.use({ viewport: { width: 1440, height: 700 } });
 
 test.beforeEach(async ({ page }) => {
@@ -81,7 +81,7 @@ test.beforeEach(async ({ page }) => {
   await expect(page.locator('.sds-toc__item').first()).toBeVisible();
 });
 
-/** Where the mark is, and whether the box it is in is showing it. */
+/** Where the mark is, and if the box it is in shows it. */
 const marked = (page: import('@playwright/test').Page) =>
   page.evaluate(() => {
     const here = document.querySelector('.sds-toc__item.is-active') as HTMLElement | null;
@@ -102,9 +102,9 @@ test('the list is a box that scrolls, which is the case the rest of this asks ab
     const style = getComputedStyle(list);
     return { position: style.position, overflowY: style.overflowY, over: list.scrollHeight - list.clientHeight };
   });
-  expect(box.position, 'the list should be resting beside the column').toBe('sticky');
+  expect(box.position, 'the list must rest beside the column').toBe('sticky');
   expect(box.overflowY).toBe('auto');
-  expect(box.over, 'the fixture should have more entries than the box holds').toBeGreaterThan(40);
+  expect(box.over, 'the fixture must have more entries than the box holds').toBeGreaterThan(40);
 });
 
 test('the marked entry stays where the reader can see it, all the way down', async ({ page }) => {
@@ -121,19 +121,19 @@ test('the marked entry stays where the reader can see it, all the way down', asy
 
 test('a heading the list does not draw leaves the section it is in marked', async ({ page }) => {
   /* Beside the column the list draws two levels. The third has a heading on
-     the page all the same, and the reader standing at one is still inside the
-     section above it — a list that marks the heading itself marks a row that
-     is not there, and every visible entry goes blank. */
+     the page all the same, and the reader at one is still inside the section
+     above it. A list that marks the heading itself marks a row that is not
+     there, and every visible entry goes blank. */
   const hidden = await page.evaluate(() => {
     const rows = [...document.querySelectorAll<HTMLElement>('.sds-toc__item')];
     return rows.filter((row) => !row.getClientRects().length).map((row) => row.getAttribute('href'));
   });
-  expect(hidden, 'the fixture should carry a level the list hides').toContain('#part-4-b');
+  expect(hidden, 'the fixture must carry a level the list hides').toContain('#part-4-b');
 
   await page.evaluate(() => document.getElementById('part-4-b')?.scrollIntoView());
   await page.waitForTimeout(120);
   const at = await marked(page);
-  expect(at, 'nothing was marked while the reader stood at a hidden heading').not.toBeNull();
+  expect(at, 'no mark while the reader stood at a hidden heading').not.toBeNull();
   expect(at?.href).toBe('#part-4-a');
   expect(at?.inView).toBe(true);
 });
@@ -163,5 +163,5 @@ test('in the flow the list neither scrolls nor hides a level', async ({ page }) 
 
   await page.evaluate(() => document.getElementById('part-4-b')?.scrollIntoView());
   await page.waitForTimeout(120);
-  expect((await marked(page))?.href, 'the deepest entry is drawn here, so it is the mark').toBe('#part-4-b');
+  expect((await marked(page))?.href, 'the deepest entry draws here, so it is the mark').toBe('#part-4-b');
 });

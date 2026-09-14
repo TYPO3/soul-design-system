@@ -1,9 +1,9 @@
 /* The Storybook shell itself boots.
 
    Everything else in this suite opens `/iframe.html`, the preview. Nothing
-   opens `/` — the sidebar, the toolbar, the surface a person actually looks at
-   — so a manager that crashes on load is invisible to a green run. The manager
-   is configured in a file the preview never imports, so nothing about the
+   opens `/`: the sidebar, the toolbar, the surface a person looks at. So a
+   manager that crashes on load is invisible to a green run. The manager's
+   configuration is in a file the preview never imports, so nothing about the
    preview can stand in for this. */
 
 import { test, expect } from '@playwright/test';
@@ -19,27 +19,27 @@ test('the manager shell boots, with its sidebar and no page errors', async ({ pa
 
   await page.goto('/', { waitUntil: 'networkidle' });
 
-  /* The tree is rendered by the manager bundle. If that bundle threw, the
-     selector never appears — which is the failure this test exists for, so
-     it is asserted rather than waited on with a catch. */
+  /* The manager bundle renders the tree. If that bundle threw, the selector
+     never appears. That is the failure this test exists for, so it is a claim
+     rather than a wait with a catch. */
   await page.waitForSelector('#storybook-explorer-tree', { timeout: 30_000 });
 
   const links = await page.locator('#storybook-explorer-tree a').count();
-  expect(links, 'the sidebar should list the stories').toBeGreaterThan(0);
+  expect(links, 'the sidebar must list the stories').toBeGreaterThan(0);
 
   /* The system's name, not the tool's. `manager.ts` sets it, and a broken
      theme object takes it down with the rest of the shell. */
   await expect(page.locator('.sidebar-header')).toContainText('Soul Design System');
 
-  expect(errors, 'the manager should boot clean').toEqual([]);
+  expect(errors, 'the manager must boot clean').toEqual([]);
 });
 
-/* The viewport list is configured in the preview and rendered by the manager,
-   so `tests/viewports.spec.ts`, comparing two files, cannot see whether any of
-   it arrives. Both halves are checked here: the entries reach the toolbar in
-   the order written, and choosing one resizes the preview. A menu that moves
-   nothing looks exactly like a working one. */
-test('the toolbar offers the sizes, and picking one resizes the preview', async ({ page }) => {
+/* The viewport list's configuration is in the preview and the manager renders
+   it. So `tests/viewports.spec.ts`, which compares two files, cannot see if
+   any of it arrives. Both halves have their check here: the entries reach the
+   toolbar in the written order, and a choice of one resizes the preview. A
+   menu that moves nothing looks exactly like one that works. */
+test('the toolbar offers the sizes, and a choice of one resizes the preview', async ({ page }) => {
   await page.goto('/?path=/story/pages-landing--page', { waitUntil: 'networkidle' });
   await page.waitForSelector('#storybook-explorer-tree', { timeout: 30_000 });
 
@@ -55,9 +55,9 @@ test('the toolbar offers the sizes, and picking one resizes the preview', async 
   const frame = page.locator('#storybook-preview-iframe');
   await expect(frame).toHaveCSS('width', tablet?.styles.width ?? '');
 
-  /* And the page inside it answered: 768 is under the width where the bar
-     starts giving things up, and the version badge is the first to go. Without
-     this the test would pass on a preview that resized around a story whose
-     stylesheet never loaded. */
+  /* And the page inside it answered. 768 is under the width where the bar
+     starts to give things up, and the version badge is the first to go.
+     Without this the test passes on a preview that resized around a story
+     whose stylesheet never loaded. */
   await expect(frame.contentFrame().locator('.sds-bar sds-badge')).toBeHidden();
 });
