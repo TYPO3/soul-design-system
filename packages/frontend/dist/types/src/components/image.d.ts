@@ -59,9 +59,8 @@ export declare class SdsImage extends SdsElement {
     /** What a server wrote between the tags, dropped. The element takes no
         content — the picture follows from `src` — but it does take a fallback.
         That is the same picture in the class layer, for a surface that renders
-        before any script and for a reader who runs none. The element redraws
-        it and the server's copy goes, or light DOM leaves two pictures in one
-        box. */
+        before any script. The element redraws it and the server's copy goes, or
+        light DOM leaves two pictures in one box. */
     connectedCallback(): void;
     protected render(): TemplateResult;
 }

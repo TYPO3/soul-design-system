@@ -17,9 +17,8 @@ import { define, isBlank, SdsElement } from '../lib/element.ts';
 /** `raised` sits on the canvas and has to read as a plane. `sunken` is machine
     output: code, logs, structured content. `plain` is the hairline with no
     fill, for a statement that stands on the canvas and stays in it. The
-    filled two take their names from their fill — the tokens are
-    `--surface-raised` and `--surface-sunken` — not from the box, which is the
-    same box. */
+    filled two take their names from their fill — `--surface-raised` and
+    `--surface-sunken` — not from the box, which is the same box. */
 export type Plane = 'plain' | 'raised' | 'sunken';
 
 /** The class each plane is. `raised` writes `sds-panel`, the name the class

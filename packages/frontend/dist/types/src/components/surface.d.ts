@@ -5,9 +5,8 @@ import { SdsElement } from '../lib/element.js';
 /** `raised` sits on the canvas and has to read as a plane. `sunken` is machine
     output: code, logs, structured content. `plain` is the hairline with no
     fill, for a statement that stands on the canvas and stays in it. The
-    filled two take their names from their fill — the tokens are
-    `--surface-raised` and `--surface-sunken` — not from the box, which is the
-    same box. */
+    filled two take their names from their fill — `--surface-raised` and
+    `--surface-sunken` — not from the box, which is the same box. */
 export type Plane = 'plain' | 'raised' | 'sunken';
 export interface SurfaceProps {
     /** Which plane it is. `plain` is the hairline with no fill, `raised` a
