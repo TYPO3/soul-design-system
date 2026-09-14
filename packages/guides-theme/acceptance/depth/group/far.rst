@@ -4,10 +4,10 @@
 Three levels from the root
 ==========================
 
-The page the rail used to lose. Its section was looked for by walking two
-levels down from the top and matching the link that resolves to ``#``; from
-here nothing matched, so the rail fell back to listing the sections and the
-reader lost every page around them.
+The page the rail used to lose. A walk two levels down from the top, with
+a match on the link that resolves to ``#``, found no section from here. So
+the rail fell back to a list of the sections, and the reader lost every
+page around them.
 
-It is found by the rootline now, which is the tree walked upwards and has no
+The rootline finds it now. That is the tree walked upwards, and it has no
 depth to run out of.

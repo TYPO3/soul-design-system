@@ -4,15 +4,15 @@
 The Soul design system, as a book
 =================================
 
-This project is the fixture the theme is built against. It is written in
-reStructuredText rather than Markdown for one reason: the Guides Markdown
-parser reads CommonMark and nothing else, so an admonition, a ``confval``, a
-tab or a text role has no spelling there. A reference is made mostly of those.
+This project is the fixture the theme's check runs against. It is
+reStructuredText, not Markdown, for one reason. The Guides Markdown parser
+reads CommonMark and nothing else, so an admonition, a ``confval``, a tab
+or a text role has no spelling there. A reference is mostly those.
 
-This one is narrative — the shapes a page of prose falls into. The
-:doc:`nodes` is a real one, and it is where the nodes that only a
-reference uses appear. :doc:`depth/index` is neither: it is a tree, and it is
-there because navigation is the one thing a page cannot show about itself.
+This page is narrative: the shapes a page of prose falls into.
+:doc:`nodes` is a real reference, and the nodes only a reference uses
+appear there. :doc:`depth/index` is neither. It is a tree, and it is there
+because navigation is the one thing a page cannot show about itself.
 
 .. toctree::
    :maxdepth: 3
@@ -22,8 +22,8 @@ there because navigation is the one thing a page cannot show about itself.
 
 .. note::
 
-   Nobody reads this project. Every node kind appears exactly once so that it
-   can be looked at instead of guessed at, and where it looks wrong, that is
+   Nobody reads this project. Every node kind appears exactly once, so a
+   reviewer can look at it instead of a guess. Where it looks wrong, that is
    the finding.
 
 Headings
@@ -43,16 +43,17 @@ Fifth level
 Sixth level
 """""""""""
 
-Six levels, because reStructuredText allows six and the type scale names
+Six levels, because reStructuredText permits six and the type scale names
 three.
 
 Text
 ====
 
-A paragraph with *emphasis*, **strong emphasis**, ``an inline literal``, and a
-`link to the renderer <https://docs.phpdoc.org/components/guides/guides/>`__. A
-second sentence, so the measure has something to hold: text is set at
-sixty-six characters and everything wider than words runs to the column.
+A paragraph with *emphasis*, **strong emphasis**, ``an inline literal``,
+and a `link to the renderer
+<https://docs.phpdoc.org/components/guides/guides/>`__. A second sentence,
+so the measure has something to hold. Text sits at sixty-six characters,
+and everything wider than words runs to the column.
 
 | A line block keeps the breaks the author put in,
 | which is what an address or a verse needs.
@@ -62,12 +63,12 @@ sixty-six characters and everything wider than words runs to the column.
 |     and a second under it.
 
    A block quote is somebody else's sentences, stepped in and marked at the
-   edge rather than set in italics.
+   edge, not in italics.
 
 .. rubric:: A rubric
 
-A rubric is a heading that stays out of the outline — the one heading a
-reference uses that no table of contents should list.
+A rubric is a heading outside the outline. It is the one heading a
+reference uses that no table of contents lists.
 
 ----
 
@@ -76,22 +77,21 @@ The transition above is punctuation of the text, not a divider of the page.
 Text roles
 ----------
 
-The words a manual has to say precisely: press :kbd:`Ctrl-K`, choose
+The words a manual has to say with precision. Press :kbd:`Ctrl-K`, choose
 :guilabel:`Save`, edit :file:`config/system/settings.php`, run
-:command:`composer install`, and note that :abbr:`DS (Design System)` means
-something specific here. A formula may carry :sup:`superscript` and
-:sub:`subscript`, and :dfn:`a term being defined` is marked where it is first
-used.
+:command:`composer install`. :abbr:`DS (Design System)` means something
+specific here. A formula can carry :sup:`superscript` and :sub:`subscript`.
+:dfn:`A term with a definition` gets its mark at its first use.
 
-A formula is handed through as the source it was written as — :math:`E = mc^2`
-in a sentence, and on a line of its own:
+A formula goes through as the source the author wrote: :math:`E = mc^2` in
+a sentence, and on a line of its own:
 
 .. math::
 
    \frac{a}{b} = \frac{c}{d}
 
-Nothing here typesets it. The renderer writes what the author wrote, so it is
-set as what it is rather than as a formula it is not.
+Nothing here typesets it. The renderer writes what the author wrote, so it
+appears as what it is, and not as a formula it is not.
 
 Lists
 =====
@@ -113,17 +113,17 @@ Lists
 3. A third
 
 Definition list
-   What the term means, set as ordinary prose one step in. This is the shape a
+   What the term means, as ordinary prose one step in. This is the shape a
    reference falls into whenever it names things.
 
 Second term
-   Terms carry the weight, because that is what somebody scans for.
+   Terms carry the weight, because that is what a reader scans for.
 
 Admonitions
 ===========
 
 Twelve of them, and the system has four tones. The mapping is a design
-decision, and this is where it can be made by looking rather than by argument.
+decision, and here a reviewer can make it by sight instead of argument.
 
 .. note::
    A note.
@@ -153,7 +153,7 @@ decision, and this is where it can be made by looking rather than by argument.
    An error.
 
 .. seealso::
-   Somewhere else worth reading. This one has no tone in this system at all.
+   Somewhere else worth a look. This one has no tone in this system at all.
 
 .. admonition:: A title of its own
 
@@ -166,7 +166,7 @@ decision, and this is where it can be made by looking rather than by argument.
    What moved.
 
 .. deprecated:: 2.0
-   What is going away.
+   What goes away.
 
 Code
 ====
@@ -201,9 +201,8 @@ A literal block introduced by a double colon::
    A block whose language is text: escaped, uncoloured, and the honest
    answer when nobody said what it is.
 
-A grammar the highlighter does not ship is registered by this theme, so a
-TypoScript block is coloured on the server like every other one — see
-``Grammars``.
+This theme registers a grammar the highlighter lacks. So a TypoScript block
+gets its colour on the server like every other one; see ``Grammars``.
 
 .. code-block:: typoscript
    :caption: A grammar this system wrote itself
@@ -243,10 +242,10 @@ TypoScript block is coloured on the server like every other one — see
        }
    }
 
-A block whose language is ``diff`` is a different body in the same frame: the
-rows carry status colour, the caption names the file, and the two file headers
-of the format are left as context — the head above them already says which file
-this is.
+A block whose language is ``diff`` is a different body in the same frame.
+The rows carry status colour, and the caption names the file. The two file
+headers of the format stay context. The head above them already says which
+file this is.
 
 .. code-block:: diff
    :caption: composer.json
@@ -280,13 +279,13 @@ Tables
 
    * - Command
      - What it does
-     - When you reach for it
+     - When you use it
    * - ``make verify``
      - headers, classes, references, fit, cards, types, conventions
-     - before calling anything done
+     - before you call anything done
    * - ``make guides``
      - renders this project into ``.out/site/``
-     - while the theme is being written
+     - while you write the theme
 
 Pictures
 ========
@@ -295,10 +294,9 @@ Pictures
    :alt: A placeholder
    :zoomable:
 
-   The caption, which sits under the picture and reads as a label for it
-   rather than as a sentence of the text. This one opens at full size, because
-   it was asked to: the frame is the press, and the viewer takes the claim
-   into its own head.
+   The caption, which sits under the picture and reads as a label for it,
+   not as a sentence of the text. This one opens at full size, on request.
+   The frame is the press, and the viewer takes the claim into its own head.
 
 .. image:: /_images/placeholder.svg
    :alt: A placeholder, dropped into the page without a claim under it
@@ -306,36 +304,35 @@ Pictures
 .. figure:: /_images/unprepared.svg
    :alt: A drawing with no ground of its own
 
-   Every picture is linked, so every drawing arrives in the colours its file
-   was written with — nothing on the page has to be true of the file for it to
-   show.
+   Every picture is a link, so every drawing arrives in the colours of its
+   file. Nothing on the page has to be true of the file for it to show.
 
 .. figure:: /_images/transparent.svg
    :alt: Three boxes and two arrows, in dark line art on nothing
 
-   And what a diagram exported by a tool usually is: dark line art on
-   transparency. The frame gives it a ground its colours were drawn for and
-   keeps that ground in both modes — the one surface here that does not follow
-   the reader into dark.
+   And what a diagram from a tool usually is: dark line art on transparency.
+   The frame gives it a ground for those colours and keeps that ground in
+   both modes. It is the one surface here that does not follow the reader
+   into dark.
 
 Two halves
 ==========
 
-A picture beside the sentences it is of, which is the shape neither a figure
-in the column nor a set of cards makes. Every block in the split is a column,
-so the first of these needs nothing to say where its halves are — a paragraph
+A picture beside the sentences it is of. Neither a figure in the column nor
+a set of cards makes that shape. Every block in the split is a column, so
+the first of these needs nothing to say where its halves are. A paragraph
 and a picture are two blocks and stand as two.
 
 .. split::
 
    The half on the left is this paragraph and nothing else. At a width that
-   holds one column it stacks under the picture in the order it is written,
-   which is the default and is what a reader of the source expects.
+   holds one column it stacks under the picture in the written order. That
+   is the default, and what a reader of the source expects.
 
    .. figure:: /_images/placeholder.svg
       :alt: A placeholder, standing beside the paragraph rather than under it
 
-      A picture in a half keeps its frame and its claim. Only where it stands
+      A picture in a half keeps its frame and its claim. Only its place
       changed.
 
 .. split::
@@ -346,11 +343,11 @@ and a picture are two blocks and stand as two.
 
       They are one half only when something says so, and this is it.
 
-      The picture leads here: it stands to the end of the line on a page and
-      above this paragraph on a phone, because what illustrates a sentence is
-      read before it once there is one column. The two are level rather than
-      aligned at the top, which is what ``center`` is for — a short half beside
-      a tall one is a caption of it, not a column that ran out.
+      The picture leads here. It stands to the end of the line on a page and
+      above this paragraph on a phone. What illustrates a sentence comes
+      before it once there is one column. The two are level, not aligned at
+      the top, which is what ``center`` is for. A short half beside a tall one
+      is a caption of it, not a column that ran out.
 
    .. half::
 
@@ -362,10 +359,10 @@ and a picture are two blocks and stand as two.
 Figures
 =======
 
-Numbers stated as facts, at the width a figure holds. Each carries the line
-that bounds it — without one a number is a boast — and the third is a share of
-a stated whole, which it says in words. Every one of them has the same three
-lines, so the notes are read across the set rather than each on its own.
+Numbers as facts, at the width a figure holds. Each carries the line that
+bounds it. Without one a number is a boast. The third is a share of a stated
+whole, which it says in words. Every one of them has the same three lines,
+so a reader reads the notes across the set.
 
 .. grid:: dense
 
@@ -382,32 +379,32 @@ lines, so the notes are read across the set rather than each on its own.
       :icon: actions-clock
 
       From bundled knowledge, with no installation booted and no request
-      leaving the machine. The line may carry a :doc:`reference <nodes>`,
-      which is why it is written between the tags.
+      out of the machine. The line can carry a :doc:`reference <nodes>`,
+      which is why it stands between the tags.
 
    .. stat:: 2
       :of: 3
       :label: network sources answering
       :icon: actions-globe
 
-      One is slow and one is unreachable from the checker. Neither is required
-      to answer.
+      One is slow and one is unreachable from the checker. Neither has to
+      answer.
 
    .. stat:: 0
       :label: writes
       :icon: actions-file-shield
 
-      Every source is read. Nothing is written back, and nothing is executed
-      to answer.
+      The tool reads every source. It writes nothing back, and it runs
+      nothing to answer.
 
 Colours
 =======
 
-A palette, laid out by the same wall. Each entry carries all three of the
-things a colour is: the chip nobody can type, the name a design writes, and
-the value the mode resolved it to. The last of them is a hairline, drawn as
-its own edge — at one pixel a value is invisible, and filled it would be a
-different job done by the same number.
+A palette, in the same wall. Each entry carries all three things a colour
+is. The chip nobody can type, the name a design writes, and the value the
+mode resolved it to. The last of them is a hairline, drawn as its own edge.
+At one pixel a value is invisible, and as a fill it is a different job by
+the same number.
 
 .. grid:: wide
 
@@ -431,39 +428,39 @@ different job done by the same number.
 Planes
 ======
 
-The same wall holding statements rather than figures: a plane that says
-something in place, which is what tells it from the card below — nothing here
-goes anywhere. The first is told apart by its glyph before it is read, the
-second is numbered as one of a set, and the third is the sunken fill, which is
-what machine output is drawn on.
+The same wall with statements, not figures. A plane says something in
+place, which tells it from the card below. Nothing here goes anywhere. The
+first has a glyph a reader sees before a read. The second has a number as
+one of a set. The third is the sunken fill, the ground of machine output.
 
 .. grid::
 
    .. surface:: Read, never write
       :icon: actions-file-shield
 
-      Every source is read, nothing is written back, and the line may carry a
-      :doc:`reference <nodes>` — which is why it is written between the tags.
+      The tool reads every source and writes nothing back. The line can
+      carry a :doc:`reference <nodes>`, which is why it stands between the
+      tags.
 
    .. surface:: One answer, one origin
       :label: Rule 02
 
-      Two answers that disagree are told apart by where they came from rather
-      than by which was asked for last.
+      Their origins tell two answers that disagree apart, not the order of
+      the questions.
 
    .. surface:: The reply, as it arrives
       :plane: sunken
 
       The sunken fill, for machine output. It is the same plane and the same
-      parts; only the ground it is drawn on says what kind of thing is on it.
+      parts. Only the ground says what kind of thing is on it.
 
 Borrowed sentences
 ==================
 
-A sentence out of somewhere else, with where it came from. The first is a
-person and carries a monogram; the second is a document, which has no initials
-and is given none — a monogram of a filename is a person invented for a source
-that has none.
+A sentence out of somewhere else, with its source. The first is a person
+and carries a monogram. The second is a document, which has no initials and
+gets none. A monogram of a filename is a person invented for a source with
+none.
 
 .. quote:: Benjamin Kott
    :as: maintainer
@@ -478,17 +475,17 @@ that has none.
    :meta: 12.4 release notes
    :href: /nodes
 
-   Every source declares a precondition, so an answer is known to be reachable
-   before the question is asked.
+   Every source declares a precondition, so an answer is reachable before
+   the question comes.
 
 Presses
 =======
 
-The controls of a page, on one line. The first is the one press this section
-is about; a second primary beside it would make neither mean anything. The
-label of the first carries where it goes, which is how a card says the same
-thing, and the last is the glyph alone — named by its title, because nothing
-else names it.
+The controls of a page, on one line. The first is the one press this
+section is about. A second primary beside it makes neither mean anything.
+The label of the first carries where it goes, which is how a card says the
+same thing. The last is the glyph alone, named by its title, because
+nothing else names it.
 
 .. button-bar::
 
@@ -510,9 +507,9 @@ else names it.
       :icon: actions-clipboard
       :icon-only:
 
-A button stands on its own as readily as in a row, and a press that goes
-somewhere is a link — the browser's own middle click and status line, which no
-control with a listener on it has. Standing on its own it is usually the one
+A button stands on its own as readily as in a row. A press that goes
+somewhere is a link, with the browser's own middle click and status line,
+which no control with a listener has. On its own it is usually the one
 action the page is for, which is what ``lg`` says.
 
 .. button:: Read the reference
@@ -523,9 +520,9 @@ action the page is for, which is what ``lg`` says.
 Cards
 =====
 
-The grid that takes no column count, holding the register one entry in a list
-is written in: what kind of thing it is, when it is from, and the two lines
-that decide whether it is opened.
+The grid that takes no column count, with the register of one entry in a
+list. What kind of thing it is, when it is from, and the two lines that
+decide the open.
 
 .. grid::
 
@@ -536,29 +533,28 @@ that decide whether it is opened.
       :src: /_images/placeholder.svg
       :alt: A placeholder
 
-      The picture sits flush at the top, the badge and the label share the one
-      line over the title, and the title is where the entry goes.
+      The picture sits flush at the top. The badge and the label share the
+      one line over the title, and the title is where the entry goes.
 
    .. card:: A card with nowhere to go
 
-      Without a target the title is a title. The row above it is dropped
-      rather than left blank, and so is the ground the picture would sit on —
-      a card with a hole in it is what a set of them lines up against.
+      Without a target the title is a title. The row above it drops, and so
+      does the ground under the picture. A card with a hole in it is what a
+      set of them lines up against.
 
 How much room one of a set needs
 ================================
 
-The same cards, in the sets that say how much room one of them holds rather
-than how many stand in a row. ``wide`` is a card carrying a picture and a
-paragraph, and the target is written into the title, which makes the whole
-card the link.
+The same cards, in the sets that say how much room one of them holds, not
+how many stand in a row. ``wide`` is a card with a picture and a paragraph.
+The target stands in the title, which makes the whole card the link.
 
 .. grid:: wide
 
    .. card:: :doc:`nodes`
 
-      The title is a reference and nothing else says where this goes. What is
-      between the tags is blocks, which is the one thing an attribute cannot
+      The title is a reference, and nothing else says where this goes. What
+      stands between the tags is blocks, the one thing an attribute cannot
       carry:
 
       - a list is one of them,
@@ -575,28 +571,28 @@ card the link.
       :action: Read it
 
       What the directive can say is what ``sds-card`` draws, and this is the
-      whole of it: the picture, the glyph, the badge and the label on the row
-      above the title, the title, the foot, and the words that say what
-      pressing the card does.
+      whole of it. The picture, the glyph, the badge and the label on the row
+      above the title. The title, the foot, and the words that say what a
+      press on the card does.
 
-``flush`` is the gutter taken out, because it is a shape rather than a
-distance: the cards share a hairline and the set reads as one block.
+``flush`` takes the gutter out, because it is a shape, not a distance. The
+cards share a hairline, and the set reads as one block.
 
 .. grid:: flush
 
    .. card:: :doc:`nodes`
 
-      A tile has no frame and no corner of its own — both belong to the wall
-      around it — and it does not rise under the pointer, because a tile that
+      A tile has no frame and no corner of its own. Both belong to the wall
+      around it. It does not rise under the pointer, because a tile that
       lifts tears the lines it shares.
 
    .. card:: The line between two of them
       :href: /nodes
       :action: Read it
 
-      It is the wall's ground showing through a gap one hairline wide. A grid
-      that reflows cannot know which tile sits on an edge, so no tile can be
-      told to drop the border it shares.
+      It is the wall's ground through a gap one hairline wide. A grid that
+      reflows cannot know which tile sits on an edge, so no tile can drop the
+      border it shares.
 
 .. grid:: dense
 
@@ -608,22 +604,22 @@ distance: the cards share a hairline and the set reads as one block.
    .. card:: A card with nowhere to go
       :icon: actions-tag
 
-      Without a target the title is a title, the card is not a target, and no
-      action is drawn under it.
+      Without a target the title is a title, the card is not a target, and
+      no action draws under it.
 
 Questions with their answers folded away
 ========================================
 
-The fold is a ``<details>``, so it works with no script on the page and
-find-in-page opens the answer it lands in. One answer stands open, because the
-shape of an answer is worth seeing without pressing anything.
+The fold is a ``<details>``, so it works with no script on the page, and
+find-in-page opens the answer it lands in. One answer stands open, because
+the shape of an answer is worth a look without a press.
 
 Directory trees
 ---------------
 
-A directory, as the shape it has on disk. A nested list, because that is what a
-tree is — and the name is the first literal in an item, with the rest of the
-line being what it is for.
+A directory, in the shape it has on disk. A nested list, because that is
+what a tree is. The name is the first literal in an item, and the rest of
+the line is what it is for.
 
 .. directory-tree::
    :level: 2
@@ -648,9 +644,9 @@ line being what it is for.
 
    * ``.github/workflows/publish.yml`` render, finish, publish
 
-Everything below the level is folded and nothing is dropped: a reader can undo
-a fold. Marked with ``:show-file-icons:``, and open to the bottom at a level
-past the depth of the tree:
+Everything below the level folds, and nothing drops. A reader can undo a
+fold. With ``:show-file-icons:``, and open to the bottom at a level past the
+depth of the tree:
 
 .. directory-tree::
    :level: 9
@@ -678,8 +674,8 @@ An item with no literal in it is a name and nothing else:
    .. accordion-item:: What can an answer hold?
       :open:
 
-      Blocks, which is the whole reason the answer is written between the tags
-      rather than said as an option:
+      Blocks, which is the whole reason the answer stands between the tags
+      and not in an option:
 
       - a list is one of them,
       - and a code block is another.
@@ -691,14 +687,14 @@ An item with no literal in it is a name and nothing else:
    .. accordion-item:: Who decides which one is open?
       :name: who-opens
 
-      The platform. Every answer in the set carries the set's name, so opening
-      this one closed the one above it, and nothing on the page listened for
-      anything.
+      The platform. Every answer in the set carries the set's name. So this
+      one's open closed the one above it, and nothing on the page listened
+      for anything.
 
-``:multiple:`` empties that name, for a set whose answers are meant to be
-compared rather than found. An answer that was given a ``:name:`` has an
-address of its own: `this one <#who-opens>`__ opens on arrival, because the
-platform unfolds what a fragment points into.
+``:multiple:`` empties that name, for a set whose answers a reader compares.
+An answer with a ``:name:`` has an address of its own. `This one
+<#who-opens>`__ opens on arrival, because the platform unfolds what a
+fragment points into.
 
 .. accordion::
    :multiple:
@@ -709,21 +705,21 @@ platform unfolds what a fragment points into.
 
    .. accordion-item:: And the second
 
-      Opening this one leaves the one above it exactly as it was.
+      This one's open leaves the one above it exactly as it was.
 
 An instruction, step by step
 ============================
 
-The numbers are the set's own count, so a stop put in the middle renumbers
-everything under it and no line of this page says a figure. A stop holds blocks,
-which is why the work is written between the tags.
+The numbers are the set's own count. A stop in the middle renumbers
+everything under it, and no line of this page says a figure. A stop holds
+blocks, which is why the work stands between the tags.
 
 .. steps::
 
    .. step:: Require the package
 
-      It brings the renderer, the highlighter and the Markdown parser with it,
-      so this one line is all four.
+      It brings the renderer, the highlighter and the Markdown parser with
+      it, so this one line is all four.
 
       .. code-block:: bash
 
@@ -733,18 +729,18 @@ which is why the work is written between the tags.
       :name: select-the-theme
 
       ``theme="soul"`` in ``guides.xml`` names it, and the ``<extension>``
-      element is what makes it exist. A stop with a ``:name:`` has an address of
-      its own: `this one <#select-the-theme>`__.
+      element makes it exist. A stop with a ``:name:`` has an address of its
+      own: `this one <#select-the-theme>`__.
 
    .. step:: Draw the signet
       :optional:
 
-      The disc is left unfilled and the word stands beside the title, because a
-      ring says nothing to a reader who cannot see it.
+      The disc stays unfilled, and the word stands beside the title. A ring
+      says nothing to a reader who cannot see it.
 
    .. step:: Render the site
 
-      Two commands, and the second is the one that turns documents into a site.
+      Two commands, and the second turns documents into a site.
 
 Something shown as it is written
 ================================
@@ -755,27 +751,27 @@ Something shown as it is written
       :icon: actions-file-shield
       :label: Rule
 
-      Every source is read. Nothing is written back.
+      The tool reads every source. It writes nothing back.
 
-The block and the plane under it are the one body: printed from the lines the
-parser was handed, then rendered from those same lines, so this page cannot
-show markup that produces something else. The frame around the rendering is
-the one dashed line in the system and carries no fill — it says the box is not
-part of the page, and leaves the plane inside it on the ground it would really
-stand on.
+The block and the plane under it are one body. The print is the lines the
+parser got, and the render comes from those same lines. So this page cannot
+show markup that produces something else. The frame around the render is
+the one dashed line in the system and carries no fill. It says the box is
+not part of the page, and leaves the plane inside it on its real ground.
 
 .. example::
 
-   An example holds blocks and not only components, so this is what ordinary
-   content looks like inside one:
+   An example holds blocks and not only components, so this is what
+   ordinary content looks like inside one:
 
    - a list is one of them,
    - and a paragraph was the other.
 
-A second one with no argument, which is a block with no caption above it. The
-print is ``text``: no highlighter on this site knows reStructuredText, and a
-language the server cannot colour is better said than faked — ``:language:``
-is there for a project whose examples are written in something one does know.
+A second one with no argument, which is a block with no caption above it.
+The print is ``text``. No highlighter on this site knows reStructuredText,
+and a language the server cannot colour is better said than faked.
+``:language:`` is there for a project whose examples are in a language the
+server knows.
 
 A document inside this one
 ==========================
@@ -784,16 +780,17 @@ A document inside this one
    :viewport: 700x277
    :title: Surfaces
 
-The embedded frame, which arrives here as a specimen and on a manual page as a
-video. Both are the same node and both are drawn by ``sds-embed``; the frame
-itself is written by the renderer, so this reads with no script running at
-all. A page in this fixture reaches no host but its own — a frame that fetched
-a video would make the render depend on a network the container may not have.
+The embedded frame, which arrives here as a specimen and on a manual page
+as a video. Both are the same node, and ``sds-embed`` draws both. The
+renderer writes the frame itself, so this reads with no script. A page in
+this fixture reaches no host but its own. A frame that fetched a video makes
+the render depend on a network the container can lack.
 
 Footnotes and citations
 =======================
 
-A statement that needs a source [#note]_, and one that cites a work [CIT2026]_.
+A statement that needs a source [#note]_, and one that cites a work
+[CIT2026]_.
 
 .. [#note] The footnote itself, at the foot of the document.
 .. [CIT2026] A citation, which is a footnote with a name.
@@ -812,9 +809,9 @@ Grouping
 .. container:: a-class-from-the-source
 
    A container carries whatever class the author wrote, and the class means
-   nothing more here than it did in the source. The text inside it is still
-   set, because it is text; the box around it is not, because nobody said
-   what it is.
+   nothing more here than it did in the source. The text inside it still
+   gets its style, because it is text. The box around it does not, because
+   nobody said what it is.
 
 .. hlist::
    :columns: 3

@@ -120,8 +120,9 @@ compare link with nothing above it.
 The release job asks GitHub for an OIDC token, and npm exchanges it for the
 publish. There is no npm token in this repository, and nobody must create
 one. This is npm's trusted publishing. It writes the provenance attestation
-itself, so the job passes no `--provenance` flag. npm trusts one
-workflow file by name, so the job lives in `ci.yml`, not in a called
+itself, so the job passes no `--provenance` flag.
+
+npm trusts one workflow file by name, so the job lives in `ci.yml`, not in a called
 workflow. A move means a change to the configuration below in the same
 breath.
 

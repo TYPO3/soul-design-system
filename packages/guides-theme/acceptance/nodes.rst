@@ -10,9 +10,9 @@
 Reference
 =========
 
-What a real reference page is made of. The narrative page next door shows the
-shapes prose falls into; this one shows the nodes that only appear when
-software is being documented.
+The parts of a real reference page. The narrative page next door shows the
+shapes prose falls into. This one shows the nodes that appear only in the
+documentation of software.
 
 .. contents::
    :local:
@@ -25,8 +25,8 @@ Settings
    :required: true
    :default: "TYPO3"
 
-   The name the site calls itself. Shown in the browser tab and in the header
-   lockup, and used as the fallback for any page that declares no title of its
+   The name the site calls itself. It shows in the browser tab and in the
+   header lockup, and it is the fallback for a page with no title of its
    own.
 
 .. confval:: cache.lifetime
@@ -34,8 +34,8 @@ Settings
    :required: false
    :default: 86400
 
-   How long a rendered page may be served from cache, in seconds. Set to ``0``
-   to disable caching, which is a development setting and never a production
+   How long a rendered page can come from the cache, in seconds. Set it to
+   ``0`` to disable the cache, a development setting and never a production
    one.
 
    .. warning::
@@ -47,24 +47,24 @@ Settings
    :type: array of string
    :required: false
 
-   Every host this site answers to. The first entry is canonical; the rest
+   Every host this site answers to. The first entry is canonical. The rest
    redirect to it.
 
 Commands
 ========
 
-The same information as an option list, which is what a command-line reference
+The same information as an option list, which a command-line reference
 uses instead.
 
 .. option:: --output=PATH
 
-   Where to write. The directory is created if it does not exist and is
-   emptied if it does.
+   Where to write. The command creates the directory if it does not exist,
+   and empties it if it does.
 
 .. option:: --fail-on-error
 
-   Return a non-zero exit code as soon as anything is logged as an error,
-   which is what a gate wants and what an author reading a log does not.
+   Return a non-zero exit code on the first error in the log. A gate wants
+   that, and an author who reads a log does not.
 
 Two ways to write the same thing
 ================================
@@ -98,10 +98,10 @@ Two ways to write the same thing
 
       ['domains' => ['example.org', 'www.example.org']]
 
-A second one, further down the same page. Choosing a language in either moves
-the other, and the set above — whose labels an author wrote — stays where it
-is. Its third tab is a language the other block does not offer, which is the
-case that must not throw a set back to its first panel.
+A second one, further down the same page. A choice of language in either
+moves the other. The set above, with an author's own labels, stays where it
+is. Its third tab is a language the other block does not offer, the case
+that must not throw a set back to its first panel.
 
 .. configuration-block::
 
@@ -124,17 +124,16 @@ Words this reference defines
 
    design token
       A named value. Nothing else in the system declares one, and a literal
-      anywhere is a defect rather than a shortcut.
+      anywhere is a defect, not a shortcut.
 
    specimen
-      A rendered example of a rule, kept beside the rule so the two cannot
+      A rendered example of a rule, beside the rule, so the two cannot
       drift.
 
    drop-in : noun
-      The built stylesheet and script a consuming site links, as opposed to
-      the sources they are built from. The word after the colon is a
-      classifier, which is what a term is allowed to be given besides its
-      definition.
+      The built stylesheet and script a consumer links, as opposed to their
+      sources. The word after the colon is a classifier, the one thing a
+      term can have besides its definition.
 
 Document metadata
 =================
@@ -143,5 +142,5 @@ Document metadata
 :Version: 1.0
 :Status: Fixture
 
-The field list above is what a reference puts at the top of a page, and it is
-rendered as a table by the core templates.
+The field list above is what a reference puts at the top of a page. The
+core templates render it as a table.
