@@ -2,31 +2,31 @@
 # Run a task in the container.
 #
 # In the one that is already up, if there is one. `make start` leaves `app`
-# running with nothing to do, and the working tree is bind-mounted into it, so
-# a source edit is already inside — there is nothing to copy and nothing to
+# up with nothing to do, and the working tree is bind-mounted into it, so a
+# source edit is already inside. There is nothing to copy and nothing to
 # build, and a task starts in milliseconds instead of seconds.
 #
 # Otherwise a fresh container, built first. That is the path on a clean
-# checkout and in CI, where nothing is running and `--build` is the only thing
+# checkout and in CI, where nothing is up and `--build` is the only thing
 # that makes an edited Dockerfile take effect.
 #
 # Two things are in the image rather than in the mount: the installed
-# dependencies and the browser. If what declares them has changed, exec-ing
-# into the running container answers about a tree that is not this one — so it
-# is rebuilt and restarted here rather than warned about. A warning that a
-# reader has to act on is a warning a reader learns to scroll past, and the
-# thing behind this one is a gate running against the wrong dependencies.
+# dependencies and the browser. If what declares them has changed, an exec
+# into the container answers about a tree that is not this one. So it rebuilds
+# and restarts here rather than warns. A warning that a reader has to act on
+# is a warning a reader learns to scroll past, and the thing behind this one
+# is a gate against the wrong dependencies.
 #
 # Compared by content, against the copies the image kept of what it installed
-# from — and by what those files declare rather than byte for byte, so a
-# release writing its own version number is not a reason to install anything
-# again. The timestamp said "changed" after every checkout and every stash,
-# which is how the old warning came to be ignored.
+# from. And by what those files declare rather than byte for byte, so a
+# release that writes its own version number is not a reason to install
+# anything again. A timestamp says "changed" after every checkout and every
+# stash, which is a warning nobody reads.
 set -e
 
 # `-T` unless there is a terminal to attach: `make shell` wants one, and every
-# other task is a pipe whose output make is reading. The check below reads no
-# input and is given none: attached to the same stdin, it drained the pipe a
+# other task is a pipe whose output make reads. The check below reads no
+# input and gets none. Attached to the same stdin, it drained the pipe a
 # task was about to read, and `make notes` saw an empty log.
 tty=-T
 [ -t 0 ] && tty=

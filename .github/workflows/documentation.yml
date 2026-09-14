@@ -1,9 +1,9 @@
 # The site, rendered and published.
 #
-# Called from `ci.yml` on `main`, behind the gate and behind the mirror — and
-# behind it for two reasons now. This site is the manual that tells a reader to
-# install those packages, and it is *built* by installing them: the theme the
-# job before this one pushed is what renders these pages.
+# `ci.yml` calls this on `main`, behind the gate and behind the mirror — and
+# behind it for two reasons. This site is the manual that tells a reader to
+# install those packages, and its build *installs* them: the theme the job
+# before this one pushed is what renders these pages.
 #
 # No container, therefore. A PHP, a Node and Composer are what a reader has, and
 # they are all this needs.
@@ -11,7 +11,7 @@ name: Documentation
 
 on:
   workflow_call:
-  # By hand as well: putting the site back after a bad deploy should not need
+  # By hand as well: to put the site back after a bad deploy must not need
   # a commit invented for it.
   workflow_dispatch:
 
@@ -51,9 +51,9 @@ jobs:
           mkdir -p "$RENDERER"
           cd "$RENDERER"
           composer init --no-interaction --name=typo3/soul-documentation
-          # The branch, not the released constraint a reader is given: these
-          # pages describe `main`, and rendering them with the last release
-          # would show a theme that does not have what they document.
+          # The branch, not the released constraint a reader gets. These
+          # pages describe `main`, and a render with the last release shows
+          # a theme that does not have what they document.
           composer require --no-interaction --no-progress typo3/soul-guides-theme:dev-main
 
       # `docs` and not the theme's control surface: this job renders what it
@@ -62,8 +62,8 @@ jobs:
         run: ${{ runner.temp }}/renderer/vendor/bin/guides docs --output=.out/site -c docs --fail-on-error
 
       # Ours again, between the render and the step that finishes it: the chrome
-      # the embedded cards are drawn with, which is deliberately not in the
-      # drop-in and so arrives from nowhere else.
+      # the embedded cards draw with, which is deliberately not in the drop-in
+      # and so arrives from nowhere else.
       - run: node scripts/chrome.ts .out/site
 
       - name: Finish the site

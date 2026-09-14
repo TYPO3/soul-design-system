@@ -1,11 +1,11 @@
-# Running the design system. Docker is the only requirement.
+# The design system, in containers. Docker is the only requirement.
 #
 #   make              # every task
 #   make storybook    # the documentation surface, on a port Docker picks
 #   make verify       # the gate
 #   make test         # the Playwright suite
 #
-# The Makefile at the repo root drives this — you should not need to type
+# The Makefile at the repo root drives this — you never need to type
 # `docker compose` yourself.
 
 x-app: &app
@@ -25,10 +25,10 @@ x-app: &app
     # uploads it from there.
     - ..:/app
     # …except node_modules, which is platform-specific and belongs to the
-    # image; a host tree built on macOS would put the wrong binaries in front
-    # of Linux. Build output stays on the host, under `.out/`: the built
+    # image. A host tree built on macOS puts the wrong binaries in front of
+    # Linux. Build output stays on the host, under `.out/`. The built
     # Storybook is what the site job publishes, and a volume kept it where
-    # nothing outside the container could read it.
+    # nothing outside the container can read it.
     - /app/node_modules
   # Chromium needs more than Docker's default 64 MB of shared memory. Too
   # little shows up as tabs crashing mid-run, never as an out-of-memory error.
@@ -49,9 +49,9 @@ x-app: &app
   init: true
 
 # Named explicitly. Compose otherwise derives the project name from the
-# directory holding this file — which is now `.infra`, a name generic enough
-# that a second project with the same layout would share containers and
-# volumes with this one.
+# directory that holds this file — which is `.infra`, a name generic enough
+# that a second project with the same layout shares containers and volumes
+# with this one.
 name: typo3-soul-design-system
 
 services:
@@ -76,10 +76,10 @@ services:
       dockerfile: .infra/Dockerfile
       target: storybook
     # The one service whose host and container port must match. Vite's HMR
-    # client connects to the port Storybook was told to listen on; with Docker
-    # choosing a different host port that URL does not exist, the websocket
-    # fails, and hot reload dies — which for a design system means editing a
-    # token and seeing nothing happen.
+    # client connects to the port Storybook listens on. When Docker picks a
+    # different host port that URL does not exist, the websocket fails, and
+    # hot reload dies — which for a design system means a token edit with
+    # nothing to see.
     #
     # So `make start` picks the free port instead of Docker, and both sides
     # get the same number. Still a free port; only who chooses it moved.
@@ -89,13 +89,11 @@ services:
 
   # The rendered documentation site, at a root of its own.
   #
-  # Not a static directory inside Storybook, which was the first thing tried
-  # and is the wrong shape twice over. Storybook is the authoring surface *for*
-  # the system; the site is a consumer of it, and borrowing that server gives
-  # it Vite's routing and a sub-path it will never be served under. The four
-  # defects the first render turned up were all of that family — a path that
-  # resolves here and nowhere else. This serves the same bytes GitHub Pages
-  # will, from `/`, with a static file server that has no opinions.
+  # Not a static directory inside Storybook, which is the wrong shape twice
+  # over. Storybook is the authoring surface *for* the system. The site is a
+  # consumer of it, and that server lends it Vite's routing and a sub-path it
+  # never ships under. This serves the same bytes GitHub Pages will, from `/`,
+  # with a static file server that has no opinions.
   #
   # It starts before `make guides` has ever run, and then serves nothing. That
   # is honest: an empty site is a site nobody has rendered.
@@ -116,9 +114,9 @@ services:
     ports:
       - '${SDS_ACCEPTANCE_PORT:-4174}:${SDS_ACCEPTANCE_PORT:-4174}'
 
-  # The drop-in, kept current. `dist/` is committed and is what a consumer
-  # copies, so it can be a source edit behind without anything saying so —
-  # and Storybook serves it, which makes stale output something you look at.
+  # The drop-in, kept current. `dist/` is in git and is what a consumer
+  # copies, so it can be a source edit behind with nothing to say so. And
+  # Storybook serves it, which makes stale output something you look at.
   # Its own service rather than a step in the Storybook container: it belongs
   # to no surface in particular, and `make start` can then report it.
   dist:

@@ -1,24 +1,22 @@
 # The gate, run by a machine.
 #
-# Until this file existed, `make verify` was something a person typed before
-# committing — which means it held exactly as long as everyone remembered.
-# The same tasks run here, in the same image, through the same Makefile: a
-# workflow that reimplemented the steps would be a second definition of the
-# gate, and the two would drift apart on the first change to either.
+# A gate a person types before a commit holds exactly as long as everyone
+# remembers it. The same tasks run here, in the same image, through the same
+# Makefile. A workflow with its own steps is a second definition of the gate,
+# and the two drift apart on the first change to either.
 #
 # Only the gate has an image, and it runs on every push and every pull request.
-# What follows runs behind it and in one order: the packages are mirrored into
-# the repositories they are released from, then the site that tells a reader to
-# install them is rendered and deployed. A tag takes the same road as far as
-# the mirror and turns off at the release — which is the whole of what a
-# release is here, a tag pushed at a tree this gate has passed.
+# What follows runs behind it and in one order. The packages go into the
+# repositories they ship from, then the site that tells a reader to install
+# them renders and deploys. A tag takes the same road as far as the mirror and
+# turns off at the release. That is the whole of what a release is here: a
+# tag pushed at a tree this gate has passed.
 name: CI
 
-# Every push, whatever the branch — a branch nobody has opened a pull request
-# for is exactly where work sits while it is being written. Pull requests are
-# listened for as well, but the job below skips the ones that come from this
-# repository: their commits already arrived as a push, and running both gates
-# the same tree twice.
+# Every push, whatever the branch. A branch with no pull request is exactly
+# where work sits while somebody writes it. Pull requests count too, but the
+# job below skips the ones that come from this repository. Their commits
+# already arrived as a push, and both together gate the same tree twice.
 on:
   push:
   pull_request:
@@ -58,8 +56,8 @@ jobs:
       # published, tagged and cleaned up by someone.
       #
       # The tag is the name compose derives from the project and the service —
-      # `<project>-<service>`, and the project is named in the compose file.
-      # Miss it and `up` finds no image and builds its own, uncached.
+      # `<project>-<service>`, and the compose file names the project. Miss it
+      # and `up` finds no image and builds its own, uncached.
       - name: Load the toolchain image
         uses: docker/build-push-action@v6
         with:
@@ -77,18 +75,18 @@ jobs:
       # the thing make assumes: `.infra/task.sh` execs into a running `app`
       # and only builds a container of its own when there is none. With the
       # service up, every task below is an exec into the image built above.
-      # The UID matters for the same reason it does on a developer's machine —
-      # the tree is bind-mounted, and output written as root cannot be read
-      # back by the steps that follow.
+      # The UID matters for the same reason it does on a developer's machine.
+      # The tree is bind-mounted, and the steps that follow cannot read back
+      # output written as root.
       - name: Bring up the container the tasks run in
         run: SDS_UID=$(id -u) SDS_GID=$(id -g) docker compose -f .infra/docker-compose.yml up -d app
 
-      # The line that decides whether the tree is consistent; everything else
+      # The line that decides if the tree is consistent; everything else
       # in this file exists to make it run.
       - run: make verify
 
-      # The suites, each holding something verify cannot see: that the markup
-      # renders, in both themes, at every width, without axe findings.
+      # The suites, each with something the gate cannot see: that the markup
+      # renders, in both themes, at every width, with no axe findings.
       - run: make test
 
       # Only on failure, and only then worth the upload: traces and the
@@ -102,10 +100,10 @@ jobs:
             .out/test-results/
           retention-days: 7
 
-      # The built Storybook, which the suite above assembled to open it — the
+      # The built Storybook, which the suite above assembled to open it. The
       # one build of this tree, tested, and the site job below publishes it
       # under the documentation. Only where that job runs, so a branch push
-      # stores nothing; a day, because the deployment is minutes behind.
+      # stores nothing. A day, because the deployment is minutes behind.
       - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
@@ -113,12 +111,12 @@ jobs:
           path: .out/storybook/
           retention-days: 1
 
-  # The packages, into the repositories they are installed from. Every push to
-  # `main`, and every release tag: a mirror that waits for somebody to start it
+  # The packages, into the repositories a consumer installs from. Every push to
+  # `main`, and every release tag. A mirror that waits for somebody to start it
   # is one a consumer installs behind this tree, and a pull request is not a
-  # tree anybody may install. The tag matters on its own because Packagist
-  # reads the theme's version off the mirror's tags and nothing else — and
-  # because branch and tag arrive as two events, either of which may be first.
+  # tree anybody can install. The tag matters on its own because Packagist
+  # reads the theme's version off the mirror's tags and nothing else. And
+  # because branch and tag arrive as two events, either of which can be first.
   # `needs: gate` for the same reason the site has it.
   mirror:
     name: mirror the packages
@@ -178,11 +176,11 @@ jobs:
           git log --no-merges --pretty=format:'%h%x1f%D%x1f%s' \
             | node scripts/notes.ts --tag=${{ github.ref_name }}
 
-      # Nothing is installed and nothing is built: everything the package ships
-      # is committed, the gate compared the drop-in against its source, and a
-      # dependency tree fetched here would be one more thing between a green
-      # gate and what npm receives. No `--provenance` and no token either —
-      # trusted publishing attests the build from the OIDC token above.
+      # No install and no build. Everything the package ships is in git, the
+      # gate compared the drop-in against its source, and a dependency tree
+      # fetched here is one more thing between a green gate and what npm
+      # receives. No `--provenance` and no token either — trusted publishing
+      # attests the build from the OIDC token above.
       - run: npm publish
         working-directory: packages/frontend
 

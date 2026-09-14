@@ -1,22 +1,21 @@
-# A package under `packages/`, pushed to the repository it is published from.
+# A package under `packages/`, pushed to the repository it ships from.
 #
 # Packagist reads the `composer.json` at a repository root and npm installs
 # from one, so a package in a subdirectory does not exist for either. The
 # mirror is `scripts/split.ts`: it replays every commit that touched the
 # package, with the message, author and date it had here. This file is the
-# push and nothing else — what goes into a package is decided in the task, so
-# `make split` on a desk and this workflow cannot produce different packages.
+# push and nothing else. The task decides what goes into a package, so `make
+# split` on a desk and this workflow cannot produce different packages.
 #
-# Called by `ci.yml` on every push to `main`, once the gate is green over that
-# tree: a mirror somebody has to remember to start is a mirror that is behind,
-# and a consumer installing from it gets a release nobody made. Startable by
-# hand as well, for a rerun or for one package on its own — over a tree the
+# `ci.yml` calls it on every push to `main`, once the gate is green over that
+# tree. A mirror somebody has to remember to start is a mirror that is behind,
+# and a consumer who installs from it gets a release nobody made. It also
+# starts by hand, for a rerun or for one package on its own — over a tree the
 # gate has passed, because nothing below checks one again.
 #
-# Where each package is published is declared in the task too, and asked for
-# here rather than written down a second time. Tags come from this
-# repository's own tags: a release is a tag here first, and the mirror carries
-# it over.
+# Where each package ships to stands in the task too, and this asks for it
+# rather than writes it down a second time. Tags come from this repository's
+# own tags: a release is a tag here first, and the mirror carries it over.
 name: Split a package
 
 on:
@@ -65,16 +64,16 @@ jobs:
           fetch-tags: true
 
       # No container and no install: the task reads the tree and copies files,
-      # and Node runs it by stripping the types. Rebuilding the committed
-      # drop-in to compare it against its source would need both — it is the
-      # gate's `dist` check, over this same commit, before this job may start.
+      # and Node strips the types and runs it. A rebuild of the committed
+      # drop-in against its source needs both — that is the gate's `dist`
+      # check, over this same commit, before this job can start.
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
 
-      # The task clones each mirror before it replays into it, so it is handed
-      # the address it declares with a token in front — a runner has no key for
-      # an SSH remote, and a clone that fails silently starts the history over.
+      # The task clones each mirror before it replays into it, so it gets the
+      # address it declares with a token in front. A runner has no key for an
+      # SSH remote, and a clone that fails in silence starts the history over.
       - name: Assemble and push
         env:
           TOKEN: ${{ secrets.SPLIT_TOKEN }}
@@ -90,11 +89,11 @@ jobs:
             url="https://x-access-token:${TOKEN}@github.com/${remote#git@github.com:}"
             node scripts/split.ts "$name" --branch="$BRANCH" --remote="$url"
             cd ".out/split/$name"
-            # The branch is replayed history, so a normal push is what it takes;
-            # a mirror that needs forcing is one somebody committed into by hand.
+            # The branch is a replay of history, so a normal push is what it takes;
+            # a mirror that needs force is one somebody committed into by hand.
             git push "$url" "$BRANCH"
             # Tags never move: a release that changes is a release nobody can
-            # rely on, and `--tags` refuses rather than overwriting.
+            # rely on, and `--tags` refuses rather than overwrites.
             git push --tags "$url"
             {
               echo "### ${remote#git@github.com:}"

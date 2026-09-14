@@ -7,11 +7,11 @@
 #
 # The host needs Docker and Make. Nothing else — no Node version to match,
 # no `npm ci`, no `playwright install`. That is the reason this is a Makefile
-# and not an npm script: `npm run` would put a Node toolchain back on the
-# host, which is the thing being avoided.
+# and not an npm script: `npm run` puts a Node toolchain back on the host,
+# which is the thing to avoid.
 #
-# What each task actually runs lives in `scripts/task.ts`, once, and is read
-# there by the container. This file only decides how to get into one.
+# What each task runs lives in `scripts/task.ts`, once, and the container
+# reads it there. This file only decides how to get into one.
 
 # /dev/tcp needs bash; sh has no way to test a port without extra tools.
 SHELL := /bin/bash
@@ -26,9 +26,9 @@ export SDS_UID := $(shell id -u)
 export SDS_GID := $(shell id -g)
 
 # Storybook gets the same port inside and out, so Vite's HMR websocket — which
-# addresses the port Storybook was told to listen on — resolves from the
-# browser. Still free-port selection, just decided here instead of by Docker,
-# because only one side of the mapping can be chosen late.
+# addresses the port Storybook listens on — resolves from the browser. Still
+# free-port selection, just decided here instead of by Docker, because only
+# one side of the mapping can come late.
 
 # Into the container that is already up, or a fresh one if none is — see
 # `.infra/task.sh`. Every task used to be its own `run --build`: a container
@@ -36,7 +36,7 @@ export SDS_GID := $(shell id -g)
 RUN := $(TASK) node scripts/task.ts
 
 # Every task that is just "run this in the container". Keep in step with the
-# TASKS map in scripts/task.ts, which is where they are defined.
+# TASKS map in scripts/task.ts, which is where they live.
 TASKS := verify test cards embed chrome typecheck fit ssr coverage prose php css build dist split guides fonts icons \
          diagrams baseline shots diff look design-project design-sync design-status design-plan design-synced
 
@@ -116,31 +116,31 @@ $(TASKS):
 notes:
 	@git log --no-merges --pretty=format:'%h%x1f%D%x1f%s' | $(RUN) notes $(ARGS)
 
-# The one task that finishes on the host. Writing the version happens in the
-# container like everything else; the commit and the tag are git, which this
-# image deliberately does not carry and which needs the name of whoever is
-# releasing. The push is not here, and that is the whole of what a person
+# The one task that finishes on the host. The version write happens in the
+# container like everything else. The commit and the tag are git, which this
+# image deliberately does not carry and which needs the name of whoever
+# releases. The push is not here, and that is the whole of what a person
 # still decides — see MAINTAINERS.md.
 #
-# `ARGS=` is emptied for the sub-make on purpose: a variable set on the command
-# line is inherited by every make below it, so `ARGS=0.1.0` arrived at `verify`
-# as the name of a check and the gate refused it.
+# `ARGS=` empties for the sub-make on purpose. Every make below inherits a
+# variable set on the command line, so `ARGS=0.1.0` arrived at `verify` as
+# the name of a check and the gate refused it.
 #
 # The gate and the suite run first and run here, not in a sentence somebody
-# reads beforehand: a tag is the one thing in this repository that is never
-# taken back, so the run that would have caught it has to be the run that
-# cannot be skipped. Before the version is written rather than after, so a red
-# gate leaves the tree exactly as it was and the same command works again.
+# reads beforehand. A tag is the one thing in this repository that never
+# comes back, so the run that catches it has to be the run nobody can skip.
+# Before the version write rather than after, so a red gate leaves the tree
+# exactly as it was and the same command works again.
 #
-# And it refuses a dirty tree, because a green gate over a tree carrying work
-# that will not be in the commit says nothing about what the tag points at —
-# which is the one way a hard gate is still not one.
+# And it refuses a dirty tree. A green gate over a tree with work that will
+# not be in the commit says nothing about what the tag points at, which is
+# the one way a hard gate is still not one.
 #
-# Only the paths the task itself names are committed, so work in flight beside
-# them stays where it is — and they are asked for before the version is
-# written, because the write is the last thing that happens in a container.
-# A flag or no argument is a question rather than a release: it is handed to
-# the task and nothing else here runs.
+# Only the paths the task itself names go into the commit, so work in flight
+# beside them stays where it is. The question comes before the version
+# write, because the write is the last thing that happens in a container.
+# A flag or no argument is a question rather than a release: it goes to the
+# task and nothing else here runs.
 release:
 	@case '$(ARGS)' in ''|-*) exec $(RUN) release $(ARGS) ;; esac; \
 	 if [ -n "$$(git status --porcelain)" ]; then \
@@ -156,20 +156,20 @@ release:
 	 printf '\n  committed and tagged v%s. Nothing was pushed:\n\n    git push origin main --follow-tags\n\n' '$(ARGS)'
 
 # Bring the stack up, and report it. Detached, because it is a surface you
-# look at while working on something else.
+# look at while you work on something else.
 #
-# The ports are searched for in the recipe rather than at parse time, which
-# saw the still-running stack and picked the next number up — every restart
-# drifted one higher than the address it printed. `down` first, so `start`
-# means "up on a known port" whatever was running before; `--remove-orphans`
-# because a service dropped from the compose file otherwise runs forever.
+# The port search happens in the recipe rather than at parse time. Parse time
+# saw the stack still up and picked the next number, so every restart drifted
+# one higher than the address it printed. `down` first, so `start` means "up
+# on a known port" whatever ran before; `--remove-orphans` because a service
+# dropped from the compose file otherwise runs forever.
 #
-# It reports by running `status`, so the addresses come from the containers
-# rather than from the numbers this recipe hoped they would take.
+# It reports through `status`, so the addresses come from the containers
+# rather than from the numbers this recipe hoped they take.
 #
-# The probe is time-bounded, and that is the whole of why `free` is a function
-# rather than the loop it used to be: under WSL's mirrored networking a closed
-# loopback port drops the connection instead of refusing it, so the bare probe
+# The probe has a time limit, and that is the whole of why `free` is a
+# function rather than a loop. Under WSL's mirrored networking a closed
+# loopback port drops the connection instead of refuses it, so the bare probe
 # never returned and `start` hung before it had printed a line. A second of
 # silence is a free port.
 start:
@@ -184,11 +184,11 @@ start:
 	$(COMPOSE) up -d --build $(SERVICES)
 	@$(MAKE) --no-print-directory status
 
-# What is up and where it answers, read out of the running containers — so a
-# stack somebody else started answers too, and no port has to be remembered.
-# One-offs are dropped: a `compose run` container carries its service's name,
-# and a task running in one put a second `app` in the list. Under WSL the VM's
-# address is named too: the relay stops without the stack becoming unhealthy.
+# What is up and where it answers, read out of the running containers. So a
+# stack somebody else started answers too, and nobody has to remember a port.
+# One-offs stay out: a `compose run` container carries its service's name,
+# and a task in one put a second `app` in the list. Under WSL the VM's
+# address stands here too: the relay stops while the stack stays healthy.
 status:
 	@command -v docker >/dev/null 2>&1 || { \
 		printf '\n  Docker is not installed — this repo runs nothing on the host\n\n'; exit 0; }
