@@ -192,6 +192,19 @@ function rst(source: string): Finding[] {
   return blocks.out;
 }
 
+/** The cells of a Markdown table row. A pipe inside a code span is text. */
+function cells(row: string): string[] {
+  const out: string[] = [];
+  let cell = '';
+  let code = false;
+  for (const ch of row.slice(1)) {
+    if (ch === '`') code = !code;
+    if (ch === '|' && !code) { out.push(cell); cell = ''; continue; }
+    cell += ch;
+  }
+  return out;
+}
+
 function md(source: string): Finding[] {
   const blocks = new Blocks();
   const lines = source.split('\n');
@@ -204,7 +217,7 @@ function md(source: string): Finding[] {
     if (fence || !text || /^#/.test(text) || /^<!--/.test(text) || /^@/.test(text) || /^\|[\s:-]*\|?[\s|:-]*$/.test(text)) { blocks.flush(); continue; }
     if (/^\|/.test(text)) {
       blocks.flush();
-      for (const cell of text.split('|').slice(1, -1)) blocks.add(cell, i + 1, true);
+      for (const cell of cells(text)) blocks.add(cell, i + 1, true);
       continue;
     }
     if (/^    /.test(lines[i] as string) && blocks.empty) continue;
