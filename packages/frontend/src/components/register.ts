@@ -20,6 +20,7 @@ import './table.ts';
 import { type BadgeTone } from './badge.ts';
 import { type CellValue, type Column, type Row } from './table.ts';
 import { type EntryProps } from './entry.ts';
+import { facts as readFacts } from '../lib/authored.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 /** One group of a register. Its key, which an entry names in `group`; the
@@ -82,12 +83,6 @@ interface Read {
   anchor: string;
   render: (placed: Omit<Placed, 'out'>, group: RegisterGroup | null) => unknown;
 }
-
-/** The facts on an entry's own tag, read back out of its markup. The
-    attributes are the author's, escaped the way HTML escapes them. */
-const FACT = /\s([\w-]+)="([^"]*)"/g;
-const unescape = (text: string): string =>
-  text.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 
 export class SdsRegister extends SdsElement {
   static override properties = {
@@ -179,8 +174,7 @@ export class SdsRegister extends SdsElement {
      renders each entry itself, once, with the place it gives it. */
   private fromMarkup(markup: string): Read[] {
     return [...markup.matchAll(/<sds-entry\b([^>]*)>([\s\S]*?)<\/sds-entry>/g)].map(([, tag = '', inner = '']) => {
-      const facts: Record<string, string> = {};
-      for (const [, key, value] of tag.matchAll(FACT)) facts[key!] = unescape(value!);
+      const facts = readFacts(tag);
       return {
         heading: facts['heading'] ?? '',
         group: facts['group'] ?? '',

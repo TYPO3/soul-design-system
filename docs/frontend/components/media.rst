@@ -230,6 +230,56 @@ plane every other block here has.
    The frame does not load lazily, on purpose. An embed is the evidence on
    the page, and one that loads on scroll is blank in every screenshot.
 
+.. _component-sds-compare:
+
+sds-compare
+===========
+
+Two pictures side by side, each with its claim. A concept shows what stands
+and what it proposes, and a reader reads the two against each other. So
+they stand in one row, each an :ref:`sds-figure <component-sds-figure>`
+with its own caption, under a word that says which is which.
+
+.. code-block:: html
+
+   <sds-compare
+     before-src="/shots/status.png" before-alt="…" before-caption="The row says what the source does now."
+     after-src="/shots/source.png" after-alt="…" after-caption="The page keeps the last two reads."
+     before-label="As it stands" after-label="Proposed"
+     zoomable
+   ></sds-compare>
+
+The halves reflow by their own width, never by the window. A half narrower
+than a picture reads is no half, and the two stand one under the other
+instead. Each half is a figure, so a press opens either at its own size. A
+picture arrives as every picture does: a link to a file, in the colours of
+its export.
+
+.. confval:: before-src, after-src
+   :name: sds-compare-src
+   :type: string
+   :required: true
+
+   The two files. ``before-alt`` and ``after-alt`` say what each shows for
+   a reader who cannot see it; ``before-caption`` and ``after-caption``
+   carry the claim each makes.
+
+.. confval:: before-label, after-label
+   :name: sds-compare-label
+   :type: string
+   :default: "Before", "After"
+
+   The word over each half. The caller's: ``As it stands`` and ``Proposed``
+   where a paper says it that way, or the names of two pages read against
+   each other.
+
+.. confval:: zoomable
+   :name: sds-compare-zoomable
+   :type: boolean
+   :default: false
+
+   A press opens either picture at its own size.
+
 .. _component-sds-lightbox:
 
 sds-lightbox

@@ -53,13 +53,23 @@ export class SdsElement extends LitElement {
     super.connectedCallback();
   }
 
+  /** What a caller wrote between the tags, left where it stands: in the
+      template of a prerendered element, as the children otherwise. For an
+      element that reads facts out of its children before it takes them. A
+      removal runs the removed child's own `connectedCallback`, and that
+      takes what stood under it out of reach. */
+  protected standing(): Node[] {
+    const kept = this.querySelector(`:scope > template[${CONTENT}]`) as HTMLTemplateElement | null;
+    return kept ? [...kept.content.childNodes] : [...this.childNodes];
+  }
+
   protected lifted(): Node[] {
     if (this.#looked) return [];
     this.#looked = true;
     /* The template holds the written content; everything else in a
        prerendered element is last render's work and goes. */
-    const kept = this.querySelector(`:scope > template[${CONTENT}]`) as HTMLTemplateElement | null;
-    const nodes = kept ? [...kept.content.childNodes] : [...this.childNodes];
+    const kept = this.querySelector(`:scope > template[${CONTENT}]`);
+    const nodes = this.standing();
     if (kept) for (const node of [...this.childNodes]) (node as ChildNode).remove();
     /* Cast because a text node has the type `Node`, which has no `remove` —
        though every node that reaches here is a `ChildNode`. */

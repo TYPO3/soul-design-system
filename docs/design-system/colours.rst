@@ -62,9 +62,16 @@ canvas. A **card** is a hairline and 6px with no fill of its own.
      - a skeleton, a tick box under the pointer, the facts on a reference
        entry
    * - ``--surface-accent-quiet``
-     - the one tinted plane
-     - a selected row, an accent badge, with ``--border-accent-quiet`` as its
-       frame and ``--text-accent-quiet`` as its ink
+     - the tinted plane
+     - a selected row, an accent badge, a degraded answer, with
+       ``--border-accent-quiet`` as its frame and ``--text-accent-quiet`` as
+       its ink
+   * - ``--surface-error-quiet``
+     - the plane under a failure
+     - a note with ``tone="error"``, with ``--border-error-quiet`` as its
+       frame and ``--status-error`` on the glyph alone. A pair of its own,
+       because the status red is ink. A wash of it over paper goes grey
+       before it goes red
    * - ``--surface-overlay``
      - the wash under a floating surface
      - a dialog is open, and the page behind it is out of use. What only
@@ -133,6 +140,8 @@ names those surfaces.
        the line under a table head
    * - ``--border-accent-quiet``
      - the frame of the tinted plane, and nothing else
+   * - ``--border-error-quiet``
+     - the frame of the plane under a failure, and nothing else
 
 .. specimen:: guidelines/colors-borders.card.html
    :viewport: 700x238
@@ -172,13 +181,24 @@ output, badges, result rows and status diagrams. **Never as page
 furniture.** A status colour on a heading or a border says something is
 wrong when nothing is.
 
-One control is the exception, and it stands here so it stays one: the press
-with no undo. ``sds-btn--danger`` carries ``--status-error`` as ink and as a
-hairline and takes a fill only under the pointer. A filled red button
-outranks ``--accent``, the one thing on a page with that right. The colour
-marks the press; it does not explain it. The label names what goes, "Delete
-3 pages", never "OK". The question above it says what that costs, so a
-reader who cannot tell the tones apart still reads the consequence.
+Three things are the exception, and they stand here so they stay three.
+
+A note with ``tone="error"`` sits on ``--surface-error-quiet`` inside
+``--border-error-quiet``. It says a thing failed, and a reader must find
+that box before the words in it.
+
+The press with no undo. ``sds-btn--danger`` carries ``--status-error`` as
+ink and as a hairline and takes a fill only under the pointer. A filled red
+button outranks ``--accent``, the one thing on a page with that right. The
+colour marks the press; it does not explain it. The label names what goes,
+"Delete 3 pages", never "OK". The question above it says what that costs, so
+a reader who cannot tell the tones apart still reads the consequence.
+
+The answer a decision took. ``sds-answer`` with ``decided`` fills the disc
+around its letter with ``--status-ok`` and knocks the letter out of it in
+the block's own plane. A decision that fell is a result, and the one
+answer with a filled disc is the one a reader came to find. The word after
+its name says the same, for a reader who cannot tell the disc apart.
 
 .. specimen:: guidelines/colors-status.card.html
    :viewport: 700x226

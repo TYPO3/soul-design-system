@@ -158,6 +158,18 @@ const CASES: { name: string; markup: string; template: TemplateResult }[] = [
     markup: '<sds-icon name="actions-cog" size="24"></sds-icon>',
     template: html`<sds-icon name="actions-cog" size="24"></sds-icon>`,
   },
+  /* The stops as elements against the stops as data, a stop inside a stop
+     among them. The state is the plan's reading of the order, and both
+     forms have to read it the same way. */
+  {
+    name: 'timeline, the stops as elements and as data',
+    markup: '<sds-timeline><sds-timeline-stop when="2026-09-15" heading="Draft">Sent.</sds-timeline-stop><sds-timeline-stop when="Sprint 1" heading="Kept" now><sds-timeline-stop when="W1" heading="The record"></sds-timeline-stop></sds-timeline-stop><sds-timeline-stop when="2026-11-10" heading="Release"></sds-timeline-stop></sds-timeline>',
+    template: html`<sds-timeline .entries="${[
+      { when: '2026-09-15', heading: 'Draft', body: 'Sent.' },
+      { when: 'Sprint 1', heading: 'Kept', now: true, items: [{ when: 'W1', heading: 'The record' }] },
+      { when: '2026-11-10', heading: 'Release' },
+    ]}"></sds-timeline>`,
+  },
 ];
 
 for (const c of CASES) {

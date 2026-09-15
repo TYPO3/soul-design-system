@@ -6,10 +6,9 @@
    string in a binding renders as a text node, so `'\n  '` is exactly the
    newline and indent it looks like. */
 
-import type { TemplateResult } from 'lit';
-
-/** Join templates with a newline and `indent` spaces between them. */
-export function lines(parts: readonly TemplateResult[], indent = 0): unknown[] {
+/** Join templates, or the nodes an element lifted, with a newline and
+    `indent` spaces between them. */
+export function lines(parts: readonly unknown[], indent = 0): unknown[] {
   const gap = `\n${' '.repeat(indent)}`;
   const out: unknown[] = [];
   parts.forEach((part, i) => {

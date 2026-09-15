@@ -1,0 +1,173 @@
+/* sds-timeline — a plan on the calendar: dated stops down one rail. */
+
+@layer base {
+  sds-timeline-stop {
+    display: block;
+    min-width: 0;
+  }
+  sds-timeline {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-6);
+  }
+  sds-timeline > .sds-timeline {
+    margin-bottom: 0;
+  }
+  .sds-timeline {
+    margin: 0 0 var(--space-6);
+  }
+}
+
+@layer components {
+  /* The rail the steps draw, with a mark for each stop rather than a number:
+     a date is not an ordinal. The marks are the glyphs a run gives its
+     stops. The check in the status colour for a passed stop, a filled disc
+     for the one now, a ring for one ahead. The rail follows: solid up to
+     now, dashed beyond it. */
+  .sds-timeline {
+    --sds-timeline-measure: var(--measure-prose);
+    --sds-timeline-mark-size: var(--control-icon-size);
+    --sds-timeline-mark-ink-passed: var(--status-ok);
+    --sds-timeline-mark-ink-now: var(--text-primary);
+    --sds-timeline-mark-ink-ahead: var(--text-muted);
+    --sds-timeline-mark-halo: var(--surface-canvas);
+    /* The rail's column is the width a steps' disc takes, so a plan and an
+       instruction on one page share a left edge. */
+    --sds-timeline-column: 24px;
+    --sds-timeline-gap: var(--space-4);
+    --sds-timeline-stop-gap: var(--space-6);
+    --sds-timeline-when-font: var(--font-mono);
+    --sds-timeline-when-size: calc(var(--font-size-small) * var(--font-modifier-mono));
+    --sds-timeline-when-ink: var(--text-muted);
+    --sds-timeline-when-gap: var(--space-1);
+    --sds-timeline-title-size: var(--block-title-size);
+    --sds-timeline-title-weight: var(--weight-semibold);
+    --sds-timeline-title-leading: var(--leading-heading);
+    --sds-timeline-title-ink: var(--text-primary);
+    --sds-timeline-title-ink-ahead: var(--text-secondary);
+    --sds-timeline-title-gap: var(--space-2);
+    --sds-timeline-note-gap: var(--space-2-5);
+    --sds-timeline-body-size: var(--block-body-size);
+    --sds-timeline-body-leading: var(--leading-body);
+    --sds-timeline-body-ink: var(--text-secondary);
+    --sds-timeline-rail: var(--border-emphasis);
+    --sds-timeline-rail-ink-passed: var(--status-ok);
+    --sds-timeline-rail-ink-ahead: var(--border-strong);
+    --sds-timeline-rail-gap: var(--space-1-5);
+    --sds-timeline-items-gap: var(--space-4);
+    --sds-timeline-item-gap: var(--space-4);
+    /* What lifts the mark onto the date's line: half of what the line
+       overhangs the mark by. Derived, so a changed size takes the mark along. */
+    --sds-timeline-mark-rise: calc(
+      (var(--sds-timeline-when-size) * var(--sds-timeline-body-leading) - var(--sds-timeline-mark-size)) /
+      2
+    );
+
+    /* The distance between stops as a gap and not a margin. A stop arrives
+       inside an element of its own, so it is the only child of that element.
+       Every `:last-child` written here matches all of them. */
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-timeline-stop-gap);
+    max-width: var(--sds-timeline-measure);
+    font-size: var(--sds-timeline-body-size);
+    line-height: var(--sds-timeline-body-leading);
+    color: var(--sds-timeline-body-ink);
+  }
+  .sds-timeline__stop {
+    position: relative;
+    min-width: 0;
+    padding-inline-start: calc(var(--sds-timeline-column) + var(--sds-timeline-gap));
+
+    /* The rail, from under this mark to just above the next. Solid where the
+       plan has been, dashed where it has not. */
+    &::after {
+      content: "";
+      position: absolute;
+      inset-block: calc(var(--sds-timeline-mark-rise) + var(--sds-timeline-mark-size) + var(--sds-timeline-rail-gap))
+        calc(var(--sds-timeline-rail-gap) - var(--sds-timeline-stop-gap) - var(--sds-timeline-mark-rise));
+      inset-inline-start: calc((var(--sds-timeline-column) - var(--sds-timeline-rail)) / 2);
+      border-inline-start: var(--sds-timeline-rail) dashed var(--sds-timeline-rail-ink-ahead);
+    }
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+  /* The rail runs from one stop to the next, so the last one draws none.
+     Said twice because a stop is the list's last child where the elements
+     upgraded and that child's own where a surface wrote the classes. */
+  :is(.sds-timeline, .sds-timeline__list) > :last-child.sds-timeline__stop::after,
+  :is(.sds-timeline, .sds-timeline__list) > :last-child > .sds-timeline__stop::after {
+    content: none;
+  }
+  /* Inside a stop the gap between stops is the list's own. So the rail
+     reaches the next mark by that distance and not the outer one. */
+  .sds-timeline__list .sds-timeline__stop::after {
+    inset-block-end: calc(var(--sds-timeline-rail-gap) - var(--sds-timeline-item-gap) - var(--sds-timeline-mark-rise));
+  }
+  /* The mark, centred in the rail's column, on the date's line. The canvas
+     behind it, so the rail stops at its edge rather than shows through. */
+  .sds-timeline__mark {
+    position: absolute;
+    inset-block-start: var(--sds-timeline-mark-rise);
+    inset-inline-start: calc((var(--sds-timeline-column) - var(--sds-timeline-mark-size)) / 2);
+    display: inline-flex;
+    width: var(--sds-timeline-mark-size);
+    height: var(--sds-timeline-mark-size);
+    background: var(--sds-timeline-mark-halo);
+    border-radius: 50%;
+    color: var(--sds-timeline-mark-ink-ahead);
+
+    .sds-icon {
+      --sds-icon-size: var(--sds-timeline-mark-size);
+    }
+  }
+  /* A stop that has passed: the check, and a solid rail on to the next. */
+  .sds-timeline__stop--passed {
+    .sds-timeline__mark {
+      color: var(--sds-timeline-mark-ink-passed);
+    }
+    &::after {
+      border-inline-start-style: solid;
+      border-inline-start-color: var(--sds-timeline-rail-ink-passed);
+    }
+  }
+  .sds-timeline__stop--now .sds-timeline__mark {
+    color: var(--sds-timeline-mark-ink-now);
+  }
+  .sds-timeline__when {
+    margin: 0 0 var(--sds-timeline-when-gap);
+    font-family: var(--sds-timeline-when-font);
+    font-size: var(--sds-timeline-when-size);
+    color: var(--sds-timeline-when-ink);
+  }
+  .sds-timeline__title {
+    margin: 0 0 var(--sds-timeline-title-gap);
+    color: var(--sds-timeline-title-ink);
+    font-size: var(--sds-timeline-title-size);
+    font-weight: var(--sds-timeline-title-weight);
+    line-height: var(--sds-timeline-title-leading);
+
+    /* The word that says this is where the plan stands, in the label
+       register every block states itself in. */
+    > .sds-label {
+      margin-inline-start: var(--sds-timeline-note-gap);
+    }
+  }
+  /* A stop ahead is a plan, not a fact: a step quieter. */
+  .sds-timeline__stop--ahead .sds-timeline__title {
+    color: var(--sds-timeline-title-ink-ahead);
+  }
+  .sds-timeline__body > :last-child {
+    margin-bottom: 0;
+  }
+  /* The stops inside a stop: the packages of a sprint. The same rail and
+     the same marks, a step in, at the stop's own text edge. The rail of the
+     stop above runs past them to the next stop, so the tree reads as one. */
+  .sds-timeline__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-timeline-item-gap);
+    margin: var(--sds-timeline-items-gap) 0 0;
+  }
+}

@@ -292,3 +292,60 @@ test('a quote keeps the sentence written between its tags', async ({ page }) => 
     [...el.children].filter((c) => c.tagName.toLowerCase() !== 'figure').length);
   expect(stray, 'the element must hold nothing but the figure it renders').toBe(0);
 });
+
+/* And a plan reads its stops from the elements written between its tags.
+   The state is the one thing a stop cannot say for itself. Where it stands
+   against the one marked now is a reading of the whole order, nested stops
+   included. The plan writes it onto each element, and each renders its own
+   box from there. The blocks a stop holds stay its body, and the stops
+   inside it become its list. */
+test('a plan writes the state onto the stops written between its tags', async ({ page }) => {
+  await gotoStory(page, 'components-timeline--blocks');
+
+  const plan = page.locator('sds-timeline');
+  const list = plan.locator('> .sds-timeline');
+  await expect(list).toHaveCount(1);
+
+  /* The elements stand in the list, in the order written, each with the
+     state the plan read off the order. */
+  const states = await list.evaluate((el) =>
+    [...el.children].map((c) => `${c.tagName.toLowerCase()}:${c.getAttribute('state')}`));
+  expect(states).toEqual(['sds-timeline-stop:now', 'sds-timeline-stop:ahead']);
+
+  const sprint = list.locator('> sds-timeline-stop').nth(1);
+  /* Its blocks are its body, and nothing but the box it renders is in it. */
+  await expect(sprint.locator('> .sds-timeline__stop > .sds-timeline__body > ul > li')).toHaveCount(2);
+  const stray = await sprint.evaluate((el) =>
+    [...el.children].filter((c) => !c.classList.contains('sds-timeline__stop')).length);
+  expect(stray, 'the element must hold nothing but the box it renders').toBe(0);
+
+  /* The stop inside it is in its list, with a state of its own. */
+  const inside = sprint.locator('> .sds-timeline__stop > .sds-timeline__list > sds-timeline-stop');
+  await expect(inside).toHaveCount(1);
+  await expect(inside).toHaveAttribute('state', 'ahead');
+  await expect(inside.locator('.sds-timeline__title')).toHaveText('The server keeps the last thirty reads');
+
+  /* The one now says so twice: the mark out loud, and the word beside the
+     title. */
+  const now = list.locator('> sds-timeline-stop').first().locator('> .sds-timeline__stop');
+  await expect(now).toHaveAttribute('aria-current', 'step');
+  await expect(now.locator('.sds-timeline__title .sds-label')).toHaveText('Now');
+
+  /* A package marked now, read against the whole order. Its sprint is at
+     now too, the package before it has passed, and the stop after the
+     sprint lies ahead. */
+  await gotoStory(page, 'components-timeline--inside-a-sprint');
+  const read = await page.locator('sds-timeline').evaluate((el) =>
+    [...el.querySelectorAll('sds-timeline-stop')].map((c) => `${c.getAttribute('when')}:${c.getAttribute('state')}`));
+  expect(read).toEqual([
+    '2026-09-15:passed',
+    '2026-09-30:passed',
+    'Sprint 1 · 2026-10-05 to 10-16:passed',
+    'W1:passed',
+    'Sprint 2 · 2026-10-19 to 10-30:now',
+    'W2:passed',
+    'W3:now',
+    'W4:ahead',
+    '2026-11-10:ahead',
+  ]);
+});

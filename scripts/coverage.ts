@@ -83,6 +83,18 @@ const ELSEWHERE = [
   /* Numbered pages. The way on from a manual page is `sds-nav-pager` — the tree
      read in order, rather than one list cut into pages. */
   'sds-nav-pagination',
+  /* The outline of a document that goes out on its own, in the panel that is
+     its frame. A manual page has the rail for the site and the contents for
+     itself, and no panel. */
+  'sds-nav-outline',
+  /* The parts of a concept: a plan on the calendar, the question it asks,
+     and what stands against what it proposes. A manual reports what is,
+     and proposes nothing. */
+  'sds-timeline',
+  'sds-timeline-stop',
+  'sds-decision',
+  'sds-answer',
+  'sds-compare',
 ];
 
 /* The shell every page layout under `specimens/screens/` consists of. The

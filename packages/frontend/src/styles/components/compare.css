@@ -1,0 +1,42 @@
+/* sds-compare — before and after: two pictures side by side. */
+
+@layer base {
+  sds-compare {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-6);
+  }
+  sds-compare > .sds-compare {
+    margin-bottom: 0;
+  }
+  .sds-compare {
+    margin: 0 0 var(--space-6);
+  }
+}
+
+@layer components {
+  /* Two halves in one row, and one under the other where the row has no
+     room for two. The column decides, never the window: a half narrower
+     than a picture reads is no half. Each half is a figure under its word. */
+  .sds-compare {
+    --sds-compare-gap: var(--space-6);
+    --sds-compare-half-min: 280px;
+    --sds-compare-label-gap: var(--space-2);
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--sds-compare-half-min)), 1fr));
+    gap: var(--sds-compare-gap);
+  }
+  .sds-compare__half {
+    min-width: 0;
+
+    > .sds-label {
+      display: block;
+      margin: 0 0 var(--sds-compare-label-gap);
+    }
+    /* The figure's step belongs to the row, which pays the gap. */
+    > :is(sds-figure, .sds-figure) {
+      margin-bottom: 0;
+    }
+  }
+}

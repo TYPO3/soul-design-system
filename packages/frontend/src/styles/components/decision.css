@@ -1,0 +1,196 @@
+/* sds-decision — the block that puts the question. */
+
+@layer base {
+  sds-answer {
+    display: block;
+    min-width: 0;
+  }
+  sds-decision {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-6);
+  }
+  sds-decision > .sds-decision {
+    margin-bottom: 0;
+  }
+  .sds-decision {
+    margin: 0 0 var(--space-6);
+  }
+}
+
+@layer components {
+  /* The raised plane, as the summary of a review draws it. The one block
+     on the page with a fill, because it is the one the reader came for. The
+     question in the title size, the answers as a list, each letter in a
+     ring. The rules on the rings stand beside them, below. */
+  .sds-decision {
+    --sds-decision-pad-y: var(--block-pad-y);
+    --sds-decision-pad-x: var(--block-pad-x);
+    --sds-decision-border: var(--border-hairline);
+    --sds-decision-edge: var(--border-subtle);
+    --sds-decision-radius: var(--radius-card);
+    --sds-decision-fill: var(--surface-raised);
+    --sds-decision-label-gap: var(--space-2);
+    --sds-decision-question-size: var(--font-size-h3);
+    --sds-decision-question-weight: var(--weight-semibold);
+    --sds-decision-question-leading: var(--leading-heading);
+    --sds-decision-question-ink: var(--text-primary);
+    --sds-decision-question-gap: var(--space-4);
+    --sds-decision-lead-gap: var(--space-5);
+    --sds-decision-answers-gap: var(--space-3);
+    --sds-decision-answers-rule: var(--border-subtle);
+    --sds-decision-answer-pad-y: var(--space-3);
+    --sds-decision-key-column: var(--space-8);
+    --sds-decision-key-ring: var(--space-6);
+    --sds-decision-key-font: var(--font-mono);
+    --sds-decision-key-size: calc(var(--font-size-small) * var(--font-modifier-mono));
+    --sds-decision-key-weight: var(--weight-semibold);
+    --sds-decision-key-ink: var(--text-muted);
+    --sds-decision-key-edge: var(--border-strong);
+    --sds-decision-key-fill: transparent;
+    /* The disc of the answer taken: the ok colour as a fill, at full
+       strength, the letter knocked out in the block's own fill. The
+       colours page names this the third exception. */
+    --sds-decision-key-ink-decided: var(--sds-decision-fill);
+    --sds-decision-key-edge-decided: var(--status-ok);
+    --sds-decision-key-fill-decided: var(--status-ok);
+    --sds-decision-answer-gap: var(--space-3);
+    --sds-decision-label-size: var(--block-title-size);
+    --sds-decision-label-weight: var(--weight-semibold);
+    --sds-decision-label-leading: var(--leading-heading);
+    --sds-decision-label-ink: var(--text-secondary);
+    --sds-decision-label-ink-decided: var(--text-primary);
+    /* The word after a name. On the recommended answer it stands alone and
+       in the quiet accent ink: the recommendation is the paper's claim, and
+       the accent marks the claim. The one taken has its disc, and its word
+       stays in the label's own ink. */
+    --sds-decision-mark-ink-recommended: var(--text-accent-quiet);
+    --sds-decision-mark-ink-decided: var(--text-muted);
+    --sds-decision-mark-gap: var(--space-1);
+    --sds-decision-body-size: var(--block-body-size);
+    --sds-decision-body-leading: var(--leading-body);
+    --sds-decision-body-ink: var(--text-secondary);
+    --sds-decision-body-gap: var(--space-1);
+    --sds-decision-meta-gap: var(--space-4);
+    --sds-decision-meta-size: var(--aside-size);
+    --sds-decision-meta-ink: var(--text-muted);
+    --sds-decision-meta-strong-ink: var(--text-primary);
+
+    padding: var(--sds-decision-pad-y) var(--sds-decision-pad-x);
+    border: var(--sds-decision-border) solid var(--sds-decision-edge);
+    border-radius: var(--sds-decision-radius);
+    background: var(--sds-decision-fill);
+    font-size: var(--sds-decision-body-size);
+    line-height: var(--sds-decision-body-leading);
+    color: var(--sds-decision-body-ink);
+
+    > .sds-label {
+      display: block;
+      margin: 0 0 var(--sds-decision-label-gap);
+    }
+  }
+  .sds-decision__question {
+    margin: 0 0 var(--sds-decision-question-gap);
+    font-size: var(--sds-decision-question-size);
+    font-weight: var(--sds-decision-question-weight);
+    line-height: var(--sds-decision-question-leading);
+    color: var(--sds-decision-question-ink);
+    text-wrap: balance;
+  }
+  .sds-decision__lead {
+    margin: 0 0 var(--sds-decision-lead-gap);
+  }
+  /* The answers: a list, the letters in a column, a hairline between two.
+     Not a table, because an answer is a sentence and not a value. Each
+     arrives inside an element of its own, so the rule stands on the answer
+     and not on a sibling. */
+  .sds-decision__answers {
+    min-width: 0;
+  }
+  .sds-decision__answer {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sds-decision-answer-gap);
+    padding-block: var(--sds-decision-answer-pad-y);
+    border-block-start: var(--sds-decision-border) solid var(--sds-decision-answers-rule);
+  }
+  /* The last answer owes the block's edge nothing. Said twice because an
+     answer is the set's last child where the elements upgraded, and that
+     child's own where a surface wrote the classes. */
+  .sds-decision__answers > :last-child.sds-decision__answer,
+  .sds-decision__answers > :last-child > .sds-decision__answer {
+    padding-block-end: 0;
+  }
+  /* The letter in a ring, on the name's baseline: an inline-flex box
+     offers its first item's baseline, and that is the letter's. The column
+     is wider than the ring, so the names line up whatever the ring does. */
+  .sds-decision__key {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: var(--sds-decision-key-ring);
+    height: var(--sds-decision-key-ring);
+    margin-inline-end: calc(var(--sds-decision-key-column) - var(--sds-decision-key-ring));
+    border: var(--sds-decision-border) solid var(--sds-decision-key-edge);
+    border-radius: 50%;
+    background: var(--sds-decision-key-fill);
+    font-family: var(--sds-decision-key-font);
+    font-size: var(--sds-decision-key-size);
+    font-weight: var(--sds-decision-key-weight);
+    line-height: 1;
+    color: var(--sds-decision-key-ink);
+  }
+  .sds-decision__what {
+    min-width: 0;
+    flex: 1;
+  }
+  .sds-decision__label {
+    margin: 0;
+    font-size: var(--sds-decision-label-size);
+    font-weight: var(--sds-decision-label-weight);
+    line-height: var(--sds-decision-label-leading);
+    color: var(--sds-decision-label-ink);
+  }
+  .sds-decision__body {
+    margin: var(--sds-decision-body-gap) 0 0;
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+  /* The word after the name, in the voice of the word over the block. */
+  .sds-decision__mark {
+    margin-inline-start: var(--sds-decision-mark-gap);
+  }
+  .sds-decision__mark--recommended {
+    --sds-label-ink: var(--sds-decision-mark-ink-recommended);
+  }
+  .sds-decision__mark--decided {
+    --sds-label-ink: var(--sds-decision-mark-ink-decided);
+  }
+  /* The one taken: its disc in the ok colour, its name in the primary
+     ink. The recommended one draws nothing of its own: the word after its
+     name says it, and one answer alone stands out. */
+  .sds-decision__answer.is-decided {
+    .sds-decision__key {
+      border-color: var(--sds-decision-key-edge-decided);
+      background: var(--sds-decision-key-fill-decided);
+      color: var(--sds-decision-key-ink-decided);
+    }
+    .sds-decision__label {
+      color: var(--sds-decision-label-ink-decided);
+    }
+  }
+  .sds-decision__meta {
+    margin: var(--sds-decision-meta-gap) 0 0;
+    font-size: var(--sds-decision-meta-size);
+    color: var(--sds-decision-meta-ink);
+
+    strong {
+      font-weight: var(--sds-decision-label-weight);
+      color: var(--sds-decision-meta-strong-ink);
+    }
+  }
+}

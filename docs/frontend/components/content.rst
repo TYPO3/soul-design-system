@@ -637,6 +637,203 @@ no number, because a number is a place in a set.
    the stop itself. Unlike an answer in an accordion, a step has no fold,
    so nothing has to open before a read.
 
+.. _component-sds-timeline:
+
+sds-timeline, sds-timeline-stop
+===============================
+
+A plan on the calendar: dated stops down one rail, and where the plan
+stands among them. For work that has dates. :ref:`sds-steps
+<component-sds-steps>` is an instruction, which never changes.
+:ref:`sds-run <component-sds-run>` is work in progress, which arrives one
+stop at a time. A plan is neither. The author writes it once, with a date
+at every stop, and a reader asks one thing of it: how far along is it?
+
+.. code-block:: html
+
+   <sds-timeline>
+     <sds-timeline-stop when="2026-09-15" heading="Draft 2 to the maintainers">
+       <p>This paper, with the test and the options in it.</p>
+     </sds-timeline-stop>
+     <sds-timeline-stop when="2026-09-30" heading="Decision" now>
+       <p>The maintainers answer the question in part 8.</p>
+     </sds-timeline-stop>
+     <sds-timeline-stop when="Sprint 1 · 2026-10-05 to 10-16" heading="The record, kept">
+       <p>One file per source, thirty reads.</p>
+       <sds-timeline-stop when="W1" heading="The server keeps the last thirty reads"></sds-timeline-stop>
+     </sds-timeline-stop>
+   </sds-timeline>
+
+The pair is the whole component, the way an instruction holds its steps.
+A stop's date and title fit in an attribute. What it holds goes between
+the tags: a sentence, or the blocks a plan needs. The stops inside it go
+there too, as more of these: the packages of a sprint, the steps of a
+phase.
+
+One stop says it is ``now``. The plan reads every stop in order, the ones
+inside a stop with it, and writes ``state`` onto each. The stops before
+that one have ``passed``, and the ones after it lie ``ahead``. A stop
+that holds the one marked is at ``now`` too.
+
+Each state has its mark: the glyphs a run gives its stops. The check in
+the status colour for a passed stop, because a passed stop is a result. A
+filled disc in the primary ink for the one the plan is at, with the word
+beside its title. A ring for one ahead, and its title a step quieter.
+
+The rail follows: solid up to now, dashed beyond it. Every mark says its
+state out loud, so the colour is never the whole claim. The stops are a
+list in ARIA, for the reason ``sds-steps`` gives.
+
+With no stop marked, every stop lies ahead: a plan not yet begun.
+
+.. confval:: entries
+   :name: sds-timeline-entries
+   :type: "{ when, heading, body?, now?, items? }[]"
+
+   Where a page holds the plan as data. ``items`` are the stops inside
+   one. Stops that are blocks go between the tags as ``sds-timeline-stop``
+   instead, and then this stays empty.
+
+.. confval:: when
+   :name: sds-timeline-when
+   :type: string
+   :required: true
+
+   On ``sds-timeline-stop``. When, as the plan says it: a day, a week, a
+   sprint, a quarter. Nothing parses it.
+
+.. confval:: heading
+   :name: sds-timeline-heading
+   :type: string
+   :required: true
+
+   On ``sds-timeline-stop``. What happens at this stop, in one line.
+
+.. confval:: now
+   :name: sds-timeline-now
+   :type: boolean
+   :default: false
+
+   On ``sds-timeline-stop``. The stop the plan is at. One per plan. On a
+   stop inside a stop, the one that holds it is at now too. The stops
+   before it in the same one have passed.
+
+.. confval:: state
+   :name: sds-timeline-state
+   :type: "passed | now | ahead"
+
+   On ``sds-timeline-stop``, and the plan writes it. A stop on its own
+   reads as ahead.
+
+.. _component-sds-decision:
+
+sds-decision, sds-answer
+========================
+
+The block that puts the question. A concept ends on a decision somebody
+else makes, and this is where the paper asks for it. The question in one
+line, the answers it can take with the one the paper recommends, who
+decides, and by when. On the raised plane, because it is the one block the
+reader came for.
+
+.. code-block:: html
+
+   <sds-decision
+     question="Does the server keep a record of its own reads, and show it?"
+     lead="Until the maintainers answer, this paper is a draft."
+     by="the maintainers"
+     due="2026-09-30"
+   >
+     <sds-answer key="A" heading="The record on the page of the source" recommended>
+       <p>Thirty reads, on the page of the source. Six days.</p>
+     </sds-answer>
+     <sds-answer key="B" heading="A page of its own, with a chart">
+       <p>A year of reads, drawn. It is a history, and fourteen days.</p>
+     </sds-answer>
+   </sds-decision>
+
+The pair is the whole component, the way an instruction holds its steps.
+An answer's letter and name fit in an attribute; what it means goes between
+the tags, a sentence or the blocks a paper needs. The recommended one
+carries the word after its name in the quiet accent ink, and nothing else
+on its row changes. A recommendation is the paper's claim, and the accent
+marks the claim. The answer the decision took
+carries ``decided``: its word, its letter on a disc in the ok colour, and
+the foot speaks in the past. The answers are a list in ARIA, for the
+reason ``sds-steps`` gives.
+
+.. confval:: question
+   :name: sds-decision-question
+   :type: string
+   :required: true
+
+   The question, in one line, and the block's title.
+
+.. confval:: answers
+   :name: sds-decision-answers
+   :type: "{ key, heading, body?, recommended?, decided? }[]"
+
+   Where a page holds the answers as data. Answers that are blocks go
+   between the tags as ``sds-answer`` instead, and then this stays empty.
+
+.. confval:: lead
+   :name: sds-decision-lead
+   :type: string
+
+   What the paper says about the question, in a sentence before the
+   answers.
+
+.. confval:: by
+   :name: sds-decision-by
+   :type: string
+
+   Who decides. With ``due``, the line at the foot: whose call it is, and
+   when it falls due. Once an answer is ``decided``, who decided and on
+   which day.
+
+.. confval:: due
+   :name: sds-decision-due
+   :type: string
+
+   By when, as written: ``2026-09-30``. Once an answer is ``decided``,
+   the day the decision fell.
+
+.. confval:: label
+   :name: sds-decision-label
+   :type: string
+   :default: "Decision"
+
+   The word over the block.
+
+.. confval:: key
+   :name: sds-decision-key
+   :type: string
+
+   On ``sds-answer``. Its letter or number, as the paper cites it.
+
+.. confval:: heading
+   :name: sds-decision-heading
+   :type: string
+
+   On ``sds-answer``. What the answer is, in one line.
+
+.. confval:: recommended
+   :name: sds-decision-recommended
+   :type: boolean
+   :default: false
+
+   On ``sds-answer``. The one the paper recommends. One per decision, and
+   none where the paper lays the answers out and stops.
+
+.. confval:: decided
+   :name: sds-decision-decided
+   :type: boolean
+   :default: false
+
+   On ``sds-answer``. The one the decision took. One per decision, and none
+   while the question is open. The block reads it: with one, the foot says
+   who decided and on which day.
+
 .. _component-sds-note:
 
 sds-note
@@ -664,8 +861,8 @@ answer.
    :default: "info"
 
    Not decoration. ``ok`` names where an answer came from, ``warn`` a
-   degraded one, ``error`` none, ``info`` a fact about the surface. Only
-   ``warn`` tints the block.
+   degraded one, ``error`` none, ``info`` a fact about the surface. ``warn``
+   and ``error`` tint the block; ``ok`` and ``info`` colour the glyph alone.
 
 .. confval:: heading
    :name: sds-note-heading

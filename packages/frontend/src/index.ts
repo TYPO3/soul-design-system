@@ -40,6 +40,12 @@ import './components/tabs.ts';
 import './components/tab-item.ts';
 import './components/nav-rail.ts';
 import './components/nav-toc.ts';
+import './components/nav-outline.ts';
+import './components/timeline-stop.ts';
+import './components/timeline.ts';
+import './components/answer.ts';
+import './components/decision.ts';
+import './components/compare.ts';
 import './components/footer.ts';
 import './components/surface.ts';
 import './components/stat.ts';
@@ -114,6 +120,12 @@ export { SdsTabs } from './components/tabs.ts';
 export { SdsTabItem } from './components/tab-item.ts';
 export { SdsNavRail } from './components/nav-rail.ts';
 export { SdsNavToc } from './components/nav-toc.ts';
+export { SdsNavOutline } from './components/nav-outline.ts';
+export { SdsTimelineStop, type PlacedStop, type TimelineState } from './components/timeline-stop.ts';
+export { SdsTimeline, type TimelineEntry, type TimelineProps } from './components/timeline.ts';
+export { SdsAnswer } from './components/answer.ts';
+export { SdsDecision } from './components/decision.ts';
+export { SdsCompare } from './components/compare.ts';
 export { SdsFooter, type FooterProps, type FooterGroup, type FooterLink } from './components/footer.ts';
 export { SdsSurface, type SurfaceProps, type Plane } from './components/surface.ts';
 export { SdsStat, type StatProps } from './components/stat.ts';
@@ -198,6 +210,12 @@ export const TAGS = [
   'sds-tab-item',
   'sds-nav-rail',
   'sds-nav-toc',
+  'sds-nav-outline',
+  'sds-timeline-stop',
+  'sds-timeline',
+  'sds-answer',
+  'sds-decision',
+  'sds-compare',
   'sds-footer',
   'sds-surface',
   'sds-stat',
