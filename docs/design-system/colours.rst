@@ -185,7 +185,9 @@ Three things are the exception, and they stand here so they stay three.
 
 A note with ``tone="error"`` sits on ``--surface-error-quiet`` inside
 ``--border-error-quiet``. It says a thing failed, and a reader must find
-that box before the words in it.
+that box before the words in it. A link on a tinted note rests on
+``--text-link-hover``. The resting link ink falls under the text rule on
+that plane, and on the accent plane of a ``warn`` note.
 
 The press with no undo. ``sds-btn--danger`` carries ``--status-error`` as
 ink and as a hairline and takes a fill only under the pointer. A filled red

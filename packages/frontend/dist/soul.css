@@ -2648,6 +2648,8 @@
     --sds-note-body-leading: var(--leading-body);
     --sds-note-body-ink: var(--text-secondary);
     --sds-note-body-lead: var(--space-1);
+    --sds-note-link-ink: var(--text-link);
+    --sds-note-link-ink-hover: var(--text-link-hover);
     --sds-note-line: calc(var(--sds-note-body-size) * var(--sds-note-body-leading));
     --sds-note-wrap: nowrap;
     --sds-note-say-min: auto;
@@ -2658,6 +2660,10 @@
     border-radius:var(--sds-note-radius);
     background:var(--sds-note-fill);
     padding:var(--sds-note-pad-y) var(--sds-note-pad-x);
+    a{
+      color:var(--sds-note-link-ink);
+      &:hover{color:var(--sds-note-link-ink-hover)}
+    }
     &:has(.sds-note__action){--sds-note-wrap: wrap;--sds-note-say-min: 18ch}
     &:has(.sds-note__title){--sds-note-line: calc(var(--sds-note-title-size) * var(--sds-note-title-leading))}
   }
@@ -2683,8 +2689,8 @@
     >:last-child{margin-bottom:0}
   }
   .sds-note__action{flex:none;display:flex;align-items:center;height:var(--sds-note-line);margin-inline-start:auto}
-  .sds-note--warn{--sds-note-edge: var(--border-accent-quiet);--sds-note-fill: var(--surface-accent-quiet);--sds-note-mark-ink: var(--status-warn)}
-  .sds-note--error{--sds-note-edge: var(--border-error-quiet);--sds-note-fill: var(--surface-error-quiet);--sds-note-mark-ink: var(--status-error)}
+  .sds-note--warn{--sds-note-edge: var(--border-accent-quiet);--sds-note-fill: var(--surface-accent-quiet);--sds-note-mark-ink: var(--status-warn);--sds-note-link-ink: var(--text-link-hover)}
+  .sds-note--error{--sds-note-edge: var(--border-error-quiet);--sds-note-fill: var(--surface-error-quiet);--sds-note-mark-ink: var(--status-error);--sds-note-link-ink: var(--text-link-hover)}
   .sds-note--ok{--sds-note-mark-ink: var(--status-ok)}
   .sds-note--info{--sds-note-mark-ink: var(--text-muted)}
   .sds-loading{--sds-loading-gap: var(--space-2);--sds-loading-ink: var(--text-secondary);--sds-loading-label-font: var(--font-mono);--sds-loading-label-size: calc(var(--nav-font-size) * var(--font-modifier-mono));--sds-loading-label-ink: var(--text-primary);display:flex;align-items:center;gap:var(--sds-loading-gap);color:var(--sds-loading-ink)}
