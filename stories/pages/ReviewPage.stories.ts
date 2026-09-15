@@ -7,7 +7,10 @@
    the change with its paths traced. The findings stand by weight, the
    remarks under the code they cite, and the evidence after them:
    probes, suites, coverage. What the review found sound stands in it too,
-   and what it raised and dropped. Live and static from one composition —
+   and what it raised and dropped.
+
+   Its frame is the panel a document that goes out on its own gets, with
+   the outline of its parts. Live and static from one composition —
    `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -22,7 +25,7 @@ import '../../packages/frontend/src/components/figure.ts';
 import '../../packages/frontend/src/components/entry.ts';
 import '../../packages/frontend/src/components/register.ts';
 import '../../packages/frontend/src/components/link.ts';
-import '../../packages/frontend/src/components/nav-toc.ts';
+import '../../packages/frontend/src/components/nav-outline.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import '../../packages/frontend/src/components/table.ts';
@@ -320,9 +323,9 @@ const APPENDIX: readonly Entry[] = [
   },
 ];
 
-/** The parts of the review, and the sections in each. The list nests the way
-    the page does, so a reader sees five parts before fourteen headings. Each
-    target is a section, so landing on one marks its heading. */
+/** The parts of the review, and the sections in each. The outline nests the
+    way the page does, so a reader sees five parts before fourteen headings.
+    Each target is a section, so landing on one marks its heading. */
 const SECTIONS = [
   { label: 'The change', href: '#change', items: [
     { label: 'Context', href: '#context' },
@@ -402,13 +405,26 @@ export function reviewPage({ flat = false }: PageMode = {}): TemplateResult {
         html`<sds-entry heading="${f.heading}" group="${f.group ?? ''}" origin="${f.origin ?? ''}" todo="${f.todo ?? ''}">${f.body}</sds-entry>`)}</sds-register>`;
 
   return html`<div class="sds-shell">
-  <div class="sds-body">
-  <main class="sds-body__main" id="main-content">
-    <!-- One document, read from the top. No bar and no rail: nothing here leads
-         anywhere else, and the head is the document's own. The contents rest
-         beside the column where the page has the room, in the aside a document
-         writes; narrower, the list stands where it is written. The flow
-         contract carries every step between these blocks, so there is no stack. -->
+  <div class="sds-paper">
+    <!-- The panel is the document's frame, as a concept paper has it. No bar
+         and no footer: nothing here leads anywhere else. The head says what
+         the reader has open, the outline says where they are in it, and the
+         foot says what the review came to. -->
+    <aside class="sds-paper__panel">
+      <div class="sds-paper__head">
+        <sds-eyebrow label="Extension review"></sds-eyebrow>
+        <p class="sds-paper__title">Label lookups cached for the length of a request</p>
+      </div>
+      <sds-nav-outline label="Contents" .entries="${SECTIONS}"></sds-nav-outline>
+      <div class="sds-paper__foot">
+        <p><span class="sds-error">Not ready to merge</span> · two findings block</p>
+        <p>Patch set 2 · read 2026‑09‑11</p>
+      </div>
+    </aside>
+
+  <main class="sds-paper__main" id="main-content">
+    <!-- One document, read from the top. The flow contract carries every
+         step between these blocks, so there is no stack. -->
     <article class="sds-prose">
       <!-- Every titled part is a section, nested as the headings nest, the way a
            rendered document is. A section owns its boundary, so the step between
@@ -426,14 +442,6 @@ export function reviewPage({ flat = false }: PageMode = {}): TemplateResult {
         ${opener}
         ${tiles}
       </section>
-
-      <!-- After the head and before the parts, which is where the list stands
-           on a narrow page. Wide, the box is the column's reserve and the list
-           rests beside the column wherever the reader is. Between two sections,
-           so no heading loses the step a sibling before it reads. -->
-      <div class="sds-aside">
-        <sds-nav-toc label="On this page" .entries="${SECTIONS}"></sds-nav-toc>
-      </div>
 
       <section class="sds-section" id="change">
         <h2>The change</h2>

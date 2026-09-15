@@ -416,6 +416,8 @@ on a keyboard.
 Then one of two bodies. A column beside a rail (`sds-body`,
 `sds-body__rail`, `sds-column`) for anything read in sequence. A run of
 full-bleed bands (`sds-bands`, `sds-band`) for a page somebody arrives on.
+A document that goes out on its own takes a third, `sds-paper`, when it
+has more places than a window is tall. The panel beside it is its frame.
 The screens under `specimens/screens/` are those layouts assembled: start
 from the nearest one.
 
@@ -442,7 +444,9 @@ name.
    No bar, no rail, no footer and no `sds-theme`: the host draws the frame
    and owns the mode switch. The page follows `data-theme` on the root as
    every page does. `specimens/screens/review.html` is the page to start
-   from.
+   from. A concept paper has more places than a window is tall. It stands
+   in `sds-paper` instead of `sds-body`, beside the panel that is its frame.
+   `specimens/screens/concept.html` is that page.
 3. **Prerender it.** `node <dist>/soul-finish.js <dir> --no-drop-in
    --no-search` renders every element in every `.html` under that directory,
    in place, icons inlined. The page then holds its markup before a script
@@ -466,7 +470,7 @@ the host fetches nothing beside the page. It arrives in its exported
 colours, as every picture does.
 
 A review is a document, not a page of a site: no bar, no rail, nothing to
-navigate. Its head is its own.
+navigate. Its head is its own, in the panel beside it.
 
 | The part of a review | The element |
 | --- | --- |
@@ -474,7 +478,7 @@ navigate. Its head is its own.
 | the facts of the change: the number, the commit, the target, the votes | `sds-facts`, the pairs between its tags. The change and the issue as `sds-link`, a vote as `sds-badge`, a hash in `.sds-mono` |
 | the summary | `<sds-surface plane="raised" heading="Summary">`, first: what the change does, then the recommendation with a link to each finding it rests on |
 | the counts, as sentences | four `<sds-surface plane="plain" label="…">` in `<sds-grid variant="dense">`, one per weight, each a sentence with the number as its first word |
-| the contents | `sds-nav-toc` with `entries` nested as the parts nest. In a `<div class="sds-aside">`, which rests beside the column where the page has the room |
+| the frame and the contents | as a concept paper has them, below. `sds-paper` with the panel, and `sds-nav-outline` in it with `entries` nested as the parts nest. Without `numbered`: a reader cites a finding, and the register numbers those |
 | the findings | `<sds-register name="findings" prefix="F" todo-prefix="T">` with `.groups` from `FINDING_GROUPS`. One `sds-entry` per finding between its tags: `heading`, `group`, `origin`, `todo`, the evidence between the tags. The register numbers them, groups them, writes the overview and the work |
 | a caveat beside the findings | `sds-note` with the tone it deserves |
 | the change | `sds-diff` with its `path` |
@@ -482,6 +486,29 @@ navigate. Its head is its own.
 | a trace, a command, a test | `sds-code` with `code-lang` and a `caption`. `start` where the text cites a line, and the numbers draw |
 | the mechanism, the fault | `sds-figure` with a drawing under the diagram rule. One claim, the accent on the one thing it is about; status colour where it is about a fault |
 | what stays out of the way | `sds-accordion`, one `question` per entry |
+
+A concept paper is the document that asks for a decision, and it is long:
+twenty parts with sections under most of them. The parts it has in common
+with a review use the same elements. What it has of its own:
+
+| The part of a concept | The element |
+| --- | --- |
+| the frame | `sds-paper`. In `<aside class="sds-paper__panel">` three things. The head: an `sds-eyebrow` over `<p class="sds-paper__title">`. The contents. The foot: one or two lines on the draft in `<div class="sds-paper__foot">`. The document in `<main class="sds-paper__main" id="main-content">`. Never a bar and never a footer |
+| the contents | `<sds-nav-outline label="Contents" numbered>` with `entries` nested as the parts nest. The whole tree, numbered, and the mark on the part under the reader. It scrolls on its own, and on a phone it folds behind the press in the head. Never `sds-nav-toc`, which is the contents beside a column and has its own place |
+| the numbers | as text in every heading, `<h2><span class="sds-section__number">4</span> Options weighed</h2>` and `4.2` on a section, counted the way the contents counts them. Never a counter the stylesheet draws: a screen reader never says one. The register's own sections carry the register's numbers, so they stay out of the contents |
+| where it stands | `sds-compare` with the two pages as screenshots, `zoomable`, the claim of each in its caption. Or one `sds-figure`, with `width` and `height` as the file has them. A table after it of what the page says and what the reader asks |
+| the evidence | tables whose cells are verdicts in `sds-badge`; what people said as `sds-quote` with `by` and `as` |
+| the findings | `sds-register` with groups of the paper's own, as `.groups`: a gap, a cost, what works. `prefix="F"`, `todo-prefix="W"` |
+| a file the proposal adds | `sds-tree` of the directory it lands in, the file with a `note` |
+| a setting it adds | `sds-confval` with `name`, `type`, `default` and its facts |
+| a sentence a text grows | `sds-diff` with the `path`, the old lines as context |
+| a command in its forms | `sds-tabs`, one `sds-tab-item` per form, each an `sds-code` |
+| the options | three `sds-card` in `sds-grid`, `label`, `heading`, `body`, `icon`, `footer` with the cost. Then one `sds-table`, a column per option and a row per thing the findings ask, every cell a verdict. The one dropped gets an `sds-note` with the reason |
+| who wrote it | `sds-byline` with `name`, `as` and `meta`, under the lead |
+| the cost | a table of work packages, the order as `sds-steps`, the risks as `sds-note` with `tone="warn"` |
+| the dates | `sds-timeline`, one `sds-timeline-stop` per stop between its tags with `when` and `heading`, one of them `now`. A stop inside a stop is the package of a sprint |
+| the decision | `sds-decision` with `question`, `lead`, `by` and `due`. One `sds-answer` per answer between its tags: `key`, `heading`, `recommended` on the one the paper recommends. What it means between the tags |
+| what stands, and the proposal | `sds-compare`: two pictures in one row, each with its claim, under `before-label` and `after-label` |
 
 ## Where things are
 

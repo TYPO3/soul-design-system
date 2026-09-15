@@ -263,10 +263,11 @@ const checkOptions: esbuild.BuildOptions = {
 };
 
 /* What a page fetches, and the list beside it, with the files that list
-   names. A lookup is a promise about paths and it travels with them. Only the
-   illustrations stay out: nothing here names them, and the theme package
-   takes them from `assets/` where they live. */
-const NOT_IN_THE_DROP_IN = ['placeholders'];
+   names. A lookup is a promise about paths and it travels with them. The
+   illustrations and the screenshots stay out: nothing here names them. The
+   theme package takes the illustrations from `assets/` where they live, and
+   the screenshots are a story's own fixture. */
+const NOT_IN_THE_DROP_IN = ['placeholders', 'screenshots'];
 const copyAssets = (): void => cpSync(join(FRONTEND, 'assets'), join(OUT, 'assets'), {
   recursive: true,
   filter: (source) => !NOT_IN_THE_DROP_IN.includes(relative(join(FRONTEND, 'assets'), source)),

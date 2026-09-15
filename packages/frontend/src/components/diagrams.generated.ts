@@ -10,5 +10,6 @@ export const DIAGRAM_VIEWBOX: Readonly<Record<string, string>> = {
   "cache-key": "0 0 1200 560",
   "installation-fallback": "0 0 1200 786",
   "lookup-cache": "0 0 1200 620",
+  "record-of-reads": "0 0 1200 560",
   "system-overview": "0 0 1200 726",
 };

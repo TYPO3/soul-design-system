@@ -386,6 +386,15 @@ theme's PHP highlighter loads.
 colour written `var(--token, #light)`, then `make diagrams`. There is no dark
 copy: a page references the drawing, and it reads that page's tokens.
 
+**Take a screenshot for a story.** `make look ARGS='specimens/screens/<name>.html
+1440 light <scroll>'` photographs a screen as a window at that scroll, into
+`.out/test-results/`. Copy the file into
+`packages/frontend/assets/screenshots/` under the name of what it shows.
+A screenshot is a story's fixture, like an illustration: `make cards` copies
+it beside the cards, the bundle carries it, and the drop-in leaves it out.
+Only a surface of this system: a picture of somebody else's page is a
+licence question and a page that moves.
+
 **Change what a consumer has to run.** The steps are `scripts/lib/site.ts`,
 shipped as `packages/frontend/dist/soul-finish.js`. Change those, then `make
 dist`: `make guides` installs the theme package and runs the built file, so an

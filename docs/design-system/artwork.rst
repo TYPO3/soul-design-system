@@ -166,6 +166,21 @@ the one surface with a single value for both modes. Dark line art on a dark
 ground is the page against its own picture. A photograph brings its own
 ground, and the page leaves it alone.
 
+A screenshot
+============
+
+A picture of a surface as it stands, in a document that discusses it: a
+concept paper's "where it stands", a review of a page. It is a link like
+every other picture, an ``<img>`` in ``sds-figure`` with the claim under it
+and ``zoomable`` for the detail. A raster arrives in the mode of its
+capture, so the frame under it takes ``--surface-art``, as under a drawing.
+
+The ones this system ships are of its own screens. ``make look`` takes them
+at 1440, cropped to a window, and they live in
+``packages/frontend/assets/screenshots/``. They are a story's fixture, like
+the illustrations. The design agent gets them beside the screen that shows
+them, and the drop-in does not carry them.
+
 When it draws nothing
 =====================
 
