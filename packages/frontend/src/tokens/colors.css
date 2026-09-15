@@ -18,6 +18,10 @@
     --surface-sunken: light-dark(#f4f2ee, #0c0b0a);
     --surface-inset: light-dark(#efebe3, #221f1b);
     --surface-accent-quiet: light-dark(#fff6ec, #1c1a16);
+    /* The plane under a note that says a thing failed. A pair of its own,
+       because the status red is ink. A wash of it over paper goes grey before
+       it goes red. */
+    --surface-error-quiet: light-dark(#fcefec, #211715);
     --surface-overlay: light-dark(rgba(28, 26, 23, 0.45), rgba(6, 6, 5, 0.62));
     /* Depth, for the surfaces that leave the page — everything that stays on
        it separates with a hairline. Two layers each, a tight edge and the room
@@ -63,6 +67,7 @@
     --border-subtle: light-dark(#e3dfd6, #2b2823);
     --border-strong: light-dark(#c9c3b7, #37332c);
     --border-accent-quiet: light-dark(#f0c089, #4a4437);
+    --border-error-quiet: light-dark(#e9aca4, #4f312d);
 
     /* Text */
     --text-primary: light-dark(#1c1a17, #ede9e2);
