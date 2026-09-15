@@ -291,7 +291,10 @@ line. The column gives the width up. It carries two levels there, against
 all six in the flow.
 
 :doc:`/frontend/documents` has the reason and the width. Both boxes are in
-``styles.css``, so a product surface can ask for either.
+``styles.css``, so a product surface can ask for either. The outline of a
+long document beside its panel is another element,
+:ref:`sds-nav-outline <component-sds-nav-outline>`: this one has its place
+and its behaviour, and the panel does not borrow it.
 
 .. code-block:: html
 
@@ -359,6 +362,75 @@ announcement. This one moves under a reader who looks at the text.
 
    Before the script, and on a page where it never runs, it is the list with
    nothing marked. That is a contents, which the page had without it.
+
+.. _component-sds-nav-outline:
+
+sds-nav-outline
+===============
+
+The parts of a long document, beside it. The whole tree of a document with
+more places than a window is tall, in the panel that is the document's
+frame. Every part and every section. It is the document's base navigation:
+a reader has the whole document in reach from any part of it.
+
+.. code-block:: html
+
+   <aside class="sds-paper__panel">
+     …
+     <sds-nav-outline label="Contents" numbered .entries="${SECTIONS}"></sds-nav-outline>
+     …
+   </aside>
+
+It reads the page for where the reader is, as ``sds-nav-toc`` does, by the
+same line and the same rule. The marked row stays inside its own scrolling
+box, by the least move that brings it there. Above the first heading nothing
+has the mark.
+
+**Where the panel has no room beside the page**, under 860px, the list
+folds behind one press in the page's head. The press is the glyph of a
+list, the name, and the marker that says what a press will do. The list
+drops under the head as a row of its own, half the window at most, and
+scrolls.
+A press on a row shuts it again: the reader chose a place, and the list has
+done its work.
+
+The fold is a ``<details>``, written open, so the list is there before any
+script and where none runs. The script shuts it where the press draws, and
+opens it again where the press does not. It asks the press rather than the
+window, so the width stands in the stylesheet alone.
+
+.. confval:: entries
+   :name: sds-nav-outline-entries
+   :type: MenuEntry[]
+   :required: true
+
+   The parts, nested as deep as the document nests them. An entry that
+   points at this page is a place the reader can be in. ``current`` on an
+   entry is what a card and a static page have instead of a reader.
+
+.. confval:: label
+   :name: sds-nav-outline-label
+   :type: string
+   :default: "Contents"
+
+   The heading over the list, the name of the navigation, and the word on
+   the press where the list folds.
+
+.. confval:: numbered
+   :name: sds-nav-outline-numbered
+   :type: boolean
+   :default: false
+
+   Every entry carries its number, ``4`` and ``4.2``, counted from its place
+   in the list the way a numbered document counts its parts. The number is
+   text in the row, in the mono face and a step quieter. So it is in the
+   name the row has out loud. A counter drawn by the stylesheet is not: a
+   browser leaves generated content out of an accessible name.
+
+   The headings on the page carry the same numbers as text, in an
+   ``sds-section__number``; :doc:`/frontend/documents` has that half. The
+   two agree as long as the list mirrors the document, which it must
+   anyway.
 
 .. _component-sds-nav-breadcrumb:
 

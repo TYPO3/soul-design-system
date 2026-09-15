@@ -94,7 +94,8 @@ The two bodies a page can have
 
 Every page is one of two layouts, and the choice is not decoration. It is
 the distinction :doc:`/design-system/screens` draws between a page that
-reports and a page that argues.
+reports and a page that argues. A document that goes out on its own has a
+third, below: a panel beside it.
 
 .. tabs::
 
@@ -180,6 +181,85 @@ reports and a page that argues.
    the hairlines that keep two of them apart. Two quiet bands in a row share
    one line.
 
+A document with its panel
+=========================
+
+A third shape, for a document that goes out on its own: no bar, no footer,
+and more places than a window is tall. A concept paper, a specification, a
+report with twenty parts. The document stands beside a panel that is its
+whole frame.
+
+.. code-block:: html
+
+   <div class="sds-shell">
+     <div class="sds-paper">
+       <aside class="sds-paper__panel">
+         <div class="sds-paper__head">
+           <sds-eyebrow label="Concept paper · draft 2"></sds-eyebrow>
+           <p class="sds-paper__title">A record of reads for every source</p>
+         </div>
+         <sds-nav-outline label="Contents" numbered .entries="${SECTIONS}"></sds-nav-outline>
+         <div class="sds-paper__foot"><p>Draft for discussion · 2026-09-15</p></div>
+       </aside>
+       <main class="sds-paper__main" id="main-content">
+         <article class="sds-prose">…</article>
+       </main>
+     </div>
+   </div>
+
+.. confval:: .sds-paper
+   :name: sds-paper
+   :type: class
+
+   A panel beside a document. It replaces ``.sds-body``, and it carries no
+   bar: the panel's head is the document's own.
+
+.. confval:: .sds-paper__panel
+   :name: sds-paper-panel
+   :type: class
+
+   The frame. Sticky at the top and the height of the window, a hairline at
+   its inner edge, ``--width-panel`` wide. A column of three: the head and
+   the foot keep their height, and the outline between them scrolls on its
+   own. So a reader in the last part still sees the first. The mark on the
+   part they are in stays where they can see it.
+
+   The three carry the inset, not the panel, and the outline touches both
+   rules. So the rules run edge to edge, and the scrollbar stands on the
+   hairline from rule to rule.
+
+   Under 860px it is the page's head instead: one row, sticky at the top,
+   with the title and the press that drops the outline. The foot shows with
+   the list. The scroller keeps the head's height as its offset, so a place
+   jumped to arrives under the head and not behind it.
+
+.. confval:: .sds-paper__head
+   :name: sds-paper-head
+   :type: class
+
+   What the reader has open: an ``sds-eyebrow`` for the kind of document and
+   its draft, and the title in ``.sds-paper__title``, at body size. The page
+   says the title again at full size; the panel says it where it stays in
+   view. In the page's head, under 860px, the title stands alone on one
+   line, and the eyebrow goes.
+
+.. confval:: .sds-paper__foot
+   :name: sds-paper-foot
+   :type: class
+
+   What the document says about its state, in the small size and the muted
+   ink: a draft, a date, a decision due. One or two lines of plain text. A
+   verdict takes the status colour on the word, ``.sds-error`` and its kin,
+   and never a label: a label names what stands under it.
+
+.. confval:: .sds-paper__main
+   :name: sds-paper-main
+   :type: class
+
+   The page. It has no width of its own, like ``.sds-body__main``. Its
+   inset is the page's: the gutter, and past ``--width-page`` the rest. So
+   the document centres once the window is wider than the measure.
+
 The measure, and its numbers
 ============================
 
@@ -199,6 +279,10 @@ not as a change of ground.
    * - ``--width-sidebar``
      - 210px
      - the rail
+   * - ``--width-panel``
+     - 300px
+     - the panel beside a document. Wider than the rail, because a row in it
+       carries a number and a sentence rather than a name
    * - ``--height-header``
      - 72px
      - the bar, and the rail's sticky offset. 56px once the page has
@@ -230,7 +314,8 @@ together.
      - the gutters narrow, and the vertical rhythm with them
    * - 860px
      - the rail stops as a column, and the bar's own menu holds the site. The
-       bar gives its height back to the page. The version badge leaves it
+       bar gives its height back to the page. The version badge leaves it.
+       A document's panel stands over the page
    * - 640px
      - a row of controls wraps. The marks at the end of the footer's closing
        line give up their end of it

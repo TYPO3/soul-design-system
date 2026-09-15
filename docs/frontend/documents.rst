@@ -136,6 +136,28 @@ One distance above every section that is not the first in its box, whatever
 level its heading has. The last block inside a section owes its edge
 nothing. ``tests/guides.spec.ts`` measures it on the rendered page.
 
+A document that numbers its parts
+=================================
+
+A reader cites a long document by number: "see 4.2". The number stands in
+the heading as text, in an ``sds-section__number`` before the words, ``4`` on
+a part and ``4.2`` on a section in it. In the mono face, a step smaller and
+in the muted ink, so the words keep the weight.
+
+.. code-block:: html
+
+   <section class="sds-section" id="options">
+     <h2><span class="sds-section__number">6</span> Options weighed</h2>
+     <section class="sds-section" id="side-by-side">
+       <h3><span class="sds-section__number">6.1</span> Side by side</h3>
+
+Text, and never a counter the stylesheet draws. A browser leaves generated
+content out of the name a heading has out loud. So a counted number is one
+a screen reader never says and a reader cannot copy. The contents list
+counts the same places by their order, ``numbered`` on
+:ref:`sds-nav-outline <component-sds-nav-outline>`. The two agree as long as
+the list mirrors the document.
+
 What is on this page
 ====================
 
@@ -150,6 +172,11 @@ It carries two levels there and all six in the flow. The column is what a
 reader jumps *from*, and nobody jumps to a fourth-level heading from a rail.
 Drawn, the deeper levels are identical muted lines a step apart, each with
 less measure than the one above.
+
+A document with more places than a window is tall has a list of its own,
+:ref:`sds-nav-outline <component-sds-nav-outline>`, in the panel of
+``.sds-paper``: the whole tree, numbered, between the panel's head and its
+foot. :doc:`layout` has the panel. This list stays what it is.
 
 The list itself is :ref:`sds-nav-toc <component-sds-nav-toc>`, not markup
 from a template. That is what makes it follow the reader. It marks the

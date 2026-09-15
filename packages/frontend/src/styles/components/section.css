@@ -8,6 +8,11 @@
   .sds-section {
     --sds-section-step: var(--space-12);
     --sds-section-mark-ink: var(--text-accent-quiet);
+    --sds-section-number-font: var(--font-mono);
+    --sds-section-number-size: 0.7em;
+    --sds-section-number-weight: var(--weight-regular);
+    --sds-section-number-ink: var(--text-muted);
+    --sds-section-number-gap: var(--space-2);
 
     /* One rule and one distance, stated above the section itself. Whatever
        stood before it, a section that is not the first in its box stands off
@@ -25,6 +30,20 @@
      confval makes, because it is the same arrival. */
   .sds-section:target > :is(h1, h2, h3, h4, h5, h6) {
     color: var(--sds-section-mark-ink);
+  }
+
+  /* A document that numbers its parts writes the number into the heading
+     as text: `4` on a part, `4.2` on a section in it. A counter drawn by
+     the stylesheet stays out of the name a heading has out loud. The
+     contents list counts the same places by their order. The two agree as
+     long as the list mirrors the document, which it must anyway. */
+  .sds-section__number {
+    margin-inline-end: var(--sds-section-number-gap);
+    font-family: var(--sds-section-number-font);
+    font-size: var(--sds-section-number-size);
+    font-weight: var(--sds-section-number-weight);
+    letter-spacing: normal;
+    color: var(--sds-section-number-ink);
   }
 
   /* A heading names a place, and the id the renderer puts on the section is

@@ -29,6 +29,10 @@
        of cards, a band's two columns, which is the part short of room. */
     --width-page: 1200px;
     --width-sidebar: 210px;
+    /* The panel a long document stands beside: its contents, numbered, with
+       the whole reach of the document in it. Wider than the rail, because a
+       row here carries a number and a sentence rather than a name. */
+    --width-panel: 300px;
     /* The bar. Room to stand on a desktop; a phone gives the height back to
        the page, which is the thing a reader reads. */
     --height-header: 72px;

@@ -1,0 +1,204 @@
+/* sds-paper — a long document and the panel that stands beside it.
+
+   No element renders it. A document that goes out on its own writes the
+   shell, with no bar and no footer. The panel with its head, its contents
+   and its foot on one side, and the page on the other. The panel stands the
+   height of the window and scrolls on its own. So a reader never loses the
+   list of a document with sixty places in it. */
+
+@layer components {
+  .sds-paper {
+    --sds-paper-width: var(--width-panel);
+    --sds-paper-gap: var(--space-4);
+    --sds-paper-pad-y: var(--space-8);
+    --sds-paper-pad-x: var(--space-6);
+    /* The page's own inset: the gutter, and past the measure the page
+       centres on, the rest. */
+    --sds-paper-inset: max(var(--gutter-page), (100% - var(--width-page)) / 2);
+    --sds-paper-edge: var(--border-hairline);
+    --sds-paper-rule: var(--border-subtle);
+    --sds-paper-title-size: var(--font-size-body);
+    --sds-paper-title-weight: var(--weight-semibold);
+    --sds-paper-title-leading: var(--leading-heading);
+    --sds-paper-title-gap: var(--space-2);
+    --sds-paper-foot-size: var(--font-size-small);
+    --sds-paper-foot-ink: var(--text-muted);
+    --sds-paper-foot-gap: var(--space-3);
+    --sds-paper-foot-row-gap: var(--space-1);
+    --sds-paper-main-pad-y: var(--space-12) var(--space-10);
+
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  /* Sticky at the top and as tall as the window, so it is the frame the page
+     scrolls past. A column: the head and the foot keep their height, and the
+     contents between them is the part that gives. The inset is on the three,
+     not on the panel: so a rule runs edge to edge, and the scrollbar stands
+     on the border. */
+  .sds-paper__panel {
+    flex: none;
+    position: sticky;
+    top: 0;
+    box-sizing: border-box;
+    width: var(--sds-paper-width);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-block: var(--sds-paper-pad-y);
+    border-inline-end: var(--sds-paper-edge) solid var(--sds-paper-rule);
+
+    /* The outline is the box that gives: the element, or the list alone
+       where a static render wrote no element around it. It scrolls on its
+       own, and the head and the foot rule it off. The box is the panel's
+       width and touches both rules. The step and the inset are its padding.
+       So the rows bleed inside it, and the scrollbar runs rule to rule. */
+    > :is(sds-nav-outline, .sds-outline) {
+      flex: 1;
+      min-height: 0;
+      margin-block: 0;
+    }
+    .sds-outline {
+      max-height: 100%;
+      margin-inline: 0;
+      padding: var(--sds-paper-gap) var(--sds-paper-pad-x);
+    }
+  }
+  /* The rules between the head, the contents and the foot: on the two that
+     stand still. */
+  .sds-paper__head {
+    flex: none;
+    padding: 0 var(--sds-paper-pad-x) var(--sds-paper-gap);
+    border-block-end: var(--sds-paper-edge) solid var(--sds-paper-rule);
+  }
+  .sds-paper__foot {
+    flex: none;
+    padding: var(--sds-paper-foot-gap) var(--sds-paper-pad-x) 0;
+    border-block-start: var(--sds-paper-edge) solid var(--sds-paper-rule);
+  }
+  /* The kind of document, on one line. The panel is one width, and an
+     eyebrow that wraps reads as two labels. It ends in a cut instead, and
+     the cut says the kind was too long: a state goes to the foot. */
+  .sds-paper__head > :is(sds-eyebrow, .sds-eyebrow) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* The document's name, under its eyebrow. The panel says what the reader
+     has open; the page's own title says it at full size. */
+  .sds-paper__title {
+    margin: var(--sds-paper-title-gap) 0 0;
+    font-size: var(--sds-paper-title-size);
+    font-weight: var(--sds-paper-title-weight);
+    line-height: var(--sds-paper-title-leading);
+    text-wrap: balance;
+  }
+  /* What the document says about its state, small. A line for the state,
+     with a status colour on the word where it is a verdict, and a line of
+     dates. A row each, so a date never breaks at its hyphen. */
+  .sds-paper__foot {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sds-paper-foot-row-gap);
+    font-size: var(--sds-paper-foot-size);
+    color: var(--sds-paper-foot-ink);
+
+    /* The size stated on the line itself. A bare paragraph carries the body
+       size, and the foot is a step under the list, not over it. */
+    p {
+      margin: 0;
+      font-size: var(--sds-paper-foot-size);
+      text-wrap: pretty;
+    }
+  }
+  /* The page. It has no width of its own: the measure comes from its
+     content. The inset is the page's, so the document centres on the page
+     measure once the window is wider than that. */
+  .sds-paper__main {
+    flex: 1;
+    min-width: 0;
+    padding-block: var(--sds-paper-main-pad-y);
+    padding-inline: var(--sds-paper-inset);
+
+    > :last-child {
+      margin-block-end: 0;
+    }
+  }
+
+  /* The width where a rail stops as a column. The panel becomes the page's
+     head: one row, sticky at the top, with the title and the press that
+     drops the list. The foot shows with the list. Anything jumped to arrives
+     behind the head, so the scroller keeps the offset, as it does for the
+     bar. */
+  @media (max-width: 860px) {
+    html:has(.sds-paper) {
+      --sds-paper-jump: calc(var(--height-header) + var(--space-4));
+
+      scroll-padding-top: var(--sds-paper-jump);
+    }
+    .sds-paper {
+      --sds-paper-head-height: var(--height-header);
+      --sds-paper-head-fill: var(--surface-canvas);
+      --sds-paper-head-z: 20;
+      --sds-paper-press-height: var(--control-height);
+      /* What the head keeps free at its end for the press: the glyph, the
+         word and the marker, at the control's own inset. */
+      --sds-paper-press-room: calc(var(--space-16) * 2 + var(--space-4));
+
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .sds-paper__panel {
+      z-index: var(--sds-paper-head-z);
+      width: auto;
+      height: auto;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 0 var(--sds-paper-inset);
+      background: var(--sds-paper-head-fill);
+      border-inline-end: 0;
+      border-block-end: var(--sds-paper-edge) solid var(--sds-paper-rule);
+    }
+    /* The title alone, on one line, at the bar's height, with room at its
+       end for the press. The eyebrow goes. */
+    .sds-paper__head {
+      flex: 1;
+      min-width: 0;
+      min-height: var(--sds-paper-head-height);
+      display: flex;
+      align-items: center;
+      padding: 0 var(--sds-paper-press-room) 0 0;
+      border: 0;
+
+      > :not(.sds-paper__title) {
+        display: none;
+      }
+    }
+    /* The press, in the head. The outline draws it and leaves the flow; the
+       panel, the nearest positioned box, says where it stands. */
+    .sds-paper__panel .sds-outline__toggle {
+      inset-inline-end: var(--sds-paper-inset);
+      top: calc((var(--sds-paper-head-height) - var(--sds-paper-press-height)) / 2);
+    }
+    .sds-paper__title {
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    /* The foot under the list, ruled off from it. The panel carries the
+       inset here, so the foot gives its own up. */
+    .sds-paper__foot {
+      flex-basis: 100%;
+      padding: var(--sds-paper-foot-gap) 0;
+      border: 0;
+      border-block-start: var(--sds-paper-edge) solid var(--sds-paper-rule);
+    }
+    .sds-paper__panel:has(.sds-outline__fold:not([open])) .sds-paper__foot {
+      display: none;
+    }
+  }
+}

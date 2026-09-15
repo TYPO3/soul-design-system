@@ -1,0 +1,213 @@
+/* sds-nav-outline — the parts of a long document, and where the reader is. */
+
+@layer base {
+  sds-nav-outline {
+    display: block;
+    min-width: 0;
+    margin-bottom: var(--space-6);
+  }
+  sds-nav-outline > .sds-outline {
+    margin-bottom: 0;
+  }
+  .sds-outline {
+    margin: 0 0 var(--space-6);
+  }
+}
+
+@layer components {
+  /* Apparatus rather than prose, like the contents beside a column: a step
+     down in size and in the secondary ink. No frame of its own. The panel
+     it stands in rules it off above and below. */
+  .sds-outline {
+    --sds-outline-font-size: var(--font-size-small);
+    --sds-outline-pad-y: var(--space-1-5);
+    --sds-outline-step: var(--space-1);
+    --sds-outline-indent: var(--space-3);
+    --sds-outline-bleed: var(--space-2);
+    --sds-outline-label-gap: var(--space-4);
+    --sds-outline-radius: var(--radius-control);
+    --sds-outline-leading: var(--leading-heading);
+    --sds-outline-ink: var(--text-secondary);
+    --sds-outline-ink-nested: var(--text-muted);
+    --sds-outline-ink-hover: var(--text-primary);
+    --sds-outline-ink-active: var(--text-on-accent);
+    --sds-outline-fill-active: var(--accent);
+    --sds-outline-number-font: var(--font-mono);
+    --sds-outline-number-size: calc(var(--sds-outline-font-size) * var(--font-modifier-mono));
+    --sds-outline-number-ink: var(--text-muted);
+    --sds-outline-number-gap: var(--space-1);
+    /* Room for two digits at the top, and for a part and a section below it.
+       Set in the number's own face, so a column of them lines up. */
+    --sds-outline-number-width: 2ch;
+    --sds-outline-number-width-nested: 4ch;
+    --sds-outline-duration: var(--duration-fast);
+    --sds-outline-ease: var(--ease-out);
+    --sds-outline-toggle-height: var(--control-height);
+    --sds-outline-toggle-pad-x: var(--space-3);
+    --sds-outline-toggle-gap: var(--space-2);
+    --sds-outline-toggle-line: var(--border-hairline);
+    --sds-outline-toggle-edge: var(--border-strong);
+    --sds-outline-toggle-glyph: var(--control-icon-size);
+    --sds-outline-toggle-ink: var(--text-primary);
+    --sds-outline-drop-height: 50vh;
+    --sds-outline-drop-pad-y: var(--space-3);
+
+    /* Wider than the column it draws by what a row's fill and the ring
+       around it stand in, and the inset gives that room back. The box
+       scrolls, and a scroll box paints nothing outside itself. */
+    box-sizing: border-box;
+    margin-inline: calc(-1 * var(--sds-outline-bleed));
+    padding: var(--sds-outline-pad-y) var(--sds-outline-bleed);
+    font-size: var(--sds-outline-font-size);
+    overflow-y: auto;
+
+    > .sds-label {
+      display: block;
+      margin: 0 0 var(--sds-outline-label-gap);
+    }
+  }
+  /* No markers: a contents is a list of places. One step between entries,
+     and the sections of a part stand in by the indent, which already says
+     which level an entry is on. */
+  .sds-outline__list {
+    margin: 0;
+    padding-inline-start: 0;
+    list-style: none;
+
+    .sds-outline__list {
+      padding-block-start: var(--sds-outline-step);
+      padding-inline-start: var(--sds-outline-indent);
+    }
+    > li {
+      margin-bottom: var(--sds-outline-step);
+    }
+    > li:last-child {
+      margin-bottom: 0;
+    }
+  }
+  /* A row rather than a line of text, so the current one can take a fill. It
+     bleeds by exactly its padding, and one entry is one line: a long name
+     ends in an ellipsis rather than a second line. */
+  .sds-outline__item {
+    display: block;
+    margin-inline: calc(-1 * var(--sds-outline-bleed));
+    padding: var(--sds-outline-step) var(--sds-outline-bleed);
+    line-height: var(--sds-outline-leading);
+    border-radius: var(--sds-outline-radius);
+    color: var(--sds-outline-ink);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition:
+      background var(--sds-outline-duration) var(--sds-outline-ease),
+      color var(--sds-outline-duration) var(--sds-outline-ease);
+
+    &:hover {
+      color: var(--sds-outline-ink-hover);
+      text-decoration: underline;
+    }
+  }
+  .sds-outline__list .sds-outline__list .sds-outline__item {
+    color: var(--sds-outline-ink-nested);
+  }
+  .sds-outline__list .sds-outline__list .sds-outline__item:hover {
+    color: var(--sds-outline-ink-hover);
+  }
+  /* The part under the reader: the filled block in the accent every current
+     navigation item in this system gets. */
+  .sds-outline__item.is-active,
+  .sds-outline__list .sds-outline__list .sds-outline__item.is-active {
+    background: var(--sds-outline-fill-active);
+    color: var(--sds-outline-ink-active);
+    text-decoration: none;
+  }
+
+  /* The number, in the mono face and a step quieter, in a column of its own
+     width so the names start on one line. On the filled row it takes the
+     row's ink. */
+  .sds-outline__number {
+    display: inline-block;
+    min-width: var(--sds-outline-number-width);
+    margin-inline-end: var(--sds-outline-number-gap);
+    font-family: var(--sds-outline-number-font);
+    font-size: var(--sds-outline-number-size);
+    color: var(--sds-outline-number-ink);
+  }
+  .sds-outline__list .sds-outline__list .sds-outline__number {
+    min-width: var(--sds-outline-number-width-nested);
+  }
+  .sds-outline__item.is-active .sds-outline__number {
+    color: inherit;
+  }
+
+  /* The fold the list stands in. Beside the page it is a box that adds
+     nothing. The label and the list stand as they stand without it, and
+     the press does not draw. Where the list folds, below, the press is the
+     one thing drawn. */
+  .sds-outline__toggle {
+    display: none;
+  }
+
+  /* The width where a panel has no room beside the page. The list folds
+     behind one press in the panel's head: the glyph of a list, the name,
+     and the marker. The list drops under the head as a row of its own, half
+     the window at most, and scrolls. The label goes. The press leaves the
+     flow, so a shut fold takes no height, and the panel places it. */
+  @media (max-width: 860px) {
+    sds-nav-outline,
+    .sds-outline {
+      display: contents;
+    }
+    .sds-outline__fold {
+      flex-basis: 100%;
+    }
+    .sds-outline__toggle {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sds-outline-toggle-gap);
+      height: var(--sds-outline-toggle-height);
+      padding-inline: var(--sds-outline-toggle-pad-x);
+      border: var(--sds-outline-toggle-line) solid var(--sds-outline-toggle-edge);
+      border-radius: var(--sds-outline-radius);
+      font-size: var(--sds-outline-font-size);
+      color: var(--sds-outline-toggle-ink);
+      list-style: none;
+      cursor: pointer;
+      user-select: none;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+      .sds-icon {
+        --sds-icon-size: var(--sds-outline-toggle-glyph);
+      }
+      /* The marker: sideways shut, down open. By its name, because live
+         every glyph is the last child of the element that draws it. */
+      .sds-icon[data-icon="actions-chevron-down"] {
+        transform: rotate(-90deg);
+        transition: transform var(--sds-outline-duration) var(--sds-outline-ease);
+      }
+    }
+    .sds-outline__fold[open] > .sds-outline__toggle .sds-icon[data-icon="actions-chevron-down"] {
+      transform: none;
+    }
+    .sds-outline__fold > .sds-label {
+      display: none;
+    }
+    /* The box the browser puts between the press and the list, and the box
+       the fold hides. It is the drop: a row of its own under the head. */
+    .sds-outline__fold::details-content {
+      box-sizing: border-box;
+      max-height: var(--sds-outline-drop-height);
+      margin-inline: calc(-1 * var(--sds-outline-bleed));
+      overflow-y: auto;
+    }
+    /* The box keeps its padding when shut, with nothing inside it. So the
+       padding comes with the list. */
+    .sds-outline__fold[open]::details-content {
+      padding: var(--sds-outline-drop-pad-y) var(--sds-outline-bleed);
+    }
+  }
+}
