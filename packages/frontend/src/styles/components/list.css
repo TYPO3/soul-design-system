@@ -15,7 +15,7 @@
      have to read every pair. No width stands here, so the same list works in
      half a split and across a page alike. */
   .sds-facts {
-    --sds-facts-step: var(--space-2);
+    --sds-facts-step: var(--space-1);
     --sds-facts-gap: var(--space-6);
     --sds-facts-step-after: var(--space-6);
     --sds-facts-step-before-h2: var(--space-10);
