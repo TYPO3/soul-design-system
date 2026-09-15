@@ -49,6 +49,9 @@
     /* A row. Dense on purpose — a reader scans this, not reads it. */
     --sds-run-row-pad-y: var(--space-2);
     --sds-run-row-pad-x: var(--space-2);
+    /* The far end takes the head's inset, so a duration stands under the
+       head's chevron and not past it. */
+    --sds-run-row-pad-end: var(--sds-run-pad-x);
     --sds-run-row-gap: var(--space-3);
     --sds-run-row-ink: var(--text-secondary);
     --sds-run-row-ink-strong: var(--text-primary);
@@ -180,7 +183,7 @@
     grid-template-columns: var(--sds-run-mark) var(--sds-run-mark) auto minmax(0, 1fr) auto;
     align-items: center;
     gap: var(--sds-run-row-gap);
-    padding: var(--sds-run-row-pad-y) var(--sds-run-row-pad-x);
+    padding: var(--sds-run-row-pad-y) var(--sds-run-row-pad-end) var(--sds-run-row-pad-y) var(--sds-run-row-pad-x);
     list-style: none;
 
     &::-webkit-details-marker {
