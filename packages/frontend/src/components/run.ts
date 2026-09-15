@@ -165,7 +165,7 @@ export class SdsRun extends SdsElement {
     const said = step.note ? `${step.label} — ${word}. ${step.note}` : `${step.label} — ${word}`;
     const face = html`<span
       class="sds-run__mark sds-run__mark--${step.state}${step.state === 'running' ? ' sds-spinner' : ''}"
-    ><sds-icon name="${mark.icon}" size="em"></sds-icon></span>`;
+    ><sds-icon name="${mark.icon}"></sds-icon></span>`;
     const words = html`${face}<span class="sds-run__label">${step.label}</span>${
       step.note ? html`<span class="sds-run__said">${step.note}</span>` : nothing
     }<span class="sds-run__meta">${step.meta ?? ''}</span>`;
@@ -180,7 +180,7 @@ export class SdsRun extends SdsElement {
     return html`<li class="sds-run__step sds-run__step--${step.state}">
       <details class="sds-run__fold" ?open="${open}" @click="${(e: Event) => this.decide(e, step.at, open)}">
         <summary class="sds-run__row" aria-label="${said}"><sds-icon
-          class="sds-run__chevron" name="actions-chevron-end" size="em"></sds-icon>${words}</summary>
+          class="sds-run__chevron" name="actions-chevron-end"></sds-icon>${words}</summary>
         <pre class="sds-run__output">${lines(step.output)}</pre>
       </details>
     </li>`;
@@ -198,12 +198,12 @@ export class SdsRun extends SdsElement {
   ><sds-icon name="${mark.icon}" label="${this.said(this.verdict)}" size="24"></sds-icon></span><span class="sds-run__headline"><span
     class="sds-run__heading">${this.heading}</span>${
       this.note ? html`<span class="sds-run__note">${this.note}</span>` : nothing
-    }</span><sds-icon class="sds-run__chevron" name="actions-chevron-down" size="em"></sds-icon></summary>
+    }</span><sds-icon class="sds-run__chevron" name="actions-chevron-down"></sds-icon></summary>
   <div class="sds-run__body">${this.sets.map((set) =>
     set.name
       ? html`<details class="sds-run__group" open>
       <summary class="sds-run__group-head"><sds-icon
-        class="sds-run__chevron" name="actions-chevron-end" size="em"></sds-icon>${set.name}</summary>
+        class="sds-run__chevron" name="actions-chevron-end"></sds-icon>${set.name}</summary>
       ${this.list(set.steps)}
     </details>`
       : this.list(set.steps),

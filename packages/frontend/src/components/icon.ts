@@ -104,8 +104,9 @@ export class SdsIcon extends SdsElement {
     /* `.sds-icon` is already `1em`, which is this element's default too. So
        an unsized icon and a hand-written `<svg class="sds-icon">` are the same
        thing, which is the whole contract between the element and the class
-       layer. */
-    const cls = this.className || 'sds-icon';
+       layer. The attribute and not `className`: the static render has no
+       `className`, and the card loses the class a page wrote. */
+    const cls = this.getAttribute('class') || 'sds-icon';
     /* A size in pixels is a style, not only an attribute: `.sds-icon` sets a
        width from a token and a class beats a presentation attribute. Only on
        request — written always, it overrides `sds-icon--24`, which is how

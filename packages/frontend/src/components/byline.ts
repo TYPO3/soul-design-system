@@ -61,7 +61,7 @@ export class SdsByline extends SdsElement {
   }
 
   /** First letters of the first and last word — two at most. Three initials
-      in a 32px circle is a monogram nobody can read. */
+      in a mark the size of a control is a monogram nobody can read. */
   private get mark(): string {
     if (this.initials) return this.initials;
     const words = this.name.trim().split(/\s+/).filter(Boolean);
