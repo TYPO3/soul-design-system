@@ -246,9 +246,13 @@
   blockquote,
   h1,
   .sds-h1,
-  .sds-display,
-  .sds-lead {
+  .sds-display {
     margin-bottom: var(--space-4);
+  }
+  /* The lead closes the title group, and what follows is the page. So it
+     ends on the step a group ends on, not the one between two blocks. */
+  .sds-lead {
+    margin-bottom: var(--space-6);
   }
   h2,
   .sds-h2 {

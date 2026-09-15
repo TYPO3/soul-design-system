@@ -1,16 +1,19 @@
 /* sds-byline — a mark, a name and a role on one line. */
 
+/* The byline closes a title group: the eyebrow, the heading, the lead, and
+   who wrote it. What follows is the text. So the step under it is the one
+   a group ends on, not the one between two lines of the group. */
 @layer base {
   sds-byline {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-6);
   }
   sds-byline > .sds-byline {
     margin-bottom: 0;
   }
   .sds-byline {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-6);
   }
 }
 
@@ -18,21 +21,26 @@
   /* Who wrote it, and when. The mark is initials. A face is a file to fetch,
      keep in step and licence, and none of that is what a byline is for. */
   .sds-byline {
-    /* 32px is exactly the two lines beside it — the mark measures the block it
-       belongs to, not a control it is not one of. */
-    --sds-byline-mark-size: 32px;
+    /* A control's height is the two lines beside it: a body line, a label line
+       and the gap between. The mark measures the block it belongs to. */
+    --sds-byline-mark-size: var(--control-height);
     --sds-byline-gap: var(--space-3);
     --sds-byline-line-gap: var(--space-0-5);
     --sds-byline-radius: var(--radius-pill);
+    --sds-byline-mark-border: var(--border-hairline);
+    --sds-byline-mark-edge: var(--border-subtle);
     --sds-byline-mark-fill: var(--surface-inset);
     --sds-byline-mark-ink: var(--text-secondary);
     --sds-byline-mark-font: var(--font-mono);
     --sds-byline-mark-font-size: calc(var(--font-size-small) * var(--font-modifier-mono));
     --sds-byline-tracking: var(--tracking-label);
     --sds-byline-leading: var(--control-leading);
-    --sds-byline-name-size: var(--font-size-small);
+    --sds-byline-name-size: var(--font-size-body);
+    --sds-byline-name-weight: var(--weight-medium);
+    --sds-byline-role-weight: var(--weight-regular);
     --sds-byline-name-ink: var(--text-primary);
-    --sds-byline-role-ink: var(--text-muted);
+    --sds-byline-role-ink: var(--text-secondary);
+    --sds-byline-meta-ink: var(--text-secondary);
 
     display: flex;
     align-items: center;
@@ -48,6 +56,7 @@
     justify-content: center;
     width: var(--sds-byline-mark-size);
     height: var(--sds-byline-mark-size);
+    border: var(--sds-byline-mark-border) solid var(--sds-byline-mark-edge);
     border-radius: var(--sds-byline-radius);
     background: var(--sds-byline-mark-fill);
     color: var(--sds-byline-mark-ink);
@@ -66,11 +75,21 @@
     line-height: var(--sds-byline-leading);
     min-width: 0;
   }
+  /* The name at body size, with a step of weight. It is what a reader looks
+     for. At small size under a lead, it was the smallest thing on the page. */
   .sds-byline__name {
     font-size: var(--sds-byline-name-size);
+    font-weight: var(--sds-byline-name-weight);
     color: var(--sds-byline-name-ink);
   }
+  /* The role and the meta one register of ink up from a label. A label stands
+     alone above a heading. These stand under the name, at small size, and
+     muted they went under. The role keeps the paragraph's weight. */
   .sds-byline__role {
+    font-weight: var(--sds-byline-role-weight);
     color: var(--sds-byline-role-ink);
+  }
+  .sds-byline .sds-label {
+    --sds-label-ink: var(--sds-byline-meta-ink);
   }
 }

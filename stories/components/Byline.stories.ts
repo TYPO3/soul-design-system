@@ -49,8 +49,8 @@ export const Default: Story = {};
 export const NameOnly: Story = { args: { name: 'Benjamin Kott', meta: '24 July 2026' } };
 
 /** A team rather than a person. The initials come from the name either way:
-    first letter of the first and last word, two at most. Three in a 32px
-    circle is a monogram nobody can read. */
+    first letter of the first and last word, two at most. Three in a mark the
+    size of a control is a monogram nobody can read. */
 export const Team: Story = { args: { name: 'Core Team', as: 'maintainers', meta: '12 May 2026' } };
 
 /** Given rather than derived, where the name is one word or the initials are
