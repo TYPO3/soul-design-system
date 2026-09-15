@@ -28,7 +28,22 @@ import { TAGS } from '../../packages/frontend/src/index.ts';
    `<sds-field-error>` reads as an `sds-field` with an attribute called
    `-error`. It renders as the wrong component, children outside it and all. */
 const element = (tags: readonly string[]): RegExp =>
-  new RegExp(`<(${tags.join('|')})(?![-\\w])((?:"[^"]*"|'[^']*'|[^>"'])*)>([\\s\\S]*?)</\\1>`);
+  new RegExp(`<(${tags.join('|')})(?![-\\w])((?:"[^"]*"|'[^']*'|[^>"'])*)>`);
+
+/** Where the element open at `from` closes, counted through the ones of
+    its own name inside it. A stop of a plan holds stops, so the first close
+    after an open is not always its own. `null` for one that never closes,
+    which then stays as found. */
+function closeOf(source: string, tag: string, from: number): { inner: string; end: number } | null {
+  const step = new RegExp(`<${tag}(?![-\\w])(?:"[^"]*"|'[^']*'|[^>"'])*>|</${tag}>`, 'g');
+  step.lastIndex = from;
+  let depth = 1;
+  for (let found = step.exec(source); found; found = step.exec(source)) {
+    depth += found[0].startsWith('</') ? -1 : 1;
+    if (depth === 0) return { inner: source.slice(from, found.index), end: found.index + found[0].length };
+  }
+  return null;
+}
 
 /** What one element becomes, with content that is already complete.
     `authored` is the same content as the author wrote it, before anything
@@ -99,9 +114,16 @@ export function prerender(page: string, tags: readonly string[] = TAGS): string 
       const found = pattern.exec(rest);
       if (!found) return done + rest;
 
-      const [whole, tag = '', attrs = '', inner = ''] = found;
-      done += rest.slice(0, found.index) + aside(one(tag, attrs, walk(inner).trim(), inner.trim()));
-      rest = rest.slice(found.index + whole.length);
+      const [whole, tag = '', attrs = ''] = found;
+      const open = found.index + whole.length;
+      const closed = closeOf(rest, tag, open);
+      if (!closed) {
+        done += rest.slice(0, open);
+        rest = rest.slice(open);
+        continue;
+      }
+      done += rest.slice(0, found.index) + aside(one(tag, attrs, walk(closed.inner).trim(), closed.inner.trim()));
+      rest = rest.slice(closed.end);
     }
   };
 
