@@ -1,0 +1,1421 @@
+<!-- @startingPoint section="Screens" subtitle="A concept paper stands beside its panel: the numbered contents, folded to the part the reader is in" viewport="1440x900" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Soul Design System — concept</title>
+<link rel="stylesheet" href="../../packages/frontend/src/styles/styles.css" />
+</head>
+<body class="sds-app">
+<div class="sds-shell">
+  <div class="sds-paper">
+    <!-- The panel is the document's frame. No bar and no footer: nothing here
+         leads anywhere else. The head says what the reader has open, the
+         outline says where they are in it, and the foot says what state the
+         draft is in. It stands the height of the window and the list
+         scrolls on its own. Under 860px it is the page's head, and the
+         outline folds behind the press in it. -->
+    <aside class="sds-paper__panel">
+      <div class="sds-paper__head">
+        <div class="sds-eyebrow">Concept paper · draft 2</div>
+        <p class="sds-paper__title">A record of reads for every source</p>
+      </div>
+      <nav class="sds-outline" aria-label="Contents">
+  <details class="sds-outline__fold" open>
+    <summary class="sds-outline__toggle"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-list"><g fill="currentColor"><path d="M2 3h2v1H2zM5 3h9v1H5zM2 6h2v1H2zM5 6h9v1H5zM2 9h2v1H2zM5 9h9v1H5zM2 12h2v1H2zM5 12h9v1H5z"></path></g></svg><span>Contents</span><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></summary>
+    <p class="sds-label">Contents</p>
+    <ul class="sds-outline__list">
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#purpose"><span class="sds-outline__number">1</span> Purpose</a>
+  <ul class="sds-outline__list">
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#decides"><span class="sds-outline__number">1.1</span> What this paper decides</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#leaves-out"><span class="sds-outline__number">1.2</span> What it leaves out</a>
+  
+</li>
+</ul>
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#stands"><span class="sds-outline__number">2</span> Where it stands</a>
+  <ul class="sds-outline__list">
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#two-pages"><span class="sds-outline__number">2.1</span> The two pages</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#status-page"><span class="sds-outline__number">2.2</span> What the row says</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#source-page"><span class="sds-outline__number">2.3</span> What the page keeps</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#on-purpose"><span class="sds-outline__number">2.4</span> What the pages say on purpose</a>
+  
+</li>
+</ul>
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#asked"><span class="sds-outline__number">3</span> What readers asked</a>
+  <ul class="sds-outline__list">
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#questions"><span class="sds-outline__number">3.1</span> The questions that arrived</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#test"><span class="sds-outline__number">3.2</span> A test with eight readers</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#said"><span class="sds-outline__number">3.3</span> What they said</a>
+  
+</li>
+</ul>
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#findings"><span class="sds-outline__number">4</span> Findings</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#proposal"><span class="sds-outline__number">5</span> The proposal</a>
+  <ul class="sds-outline__list">
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#record"><span class="sds-outline__number">5.1</span> A record, not a history</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#holds"><span class="sds-outline__number">5.2</span> What the record holds</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#shows"><span class="sds-outline__number">5.3</span> Where it shows</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#row"><span class="sds-outline__number">5.4</span> The row on the status page</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#terminal"><span class="sds-outline__number">5.5</span> In the terminal</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#setting"><span class="sds-outline__number">5.6</span> The setting</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#note"><span class="sds-outline__number">5.7</span> What the note says</a>
+  
+</li>
+</ul>
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#options"><span class="sds-outline__number">6</span> Options weighed</a>
+  <ul class="sds-outline__list">
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#in-short"><span class="sds-outline__number">6.1</span> The three, in short</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#side-by-side"><span class="sds-outline__number">6.2</span> Side by side</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#not-chart"><span class="sds-outline__number">6.3</span> Why not the chart</a>
+  
+</li>
+</ul>
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#costs"><span class="sds-outline__number">7</span> What it costs</a>
+  <ul class="sds-outline__list">
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#work"><span class="sds-outline__number">7.1</span> Work packages</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#order"><span class="sds-outline__number">7.2</span> The order</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#dates"><span class="sds-outline__number">7.3</span> The dates</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#risks"><span class="sds-outline__number">7.4</span> Risks</a>
+  
+</li>
+</ul>
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#decision"><span class="sds-outline__number">8</span> Decision</a>
+  <ul class="sds-outline__list">
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#open"><span class="sds-outline__number">8.1</span> Open questions</a>
+  
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#sources"><span class="sds-outline__number">8.2</span> Sources</a>
+  
+</li>
+</ul>
+</li>
+  <li>
+  <a
+    class="sds-outline__item"
+    href="#appendix"><span class="sds-outline__number">9</span> Appendix</a>
+  
+</li>
+</ul>
+  </details>
+</nav>
+      <div class="sds-paper__foot">
+        <p>Draft 2, for discussion</p>
+        <p>Decision by 2026‑09‑30</p>
+      </div>
+    </aside>
+
+    <main class="sds-paper__main" id="main-content">
+      <!-- Every titled part is a section, nested as the headings nest. The
+           document numbers them in the heading, a part 4 and a section in
+           it 4.2, and the panel counts the same places by their order. -->
+      <article class="sds-prose">
+        <section class="sds-section" id="paper">
+          <div class="sds-eyebrow">Concept paper · dev-companion · draft 2</div>
+          <h1>A record of reads for every source</h1>
+          <p class="sds-lead">
+            What the status page must keep about its own reads, for the reader who asks since
+            when a source has failed. The pages as they stand, what readers asked, three options
+            weighed, and the one this paper recommends.
+          </p>
+          <div class="sds-byline">
+  <span class="sds-byline__mark" aria-hidden="true">ML</span>
+  <div class="sds-byline__who">
+    <span class="sds-byline__name">Mara Lindqvist <span class="sds-byline__role">· for the status pages</span></span>
+    <span class="sds-label">draft 2 · 2026-09-15</span>
+  </div>
+</div>
+
+          <dl class="sds-facts">
+  <dt>State</dt>
+  <dd><span class="sds-row"><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>draft for discussion</span><span>not a decision</span></span></dd><dt>Date</dt>
+  <dd><span class="sds-mono">2026-09-15</span></dd><dt>Audience</dt>
+  <dd>The maintainers of the server, the writers of the status pages</dd><dt>Subject</dt>
+  <dd>The status page and the page of a source in <span class="sds-mono">dev-companion 1.4</span></dd><dt>Decision by</dt>
+  <dd><span class="sds-mono">2026-09-30</span>, at the maintainers’ call</dd>
+</dl>
+
+          <div class="sds-panel">
+  
+  
+  <div class="sds-surface-title">Summary</div>
+  <div class="sds-surface-body"><p>
+      The status page says which sources answer, and the page of a source shows the read in
+      flight and the two before it. Readers ask a question neither page can answer: since
+      when, and how often. Twenty-four times in thirty days, and five of eight readers in a
+      test.
+    </p>
+    <p>
+      <strong>Recommendation:</strong> option A. The server keeps the last thirty reads of
+      every source in one file, the page of the source shows them as a list under the read in
+      flight, the status row carries the last five as marks, and the terminal prints the
+      count. Six days in five packages. It stays a record of this machine’s own reads, which
+      is what the pages already promise, and not a history of a service, which they refuse
+      on purpose.
+    </p></div>
+</div>
+        </section>
+
+        <section class="sds-section" id="purpose">
+          <h2><span class="sds-section__number">1</span> Purpose</h2>
+          <p>
+            One question, and the evidence behind it. The pages report the moment. Readers ask
+            about the days before it. This paper says what the server must keep so the pages
+            can answer, and what it must not become on the way.
+          </p>
+
+          <section class="sds-section" id="decides">
+            <h3><span class="sds-section__number">1.1</span> What this paper decides</h3>
+            <p>
+              If the server keeps a record of its own reads, how long that record is, and
+              where it shows. Three options stand in part 6, and part 8 asks the maintainers
+              for one of them. Everything before that is what the decision rests on.
+            </p>
+            <div class="sds-note sds-note--info">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Note" viewBox="0 0 16 16" data-icon="actions-info-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><path d="M7 5a1 1 0 1 1 2 0 1 1 0 1 1-2 0zM7 8a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V8z"></path></g></svg></span>
+  <div class="sds-note__content">
+    <div class="sds-note__title">The path through the paper</div>
+    <div class="sds-note__body">Part 2 is the pages as they stand. Part 3 is what readers asked and what a test showed. Part 4 names the findings. Part 5 is the proposal, part 6 the options against it, part 7 the cost. Part 8 is the question. A reader with ten minutes reads the summary, part 6 and part 8.</div>
+  </div>
+</div>
+          </section>
+
+          <section class="sds-section" id="leaves-out">
+            <h3><span class="sds-section__number">1.2</span> What it leaves out</h3>
+            <ul>
+              <li>
+                <strong>A history of the source itself.</strong> If docs.typo3.org was up is a
+                question about a service, and the status page refuses it on purpose. This
+                paper keeps that refusal; see 2.3.
+              </li>
+              <li>
+                <strong>Alerts.</strong> A read that stops tells nobody. A record makes that
+                visible after the fact, which is a different thing from a message at the time,
+                and a paper of its own.
+              </li>
+              <li>
+                <strong>The other four sources.</strong> The two on this machine and the two
+                that ship with the server never fail a read. The record applies to them and
+                stays empty of anything but "read".
+              </li>
+            </ul>
+          </section>
+        </section>
+
+        <section class="sds-section" id="stands">
+          <h2><span class="sds-section__number">2</span> Where it stands</h2>
+          <p>
+            The two pages, as a reader sees them in <span class="sds-mono">1.4</span>, read
+            against each other. Then a table for each: what the page says, and what a reader
+            asks of it.
+          </p>
+
+          <section class="sds-section" id="two-pages">
+            <h3><span class="sds-section__number">2.1</span> The two pages</h3>
+            <p>
+              The status page has six rows, one per source: the state now, when the checker last
+              asked, and the way into the source. The page behind a row shows the read in flight,
+              the overview, and "Earlier reads": the last read that ended and the one that
+              stopped. It keeps those two and no more.
+            </p>
+            <div class="sds-compare">
+  <div class="sds-compare__half">
+  <p class="sds-label">The status page</p>
+  <figure class="sds-figure">
+  <div class="sds-figure__frame">
+    <a class="sds-zoom" href="../../packages/frontend/assets/screenshots/status-sources.png" title="Open the picture at full size"><img class="sds-art" src="../../packages/frontend/assets/screenshots/status-sources.png" alt="The status page of dev-companion at the table of six sources. Each row names a source, its state as a badge, when it was last checked, and an Open button."></a>
+  </div>
+  <figcaption class="sds-figure__caption">The row says what the source does now, and nothing about the check before this one.</figcaption>
+  <dialog
+      class="sds-lightbox"
+      aria-label="The row says what the source does now, and nothing about the check before this one.">
+  <div class="sds-modal__head">
+    <span class="sds-modal__title">The row says what the source does now, and nothing about the check before this one.</span>
+    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-close"><g fill="currentColor"><path d="M11.9 5.5 9.4 8l2.5 2.5c.2.2.2.5 0 .7l-.7.7c-.2.2-.5.2-.7 0L8 9.4l-2.5 2.5c-.2.2-.5.2-.7 0l-.7-.7c-.2-.2-.2-.5 0-.7L6.6 8 4.1 5.5c-.2-.2-.2-.5 0-.7l.7-.7c.2-.2.5-.2.7 0L8 6.6l2.5-2.5c.2-.2.5-.2.7 0l.7.7c.2.2.2.5 0 .7z"></path></g></svg></button>
+  </div>
+  <div class="sds-lightbox__art">
+    <img class="sds-art" src="../../packages/frontend/assets/screenshots/status-sources.png" alt="The status page of dev-companion at the table of six sources. Each row names a source, its state as a badge, when it was last checked, and an Open button.">
+  </div>
+</dialog>
+</figure>
+</div>
+  <div class="sds-compare__half">
+  <p class="sds-label">The page of a source</p>
+  <figure class="sds-figure">
+  <div class="sds-figure__frame">
+    <a class="sds-zoom" href="../../packages/frontend/assets/screenshots/source-reads.png" title="Open the picture at full size"><img class="sds-art" src="../../packages/frontend/assets/screenshots/source-reads.png" alt="The page of the source docs.typo3.org at its lower half. An overview, then two folded rows under Earlier reads, then a note: this is a source, not a service."></a>
+  </div>
+  <figcaption class="sds-figure__caption">The page keeps the last read that ended and the one that stopped, and nothing before them.</figcaption>
+  <dialog
+      class="sds-lightbox"
+      aria-label="The page keeps the last read that ended and the one that stopped, and nothing before them.">
+  <div class="sds-modal__head">
+    <span class="sds-modal__title">The page keeps the last read that ended and the one that stopped, and nothing before them.</span>
+    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-close"><g fill="currentColor"><path d="M11.9 5.5 9.4 8l2.5 2.5c.2.2.2.5 0 .7l-.7.7c-.2.2-.5.2-.7 0L8 9.4l-2.5 2.5c-.2.2-.5.2-.7 0l-.7-.7c-.2-.2-.2-.5 0-.7L6.6 8 4.1 5.5c-.2-.2-.2-.5 0-.7l.7-.7c.2-.2.5-.2.7 0L8 6.6l2.5-2.5c.2-.2.5-.2.7 0l.7.7c.2.2.2.5 0 .7z"></path></g></svg></button>
+  </div>
+  <div class="sds-lightbox__art">
+    <img class="sds-art" src="../../packages/frontend/assets/screenshots/source-reads.png" alt="The page of the source docs.typo3.org at its lower half. An overview, then two folded rows under Earlier reads, then a note: this is a source, not a service.">
+  </div>
+</dialog>
+</figure>
+</div>
+</div>
+          </section>
+
+          <section class="sds-section" id="status-page">
+            <h3><span class="sds-section__number">2.2</span> What the row says</h3>
+            <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th>The row says</th>
+    <th>The reader asks</th>
+    <th>Answered</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>The state of the source, as a badge</td>
+      <td>Is it answering right now?</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>yes</span></td>
+    </tr>
+    <tr>
+      <td>When the checker last asked</td>
+      <td>Did the check run?</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>yes</span></td>
+    </tr>
+    <tr>
+      <td>Nothing about the check before this one</td>
+      <td>Since when has it been like this?</td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>no</span></td>
+    </tr>
+    <tr>
+      <td>Nothing about how often</td>
+      <td>Is it always this slow?</td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>no</span></td>
+    </tr>
+  </tbody>
+</table></div>
+          </section>
+
+          <section class="sds-section" id="source-page">
+            <h3><span class="sds-section__number">2.3</span> What the page keeps</h3>
+            <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th>The page shows</th>
+    <th>How far back</th>
+    <th>Enough for</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>The read in flight, stop by stop</td>
+      <td>now</td>
+      <td>a reader who waits for it</td>
+    </tr>
+    <tr>
+      <td>The last read that ended</td>
+      <td>six hours</td>
+      <td>a reader who wants the last verdict</td>
+    </tr>
+    <tr>
+      <td>The read that stopped</td>
+      <td>a day</td>
+      <td>a reader who asks what went wrong once</td>
+    </tr>
+    <tr>
+      <td>Nothing before those</td>
+      <td>—</td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>nobody</span> who asks how often, or since when</td>
+    </tr>
+  </tbody>
+</table></div>
+          </section>
+
+          <section class="sds-section" id="on-purpose">
+            <h3><span class="sds-section__number">2.4</span> What the pages say on purpose</h3>
+            <p>
+              The status page ends on a note, and the note is a decision. This paper does not
+              argue with it. It asks if a record of the server’s own reads is the history
+              the note refuses, and finds it is not: the note is about the source, seen from
+              anywhere, and the record is about this machine, and only that.
+            </p>
+            <figure class="sds-quote">
+  <blockquote class="sds-quote__body">There is no incident history, because there is no service. Nothing is hosted for you to depend on. What would be an outage elsewhere is a degraded answer here, and the answer says so at the moment it is given.</blockquote>
+  <figcaption class="sds-quote__by"><div class="sds-byline">
+  
+  <div class="sds-byline__who">
+    <span class="sds-byline__name">The status page <span class="sds-byline__role">· the note at its foot</span></span>
+    <span class="sds-label">dev-companion 1.4</span>
+  </div>
+</div></figcaption>
+</figure>
+          </section>
+        </section>
+
+        <section class="sds-section" id="asked">
+          <h2><span class="sds-section__number">3</span> What readers asked</h2>
+          <p>
+            Two kinds of evidence. The questions that arrived on their own, over thirty days,
+            and a test that put eight readers in front of the pages with four tasks.
+          </p>
+
+          <section class="sds-section" id="questions">
+            <h3><span class="sds-section__number">3.1</span> The questions that arrived</h3>
+            <p>
+              Every question about the status pages in chat and in the issue tracker between
+              2026-08-15 and 2026-09-14, grouped by what it asks. The list itself is A.3.
+            </p>
+            <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th>Question, as it arrived</th>
+    <th>Times</th>
+    <th>Where</th>
+    <th>The page can answer it</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>Since when is <span class="sds-mono">releases.typo3.org</span> unreachable?</td>
+      <td class="sds-td-meta">11</td>
+      <td>chat, the issue tracker</td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>no</span></td>
+    </tr>
+    <tr>
+      <td>Is <span class="sds-mono">docs.typo3.org</span> always this slow, or only today?</td>
+      <td class="sds-td-meta">6</td>
+      <td>chat</td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>no</span></td>
+    </tr>
+    <tr>
+      <td>Did the read run tonight?</td>
+      <td class="sds-td-meta">4</td>
+      <td>the issue tracker</td>
+      <td><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>for the last read</span></td>
+    </tr>
+    <tr>
+      <td>How long has a full read taken lately?</td>
+      <td class="sds-td-meta">3</td>
+      <td>chat</td>
+      <td><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>for the last read</span></td>
+    </tr>
+  </tbody>
+</table></div>
+          </section>
+
+          <section class="sds-section" id="test">
+            <h3><span class="sds-section__number">3.2</span> A test with eight readers</h3>
+            <p>
+              Eight people who run the server for their own projects, each alone with the two
+              pages and four tasks, on 2026-09-08 and 2026-09-09. The script is A.1. A task
+              counts as done when the answer is right, and a guess that was right counts as a
+              guess.
+            </p>
+            <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th>Task</th>
+    <th>Done</th>
+    <th>Median</th>
+    <th>What happened</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>T1 · Say if the last read of docs.typo3.org ended well</td>
+      <td class="sds-td-meta">8 of 8</td>
+      <td class="sds-td-meta">12 s</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>the page answers it</span></td>
+    </tr>
+    <tr>
+      <td>T2 · Find the read that stopped yesterday</td>
+      <td class="sds-td-meta">7 of 8</td>
+      <td class="sds-td-meta">31 s</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>one reader opened the wrong source</span></td>
+    </tr>
+    <tr>
+      <td>T3 · Say since when releases.typo3.org has been unreachable</td>
+      <td class="sds-td-meta">3 of 8</td>
+      <td class="sds-td-meta">2 min 40 s</td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>five gave up; the three guessed from the two reads</span></td>
+    </tr>
+    <tr>
+      <td>T4 · Say how often docs.typo3.org was slow this week</td>
+      <td class="sds-td-meta">0 of 8</td>
+      <td class="sds-td-meta">—</td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>nothing on the page holds a week</span></td>
+    </tr>
+  </tbody>
+</table></div>
+            <p>
+              The two tasks the pages hold an answer for went well. The two that ask about the
+              days before went badly, and in the same way: every reader opened the two earlier
+              reads and looked under them for a third.
+            </p>
+          </section>
+
+          <section class="sds-section" id="said">
+            <h3><span class="sds-section__number">3.3</span> What they said</h3>
+            <p>Two sentences from the interviews after the tasks, each said in some form by more
+              than one reader.</p>
+            <figure class="sds-quote">
+  <blockquote class="sds-quote__body">I can see that it stopped yesterday. I cannot see if yesterday was the first time.</blockquote>
+  <figcaption class="sds-quote__by"><div class="sds-byline">
+  
+  <div class="sds-byline__who">
+    <span class="sds-byline__name">Reader 3 <span class="sds-byline__role">· runs the server for two agencies</span></span>
+    
+  </div>
+</div></figcaption>
+</figure>
+            <figure class="sds-quote">
+  <blockquote class="sds-quote__body">The note says it is not a service, and that is fine. I still want to know what my own machine did last week.</blockquote>
+  <figcaption class="sds-quote__by"><div class="sds-byline">
+  
+  <div class="sds-byline__who">
+    <span class="sds-byline__name">Reader 7 <span class="sds-byline__role">· runs it on a laptop</span></span>
+    
+  </div>
+</div></figcaption>
+</figure>
+          </section>
+        </section>
+
+        <section class="sds-section" id="findings">
+          <h2><span class="sds-section__number">4</span> Findings</h2>
+          <p>
+            What the evidence says, in three groups: what stands in the way of the goal, what
+            costs the reader, and what already does its job and must stay.
+            Every finding in one table first, each row a jump to its entry, and the work they
+            ask for in a second.
+          </p>
+          <div class="sds-register">
+  <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th class="sds-td-fit"></th>
+    <th>Entry</th>
+    <th class="sds-td-fit">Kind</th>
+    <th>Origin</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F1.1</td>
+      <td><a href="#findings-1-1">Nothing on either page says since when</a></td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>gap</span></td>
+      <td>from the questions and from T3</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F1.2</td>
+      <td><a href="#findings-1-2">Nothing holds a week, so nobody can say how often</a></td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>gap</span></td>
+      <td>from T4</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F2.1</td>
+      <td><a href="#findings-2-1">A reader who found the answer read it off the wrong page</a></td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>costs</span></td>
+      <td>from T3</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F2.2</td>
+      <td><a href="#findings-2-2">The row cannot carry a record, and the reader looks there first</a></td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>costs</span></td>
+      <td>from the test, all four tasks</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F3.1</td>
+      <td><a href="#findings-3-1">Readers find the read that stopped</a></td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>keep</span></td>
+      <td>from T2</td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit">F3.2</td>
+      <td><a href="#findings-3-2">The pages say what they are not, and the readers read it</a></td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>keep</span></td>
+      <td>from the interviews</td>
+    </tr>
+  </tbody>
+</table></div>
+  <section class="sds-section" id="findings-todo">
+    <h3>To do</h3>
+    <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th class="sds-td-fit"></th>
+    <th>To do</th>
+    <th class="sds-td-fit">Kind</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-meta sds-td-fit"><a href="#findings-1-1">W1.1</a></td>
+      <td>Keep the reads before the last two, and show them where the reader asks: on the page of the source.</td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>gap</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit"><a href="#findings-1-2">W1.2</a></td>
+      <td>Thirty reads, which is five days at the schedule, and a count of the verdicts over them.</td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>gap</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit"><a href="#findings-2-1">W2.1</a></td>
+      <td>The record on the page of the source, so the answer stands where the question starts.</td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>costs</span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-meta sds-td-fit"><a href="#findings-2-2">W2.2</a></td>
+      <td>Five marks at the end of the row: a glance, and the page for the rest.</td>
+      <td class="sds-td-fit"><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>costs</span></td>
+    </tr>
+  </tbody>
+</table></div>
+  </section>
+  <section class="sds-section" id="findings-gap">
+    <h3>A gap</h3>
+    <article class="sds-entry" id="findings-1-1">
+  <span class="sds-entry__number">F1.1</span>
+  <h3 class="sds-entry__title">Nothing on either page says since when</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>gap</span>
+    <span class="sds-entry__origin">from the questions and from T3</span>
+  </div>
+  <div class="sds-entry__body"><p>Eleven of the twenty-four questions ask since when a source has failed, and it is
+      the one question both pages cannot answer. The row says what the source does now. The
+      page of the source keeps two reads. A source that stopped four days ago looks like one
+      that stopped this morning.</p></div>
+  <p class="sds-entry__todo"><span class="sds-entry__number">W1.1</span>Keep the reads before the last two, and show them where the reader asks: on the page of the source.</p>
+</article><article class="sds-entry" id="findings-1-2">
+  <span class="sds-entry__number">F1.2</span>
+  <h3 class="sds-entry__title">Nothing holds a week, so nobody can say how often</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>gap</span>
+    <span class="sds-entry__origin">from T4</span>
+  </div>
+  <div class="sds-entry__body"><p>Every reader failed T4, and every one of them tried the same thing: they opened the
+      two reads and looked for a third. A count over thirty reads answers "how often" for the
+      week the question is about.</p></div>
+  <p class="sds-entry__todo"><span class="sds-entry__number">W1.2</span>Thirty reads, which is five days at the schedule, and a count of the verdicts over them.</p>
+</article>
+  </section><section class="sds-section" id="findings-cost">
+    <h3>Costs the reader</h3>
+    <article class="sds-entry" id="findings-2-1">
+  <span class="sds-entry__number">F2.1</span>
+  <h3 class="sds-entry__title">A reader who found the answer read it off the wrong page</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>costs</span>
+    <span class="sds-entry__origin">from T3</span>
+  </div>
+  <div class="sds-entry__body"><p>The three readers who answered T3 guessed the day from the two reads on the page and
+      gave the guess as the answer. A guess a page invites is a wrong answer the page gave.</p></div>
+  <p class="sds-entry__todo"><span class="sds-entry__number">W2.1</span>The record on the page of the source, so the answer stands where the question starts.</p>
+</article><article class="sds-entry" id="findings-2-2">
+  <span class="sds-entry__number">F2.2</span>
+  <h3 class="sds-entry__title">The row cannot carry a record, and the reader looks there first</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>costs</span>
+    <span class="sds-entry__origin">from the test, all four tasks</span>
+  </div>
+  <div class="sds-entry__body"><p>Every reader started on the status page and read the row before they opened the
+      source. A row has room for a glance and no more. Five marks say "this happened before"
+      and not when, and the page under the row says the rest.</p></div>
+  <p class="sds-entry__todo"><span class="sds-entry__number">W2.2</span>Five marks at the end of the row: a glance, and the page for the rest.</p>
+</article>
+  </section><section class="sds-section" id="findings-keep">
+    <h3>Works as it stands</h3>
+    <article class="sds-entry" id="findings-3-1">
+  <span class="sds-entry__number">F3.1</span>
+  <h3 class="sds-entry__title">Readers find the read that stopped</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>keep</span>
+    <span class="sds-entry__origin">from T2</span>
+  </div>
+  <div class="sds-entry__body"><p>Seven of eight readers found it, in half a minute. The fold under "Earlier reads" is
+      the right shape for one read, and the record keeps it.</p></div>
+  
+</article><article class="sds-entry" id="findings-3-2">
+  <span class="sds-entry__number">F3.2</span>
+  <h3 class="sds-entry__title">The pages say what they are not, and the readers read it</h3>
+  <div class="sds-entry__meta">
+    <span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>keep</span>
+    <span class="sds-entry__origin">from the interviews</span>
+  </div>
+  <div class="sds-entry__body"><p>Six of eight readers named the note at the foot of the status page unasked. "It is
+      not a service" reached them. So a record of the server’s own reads does not read as a
+      promise about the source, as long as the page says so.</p></div>
+  
+</article>
+  </section>
+</div>
+        </section>
+
+        <section class="sds-section" id="proposal">
+          <h2><span class="sds-section__number">5</span> The proposal</h2>
+          <p>
+            The server keeps a record of its own reads, and every surface that shows the reads
+            reads that record. Three surfaces, one file, and a name for what it is.
+          </p>
+
+          <section class="sds-section" id="record">
+            <h3><span class="sds-section__number">5.1</span> A record, not a history</h3>
+            <ul>
+              <li>
+                <strong>It is about this machine.</strong> A read the server made from here,
+                with the verdict it reached here. Nothing about the source seen from anywhere
+                else, and no claim that it was up or down.
+              </li>
+              <li>
+                <strong>It is short.</strong> Thirty reads, which is five days at the schedule
+                of six hours. The thirty-first drops the first. A year of reads is a history,
+                and part 6 says why that is the wrong thing.
+              </li>
+              <li>
+                <strong>It says so.</strong> The note at the foot of the status page grows one
+                sentence, and the record’s own heading names it: "Reads from this machine".
+              </li>
+            </ul>
+          </section>
+
+          <section class="sds-section" id="holds">
+            <h3><span class="sds-section__number">5.2</span> What the record holds</h3>
+            <p>One entry per read. Four fields, each the answer to a question from 3.1.</p>
+            <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th>Field</th>
+    <th>Holds</th>
+    <th>Why</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name"><span class="sds-mono">started</span></td>
+      <td>when the read began, on this machine’s clock</td>
+      <td>the answer to since when</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name"><span class="sds-mono">verdict</span></td>
+      <td><span class="sds-mono">read</span>, <span class="sds-mono">slow</span> or <span class="sds-mono">stopped</span></td>
+      <td>the word the row already uses</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name"><span class="sds-mono">took</span></td>
+      <td>how long, or at which stop it ended</td>
+      <td>the answer to how long lately</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name"><span class="sds-mono">pages</span></td>
+      <td>what the read put in the index</td>
+      <td>a read that ended well but read nothing is a stopped one</td>
+    </tr>
+  </tbody>
+</table></div>
+            <p>
+              The record is one file per source, beside the index the reads fill. It lives where
+              the cache lives, so a reinstall keeps it and a cleared cache takes it.
+            </p>
+            <div class="sds-tree">
+  <ul class="sds-tree__list">
+  <li class="sds-tree__item">
+  <details class="sds-tree__fold" open>
+    <summary class="sds-tree__row"><span class="sds-tree__mark"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></span><span class="sds-tree__name">typo3-dev-companion/</span><span class="sds-tree__note">the server’s cache, under ~/.cache</span></summary>
+    <ul class="sds-tree__list">
+  <li class="sds-tree__item">
+  <details class="sds-tree__fold" open>
+    <summary class="sds-tree__row"><span class="sds-tree__mark"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></span><span class="sds-tree__name">docs/</span><span class="sds-tree__note">one directory per source</span></summary>
+    <ul class="sds-tree__list">
+  <li class="sds-tree__item">
+  <span class="sds-tree__row"><span class="sds-tree__mark"></span><span class="sds-tree__name">index/</span><span class="sds-tree__note">what the last read put there</span></span>
+</li>
+  <li class="sds-tree__item">
+  <span class="sds-tree__row"><span class="sds-tree__mark"></span><span class="sds-tree__name">reads.json</span><span class="sds-tree__note">the record: the last thirty reads, oldest dropped first</span></span>
+</li>
+</ul>
+  </details>
+</li>
+  <li class="sds-tree__item">
+  <details class="sds-tree__fold" open>
+    <summary class="sds-tree__row"><span class="sds-tree__mark"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg></span><span class="sds-tree__name">releases/</span></summary>
+    <ul class="sds-tree__list">
+  <li class="sds-tree__item">
+  <span class="sds-tree__row"><span class="sds-tree__mark"></span><span class="sds-tree__name">index/</span></span>
+</li>
+  <li class="sds-tree__item">
+  <span class="sds-tree__row"><span class="sds-tree__mark"></span><span class="sds-tree__name">reads.json</span></span>
+</li>
+</ul>
+  </details>
+</li>
+</ul>
+  </details>
+</li>
+</ul>
+</div>
+          </section>
+
+          <section class="sds-section" id="shows">
+            <h3><span class="sds-section__number">5.3</span> Where it shows</h3>
+            <p>
+              Three places, from a glance to a sentence. The page of the source carries the
+              record in full, because that is where the question starts (F2.1).
+            </p>
+            <figure class="sds-figure">
+  <div class="sds-figure__frame sds-figure__frame--exported">
+    <a class="sds-zoom" href="../../packages/frontend/assets/diagrams/record-of-reads.svg" title="Open the picture at full size"><img class="sds-art" src="../../packages/frontend/assets/diagrams/record-of-reads.svg" alt="Three boxes side by side. The row on the status page: the source name and five small coloured marks. The page of the source, drawn in the accent: four rows, each a mark, a date, a verdict and a duration. The terminal: a dark box with one command and its two-line answer. Under them, one sentence: a record of the server’s own reads, not a history of a service."></a>
+  </div>
+  <figcaption class="sds-figure__caption">One record, three places it shows. The page of the source carries all thirty reads; the row carries five as marks; the terminal counts them.</figcaption>
+  <dialog
+      class="sds-lightbox"
+      aria-label="One record, three places it shows. The page of the source carries all thirty reads; the row carries five as marks; the terminal counts them.">
+  <div class="sds-modal__head">
+    <span class="sds-modal__title">One record, three places it shows. The page of the source carries all thirty reads; the row carries five as marks; the terminal counts them.</span>
+    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-close"><g fill="currentColor"><path d="M11.9 5.5 9.4 8l2.5 2.5c.2.2.2.5 0 .7l-.7.7c-.2.2-.5.2-.7 0L8 9.4l-2.5 2.5c-.2.2-.5.2-.7 0l-.7-.7c-.2-.2-.2-.5 0-.7L6.6 8 4.1 5.5c-.2-.2-.2-.5 0-.7l.7-.7c.2-.2.5-.2.7 0L8 6.6l2.5-2.5c.2-.2.5-.2.7 0l.7.7c.2.2.2.5 0 .7z"></path></g></svg></button>
+  </div>
+  <div class="sds-lightbox__art sds-lightbox__art--exported">
+    <img class="sds-art" src="../../packages/frontend/assets/diagrams/record-of-reads.svg" alt="Three boxes side by side. The row on the status page: the source name and five small coloured marks. The page of the source, drawn in the accent: four rows, each a mark, a date, a verdict and a duration. The terminal: a dark box with one command and its two-line answer. Under them, one sentence: a record of the server’s own reads, not a history of a service.">
+  </div>
+</dialog>
+</figure>
+            <p>
+              On the page of the source the record stands under the read in flight and above the
+              overview, where "Earlier reads" stands today. The two folds the page keeps become
+              the first two rows. Nothing above them moves.
+            </p>
+            <ol>
+              <li>The read in flight stays first. A reader who came to wait for it waits there.</li>
+              <li>"Reads from this machine" replaces "Earlier reads": thirty rows, newest first. Each row is a mark, a time, a verdict and a duration. A stopped read keeps its fold, and the fold keeps what the stop wrote.</li>
+              <li>The overview moves below the record. It changes once a year; the record changes four times a day.</li>
+              <li>The note at the foot grows one sentence: what the record is a record of.</li>
+            </ol>
+          </section>
+
+          <section class="sds-section" id="row">
+            <h3><span class="sds-section__number">5.4</span> The row on the status page</h3>
+            <p>
+              Five marks at the end of the row, oldest first, one per read. A mark is a colour
+              and a word, as every result in the system is, so the row reads without sight. A
+              row of five green marks says "as always". A row that turns red at the third says
+              "since the day before yesterday", with no number in it.
+            </p>
+            <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th>Source</th>
+    <th>State</th>
+    <th>Last five reads</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name"><span class="sds-mono">knowledge</span></td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>answering</span></td>
+      <td><span class="sds-row"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>read</span><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>read</span><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>read</span><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>read</span><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>read</span></span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name"><span class="sds-mono">docs.typo3.org</span></td>
+      <td><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>slow · 2.4 s</span></td>
+      <td><span class="sds-row"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>read</span><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>read</span><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>slow</span><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>read</span><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>slow</span></span></td>
+    </tr>
+    <tr>
+      <td class="sds-td-name"><span class="sds-mono">releases.typo3.org</span></td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>unreachable</span></td>
+      <td><span class="sds-row"><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>read</span><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>stopped</span><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>stopped</span><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>stopped</span><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>stopped</span></span></td>
+    </tr>
+  </tbody>
+</table></div>
+          </section>
+
+          <section class="sds-section" id="terminal">
+            <h3><span class="sds-section__number">5.5</span> In the terminal</h3>
+            <p>
+              For the reader who asks from a shell and never opens a page: one line per source,
+              the count over the record and when the last read ended.
+            </p>
+            <div class="sds-tabs">
+  <button type="button" class="sds-tab is-active">The count</button>
+  <button type="button" class="sds-tab">The record</button>
+</div><div class="sds-tab__panel"><div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">bash</span>
+    
+  </div>
+  <pre class="sds-code__body"><span class="sds-code__prompt">$</span> <span class="sds-code__cmd">dev-companion status docs</span>
+docs.typo3.org · 30 reads · 27 read · 2 slow · 1 stopped · last 06:00 today</pre>
+</div></div>
+          </section>
+
+          <section class="sds-section" id="setting">
+            <h3><span class="sds-section__number">5.6</span> The setting</h3>
+            <p>
+              One value decides how long the record is. It counts reads and not days, because
+              the schedule is a setting too; part 7 names the risk.
+            </p>
+            <dl class="sds-confval">
+  <dt class="sds-confval__term">
+    <code class="sds-confval__name">reads.keep</code>
+    
+    
+  </dt>
+  <dd class="sds-confval__detail">
+    <dl class="sds-confval__facts">
+      <dt class="sds-label">type</dt>
+      <dd class="sds-mono">integer</dd>
+      <dt class="sds-label">default</dt>
+      <dd class="sds-mono">30</dd>
+      <dt class="sds-label">Set in</dt>
+      <dd class="sds-mono">settings.yaml, per installation</dd>
+      <dt class="sds-label">Applies to</dt>
+      <dd class="sds-mono">every source</dd>
+    </dl>
+    <div class="sds-confval__body"><p>How many reads of a source the server keeps. The thirty-first drops the first.
+                Thirty is five days at the default schedule of six hours. A value of zero keeps the two
+                reads the page keeps today, which is the state before this paper.</p></div>
+  </dd>
+</dl>
+          </section>
+
+          <section class="sds-section" id="note">
+            <h3><span class="sds-section__number">5.7</span> What the note says</h3>
+            <p>
+              The note at the foot of the status page grows one sentence, so the record never reads
+              as the history the note refuses. The four lines before it stay as they are.
+            </p>
+            <div class="sds-code">
+  <div class="sds-code__head" style="justify-content:flex-start"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-code-compare"><g fill="currentColor"><path d="M12.5 11a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 12.5 11m0-1c-1.378 0-2.5 1.122-2.5 2.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5-1.122-2.5-2.5-2.5zM3.5 2a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 3.5 2m0-1C2.122 1 1 2.122 1 3.5S2.122 6 3.5 6 6 4.878 6 3.5 4.878 1 3.5 1z"></path><path d="m8.914 3 1.622-1.621-.708-.707L7 3.5l2.828 2.828.708-.707L8.914 4H12v7h1V3zM6.172 9.672l-.708.707L7.086 12H4V5H3v8h4.086l-1.622 1.621.708.708L9 12.5z"></path></g></svg><span class="sds-code__path">Resources/Private/Templates/Status.html</span></div>
+  <pre class="sds-diff"><span class="sds-diff__line">   There is no incident history, because there is no service.</span><span class="sds-diff__line">   …</span><span class="sds-diff__line sds-diff__line--add"><span class="sds-diff__mark">+</span>  What the page of a source keeps is a record of the reads this</span><span class="sds-diff__line sds-diff__line--add"><span class="sds-diff__mark">+</span>  server made from this machine, and nothing about the source</span><span class="sds-diff__line sds-diff__line--add"><span class="sds-diff__mark">+</span>  seen from anywhere else.</span></pre>
+</div>
+          </section>
+        </section>
+
+        <section class="sds-section" id="options">
+          <h2><span class="sds-section__number">6</span> Options weighed</h2>
+          <p>
+            Three ways to answer the two questions, against what the findings ask. The
+            recommendation is the first column. The third is the fallback if six days is too
+            many.
+          </p>
+
+          <section class="sds-section" id="in-short">
+            <h3><span class="sds-section__number">6.1</span> The three, in short</h3>
+            <div class="sds-grid"><article class="sds-card">
+  
+  <div class="sds-card__body">
+    <div class="sds-card__icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-document"><g fill="currentColor"><path d="M14.5 1h-13a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-13a.5.5 0 0 0-.5-.5zM14 14H2V2h12v12z"></path><path d="M3 3h10v2H3zM3 6h10v1H3zM3 8h10v1H3zM3 10h10v1H3zM3 12h10v1H3z"></path></g></svg></div>
+    <div class="sds-row">
+      
+      <span class="sds-label">Option A</span>
+    </div>
+    <h3 class="sds-card__title">The record on the page of the source</h3>
+    <p class="sds-card__text">Thirty reads in a list under the read in flight. Five marks in the row, one line in the terminal. A record of this machine, on the page that already says what it is.</p>
+  </div>
+  <div class="sds-card__foot">
+    <span class="sds-card__note">6 days · recommended</span>
+    
+  </div>
+</article><article class="sds-card">
+  
+  <div class="sds-card__body">
+    <div class="sds-card__icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-calendar"><g fill="currentColor"><path d="M13.5 3H12V1.5a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 0-.5.5V3H6V1.5a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 0-.5.5V3H1.5a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5h12a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5zM10 2h1v2h-1V2zM4 2h1v2H4V2zm.25 12H2v-2.25h2.25V14zm0-2.75H2v-2.5h2.25v2.5zm0-3H2V6h2.25v2.25zm3 5.75h-2.5v-2.25h2.5V14zm0-2.75h-2.5v-2.5h2.5v2.5zm0-3h-2.5V6h2.5v2.25zm3 5.75h-2.5v-2.25h2.5V14zm0-2.75h-2.5v-2.5h2.5v2.5zm0-3h-2.5V6h2.5v2.25zM13 14h-2.25v-2.25H13V14zm0-2.75h-2.25v-2.5H13v2.5zm0-3h-2.25V6H13v2.25z"></path></g></svg></div>
+    <div class="sds-row">
+      
+      <span class="sds-label">Option B</span>
+    </div>
+    <h3 class="sds-card__title">A page of its own, with a chart</h3>
+    <p class="sds-card__text">A year of reads, drawn. It answers every question, and it reads as a service somebody watched, which the pages refuse on purpose.</p>
+  </div>
+  <div class="sds-card__foot">
+    <span class="sds-card__note">14 days</span>
+    
+  </div>
+</article><article class="sds-card">
+  
+  <div class="sds-card__body">
+    <div class="sds-card__icon"><svg width="16" height="16" style="width:20px;height:20px" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-viewmode-list"><g fill="currentColor"><path d="M2 2h12v2H2zM2 5h10v1H2zM2 7h12v1H2zM2 9h10v1H2zM2 11h12v1H2zM2 13h10v1H2z"></path></g></svg></div>
+    <div class="sds-row">
+      
+      <span class="sds-label">Option C</span>
+    </div>
+    <h3 class="sds-card__title">Marks in the row only</h3>
+    <p class="sds-card__text">Five marks at the end of the row and nothing else. It answers since when for five reads and how often for none.</p>
+  </div>
+  <div class="sds-card__foot">
+    <span class="sds-card__note">2 days · the fallback</span>
+    
+  </div>
+</article></div>
+          </section>
+
+          <section class="sds-section" id="side-by-side">
+            <h3><span class="sds-section__number">6.2</span> Side by side</h3>
+            <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th>Asks</th>
+    <th>A · The record on the page of the source</th>
+    <th>B · A page of its own, with a chart</th>
+    <th>C · Marks in the row only</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>Answers since when</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>yes</span></td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>yes</span></td>
+      <td><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>for five reads</span></td>
+    </tr>
+    <tr>
+      <td>Answers how often</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>for thirty reads</span></td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>for a year</span></td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>no</span></td>
+    </tr>
+    <tr>
+      <td>Reads with no sight</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>a list</span></td>
+      <td><span class="sds-badge sds-badge--warn"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg>a chart needs a table beside it</span></td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>a colour and a name</span></td>
+    </tr>
+    <tr>
+      <td>New surface</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>none</span></td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>one page, one chart</span></td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>none</span></td>
+    </tr>
+    <tr>
+      <td>Stays a record, not a history</td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>thirty reads</span></td>
+      <td><span class="sds-badge sds-badge--error"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-exclamation-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path><circle cx="8" cy="11" r="1"></circle><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"></path></g></svg>a year is a history</span></td>
+      <td><span class="sds-badge sds-badge--ok"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg>five reads</span></td>
+    </tr>
+    <tr>
+      <td>Cost</td>
+      <td><span class="sds-mono">6 days</span></td>
+      <td><span class="sds-mono">14 days</span></td>
+      <td><span class="sds-mono">2 days</span></td>
+    </tr>
+  </tbody>
+</table></div>
+          </section>
+
+          <section class="sds-section" id="not-chart">
+            <h3><span class="sds-section__number">6.3</span> Why not the chart</h3>
+            <p>
+              Option B answers every question and costs twice as much. It fails on the one
+              thing the pages refuse: a year of reads on a page of its own, with a chart, is an
+              incident history with another name. A reader who sees it reads a service.
+            </p>
+            <div class="sds-note sds-note--warn">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Warning" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg></span>
+  <div class="sds-note__content">
+    <div class="sds-note__title">A chart of a year is a promise</div>
+    <div class="sds-note__body">The pages promise nothing about the source. A page that draws a year of its verdicts promises that somebody watched. Option A keeps five days, on the page that already says what it is.</div>
+  </div>
+</div>
+          </section>
+        </section>
+
+        <section class="sds-section" id="costs">
+          <h2><span class="sds-section__number">7</span> What it costs</h2>
+          <p>Five packages, six days, one order. And what can go wrong on the way.</p>
+
+          <section class="sds-section" id="work">
+            <h3><span class="sds-section__number">7.1</span> Work packages</h3>
+            <div class="sds-table-scroll"><table class="sds-table sds-table--compact">
+  <thead><tr>
+    <th>Package</th>
+    <th>What it does</th>
+    <th>Cost</th>
+    <th>Needs</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="sds-td-name">W1</td>
+      <td>The server keeps the last thirty reads of a source in one file beside its cache</td>
+      <td class="sds-td-meta">2 days</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">W2</td>
+      <td>The page of a source shows the record under the read in flight</td>
+      <td class="sds-td-meta">2 days</td>
+      <td>W1</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">W3</td>
+      <td>The status row carries the last five reads as marks</td>
+      <td class="sds-td-meta">1 day</td>
+      <td>W1</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">W4</td>
+      <td><span class="sds-mono">dev-companion status &lt;source&gt;</span> prints the record as one line</td>
+      <td class="sds-td-meta">½ day</td>
+      <td>W1</td>
+    </tr>
+    <tr>
+      <td class="sds-td-name">W5</td>
+      <td>The manual says what the record is and what it is not</td>
+      <td class="sds-td-meta">½ day</td>
+      <td>W2, W3</td>
+    </tr>
+  </tbody>
+</table></div>
+          </section>
+
+          <section class="sds-section" id="order">
+            <h3><span class="sds-section__number">7.2</span> The order</h3>
+            <div class="sds-steps" role="list">
+  <div
+    class="sds-steps__step"
+    role="listitem">
+    <p class="sds-steps__title">Decide</p>
+    The maintainers answer the question in part 8 by 2026-09-30. Nothing below starts before that.
+  </div><div
+    class="sds-steps__step"
+    role="listitem">
+    <p class="sds-steps__title">Keep the record</p>
+    W1. One file per source, thirty reads, oldest dropped first. The file is the contract; every surface below reads it. Merged behind a flag, on by default in <span class="sds-mono">1.5</span>.
+  </div><div
+    class="sds-steps__step"
+    role="listitem">
+    <p class="sds-steps__title">Show it on the page of the source</p>
+    W2. Under the read in flight, above the overview. The two reads the page keeps today become the first two rows of the record.
+  </div><div
+    class="sds-steps__step"
+    role="listitem">
+    <p class="sds-steps__title">Marks in the row, the line in the terminal</p>
+    W3 and W4, in either order. Both read the same file.
+  </div><div
+    class="sds-steps__step"
+    role="listitem">
+    <p class="sds-steps__title">Say what it is</p>
+    W5. The manual and the note on the status page say what it is: reads from this machine, not a history.
+  </div>
+</div>
+          </section>
+
+          <section class="sds-section" id="dates">
+            <h3><span class="sds-section__number">7.3</span> The dates</h3>
+            <p>The same order on the calendar, and where it stands today.</p>
+            <div class="sds-timeline" role="list">
+  <div role="listitem" class="sds-timeline__stop sds-timeline__stop--passed">
+    <span class="sds-timeline__mark"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Done" viewBox="0 0 16 16" data-icon="actions-check-circle"><g fill="currentColor"><path d="m12.1 5.3-.4-.3c-.1-.1-.3-.1-.4 0L6.6 9.8l-2-2c-.1-.1-.3-.1-.4 0l-.3.4c-.1.1-.1.3 0 .4L6 10.7l.4.3c.1.1.3.1.4 0l.4-.4 4.9-4.9c.1-.1.1-.3 0-.4z"></path><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span>
+    <p class="sds-timeline__when">2026-09-15</p>
+    <p class="sds-timeline__title">Draft 2 to the maintainers</p>
+    <div class="sds-timeline__body">This paper, with the test and the options in it.</div>
+    
+  </div>
+  <div role="listitem" class="sds-timeline__stop sds-timeline__stop--now" aria-current="step">
+    <span class="sds-timeline__mark"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Now" viewBox="0 0 16 16" data-icon="actions-circle-full"><g fill="currentColor"><path d="M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span>
+    <p class="sds-timeline__when">2026-09-30</p>
+    <p class="sds-timeline__title">Decision<span class="sds-label">Now</span></p>
+    <div class="sds-timeline__body">The maintainers answer the question in part 8. Nothing below starts before that.</div>
+    
+  </div>
+  <div role="listitem" class="sds-timeline__stop sds-timeline__stop--ahead">
+    <span class="sds-timeline__mark"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Ahead" viewBox="0 0 16 16" data-icon="actions-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span>
+    <p class="sds-timeline__when">Sprint 1 · 2026-10-05 to 10-16</p>
+    <p class="sds-timeline__title">The record, kept</p>
+    <div class="sds-timeline__body">One file per source, thirty reads. Merged behind a flag.</div>
+    <div class="sds-timeline__list" role="list">
+      <div role="listitem" class="sds-timeline__stop sds-timeline__stop--ahead">
+    <span class="sds-timeline__mark"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Ahead" viewBox="0 0 16 16" data-icon="actions-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span>
+    <p class="sds-timeline__when">W1</p>
+    <p class="sds-timeline__title">The server keeps the last thirty reads</p>
+    
+    
+  </div>
+    </div>
+  </div>
+  <div role="listitem" class="sds-timeline__stop sds-timeline__stop--ahead">
+    <span class="sds-timeline__mark"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Ahead" viewBox="0 0 16 16" data-icon="actions-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span>
+    <p class="sds-timeline__when">Sprint 2 · 2026-10-19 to 10-30</p>
+    <p class="sds-timeline__title">The record, shown</p>
+    <div class="sds-timeline__body">Every surface reads the same file.</div>
+    <div class="sds-timeline__list" role="list">
+      <div role="listitem" class="sds-timeline__stop sds-timeline__stop--ahead">
+    <span class="sds-timeline__mark"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Ahead" viewBox="0 0 16 16" data-icon="actions-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span>
+    <p class="sds-timeline__when">W2</p>
+    <p class="sds-timeline__title">The page of a source shows the record</p>
+    
+    
+  </div>
+      <div role="listitem" class="sds-timeline__stop sds-timeline__stop--ahead">
+    <span class="sds-timeline__mark"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Ahead" viewBox="0 0 16 16" data-icon="actions-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span>
+    <p class="sds-timeline__when">W3</p>
+    <p class="sds-timeline__title">Five marks in the status row</p>
+    
+    
+  </div>
+      <div role="listitem" class="sds-timeline__stop sds-timeline__stop--ahead">
+    <span class="sds-timeline__mark"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Ahead" viewBox="0 0 16 16" data-icon="actions-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span>
+    <p class="sds-timeline__when">W4</p>
+    <p class="sds-timeline__title">One line in the terminal</p>
+    
+    
+  </div>
+    </div>
+  </div>
+  <div role="listitem" class="sds-timeline__stop sds-timeline__stop--ahead">
+    <span class="sds-timeline__mark"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Ahead" viewBox="0 0 16 16" data-icon="actions-circle"><g fill="currentColor"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"></path></g></svg></span>
+    <p class="sds-timeline__when">2026-11-10</p>
+    <p class="sds-timeline__title">Release 1.5</p>
+    <div class="sds-timeline__body">W5 with it: the manual, and the note at the foot of the status page.</div>
+    
+  </div>
+</div>
+          </section>
+
+          <section class="sds-section" id="risks">
+            <h3><span class="sds-section__number">7.4</span> Risks</h3>
+            <div class="sds-note sds-note--warn">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Warning" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg></span>
+  <div class="sds-note__content">
+    <div class="sds-note__title">R1 · A record on a laptop that sleeps is a record with holes</div>
+    <div class="sds-note__body">A machine that was off made no reads. The record says nothing for that time, and a reader can read the gap as a failure. The list marks a gap of more than twelve hours as its own row, with the words: no read, the server was not running.</div>
+  </div>
+</div>
+            <div class="sds-note sds-note--warn">
+  <span class="sds-note__icon"><svg width="16" height="16" class="sds-icon" role="img" aria-label="Warning" viewBox="0 0 16 16" data-icon="actions-exclamation-triangle"><g fill="currentColor"><circle cx="8" cy="12" r="1"></circle><path d="M8.5 10h-1l-.445-4.45A.5.5 0 0 1 7.552 5h.896a.5.5 0 0 1 .497.55L8.5 10z"></path><path d="M8 2.008a.98.98 0 0 1 .875.515l5.536 9.992a.983.983 0 0 1-.013.993.983.983 0 0 1-.862.492H2.464a.983.983 0 0 1-.862-.492.983.983 0 0 1-.013-.993l5.536-9.992A.98.98 0 0 1 8 2.008m0-1a1.98 1.98 0 0 0-1.75 1.03L.715 12.032C-.024 13.364.94 15 2.464 15h11.072c1.524 0 2.488-1.636 1.75-2.97L9.749 2.04A1.98 1.98 0 0 0 8 1.009z"></path></g></svg></span>
+  <div class="sds-note__content">
+    <div class="sds-note__title">R2 · Thirty reads of a source read every hour is one day</div>
+    <div class="sds-note__body">The schedule is a setting. A reader who reads every hour keeps a day and not five. The record counts reads and not days on purpose, and the manual says which it is.</div>
+  </div>
+</div>
+          </section>
+        </section>
+
+        <section class="sds-section" id="decision">
+          <h2><span class="sds-section__number">8</span> Decision</h2>
+          <section class="sds-decision" aria-label="Decision">
+  <p class="sds-label">Decision</p>
+  <p class="sds-decision__question">Does the server keep a record of its own reads, and show it?</p>
+  <p class="sds-decision__lead">Until the maintainers answer, this paper is a draft and the pages stay as they are. The three answers are part 6 in short; the cost of each is part 7.</p>
+  <div class="sds-decision__answers" role="list">
+  <div class="sds-decision__answer" role="listitem">
+    <span class="sds-decision__key">A</span>
+    <div class="sds-decision__what">
+      <p class="sds-decision__label">The record on the page of the source <span class="sds-label sds-decision__mark sds-decision__mark--recommended">recommended</span></p>
+      <div class="sds-decision__body">Thirty reads, on the page of the source; five marks in the row; one line in the terminal. Six days.</div>
+    </div>
+  </div><div class="sds-decision__answer" role="listitem">
+    <span class="sds-decision__key">B</span>
+    <div class="sds-decision__what">
+      <p class="sds-decision__label">A page of its own, with a chart</p>
+      <div class="sds-decision__body">A year of reads, drawn. It is a history, and fourteen days.</div>
+    </div>
+  </div><div class="sds-decision__answer" role="listitem">
+    <span class="sds-decision__key">C</span>
+    <div class="sds-decision__what">
+      <p class="sds-decision__label">Marks in the row only</p>
+      <div class="sds-decision__body">It answers since when for five reads and how often for none. Two days.</div>
+    </div>
+  </div>
+  </div>
+  <p class="sds-decision__meta">Decision by <strong>the maintainers</strong> · due <span class="sds-mono">2026-09-30</span></p>
+</section>
+
+          <section class="sds-section" id="open">
+            <h3><span class="sds-section__number">8.1</span> Open questions</h3>
+            <ul>
+              <li>
+                <strong>Does the record survive a reinstall?</strong> It lives beside the cache,
+                which a reinstall keeps. The paper assumes yes and W1 confirms it.
+              </li>
+              <li>
+                <strong>Does the row carry five marks on a phone?</strong> The table drops the
+                marks where it drops the "last checked" column. To confirm in W3.
+              </li>
+              <li>
+                <strong>Is thirty the number?</strong> Five days at the default schedule. The
+                maintainers can set another before W1; the file format does not care.
+              </li>
+            </ul>
+          </section>
+
+          <section class="sds-section" id="sources">
+            <h3><span class="sds-section__number">8.2</span> Sources</h3>
+            <ul>
+              <li><a class="sds-link" href="#status-page">The status page and the page of a source</a> in <span class="sds-mono">dev-companion 1.4</span>, as shipped.</li>
+              <li>The chat and the issue tracker, 2026-08-15 to 2026-09-14; the list is <a class="sds-link" href="#appendix">A.3</a>.</li>
+              <li>The test of 2026-09-08 and 2026-09-09, eight readers; the script is <a class="sds-link" href="#appendix">A.1</a>.</li>
+              <li><a class="sds-link sds-link--external" href="#" target="_blank" rel="noreferrer">The manual, “What a source is” <svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-window-open"><g fill="currentColor"><path d="m10.05 8.657-.707-.707L14.293 3l.706.707z"></path><path d="M13 8.536V12H3V5h6.464l1-1H2.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7.535l-1 1.001zM15.573 6.573l-4.146-4.146A.25.25 0 0 1 11.604 2h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177z"></path></g></svg></a>, for the sentence the record must not contradict.</li>
+            </ul>
+          </section>
+        </section>
+
+        <section class="sds-section" id="appendix">
+          <h2><span class="sds-section__number">9</span> Appendix</h2>
+          <div class="sds-accordion">
+  <details
+    class="sds-accordion__item"
+    name="appendix">
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>A.1 · The test, as it ran</summary>
+    <div class="sds-accordion__body"><p>Eight readers, each alone, each with the two pages open in a browser and a
+      timer beside them. Four tasks, read out one at a time. A task ends when the reader gives
+      an answer or gives up. The median is over the readers who finished.</p>
+      <div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">text</span>
+    
+  </div>
+  <pre class="sds-code__body"><code class="language-text">T1  Say if the last read of docs.typo3.org ended well.
+T2  Find the read that stopped yesterday.
+T3  Say since when releases.typo3.org has been unreachable.
+T4  Say how often docs.typo3.org was slow this week.</code></pre>
+</div></div>
+  </details><details
+    class="sds-accordion__item"
+    name="appendix">
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>A.2 · The record, as a file</summary>
+    <div class="sds-accordion__body"><div class="sds-code__caption">~/.cache/typo3-dev-companion/docs/reads.json</div><div class="sds-code">
+  <div class="sds-code__head">
+    <span class="sds-code__lang">json</span>
+    
+  </div>
+  <pre class="sds-code__body"><code class="language-json"><span class="hljs-punctuation">[</span>
+  <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;started&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2026-09-15T06:00:11Z&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;verdict&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;read&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;took&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">182</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;pages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">18412</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;started&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2026-09-14T06:12:04Z&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;verdict&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;stopped&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;took&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">131</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;at&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">2</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;started&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2026-09-14T00:00:09Z&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;verdict&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;read&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;took&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">178</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;pages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">18410</span> <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">]</span></code></pre>
+</div></div>
+  </details><details
+    class="sds-accordion__item"
+    name="appendix">
+    <summary class="sds-accordion__head"><svg width="16" height="16" class="sds-icon" aria-hidden="true" viewBox="0 0 16 16" data-icon="actions-chevron-down"><g fill="currentColor"><path d="m4.464 6.05-.707.707L8 11l4.243-4.243-.707-.707L8 9.586z"></path></g></svg>A.3 · The questions, in full</summary>
+    <div class="sds-accordion__body"><p>Twenty-four questions from chat and the issue tracker between 2026-08-15 and
+      2026-09-14, each with the source it names. The table in 3.1 groups them by what they
+      ask. The list stays out of this paper: it names people.</p></div>
+  </details>
+</div>
+        </section>
+      </article>
+    </main>
+  </div>
+</div>
+</body>
+</html>

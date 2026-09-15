@@ -24,6 +24,12 @@ export declare class SdsElement extends LitElement {
         holds two copies. The marker says the build wrote that markup; content
         a caller wrote carries none and stays. */
     connectedCallback(): void;
+    /** What a caller wrote between the tags, left where it stands: in the
+        template of a prerendered element, as the children otherwise. For an
+        element that reads facts out of its children before it takes them. A
+        removal runs the removed child's own `connectedCallback`, and that
+        takes what stood under it out of reach. */
+    protected standing(): Node[];
     protected lifted(): Node[];
 }
 /** The newlines a template leaves between tags, and the markers Lit leaves

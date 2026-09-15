@@ -215,6 +215,132 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/answer.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsAnswer",
+          "tagName": "sds-answer",
+          "summary": "One answer a decision can take, and what it means.",
+          "description": "One answer a decision can take, and what it means.\n\nThe pair is the whole component, the way `sds-step` pairs a stop with its blocks. The letter and the name are properties because each fits in one. What the answer means goes between the tags: a sentence, or the blocks a paper needs to say it. See `sds-decision`.",
+          "attributes": [
+            {
+              "name": "key",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "key"
+            },
+            {
+              "name": "heading",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "heading"
+            },
+            {
+              "name": "recommended",
+              "description": "",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "recommended"
+            },
+            {
+              "name": "decided",
+              "description": "",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "decided"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "key",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "key"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "recommended",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "recommended"
+            },
+            {
+              "kind": "field",
+              "name": "decided",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "decided"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-decision__answer",
+            "sds-decision__body",
+            "sds-decision__key",
+            "sds-decision__label",
+            "sds-decision__mark",
+            "sds-decision__mark--decided",
+            "sds-decision__mark--recommended",
+            "sds-decision__what",
+            "sds-label"
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "What an attribute cannot carry — prose, a block, a section of a document."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsAnswer",
+          "declaration": {
+            "name": "SdsAnswer",
+            "module": "src/components/answer.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-answer",
+          "declaration": {
+            "name": "SdsAnswer",
+            "module": "src/components/answer.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/badge.ts",
       "declarations": [
         {
@@ -1458,6 +1584,211 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/compare.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsCompare",
+          "tagName": "sds-compare",
+          "summary": "Before and after: two pictures side by side, each with its claim.",
+          "description": "Before and after: two pictures side by side, each with its claim.\n\nA concept shows what stands and what it proposes, and a reader reads the two against each other. So they stand in one row, each a figure with its own caption, under a word that says which is which. The words are the caller's: `Before` and `After` where nobody names them, `As it stands` and `Proposed` where a paper does. Each half is `sds-figure`, so a press opens either at its own size. A picture arrives as every picture does: a link to a file, in the colours of its export.",
+          "attributes": [
+            {
+              "name": "before-src",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "beforeSrc"
+            },
+            {
+              "name": "before-alt",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "beforeAlt"
+            },
+            {
+              "name": "before-caption",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "beforeCaption"
+            },
+            {
+              "name": "after-src",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "afterSrc"
+            },
+            {
+              "name": "after-alt",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "afterAlt"
+            },
+            {
+              "name": "after-caption",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "afterCaption"
+            },
+            {
+              "name": "before-label",
+              "description": "The word over the first half.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "beforeLabel"
+            },
+            {
+              "name": "after-label",
+              "description": "The word over the second half.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "afterLabel"
+            },
+            {
+              "name": "zoomable",
+              "description": "A press opens either picture at its own size.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "zoomable"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "beforeSrc",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "before-src"
+            },
+            {
+              "kind": "field",
+              "name": "beforeAlt",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "before-alt"
+            },
+            {
+              "kind": "field",
+              "name": "beforeCaption",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "before-caption"
+            },
+            {
+              "kind": "field",
+              "name": "afterSrc",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "after-src"
+            },
+            {
+              "kind": "field",
+              "name": "afterAlt",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "after-alt"
+            },
+            {
+              "kind": "field",
+              "name": "afterCaption",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "after-caption"
+            },
+            {
+              "kind": "field",
+              "name": "beforeLabel",
+              "privacy": "public",
+              "description": "The word over the first half.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "before-label"
+            },
+            {
+              "kind": "field",
+              "name": "afterLabel",
+              "privacy": "public",
+              "description": "The word over the second half.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "after-label"
+            },
+            {
+              "kind": "field",
+              "name": "zoomable",
+              "privacy": "public",
+              "description": "A press opens either picture at its own size.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "zoomable"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-compare",
+            "sds-compare__half",
+            "sds-label"
+          ],
+          "slots": []
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsCompare",
+          "declaration": {
+            "name": "SdsCompare",
+            "module": "src/components/compare.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-compare",
+          "declaration": {
+            "name": "SdsCompare",
+            "module": "src/components/compare.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/confval.ts",
       "declarations": [
         {
@@ -1725,6 +2056,157 @@
           "declaration": {
             "name": "SdsCopy",
             "module": "src/components/copy.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/decision.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsDecision",
+          "tagName": "sds-decision",
+          "summary": "The block that puts the question.",
+          "description": "The block that puts the question.\n\nA concept ends on a decision somebody else makes, and this is where the paper asks for it. The question in one line, the answers it can take with the one the paper recommends, who decides, and by when. On the raised plane, because it is the one block the reader came for. The answers go between the tags as `sds-answer`, each with what it means, the way an instruction holds its steps. A page that holds them as data hands them over as `.answers` instead, and the block writes the elements itself.",
+          "attributes": [
+            {
+              "name": "question",
+              "description": "The question, in one line.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "question"
+            },
+            {
+              "name": "by",
+              "description": "Who decides.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "by"
+            },
+            {
+              "name": "due",
+              "description": "By when, as written: `2026-09-30`. Once an answer carries `decided`, the day the decision fell.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "due"
+            },
+            {
+              "name": "label",
+              "description": "The word over the block. `Decision` where nobody names it.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "label"
+            },
+            {
+              "name": "lead",
+              "description": "What the paper says about the question, before the answers. A sentence; blocks go between the tags before the answers.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "lead"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "question",
+              "privacy": "public",
+              "description": "The question, in one line.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "question"
+            },
+            {
+              "kind": "field",
+              "name": "answers",
+              "privacy": "public",
+              "description": "The answers, where a page holds them as data. Answers that are blocks go between the tags as `sds-answer` instead, and then this stays empty.",
+              "type": {
+                "text": "readonly Answer[]"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "by",
+              "privacy": "public",
+              "description": "Who decides.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "by"
+            },
+            {
+              "kind": "field",
+              "name": "due",
+              "privacy": "public",
+              "description": "By when, as written: `2026-09-30`. Once an answer carries `decided`, the day the decision fell.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "due"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "The word over the block. `Decision` where nobody names it.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "lead",
+              "privacy": "public",
+              "description": "What the paper says about the question, before the answers. A sentence; blocks go between the tags before the answers.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "lead"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-decision",
+            "sds-decision__answers",
+            "sds-decision__lead",
+            "sds-decision__meta",
+            "sds-decision__question",
+            "sds-label",
+            "sds-mono"
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "What an attribute cannot carry — prose, a block, a section of a document."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsDecision",
+          "declaration": {
+            "name": "SdsDecision",
+            "module": "src/components/decision.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-decision",
+          "declaration": {
+            "name": "SdsDecision",
+            "module": "src/components/decision.ts"
           }
         }
       ]
@@ -5223,6 +5705,98 @@
           "declaration": {
             "name": "SdsNavMain",
             "module": "src/components/nav-main.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/nav-outline.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsNavOutline",
+          "tagName": "sds-nav-outline",
+          "summary": "The parts of a long document, beside it.",
+          "description": "The parts of a long document, beside it.\n\nThe whole of a document with more places than a window is tall, in the panel that is its frame. Every part and every section, in one tree, so the reader always has the whole document in reach. Each entry can carry its number, `4` and `4.2`, counted from its place. It reads the page to find where the reader is, as the contents beside a column does. The marked row stays inside its own scrolling box.\n\n.entries = [{ label: 'Purpose', href: '#purpose', items: [ … ] }]\n\nWhere the panel has no room beside the page, the list folds behind one press in the panel's head. The fold is a `<details>`, written open, so the list is there before any script and where none runs. The script shuts it where the press draws, and opens it again where the press does not. Before the script it is the list with nothing marked.",
+          "attributes": [
+            {
+              "name": "label",
+              "description": "The heading over the list, and the name of the navigation.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "label"
+            },
+            {
+              "name": "numbered",
+              "description": "Every entry carries its number, counted from its place in the list the way a numbered document counts its parts. Written as text: a browser leaves generated content out of the name a row has out loud.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "numbered"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "The heading over the list, and the name of the navigation.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "entries",
+              "privacy": "public",
+              "description": "The parts of the document, nested as deep as the document nests them.",
+              "type": {
+                "text": "MenuEntry[]"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "numbered",
+              "privacy": "public",
+              "description": "Every entry carries its number, counted from its place in the list the way a numbered document counts its parts. Written as text: a browser leaves generated content out of the name a row has out loud.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "numbered"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-label",
+            "sds-outline",
+            "sds-outline__fold",
+            "sds-outline__item",
+            "sds-outline__list",
+            "sds-outline__number",
+            "sds-outline__toggle"
+          ],
+          "slots": []
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsNavOutline",
+          "declaration": {
+            "name": "SdsNavOutline",
+            "module": "src/components/nav-outline.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-nav-outline",
+          "declaration": {
+            "name": "SdsNavOutline",
+            "module": "src/components/nav-outline.ts"
           }
         }
       ]
@@ -9279,6 +9853,193 @@
           "declaration": {
             "name": "SdsTheme",
             "module": "src/components/theme.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/timeline-stop.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsTimelineStop",
+          "tagName": "sds-timeline-stop",
+          "summary": "One stop of a plan: when, what, and what it holds.",
+          "description": "One stop of a plan: when, what, and what it holds.\n\nThe pair is the whole component, the way `sds-step` pairs a stop with its blocks. The date and the title are properties because each fits in one. What the stop holds goes between the tags: a sentence, the blocks a plan needs, and the stops inside it as more of these.\n\nThe state is not the stop's to say. Where it stands against the one marked now is a reading of the whole order, and `sds-timeline` writes it here. So a stop on its own reads as ahead.",
+          "attributes": [
+            {
+              "name": "when",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "when"
+            },
+            {
+              "name": "heading",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "heading"
+            },
+            {
+              "name": "now",
+              "description": "",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "now"
+            },
+            {
+              "name": "state",
+              "description": "",
+              "type": {
+                "text": "'passed' | 'now' | 'ahead'"
+              },
+              "fieldName": "state"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "when",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "when"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "now",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "now"
+            },
+            {
+              "kind": "field",
+              "name": "state",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "'passed' | 'now' | 'ahead'"
+              },
+              "attribute": "state"
+            },
+            {
+              "kind": "field",
+              "name": "stops",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "readonly PlacedStop[]"
+              }
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-label",
+            "sds-timeline__body",
+            "sds-timeline__list",
+            "sds-timeline__mark",
+            "sds-timeline__stop",
+            "sds-timeline__title",
+            "sds-timeline__when"
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "What an attribute cannot carry — prose, a block, a section of a document."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsTimelineStop",
+          "declaration": {
+            "name": "SdsTimelineStop",
+            "module": "src/components/timeline-stop.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-timeline-stop",
+          "declaration": {
+            "name": "SdsTimelineStop",
+            "module": "src/components/timeline-stop.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/timeline.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsTimeline",
+          "tagName": "sds-timeline",
+          "summary": "A plan on the calendar: dated stops down one rail, and where today stands among them.",
+          "description": "A plan on the calendar: dated stops down one rail, and where today stands among them.\n\nFor work that has dates. `sds-steps` is an instruction, which never changes; `sds-run` is work in progress, which arrives one stop at a time. A plan is neither. The author writes it once, with a date at every stop, and a reader asks one thing of it: how far along is it? So one stop says it is now, and the rest read as passed or ahead.\n\nThe stops go between the tags as `sds-timeline-stop`, each with what it holds, the way an instruction holds its steps. The plan reads them in order and writes the state onto each. A page that holds them as data hands them over as `.entries` instead.",
+          "attributes": [],
+          "members": [
+            {
+              "kind": "field",
+              "name": "entries",
+              "privacy": "public",
+              "description": "The stops, where a page holds the plan as data. Stops that are blocks go between the tags as `sds-timeline-stop` instead, and then this stays empty.",
+              "type": {
+                "text": "readonly TimelineEntry[]"
+              }
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-timeline"
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "What an attribute cannot carry — prose, a block, a section of a document."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsTimeline",
+          "declaration": {
+            "name": "SdsTimeline",
+            "module": "src/components/timeline.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-timeline",
+          "declaration": {
+            "name": "SdsTimeline",
+            "module": "src/components/timeline.ts"
           }
         }
       ]
