@@ -41,27 +41,28 @@
   }
 
   /* Before the script lands there is no element, only a tag that says which
-     glyph and how big. An empty box takes the size of what is not in it. The
-     sizes mirror the ones above, unsized case included, so nothing jumps.
+     glyph and how big. An empty box takes the size of what is not in it.
      `:where()`, or this out-weighs `.sds-icon--20` and causes the jump it
      prevents. */
   :where(sds-icon:not(:defined)) {
     width: var(--sds-icon-size);
     height: var(--sds-icon-size);
   }
-  sds-icon:not(:defined)[size="16"] {
+  /* The size on the tag, defined or not. A host that carries the class is
+     1em wide without it, and the reset caps the glyph inside at that. */
+  sds-icon[size="16"] {
     --sds-icon-size: var(--control-icon-size);
   }
-  sds-icon:not(:defined)[size="20"] {
+  sds-icon[size="20"] {
     --sds-icon-size: 20px;
   }
-  sds-icon:not(:defined)[size="24"] {
+  sds-icon[size="24"] {
     --sds-icon-size: 24px;
   }
-  sds-icon:not(:defined)[size="32"] {
+  sds-icon[size="32"] {
     --sds-icon-size: 32px;
   }
-  sds-icon:not(:defined)[size="48"] {
+  sds-icon[size="48"] {
     --sds-icon-size: 48px;
   }
 }
