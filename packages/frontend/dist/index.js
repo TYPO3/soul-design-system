@@ -1582,11 +1582,26 @@ var SdsElement = class extends LitElement {
       runs again every time an element moves in the document, and a second
       look lifts that output as what the author wrote. */
   #looked = false;
+  /** Set while the parser has not reached the closing tag. A definition that
+      loads before the markup upgrades each element at its opening tag, with
+      no children yet: nothing to take, and the prerendered frame arrives
+      after the live one. So the first look waits for the parse to end. */
+  #waiting = false;
   /** Lit renders *after* whatever children it finds and does not empty the
       container. So an element that arrives with its own prerendered markup
       holds two copies. The marker says the build wrote that markup; content
       a caller wrote carries none and stays. */
   connectedCallback() {
+    if (document.readyState === "loading") {
+      if (!this.#waiting) {
+        this.#waiting = true;
+        document.addEventListener("DOMContentLoaded", () => {
+          this.#waiting = false;
+          if (this.isConnected) this.connectedCallback();
+        }, { once: true });
+      }
+      return;
+    }
     if (this.querySelector(`:scope > template[${CONTENT}]`)) {
       for (const node of [...this.childNodes]) node.remove();
     }

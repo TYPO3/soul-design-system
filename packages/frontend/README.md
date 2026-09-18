@@ -24,6 +24,9 @@ and the elements upgrade it where there is behaviour. A page whose content
 is a document links nothing extra. `soul.css` sets the bare elements a
 renderer emits too, each in the sheet of its component.
 
+A script can define the elements before the markup arrives. An element
+waits for the parse to end before it takes what stands between its tags.
+
 **Or one file, pasted.** `soul-inline.css` is `soul.css` with the two
 families inside it, for a page that goes out as one file. Paste it into a
 `<style>`. The host of such a page writes a reset of its own outside every
