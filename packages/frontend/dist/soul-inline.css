@@ -1857,7 +1857,7 @@
     >li:last-child{margin-bottom:0}
   }
   .sds-toc__item{
-    display:flex;
+    display:block;
     margin-inline:calc(-1 * var(--sds-toc-bleed));
     padding:var(--sds-toc-step) var(--sds-toc-bleed);
     line-height:var(--sds-toc-leading);
@@ -1867,7 +1867,6 @@
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
-    align-items:center;
     transition:background var(--sds-toc-duration) var(--sds-toc-ease),color var(--sds-toc-duration) var(--sds-toc-ease);
     &:hover{color:var(--sds-toc-ink-hover);text-decoration:underline}
   }
@@ -1933,6 +1932,7 @@
   }
   .sds-outline__item{
     display:flex;
+    align-items:center;
     margin-inline:calc(-1 * var(--sds-outline-bleed));
     padding:var(--sds-outline-step) var(--sds-outline-bleed);
     line-height:var(--sds-outline-leading);
@@ -1941,8 +1941,6 @@
     text-decoration:none;
     white-space:nowrap;
     overflow:hidden;
-    text-overflow:ellipsis;
-    align-items:center;
     transition:background var(--sds-outline-duration) var(--sds-outline-ease),color var(--sds-outline-duration) var(--sds-outline-ease);
     &:hover{color:var(--sds-outline-ink-hover)}
     &:hover .sds-outline__label{text-decoration:underline}
@@ -1951,7 +1949,8 @@
   .sds-outline__list .sds-outline__list .sds-outline__item:hover{color:var(--sds-outline-ink-hover)}
   .sds-outline__item.is-active,.sds-outline__list .sds-outline__list .sds-outline__item.is-active{background:var(--sds-outline-fill-active);color:var(--sds-outline-ink-active)}
   .sds-outline__item.is-active .sds-outline__label{text-decoration:none}
-  .sds-outline__number{display:inline-block;min-width:var(--sds-outline-number-width);margin-inline-end:var(--sds-outline-number-gap);font-family:var(--sds-outline-number-font);font-size:var(--sds-outline-number-size);color:var(--sds-outline-number-ink)}
+  .sds-outline__label{min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .sds-outline__number{flex:none;min-width:var(--sds-outline-number-width);margin-inline-end:var(--sds-outline-number-gap);font-family:var(--sds-outline-number-font);font-size:var(--sds-outline-number-size);color:var(--sds-outline-number-ink)}
   .sds-outline__list .sds-outline__list .sds-outline__number{min-width:var(--sds-outline-number-width-nested)}
   .sds-outline__item.is-active .sds-outline__number{color:inherit}
   .sds-outline__toggle{display:none}

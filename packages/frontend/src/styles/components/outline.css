@@ -86,10 +86,11 @@
     }
   }
   /* A row rather than a line of text, so the current one can take a fill. It
-     bleeds by exactly its padding, and one entry is one line: a long name
-     ends in an ellipsis rather than a second line. */
+     bleeds by exactly its padding. A flex row, so the number in its smaller
+     face stands centred on the name rather than on its baseline. */
   .sds-outline__item {
     display: flex;
+    align-items: center;
     margin-inline: calc(-1 * var(--sds-outline-bleed));
     padding: var(--sds-outline-step) var(--sds-outline-bleed);
     line-height: var(--sds-outline-leading);
@@ -98,8 +99,6 @@
     text-decoration: none;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-    align-items: center;
     transition:
       background var(--sds-outline-duration) var(--sds-outline-ease),
       color var(--sds-outline-duration) var(--sds-outline-ease);
@@ -129,12 +128,20 @@
   .sds-outline__item.is-active .sds-outline__label {
     text-decoration: none;
   }
+  /* One entry is one line: a long name ends in an ellipsis rather than a
+     second line. The cut is the name's own, because a flex row cuts nothing
+     and a flex item does not shrink below its text unless told to. */
+  .sds-outline__label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
   /* The number, in the mono face and a step quieter, in a column of its own
      width so the names start on one line. On the filled row it takes the
      row's ink. */
   .sds-outline__number {
-    display: inline-block;
+    flex: none;
     min-width: var(--sds-outline-number-width);
     margin-inline-end: var(--sds-outline-number-gap);
     font-family: var(--sds-outline-number-font);
