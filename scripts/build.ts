@@ -273,8 +273,6 @@ const PREVIEW_STYLE = `body { margin: 0; padding: var(--space-4); }
 
 const PREVIEW_SCRIPT = `(function () {
   if (!window.SDS) return;
-  /* The glyphs come out of the sprites, served beside the page. */
-  SDS.setIconSprites('/project/icons/sprites/');
   var props = PROPS;
   var revive = function (v) {
     if (Array.isArray(v)) return v.map(revive);
@@ -296,9 +294,13 @@ const PREVIEW_SCRIPT = `(function () {
       for (var k in p) el[k] = revive(p[k]);
     });
   };
+  /* Once the elements have registered, which the bundle does when the parse
+     ends, and once more for an element a property brought in: that one
+     renders after the upgrade. Lit keeps a property set before the upgrade. */
+  var settle = function () { apply(); setTimeout(apply, 0); };
   apply();
-  /* An element a property brought in renders after the upgrade: once more. */
-  setTimeout(apply, 0);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', settle);
+  else settle();
 })();`;
 
 /* A story that draws the whole icon set is bigger than the page permits a
@@ -462,6 +464,7 @@ for (const e of els) {
 }
 index.push('declare global {', `  interface Window { ${NS}: {`, ...els.map((e) => `    ${e.className}: typeof ${e.className};`),
   '    /** Point the icons at the sprites: a directory URL, one file per category. */', '    setIconSprites(dir: string): void;',
+  '    /** Carry glyphs in the script, by identifier. This bundle carries the whole set. */', '    inlineIcons(svgs: Record<string, string>): void;',
   '    /** Lit\'s, for a property that takes a template: `SDS.html(strings, SDS.unsafeHTML(markup))`. */',
   '    html(strings: readonly string[], ...values: unknown[]): unknown;', '    unsafeHTML(markup: string): unknown;',
   '  } }', '}', '');

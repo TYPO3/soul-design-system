@@ -67,12 +67,10 @@ Roman on white.
 puts every class under `window.SDS`. There is nothing to call. A project
 installs the same elements as the module `soul.js` of `@typo3/soul-frontend`.
 
-`sds-icon` draws its glyph out of a sprite, one file per category under
-`icons/sprites/`. Inside this design system the sprites are at
-`/project/icons/sprites/`; a page says so once,
-`SDS.setIconSprites('/project/icons/sprites/')`, before its first glyph.
-Without a reachable sprite the element draws nothing, and the fallback is
-the SVG file of the icon, inlined.
+`sds-icon` draws its glyph out of the script: this bundle carries the
+whole set, so a preview fetches no sprite. The files under
+`icons/sprites/` are for a page outside the artifact, one file per
+category; `SDS.setIconSprites(dir)` points the element at them.
 
 A script sets a property that takes a template, a `body` or a table cell
 with markup in it. `SDS.html` and `SDS.unsafeHTML` come from Lit. Every

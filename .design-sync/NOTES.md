@@ -34,10 +34,10 @@ is the reason.
 **The bundle is a classic script, and the drop-in is a module.** The page
 loads `bundle.js` before a preview with a plain `<script>`, so the module
 `soul.js` cannot be it. `build.ts` builds the same entry as an IIFE with the
-global `SDS`. In it `import.meta.url` is empty, and `sds-icon` falls back to
-`icons/sprites/` beside the document; `SDS.setIconSprites()` says where else.
-A literal `<!--` or `</script` in the file ends an inline copy, so both go in
-as escapes.
+global `SDS`. The frame fetches nothing, so the entry carries every glyph
+in the script through `inlineIcons()`, and `sds-icon` draws it without a
+sprite. A literal `<!--` or `</script` in the file ends an inline copy, so
+both go in as escapes.
 
 **A preview fetches nothing.** The frame preloads the tokens, the faces,
 `bundle.css` and `bundle.js`, so a card's stylesheet link goes and its chrome
@@ -67,10 +67,10 @@ script sets it after the bundle upgraded the elements. A template comes
 back through `SDS.html` and `SDS.unsafeHTML`, which the bundle carries for
 that.
 
-The bundle loads before the markup in the frame, so `SdsElement` waits for
-the parse to end before it takes its children. A story whose
-render needs a browser, or a story too big for the page's cap, stays out
-and the build says so.
+The bundle loads before the markup in the frame, so `define()` registers
+the elements when the parse ends, and each one takes its children whole. A
+story whose render needs a browser, or a story too big for the page's cap,
+stays out and the build says so.
 
 ## The link
 
