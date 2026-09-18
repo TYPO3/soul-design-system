@@ -176,9 +176,10 @@ drop-in beside a page the renderer writes, and
 
 The next generate reverts a card edited by hand. A card with no story behind it is a build
 failure. The `@dsCard` header on a card and `@startingPoint` on a screen are
-the contract with the Design System pane, and `make verify` enforces them. A
-marker's metadata uses literal Unicode, never an HTML character reference: no
-browser decodes comment data.
+the contract with the build, and `make verify` enforces both. A guideline
+card becomes a picture in its group's section of the design system, and a
+screen a layout in it. A marker's metadata uses literal Unicode, never an
+HTML character reference: no browser decodes comment data.
 
 ## Running anything
 
@@ -336,14 +337,19 @@ replacement: a red run there is a commit already pushed.
 
 **Change a component.** Edit `packages/frontend/src/components/<name>.ts`,
 then `make cards`, then `make verify`. The card is static HTML with no custom
-element in it: the Design System pane opens it with `styles.css` and no
-JavaScript.
+element in it: the documentation embeds it with `styles.css` and no
+JavaScript. The design system takes the element live, from the same stories.
 
 **Add a component.** The element in `packages/frontend/src/components/`, its
 classes in `packages/frontend/src/styles/components.css`, a story in
 `stories/components/`, then `make cards`. Then give it a place in the Guides
 render: a template that emits it, or a page of the fixture that asks for it.
 `make coverage` names what is still missing.
+
+The story's title is `Components/<Domain>/<Name>`. The domain is where the
+element stands in Storybook and in the design system: Actions, Forms,
+Navigation, Content, Code, Overlays, Feedback or Theme.
+`.storybook/preview.ts` orders them.
 
 **Close a gap in a component.** In the component. A consumer who writes three
 declarations into their own stylesheet is the failure this system exists to

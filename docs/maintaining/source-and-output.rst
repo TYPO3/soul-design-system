@@ -128,8 +128,8 @@ project installs or copies. The generated fonts travel with that package.
 in git changes how they ship, not where you write them.
 
 The tree under ``.out/bundle/project/`` is the artifact's, and the
-repository is not. The assembly places every picture a card or a screen
-names, so neither carries a path into this tree. Change the source layout
+repository is not. The assembly places every picture a preview, a layout or
+a section names, so none carries a path into this tree. Change the source layout
 in the generator, not inside generated cards.
 
 How to work on a change

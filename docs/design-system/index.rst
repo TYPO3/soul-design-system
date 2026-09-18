@@ -6,8 +6,9 @@ Design system
 
 What the system decided, and a card that renders the decision beside it.
 Every page here states a rule and then shows it. The specimens are the same
-files the design pane opens and Storybook embeds, generated from the stories.
-So a rule and its rendering cannot drift apart.
+files this documentation embeds and the design system photographs into its
+guideline sections, generated from the stories. So a rule and its rendering
+cannot drift apart.
 
 .. toctree::
    :titlesonly:

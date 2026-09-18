@@ -4,13 +4,14 @@
 Screens
 =======
 
-Whole surfaces, not components. Each one is a **Starting Point**. A consumer
-offers these in a picker to seed a new design, so each is a complete page,
-not a sketch.
+Whole surfaces, not components. Each one is a **Starting Point**. The design
+system shows them as layouts to start a design from, so each is a complete
+page, not a sketch.
 
 An ``@startingPoint`` comment on the first line marks one: section, subtitle
-and the viewport it renders at. That is the contract with the Design System
-pane, and ``make verify`` enforces it. A screen is its own thumbnail.
+and the viewport it renders at. That is the contract with the build that
+ships it as a layout, and ``make verify`` enforces it. A screen is its own
+thumbnail.
 
 Every screen is a **live page** under **Pages** in the sidebar, and the files
 here are their static export. Open one there and click through it. The rail

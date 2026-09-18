@@ -187,8 +187,8 @@ one page.
 ## Export the design system
 
 This is not maintainer-only. Import it into **your own** Design System
-artifact on claude.ai, and the design agent builds with these tokens, this
-class vocabulary and these cards.
+artifact on claude.ai. The design agent then builds with these tokens, these
+elements live in their states, these layouts and these guidelines.
 
 ```sh
 make design-sync    # build, gate, what will change, and the upload plan
@@ -221,9 +221,9 @@ and the removals, and the agent executes that instead of its own plan.
 
 **A red gate stops `make design-sync` before any upload.** Every fault it
 names is invisible in review and wrong in every design after it. It checks
-mechanics, not judgement. When `make design-status` lists changed cards,
-look at them: `make baseline` before a visual change, `make shots && make
-diff` after.
+mechanics, not judgement. When `make design-status` lists changed sections
+or layouts, look at them: `make baseline` before a visual change, `make
+shots && make diff` after.
 
 [`docs/design-system/design-with-claude.rst`](docs/design-system/design-with-claude.rst)
 is the step-by-step: the first import, the design work, the updates, and
