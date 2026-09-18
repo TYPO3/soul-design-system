@@ -42,10 +42,12 @@ both go in as escapes.
 **A preview fetches nothing.** The frame preloads the tokens, the faces,
 `bundle.css` and `bundle.js`, so a card's stylesheet link goes and its chrome
 goes inline. A picture up to `INLINE_MAX` travels as a data URI. A larger one
-names its upload as `{{upload:<path>}}`, and `make design-index` writes
-`/_blob/<id>` over it once the upload has an id. Such a preview is `pending`
-in the record and always goes up. The page caps a preview at 256 kB, and
-`make build` fails on one over it.
+names its upload as `{{upload:<path>}}`. Once the upload has an id, `make
+design-index` writes `_blob/<id>` over it, relative like the page's own
+references from inside the frame. Such a preview is `pending` in the record
+and always goes up.
+
+The page caps a preview at 256 kB, and `make build` fails on one over it.
 
 **The tokens are lists, and a colour is one value per theme.** The page
 cannot read a name-to-value map. `light-dark(a, b)` reads as `{light, dark}`,

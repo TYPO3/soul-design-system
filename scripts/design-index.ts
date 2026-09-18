@@ -82,7 +82,7 @@ for (const rel of anchor.pending ?? []) {
   const before = readFileSync(file, 'utf8');
   const after = before.replace(/\{\{upload:([^}]+)\}\}/g, (whole, path: string) => {
     const blob = anchor.uploads[path]?.blob;
-    return blob ? `/_blob/${blob}` : whole;
+    return blob ? `_blob/${blob}` : whole;
   });
   if (after.includes('{{upload:')) {
     report.summary(`${rel} still names an upload with no id`);

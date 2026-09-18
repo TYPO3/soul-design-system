@@ -127,7 +127,7 @@ function place(txt: string, byRepo: Map<string, Upload>, blobs: Map<string, stri
     const bytes = readFileSync(up.source);
     if (!frag && bytes.length <= INLINE_MAX) return `${attr}="data:${mime(up.source)};base64,${bytes.toString('base64')}"`;
     const blob = blobs.get(`${up.path}@${shas.get(up.path)}`);
-    if (blob) return `${attr}="/_blob/${blob}${frag}"`;
+    if (blob) return `${attr}="_blob/${blob}${frag}"`;
     pending.push(up.path);
     return `${attr}="{{upload:${up.path}}}${frag}"`;
   });
@@ -205,8 +205,14 @@ interface Preview {
   props: Record<string, unknown>[];
 }
 
+/* Every named export that is a plain object, as Storybook reads a file. A
+   story that adds nothing to its file's defaults is `{}`. */
 const isStory = (v: unknown): v is Story =>
-  typeof v === 'object' && v !== null && !Array.isArray(v) && ('args' in v || 'render' in v);
+  typeof v === 'object' && v !== null && !Array.isArray(v);
+
+/* What the page forbids in a preview. A frame inside the sandboxed frame
+   fetches, and a document the system does not hold stays blank. */
+const FRAMED = /<(iframe|frame|object|embed|portal|noscript)\b/i;
 
 /** `WithAMenu` → `With a menu`, the way a caption reads. */
 const humanize = (name: string): string => name
@@ -233,28 +239,36 @@ async function elementPreviews(byTag: Map<string, ElementDoc>): Promise<Map<stri
       if (!render) continue;
       /* Authored into a table of its own first, because only the markup says
          which element it is, then moved onto the element's. */
-      const own: Record<string, unknown>[] = [];
+      const table: Record<string, unknown>[] = [];
       let a: ReturnType<typeof authored>;
       try {
-        a = authored(render({ ...(meta.args ?? {}), ...(story.args ?? {}) }) as never, own);
+        a = authored(render({ ...(meta.args ?? {}), ...(story.args ?? {}) }) as never, table);
       } catch (err) {
         report.note(`${file} ${name}: no authored form — ${(err as Error).message.split('\n')[0]}`);
         continue;
       }
-      const tag = /<(sds-[a-z-]+)/.exec(a.html)?.[1];
+      /* The file's element where the markup holds it, because a story of
+         a dialog opens with the button that calls it. Else the first tag. */
+      const own = `Sds${basename(file, '.stories.ts')}`;
+      const tags = [...a.html.matchAll(/<(sds-[a-z-]+)/g)].map((m) => m[1]!);
+      const tag = tags.find((t) => byTag.get(t)?.className === own) ?? tags[0];
       const e = tag ? byTag.get(tag) : undefined;
       if (!e) continue;
       const preview = out.get(e.className) ?? { sections: [], props: [] };
       const offset = preview.props.length;
       const renumber = (txt: string): string => txt.replace(/data-sds-prop="(\d+)"/g, (_m, n: string) => `data-sds-prop="${Number(n) + offset}"`);
       const html = renumber(a.html);
-      preview.props.push(...(JSON.parse(renumber(JSON.stringify(own))) as Record<string, unknown>[]));
+      preview.props.push(...(JSON.parse(renumber(JSON.stringify(table))) as Record<string, unknown>[]));
       let drawn: string;
       try {
         drawn = prerender(html, TAGS, preview.props as Props);
       } catch (err) {
         report.note(`${file} ${name}: the first frame did not draw — ${(err as Error).message.split('\n')[0]}`);
         drawn = html;
+      }
+      if (FRAMED.test(drawn)) {
+        report.note(`${e.tag}: the story "${humanize(name)}" draws a frame, which a preview cannot hold, and stays out`);
+        continue;
       }
       preview.sections.push({ name: humanize(name), html: drawn });
       out.set(e.className, preview);
