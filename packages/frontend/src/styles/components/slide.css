@@ -49,6 +49,10 @@
     /* The line under a statement, in the small register. */
     --sds-slide-note-size: var(--font-size-small);
     --sds-slide-note-ink: var(--text-muted);
+    /* A speaker's portrait column. The fill shows only where no portrait
+       came, which is the gap it is. */
+    --sds-slide-portrait-width: 40%;
+    --sds-slide-portrait-fill: var(--surface-inset);
 
     position: relative;
     box-sizing: border-box;
@@ -86,6 +90,41 @@
     --sds-slide-body-grow: 0;
 
     justify-content: center;
+  }
+  /* Two columns and no margin of its own: the page inside carries the
+     margin, and the portrait runs to the edge. */
+  .sds-slide--speaker {
+    --sds-slide-body-grow: 0;
+
+    padding: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--sds-slide-portrait-width);
+  }
+  .sds-slide__page {
+    position: relative;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--sds-slide-gap);
+    padding: var(--sds-slide-pad);
+    padding-bottom: var(--sds-slide-pad-footed);
+  }
+  .sds-slide__portrait {
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--sds-slide-portrait-fill);
+    overflow: hidden;
+
+    sds-image,
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   .sds-slide__head {

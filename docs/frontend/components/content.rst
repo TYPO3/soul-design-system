@@ -255,13 +255,14 @@ the foot and the deck's outline. The body is the system's elements.
 
 .. confval:: kind
    :name: sds-slide-kind
-   :type: "cover" | "section" | "statement" | "content" | "closing"
+   :type: "cover" | "speaker" | "section" | "statement" | "content" | "closing"
    :default: "content"
 
    What the slide is in the run of a deck. ``cover`` and ``closing`` hold the
    title up and the lockup down. ``section`` holds the outline down.
    ``statement`` centres one sentence. ``content`` keeps its title at the
-   top margin, so it never hops between slides.
+   top margin, so it never hops between slides. ``speaker`` gives the name
+   the left column and the portrait the right, edge to edge.
 
 .. confval:: ground
    :name: sds-slide-ground
@@ -329,6 +330,15 @@ the foot and the deck's outline. The body is the system's elements.
 
    Which entry of the outline this section is. It takes the page's ink and
    the accent rule under it, the way a bar marks its active item.
+
+.. confval:: portrait, alt
+   :name: sds-slide-portrait
+   :type: string
+
+   On a speaker slide: the portrait, and what it shows. A speaker has one.
+   It is the deck's own picture, as a product brings its own mark. The one
+   the layout shows is a story's fixture under ``assets/portraits/``, drawn
+   to the illustration prompt. Without it the column stands empty.
 
 .. confval:: fit
    :name: sds-slide-fit

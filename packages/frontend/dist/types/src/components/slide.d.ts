@@ -1,10 +1,13 @@
 import { type TemplateResult } from 'lit';
 import { SdsElement } from '../lib/element.js';
 import './eyebrow.ts';
+import './image.ts';
 /** What a slide is in the run of a deck. `cover` and `closing` hold the title
     up and the lockup down, and `section` holds the outline down. `statement`
-    centres one sentence, and `content` keeps its title at the top margin. */
-export type SlideKind = 'cover' | 'section' | 'statement' | 'content' | 'closing';
+    centres one sentence, and `content` keeps its title at the top margin.
+    `speaker` gives the name the left column and a portrait the right, edge
+    to edge. */
+export type SlideKind = 'cover' | 'section' | 'statement' | 'content' | 'closing' | 'speaker';
 /** The ground. A deck stands on paper, and the slide that opens it on the
     terminal. The flip is the emphasis, and the one accent stays where it is.
     Paper unless said, whatever mode the page is in. A room watches a deck,
@@ -35,6 +38,11 @@ export interface SlideProps {
     /** The deck's outline, on a divider, and which entry this section is. */
     sections?: readonly string[];
     current?: number;
+    /** On a speaker slide: the portrait, which is the deck's own picture, as
+        a product brings its own mark. A speaker has one. Without it the
+        column stands empty, which is the gap it is. */
+    portrait?: string;
+    alt?: string;
     /** What the slide shows between its title and its foot. Markup where a
         caller holds it: the elements of the system at the page's size. */
     body?: string | TemplateResult;
@@ -84,6 +92,12 @@ export declare class SdsSlide extends SdsElement {
         current: {
             type: NumberConstructor;
         };
+        portrait: {
+            type: StringConstructor;
+        };
+        alt: {
+            type: StringConstructor;
+        };
         body: {
             type: StringConstructor;
         };
@@ -109,6 +123,8 @@ export declare class SdsSlide extends SdsElement {
     product: string;
     sections: readonly string[];
     current: number;
+    portrait: string;
+    alt: string;
     body: string | TemplateResult;
     fit: boolean;
     zoom: number;
@@ -124,5 +140,6 @@ export declare class SdsSlide extends SdsElement {
     private head;
     private outline;
     private foot;
+    private portraitColumn;
     protected render(): TemplateResult;
 }

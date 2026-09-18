@@ -24,7 +24,7 @@ const ROWS: readonly Row[] = [
 
 export function tableSlide({ flat = false }: PageMode = {}): TemplateResult {
   return slide(
-    { heading: 'What the gate holds', number: '06' },
+    { heading: 'What the gate holds', number: '07' },
     html`<sds-table .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>`,
     { flat },
   );

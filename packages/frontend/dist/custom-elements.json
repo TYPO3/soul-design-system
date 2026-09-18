@@ -8299,7 +8299,7 @@
               "name": "kind",
               "description": "",
               "type": {
-                "text": "'cover' | 'section' | 'statement' | 'content' | 'closing'"
+                "text": "'cover' | 'section' | 'statement' | 'content' | 'closing' | 'speaker'"
               },
               "fieldName": "kind"
             },
@@ -8384,6 +8384,22 @@
               "fieldName": "current"
             },
             {
+              "name": "portrait",
+              "description": "On a speaker slide: the portrait, which is the deck's own picture, as a product brings its own mark. A speaker has one. Without it the column stands empty, which is the gap it is.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "portrait"
+            },
+            {
+              "name": "alt",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "alt"
+            },
+            {
               "name": "body",
               "description": "What the slide shows between its title and its foot. Markup where a caller holds it: the elements of the system at the page's size.",
               "type": {
@@ -8407,7 +8423,7 @@
               "privacy": "public",
               "description": "",
               "type": {
-                "text": "'cover' | 'section' | 'statement' | 'content' | 'closing'"
+                "text": "'cover' | 'section' | 'statement' | 'content' | 'closing' | 'speaker'"
               },
               "attribute": "kind"
             },
@@ -8522,6 +8538,26 @@
             },
             {
               "kind": "field",
+              "name": "portrait",
+              "privacy": "public",
+              "description": "On a speaker slide: the portrait, which is the deck's own picture, as a product brings its own mark. A speaker has one. Without it the column stands empty, which is the gap it is.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "portrait"
+            },
+            {
+              "kind": "field",
+              "name": "alt",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "alt"
+            },
+            {
+              "kind": "field",
               "name": "body",
               "privacy": "public",
               "description": "What the slide shows between its title and its foot. Markup where a caller holds it: the elements of the system at the page's size.",
@@ -8550,6 +8586,7 @@
             "sds-slide--closing",
             "sds-slide--cover",
             "sds-slide--section",
+            "sds-slide--speaker",
             "sds-slide--statement",
             "sds-slide__body",
             "sds-slide__count",
@@ -8558,7 +8595,9 @@
             "sds-slide__lockup",
             "sds-slide__nav",
             "sds-slide__nav-item",
-            "sds-slide__note"
+            "sds-slide__note",
+            "sds-slide__page",
+            "sds-slide__portrait"
           ],
           "slots": [
             {

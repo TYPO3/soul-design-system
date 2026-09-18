@@ -266,7 +266,7 @@ export function cardChrome(root: string): void {
   cpSync(join(FRONTEND, 'src', 'styles', '_specimen.css'), join(styles, '_specimen.css'));
   /* And the photography those cards draw with, from the same place and for
      the same reason: story fixtures rather than drop-in. */
-  for (const fixture of ['placeholders', 'screenshots']) {
+  for (const fixture of ['placeholders', 'portraits', 'screenshots']) {
     cpSync(join(FRONTEND, 'assets', fixture), join(styles, 'assets', fixture), { recursive: true });
   }
 }

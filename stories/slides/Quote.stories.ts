@@ -13,7 +13,7 @@ import { slide } from '../lib/deck.ts';
 
 export function quoteSlide({ flat = false }: PageMode = {}): TemplateResult {
   return slide(
-    { kind: 'statement', number: '08' },
+    { kind: 'statement', number: '09' },
     html`<sds-quote
       body="Comments carry the reason, not the story. No changelog, no anecdote, and never the name of another project."
       by="AGENTS.md"

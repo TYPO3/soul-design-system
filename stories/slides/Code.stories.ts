@@ -20,7 +20,7 @@ const SOURCE = `<sds-code code-lang="bash">
 
 export function codeSlide({ flat = false }: PageMode = {}): TemplateResult {
   return slide(
-    { heading: 'Address a component, never rebuild one', number: '05' },
+    { heading: 'Address a component, never rebuild one', number: '06' },
     grid(
       [
         html`<sds-code code-lang="html" source="${SOURCE}"></sds-code>`,

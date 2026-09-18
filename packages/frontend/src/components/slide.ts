@@ -11,11 +11,14 @@ import { html, nothing, type TemplateResult } from 'lit';
 import { define, isBlank, SdsElement } from '../lib/element.ts';
 import { lockup } from '../lib/lockup.ts';
 import './eyebrow.ts';
+import './image.ts';
 
 /** What a slide is in the run of a deck. `cover` and `closing` hold the title
     up and the lockup down, and `section` holds the outline down. `statement`
-    centres one sentence, and `content` keeps its title at the top margin. */
-export type SlideKind = 'cover' | 'section' | 'statement' | 'content' | 'closing';
+    centres one sentence, and `content` keeps its title at the top margin.
+    `speaker` gives the name the left column and a portrait the right, edge
+    to edge. */
+export type SlideKind = 'cover' | 'section' | 'statement' | 'content' | 'closing' | 'speaker';
 
 /** The ground. A deck stands on paper, and the slide that opens it on the
     terminal. The flip is the emphasis, and the one accent stays where it is.
@@ -29,6 +32,7 @@ const KIND: Record<SlideKind, string> = {
   statement: 'sds-slide--statement',
   content: '',
   closing: 'sds-slide--closing',
+  speaker: 'sds-slide--speaker',
 };
 
 const GROUND: Record<SlideGround, string> = { paper: 'light', terminal: 'dark' };
@@ -58,6 +62,11 @@ export interface SlideProps {
   /** The deck's outline, on a divider, and which entry this section is. */
   sections?: readonly string[];
   current?: number;
+  /** On a speaker slide: the portrait, which is the deck's own picture, as
+      a product brings its own mark. A speaker has one. Without it the
+      column stands empty, which is the gap it is. */
+  portrait?: string;
+  alt?: string;
   /** What the slide shows between its title and its foot. Markup where a
       caller holds it: the elements of the system at the page's size. */
   body?: string | TemplateResult;
@@ -82,6 +91,8 @@ export class SdsSlide extends SdsElement {
     product: { type: String },
     sections: { type: Array },
     current: { type: Number },
+    portrait: { type: String },
+    alt: { type: String },
     body: { type: String },
     fit: { type: Boolean, reflect: true },
     /** The zoom the last measurement settled on. Zero is "not measured". */
@@ -100,6 +111,8 @@ export class SdsSlide extends SdsElement {
   declare product: string;
   declare sections: readonly string[];
   declare current: number;
+  declare portrait: string;
+  declare alt: string;
   declare body: string | TemplateResult;
   declare fit: boolean;
   declare zoom: number;
@@ -124,6 +137,8 @@ export class SdsSlide extends SdsElement {
     this.product = '';
     this.sections = [];
     this.current = 0;
+    this.portrait = '';
+    this.alt = '';
     this.body = '';
     this.fit = false;
     this.zoom = 0;
@@ -208,16 +223,26 @@ export class SdsSlide extends SdsElement {
   </div>`;
   }
 
+  /* The right column of a speaker slide: the portrait, edge to edge. */
+  private portraitColumn(): TemplateResult {
+    return html`<div class="sds-slide__portrait">${this.portrait
+      ? html`<sds-image src="${this.portrait}" alt="${this.alt}"></sds-image>`
+      : nothing}</div>`;
+  }
+
   protected override render(): TemplateResult {
     const body = this.taken ?? this.content ?? this.body;
     /* A style rather than a property of the set, because it is a measurement
        and not a value anybody states. */
     const zoom = this.zoom > 0 ? `zoom:${this.zoom}` : nothing;
-    return html`<div class="sds-slide${KIND[this.kind] ? ` ${KIND[this.kind]}` : ''}" data-theme="${GROUND[this.ground] ?? GROUND.paper}" style="${zoom}">
-  ${this.head()}
+    const page = html`${this.head()}
   ${body ? html`<div class="sds-slide__body">${body}</div>` : nothing}
   ${this.outline()}
-  ${this.foot()}
+  ${this.foot()}`;
+    /* A speaker slide is two columns, and the foot pins inside the second.
+       So that one gets its own page; every other kind is the frame. */
+    return html`<div class="sds-slide${KIND[this.kind] ? ` ${KIND[this.kind]}` : ''}" data-theme="${GROUND[this.ground] ?? GROUND.paper}" style="${zoom}">
+  ${this.kind === 'speaker' ? html`<div class="sds-slide__page">${page}</div>${this.portraitColumn()}` : page}
 </div>`;
   }
 }

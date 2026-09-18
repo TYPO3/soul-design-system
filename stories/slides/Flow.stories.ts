@@ -20,7 +20,7 @@ const STEPS: readonly Step[] = [
 
 export function flowSlide({ flat = false }: PageMode = {}): TemplateResult {
   return slide(
-    { heading: 'Truth runs story → card → page', number: '04' },
+    { heading: 'Truth runs story → card → page', number: '05' },
     html`<sds-steps .steps="${STEPS}"></sds-steps>`,
     { flat },
   );

@@ -20,7 +20,7 @@ const VALUES = [
 
 export function numbersSlide({ flat = false }: PageMode = {}): TemplateResult {
   return slide(
-    { heading: 'The values the design rests on', number: '07' },
+    { heading: 'The values the design rests on', number: '08' },
     grid(
       VALUES.map((one) => html`<sds-stat value="${one.value}" unit="${one.unit}" label="${one.label}" note="${one.note}"></sds-stat>`),
       { flat },

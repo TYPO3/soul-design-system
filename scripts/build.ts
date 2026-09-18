@@ -52,8 +52,8 @@ const mime = (p: string): string => MIME[extname(p).toLowerCase()] ?? 'applicati
 /* Where a file of `packages/frontend/assets/` goes. The first folder under
    `assets/` is the group the page shows it in. The icons' lookup and sprites
    stay files at `icons/`, where the bundle's own fallback path finds them.
-   A diagram, a screenshot and a placeholder are a story's fixtures: the
-   layouts and the previews point at them, and nobody draws from them. */
+   A diagram, portrait, screenshot or placeholder is a story fixture.
+   The layouts and previews point at them; nobody draws from them. */
 interface Upload {
   /** Under `project/`: `assets/<Group>/<name>`. */
   path: string;
@@ -65,6 +65,7 @@ interface Upload {
 const GROUPS: readonly (readonly [RegExp, string, string])[] = [
   [/^icons\/svgs\/(.+\.svg)$/, 'Icons', 'xs'],
   [/^(diagrams\/.+\.svg)$/, 'Fixtures', 'm'],
+  [/^(portraits\/.+\.png)$/, 'Fixtures', 'm'],
   [/^(screenshots\/.+\.png)$/, 'Fixtures', 'm'],
   [/^(placeholders\/.+\.png)$/, 'Fixtures', 'm'],
   [/^([^/]+\.svg)$/, 'Logos', 'm'],
@@ -74,7 +75,7 @@ const TILE = new Map(GROUPS.map(([, group, tile]) => [group, tile]));
 const GROUP_NOTES: Readonly<Record<string, string>> = {
   Icons: '# Icons\n\nEvery `actions-*` icon of TYPO3.Icons (MIT), 16 × 16, drawn in `currentColor`. An `<img>` cannot inherit a colour: inline the file, or write `<sds-icon name="actions-search">` and the element inlines it. `icons/icons.json` is the lookup, `icons/sprites/` one file per category.\n',
   Logos: '# Logos\n\nThe marks belong to the products named on them. A product on this system brings its own mark: `guidelines/signet-prompt.md` draws one to the construction. `typo3-soul.svg` and `typo3-soul-mono.svg` are the signet of this system.\n',
-  Fixtures: '# Fixtures\n\nThe pictures the layouts and the previews point at: the diagrams, the placeholders and the screenshots. Not a set to draw from. A product brings its own, and the Diagrams, Illustrations and Signet sections say how to make one.\n',
+  Fixtures: '# Fixtures\n\nThe pictures the layouts and the previews point at: the diagrams, the placeholders, the portraits and the screenshots. Not a set to draw from. A product brings its own, and the Diagrams, Illustrations and Signet sections say how to make one.\n',
 };
 
 function* walk(dir: string, base = dir): Generator<string> {

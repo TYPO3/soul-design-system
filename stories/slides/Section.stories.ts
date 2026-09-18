@@ -18,7 +18,7 @@ export function sectionSlide({ flat = false }: PageMode = {}): TemplateResult {
       kind: 'section',
       eyebrow: 'Section 02 of 04',
       heading: 'What it consists of',
-      number: '02',
+      number: '03',
       sections: OUTLINE,
       current: 1,
     },

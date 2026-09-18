@@ -14024,7 +14024,8 @@ var KIND = {
   section: "sds-slide--section",
   statement: "sds-slide--statement",
   content: "",
-  closing: "sds-slide--closing"
+  closing: "sds-slide--closing",
+  speaker: "sds-slide--speaker"
 };
 var GROUND = { paper: "light", terminal: "dark" };
 var SdsSlide = class extends SdsElement {
@@ -14045,6 +14046,8 @@ var SdsSlide = class extends SdsElement {
     this.product = "";
     this.sections = [];
     this.current = 0;
+    this.portrait = "";
+    this.alt = "";
     this.body = "";
     this.fit = false;
     this.zoom = 0;
@@ -14063,6 +14066,8 @@ var SdsSlide = class extends SdsElement {
       product: { type: String },
       sections: { type: Array },
       current: { type: Number },
+      portrait: { type: String },
+      alt: { type: String },
       body: { type: String },
       fit: { type: Boolean, reflect: true },
       /** The zoom the last measurement settled on. Zero is "not measured". */
@@ -14133,14 +14138,19 @@ var SdsSlide = class extends SdsElement {
     ${this.number ? html71`<p class="sds-slide__count">${this.number}</p>` : nothing39}
   </div>`;
   }
+  /* The right column of a speaker slide: the portrait, edge to edge. */
+  portraitColumn() {
+    return html71`<div class="sds-slide__portrait">${this.portrait ? html71`<sds-image src="${this.portrait}" alt="${this.alt}"></sds-image>` : nothing39}</div>`;
+  }
   render() {
     const body = this.taken ?? this.content ?? this.body;
     const zoom2 = this.zoom > 0 ? `zoom:${this.zoom}` : nothing39;
-    return html71`<div class="sds-slide${KIND[this.kind] ? ` ${KIND[this.kind]}` : ""}" data-theme="${GROUND[this.ground] ?? GROUND.paper}" style="${zoom2}">
-  ${this.head()}
+    const page = html71`${this.head()}
   ${body ? html71`<div class="sds-slide__body">${body}</div>` : nothing39}
   ${this.outline()}
-  ${this.foot()}
+  ${this.foot()}`;
+    return html71`<div class="sds-slide${KIND[this.kind] ? ` ${KIND[this.kind]}` : ""}" data-theme="${GROUND[this.ground] ?? GROUND.paper}" style="${zoom2}">
+  ${this.kind === "speaker" ? html71`<div class="sds-slide__page">${page}</div>${this.portraitColumn()}` : page}
 </div>`;
   }
 };

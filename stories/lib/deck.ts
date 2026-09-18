@@ -29,7 +29,7 @@ export const OUTLINE: readonly string[] = ['Why one system', 'What it consists o
     fits the window, because a story opens in whatever canvas there is. The
     static one is its own viewport. */
 export const slide = (
-  { kind = 'content', ground, eyebrow, heading, lead, note, number, sections, current }: SlideProps,
+  { kind = 'content', ground, eyebrow, heading, lead, note, number, sections, current, portrait, alt }: SlideProps,
   body?: TemplateResult,
   { flat = false }: PageMode = {},
 ): TemplateResult => {
@@ -48,6 +48,8 @@ export const slide = (
         product="${DECK.product}"
         sections="${JSON.stringify(sections ?? [])}"
         current="${current ?? 0}"
+        portrait="${portrait ?? ''}"
+        alt="${alt ?? ''}"
         .body="${body ?? ''}"
       ></sds-slide>`
     : html`<sds-slide
@@ -63,6 +65,8 @@ export const slide = (
         product="${DECK.product}"
         sections="${JSON.stringify(sections ?? [])}"
         current="${current ?? 0}"
+        portrait="${portrait ?? ''}"
+        alt="${alt ?? ''}"
         fit
       >${body ?? ''}</sds-slide>`;
 };

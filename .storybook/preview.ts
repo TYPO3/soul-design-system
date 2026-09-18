@@ -114,9 +114,11 @@ const preview: Preview = {
        alphabet already taught them. `method` applies wherever `order` has
        nothing more to say. */
     options: {
+      /* The slides read in the order a deck runs, cover to closing: a
+         reader who opens the group walks through a deck. */
       storySort: {
         method: 'alphabetical',
-        order: ['Introduction', 'Guidelines', ['Brand', 'Colours', 'Type', 'Spacing & layout', 'Icons', 'States', 'Illustrations', 'Diagrams'], 'Components', ['Actions', 'Forms', 'Navigation', 'Content', 'Code', 'Overlays', 'Feedback', 'Theme'], 'Pages', ['Site', 'Docs', 'Catalog', 'Service', 'Paper'], 'Slides'],
+        order: ['Introduction', 'Guidelines', ['Brand', 'Colours', 'Type', 'Spacing & layout', 'Icons', 'States', 'Illustrations', 'Diagrams'], 'Components', ['Actions', 'Forms', 'Navigation', 'Content', 'Code', 'Overlays', 'Feedback', 'Theme'], 'Pages', ['Site', 'Docs', 'Catalog', 'Service', 'Paper'], 'Slides', ['Cover', 'Speaker', 'Speakers', 'Section', 'Statement', 'Cards', 'Flow', 'Code', 'Table', 'Numbers', 'Quote', 'Closing']],
       },
     },
     /* The markup is the documentation. A canvas hides its source behind a

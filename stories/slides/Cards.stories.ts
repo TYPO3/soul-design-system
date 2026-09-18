@@ -21,7 +21,7 @@ const PLACES = [
 
 export function cardsSlide({ flat = false }: PageMode = {}): TemplateResult {
   return slide(
-    { heading: 'Three places for every component', number: '03' },
+    { heading: 'Three places for every component', number: '04' },
     grid(
       PLACES.map((one) => html`<sds-surface label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-surface>`),
       { flat },

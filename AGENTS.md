@@ -142,6 +142,7 @@ is half-shipped.
 | `packages/frontend/src/components/*.ts` | the Lit elements and their template functions |
 | `packages/frontend/src/lib/` | the element base, the form base, the field's box and row, the icon inliner, the static renderer, the grammars |
 | `stories/` | the specimen the cards and screens come from |
+| `packages/frontend/assets/portraits/` | portraits made for a story |
 | `docs/` | the published documentation, and the prompts it prints |
 | `packages/guides-theme/` | the Composer package: templates, directives, the acceptance render |
 | `tests/*.spec.ts` | the Playwright suite |

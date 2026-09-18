@@ -35,7 +35,8 @@ What a slide owns
 - **The kinds.** ``cover`` and ``closing`` hold the title up and the lockup
   down. ``section`` holds the deck's outline down, with its own entry
   marked. ``statement`` centres one sentence. ``content`` keeps its title at
-  the top margin, so it never hops between slides.
+  the top margin, so it never hops between slides. ``speaker`` gives the
+  name the left column and the portrait the right, edge to edge.
 - **The foot.** One row, ``--space-8`` off the bottom edge. The lockup the
   bar and the footer draw, and the count in the label register. A cover and
   a closing end on the lockup alone, one step up.
@@ -52,8 +53,8 @@ overview or a story's stage, has an edge where its ground is the page's.
 The layouts
 ===========
 
-Every layout is a live page under **Slides** in the sidebar and a static
-screen the documentation embeds. A story opens on a stage, the slide fitted
+Every layout is a live page under **Slides** in the sidebar, in the order
+a deck runs, and a static screen the documentation embeds. A story opens on a stage, the slide fitted
 to the window with air around it. The static file is its own viewport.
 
 The frame
@@ -62,6 +63,14 @@ The frame
 .. specimen:: screens/slide-cover.html
    :viewport: 1920x1080
    :title: Cover
+
+.. specimen:: screens/slide-speaker.html
+   :viewport: 1920x1080
+   :title: Speaker
+
+.. specimen:: screens/slide-speakers.html
+   :viewport: 1920x1080
+   :title: Speakers
 
 .. specimen:: screens/slide-section.html
    :viewport: 1920x1080
@@ -146,3 +155,9 @@ What a deck needed
        a cover
    * - a card, a table, a code block, a figure, a quote
      - nothing new
+   * - who speaks
+     - ``kind="speaker"`` with ``portrait``: the one column that runs to the
+       edge. A speaker has a portrait, and it is the deck's own picture. The
+       layout's follows the illustration prompt, a fixture under
+       ``assets/portraits/``. Two speakers are a ``sds-byline`` each on a
+       plain plane
