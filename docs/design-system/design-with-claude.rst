@@ -50,8 +50,8 @@ The first import
 
          A red gate stops it, and nothing goes up. Every fault it names is
          invisible in review and wrong in every design after it. An undefined
-         class does nothing, a broken reference ships an unstyled card, the
-         page crops an oversized card.
+         class does nothing, a broken reference ships an unstyled preview, an
+         element that cannot render outside a browser ships no first frame.
 
    .. step:: Upload it
       :name: upload-it
@@ -325,9 +325,12 @@ When it does not look right
 
    * - What you see
      - What it is
-   * - Every preview renders in a system face with no icons
-     - The generated fonts and icons are not in the clone.
-       ``make verify ARGS=assets`` names what to run.
+   * - Every preview renders in a system face
+     - The generated fonts are not in the clone. ``make verify ARGS=assets``
+       names what to run.
+   * - A guideline section names a card without its picture
+     - The page caps a section, and that picture did not fit. ``make build``
+       says which stayed out; the card itself is in Storybook.
    * - A preview shows a broken picture
      - The preview names an upload the store had no id for when the file went
        up. ``make design-index`` fills the ids; run the plan from step 2.

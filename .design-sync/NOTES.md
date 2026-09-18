@@ -56,7 +56,18 @@ it, and a blank line ends a run. A key called `motion` the page refuses, so
 the durations go under `timing`.
 
 **A screen with an `<iframe>` stays out.** A preview holds none. The tour
-embeds the other screens, and the pane lists those itself.
+embeds the other screens, and the pane lists those itself. A story that
+draws a frame stays out for the same reason, and the build says so.
+
+**A guideline card is a picture in a section.** A Markdown section is the
+page's one place for a picture with prose beside it. It takes a data URI of
+a raster picture only: an SVG comes out as a blocked image. So the build
+photographs each card of a group, and each diagram, as a WebP through the
+browser's own canvas.
+
+The page caps a section at 200 kB. A picture over half of that stays out,
+or it takes the room of every card after it. So does one the room is spent
+for, and the build names each.
 
 **An element's preview is its stories, authored.** `scripts/lib/authored.ts`
 writes a story's template out as the markup its author wrote, the element
