@@ -544,54 +544,62 @@ interface Section {
   group?: string;
   /** What the cards are to the text above them. */
   heading?: string;
-  /** Pictures that are not cards, in place of the group's. */
-  examples?: { label: string; subtitle: string; image: string }[];
+  /** Pictures that are not cards, in place of the group's, by their name in `pictured`. */
+  examples?: { label: string; subtitle: string; name: string }[];
 }
-/* The diagrams are the worked examples of their prompt as the files
-   themselves: small, and drawn in the light fallback of every token. */
-const drawings = (): { label: string; subtitle: string; image: string }[] =>
-  [...walk(join(FRONTEND, 'assets', 'diagrams'))].filter((f) => f.endsWith('.svg')).map((f) => ({
-    label: basename(f, '.svg').replace(/-/g, ' ').replace(/^./, (c) => c.toUpperCase()),
-    subtitle: `\`assets/diagrams/${f}\``,
-    image: `data:image/svg+xml;base64,${readFileSync(join(FRONTEND, 'assets', 'diagrams', f)).toString('base64')}`,
-  }));
+/* The diagrams are the worked examples of their prompt: the files
+   themselves, photographed. A section takes no SVG, so each one draws at
+   this width in the light fallback of every token. */
+const DRAWING_WIDTH = 800;
+const drawings = [...walk(join(FRONTEND, 'assets', 'diagrams'))].filter((f) => f.endsWith('.svg')).map((f) => ({
+  name: `diagram:${f}`,
+  label: basename(f, '.svg').replace(/-/g, ' ').replace(/^./, (c) => c.toUpperCase()),
+  subtitle: `\`assets/diagrams/${f}\``,
+  svg: readFileSync(join(FRONTEND, 'assets', 'diagrams', f)),
+}));
 const SECTIONS: Section[] = [
   { file: '10-build-rules.md', text: prose('SKILL.md') },
   { file: '20-brand.md', text: '# Brand\n\nThe lockup, its clear space, its edges and its motion, and what breaks the mark.', group: 'Brand', heading: 'The rules' },
   { file: '21-signet.md', text: prose('docs/design-system/signet-prompt.md'), group: 'Signet', heading: 'Worked examples' },
   { file: '30-states.md', text: '# States\n\nWhat a surface says when it has less than an answer: empty, loading, failed, focused, and the tone of each.', group: 'States', heading: 'The rules' },
   { file: '40-icons.md', text: '# Icons\n\nThe set, and how a glyph stands beside its words.', group: 'Icons', heading: 'The rules' },
-  { file: '50-diagrams.md', text: prose('docs/design-system/diagram-prompt.md'), heading: 'Worked examples', examples: drawings() },
+  { file: '50-diagrams.md', text: prose('docs/design-system/diagram-prompt.md'), heading: 'Worked examples', examples: drawings.map((d) => ({ label: d.label, subtitle: d.subtitle, name: d.name })) },
   { file: '60-illustrations.md', text: prose('docs/design-system/illustration-prompt.md'), group: 'Illustrations', heading: 'Worked examples' },
 ];
 const list = cards();
 const renderHashes: Record<string, string> = {};
 const sourceKeys: Record<string, string> = {};
-/* A card as a WebP, encoded by the page's own canvas. A third smaller than
-   a JPEG, which is a whole card more per section. */
+/* A picture as a WebP, encoded by the page's own canvas. A third smaller
+   than a JPEG, which is a whole card more per section. */
+const webp = (page: import('playwright').Page, png: Buffer): Promise<string> =>
+  page.evaluate(async (b64) => {
+    const img = new Image();
+    img.src = `data:image/png;base64,${b64}`;
+    await img.decode();
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    canvas.getContext('2d')!.drawImage(img, 0, 0);
+    return canvas.toDataURL('image/webp', 0.8);
+  }, png.toString('base64'));
 const pictured = new Map<string, string>();
 await withPage(async ({ map }) => {
   await map(list.filter((c) => SECTIONS.some((x) => x.group === c.group)), async (page, card) => {
     await openCard(page, card);
     await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important}' });
-    const png = await page.screenshot({ type: 'png', animations: 'disabled', caret: 'hide' });
-    pictured.set(card.name, await page.evaluate(async (b64) => {
-      const img = new Image();
-      img.src = `data:image/png;base64,${b64}`;
-      await img.decode();
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      canvas.getContext('2d')!.drawImage(img, 0, 0);
-      return canvas.toDataURL('image/webp', 0.8);
-    }, png.toString('base64')));
+    pictured.set(card.name, await webp(page, await page.screenshot({ type: 'png', animations: 'disabled', caret: 'hide' })));
+  });
+  await map(drawings, async (page, d) => {
+    await page.setContent(`<!doctype html><body style="margin:0"><img src="data:image/svg+xml;base64,${d.svg.toString('base64')}" style="display:block;width:${DRAWING_WIDTH}px"></body>`);
+    pictured.set(d.name, await webp(page, await page.locator('img').screenshot({ type: 'png' })));
   });
 });
 const unpictured: string[] = [];
 for (const section of SECTIONS) {
   const own = list.filter((c) => c.group === section.group);
   for (const c of own) sourceKeys[c.name] = sha12(c.text);
-  const examples = section.examples ?? own.map((c) => ({ label: c.label, subtitle: `${c.subtitle}.`, image: pictured.get(c.name) ?? '' }));
+  const examples = (section.examples ?? own.map((c) => ({ label: c.label, subtitle: `${c.subtitle}.`, name: c.name })))
+    .map((x) => ({ ...x, image: pictured.get(x.name) ?? '' }));
   const parts = [section.text, ''];
   if (examples.length) parts.push(`## ${section.heading}`, '');
   let size = Buffer.byteLength(parts.join('\n'));
