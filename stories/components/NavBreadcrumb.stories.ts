@@ -23,7 +23,7 @@ const TRAIL: readonly Crumb[] = [
 ];
 
 const meta: Meta<CrumbsProps> = {
-  title: 'Components/Nav breadcrumb',
+  title: 'Components/Navigation/Nav breadcrumb',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsNavBreadcrumb(args),
   argTypes: {

@@ -61,7 +61,7 @@ test('a language nobody declared gets no guess', () => {
    that registers but never reaches the page. `text` stays out for the reason
    it stays out above — its declaration is to mark nothing. */
 test('the element itself colours every language', async ({ page }) => {
-  await gotoStory(page, 'components-code--languages');
+  await gotoStory(page, 'components-code-code--languages');
 
   const blocks = page.locator('sds-code');
   await expect(blocks).toHaveCount(Object.keys(SAMPLES).length);
@@ -78,7 +78,7 @@ test('the element itself colours every language', async ({ page }) => {
    in Node. This is the element, in a browser, with the classes the stylesheet
    paints — the two ends of the same claim. */
 test('a block on the page carries the colour and the system paints it', async ({ page }) => {
-  await gotoStory(page, 'components-code--highlighted');
+  await gotoStory(page, 'components-code-code--highlighted');
 
   const tokens = page.locator('sds-code .sds-code__body [class^="hljs-"]');
   await expect(tokens.first()).toBeVisible();

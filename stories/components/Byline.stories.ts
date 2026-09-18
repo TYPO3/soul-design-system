@@ -25,7 +25,7 @@ const sdsByline = ({ name, as: what, meta, initials, href, unmarked }: BylinePro
   ></sds-byline>`;
 
 const meta: Meta<BylineProps> = {
-  title: 'Components/Byline',
+  title: 'Components/Content/Byline',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsByline(args),
   argTypes: {

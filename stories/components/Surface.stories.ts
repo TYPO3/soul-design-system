@@ -38,7 +38,7 @@ export const scene = (): TemplateResult => html`<sds-overlay></sds-overlay>
 ></sds-modal>`;
 
 const meta: Meta<SurfaceProps> = {
-  title: 'Components/Surface',
+  title: 'Components/Content/Surface',
   tags: ['autodocs', '!dev'],
   /* Storybook treats every export as a story. These are the helpers the
      card generator and the sibling stories import. */

@@ -49,7 +49,7 @@ const HITS: readonly SearchResultProps[] = [
 ];
 
 const meta: Meta<SearchHitsProps> = {
-  title: 'Components/SearchHits',
+  title: 'Components/Navigation/Search hits',
   tags: ['autodocs', '!dev'],
   parameters: { layout: 'padded' },
   /* `empty` stays unset rather than blank. The element's own sentence is

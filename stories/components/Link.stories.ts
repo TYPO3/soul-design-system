@@ -16,7 +16,7 @@ import '../../packages/frontend/src/components/link.ts';
 import { type LinkProps } from '../../packages/frontend/src/components/link.ts';
 
 const meta: Meta<LinkProps> = {
-  title: 'Components/Link',
+  title: 'Components/Actions/Link',
   tags: ['autodocs', '!dev'],
   render: ({ label, href = '#', external = false, icon, bare = false }) =>
     html`<sds-link label="${label}" href="${href}" ?external="${external}" ?bare="${bare}" icon="${ifDefined(icon)}"></sds-link>`,

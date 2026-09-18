@@ -52,7 +52,7 @@ export const SITE: readonly TreeEntry[] = [
 ];
 
 const meta: Meta<TreeProps> = {
-  title: 'Components/Tree',
+  title: 'Components/Content/Tree',
   tags: ['autodocs', '!dev'],
   excludeStories: ['SITE', 'specimenHtml'],
   render: (args) => sdsTree(args),

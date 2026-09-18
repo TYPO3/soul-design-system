@@ -47,7 +47,7 @@ export const PAGES: CompareProps = {
 };
 
 const meta: Meta<CompareProps> = {
-  title: 'Components/Compare',
+  title: 'Components/Code/Compare',
   tags: ['autodocs', '!dev'],
   excludeStories: ['PAGES', 'sdsCompare', 'specimenHtml'],
   render: (args) => sdsCompare(args),

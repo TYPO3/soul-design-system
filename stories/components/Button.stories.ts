@@ -47,7 +47,7 @@ const staticButton = ({ variant, size, label, icon, title, disabled }: ButtonArg
   );
 
 const meta: Meta<ButtonArgs> = {
-  title: 'Components/Button',
+  title: 'Components/Actions/Button',
   tags: ['autodocs', '!dev'],
   /* Storybook treats every export as a story. These are the helpers the
      card generator and the sibling stories import. */

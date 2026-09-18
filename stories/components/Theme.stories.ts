@@ -11,7 +11,7 @@ import { html } from 'lit';
 import '../../packages/frontend/src/components/theme.ts';
 
 const meta: Meta = {
-  title: 'Components/Theme',
+  title: 'Components/Theme/Theme',
   tags: ['autodocs', '!dev'],
 };
 

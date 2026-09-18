@@ -24,7 +24,7 @@ export const sdsFacts = (entries: readonly FactsEntry[]) =>
     html`<dt>${term}</dt><dd>${value}${note ? html`<span class="sds-facts__note">${note}</span>` : ''}</dd>`)}</sds-facts>`;
 
 const meta: Meta<FactsProps> = {
-  title: 'Components/Facts',
+  title: 'Components/Content/Facts',
   tags: ['autodocs', '!dev'],
   excludeStories: ['sdsFacts'],
   render: ({ entries }) => html`<sds-facts .entries="${entries ?? []}"></sds-facts>`,

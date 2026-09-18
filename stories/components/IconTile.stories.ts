@@ -40,7 +40,7 @@ export const GLYPHS: readonly IconTileProps[] = [
 ];
 
 const meta: Meta<IconTileProps> = {
-  title: 'Components/Icon tile',
+  title: 'Components/Theme/Icon tile',
   tags: ['autodocs', '!dev'],
   excludeStories: ['GLYPHS', 'sdsIconTile'],
   render: (args) => sdsIconTile(args),

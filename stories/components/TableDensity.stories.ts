@@ -66,7 +66,7 @@ function densityRow({ density, label, note }: DensitySpec): string {
 }
 
 const meta: Meta<TableProps> = {
-  title: 'Components/Table density',
+  title: 'Components/Content/Table density',
   tags: ['autodocs', '!dev'],
   /* Storybook treats every export as a story. These are the helpers the
      card generator and the sibling stories import. */

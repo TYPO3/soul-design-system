@@ -39,7 +39,7 @@ const HIT: SearchResultProps = {
 };
 
 const meta: Meta<SearchResultProps> = {
-  title: 'Components/SearchResult',
+  title: 'Components/Navigation/Search result',
   tags: ['autodocs', '!dev'],
   excludeStories: ['sdsSearchResult'],
   render: (args) => sdsSearchResult(args),

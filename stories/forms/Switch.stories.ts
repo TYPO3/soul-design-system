@@ -25,7 +25,7 @@ const sdsSwitch = ({ label, hint, checked = false, name, value, disabled }: Swit
   ></sds-switch>`;
 
 const meta: Meta<SwitchProps> = {
-  title: 'Forms/Switch',
+  title: 'Components/Forms/Switch',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsSwitch(args),
   argTypes: {

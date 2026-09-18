@@ -33,7 +33,7 @@ const REPLY = [
 ];
 
 const meta: Meta<RadioProps> = {
-  title: 'Forms/Radio',
+  title: 'Components/Forms/Radio',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsRadio(args),
   argTypes: {

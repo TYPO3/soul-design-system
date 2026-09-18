@@ -22,7 +22,7 @@ const MARK = {
 };
 
 const meta: Meta<ImageProps> = {
-  title: 'Components/Image',
+  title: 'Components/Content/Image',
   tags: ['autodocs', '!dev'],
   render: ({ src, alt, width, height, zoomable = false }) =>
     html`<sds-image src="${src}" alt="${alt}" width="${width ?? 0}" height="${height ?? 0}" ?zoomable="${zoomable}"></sds-image>`,

@@ -25,7 +25,7 @@ export const ACCESS: readonly CopyProps[] = [
 ];
 
 const meta: Meta<CopyProps> = {
-  title: 'Components/Copy',
+  title: 'Components/Actions/Copy',
   tags: ['autodocs', '!dev'],
   excludeStories: ['ACCESS'],
   render: (args) => sdsCopy(args),

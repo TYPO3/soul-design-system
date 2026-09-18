@@ -14,7 +14,7 @@ import '../../packages/frontend/src/components/nav-pills.ts';
 import { type NavProps } from '../../packages/frontend/src/components/nav-base.ts';
 
 const meta: Meta<NavProps> = {
-  title: 'Components/Nav pills',
+  title: 'Components/Navigation/Nav pills',
   tags: ['autodocs', '!dev'],
   render: ({ items, active }) => html`<sds-nav-pills .items="${items}" active="${active ?? 0}"></sds-nav-pills>`,
   argTypes: {

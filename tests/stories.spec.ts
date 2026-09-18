@@ -67,37 +67,37 @@ test('the index lists every component and specimen group', async ({ request }) =
   for (const expected of [
     /* One page per component, and the list is the check. A component split
        out of a file with no page of its own documents nothing. */
-    'Components/Badge',
-    'Components/Button',
-    'Components/Code',
-    'Components/Diff',
-    'Components/Dialog',
-    'Components/Icon',
-    'Components/Image',
-    'Components/Link',
-    'Components/Modal',
-    'Components/Nav breadcrumb',
-    'Components/Nav main',
-    'Components/Nav pager',
-    'Components/Nav pagination',
-    'Components/Nav pills',
-    'Components/Nav rail',
-    'Components/Note',
-    'Components/Overlay',
-    'Components/Search',
-    'Components/Surface',
-    'Components/Table',
-    'Components/Table density',
-    'Components/Tabs',
-    'Components/Theme',
-    /* The parts of a form are their own section. Somebody who builds one
+    'Components/Content/Badge',
+    'Components/Actions/Button',
+    'Components/Code/Code',
+    'Components/Code/Diff',
+    'Components/Overlays/Dialog',
+    'Components/Theme/Icon',
+    'Components/Content/Image',
+    'Components/Actions/Link',
+    'Components/Overlays/Modal',
+    'Components/Navigation/Nav breadcrumb',
+    'Components/Navigation/Nav main',
+    'Components/Navigation/Nav pager',
+    'Components/Navigation/Nav pagination',
+    'Components/Navigation/Nav pills',
+    'Components/Navigation/Nav rail',
+    'Components/Feedback/Note',
+    'Components/Overlays/Overlay',
+    'Components/Navigation/Search',
+    'Components/Content/Surface',
+    'Components/Content/Table',
+    'Components/Content/Table density',
+    'Components/Navigation/Tabs',
+    'Components/Theme/Theme',
+    /* The parts of a form are their own domain. Somebody who builds one
        looks them up together. A reader after a field does not want to
        arrive by way of the figure and the footer. */
-    'Forms/Field',
-    'Forms/Field error',
-    'Forms/Form errors',
-    'Forms/Checkbox',
-    'Forms/Radio',
+    'Components/Forms/Field',
+    'Components/Forms/Field error',
+    'Components/Forms/Form errors',
+    'Components/Forms/Checkbox',
+    'Components/Forms/Radio',
     /* And the whole layouts. They are live in Storybook on purpose. The pass
        below opens every story here, so a page is a page under test rather
        than a picture of one. */
@@ -154,7 +154,7 @@ for (let shard = 0; shard < STORY_SHARDS; shard++) {
    `.storybook/preview.ts`. Nothing else here renders a story twice. So a
    component that only breaks on the second one reads as green everywhere, as
    the pass above opens each story once. */
-const STORY = 'components-button--primary';
+const STORY = 'components-actions-button--primary';
 const CHANGED = { label: 'Stop the checks', variant: 'secondary' };
 
 async function setArgs(page: import('@playwright/test').Page, id: string, args: Record<string, string>): Promise<void> {
@@ -187,7 +187,7 @@ test('a control change rebuilds the story on the canvas', async ({ page }) => {
    too — the throw lands in the story's own block, where no console listener
    hears it. */
 test('a control change rebuilds the story in its docs page', async ({ page }) => {
-  await page.goto('/iframe.html?viewMode=docs&id=components-button--docs&globals=theme:dark');
+  await page.goto('/iframe.html?viewMode=docs&id=components-actions-button--docs&globals=theme:dark');
   await page.waitForSelector('.sds-btn', { timeout: 20_000 });
 
   const block = page.locator(`#story--${STORY}--primary`);
@@ -248,7 +248,7 @@ test('the docs preview sits on the themed canvas', async ({ page }) => {
   const CANVAS = { dark: 'rgb(19, 18, 16)', light: 'rgb(251, 250, 247)' };
 
   for (const theme of ['dark', 'light'] as const) {
-    await page.goto(`/iframe.html?viewMode=docs&id=components-button--docs&globals=theme:${theme}`);
+    await page.goto(`/iframe.html?viewMode=docs&id=components-actions-button--docs&globals=theme:${theme}`);
     await page.waitForSelector('.sds-btn', { timeout: 20_000 });
 
     for (const selector of ['.sbdocs.sbdocs-preview', '.sbdocs.sbdocs-preview .docs-story']) {

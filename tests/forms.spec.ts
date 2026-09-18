@@ -74,7 +74,7 @@ test('a reset puts back what the markup said, not what was last clicked', async 
    reaches. The last arrives through `formDisabledCallback` and through
    nothing anybody wrote on the controls themselves. */
 
-const PANEL = 'forms-in-a-form--default';
+const PANEL = 'components-forms-in-a-form--default';
 
 /** What the page printed after a submit, as a map. */
 async function posted(page: import('@playwright/test').Page): Promise<Record<string, string>> {
@@ -144,7 +144,7 @@ test('a reset puts back what the markup said, for all of them', async ({ page })
    reader has to notice. The element is form-associated, so the browser blocks
    the send and reports on the box rather than passes in silence. */
 test('a control the caller marked wrong will not let the form go', async ({ page }) => {
-  await gotoStory(page, 'forms-select--invalid');
+  await gotoStory(page, 'components-forms-select--invalid');
 
   const blocked = await page.evaluate(() => {
     const select = document.querySelector('sds-select') as HTMLElement & { checkValidity(): boolean };
@@ -159,7 +159,7 @@ test('a control the caller marked wrong will not let the form go', async ({ page
    with no name. So it speaks and does not draw instead. What this holds is
    that both halves are true at once: still named, and not on the page twice. */
 test('a set can say its question without drawing it', async ({ page }) => {
-  await gotoStory(page, 'forms-checkbox--group-question-above');
+  await gotoStory(page, 'components-forms-checkbox--group-question-above');
 
   const set = page.locator('fieldset.sds-choices');
   await expect(set, 'the set still takes its name from its own legend')

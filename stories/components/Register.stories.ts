@@ -89,7 +89,7 @@ const DROPPED: readonly EntryProps[] = [
 ];
 
 const meta: Meta<EntryProps> = {
-  title: 'Components/Register',
+  title: 'Components/Content/Register',
   tags: ['autodocs', '!dev'],
   excludeStories: ['sdsEntry', 'sdsRegister', 'specimenHtml'],
   render: (args) => sdsEntry(args),

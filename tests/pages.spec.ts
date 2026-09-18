@@ -346,7 +346,7 @@ test('a form that fails says what, and sends the reader to it', async ({ page })
    Asserted as a shape rather than a number, the way the menu's run-width is:
    no row of a wrapped set holds a single card. */
 test('a set of cards wraps into even rows, never one on its own', async ({ page }) => {
-  await gotoStory(page, 'components-grid--flush');
+  await gotoStory(page, 'components-content-grid--flush');
   const cards = page.locator('.sds-grid--flush .sds-card');
   const count = await cards.count();
   expect(count, 'the story must hold a set that wraps').toBeGreaterThan(3);

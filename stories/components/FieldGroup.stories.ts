@@ -12,7 +12,7 @@ import '../../packages/frontend/src/components/field.ts';
 import '../../packages/frontend/src/components/button.ts';
 
 const meta: Meta = {
-  title: 'Components/FieldGroup',
+  title: 'Components/Forms/Field group',
   tags: ['autodocs', '!dev'],
   render: () => html`<sds-field-group>
     <sds-field

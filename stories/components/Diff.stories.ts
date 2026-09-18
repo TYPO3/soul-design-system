@@ -21,7 +21,7 @@ export const DIFF: readonly DiffLine[] = [
 ];
 
 const meta: Meta<DiffProps> = {
-  title: 'Components/Diff',
+  title: 'Components/Code/Diff',
   tags: ['autodocs', '!dev'],
   excludeStories: ['DIFF'],
   render: ({ path, body }) => html`<sds-diff path="${path}" .body="${body}"></sds-diff>`,

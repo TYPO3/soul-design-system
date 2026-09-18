@@ -41,7 +41,7 @@ const said = (event: Event): void => {
 };
 
 const meta: Meta<DialogProps> = {
-  title: 'Components/Dialog',
+  title: 'Components/Overlays/Dialog',
   tags: ['autodocs', '!dev'],
   argTypes: {
     heading: { control: 'text' },

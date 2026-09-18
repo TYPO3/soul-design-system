@@ -46,7 +46,7 @@ const RELEASES = [
 ];
 
 const meta: Meta<SelectProps> = {
-  title: 'Forms/Select',
+  title: 'Components/Forms/Select',
   tags: ['autodocs', '!dev'],
   excludeStories: ['specimenHtml'],
   render: (args) => sdsSelect(args),

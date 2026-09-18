@@ -25,7 +25,7 @@ interface TocArgs {
 }
 
 const meta: Meta<TocArgs> = {
-  title: 'Components/Nav toc',
+  title: 'Components/Navigation/Nav toc',
   tags: ['autodocs', '!dev'],
   render: ({ label, entries }) =>
     html`<div style="width:258px"><sds-nav-toc label="${label}" .entries="${entries}"></sds-nav-toc></div>`,

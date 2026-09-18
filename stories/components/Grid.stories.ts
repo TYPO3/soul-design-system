@@ -74,7 +74,7 @@ const wall = (variant: GridProps['variant'], items: readonly CardProps[]) =>
   html`<sds-grid variant="${variant ?? 'default'}">${items.map(sdsCard)}</sds-grid>`;
 
 const meta: Meta<GridProps> = {
-  title: 'Components/Grid',
+  title: 'Components/Content/Grid',
   tags: ['autodocs', '!dev'],
   render: ({ variant }) => wall(variant, CHAPTERS),
 };

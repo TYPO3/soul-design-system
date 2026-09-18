@@ -27,7 +27,7 @@ const SOURCES = {
 };
 
 const meta: Meta<FigureProps> = {
-  title: 'Components/Figure',
+  title: 'Components/Content/Figure',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsFigure(args),
   argTypes: {

@@ -35,7 +35,7 @@ const sdsTextarea = ({ caption, label, name, fieldId, value = '', rows, hint, er
   ></sds-textarea>`;
 
 const meta: Meta<TextareaProps> = {
-  title: 'Forms/Textarea',
+  title: 'Components/Forms/Textarea',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsTextarea(args),
   argTypes: {

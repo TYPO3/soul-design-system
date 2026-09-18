@@ -56,7 +56,7 @@ export const SETTINGS: readonly ConfvalProps[] = [
 ];
 
 const meta: Meta<ConfvalProps> = {
-  title: 'Components/Confval',
+  title: 'Components/Content/Confval',
   tags: ['autodocs', '!dev'],
   excludeStories: ['sdsConfval', 'SETTINGS', 'specimenHtml'],
   render: (args) => sdsConfval(args),

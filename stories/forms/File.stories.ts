@@ -29,7 +29,7 @@ const sdsFile = ({ caption, label, name, accept, multiple, hint, error, required
   ></sds-file>`;
 
 const meta: Meta<FileProps> = {
-  title: 'Forms/File',
+  title: 'Components/Forms/File',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsFile(args),
   argTypes: {

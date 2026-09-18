@@ -48,7 +48,7 @@ const SETTLED: readonly RunStep[] = CHECKS.map((step) => ({
 }));
 
 const meta: Meta<RunProps> = {
-  title: 'Components/Run checks',
+  title: 'Components/Code/Run checks',
   tags: ['autodocs', '!dev'],
   excludeStories: ['specimenHtml'],
   render: (args) => sdsRun(args),

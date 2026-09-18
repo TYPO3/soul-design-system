@@ -26,7 +26,7 @@ const SOURCES = {
 };
 
 const meta: Meta<LightboxProps> = {
-  title: 'Components/Lightbox',
+  title: 'Components/Overlays/Lightbox',
   tags: ['autodocs', '!dev'],
   argTypes: {
     src: { control: 'text' },

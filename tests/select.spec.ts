@@ -13,7 +13,7 @@ import { test, expect, type Page } from '@playwright/test';
 
 import { gotoStory } from './lib/story.ts';
 
-const GROUPED = 'forms-select--grouped';
+const GROUPED = 'components-forms-select--grouped';
 
 const button = (page: Page) => page.getByRole('combobox');
 const list = (page: Page) => page.getByRole('listbox');

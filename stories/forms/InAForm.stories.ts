@@ -87,7 +87,7 @@ function panel(onSubmit: (form: HTMLFormElement) => void, sent: string): Templat
 }
 
 const meta: Meta = {
-  title: 'Forms/In a form',
+  title: 'Components/Forms/In a form',
 };
 
 export default meta;

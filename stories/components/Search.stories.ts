@@ -16,7 +16,7 @@ import '../../packages/frontend/src/components/search.ts';
 import '../../packages/frontend/src/components/nav-main.ts';
 
 const meta: Meta = {
-  title: 'Components/Search',
+  title: 'Components/Navigation/Search',
   tags: ['autodocs', '!dev'],
   parameters: { layout: 'padded' },
 };

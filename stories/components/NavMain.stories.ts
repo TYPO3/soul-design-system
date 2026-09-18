@@ -70,7 +70,7 @@ const sentence = html`<main class="sds-page" id="main-content">
   </main>`;
 
 const meta: Meta = {
-  title: 'Components/Nav main',
+  title: 'Components/Navigation/Nav main',
   tags: ['autodocs', '!dev'],
   parameters: { layout: 'fullscreen' },
 };

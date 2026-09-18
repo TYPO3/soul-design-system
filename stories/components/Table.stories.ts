@@ -85,7 +85,7 @@ const sdsBadge = ({ label, tone = 'default' }: { label: string; tone?: string })
   html`<sds-badge label="${label}" tone="${tone}"></sds-badge>`;
 
 const meta: Meta<TableProps> = {
-  title: 'Components/Table',
+  title: 'Components/Content/Table',
   tags: ['autodocs', '!dev'],
   /* Storybook treats every export as a story. These are the helpers the
      card generator and the sibling stories import. */

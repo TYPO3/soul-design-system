@@ -14,7 +14,7 @@ import '../../packages/frontend/src/components/tabs.ts';
 import '../../packages/frontend/src/components/code.ts';
 
 const meta: Meta = {
-  title: 'Components/Tabs',
+  title: 'Components/Navigation/Tabs',
   tags: ['autodocs', '!dev'],
   args: { active: 0 },
   argTypes: { active: { control: { type: 'number', min: 0 } } },

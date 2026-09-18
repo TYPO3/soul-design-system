@@ -71,7 +71,7 @@ const ENTRY_NO_ART: CardProps = {
 };
 
 const meta: Meta<CardProps> = {
-  title: 'Components/Card',
+  title: 'Components/Content/Card',
   tags: ['autodocs', '!dev'],
   excludeStories: ['sdsCard'],
   render: (args) => sdsCard(args),

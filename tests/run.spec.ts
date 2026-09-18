@@ -11,9 +11,9 @@ import { test, expect, type Page } from '@playwright/test';
 
 import { gotoStory } from './lib/story.ts';
 
-const RUN = 'components-run--default';
-const CHECKS = 'components-run-checks--default';
-const SETTLED = 'components-run-checks--settled';
+const RUN = 'components-code-run--default';
+const CHECKS = 'components-code-run-checks--default';
+const SETTLED = 'components-code-run-checks--settled';
 
 const row = (page: Page, label: string) =>
   page.locator('.sds-run__step').filter({ has: page.getByText(label, { exact: true }) });

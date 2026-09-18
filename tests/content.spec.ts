@@ -13,7 +13,7 @@ import { test, expect } from '@playwright/test';
 import { gotoStory } from './lib/story.ts';
 
 test('a code block frames the content written between its tags', async ({ page }) => {
-  await gotoStory(page, 'components-code--from-content');
+  await gotoStory(page, 'components-code-code--from-content');
 
   const block = page.locator('sds-code');
   await expect(block).toHaveCount(1);
@@ -34,7 +34,7 @@ test('a code block frames the content written between its tags', async ({ page }
 
 test('the head carries the language and a working copy button', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-  await gotoStory(page, 'components-code--from-content');
+  await gotoStory(page, 'components-code-code--from-content');
 
   await expect(page.locator('.sds-code__lang')).toHaveText('json');
 
@@ -66,7 +66,7 @@ test('the head carries the language and a working copy button', async ({ page, c
    own caption outside the block. */
 test('a caption between the tags stays, above the frame and off the clipboard', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-  await gotoStory(page, 'components-code--captioned-from-content');
+  await gotoStory(page, 'components-code-code--captioned-from-content');
 
   const block = page.locator('sds-code');
 
@@ -95,7 +95,7 @@ test('a caption between the tags stays, above the frame and off the clipboard', 
    video that starts to load, stops and starts again. The theme rests on the
    server's frame, so the element takes that node. */
 test('an embed keeps the frame written between its tags, and fetches it once', async ({ page }) => {
-  await gotoStory(page, 'components-embed--given');
+  await gotoStory(page, 'components-content-embed--given');
 
   const embed = page.locator('sds-embed');
   const frame = embed.locator('.sds-embed__frame');
@@ -123,7 +123,7 @@ test('an embed keeps the frame written between its tags, and fetches it once', a
    happens when the column is narrower than the document inside. */
 test('an embed holds its ratio where it is fluid and its size where it stays fixed', async ({ page }) => {
   await page.setViewportSize({ width: 520, height: 800 });
-  await gotoStory(page, 'components-embed--fixed');
+  await gotoStory(page, 'components-content-embed--fixed');
 
   const fixed = page.locator('.sds-embed__frame--fixed');
   const inner = await fixed.locator('iframe').evaluate((el) => el.getBoundingClientRect().width);
@@ -133,7 +133,7 @@ test('an embed holds its ratio where it is fluid and its size where it stays fix
   expect(Math.round(inner)).toBe(700);
   expect(await fixed.evaluate((el) => el.scrollWidth > el.clientWidth)).toBe(true);
 
-  await gotoStory(page, 'components-embed--default');
+  await gotoStory(page, 'components-content-embed--default');
   const fluid = page.locator('.sds-embed__frame--fluid');
   const box = await fluid.evaluate((el) => {
     const r = el.getBoundingClientRect();
@@ -154,7 +154,7 @@ test('an embed holds its ratio where it is fluid and its size where it stays fix
    rebuilds it from `src` fetches the file again, and one that ignores the
    children frames nothing, with the picture stranded beside it. */
 test('a figure keeps the picture and the caption written between its tags', async ({ page }) => {
-  await gotoStory(page, 'components-figure--given');
+  await gotoStory(page, 'components-content-figure--given');
 
   const figure = page.locator('sds-figure');
   const pictures = figure.locator('img');
@@ -174,7 +174,7 @@ test('a figure keeps the picture and the caption written between its tags', asyn
    trigger is a real link, so a surface with no script still opens it. The
    element takes the press over on upgrade. Escape gives the focus back. */
 test('a figure opens its drawing, and stays a link where nothing upgraded', async ({ page }) => {
-  await gotoStory(page, 'components-figure--zoomable');
+  await gotoStory(page, 'components-content-figure--zoomable');
 
   const trigger = page.locator('.sds-zoom');
   /* The href is the fallback, not decoration: without it a script-less surface
@@ -187,7 +187,7 @@ test('a figure opens its drawing, and stays a link where nothing upgraded', asyn
   await trigger.click();
   await expect(dialog).toBeVisible();
   /* The page did not navigate to the file — the element took the press. */
-  expect(page.url()).toContain('components-figure--zoomable');
+  expect(page.url()).toContain('components-content-figure--zoomable');
   /* The same file the frame shows, at its own size. */
   await expect(dialog.locator('img.sds-art')).toHaveAttribute('src', /answer-sources\.svg$/);
 
@@ -213,7 +213,7 @@ test('a figure opens its drawing, and stays a link where nothing upgraded', asyn
    its own size. The viewer's name falls back to the alt text, which is the
    only sentence an image carries. */
 test('an image opens its picture, and stays a link where nothing upgraded', async ({ page }) => {
-  await gotoStory(page, 'components-image--zoomable');
+  await gotoStory(page, 'components-content-image--zoomable');
 
   const trigger = page.locator('.sds-zoom');
   await expect(trigger).toHaveAttribute('href', /answer-sources\.svg$/);
@@ -223,7 +223,7 @@ test('an image opens its picture, and stays a link where nothing upgraded', asyn
 
   await trigger.click();
   await expect(dialog).toBeVisible();
-  expect(page.url()).toContain('components-image--zoomable');
+  expect(page.url()).toContain('components-content-image--zoomable');
   await expect(dialog.locator('img.sds-art')).toHaveAttribute('src', /answer-sources\.svg$/);
   await expect(dialog).toHaveAttribute('aria-label', /five sources/);
 
@@ -241,7 +241,7 @@ test('an image opens its picture, and stays a link where nothing upgraded', asyn
    these rows survive only inside a `<template>`. That is what the property
    carries and what the finish step leaves in the page. */
 test('a table draws the rows it gets as markup', async ({ page }) => {
-  await gotoStory(page, 'components-table--from-content');
+  await gotoStory(page, 'components-content-table--from-content');
 
   const table = page.locator('sds-table > .sds-table-scroll > table.sds-table');
   await expect(table, 'the element draws the table, the document fills it').toHaveCount(1);
@@ -259,7 +259,7 @@ test('a table draws the rows it gets as markup', async ({ page }) => {
    somebody composed; a document's is paragraphs and a list, and only one of
    the two fits in an attribute. */
 test('a surface holds the passage written between its tags', async ({ page }) => {
-  await gotoStory(page, 'components-surface--from-content');
+  await gotoStory(page, 'components-content-surface--from-content');
 
   const plane = page.locator('sds-surface > .sds-panel');
   await expect(plane).toHaveCount(1);
@@ -278,7 +278,7 @@ test('a surface holds the passage written between its tags', async ({ page }) =>
    product surface fits in a property. A passage lifted out of a page brings
    its links and its emphasis, which an attribute cannot carry. */
 test('a quote keeps the sentence written between its tags', async ({ page }) => {
-  await gotoStory(page, 'components-quote--from-content');
+  await gotoStory(page, 'components-content-quote--from-content');
 
   const body = page.locator('sds-quote .sds-quote__body');
   await expect(body.locator('em')).toHaveText('Not saying it was a fallback');
@@ -300,7 +300,7 @@ test('a quote keeps the sentence written between its tags', async ({ page }) => 
    box from there. The blocks a stop holds stay its body, and the stops
    inside it become its list. */
 test('a plan writes the state onto the stops written between its tags', async ({ page }) => {
-  await gotoStory(page, 'components-timeline--blocks');
+  await gotoStory(page, 'components-content-timeline--blocks');
 
   const plan = page.locator('sds-timeline');
   const list = plan.locator('> .sds-timeline');
@@ -334,7 +334,7 @@ test('a plan writes the state onto the stops written between its tags', async ({
   /* A package marked now, read against the whole order. Its sprint is at
      now too, the package before it has passed, and the stop after the
      sprint lies ahead. */
-  await gotoStory(page, 'components-timeline--inside-a-sprint');
+  await gotoStory(page, 'components-content-timeline--inside-a-sprint');
   const read = await page.locator('sds-timeline').evaluate((el) =>
     [...el.querySelectorAll('sds-timeline-stop')].map((c) => `${c.getAttribute('when')}:${c.getAttribute('state')}`));
   expect(read).toEqual([

@@ -28,7 +28,7 @@ export const sdsNote = ({ tone, heading, body, icon, action, href }: NoteProps) 
   ></sds-note>`;
 
 const meta: Meta<NoteProps> = {
-  title: 'Components/Note',
+  title: 'Components/Feedback/Note',
   tags: ['autodocs', '!dev'],
   /* `.icon` as a property and not an attribute. An empty `icon=""` is a name
      no icon has, and the element takes it over the tone's own. */

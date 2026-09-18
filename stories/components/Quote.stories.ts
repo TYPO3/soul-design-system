@@ -17,7 +17,7 @@ export const sdsQuote = ({ body, by, as: what, href }: QuoteProps) =>
   html`<sds-quote .body="${body}" by="${by}" as="${what ?? ''}" href="${href ?? ''}"></sds-quote>`;
 
 const meta: Meta<QuoteProps> = {
-  title: 'Components/Quote',
+  title: 'Components/Content/Quote',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsQuote(args),
   argTypes: {

@@ -38,7 +38,7 @@ const PARTS: MenuEntry[] = [
 ];
 
 const meta: Meta<OutlineArgs> = {
-  title: 'Components/Nav outline',
+  title: 'Components/Navigation/Nav outline',
   tags: ['autodocs', '!dev'],
   render: ({ label, numbered, entries }) =>
     html`<div style="width:300px"><sds-nav-outline label="${label}" ?numbered="${numbered}" .entries="${entries}"></sds-nav-outline></div>`,

@@ -28,7 +28,7 @@ const sdsFooter = ({ groups, note, meta: end, marks, copyright, signet, brand, p
     signet="${signet ?? ''}" brand="${brand ?? ''}" product="${product ?? ''}"></sds-footer>`;
 
 const meta: Meta<FooterProps> = {
-  title: 'Components/Footer',
+  title: 'Components/Navigation/Footer',
   tags: ['autodocs', '!dev'],
   parameters: { layout: 'fullscreen' },
   render: (args) => sdsFooter(args),

@@ -14,7 +14,7 @@ export const sdsEyebrow = ({ label }: EyebrowProps) =>
   html`<sds-eyebrow label="${label}"></sds-eyebrow>`;
 
 const meta: Meta<EyebrowProps> = {
-  title: 'Components/Eyebrow',
+  title: 'Components/Content/Eyebrow',
   tags: ['autodocs', '!dev'],
   render: (args) => html`${sdsEyebrow(args)}
     <h1 class="sds-h2">Every answer says where it came from</h1>`,

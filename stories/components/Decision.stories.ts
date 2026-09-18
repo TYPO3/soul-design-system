@@ -44,7 +44,7 @@ const QUESTION = 'Does the server keep a record of its own reads, and show it?';
 const LEAD = 'Until the maintainers answer, this paper is a draft and the pages stay as they are. The three answers are part 6 in short; the cost of each is part 7.';
 
 const meta: Meta<DecisionProps> = {
-  title: 'Components/Decision',
+  title: 'Components/Feedback/Decision',
   tags: ['autodocs', '!dev'],
   excludeStories: ['ANSWERS', 'sdsAnswer', 'sdsDecision', 'sdsDecisionFlat', 'specimenHtml'],
   render: (args) => sdsDecision(args),

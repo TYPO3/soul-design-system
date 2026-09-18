@@ -13,7 +13,7 @@ import { html } from 'lit';
 import '../../packages/frontend/src/components/overlay.ts';
 
 const meta: Meta = {
-  title: 'Components/Overlay',
+  title: 'Components/Overlays/Overlay',
   tags: ['autodocs', '!dev'],
   parameters: { layout: 'fullscreen' },
 };

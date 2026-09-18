@@ -16,7 +16,7 @@ import { buttonClass, buttonLabel } from '../../packages/frontend/src/components
 import { dsCard, part, spec, specRow } from '../lib/specimen.ts';
 
 const meta: Meta = {
-  title: 'Components/Dropdown',
+  title: 'Components/Actions/Dropdown',
   tags: ['autodocs', '!dev'],
   parameters: {
     dsCard: dsCard({

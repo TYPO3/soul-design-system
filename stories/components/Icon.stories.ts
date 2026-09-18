@@ -23,7 +23,7 @@ const sdsIcon = ({ name, size = 16, className, title }: IconArgs) =>
   html`<sds-icon name="${name}" size="${size}" class="${className ?? 'sds-icon'}" label="${title ?? ''}"></sds-icon>`;
 
 const meta: Meta<IconArgs> = {
-  title: 'Components/Icon',
+  title: 'Components/Theme/Icon',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsIcon(args),
   argTypes: {

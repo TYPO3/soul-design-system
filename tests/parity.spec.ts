@@ -82,7 +82,7 @@ const flat = (s: string): string =>
     .replace(/[^\S\u00a0]+/g, ' ')
     .trim();
 
-const HOST = '/iframe.html?id=components-button--primary&viewMode=story';
+const HOST = '/iframe.html?id=components-actions-button--primary&viewMode=story';
 
 test.beforeEach(async ({ page }) => {
   await page.goto(HOST);

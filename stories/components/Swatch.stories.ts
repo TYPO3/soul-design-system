@@ -35,7 +35,7 @@ export const PALETTE: readonly SwatchProps[] = [
 ];
 
 const meta: Meta<SwatchProps> = {
-  title: 'Components/Swatch',
+  title: 'Components/Theme/Swatch',
   tags: ['autodocs', '!dev'],
   excludeStories: ['PALETTE', 'sdsSwatch'],
   render: (args) => sdsSwatch(args),

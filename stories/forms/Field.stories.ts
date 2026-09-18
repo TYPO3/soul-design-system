@@ -36,7 +36,7 @@ const sdsField = ({ value = '', icon, label, focused, invalid, filled, disabled,
   ></sds-field>`;
 
 const meta: Meta<FieldProps> = {
-  title: 'Forms/Field',
+  title: 'Components/Forms/Field',
   tags: ['autodocs', '!dev'],
   /* Storybook treats every export as a story. These are the helpers the
      card generator and the sibling stories import. */

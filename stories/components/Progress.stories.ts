@@ -32,7 +32,7 @@ export const sdsProgress = ({ caption, label, value, max, readout, unit, note, s
   ></sds-progress>`;
 
 const meta: Meta<ProgressProps> = {
-  title: 'Components/Progress',
+  title: 'Components/Feedback/Progress',
   tags: ['autodocs', '!dev'],
   excludeStories: ['sdsProgress', 'specimenHtml'],
   render: (args) => sdsProgress(args),

@@ -17,7 +17,7 @@ const sdsFormErrors = ({ errors, heading }: FormErrorsProps) =>
   html`<sds-form-errors .errors="${errors}" heading="${heading ?? ''}"></sds-form-errors>`;
 
 const meta: Meta<FormErrorsProps> = {
-  title: 'Forms/Form errors',
+  title: 'Components/Forms/Form errors',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsFormErrors(args),
   argTypes: { heading: { control: 'text' } },

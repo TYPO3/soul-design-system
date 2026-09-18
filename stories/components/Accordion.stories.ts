@@ -68,7 +68,7 @@ export const QUESTIONS: readonly Entry[] = [
 ];
 
 const meta: Meta<AccordionProps> = {
-  title: 'Components/Accordion',
+  title: 'Components/Content/Accordion',
   tags: ['autodocs', '!dev'],
   excludeStories: ['QUESTIONS', 'sdsAccordion', 'sdsAccordionItem'],
   render: (args) => composed(args),

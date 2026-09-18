@@ -80,7 +80,7 @@ const CHECKS: readonly RunStep[] = [
 ];
 
 const meta: Meta<RunProps> = {
-  title: 'Components/Run',
+  title: 'Components/Code/Run',
   tags: ['autodocs', '!dev'],
   excludeStories: ['READ', 'REFUSED', 'sdsRun', 'specimenHtml'],
   render: (args) => sdsRun(args),

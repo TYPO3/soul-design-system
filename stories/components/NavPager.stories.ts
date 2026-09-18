@@ -21,7 +21,7 @@ const sdsNavPager = ({ previousHref, previousLabel, nextHref, nextLabel, label }
     label="${label ?? 'Pages either side of this one'}"></sds-nav-pager>`;
 
 const meta: Meta<PagerProps> = {
-  title: 'Components/Nav pager',
+  title: 'Components/Navigation/Nav pager',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsNavPager(args),
   argTypes: {

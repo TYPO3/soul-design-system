@@ -17,7 +17,7 @@ const sdsPagination = ({ count, perPage = 10, current = 1, href, label }: Pagina
   html`<sds-nav-pagination count="${count}" per-page="${perPage}" current="${current}" href="${href ?? '#page-{n}'}" label="${label ?? ''}"></sds-nav-pagination>`;
 
 const meta: Meta<PaginationProps> = {
-  title: 'Components/Nav pagination',
+  title: 'Components/Navigation/Nav pagination',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsPagination(args),
   argTypes: {

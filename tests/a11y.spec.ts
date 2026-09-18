@@ -204,8 +204,8 @@ for (const theme of ['dark', 'light'] as const) {
    the press happens here, in both walls. A tile turns the ring inwards, and
    that is the case where a wrong drawing is no drawing. */
 const RINGED: readonly (readonly [wall: string, story: string, halo: boolean])[] = [
-  ['an ordinary wall', 'components-grid--default', true],
-  ['a flush wall', 'components-grid--flush', false],
+  ['an ordinary wall', 'components-content-grid--default', true],
+  ['a flush wall', 'components-content-grid--flush', false],
 ];
 
 for (const [wall, story, halo] of RINGED) {

@@ -19,7 +19,7 @@ const ACTIONS = [
 ];
 
 const meta: Meta = {
-  title: 'Components/Modal',
+  title: 'Components/Overlays/Modal',
   tags: ['autodocs', '!dev'],
   parameters: { layout: 'fullscreen' },
   args: { heading: 'Publish the task skills?', size: 'sm', width: 0 },

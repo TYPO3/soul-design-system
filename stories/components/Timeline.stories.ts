@@ -49,7 +49,7 @@ export const PLAN: readonly TimelineEntry[] = [
 ];
 
 const meta: Meta<TimelineProps> = {
-  title: 'Components/Timeline',
+  title: 'Components/Content/Timeline',
   tags: ['autodocs', '!dev'],
   excludeStories: ['PLAN', 'sdsTimelineStop', 'sdsTimeline', 'sdsTimelineFlat', 'specimenHtml'],
   render: (args) => sdsTimeline(args),

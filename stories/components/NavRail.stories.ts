@@ -22,7 +22,7 @@ interface RailArgs {
 }
 
 const meta: Meta<RailArgs> = {
-  title: 'Components/Nav rail',
+  title: 'Components/Navigation/Nav rail',
   tags: ['autodocs', '!dev'],
   render: ({ entry }) => html`<div style="width:210px"><sds-nav-rail .entry="${entry}"></sds-nav-rail></div>`,
   argTypes: {

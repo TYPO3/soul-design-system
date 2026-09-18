@@ -31,7 +31,7 @@ const sdsRange = ({ caption, label, name, min, max, step, value, unit, hint, dis
   ></sds-range>`;
 
 const meta: Meta<RangeProps> = {
-  title: 'Forms/Range',
+  title: 'Components/Forms/Range',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsRange(args),
   argTypes: {

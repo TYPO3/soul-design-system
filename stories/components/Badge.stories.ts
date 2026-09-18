@@ -27,7 +27,7 @@ export const sdsBadge = ({ label, tone = 'default', icon }: BadgeProps) =>
   html`<sds-badge label="${label}" tone="${tone}" icon="${ifDefined(icon)}"></sds-badge>`;
 
 const meta: Meta<BadgeProps> = {
-  title: 'Components/Badge',
+  title: 'Components/Content/Badge',
   tags: ['autodocs', '!dev'],
   excludeStories: ['BADGES'],
   render: (args) => sdsBadge(args),

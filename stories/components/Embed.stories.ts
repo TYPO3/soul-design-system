@@ -37,7 +37,7 @@ const SCREEN = {
 };
 
 const meta: Meta<EmbedProps> = {
-  title: 'Components/Embed',
+  title: 'Components/Content/Embed',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsEmbed(args),
   argTypes: {

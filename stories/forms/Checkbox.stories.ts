@@ -40,7 +40,7 @@ const sdsCheckboxGroup = ({ legend, legendSaidOnly, name, choices, values, hint 
   ></sds-checkbox-group>`;
 
 const meta: Meta<CheckboxProps> = {
-  title: 'Forms/Checkbox',
+  title: 'Components/Forms/Checkbox',
   tags: ['autodocs', '!dev'],
   render: (args) => sdsCheckbox(args),
   argTypes: {

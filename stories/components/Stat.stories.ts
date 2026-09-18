@@ -60,7 +60,7 @@ export const SOURCE_FACTS: readonly StatProps[] = [
 ];
 
 const meta: Meta<StatProps> = {
-  title: 'Components/Stat',
+  title: 'Components/Content/Stat',
   tags: ['autodocs', '!dev'],
   excludeStories: ['SOURCE_FACTS', 'specimenHtml'],
   render: (args) => sdsStat(args),
