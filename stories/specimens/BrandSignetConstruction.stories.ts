@@ -210,7 +210,7 @@ const meta: Meta = {
   parameters: {
     dsCard: dsCard({
       path: 'guidelines/brand-signet-construction.card.html',
-      group: 'Brand',
+      group: 'Signet',
       name: 'Signet — construction',
       subtitle: 'How a signet is built for this system — one rounding throughout: half the stroke',
       viewport: '700x2193',

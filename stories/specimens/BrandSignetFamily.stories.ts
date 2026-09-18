@@ -87,7 +87,7 @@ const meta: Meta = {
   parameters: {
     dsCard: dsCard({
       path: 'guidelines/brand-signet-family.card.html',
-      group: 'Brand',
+      group: 'Signet',
       name: 'Signet — the family',
       subtitle: 'Three marks, one construction — and the three files each of them ships',
       viewport: '700x716',

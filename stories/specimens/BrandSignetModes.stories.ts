@@ -104,7 +104,7 @@ const meta: Meta = {
   parameters: {
     dsCard: dsCard({
       path: 'guidelines/brand-signet-modes.card.html',
-      group: 'Brand',
+      group: 'Signet',
       name: 'Signet — modes & context',
       subtitle: 'Inline follows the UI, linked follows the OS — and the 16px floor in place',
       viewport: '700x666',

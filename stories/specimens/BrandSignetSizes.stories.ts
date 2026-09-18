@@ -79,7 +79,7 @@ const meta: Meta = {
   parameters: {
     dsCard: dsCard({
       path: 'guidelines/brand-signet-sizes.card.html',
-      group: 'Brand',
+      group: 'Signet',
       name: 'Signet — sizes',
       subtitle: 'A drawing per size, each on that size’s pixel grid — the size is chosen at the link',
       viewport: '700x1016',
