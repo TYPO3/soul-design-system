@@ -28,9 +28,10 @@ export async function pageOverflow(page: Page): Promise<{ scroll: number; client
 }
 
 /* Nothing on a page can paint over anything else. Only boxes with their own
-   line compare. An inline `<span>` in a wrapped paragraph has a rect as wide
-   as the paragraph and overlaps every line above it. That is how text works.
-   Anything out of flow stays out — an overlay is over the page on purpose. */
+   line compare, and only the part of one that paints. An inline `<span>` in a
+   wrapped paragraph has a rect as wide as the paragraph and overlaps every
+   line above it. That is how text works. Anything out of flow stays out — an
+   overlay is over the page on purpose. */
 export async function pageOverlaps(page: Page): Promise<string[]> {
   return page.evaluate(() => {
     const inFlow = (el: Element): boolean => {
@@ -56,14 +57,32 @@ export async function pageOverlaps(page: Page): Promise<string[]> {
       `${el.tagName.toLowerCase()}.${String(el.className).trim().split(/\s+/).join('.')}` +
       `"${(el.textContent ?? '').trim().replace(/\s+/g, ' ').slice(0, 30)}"`;
 
+    /* What paints: the box, less what every ancestor that clips or scrolls
+       cuts off. A row scrolled out of a contents list lies over the text
+       under the list and draws nothing there. */
+    const painted = (el: HTMLElement): { left: number; top: number; right: number; bottom: number } => {
+      const r = el.getBoundingClientRect();
+      const box = { left: r.left, top: r.top, right: r.right, bottom: r.bottom };
+      for (let up = el.parentElement; up && up !== document.body; up = up.parentElement) {
+        const style = getComputedStyle(up);
+        if (style.overflowX === 'visible' && style.overflowY === 'visible') continue;
+        const edge = up.getBoundingClientRect();
+        box.left = Math.max(box.left, edge.left + up.clientLeft);
+        box.top = Math.max(box.top, edge.top + up.clientTop);
+        box.right = Math.min(box.right, edge.left + up.clientLeft + up.clientWidth);
+        box.bottom = Math.min(box.bottom, edge.top + up.clientTop + up.clientHeight);
+      }
+      return box;
+    };
+
     const out: string[] = [];
     for (let i = 0; i < blocks.length; i++) {
       for (let j = i + 1; j < blocks.length; j++) {
         const a = blocks[i] as HTMLElement;
         const b = blocks[j] as HTMLElement;
         if (a.contains(b) || b.contains(a)) continue;
-        const ra = a.getBoundingClientRect();
-        const rb = b.getBoundingClientRect();
+        const ra = painted(a);
+        const rb = painted(b);
         const x = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
         const y = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
         if (x > 2 && y > 2) out.push(`${named(a)} over ${named(b)}`);
