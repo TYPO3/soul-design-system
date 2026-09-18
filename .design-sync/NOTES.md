@@ -129,7 +129,12 @@ an upload with no id.
 **Then the files, chunked.** `root` is `.out/bundle`, `file_path` one file
 by its full path, `files` the map the plan gives, with the removals as
 `null` in the first call. The tool takes 256 paths and 16 MiB a call; the
-plan stays under both.
+plan stays under both. A `.d.ts` is not a served type: the plan sends it as
+`{from, contentType: "text/plain"}`, or the tool refuses the whole call.
+
+**The store re-serializes an SVG.** The bytes and the digest it reports
+for an upload differ from the file's. The record keeps the file's own
+hash, because that is what the next build compares against.
 
 **The index and the record go last, in a call of their own.** Their presence
 means everything before them landed. Then read the index back: its

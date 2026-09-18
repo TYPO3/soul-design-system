@@ -73,13 +73,16 @@ const pending = new Set((local.pending ?? []).map((p) => `project/${p}`));
 const moved = was ? content.filter((f) => pending.has(f) || was[f] !== local.fileHashes![f]) : content;
 const removed = remote ? pathsOf(remote).filter((f) => !localPaths.includes(f)).sort() : [];
 
-/* Chunked by count and by bytes, the removals in the first call. */
+/* Chunked by count and by bytes, the removals in the first call. A type
+   file is not a served type: it goes as text, as the migrated systems have it. */
+type Entry = string | null | { from: string; contentType: string };
 interface Call {
   file_path: string;
-  files: Record<string, string | null>;
+  files: Record<string, Entry>;
 }
+const entry = (f: string): Entry => (f.endsWith('.d.ts') ? { from: f, contentType: 'text/plain' } : f);
 const calls: Call[] = [];
-let current: Record<string, string | null> = {};
+let current: Record<string, Entry> = {};
 let count = 0;
 let bytes = 0;
 const flush = (): void => {
@@ -96,7 +99,7 @@ for (const f of removed) {
 for (const f of moved) {
   const size = statSync(join(BUNDLE, f)).size;
   if (count >= PATHS_PER_CALL || bytes + size > BYTES_PER_CALL) flush();
-  current[f] = f;
+  current[f] = entry(f);
   count++;
   bytes += size;
 }
