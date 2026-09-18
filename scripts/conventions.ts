@@ -9,14 +9,14 @@
 
      make verify
 */
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { GENERATED, ROOT } from './lib/cards.ts';
 import * as report from './lib/report.ts';
 
 const DOC = join(ROOT, '.design-sync/conventions.md');
-const OUT = join(GENERATED, 'bundle');
+const OUT = join(GENERATED, 'bundle', 'project', 'components');
 
 report.open('conventions', 'the header names what the build defines');
 
@@ -24,14 +24,14 @@ if (!existsSync(DOC)) {
   report.summary('no conventions.md — nothing to check');
   process.exit(0);
 }
-if (!existsSync(join(OUT, '_ds_bundle.css'))) {
+if (!existsSync(join(OUT, 'bundle.css'))) {
   report.summary('no build to check against', ['run `make build` first']);
   process.exit(1);
 }
 
 const doc = readFileSync(DOC, 'utf8');
-const css = readFileSync(join(OUT, '_ds_bundle.css'), 'utf8')
-  + readdirSync(join(OUT, 'tokens')).map((f) => readFileSync(join(OUT, 'tokens', f), 'utf8')).join('\n');
+/* The one sheet: the tokens are inside it. */
+const css = readFileSync(join(OUT, 'bundle.css'), 'utf8');
 
 const definedClasses = new Set([...css.matchAll(/\.([a-zA-Z][\w-]*)/g)].flatMap((m) => (m[1] ? [m[1]] : [])));
 
@@ -46,7 +46,7 @@ interface BundleHeader {
 
 const definedTags = new Set<string>();
 try {
-  const header = /@ds-bundle:\s*(\{[\s\S]*?\})\s*\*\//.exec(readFileSync(join(OUT, '_ds_bundle.js'), 'utf8'));
+  const header = /@ds-bundle:\s*(\{[\s\S]*?\})\s*\*\//.exec(readFileSync(join(OUT, 'bundle.js'), 'utf8'));
   if (!header?.[1]) throw new Error('no @ds-bundle header');
   const parsed = JSON.parse(header[1]) as BundleHeader;
   for (const c of parsed.components ?? []) if (c.tag) definedTags.add(c.tag);

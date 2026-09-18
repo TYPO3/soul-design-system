@@ -56,12 +56,6 @@ const COMPONENTS = join(FRONTEND, 'src', 'components');
    in between. A line-anchored pattern found two thirds of them. */
 const EVENT = /new (?:Custom)?Event(?:<[^>]*>)?\(\s*'([\w-]+)'/g;
 
-/* What a design links to get the elements: the drop-in's own name. It is the
-   drop-in's own code, packed for a page that links it rather than imports
-   it. Not `_ds_bundle.js`. That name belongs to the design app, which rebuilds
-   the file from sources it can compile and leaves an empty namespace there. */
-export const ELEMENTS_JS = 'soul.js';
-
 /* What an element draws, out of everything it renders. The map of variants at
    the top of the file as much as the class attribute below it. Comments go
    first, because a component that names another's class in prose draws

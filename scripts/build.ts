@@ -1,82 +1,151 @@
 #!/usr/bin/env node
-/* Assemble the claude.ai/design upload bundle from this repo.
+/* Assemble the Design System artifact's files from this repo.
 
-   This system is HTML and CSS, so the standard design-sync converter does not
-   apply. The output contract is the same either way and this produces it.
+   The artifact keeps a system as files under `project/`. An index, the
+   tokens as one JSON, a README, a classic-script bundle, the faces. A
+   preview and a guideline per component. Every picture as an upload the
+   index names. This writes that tree into `.out/bundle/project/`.
 
      node scripts/build.ts [outdir]
 */
 import { createHash } from 'node:crypto';
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
-import { dirname, join, relative, resolve, sep } from 'node:path';
+import { basename, extname, join, relative, resolve } from 'node:path';
 
-import { FRONTEND, GENERATED, ROOT, byGroup, cards, screens, type Card } from './lib/cards.ts';
-import { inlineImports } from './lib/css.ts';
-import { ELEMENTS_JS, elements, type ElementDoc } from './lib/elements.ts';
+import * as esbuild from 'esbuild';
+
+import { FRONTEND, GENERATED, ROOT, byGroup, cards, pascal, screens, type Card, type Screen } from './lib/cards.ts';
+import { elements, type ElementDoc } from './lib/elements.ts';
+import { tokens } from './lib/tokens.ts';
 import { TAGS } from '../packages/frontend/src/index.ts';
 import * as report from './lib/report.ts';
 
 const OUT = resolve(process.argv[2] ?? join(GENERATED, 'bundle'));
-const NS = 'SDS';
+const PROJECT = join(OUT, 'project');
+const CONFIG = JSON.parse(readFileSync(join(ROOT, '.design-sync/config.json'), 'utf8')) as { title: string; namespace: string };
+const NS = CONFIG.namespace;
+const ANCHOR = join(ROOT, '.design-sync/.cache/remote-sync.json');
+
+/* A picture up to this size travels inside its preview as a data URI. Past
+   it, the preview names the upload and the sync fills the blob in. The
+   page caps a preview at 256 kB. */
+const INLINE_MAX = 24 * 1024;
+const PREVIEW_MAX = 256 * 1024;
 
 const sha12 = (b: string | Buffer): string => createHash('sha256').update(b).digest('hex').slice(0, 12);
-const read = (p: string): string => readFileSync(join(FRONTEND, p), 'utf8');
-/* The class layer is four sheets — reset, base, layout, components — in that
-   order, and the last one is an index of a file per component. Anything that
-   hashes or ships "the stylesheet" takes all of them, imports pulled in. The
-   bundle is flat and an `@import` in it points outside itself. */
-const SHEETS = ['reset.css', 'base.css', 'layout.css', 'components.css'];
-const sheets = (): string =>
-  SHEETS.map((f) => inlineImports(join(FRONTEND, 'src', 'styles', f), (p) => readFileSync(p, 'utf8'))).join('\n');
+const MIME: Readonly<Record<string, string>> = {
+  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp',
+  '.json': 'application/json', '.woff2': 'font/woff2', '.txt': 'text/plain',
+};
+const mime = (p: string): string => MIME[extname(p).toLowerCase()] ?? 'application/octet-stream';
 
-/* Point a page at the bundle's flat root. The repo keeps its stylesheets in
-   the frontend package and the bundle keeps them at its root. So what has to
-   change is the climb back. Counted from the directory a page lands in, never
-   written out. A literal is a second place that has to stay true every time
-   either tree moves, and it cannot be wrong loudly. */
-function rewriteRefs(txt: string, dir: string): string {
-  const up = '../'.repeat(relative(OUT, dir).split(sep).filter(Boolean).length);
-  return txt
-    .replace(/href="(?:\.\.\/)+packages\/frontend\/src\/styles\/styles\.css"/g, `href="${up}styles.css"`)
-    .replace(/href="(?:\.\.\/)+packages\/frontend\/src\/styles\/_specimen\.css"/g, `href="${up}_specimen.css"`)
-    /* Either attribute. A diagram is an `<img src>` and the link to its own
-       file is an `<a href>`. A rule that knew only about `src` shipped the
-       second one with the climb it had in the repo, which lands outside the
-       bundle. */
-    .replace(/(src|href)="(?:\.\.\/)+packages\/frontend\/assets\//g, `$1="${up}assets/`);
+// ---------------------------------------------------------------- assets --
+
+/* Where a file of `packages/frontend/assets/` goes. The first folder under
+   `assets/` is the group the page shows it in. The icons' lookup and sprites
+   stay files at `icons/`, where the bundle's own fallback path finds them. */
+interface Upload {
+  /** Under `project/`: `assets/<Group>/<name>`. */
+  path: string;
+  group: string;
+  name: string;
+  source: string;
 }
 
-/* Every local reference in the bundle has to resolve inside the bundle.
-   `make verify` checks the repo's own links and cannot see this, because the
-   tree it walks is not the tree that ships. A path into `src/styles/` resolves
-   perfectly there and to nothing here. */
-function unresolvedRefs(): string[] {
-  const bad: string[] = [];
-  for (const rel of uploadFiles(OUT)) {
-    if (!rel.endsWith('.html')) continue;
-    /* Escaped example markup is documentation, not a reference. */
-    const txt = readFileSync(join(OUT, rel), 'utf8').replace(/&lt;[\s\S]*?&gt;/g, '');
-    for (const m of txt.matchAll(/(?:href|src)="([^"]+)"/g)) {
-      const ref = m[1];
-      if (!ref || /^(https?:|data:|#)/.test(ref)) continue;
-      /* A fragment names something inside the file, not a second file. A
-         referenced drawing reads `…/mark.svg#soul-ref`. That whole string
-         resolves to a file with a `#` in its name and reports every drawing
-         in the bundle as absent. */
-      const target = resolve(dirname(join(OUT, rel)), ref.replace(/#.*$/, ''));
-      /* A path out of the bundle is its own failure, and the question comes
-         before existence. One climb too many lands in the repo, where `assets/`
-         and `src/` both exist. So the file exists, the check passes, and what
-         ships resolves to nothing on anybody else's disk. */
-      if (!target.startsWith(OUT + sep)) {
-        bad.push(`${rel} → ${ref} (climbs out of the bundle)`);
-        continue;
-      }
-      if (!existsSync(target)) bad.push(`${rel} → ${ref}`);
+const GROUPS: readonly (readonly [RegExp, string, string])[] = [
+  [/^icons\/svgs\/(.+\.svg)$/, 'Icons', 'xs'],
+  [/^diagrams\/(.+\.svg)$/, 'Diagrams', 'l'],
+  [/^screenshots\/(.+\.png)$/, 'Screenshots', 'l'],
+  [/^placeholders\/(.+\.png)$/, 'Illustrations', 'l'],
+  [/^([^/]+\.svg)$/, 'Logos', 'm'],
+];
+const TILE = new Map(GROUPS.map(([, group, tile]) => [group, tile]));
+
+const GROUP_NOTES: Readonly<Record<string, string>> = {
+  Icons: '# Icons\n\nEvery `actions-*` icon of TYPO3.Icons (MIT), 16 × 16, drawn in `currentColor`. An `<img>` cannot inherit a colour: inline the file, or write `<sds-icon name="actions-search">` and the element inlines it. `icons/icons.json` is the lookup, `icons/sprites/` one file per category.\n',
+  Logos: '# Logos\n\nThe marks belong to the products named on them. A product on this system brings its own mark: `guidelines/signet-prompt.md` draws one to the construction. `typo3-soul.svg` and `typo3-soul-mono.svg` are the signet of this system.\n',
+  Diagrams: '# Diagrams\n\nOne file, in both modes. Every colour reads `var(--token, #light)`, so a page that references a drawing with `<use>` gives it that page\'s tokens. An `<img>` shows the light fallback.\n',
+  Illustrations: '# Illustrations\n\nThe picture set: mode-neutral editorial imagery, broad shapes, one halftone field, one accent, and nobody photographed. `guidelines/illustration-prompt.md` extends it.\n',
+  Screenshots: '# Screenshots\n\nA story\'s fixture: a screen of this system, photographed for the concept paper that discusses it.\n',
+};
+
+function* walk(dir: string, base = dir): Generator<string> {
+  for (const e of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+    const p = join(dir, e.name);
+    if (e.isDirectory()) yield* walk(p, base);
+    else yield relative(base, p);
+  }
+}
+
+function uploads(): Upload[] {
+  const out: Upload[] = [];
+  for (const rel of walk(join(FRONTEND, 'assets'))) {
+    for (const [re, group] of GROUPS) {
+      const m = re.exec(rel);
+      if (!m?.[1]) continue;
+      out.push({ path: `assets/${group}/${m[1]}`, group, name: m[1], source: join(FRONTEND, 'assets', rel) });
+      break;
     }
   }
-  return bad;
+  return out;
 }
+
+/** The blob id the last sync recorded for an upload, for a file at that hash. */
+function knownBlobs(): Map<string, string> {
+  const out = new Map<string, string>();
+  if (!existsSync(ANCHOR)) return out;
+  const was = JSON.parse(readFileSync(ANCHOR, 'utf8')).uploads as Record<string, { sha: string; blob: string | null }> | undefined;
+  for (const [path, rec] of Object.entries(was ?? {})) if (rec.blob) out.set(`${path}@${rec.sha}`, rec.blob);
+  return out;
+}
+
+// -------------------------------------------------------------- previews --
+
+/* A reference into `packages/frontend/assets/` on the way into a preview. A
+   small picture goes in as a data URI, because a preview fetches nothing. A
+   large one names its upload, and the sync writes the blob's URL over the
+   name once the upload has one. A `#fragment` addresses a `<use>`, which no
+   data URI can carry. */
+const ASSET_REF = /(src|href)="(?:\.\.\/)+packages\/frontend\/assets\/([^"#]+)(#[^"]*)?"/g;
+
+interface Placed {
+  text: string;
+  pending: string[];
+}
+
+function place(txt: string, byRepo: Map<string, Upload>, blobs: Map<string, string>, shas: Map<string, string>, mode: 'preview' | 'doc'): Placed {
+  const pending: string[] = [];
+  const text = txt.replace(ASSET_REF, (whole, attr: string, rel: string, frag = '') => {
+    const up = byRepo.get(rel);
+    if (!up) return whole;
+    if (mode === 'doc') return `${attr}="${up.path}${frag}"`;
+    const bytes = readFileSync(up.source);
+    if (!frag && bytes.length <= INLINE_MAX) return `${attr}="data:${mime(up.source)};base64,${bytes.toString('base64')}"`;
+    const blob = blobs.get(`${up.path}@${shas.get(up.path)}`);
+    if (blob) return `${attr}="/_blob/${blob}${frag}"`;
+    pending.push(up.path);
+    return `${attr}="{{upload:${up.path}}}${frag}"`;
+  });
+  return { text, pending };
+}
+
+const SPECIMEN_CSS = readFileSync(join(FRONTEND, 'src', 'styles', '_specimen.css'), 'utf8');
+
+/* The frame loads the tokens, the faces and `bundle.css` before the first
+   byte of a preview. So the stylesheet link goes, and the card chrome, which
+   no consumer links, goes inline. */
+function head(txt: string): string {
+  return txt
+    .replace(/\s*<link rel="stylesheet" href="[^"]*styles\.css" \/>/, '')
+    .replace(/<link rel="stylesheet" href="[^"]*_specimen\.css" \/>/, `<style>\n${SPECIMEN_CSS}</style>`);
+}
+
+function marker(group: string, width: number, height: number, subtitle: string, page: boolean): string {
+  return `<!-- @dsCard group="${group}" height=${height} width=${width} subtitle="${subtitle}"${page ? ' page' : ''} -->`;
+}
+
+/** The second line on: everything after the repo's own marker. */
+const body = (txt: string): string => txt.slice(txt.indexOf('\n') + 1);
 
 function classesUsed(txt: string): string[] {
   const found = new Set<string>();
@@ -88,34 +157,35 @@ function classesUsed(txt: string): string[] {
 
 /** A readable excerpt of the card's own markup: SVGs elided, trimmed. */
 function snippet(txt: string): string {
-  const body = /<body>([\s\S]*)<\/body>/.exec(txt);
-  if (!body) return '';
-  const s = (body[1] ?? '').replace(/<svg[\s\S]*?<\/svg>/g, '<svg class="sds-icon">…</svg>');
+  const b = /<body>([\s\S]*)<\/body>/.exec(txt);
+  if (!b) return '';
+  const s = (b[1] ?? '').replace(/<svg[\s\S]*?<\/svg>/g, '<svg class="sds-icon">…</svg>');
   const lines = s.replace(/\n\s*\n/g, '\n').trim().split('\n');
   return (lines.length > 26 ? [...lines.slice(0, 26), '  <!-- … -->'] : lines).join('\n');
 }
 
-/* `dir` because the markup in here is the card's, and a path in it has to
-   climb the same way the card beside it climbs. It used to embed the repo's
-   own text: the snippet told a reader to copy an `<img>` whose source sat one
-   directory above the bundle. Nothing loads a fenced block, so nothing ever
-   said so. */
-function promptDoc(c: Card, dir: string): string {
+function cardDoc(c: Card, doc: string): string {
   const cls = classesUsed(c.text);
-  const out = [c.subtitle ? `${c.label} — ${c.subtitle}` : c.label, ''];
-  out.push(`Group: ${c.group}. Rendered at ${c.viewport}.`, '');
-  if (cls.length) {
-    out.push('## Classes this uses', '', ...cls.map((x) => `- \`.${x}\``), '');
-  }
+  const out = [`# ${c.label}`, '', `${c.subtitle}.`, '', `Group: ${c.group}. Rendered at ${c.viewport}.`, ''];
+  if (cls.length) out.push('## Classes this uses', '', ...cls.map((x) => `- \`.${x}\``), '');
   out.push(
     '## How to build it', '',
-    'Link `styles.css` — it carries the tokens and the whole component layer.',
-    'Copy the markup below rather than inventing a variant; every class in it is',
-    'defined in `_ds_bundle.css` and every value comes from a token.', '',
-    '```html', snippet(rewriteRefs(c.text, dir)), '```', '',
+    'Link `components/bundle.css`: it carries the tokens, the faces and the whole class layer.',
+    'Copy the markup below rather than invent a variant. Every class in it is',
+    'defined there, and every value comes from a token.', '',
+    '```html', snippet(doc), '```', '',
   );
   return out.join('\n');
 }
+
+function screenDoc(s: Screen): string {
+  return [`# ${s.name}`, '', `${s.subtitle}.`, '',
+    `A whole page at ${s.viewport}, to start a design from. Keep its shell and replace its content.`,
+    'The shell is the bar, the skip link, and either a column beside a rail or a run of bands.', '',
+    `Source: \`specimens/screens/${basename(s.path)}\`.`, ''].join('\n');
+}
+
+// -------------------------------------------------------------- elements --
 
 /* A table cell ends at a pipe, and half these types are unions written with
    one. Escaped, because a row that breaks takes the rest of the table with it. */
@@ -127,17 +197,20 @@ function opening(doc: string): string {
 }
 
 /** The element's own contract, as types — its properties, with what they say. */
-function elementDts(e: ElementDoc): string {
-  const out = [`/** <${e.tag}> — ${e.purpose}`, ' *', ` *  Registered as \`${e.className}\` by \`${ELEMENTS_JS}\`. Address the element;`,
-    ' *  the classes in `_ds_bundle.css` are what it emits, not a second way to build.', ' */', ''];
+function elementDts(e: ElementDoc, seen: Set<string>): string {
+  const out = [`/** <${e.tag}> — ${e.purpose}`, ' *', ` *  Registered as \`${e.className}\` by \`components/bundle.js\`. Address the element;`,
+    ' *  the classes in `components/bundle.css` are what it emits, not a second way to build.', ' */', ''];
   /* What a value of this shape is stands in the source. Here it is only that
      the value is not a string, so a script sets the property rather than an
      attribute. */
-  const named = [...new Set(e.props.flatMap((p) => [...p.type.matchAll(/\b[A-Z]\w*/g)].map((m) => m[0])))];
+  const named = [...new Set(e.props.flatMap((p) => [...p.type.matchAll(/\b[A-Z]\w*/g)].map((m) => m[0])))].filter((n) => !seen.has(n));
   if (named.length) {
     out.push(`/* Declared in ${e.source} — opaque here: a script sets a property that takes one`,
       '   of these, never an attribute. */');
-    for (const n of named) out.push(`type ${n} = unknown;`);
+    for (const n of named) {
+      out.push(`type ${n} = unknown;`);
+      seen.add(n);
+    }
     out.push('');
   }
   out.push(`export interface ${e.className}Props {`);
@@ -152,33 +225,15 @@ function elementDts(e: ElementDoc): string {
   return out.join('\n');
 }
 
-/** The same element as something the app can parse: it compiles `.jsx`, not `.d.ts`. */
-function elementJsx(e: ElementDoc): string {
-  return [`/** <${e.tag}> — ${e.purpose}`, ' *',
-    ` *  Addresses the element and builds nothing of its own: \`${ELEMENTS_JS}\` is what`,
-    ' *  upgrades it, and a design links that before it renders one of these.',
-    ` *  Props are the element's own attributes — \`${e.className}Props\` in`,
-    ` *  \`${e.className}.d.ts\` says what each one takes.`, ' */',
-    `export function ${e.className}(${e.takesContent ? '{ children, ...props }' : 'props'}) {`,
-    `  return ${e.takesContent ? `<${e.tag} {...props}>{children}</${e.tag}>` : `<${e.tag} {...props} />`};`,
-    '}', ''].join('\n');
-}
-
 /** The same contract as something to write, which is what an agent reads. */
 function elementPrompt(e: ElementDoc): string {
-  /* Shape-true rather than invented. What a page can write is what a string
-     holds, in the order the element declares it. A body an element takes
-     between its tags appears once. */
   const shown = e.props
     .filter((p) => p.lit === 'string' && !(e.takesContent && p.name === 'body'))
     .slice(0, 3);
   const attrs = shown.map((p) => ` ${p.attribute}="${/'([^']*)'/.exec(p.type)?.[1] ?? '…'}"`).join('');
-  const out = [`${e.tag} — ${e.purpose}`, '',
-    `Registered as \`${e.className}\` by \`${ELEMENTS_JS}\`, and written as an element:`, '',
+  const out = [`# ${e.tag}`, '', `${e.purpose}`, '',
+    `Registered as \`${e.className}\` by \`components/bundle.js\`, and written as an element:`, '',
     '```html', `<${e.tag}${attrs}>${e.takesContent ? '…' : ''}</${e.tag}>`, '```', ''];
-  /* What the element says about itself beyond its first line. A table of
-     attributes cannot carry a rule about when to reach for the thing. An
-     agent with only the table rebuilds what nobody told it it had. */
   if (e.notes.length) out.push('## How it behaves', '', ...e.notes.flatMap((p) => [p, '']));
   if (e.props.length) {
     out.push('## Attributes', '', '| Attribute | Type | What it is |', '| --- | --- | --- |');
@@ -192,71 +247,50 @@ function elementPrompt(e: ElementDoc): string {
   return out.join('\n');
 }
 
-function countFiles(dir: string): number {
-  let n = 0;
-  for (const e of readdirSync(dir, { withFileTypes: true })) {
-    n += e.isDirectory() ? countFiles(join(dir, e.name)) : 1;
-  }
-  return n;
-}
+// -------------------------------------------------------------------------
 
-/* Every path the upload carries, relative to the bundle root. Recorded in
-   the anchor so the next sync can compute deletes for ANY file, not just
-   whole components. A component-level diff cannot see a renamed font file. */
-export function uploadFiles(dir: string, base: string = dir, out: string[] = []): string[] {
-  for (const e of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
-    const p = join(dir, e.name);
-    const rel = p.slice(base.length + 1);
-    const top = rel.split('/')[0] ?? '';
-    if (top.startsWith('.') || top === '_screenshots') continue;
-    if (e.isDirectory()) uploadFiles(p, base, out);
-    else out.push(rel);
-  }
-  return out;
-}
+const write = (rel: string, data: string | Buffer): void => {
+  const p = join(PROJECT, rel);
+  mkdirSync(join(p, '..'), { recursive: true });
+  writeFileSync(p, data);
+};
 
-// ---------------------------------------------------------------------------
+report.open('build', `assemble the Design System artifact's files into ${relative(ROOT, OUT)}`);
 
-report.open('build', `assemble the upload bundle into ${relative(ROOT, OUT)}`);
-
-rmSync(OUT, { recursive: true, force: true });
-mkdirSync(OUT, { recursive: true });
-const list = cards();
-
-// the stylesheet closure
-cpSync(join(FRONTEND, 'src', 'tokens'), join(OUT, 'tokens'), { recursive: true });
-for (const d of ['fonts', 'assets']) cpSync(join(FRONTEND, d), join(OUT, d), { recursive: true });
-writeFileSync(join(OUT, '_ds_bundle.css'), sheets());
-cpSync(join(FRONTEND, 'src', 'styles', '_specimen.css'), join(OUT, '_specimen.css'));
-/* The repo keeps its stylesheets in `styles/` and the tokens one level up.
-   The bundle is flat, with `styles.css`, `_ds_bundle.css` and `tokens/` all
-   at its root. So both kinds of import change on the way out — the
-   component layer to its bundle name, and the tokens back to siblings. */
-const styles = read('src/styles/styles.css')
-  .replace(/@import "reset\.css";\n@import "base\.css";\n@import "layout\.css";\n@import "components\.css";/, '@import "./_ds_bundle.css";')
-  .replaceAll('@import "../tokens/', '@import "tokens/')
-  /* The faces sit one level further up in the repo and at the bundle's root
-     here, same as the tokens. */
-  .replaceAll('@import "../../fonts/', '@import "fonts/');
-
-writeFileSync(join(OUT, 'styles.css'), styles);
-
-/* The elements are the drop-in's own file, copied. A second build here is a
-   second set of options over one source, and the one that ships is the one
-   nothing tests. `make dist` checks against `src/`, the suite links exactly
-   this file, and it resolves the icon sprite against its own URL. That holds
-   because `assets/` sits beside it here as it does there. */
-const bundleSrc = join(FRONTEND, 'dist', 'soul.js');
-if (!existsSync(bundleSrc)) {
-  report.summary('no drop-in to ship', ['run `make dist` first — the bundle is its `soul.js`']);
+/* The stylesheet and the drop-in ship from `dist/`, so the sheet a design
+   links is the sheet a project installs. `make verify ARGS=dist` holds that
+   directory against `src/`. */
+const inlineCss = join(FRONTEND, 'dist', 'soul-inline.css');
+if (!existsSync(inlineCss)) {
+  report.summary('no drop-in to ship', ['run `make dist` first — the stylesheet is its `soul-inline.css`']);
   process.exit(1);
 }
-const bundleJs = readFileSync(bundleSrc, 'utf8');
 
-/* Every registered tag ships its contract. The app compiles the header below
-   into the component API the design agent gets. An agent with no API writes
-   the class layer by hand, which is the fallback and not the system. A tag
-   with no contract is a component nobody can address. */
+rmSync(OUT, { recursive: true, force: true });
+mkdirSync(PROJECT, { recursive: true });
+
+// tokens, faces, the stylesheet
+const tokensJson = JSON.stringify(tokens(CONFIG.title), null, 2);
+write('tokens.json', tokensJson);
+cpSync(join(FRONTEND, 'fonts'), join(PROJECT, 'fonts'), { recursive: true, filter: (s) => !s.endsWith('.css') });
+const css = readFileSync(inlineCss, 'utf8');
+write('components/bundle.css', css);
+
+/* The elements, as the one classic script the page loads before a preview:
+   `window.SDS` holds every class. The drop-in is a module and cannot be
+   that, so this is the same entry under the other format. A literal `<!--`
+   or `</script` ends an inline copy, so both go in as escapes. */
+const built = await esbuild.build({
+  entryPoints: [join(FRONTEND, 'src', 'index.ts')],
+  write: false,
+  bundle: true,
+  format: 'iife',
+  globalName: NS,
+  target: 'es2022',
+  minify: true,
+  legalComments: 'none',
+  logLevel: 'silent',
+});
 const els = elements();
 const byTag = new Map(els.map((e) => [e.tag, e]));
 const uncontracted = TAGS.filter((t) => !byTag.has(t));
@@ -264,149 +298,167 @@ if (uncontracted.length) {
   report.summary(`${uncontracted.length} registered tag(s) ship no contract`, uncontracted);
   process.exit(1);
 }
+const header = {
+  format: 4,
+  namespace: NS,
+  components: TAGS.flatMap((tag) => (byTag.has(tag) ? [{ name: byTag.get(tag)!.className, tag }] : [])),
+};
+const js = (built.outputFiles[0]?.text ?? '').replace(/<!--/g, '\\x3C!--').replace(/<\/script/gi, '<\\/script');
+const bundleJs = `/* @ds-bundle: ${JSON.stringify(header)} */\n${js}`;
+write('components/bundle.js', bundleJs);
+
+// every element: its types and its guideline
+const seen = new Set<string>();
+const index: string[] = [];
 const elementHashes: Record<string, string> = {};
 for (const e of els) {
-  const dir = join(OUT, 'components', 'Elements', e.className);
-  mkdirSync(dir, { recursive: true });
-  const dts = elementDts(e);
+  const dts = elementDts(e, new Set());
   const prompt = elementPrompt(e);
-  const jsx = elementJsx(e);
-  writeFileSync(join(dir, `${e.className}.d.ts`), dts);
-  writeFileSync(join(dir, `${e.className}.prompt.md`), prompt);
-  writeFileSync(join(dir, `${e.className}.jsx`), jsx);
-  elementHashes[e.tag] = sha12(dts + prompt + jsx);
+  write(`components/${e.className}/${e.className}.d.ts`, dts);
+  write(`components/${e.className}/README.md`, prompt);
+  index.push(elementDts(e, seen));
+  elementHashes[e.tag] = sha12(dts + prompt);
 }
+index.push('declare global {', `  interface Window { ${NS}: {`, ...els.map((e) => `    ${e.className}: typeof ${e.className};`),
+  '    /** Point the icons at the sprites: a directory URL, one file per category. */', '    setIconSprites(dir: string): void;',
+  '  } }', '}', '');
+write('components/index.d.ts', index.join('\n'));
 
-const header = {
-  namespace: NS,
-  /* Written in the shape the sync kit stamps, and measured not to be what fills
-     `_ds_manifest.json`. A sync that sent all of these complete came back
-     with `"components": []`. `sourcePath` names the wrapper because that is the
-     source now; `tag` is this repository's own, and what `verify` holds the
-     conventions header against. */
-  components: TAGS.flatMap((tag) => {
-    const e = byTag.get(tag);
-    return e
-      ? [{ name: e.className, tag, export: e.className, sourcePath: `components/Elements/${e.className}/${e.className}.jsx` }]
-      : [];
-  }),
-  sourceHashes: { 'components.css': sha12(sheets()), 'styles.css': sha12(styles) },
-  inlinedExternals: [],
-};
-/* Under its own name it ships byte for byte, so what a design links is what a
-   project installs. `_ds_bundle.js` is the app's name and the app rebuilds it
-   from sources it can compile. Ours are none of them, and what it leaves there
-   registers nothing. So that copy carries the header this repository checks,
-   and nothing depends on its survival. */
-writeFileSync(join(OUT, ELEMENTS_JS), bundleJs);
-writeFileSync(join(OUT, '_ds_bundle.js'), `/* @ds-bundle: ${JSON.stringify(header)} */\n${bundleJs}`);
+// the pictures: uploads the index names, and the icon lookup as files
+const ups = uploads();
+const byRepo = new Map(ups.map((u) => [relative(join(FRONTEND, 'assets'), u.source), u]));
+const shas = new Map(ups.map((u) => [u.path, sha12(readFileSync(u.source))]));
+const blobs = knownBlobs();
+const uploadRecords: Record<string, { sha: string; bytes: number; type: string; blob: string | null }> = {};
+for (const u of ups) {
+  mkdirSync(join(PROJECT, u.path, '..'), { recursive: true });
+  cpSync(u.source, join(PROJECT, u.path));
+  uploadRecords[u.path] = { sha: shas.get(u.path)!, bytes: statSync(u.source).size, type: mime(u.source), blob: blobs.get(`${u.path}@${shas.get(u.path)}`) ?? null };
+}
+for (const [group, note] of Object.entries(GROUP_NOTES)) write(`assets/${group}/README.md`, note);
+cpSync(join(FRONTEND, 'assets', 'icons', 'icons.json'), join(PROJECT, 'icons', 'icons.json'));
+cpSync(join(FRONTEND, 'assets', 'icons', 'sprites'), join(PROJECT, 'icons', 'sprites'), { recursive: true });
 
-// cards
+// cards and screens, each a preview and a guideline
+const list = cards();
 const renderHashes: Record<string, string> = {};
 const sourceKeys: Record<string, string> = {};
+const pending = new Set<string>();
+const oversized: string[] = [];
+const preview = (folder: string, mark: string, text: string): string => {
+  const placed = place(head(body(text)), byRepo, blobs, shas, 'preview');
+  const html = `${mark}\n${placed.text}`;
+  if (placed.pending.length) pending.add(`components/${folder}/preview.html`);
+  if (Buffer.byteLength(html) > PREVIEW_MAX) oversized.push(`components/${folder}/preview.html (${Math.round(Buffer.byteLength(html) / 1024)} kB)`);
+  write(`components/${folder}/preview.html`, html);
+  return html;
+};
 for (const c of list) {
-  const dir = join(OUT, 'components', c.group, c.name);
-  mkdirSync(dir, { recursive: true });
-  const html = rewriteRefs(c.text, dir);
-  writeFileSync(join(dir, `${c.name}.html`), html);
-  writeFileSync(join(dir, `${c.name}.prompt.md`), promptDoc(c, dir));
+  const html = preview(c.name, marker(c.group, c.width, c.height, c.subtitle, false), c.text);
+  write(`components/${c.name}/README.md`, cardDoc(c, place(c.text, byRepo, blobs, shas, 'doc').text));
   renderHashes[c.name] = sha12(html);
   sourceKeys[c.name] = sha12(c.text);
 }
-
-// starting points: screens a consuming project can seed a design from.
+/* A screen is a page to start a design from, at its design width. One that
+   embeds another document in an `<iframe>` stays out: a preview holds none. */
 const sp = screens();
-/* Hashed like the cards are. Without this the anchor knows nothing about a
-   screen, so `make design-status` reports "nothing to do" while all three of
-   them have changed. */
 const screenHashes: Record<string, string> = {};
-if (sp.length) {
-  mkdirSync(join(OUT, 'screens'), { recursive: true });
-  for (const s of sp) {
-    const html = rewriteRefs(s.text, join(OUT, 'screens'));
-    writeFileSync(join(OUT, 'screens', s.path.split('/').pop() ?? s.name), html);
-    screenHashes[s.name] = sha12(html);
+const skipped: string[] = [];
+const shipped: Screen[] = [];
+for (const s of sp) {
+  if (/<iframe\b/.test(s.text)) {
+    skipped.push(`${s.name}: embeds another document`);
+    continue;
   }
+  const folder = `${pascal(basename(s.path, '.html'))}Screen`;
+  const html = preview(folder, marker('Screens', s.width, s.height, s.subtitle, true), s.text);
+  write(`components/${folder}/README.md`, screenDoc(s));
+  screenHashes[s.name] = sha12(html);
+  shipped.push(s);
 }
 
-// written guidance
-mkdirSync(join(OUT, 'guidelines'), { recursive: true });
-cpSync(join(ROOT, 'SKILL.md'), join(OUT, 'guidelines/build-rules.md'));
-/* The two prompts, as something to act on rather than read about. A design
-   that adopts this system needs a mark and pictures, and the alternative is an
-   agent that invents both from the cards. They live beside the pages that
-   print them, as a prompt is the same file on every route to it. */
-cpSync(join(ROOT, 'docs/design-system/signet-prompt.md'), join(OUT, 'guidelines/signet-prompt.md'));
-cpSync(join(ROOT, 'docs/design-system/illustration-prompt.md'), join(OUT, 'guidelines/illustration-prompt.md'));
+// the cover: the system's face, drawn by hand beside the conventions
+const cover = join(ROOT, '.design-sync/cover.html');
+if (existsSync(cover)) write('components/Cover/preview.html', readFileSync(cover, 'utf8'));
 
-// README: the conventions header, then a generated index of every card
-const conv = join(ROOT, '.design-sync/conventions.md');
-/* The screens stand where the header puts the marker rather than after it.
-   Only the first 32,000 characters reach the agent's prompt, and a page
-   starts from a screen before it needs any of the class vocabulary. */
+// the brand book and the written rules
 const SCREEN_MARK = '<!-- @startingPoints -->';
-const screenBlock = sp.length
-  ? [
-      '## Start from a screen\n\n',
-      'A page is a screen with its content replaced, never a stack of cards. Open the\n',
-      'one nearest the job and keep its shell — the bar, the skip link, and either a\n',
-      'column beside a rail or a run of bands. A card answers what one part looks like.\n\n',
-      ...sp.map((s) => `- **${s.name}** — ${s.subtitle} \`screens/${s.path.split('/').pop()}\`\n`),
-    ].join('')
+const screenBlock = shipped.length
+  ? ['## Start from a screen', '',
+      'A page is a screen with its content replaced, never a stack of cards. Open the',
+      'one nearest the job and keep its shell — the bar, the skip link, and either a',
+      'column beside a rail or a run of bands. A card answers what one part looks like.', '',
+      ...shipped.map((s) => `- **${s.name}** — ${s.subtitle}: \`components/${pascal(basename(s.path, '.html'))}Screen/preview.html\``), '']
+    .join('\n')
   : '';
-const conventions = existsSync(conv) ? `${readFileSync(conv, 'utf8').trimEnd()}\n\n` : '';
-const parts = [conventions.includes(SCREEN_MARK)
-  ? conventions.replace(SCREEN_MARK, screenBlock.trimEnd())
-  : conventions + screenBlock];
-parts.push('## Every card in this system\n\n');
-for (const [group, items] of byGroup(list)) {
-  parts.push(`### ${group}\n\n`);
-  for (const c of [...items].sort((a, b) => a.name.localeCompare(b.name))) {
-    parts.push(`- **${c.label}** — ${c.subtitle} \`components/${group}/${c.name}/${c.name}.prompt.md\`\n`);
-  }
-  parts.push('\n');
-}
-const readme = parts.join('');
-writeFileSync(join(OUT, 'README.md'), readme);
-if (readme.length > 31900) {
-  report.note(`the README is ${readme.length} chars — the app inlines only the first 32,000`);
-}
+const conventions = readFileSync(join(ROOT, '.design-sync/conventions.md'), 'utf8').trimEnd();
+write('README.md', `${conventions.includes(SCREEN_MARK) ? conventions.replace(SCREEN_MARK, screenBlock.trimEnd()) : `${conventions}\n\n${screenBlock}`}\n`);
+/* The prompts, as something to act on rather than read about. A design that
+   adopts this system needs a mark and pictures; the alternative is an agent
+   that invents both from the cards. The skill's front matter is metadata for
+   a loader, not a heading, and stays out. */
+const frontMatter = /^---\n[\s\S]*?\n---\n\s*/;
+write('guidelines/build-rules.md', readFileSync(join(ROOT, 'SKILL.md'), 'utf8').replace(frontMatter, ''));
+write('guidelines/signet-prompt.md', readFileSync(join(ROOT, 'docs/design-system/signet-prompt.md'), 'utf8').replace(frontMatter, ''));
+write('guidelines/illustration-prompt.md', readFileSync(join(ROOT, 'docs/design-system/illustration-prompt.md'), 'utf8').replace(frontMatter, ''));
 
-/* Before the anchor, which vouches for the bundle: nothing must vouch for
-   one whose own pages cannot find their stylesheet. */
-const badRefs = unresolvedRefs();
-if (badRefs.length) {
-  report.summary(`${badRefs.length} reference(s) do not resolve inside the bundle`, badRefs);
-  process.exit(1);
+// the index the page opens, and the record the next sync compares against
+const groups = [...new Set(ups.map((u) => u.group))];
+const assetGroups: Record<string, unknown> = {};
+for (const group of groups) {
+  const files = ups.filter((u) => u.group === group);
+  assetGroups[group] = {
+    name: group,
+    tile: TILE.get(group) ?? 'm',
+    order: files.map((u) => u.name),
+    files: Object.fromEntries(files.map((u) => {
+      const rec = uploadRecords[u.path]!;
+      return [u.name, { name: u.name, blob: rec.blob, size: rec.bytes, type: rec.type }];
+    })),
+  };
 }
+write('design-system.json', JSON.stringify({
+  v: 3,
+  layout: 'files',
+  createdOnFiles: { v: 1, at: new Date().toISOString() },
+  title: CONFIG.title,
+  namespace: NS,
+  libraries: [],
+  sections: {},
+  groups,
+  assetGroups,
+  blobs: {},
+  docs: { readme: 'project/README.md', sections: [] },
+}, null, 2));
 
-// sync anchor + sentinel
-writeFileSync(join(OUT, '_ds_needs_recompile'), JSON.stringify({ by: 'design-sync-cli' }));
-writeFileSync(join(OUT, '.ds-build-meta.json'),
-  JSON.stringify({ componentCount: list.length, shape: 'css-design-system' }, null, 2));
-/* A hash per uploaded file, so a re-sync can push what moved instead of all of
-   it. The anchor's own name is absent because it cannot hash itself. A stale
-   one from a previous build stays out for the same reason; readers add it
-   back. */
+/* A hash per published file, so a re-sync pushes what moved. The index and
+   this record change every sync and stay out. A preview that still names an
+   upload waits for its blob id, and the sync rewrites it then. */
 const fileHashes: Record<string, string> = {};
-for (const rel of uploadFiles(OUT).sort()) {
-  if (rel !== '_ds_sync.json') fileHashes[rel] = sha12(readFileSync(join(OUT, rel)));
+for (const rel of walk(PROJECT)) {
+  if (rel === 'design-system.json' || rel === 'sync.json' || rel in uploadRecords) continue;
+  fileHashes[`project/${rel}`] = sha12(readFileSync(join(PROJECT, rel)));
 }
-writeFileSync(join(OUT, '_ds_sync.json'), JSON.stringify({
-  shape: 'css-design-system',
-  styleSha: sha12(styles + sheets()),
+write('sync.json', JSON.stringify({
+  shape: 'design-system-artifact',
+  styleSha: sha12(css),
   renderHashes,
   screenHashes,
   elementHashes,
   sourceKeys,
-  keyRecipe: 'sha256-12 of the card html as emitted',
+  keyRecipe: 'sha256-12 of the preview as emitted',
   scriptsSha: sha12(readFileSync(join(ROOT, 'scripts/build.ts'))),
-  sourceHashes: header.sourceHashes,
-  bundleSha12: sha12(readFileSync(join(OUT, ELEMENTS_JS))),
+  bundleSha12: sha12(bundleJs),
   fileHashes,
+  uploads: uploadRecords,
+  pending: [...pending].sort(),
 }, null, 2));
 
-const groups = byGroup(list);
-report.align([...groups].map(([group]) => ({ name: group, label: group })));
-for (const [group, items] of groups) report.fact(group, `${items.length} cards`);
-report.summary(`${list.length} cards \u00b7 ${groups.size} groups \u00b7 ${sp.length} starting points \u00b7 ${countFiles(OUT)} files`);
+const problems = oversized.map((p) => `${p} is over the page's 256 kB cap for a preview`);
+const groupsOf = byGroup(list);
+report.align([...groupsOf].map(([group]) => ({ name: group, label: group })));
+for (const [group, items] of groupsOf) report.fact(group, `${items.length} cards`);
+for (const s of skipped) report.note(`screen left out — ${s}`);
+if (pending.size) report.note(`${pending.size} preview(s) name an upload with no blob id yet — the sync fills them in`);
+report.summary(`${list.length} cards · ${shipped.length} screens · ${els.length} elements · ${ups.length} uploads · ${Object.keys(fileHashes).length} files`, problems);
+if (problems.length) process.exit(1);

@@ -23,6 +23,5 @@ packages/guides-theme/vendor/
 .out/
 
 # Machine state: screenshots, baselines and diffs, rewritten by `make shots`,
-# and the converter the design-sync skill stages beside them.
+# and the record of the last sync beside them.
 .design-sync/.cache/
-.ds-sync/

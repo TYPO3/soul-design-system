@@ -1,6 +1,4 @@
 {
-  "shape": "package",
-  "pkg": "soul-design-system",
-  "globalName": "SDS",
-  "readmeHeader": ".design-sync/conventions.md"
+  "title": "Soul Design System",
+  "namespace": "SDS"
 }

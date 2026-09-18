@@ -88,7 +88,7 @@ layouts they stand on.
 | `.out/site/` | `make guides` | the documentation, rendered from `docs/` by phpDocumentor Guides through this system's own theme |
 | `.out/acceptance/` | `make guides` | every node the renderer can emit, in a root of its own. The theme's check surface, published never |
 | `packages/frontend/dist/` | `make dist` | the publishable ESM package and its types |
-| `.out/bundle/` | `make build` | the design guide for [claude.ai/design](https://claude.ai/design), so the agent builds with these classes |
+| `.out/bundle/project/` | `make build` | the design system as the files a Design System artifact keeps, for the design agent on claude.ai |
 
 `.out/` is the root for generated output git does not keep: the rendered
 site, the built Storybook, the suite's output and the assembled split
@@ -184,42 +184,40 @@ stylesheet. `soul.js` is the drop-in build and carries Lit. The package
 entry above leaves Lit external. Do not mix the two JavaScript entries on
 one page.
 
-## Export the design guide
+## Export the design system
 
-This is not maintainer-only. Import it into **your own** design system at
-[claude.ai/design](https://claude.ai/design), and the design agent builds
-with these tokens, this class vocabulary and these cards.
+This is not maintainer-only. Import it into **your own** Design System
+artifact on claude.ai, and the design agent builds with these tokens, this
+class vocabulary and these cards.
 
 ```sh
 make design-sync    # build, gate, what will change, and the upload plan
 ```
 ```
-/design-sync        # in Claude Code — executes the plan
+Run .design-sync/.cache/upload-plan.json    # in Claude Code — the Artifact tool executes it
 ```
 ```sh
-make design-synced  # record that the app now holds this build
+make design-synced  # record that the artifact now holds this build
 ```
 
-**A first import creates its own design system.** Let it, and do not adopt
-an existing project. A fresh one starts empty, so the upload is everything
-in it, and only a design system is a target. The plan checks that before it
-writes, and the type cannot change afterwards.
+**A first import makes its own design system from the type.** Let it, and
+do not adopt an existing artifact. A fresh one starts empty, so the upload
+is everything in it, and only a system made from the "Design System" type is
+a target.
 
-Then set its project id, once per clone. Without one, every sync imports a
-second copy instead of an update to the first:
+Then set its link, once per clone. Without one, every sync makes a second
+system instead of an update to the first:
 
 ```sh
-make design-project                # which design system a sync uploads into, and how to get its id
-make design-project ARGS=<uuid>    # set it for this clone
+make design-project                # which design system a sync uploads into, and how to get its link
+make design-project ARGS=<url>     # set it for this clone
 make design-project ARGS=--forget  # forget it and the cached state — the next sync is a first import
 ```
 
-No `npm run` uploads. The transport needs the `DesignSync` tool bound to
-your claude.ai login, and a shell script has none. Claude Code asks before
-it reaches the app. Once to add design access to that login, then per act:
-the new design system and the plan lock. The scripts own everything else.
-`make design-plan` writes the steps, the file list and the deletes, and the
-agent executes that instead of its own plan.
+No `npm run` uploads. The transport is the Artifact tool bound to your
+claude.ai login, and a shell script has none. The scripts own everything
+else. `make design-plan` writes the preflight, the uploads, the file list
+and the removals, and the agent executes that instead of its own plan.
 
 **A red gate stops `make design-sync` before any upload.** Every fault it
 names is invisible in review and wrong in every design after it. It checks

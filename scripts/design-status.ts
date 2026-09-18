@@ -1,20 +1,21 @@
 #!/usr/bin/env node
 /* What does a sync change?
 
-   Compares the fresh `_ds_sync.json` against the anchor of the last upload.
-   That is the file the design project itself stores, a hash per card. So the
-   answer is "which cards moved" rather than "which files did I touch". With no
-   cached anchor it prints what a first upload pushes and exits 0.
+   Compares the fresh `project/sync.json` against the record of the last
+   upload. That is the file the design system itself stores, a hash per card.
+   So the answer is "which cards moved" rather than "which files did I touch".
+   With no cached record it prints what a first upload pushes and exits 0.
 
      make design-status
 */
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
+import { ANCHOR_FILE } from './lib/anchor.ts';
 import { GENERATED, ROOT } from './lib/cards.ts';
 import * as report from './lib/report.ts';
 
-const BUILT = join(GENERATED, 'bundle/_ds_sync.json');
+const BUILT = join(GENERATED, 'bundle', ANCHOR_FILE);
 const ANCHOR = join(ROOT, '.design-sync/.cache/remote-sync.json');
 
 report.open('design-status', 'what a sync changes');
@@ -27,7 +28,7 @@ const local = JSON.parse(readFileSync(BUILT, 'utf8'));
 const cards = Object.keys(local.renderHashes).sort();
 
 if (!existsSync(ANCHOR)) {
-  report.note('no reference state cached — /design-sync reads the real state from the project and uploads only what changed');
+  report.note('no record cached — the plan reads the real state from the system and uploads only what changed');
   report.summary(`${cards.length} cards go up, all of them`);
   process.exit(0);
 }
@@ -58,23 +59,26 @@ const elementsChanged = wasElements
   ? Object.keys(nowElements).filter((n) => wasElements[n] !== nowElements[n]).sort()
   : Object.keys(nowElements).sort();
 
-/* Everything the rows above do not already speak for. The tokens' values, the
-   fonts, the illustrations, the guidelines, and the README that holds the
-   conventions header. A hash of the token names alone stood here once, and
-   all of it changed unseen by the anchor. */
-const SPOKEN_FOR = /^(components|screens)\//;
-const CARRIED = '_ds_needs_recompile'; // its own step in the plan, and constant
+/* Everything the rows above do not already speak for. The tokens, the
+   fonts, the guidelines, the README that holds the conventions header, and
+   every picture the index names. A hash of the token names alone stood here
+   once, and all of it changed unseen by the record. */
+const SPOKEN_FOR = /^project\/components\/[^/]+\/preview\.html$/;
 const wasFiles = remote.fileHashes as Record<string, string> | undefined;
 const nowFiles = (local.fileHashes ?? {}) as Record<string, string>;
-const otherChanged = Object.keys(nowFiles)
-  .filter((f) => !SPOKEN_FOR.test(f) && f !== CARRIED && (!wasFiles || wasFiles[f] !== nowFiles[f]))
-  .sort();
+const wasUploads = (remote.uploads ?? {}) as Record<string, { sha: string }>;
+const nowUploads = (local.uploads ?? {}) as Record<string, { sha: string }>;
+const otherChanged = [
+  ...Object.keys(nowFiles).filter((f) => !SPOKEN_FOR.test(f) && (!wasFiles || wasFiles[f] !== nowFiles[f])),
+  ...Object.keys(nowUploads).filter((f) => wasUploads[f]?.sha !== nowUploads[f]!.sha).map((f) => `project/${f}`),
+].sort();
 
 /* One row per top directory rather than six hundred paths. The answer wanted
    here is which part of the system moved, and the plan holds the list. */
 const byArea = new Map<string, number>();
 for (const f of otherChanged) {
-  const area = f.includes('/') ? f.slice(0, f.indexOf('/')) : f;
+  const rel = f.replace(/^project\//, '');
+  const area = rel.includes('/') ? rel.slice(0, rel.indexOf('/')) : rel;
   byArea.set(area, (byArea.get(area) ?? 0) + 1);
 }
 
@@ -101,6 +105,6 @@ if (otherChanged.length) {
     `${otherChanged.length}: ${[...byArea].map(([a, n]) => `${a} ${n}`).join(', ')}`);
 }
 if (styling) report.note('tokens or components changed — this reaches every rendered design');
-report.fact('next, in Claude Code', '/design-sync');
+report.fact('next', 'make design-plan, then the plan in Claude Code');
 report.summary(`${added.length + changed.length + removed.length + screensChanged.length
   + elementsChanged.length + otherChanged.length} thing(s) would move`);

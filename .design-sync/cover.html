@@ -1,0 +1,53 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Soul Design System</title>
+<style>
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--surface-canvas); color: var(--text-primary); font-family: var(--font-sans); overflow: hidden; }
+  .cover { position: relative; height: 288px; overflow: hidden; }
+  /* The composition: the right half of the 960 layout, clear of the name. */
+  .art { position: absolute; top: 0; left: 480px; width: 480px; height: 288px; overflow: hidden; }
+  .art svg { display: block; width: 480px; height: 288px; }
+  .accent { fill: var(--accent); }
+  .ink { fill: var(--text-primary); }
+  .tint { fill: var(--border-subtle); }
+  .line { fill: var(--border-strong); }
+  .dot { fill: var(--text-muted); }
+  .blk { rx: var(--radius-card); }
+  .words { position: absolute; left: var(--space-12); bottom: var(--space-10); max-width: 440px; }
+  .name { margin: 0; font-size: 64px; line-height: .95; font-weight: var(--weight-semibold); letter-spacing: var(--tracking-display); color: var(--text-primary); }
+  .tag { margin: var(--space-3) 0 0; font-size: 14px; line-height: 20px; color: var(--text-muted); max-width: 440px; }
+</style>
+</head>
+<body>
+<div class="cover">
+<div class="art" aria-hidden="true">
+<svg viewBox="0 0 480 288" width="480" height="288">
+<!--
+  blocks       accent 208×176 off the top, text-primary 208×136, border-subtle 208×144 off the bottom, border-strong 160×96 off the bottom; sides are --space-* multiples (16, 32, 48)
+  arrangement  a staggered stack in two columns, bleeding off the top and the bottom edge, one column gap of --space-4
+  pattern      a dot grid at one --space-4 step, 2px dots (--space-0-5) in --text-muted — the row for a precise, technical system on a 4px base
+  scales       --radius-card on every corner; --space-4 pitch; --space-3 between the name and the tagline
+-->
+<defs>
+  <pattern id="grid" width="16" height="16" patternUnits="userSpaceOnUse">
+    <circle class="dot" cx="8" cy="8" r="1"></circle>
+  </pattern>
+</defs>
+<rect x="16" y="0" width="464" height="288" fill="url(#grid)"></rect>
+<rect class="accent blk" x="48" y="-24" width="208" height="176"></rect>
+<rect class="ink blk" x="272" y="64" width="208" height="136"></rect>
+<rect class="tint blk" x="48" y="168" width="208" height="144"></rect>
+<rect class="line blk" x="272" y="216" width="160" height="96"></rect>
+</svg>
+</div>
+<div class="words">
+  <h1 class="name">Soul Design<br>System</h1>
+  <p class="tag">Custom elements, tokens, and the class layer they emit.</p>
+</div>
+</div>
+</body>
+</html>

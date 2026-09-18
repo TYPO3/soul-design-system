@@ -23,6 +23,7 @@
        it goes red. */
     --surface-error-quiet: light-dark(#fcefec, #211715);
     --surface-overlay: light-dark(rgba(28, 26, 23, 0.45), rgba(6, 6, 5, 0.62));
+
     /* Depth, for the surfaces that leave the page — everything that stays on
        it separates with a hairline. Two layers each, a tight edge and the room
        under it, since one shadow is either a hard edge or a haze. The steps

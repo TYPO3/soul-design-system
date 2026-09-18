@@ -1,30 +1,43 @@
-/* The sync anchor, read.
+/* The sync record, read.
 
-   The anchor a build writes is the record of what the last upload put in the
-   project. A hash per file, plus the card, screen and element hashes the status
-   report speaks in. Its own name is not in it, as a file cannot hash itself.
-   So the path list assembles here rather than sits in the file, in one place.
-   A plan that computes deletes from a different list than the one it uploads
-   is how files become orphans.
+   The record a build writes is what the last upload put in the artifact. A
+   hash per published file, and a record per upload with its blob id. Plus
+   the card, screen and element hashes the status report speaks in. The index
+   and the record itself change every sync and hash nothing. So the path list
+   assembles here rather than sits in the file, in one place. A plan that
+   removes from a different list than the one it uploads is how files become
+   orphans.
 */
 
-export const ANCHOR_FILE = '_ds_sync.json';
+export const ANCHOR_FILE = 'project/sync.json';
+export const INDEX_FILE = 'project/design-system.json';
+
+export interface UploadRecord {
+  sha: string;
+  bytes: number;
+  type: string;
+  blob: string | null;
+}
 
 export type Anchor = {
   fileHashes?: Record<string, string>;
-  files?: string[];
+  uploads?: Record<string, UploadRecord>;
+  pending?: string[];
 };
 
-/* Every path the anchor accounts for, its own included. An anchor from before
-   per-file hashes carries `files` instead. Those paths are still good for
-   deletes, but it vouches for no content, which `hashesOf` answers on its own. */
+/* Every published path the record accounts for, the two it cannot hash
+   included. */
 export function pathsOf(anchor: Anchor): string[] {
-  if (anchor.fileHashes) return [...Object.keys(anchor.fileHashes), ANCHOR_FILE].sort();
-  return [...(anchor.files ?? [])].sort();
+  return [...Object.keys(anchor.fileHashes ?? {}), INDEX_FILE, ANCHOR_FILE].sort();
 }
 
-/* The content hashes, or null when the anchor has none — which is "unknown"
+/* The content hashes, or null when the record has none — which is "unknown"
    rather than "unchanged", and the caller re-uploads everything that once. */
 export function hashesOf(anchor: Anchor): Record<string, string> | null {
   return anchor.fileHashes ?? null;
+}
+
+/* The uploads with a blob id, keyed by path under `project/`. */
+export function uploadsOf(anchor: Anchor): Record<string, UploadRecord> {
+  return anchor.uploads ?? {};
 }

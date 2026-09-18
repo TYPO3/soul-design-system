@@ -38,7 +38,7 @@ RUN := $(TASK) node scripts/task.ts
 # Every task that is just "run this in the container". Keep in step with the
 # TASKS map in scripts/task.ts, which is where they live.
 TASKS := verify test cards embed chrome typecheck fit ssr coverage prose php css build dist split guides fonts icons \
-         diagrams baseline shots diff look design-project design-sync design-status design-plan design-synced
+         diagrams baseline shots diff look design-project design-sync design-status design-plan design-index design-synced
 
 # The long-running ones. `app` is among them: it holds the environment every
 # task above runs in, so a task is an `exec` rather than a new container.
@@ -73,15 +73,15 @@ help:
 	@echo '  make cards           regenerate the component cards from their stories'
 	@echo
 	@echo '  make guides          render the documentation fixture into .out/site/'
-	@echo '  make build           assemble .out/bundle/, the upload payload'
+	@echo '  make build           assemble .out/bundle/project/, the design system as files'
 	@echo '  make dist            the publishable ESM package and its types'
 	@echo '  make release ARGS=0.2.0  gate, suite, write the version, commit, tag (never pushes)'
 	@echo '  make notes           what the release page will say; ARGS=v0.1.1 for a tag'
 	@echo '  make design-sync     build + verify + what-would-change + upload plan'
-	@echo '  make design-project  which claude.ai design system a sync uploads into;'
-	@echo '                       ARGS=<uuid> sets it, and without one a re-sync'
+	@echo '  make design-project  which Design System artifact a sync uploads into;'
+	@echo '                       ARGS=<url> sets it, and without one a re-sync'
 	@echo '                       makes a new design system instead of updating yours'
-	@echo '  make design-status design-plan design-synced   the steps individually'
+	@echo '  make design-status design-plan design-index design-synced   the steps individually'
 	@echo
 	@echo '  make baseline shots diff     screenshot before, after, compare'
 	@echo '  make look ARGS=screens/x.html  photograph one page in both modes'

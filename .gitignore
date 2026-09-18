@@ -17,14 +17,12 @@
 # it reports missing from every fresh clone — and a sourcemap left out is a
 # `sourceMappingURL` in the committed drop-in pointing at nothing.
 
-# The design-sync skill's paths rather than this repository's: the staged
-# converter and its deps, the cache the skill documents and looks for here —
-# screenshots, baselines, diffs, contact sheets, and the anchor a sync compares
-# against, which `make baseline` and `make shots` write into — and the manifest
-# one upload leaves behind. Outside `.out/` because the skill chose where.
-/.ds-sync/
+# The sync's cache, beside the sources it serves: screenshots, baselines,
+# diffs and contact sheets, which `make baseline` and `make shots` write
+# into, and the record of what the design system holds, the plan against
+# it and the uploads in flight. `make design-project ARGS=--forget` clears
+# the sync's part; the visual review's part stays.
 /.design-sync/.cache/
-/.design-sync/upload-manifest.json
 
 node_modules/
 

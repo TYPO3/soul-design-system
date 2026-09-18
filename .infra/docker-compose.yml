@@ -21,8 +21,8 @@ x-app: &app
   user: '${SDS_UID:-1000}:${SDS_GID:-1000}'
   volumes:
     # The whole project, so edits on the host are live and generated output
-    # lands back on the host — .out/bundle/ especially, since /design-sync
-    # uploads it from there.
+    # lands back on the host — .out/bundle/ especially, since the Artifact
+    # tool uploads it from there.
     - ..:/app
     # …except node_modules, which is platform-specific and belongs to the
     # image. A host tree built on macOS puts the wrong binaries in front of

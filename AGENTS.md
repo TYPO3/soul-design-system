@@ -154,7 +154,7 @@ Generated. Never edit one, never hand-write a new one:
 | --- | --- |
 | `specimens/` | `make cards` |
 | `packages/frontend/dist/` | `make dist`. Committed on purpose: it is the drop-in |
-| `.out/bundle/` | `make build` |
+| `.out/bundle/project/` | `make build`. The design system as the files a Design System artifact keeps; `.design-sync/NOTES.md` says what each one is |
 | `.out/site/` | `make guides`. Untracked. Node renders every element on the way out, so a page holds its markup before a script runs |
 | `.out/acceptance/` | `make guides`. The theme's control surface, rendered every run and published never. A root of its own, because a page below another root resolves its assets differently |
 | `.out/theme/`, `.out/consumer/` | `make guides`. The theme as the published package, and the renderer built against it with the Composer commands the manual prints. `--released` names the mirror instead |
@@ -170,8 +170,8 @@ Generated. Never edit one, never hand-write a new one:
 so a reader finds a task's output without a list. `GENERATED` in
 `scripts/lib/cards.ts` holds the path, and `make clean` removes it whole. What
 stays ignored outside it belongs to somebody else, or sits where something
-reads it. That is `node_modules/`, the design-sync skill's `.ds-sync/` and
-`.design-sync/.cache/`, the drop-in beside a page the renderer writes, and
+reads it. That is `node_modules/`, the sync's `.design-sync/.cache/`, the
+drop-in beside a page the renderer writes, and
 `packages/frontend/.dist-check/`.
 
 The next generate reverts a card edited by hand. A card with no story behind it is a build
@@ -390,8 +390,8 @@ copy: a page references the drawing, and it reads that page's tokens.
 1440 light <scroll>'` photographs a screen as a window at that scroll, into
 `.out/test-results/`. Copy the file into
 `packages/frontend/assets/screenshots/` under the name of what it shows.
-A screenshot is a story's fixture, like an illustration: `make cards` copies
-it beside the cards, the bundle carries it, and the drop-in leaves it out.
+A screenshot is a story's fixture, like an illustration. `make cards` copies
+it beside the cards, the design system carries it, and the drop-in leaves it out.
 Only a surface of this system: a picture of somebody else's page is a
 licence question and a page that moves.
 
@@ -434,13 +434,14 @@ value in a declaration. `make verify ARGS=sets` holds the route. Then the
 visual-refactor recipe, because a changed distance is a visual change.
 
 **Ship to the design agent.** `make design-sync` is build, gate, what will
-change, and the plan. `make design-status`, `make design-plan` and `make
-design-synced` are the same steps one at a time. Every one carries the
-`design-` scope because `status`, `plan` and `project` name other things
-here.
+change, and the plan. `make design-status`, `make design-plan`, `make
+design-index` and `make design-synced` are the same steps one at a time.
+Every one carries the `design-` scope because `status`, `plan` and `project`
+name other things here. An agent with the Artifact tool runs the plan;
+`.design-sync/NOTES.md` is the order and the reasons.
 
-`make design-project` says which claude.ai project a sync uploads into and
-sets it. Without one, a re-sync creates a new project.
+`make design-project` says which Design System artifact a sync uploads into
+and sets it. Without one, a re-sync makes a new system.
 `docs/design-system/design-with-claude.rst` is the reader's half.
 
 ## What a change owes the documents

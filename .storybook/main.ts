@@ -5,9 +5,8 @@
    template function and the element alike. The React renderer needs a React
    layer to document a system that has none.
 
-   This is a documentation surface, NOT the sync path: `.design-sync/config.json`
-   pins `shape: "package"`, or the kit's own detector sees this directory and
-   switches shapes. */
+   This is a documentation surface, NOT the sync path: `scripts/build.ts`
+   assembles the design system from the cards these stories render. */
 
 import type { StorybookConfig } from '@storybook/web-components-vite';
 import remarkGfm from 'remark-gfm';

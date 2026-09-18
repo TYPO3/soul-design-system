@@ -31,11 +31,11 @@ mirrors and how the gate tests their history.
    * - visual values
      - ``packages/frontend/src/tokens/*.css``
      - ``make dist`` and ``make build``
-     - the frontend drop-in and design-agent bundle
+     - the frontend drop-in and the design system's files
    * - class vocabulary
      - ``packages/frontend/src/styles/``
      - ``make dist``, ``make cards`` and ``make build``
-     - stylesheets, specimens and the design-agent bundle
+     - stylesheets, specimens and the design system's files
    * - web components
      - ``packages/frontend/src/components/`` and ``src/lib/``
      - ``make dist`` and ``make cards``
@@ -110,8 +110,8 @@ Where generated work belongs
 ============================
 
 Generated work that git does not keep belongs under ``.out/``. The rendered
-site, the built Storybook, the design-agent bundle, test results and
-assembled packages then go together with ``make clean``, and no source goes
+site, the built Storybook, the design system's files, test results and
+assembled packages then go together with ``make clean``. No source goes
 with them.
 
 The built Storybook is also what goes out. ``make test`` builds it to open
@@ -127,10 +127,10 @@ project installs or copies. The generated fonts travel with that package.
 ``specimens/`` is the static evidence the design surface reads. Their place
 in git changes how they ship, not where you write them.
 
-The bundle under ``.out/bundle/`` is flat, and the repository is not. The
-assembly rewrites paths, so a card or screen never carries a hard-coded
-climb back to the bundle root. Change the source layout in the generator,
-not inside generated cards.
+The tree under ``.out/bundle/project/`` is the artifact's, and the
+repository is not. The assembly places every picture a card or a screen
+names, so neither carries a path into this tree. Change the source layout
+in the generator, not inside generated cards.
 
 How to work on a change
 =======================

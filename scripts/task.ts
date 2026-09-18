@@ -66,13 +66,14 @@ const TASKS: Record<string, Task> = {
   diff: { cmd: node('scripts/diff.ts'), help: 'compare after against baseline' },
   look: { cmd: node('scripts/look.ts'), help: 'photograph one page in both modes — make look ARGS=screens/feature.html' },
 
-  /* Sync to claude.ai/design, and every one of them says so in its name.
+  /* Sync to the Design System artifact, and every one of them says so in its name.
      `status`, `plan`, `project` and `synced` are words this repository uses
      for other things, and a task called `plan` reads as the repository's own. */
-  'design-project': { cmd: node('scripts/design-project.ts'), help: 'which claude.ai design system a sync uploads into — ARGS=<uuid> sets it, ARGS=--forget starts over' },
+  'design-project': { cmd: node('scripts/design-project.ts'), help: 'which Design System artifact a sync uploads into — ARGS=<url> sets it, ARGS=--forget starts over' },
   'design-sync': { cmd: ['sh', '-c', 'node scripts/verify.ts && node scripts/design-status.ts && node scripts/design-plan.ts'], help: 'build + verify + what-would-change + upload plan' },
   'design-status': { cmd: node('scripts/design-status.ts'), help: 'what a sync changes' },
-  'design-plan': { cmd: node('scripts/design-plan.ts'), help: 'the ordered upload plan, with deletes' },
+  'design-plan': { cmd: node('scripts/design-plan.ts'), help: 'the ordered upload plan, with removals' },
+  'design-index': { cmd: node('scripts/design-index.ts'), help: 'write the uploads\' ids into the previews, the index and the record' },
   'design-synced': { cmd: node('scripts/design-synced.ts'), help: 'record that the uploaded design system holds this build' },
 
   shell: { cmd: ['bash'], interactive: true, help: 'a prompt inside the image' },

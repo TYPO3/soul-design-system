@@ -18,7 +18,7 @@ Two rules follow, and both carry weight:
   modifier the element cannot emit invites hand-written markup, and the two
   layers drift from that moment on.
 
-`_ds_bundle.js` ships the system as Lit custom elements:
+`components/bundle.js` ships the system as Lit custom elements:
 
 | | |
 |---|---|
@@ -40,7 +40,7 @@ and a hand-written `<button class="sds-btn">` are the same markup under the
 same rules. Use them where a surface already runs JavaScript. Use the
 classes everywhere else. Neither is a fallback for the other, and **the
 classes stay the authority**. A component that disagrees with
-`_ds_bundle.css` is a bug in the component.
+`components/bundle.css` is a bug in the component.
 
 `sds-modal` draws the modal surface. `sds-dialog` is the behaviour: a real
 `<dialog>` that opens, traps focus and closes on Escape. `sds-lightbox` is
@@ -51,25 +51,27 @@ zoomable>`, not by hand.
 
 ## Setup
 
-One stylesheet, one script, one class. `styles.css` carries the tokens and
-the class layer. `soul.js` registers every element on the page. `sds-app`
-on the root sets the canvas, the sans stack and the text colour. Without
-it you inherit the browser's Times New Roman on white.
+One stylesheet, one script, one class. `components/bundle.css` carries the
+faces, the tokens and the class layer. `components/bundle.js` registers
+every element on the page. `sds-app` on the root sets the canvas, the sans
+stack and the text colour. Without it you inherit the browser's Times New
+Roman on white.
 
 ```html
-<link rel="stylesheet" href="styles.css">
-<script type="module" src="soul.js"></script>
+<link rel="stylesheet" href="components/bundle.css">
+<script src="components/bundle.js"></script>
 <body class="sds-app"> … </body>
 ```
 
-`soul.js` is the file a project installs, as it is. A module, so
-`type="module"` is part of the line, and the elements register themselves.
-There is no global and nothing to call.
+`bundle.js` is a classic script. It registers the elements as it loads and
+puts every class under `window.SDS`. There is nothing to call. A project
+installs the same elements as the module `soul.js` of `@typo3/soul-frontend`.
 
-**It is `soul.js`, never `_ds_bundle.js`.** That second name belongs to the
-app around this, which rebuilds the file from sources of its own and leaves
-an empty namespace. A page that links it loads a script that registers
-nothing, and every element on it stays an unknown tag that draws nothing.
+`sds-icon` fetches its glyph from a sprite beside the script, `icons/sprites/`.
+A page that carries the script inline says where the sprites are:
+`SDS.setIconSprites('<url of icons/sprites/>')`. Without a reachable sprite
+the element draws nothing, and the fallback is the SVG file of the icon,
+inlined.
 
 **Without the script you write the fallback.** The elements are how you use
 this system. Without them a page keeps the classes, and every part name in
@@ -218,13 +220,13 @@ not exist. That is the answer, not a reason to substitute something.
 
 ## Where the truth is
 
-Read the real files before you style: `styles.css` and its imports
-(`tokens/*.css`, `_ds_bundle.css`). Per element,
-`components/Elements/<Class>/<Class>.prompt.md` is its attributes and what
-goes between its tags. Read that before you write one. Per card,
-`components/<Group>/<Name>/<Name>.prompt.md` has the markup to copy.
-`guidelines/build-rules.md` is the full rule set. Copy the nearest specimen
-instead of a variant of your own.
+Read the real files before you style: `tokens.json` and
+`components/bundle.css`. Per element, `components/<Class>/README.md` is its
+attributes and what goes between its tags, and `<Class>.d.ts` beside it the
+types. Read that before you write one. Per card,
+`components/<Name>/README.md` has the markup to copy, and `preview.html`
+beside it is the card. `guidelines/build-rules.md` is the full rule set.
+Copy the nearest specimen instead of a variant of your own.
 
 A product on this system brings its own mark and its own pictures.
 `guidelines/signet-prompt.md` draws a signet to the construction, and

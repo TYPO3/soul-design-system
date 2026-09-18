@@ -2,21 +2,25 @@
 /* Record that the current build is what the project now holds.
 
    Run this immediately after a successful upload, and only then. It promotes
-   the anchor that was just pushed to the local cache, which is what `make
-   design-status` and `make design-plan` compare against. Skip it and both
-   still answer from the previous upload — with confidence, and wrong.
+   the record and the index that were just pushed to the local cache, which is
+   what `make design-status` and `make design-plan` compare against. Skip it
+   and both still answer from the previous upload — with confidence, and
+   wrong. It consumes the uploads in flight: their ids are in the record.
 
      make design-synced
 */
-import { copyFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { pathsOf } from './lib/anchor.ts';
+import { ANCHOR_FILE, INDEX_FILE, pathsOf } from './lib/anchor.ts';
 import { GENERATED, ROOT } from './lib/cards.ts';
 import * as report from './lib/report.ts';
 
-const BUILT = join(GENERATED, 'bundle/_ds_sync.json');
+const BUILT = join(GENERATED, 'bundle', ANCHOR_FILE);
+const INDEX = join(GENERATED, 'bundle', INDEX_FILE);
 const CACHE = join(ROOT, '.design-sync/.cache/remote-sync.json');
+const CACHED_INDEX = join(ROOT, '.design-sync/.cache/remote-index.json');
+const UPLOADED = join(ROOT, '.design-sync/.cache/uploads.jsonl');
 
 report.open('design-synced', 'record that the uploaded system holds this build');
 
@@ -26,6 +30,8 @@ if (!existsSync(BUILT)) {
 }
 mkdirSync(join(ROOT, '.design-sync/.cache'), { recursive: true });
 copyFileSync(BUILT, CACHE);
+copyFileSync(INDEX, CACHED_INDEX);
+rmSync(UPLOADED, { force: true });
 
 const a = JSON.parse(readFileSync(CACHE, 'utf8'));
 report.fact('`make design-status` compares against this state from now on');
