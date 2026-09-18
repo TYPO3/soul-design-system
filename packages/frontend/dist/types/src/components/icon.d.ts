@@ -10,6 +10,10 @@ export type IconSize = 16 | 20 | 24 | 32 | 48 | 'em';
 /** Point the icons at the sprites this build serves somewhere else. The
     directory, not one file: every category is a request of its own. */
 export declare const setIconSprites: (dir: string) => void;
+/** Carry the glyphs in the script, for a page that must not fetch: a
+    sandboxed preview, a document opened from disk. Takes the map
+    `icons.svg.generated.ts` exports, or any subset of it. */
+export declare const inlineIcons: (svgs: Partial<Record<string, string>>) => void;
 export declare class SdsIcon extends SdsElement {
     static properties: {
         name: {

@@ -309,7 +309,8 @@ test('the bundle survives a build into a classic script', async ({ page }) => {
     body: `<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8">
 <link rel="stylesheet" href="/dist/soul.css">
 <script src="/soul.iife.js"></script>
-</head><body class="sds-app"><sds-icon name="actions-search"></sds-icon></body></html>`,
+</head><body class="sds-app"><sds-icon name="actions-search"></sds-icon>
+<sds-note tone="warn"><p id="written">Written between the tags</p></sds-note></body></html>`,
   }));
 
   const errors: string[] = [];
@@ -322,6 +323,33 @@ test('the bundle survives a build into a classic script', async ({ page }) => {
   ]));
   expect(errors, 'the bundle must evaluate with no throw').toEqual([]);
   expect(upgraded, 'the elements must register').toBe(true);
+
+  /* The script stands before the markup. An element that registers at once
+     upgrades at its opening tag, and nothing stands between the tags yet.
+     The frame it draws is empty, and the content lands beside it. */
+  await expect(page.locator('sds-note .sds-note__body #written')).toHaveText('Written between the tags');
+  await expect(page.locator('sds-note > p')).toHaveCount(0);
+});
+
+/* A page that must not fetch: a sandboxed frame, a document opened from
+   disk. The glyphs ride in the script instead, and the element draws the
+   shapes rather than a reference into a sprite it cannot reach. */
+test('a page that must not fetch carries its glyphs in the script', async ({ page }) => {
+  await page.route('**/inline-fixture.html', (route) =>
+    route.fulfill({ contentType: 'text/html', body: HTML }));
+  await page.goto('/inline-fixture.html', { waitUntil: 'load' });
+
+  const drawn = await page.evaluate(async (entry) => {
+    const module = await import(entry) as { inlineIcons: (svgs: Record<string, string>) => void };
+    module.inlineIcons({ 'actions-check': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g fill="currentColor"><path id="carried" d="M2 8h12"/></g></svg>' });
+    const icon = document.createElement('sds-icon');
+    icon.setAttribute('name', 'actions-check');
+    document.body.append(icon);
+    await (icon as HTMLElement & { updateComplete: Promise<unknown> }).updateComplete;
+    return { path: icon.querySelectorAll('svg path#carried').length, use: icon.querySelectorAll('use').length };
+  }, '/dist/soul.js');
+  expect(drawn.path, 'the carried shape is what the element draws').toBe(1);
+  expect(drawn.use, 'and no reference into a sprite beside it').toBe(0);
 });
 
 /* The mode switch, as a page that copies the drop-in gets it.

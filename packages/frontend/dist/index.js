@@ -1582,26 +1582,11 @@ var SdsElement = class extends LitElement {
       runs again every time an element moves in the document, and a second
       look lifts that output as what the author wrote. */
   #looked = false;
-  /** Set while the parser has not reached the closing tag. A definition that
-      loads before the markup upgrades each element at its opening tag, with
-      no children yet: nothing to take, and the prerendered frame arrives
-      after the live one. So the first look waits for the parse to end. */
-  #waiting = false;
   /** Lit renders *after* whatever children it finds and does not empty the
       container. So an element that arrives with its own prerendered markup
       holds two copies. The marker says the build wrote that markup; content
       a caller wrote carries none and stays. */
   connectedCallback() {
-    if (document.readyState === "loading") {
-      if (!this.#waiting) {
-        this.#waiting = true;
-        document.addEventListener("DOMContentLoaded", () => {
-          this.#waiting = false;
-          if (this.isConnected) this.connectedCallback();
-        }, { once: true });
-      }
-      return;
-    }
     if (this.querySelector(`:scope > template[${CONTENT}]`)) {
       for (const node of [...this.childNodes]) node.remove();
     }
@@ -1629,6 +1614,10 @@ var SdsElement = class extends LitElement {
 var isBlank = (node) => node.nodeType === 8 || node.nodeType === 3 && !(node.textContent ?? "").trim();
 function define(tag, ctor) {
   if (typeof customElements === "undefined") return;
+  if (typeof document !== "undefined" && document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => define(tag, ctor), { once: true });
+    return;
+  }
   if (!customElements.get(tag)) customElements.define(tag, ctor);
 }
 
@@ -2047,6 +2036,10 @@ var spriteDir = bundledBeside();
 var setIconSprites = (dir) => {
   spriteDir = dir.endsWith("/") ? dir : `${dir}/`;
 };
+var glyphs = {};
+var inlineIcons = (svgs) => {
+  glyphs = { ...glyphs, ...svgs };
+};
 function spriteFor(id) {
   const category = ICON_CATEGORIES.find((c) => id.startsWith(`${c}-`));
   return `${spriteDir}${category ?? ICON_CATEGORIES[0]}.svg`;
@@ -2074,8 +2067,10 @@ var SdsIcon = class extends SdsElement {
     const a11y = this.label ? `role="img" aria-label="${this.label}"` : 'aria-hidden="true"';
     const cls = this.getAttribute("class") || "sds-icon";
     const sized = this.size === "em" ? "" : ` style="width:${this.size}px;height:${this.size}px"`;
+    const carried = glyphs[this.name];
+    const inner = carried ? carried.replace(/^\s*<svg[^>]*>/, "").replace(/<\/svg>\s*$/, "") : `<use href="${spriteFor(this.name)}#${this.name}"></use>`;
     return html`${unsafeHTML(
-      `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized} class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}"><use href="${spriteFor(this.name)}#${this.name}"></use></svg>`
+      `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized} class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}">${inner}</svg>`
     )}`;
   }
 };
@@ -14506,6 +14501,7 @@ export {
   fieldBox,
   fieldRow,
   iconIds,
+  inlineIcons,
   pageNumbers,
   setIconSprites,
   themeBoot

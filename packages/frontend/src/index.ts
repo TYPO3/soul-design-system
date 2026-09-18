@@ -79,7 +79,7 @@ import './components/confval.ts';
 
 export { SdsElement, define } from './lib/element.ts';
 
-export { SdsIcon, setIconSprites, iconIds, type IconId, type IconSize } from './components/icon.ts';
+export { SdsIcon, setIconSprites, inlineIcons, iconIds, type IconId, type IconSize } from './components/icon.ts';
 export { SdsTheme, themeBoot, type ThemeChoice, type ThemeChange } from './components/theme.ts';
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.ts';
 export { SdsDropdown, type DropdownProps, type DropdownChoice, type DropdownChosen } from './components/dropdown.ts';

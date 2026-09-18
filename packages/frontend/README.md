@@ -24,8 +24,8 @@ and the elements upgrade it where there is behaviour. A page whose content
 is a document links nothing extra. `soul.css` sets the bare elements a
 renderer emits too, each in the sheet of its component.
 
-A script can define the elements before the markup arrives. An element
-waits for the parse to end before it takes what stands between its tags.
+A script in the head loads before the markup. The elements then register
+when the parse ends, so each one takes what stands between its tags.
 
 **Or one file, pasted.** `soul-inline.css` is `soul.css` with the two
 families inside it, for a page that goes out as one file. Paste it into a
@@ -39,6 +39,9 @@ Copy the directory whole. `soul.css` asks for `fonts/` beside itself, and
 file per icon category, and each icon comes out of its own. A bundler
 moves the module away from those assets, so a bundled build says where they
 went: `setIconSprites('/where/they/are/')`, the directory and not one file.
+A page that must not fetch carries the glyphs in the script instead:
+`inlineIcons(ICON_SVG)` with the map `icons.svg.generated.ts` exports, or
+a subset of it.
 
 ## Or as a package
 

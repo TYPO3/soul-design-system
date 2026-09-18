@@ -55,6 +55,19 @@ export const setIconSprites = (dir: string): void => {
   spriteDir = dir.endsWith('/') ? dir : `${dir}/`;
 };
 
+/* The glyphs a build carries in the script instead of in a sprite, by
+   identifier: the whole `<svg>` as the package ships it. Empty in the
+   drop-in, where a sprite is one request per category and the script stays
+   small. */
+let glyphs: Partial<Record<string, string>> = {};
+
+/** Carry the glyphs in the script, for a page that must not fetch: a
+    sandboxed preview, a document opened from disk. Takes the map
+    `icons.svg.generated.ts` exports, or any subset of it. */
+export const inlineIcons = (svgs: Partial<Record<string, string>>): void => {
+  glyphs = { ...glyphs, ...svgs };
+};
+
 /** Which sprite carries this glyph. An identifier opens with its own category;
     `scripts/icons.ts` checks that before it writes the list. The longest
     match wins, so two categories with one start cannot take each other's. */
@@ -112,10 +125,15 @@ export class SdsIcon extends SdsElement {
        request — written always, it overrides `sds-icon--24`, which is how
        hand-written markup asks. */
     const sized = this.size === 'em' ? '' : ` style="width:${this.size}px;height:${this.size}px"`;
+    /* The shapes out of the carried glyph, or a reference into the sprite.
+       Inline SVG parses as foreign content, where a self-closing shape closes. */
+    const carried = glyphs[this.name];
+    const inner = carried
+      ? carried.replace(/^\s*<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '')
+      : `<use href="${spriteFor(this.name)}#${this.name}"></use>`;
     return html`${unsafeHTML(
       `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized}` +
-        ` class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}">` +
-        `<use href="${spriteFor(this.name)}#${this.name}"></use></svg>`,
+        ` class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}">${inner}</svg>`,
     )}`;
   }
 }

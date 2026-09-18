@@ -41,6 +41,8 @@ How the files arrive
       script resolves ``assets/icons/sprites/`` inside it, one file per icon
       category. A build that moves the module away from those assets says
       where they went with ``setIconSprites()``, which takes the directory.
+      A page that must not fetch carries the glyphs in the script:
+      ``inlineIcons()``.
 
       .. code-block:: html
 
