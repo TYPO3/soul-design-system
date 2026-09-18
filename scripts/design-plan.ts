@@ -85,9 +85,14 @@ const calls: Call[] = [];
 let current: Record<string, Entry> = {};
 let count = 0;
 let bytes = 0;
+/* Under `root`, the tool publishes `file_path` at its own relative path. A
+   second entry for it in `files` is a path named twice, and a refusal. */
 const flush = (): void => {
   const first = Object.keys(current).find((k) => current[k] !== null);
-  if (first) calls.push({ file_path: first, files: current });
+  if (first) {
+    const { [first]: _own, ...files } = current;
+    calls.push({ file_path: first, files });
+  }
   current = {};
   count = 0;
   bytes = 0;
@@ -156,7 +161,7 @@ const plan = {
     },
     {
       step: 4, action: 'publish', why: 'the index and the record last — their presence means everything above landed',
-      call: { file_path: INDEX_FILE, files: { [INDEX_FILE]: INDEX_FILE, [ANCHOR_FILE]: ANCHOR_FILE } },
+      call: { file_path: INDEX_FILE, files: { [ANCHOR_FILE]: ANCHOR_FILE } },
     },
     {
       step: 5, action: 'verify', why: 'a publish result is not proof — read the index back',

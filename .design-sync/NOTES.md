@@ -142,7 +142,9 @@ an upload with no id.
 
 **Then the files, chunked.** `root` is `.out/bundle`, `file_path` one file
 by its full path, `files` the map the plan gives, with the removals as
-`null` in the first call. The tool takes 256 paths and 16 MiB a call; the
+`null` in the first call. Under `root` the tool publishes `file_path` at
+its own relative path, so the map leaves it out: a path named twice is a
+refusal. The tool takes 256 paths and 16 MiB a call; the
 plan stays under both. A `.d.ts` is not a served type: the plan sends it as
 `{from, contentType: "text/plain"}`, or the tool refuses the whole call.
 
