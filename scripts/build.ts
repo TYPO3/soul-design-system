@@ -98,14 +98,22 @@ function uploads(): Upload[] {
   return out;
 }
 
-/** The blob id the last sync recorded for an upload, for a file at that hash. */
+/** The blob id the last sync recorded for an upload, by its path and by
+    its content alone. A picture that moved between groups keeps its blob
+    rather than goes up again. */
 function knownBlobs(): Map<string, string> {
   const out = new Map<string, string>();
   if (!existsSync(ANCHOR)) return out;
   const was = JSON.parse(readFileSync(ANCHOR, 'utf8')).uploads as Record<string, { sha: string; blob: string | null }> | undefined;
-  for (const [path, rec] of Object.entries(was ?? {})) if (rec.blob) out.set(`${path}@${rec.sha}`, rec.blob);
+  for (const [path, rec] of Object.entries(was ?? {})) {
+    if (!rec.blob) continue;
+    out.set(`${path}@${rec.sha}`, rec.blob);
+    if (!out.has(`@${rec.sha}`)) out.set(`@${rec.sha}`, rec.blob);
+  }
   return out;
 }
+const blobFor = (blobs: Map<string, string>, path: string, sha: string): string | undefined =>
+  blobs.get(`${path}@${sha}`) ?? blobs.get(`@${sha}`);
 
 // -------------------------------------------------------------- previews --
 
@@ -128,7 +136,7 @@ function place(txt: string, byRepo: Map<string, Upload>, blobs: Map<string, stri
     if (!up) return whole;
     const bytes = readFileSync(up.source);
     if (!frag && bytes.length <= INLINE_MAX) return `${attr}="data:${mime(up.source)};base64,${bytes.toString('base64')}"`;
-    const blob = blobs.get(`${up.path}@${shas.get(up.path)}`);
+    const blob = blobFor(blobs, up.path, shas.get(up.path)!);
     if (blob) return `${attr}="_blob/${blob}${frag}"`;
     pending.push(up.path);
     return `${attr}="{{upload:${up.path}}}${frag}"`;
@@ -462,7 +470,7 @@ const uploadRecords: Record<string, { sha: string; bytes: number; type: string; 
 for (const u of ups) {
   mkdirSync(join(PROJECT, u.path, '..'), { recursive: true });
   cpSync(u.source, join(PROJECT, u.path));
-  uploadRecords[u.path] = { sha: shas.get(u.path)!, bytes: statSync(u.source).size, type: mime(u.source), blob: blobs.get(`${u.path}@${shas.get(u.path)}`) ?? null };
+  uploadRecords[u.path] = { sha: shas.get(u.path)!, bytes: statSync(u.source).size, type: mime(u.source), blob: blobFor(blobs, u.path, shas.get(u.path)!) ?? null };
 }
 for (const [group, note] of Object.entries(GROUP_NOTES)) write(`assets/${group}/README.md`, note);
 cpSync(join(FRONTEND, 'assets', 'icons', 'icons.json'), join(PROJECT, 'icons', 'icons.json'));
