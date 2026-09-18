@@ -7,6 +7,9 @@
 
 import { chromium, type Browser, type Page } from 'playwright';
 import { pathToFileURL } from 'node:url';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { FRONTEND } from './cards.ts';
 
 import * as report from './report.ts';
 
@@ -53,6 +56,38 @@ export const missingFaces = (page: Page): Promise<string[]> =>
     return missing;
   });
 
+interface Face {
+  family: string;
+  style: string;
+  weight: string;
+  range: string;
+  src: string;
+}
+
+/** The faces the cards link, as `fonts.css` declares them, read once. Once
+    `font-display: optional` runs out of patience a `file://` page keeps its
+    fallback for good, whatever `load()` says later. A disk that answers
+    late loses that race on every page, because `file://` passes every cache
+    the browser has. A face added through the API has no such period. Text
+    set in it switches when the file arrives. So the same declarations go in
+    again by hand, because the CSSOM of a `file://` stylesheet is out of
+    reach from a `file://` document. */
+const FACES: readonly Face[] = (() => {
+  const dir = join(FRONTEND, 'fonts');
+  const css = readFileSync(join(dir, 'fonts.css'), 'utf8');
+  return [...css.matchAll(/@font-face\s*{([^}]*)}/g)].map((m) => {
+    const block = m[1] ?? '';
+    const get = (name: string): string => (block.match(new RegExp(`${name}:\\s*([^;]+);`)) ?? [])[1]?.trim() ?? '';
+    return {
+      family: get('font-family').replace(/^'|'$/g, ''),
+      style: get('font-style') || 'normal',
+      weight: get('font-weight') || 'normal',
+      range: get('unicode-range') || 'U+0-10FFFF',
+      src: get('src').replace(/url\('([^']+)'\)/, (_, file: string) => `url('${pathToFileURL(join(dir, file)).href}')`),
+    };
+  });
+})();
+
 /** Force the design faces for deterministic measurements. `optional` leaves
     real navigation free to keep its fallback when a face arrives late. */
 export async function loadFonts(page: Page): Promise<void> {
@@ -66,6 +101,19 @@ export async function loadFonts(page: Page): Promise<void> {
       await document.fonts.ready;
     });
     if (!(await missingFaces(page)).length) return;
+    /* The page has given up on the linked faces. The same ones again, through
+       the API, which does not give up. A `file://` page only: a served page
+       has a cache behind it, and it cannot load a `file://` face at all. */
+    if (attempt === 0 && page.url().startsWith('file:')) {
+      await page.evaluate(async (faces: readonly Face[]) => {
+        for (const f of faces) {
+          const face = new FontFace(f.family, f.src, { weight: f.weight, style: f.style, unicodeRange: f.range, display: 'block' });
+          document.fonts.add(face);
+          await face.load().catch(() => face);
+        }
+        await document.fonts.ready;
+      }, FACES);
+    }
   }
 }
 

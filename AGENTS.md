@@ -430,9 +430,16 @@ family and in a family that does not exist. Equal widths mean the fallback
 drew both, and `loadFonts` retries until that holds.
 
 `map` runs one page at a time, which removes the race between pages that
-fetch `file://` faces. Two documents have no fix, and the output names them
-instead of a measurement. A document that embeds another `file://` document,
-an `<iframe>` or an external `<svg>`, never applies its own faces.
+fetch `file://` faces.
+
+A page can still lose its own race: `font-display: optional` runs out of
+patience and keeps the fallback for good. That page gets the same faces
+again through the `FontFace` API, which has no such period. `FACES` in
+`scripts/lib/browser.ts` reads them out of `fonts.css`.
+
+Two documents have no fix, and the output names them instead of a
+measurement. A document that embeds another `file://` document, an
+`<iframe>` or an external `<svg>`, never applies its own faces.
 `specimens/screens/tour.html` and the diagram cards are those.
 
 **Change a size or a gap.** Through a token or a component's set, never as a
