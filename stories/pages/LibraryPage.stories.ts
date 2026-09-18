@@ -234,12 +234,13 @@ export function libraryPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Library',
+  title: 'Pages/Catalog/Library',
   excludeStories: ['libraryPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/library.html',
+      section: 'Catalog',
       title: 'TYPO3 Dev Companion — the glyph set',
       subtitle: 'The front door to a large set — search first, the set visible, counted facts instead of adjectives',
       viewport: '1440x900',

@@ -2,7 +2,7 @@
 
    The markup lives in `src/components/footer.ts`. No `parameters.dsCard`. A
    footer is the full width of a page and a card is a fragment at a fixed size.
-   What a card shows is a footer at the wrong measure. `Pages/Feature` shows
+   What a card shows is a footer at the wrong measure. `Pages/Site/Feature` shows
    it at the one it exists for.
 
    One shape, and less of it where a page has less to say. The stories below

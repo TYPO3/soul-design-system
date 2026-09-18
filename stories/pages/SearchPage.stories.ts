@@ -183,12 +183,13 @@ export function searchPage({ flat = false, facet = 0, onFacet }: SearchMode = {}
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Search',
+  title: 'Pages/Catalog/Search',
   excludeStories: ['searchPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/search.html',
+      section: 'Catalog',
       title: 'TYPO3 Dev Companion — search',
       subtitle: 'The hits, the sources, and what a source that answers with nothing looks like',
       viewport: '1440x900',

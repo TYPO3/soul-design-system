@@ -256,12 +256,13 @@ export function contactPage({ flat = false, state = 'form', errors = [], announc
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Contact',
+  title: 'Pages/Service/Contact',
   excludeStories: ['contactPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/contact.html',
+      section: 'Service',
       title: 'TYPO3 Dev Companion — report a wrong answer',
       subtitle: 'A form, what it does when it fails, and what it says when it succeeds',
       viewport: '1440x900',

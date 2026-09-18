@@ -108,12 +108,13 @@ export function notFoundPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Not found',
+  title: 'Pages/Service/Not found',
   excludeStories: ['notFoundPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/not-found.html',
+      section: 'Service',
       title: 'TYPO3 Dev Companion — not found',
       subtitle: 'A boundary is an answer: the request, what answered, and the nearest real thing',
       viewport: '1440x900',

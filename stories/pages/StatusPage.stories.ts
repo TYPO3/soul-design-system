@@ -187,12 +187,13 @@ export function statusPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Status',
+  title: 'Pages/Service/Status',
   excludeStories: ['statusPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/status.html',
+      section: 'Service',
       title: 'TYPO3 Dev Companion — status',
       subtitle: 'The sources rather than a service: what is reachable, what runs degraded, and what this cannot report',
       viewport: '1440x900',

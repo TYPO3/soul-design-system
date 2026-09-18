@@ -3,7 +3,7 @@
    The markup lives in `src/components/search-result.ts`. No
    `parameters.dsCard`. A hit earns its review in a list, against the ones
    above and below it, and a card is a fragment at a fixed size.
-   `Components/SearchHits` is the list, and `Pages/Search` the page around it.
+   `Components/SearchHits` is the list, and `Pages/Catalog/Search` the page around it.
 
    The story to read is `Marked`. The marks stand on the search term, and this
    element makes them. A page that marks by hand marks what it thinks it

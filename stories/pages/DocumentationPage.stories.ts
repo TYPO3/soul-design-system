@@ -261,12 +261,13 @@ export function documentationPage({ flat = false }: PageMode = {}): TemplateResu
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Documentation',
+  title: 'Pages/Docs/Documentation',
   excludeStories: ['documentationPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/documentation.html',
+      section: 'Docs',
       title: 'Soul Design System — documentation',
       subtitle: 'Tool rail, 1200px measure — the documentation is the product presentation',
       viewport: '1440x900',

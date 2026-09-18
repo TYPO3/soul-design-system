@@ -40,7 +40,7 @@ test('the manager shell boots, with its sidebar and no page errors', async ({ pa
    toolbar in the written order, and a choice of one resizes the preview. A
    menu that moves nothing looks exactly like one that works. */
 test('the toolbar offers the sizes, and a choice of one resizes the preview', async ({ page }) => {
-  await page.goto('/?path=/story/pages-landing--page', { waitUntil: 'networkidle' });
+  await page.goto('/?path=/story/pages-site-landing--page', { waitUntil: 'networkidle' });
   await page.waitForSelector('#storybook-explorer-tree', { timeout: 30_000 });
 
   await page.getByRole('button', { name: 'Viewport size' }).click();

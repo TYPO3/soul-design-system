@@ -11,7 +11,7 @@ import { test, expect } from '@playwright/test';
 
 import { gotoStory } from './lib/story.ts';
 
-const CONTACT = 'pages-contact--page';
+const CONTACT = 'pages-service-contact--page';
 
 /** What the browser sends. Read from the real form, not from properties:
     the question is what leaves the page, not what the elements believe. */

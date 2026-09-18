@@ -211,12 +211,13 @@ export function catalogPage({ flat = false, facet = 0, onFacet }: CatalogPagePro
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Catalog',
+  title: 'Pages/Catalog/Catalog',
   excludeStories: ['catalogPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/catalog.html',
+      section: 'Catalog',
       title: 'TYPO3 Dev Companion — glyph catalog',
       subtitle: `A wall found by shape${NNBSP}— the drawing in front, the name under it, the set narrowed and paged`,
       viewport: '1440x900',

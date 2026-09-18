@@ -146,12 +146,13 @@ export function toolReferencePage({ flat = false }: PageMode = {}): TemplateResu
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Tool reference',
+  title: 'Pages/Docs/Tool reference',
   excludeStories: ['toolReferencePage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/tool-reference.html',
+      section: 'Docs',
       title: 'Soul Design System — tool reference',
       subtitle: 'The full tool surface at compact density — the list is the work',
       viewport: '1440x900',

@@ -3,7 +3,7 @@
    The markup lives in `src/components/crumbs.ts`. No `parameters.dsCard`: a
    trail is four words and two slashes, and a card of it shows the type
    scale a second time. Where it belongs is above a page title, which is what
-   `Pages/Feature` shows.
+   `Pages/Site/Feature` shows.
 
    The stories to have are the two edges — a trail one step deep, and one
    deep enough to wrap. Everything between them is the same row. */

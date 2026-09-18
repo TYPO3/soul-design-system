@@ -67,7 +67,7 @@ test('the page rail is a column, and the bar carries the site', async ({ page })
   const toggle = page.locator('.sds-bar__toggle');
 
   await page.setViewportSize({ width: 1280, height: 900 });
-  await gotoStory(page, 'pages-documentation--page');
+  await gotoStory(page, 'pages-docs-documentation--page');
   await expect(rail).toBeVisible();
   await expect(drawer.locator('#page-rail')).toHaveCount(0);
 
@@ -112,7 +112,7 @@ test('the rail loses its column at the width the layout stacks', async ({ page }
   const rail = page.locator('#page-rail');
 
   await page.setViewportSize({ width: 900, height: 900 });
-  await gotoStory(page, 'pages-documentation--page');
+  await gotoStory(page, 'pages-docs-documentation--page');
   await expect(rail).toBeVisible();
   await page.setViewportSize({ width: 856, height: 900 });
   await expect(rail).toBeHidden();
@@ -129,7 +129,7 @@ test('the header navigation folds rather than goes', async ({ page }) => {
   const toggle = page.locator('.sds-bar__toggle');
 
   await page.setViewportSize({ width: 1440, height: 900 });
-  await gotoStory(page, 'pages-landing--page');
+  await gotoStory(page, 'pages-site-landing--page');
   await expect(nav).toBeVisible();
   await expect(toggle).toBeHidden();
 
@@ -172,7 +172,7 @@ test('the search field moves into the drawer, and neither shrinks nor goes', asy
   const toggle = page.locator('.sds-bar__toggle');
 
   await page.setViewportSize({ width: 1440, height: 900 });
-  await gotoStory(page, 'pages-news--page');
+  await gotoStory(page, 'pages-catalog-news--page');
   await expect(inRow).toBeVisible();
 
   await page.setViewportSize({ width: 420, height: 900 });
@@ -197,7 +197,7 @@ test('the bar eases across the step between layout bands rather than jumps it', 
     page.evaluate(() => getComputedStyle(document.querySelector('.sds-bar')!).paddingLeft);
 
   await page.setViewportSize({ width: 900, height: 900 });
-  await page.goto('/iframe.html?id=pages-landing--page&viewMode=story');
+  await page.goto('/iframe.html?id=pages-site-landing--page&viewMode=story');
   await page.waitForSelector('.sds-bar', { state: 'attached', timeout: 15_000 });
   expect(await inset()).toBe('24px');
 
@@ -240,7 +240,7 @@ test('the bar eases across the step between layout bands rather than jumps it', 
    comparison, which is why the measurement is here. */
 test('the bar stays at the top while the page scrolls under it', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/iframe.html?id=pages-landing--page&viewMode=story');
+  await page.goto('/iframe.html?id=pages-site-landing--page&viewMode=story');
   await page.waitForSelector('.sds-bar', { state: 'attached', timeout: 15_000 });
 
   const top = (): Promise<number> =>
@@ -254,7 +254,7 @@ test('the bar stays at the top while the page scrolls under it', async ({ page }
 
 test('the landing story opens with the composed hero', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await gotoStory(page, 'pages-landing--page');
+  await gotoStory(page, 'pages-site-landing--page');
 
   const hero = page.locator('#overview > .sds-split');
   /* A split holds columns — the half carries a name rather than a shape. */
@@ -272,7 +272,7 @@ test('the landing story opens with the composed hero', async ({ page }) => {
    puts the list back rather than merely looks as if it can. */
 test('a filter that matches nothing answers, and the answer undoes it', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await gotoStory(page, 'pages-news--page');
+  await gotoStory(page, 'pages-catalog-news--page');
 
   /* Counted off the page rather than written here. How many entries the list
      holds is the page's business. A literal fails the day one arrives — a
@@ -308,7 +308,7 @@ test('a filter that matches nothing answers, and the answer undoes it', async ({
    reaches the field it names. */
 test('a form that fails says what, and sends the reader to it', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await gotoStory(page, 'pages-contact--page');
+  await gotoStory(page, 'pages-service-contact--page');
 
   const summary = page.locator('.sds-form-errors');
   await expect(summary).toHaveCount(0);

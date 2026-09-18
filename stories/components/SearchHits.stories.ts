@@ -4,7 +4,7 @@
    search that stands on its own. The hits, in the order a reader reads them,
    and the sentence a search with nothing to show gives.
 
-   No `parameters.dsCard`: `Pages/Search` is where a list of answers gets its
+   No `parameters.dsCard`: `Pages/Catalog/Search` is where a list of answers gets its
    review, against the field and the facets above it. Here it is the list
    with no index behind it and nothing typed into anything. Four hits, none,
    or hits with a picture, handed straight to the element. */

@@ -234,12 +234,13 @@ export function readingPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Reading',
+  title: 'Pages/Docs/Reading',
   excludeStories: ['readingPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/reading.html',
+      section: 'Docs',
       title: 'TYPO3 Dev Companion — how this page sets',
       subtitle: 'Every register under one another in one column — the reference the rest follow',
       viewport: '1440x900',

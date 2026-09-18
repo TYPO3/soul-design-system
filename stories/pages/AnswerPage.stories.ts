@@ -101,12 +101,13 @@ export function answerPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Answer',
+  title: 'Pages/Catalog/Answer',
   excludeStories: ['answerPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/answer.html',
+      section: 'Catalog',
       title: 'Soul Design System — answer',
       subtitle: 'An answer carries its source, its version binding, and what it leaves out',
       viewport: '1440x900',

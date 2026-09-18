@@ -294,12 +294,13 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Feature',
+  title: 'Pages/Site/Feature',
   excludeStories: ['featurePage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/feature.html',
+      section: 'Site',
       title: 'TYPO3 Dev Companion — feature',
       subtitle: 'One claim in full: what it is, what it changes in a result, and what it does not do',
       viewport: '1440x900',

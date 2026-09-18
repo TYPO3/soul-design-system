@@ -20,7 +20,7 @@ import { pathToFileURL } from 'node:url';
 import { authored } from './lib/authored.ts';
 import { openCard, withPage } from './lib/browser.ts';
 import { storyFiles } from './cards.ts';
-import { FRONTEND, GENERATED, ROOT, cards, pascal, screens, type Card, type Screen } from './lib/cards.ts';
+import { FRONTEND, GENERATED, ROOT, byGroup, cards, pascal, screens, type Card, type Screen } from './lib/cards.ts';
 import { elements, type ElementDoc } from './lib/elements.ts';
 import { prerender, type Props } from './lib/prerender.ts';
 import { tokens } from './lib/tokens.ts';
@@ -519,13 +519,18 @@ if (existsSync(cover)) write('components/Cover/preview.html', readFileSync(cover
 
 // the brand book and the written rules
 const SCREEN_MARK = '<!-- @startingPoints -->';
+/* The layouts under the section each story declares, alphabetically, the
+   way the cards group. A reader who found the group in the sidebar finds
+   it here. */
+const bySection = byGroup(shipped.map((s) => ({ ...s, group: s.section })));
 const screenBlock = shipped.length
   ? ['## Start from a layout', '',
       'A page is a layout with its content replaced, never a stack of cards. Open the',
       'one nearest the job and keep its shell — the bar, the skip link, and either a',
       'column beside a rail or a run of bands. An element answers what one part looks like.', '',
-      ...shipped.map((s) => `- **${s.name}** — ${s.subtitle}: \`components/${pascal(basename(s.path, '.html'))}Screen/preview.html\``), '']
-    .join('\n')
+      ...[...bySection].flatMap(([section, list]) => [`### ${section}`, '',
+        ...list.map((s) => `- **${s.name}** — ${s.subtitle}: \`components/${pascal(basename(s.path, '.html'))}Screen/preview.html\``), '']),
+    ].join('\n')
   : '';
 const conventions = readFileSync(join(ROOT, '.design-sync/conventions.md'), 'utf8').trimEnd();
 write('README.md', `${conventions.includes(SCREEN_MARK) ? conventions.replace(SCREEN_MARK, screenBlock.trimEnd()) : `${conventions}\n\n${screenBlock}`}\n`);

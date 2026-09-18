@@ -161,12 +161,13 @@ export function comparePage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Compare',
+  title: 'Pages/Site/Compare',
   excludeStories: ['comparePage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/compare.html',
+      section: 'Site',
       title: 'TYPO3 Dev Companion — which way to run it',
       subtitle: 'A comparison whose gaps are the point, and whose marks read with no view of them',
       viewport: '1440x900',

@@ -230,12 +230,13 @@ export function guidePage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Guide',
+  title: 'Pages/Docs/Guide',
   excludeStories: ['guidePage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/guide.html',
+      section: 'Docs',
       title: 'TYPO3 Dev Companion — drawing a glyph',
       subtitle: `A construction rule written down — values as entries, the palette resolved, both grounds forced on a subtree`,
       viewport: '1440x900',

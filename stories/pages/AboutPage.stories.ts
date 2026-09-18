@@ -172,12 +172,13 @@ export function aboutPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/About',
+  title: 'Pages/Site/About',
   excludeStories: ['aboutPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/about.html',
+      section: 'Site',
       title: 'TYPO3 Dev Companion — who is behind it',
       subtitle: 'Who is answerable, why it exists, who pays for it, and what happens if it stops',
       viewport: '1440x900',

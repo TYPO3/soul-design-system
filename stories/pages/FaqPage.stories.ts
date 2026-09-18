@@ -124,12 +124,13 @@ export function faqPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Questions',
+  title: 'Pages/Docs/Questions',
   excludeStories: ['faqPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/questions.html',
+      section: 'Docs',
       title: 'TYPO3 Dev Companion — questions',
       subtitle: 'A list of questions rather than a wall of answers — and it folds with no script',
       viewport: '1440x900',

@@ -2,7 +2,7 @@
 
    The markup lives in `src/components/icon-tile.ts`. No `parameters.dsCard`:
    one tile on its own says nothing, because what it is for is only visible in
-   the wall — which is what `Pages/Catalog` shows.
+   the wall — which is what `Pages/Catalog/Catalog` shows.
 
    The stories are the decisions a wall makes. How big the glyph draws, if
    the tile goes anywhere, and what happens to an identifier too long for the

@@ -253,12 +253,13 @@ export function audiencePage({ flat = false, audience = 0, onAudience }: Audienc
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Audience',
+  title: 'Pages/Site/Audience',
   excludeStories: ['audiencePage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/audience.html',
+      section: 'Site',
       title: 'TYPO3 Dev Companion — written for agencies',
       subtitle: 'One audience argued to, the switch at the top, jobs rather than features, and the objection this audience actually has',
       viewport: '1440x900',

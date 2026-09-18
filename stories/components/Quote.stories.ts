@@ -2,7 +2,7 @@
 
    The markup lives in `src/components/quote.ts`. No `parameters.dsCard`. What
    a quote looks like is the type scale and a rule, both already on cards. What
-   it is *for* is only visible in a column of prose. `Pages/Article` shows it
+   it is *for* is only visible in a column of prose. `Pages/Docs/Article` shows it
    there.
 
    `Unattributed` is the story to read, and it is the one arrangement the

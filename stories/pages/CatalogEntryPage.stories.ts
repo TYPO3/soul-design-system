@@ -200,12 +200,13 @@ export function catalogEntryPage({ flat = false }: PageMode = {}): TemplateResul
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Catalog entry',
+  title: 'Pages/Catalog/Catalog entry',
   excludeStories: ['catalogEntryPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/catalog-entry.html',
+      section: 'Catalog',
       title: 'TYPO3 Dev Companion — one glyph',
       subtitle: 'One item of a set in full — both modes forced on a subtree, every size in one table',
       viewport: '1440x900',

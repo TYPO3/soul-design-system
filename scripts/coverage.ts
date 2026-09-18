@@ -75,7 +75,7 @@ const ELSEWHERE = [
   'sds-dialog',
   /* A wall of glyphs is an index of an asset set, which a manual page is not.
      A document that wants one is a catalog with prose round it, and that is
-     a product surface — see `Pages/Catalog`. */
+     a product surface — see `Pages/Catalog/Catalog`. */
   'sds-icon-tile',
   /* The bar draws its own row of pills, as `sds-nav-main`'s content. A second
      one in a document is a second navigation. */

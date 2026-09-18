@@ -209,12 +209,13 @@ export function tourPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Tour',
+  title: 'Pages/Site/Tour',
   excludeStories: ['tourPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/tour.html',
+      section: 'Site',
       title: 'TYPO3 Dev Companion — the tour',
       subtitle: 'A sequence rather than a row of cards — steps on alternate sides, and every picture opens at full size',
       viewport: '1440x900',

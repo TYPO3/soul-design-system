@@ -219,12 +219,13 @@ export function sourcePage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Source',
+  title: 'Pages/Service/Source',
   excludeStories: ['sourcePage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/source.html',
+      section: 'Service',
       title: 'Dev Companion — one source',
       subtitle: 'The one page with work in progress — a share, the stops it consists of, and what each one wrote',
       viewport: '1440x900',

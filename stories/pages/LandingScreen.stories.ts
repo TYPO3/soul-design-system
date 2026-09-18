@@ -347,12 +347,13 @@ export function landingPage({ flat = false }: PageMode = {}): TemplateResult {
    the story view alone. Untagged, the story itself is what the sidebar lists,
    hoisted to a single leaf by `name` below. */
 const meta: Meta = {
-  title: 'Pages/Landing',
+  title: 'Pages/Site/Landing',
   excludeStories: ['landingPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/landing.html',
+      section: 'Site',
       title: 'Soul Design System',
       subtitle: 'The first page: the pitch, who it is for, what it consists of, and how to start',
       viewport: '1440x900',

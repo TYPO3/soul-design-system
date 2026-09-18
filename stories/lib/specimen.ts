@@ -151,10 +151,19 @@ export function dsCard(c: DsCardInput): DsCard {
   return { group: 'Components', theme: 'both', bodyClass: '', ...c, width: Number(w), height: Number(h) };
 }
 
+/** Where a screen stands: its group under `Pages`. The front of a site, its
+    reference, a set, the pages a site owes, and the documents outside one.
+    `.storybook/preview.ts` orders the groups, as a literal: Storybook reads
+    that list and does not run it. */
+export type ScreenSection = 'Site' | 'Docs' | 'Catalog' | 'Service' | 'Paper';
+
 export interface DsScreenInput {
   /** The file to generate, relative to the repo root — under `screens/`. */
   path: string;
-  section?: string;
+  /** Where the layout stands: the group under `Pages` in the sidebar, and the
+      heading it lists under in the bundle. The story's title names the same
+      group, the way a card's title names its `group`. */
+  section: ScreenSection;
   /** The `<title>` of the page, which is a page and not a specimen. */
   title: string;
   subtitle: string;
@@ -175,5 +184,5 @@ export interface DsScreen extends Required<DsScreenInput> {
     their markup a second time. */
 export function dsScreen(s: DsScreenInput): DsScreen {
   const [w, h] = s.viewport.split('x');
-  return { section: 'Screens', theme: 'both', ...s, width: Number(w), height: Number(h) };
+  return { theme: 'both', ...s, width: Number(w), height: Number(h) };
 }

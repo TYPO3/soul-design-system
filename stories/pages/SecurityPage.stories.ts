@@ -266,12 +266,13 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Security',
+  title: 'Pages/Service/Security',
   excludeStories: ['securityPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/security.html',
+      section: 'Service',
       title: 'TYPO3 Dev Companion — what it reads and what it sends',
       subtitle: 'The reporting address first, the boundary as a reference, and the advisory history with the slow one left in',
       viewport: '1440x900',

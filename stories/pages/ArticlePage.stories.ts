@@ -197,12 +197,13 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Article',
+  title: 'Pages/Docs/Article',
   excludeStories: ['articlePage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/article.html',
+      section: 'Docs',
       title: 'TYPO3 Dev Companion — article',
       subtitle: 'One long read: its contents beside it, and the things a text needs standing in the column',
       viewport: '1440x900',

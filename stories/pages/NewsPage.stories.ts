@@ -229,12 +229,13 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/News',
+  title: 'Pages/Catalog/News',
   excludeStories: ['newsPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/news.html',
+      section: 'Catalog',
       title: 'TYPO3 Dev Companion — news',
       subtitle: 'The distributor: entries narrowed by kind, the empty state that follows, and page two',
       viewport: '1440x900',

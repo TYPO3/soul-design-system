@@ -101,11 +101,11 @@ test('the index lists every component and specimen group', async ({ request }) =
     /* And the whole layouts. They are live in Storybook on purpose. The pass
        below opens every story here, so a page is a page under test rather
        than a picture of one. */
-    'Pages/Answer',
-    'Pages/Documentation',
-    'Pages/Feature',
-    'Pages/Landing',
-    'Pages/Tool reference',
+    'Pages/Catalog/Answer',
+    'Pages/Docs/Documentation',
+    'Pages/Site/Feature',
+    'Pages/Site/Landing',
+    'Pages/Docs/Tool reference',
   ]) {
     expect(titles, `${expected} should have a page`).toContain(expected);
   }

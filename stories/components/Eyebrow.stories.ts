@@ -2,7 +2,7 @@
 
    The markup lives in `src/components/eyebrow.ts`. No `parameters.dsCard`.
    What an eyebrow draws is the label register, already on the type cards.
-   What it *is* only shows over a heading, and `Pages/Feature` opens with
+   What it *is* only shows over a heading, and `Pages/Site/Feature` opens with
    one. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';

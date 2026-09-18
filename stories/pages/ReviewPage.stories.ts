@@ -641,12 +641,13 @@ export function reviewPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Review',
+  title: 'Pages/Paper/Review',
   excludeStories: ['reviewPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/review.html',
+      section: 'Paper',
       title: 'Soul Design System — review',
       subtitle: 'A review carries its verdict first, its findings by weight, and the evidence for each',
       viewport: '1440x900',

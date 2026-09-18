@@ -3,7 +3,7 @@
    The markup lives in `src/components/field-group.ts`. No `parameters.dsCard`.
    What the group draws is a field and a row of buttons, both already on
    cards. What it *adds* is the distances between them, and those read
-   beside a title on a page. `Pages/Library` shows it there. */
+   beside a title on a page. `Pages/Catalog/Library` shows it there. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';

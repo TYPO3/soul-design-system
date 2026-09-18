@@ -242,12 +242,13 @@ export function plansPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Plans',
+  title: 'Pages/Site/Plans',
   excludeStories: ['plansPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/plans.html',
+      section: 'Site',
       title: 'TYPO3 Dev Companion — what it costs',
       subtitle: 'Three tiers with one marked, a comparison answered in words, and what happens when you stop the payment',
       viewport: '1440x900',

@@ -372,12 +372,13 @@ export function checkoutPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Checkout',
+  title: 'Pages/Service/Checkout',
   excludeStories: ['checkoutPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/checkout.html',
+      section: 'Service',
       title: 'Dev Companion — one checkout',
       subtitle: 'The page behind a row: its name, its controls, where it stands, and what happened to it',
       viewport: '1440x900',

@@ -218,12 +218,13 @@ export function downloadPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Get started',
+  title: 'Pages/Site/Get started',
   excludeStories: ['downloadPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/get-started.html',
+      section: 'Site',
       title: 'TYPO3 Dev Companion — get started',
       subtitle: 'Which file is yours, if it is the published one, and what to do when it does not answer',
       viewport: '1440x900',

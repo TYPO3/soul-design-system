@@ -5,7 +5,7 @@
    behaviour a still picture cannot hold. The focus comes here after a failed
    submit, and each entry is a link to the field it is about.
 
-   `Pages/Contact` shows that. What is here is the shape at one, at several,
+   `Pages/Service/Contact` shows that. What is here is the shape at one, at several,
    and at none. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';

@@ -267,12 +267,13 @@ export function releasesPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Releases',
+  title: 'Pages/Service/Releases',
   excludeStories: ['releasesPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/releases.html',
+      section: 'Service',
       title: 'TYPO3 Dev Companion — releases and support',
       subtitle: 'Dated at the top, phases as word and glyph rather than fill, and what has no plan said out loud',
       viewport: '1440x900',

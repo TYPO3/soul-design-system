@@ -238,12 +238,13 @@ export function caseStudyPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Case study',
+  title: 'Pages/Site/Case study',
   excludeStories: ['caseStudyPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/case-study.html',
+      section: 'Site',
       title: 'TYPO3 Dev Companion — one deployment',
       subtitle: 'The outcome as the headline, a facts box to check yourself against, and every figure with its method',
       viewport: '1440x900',

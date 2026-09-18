@@ -837,12 +837,13 @@ export function conceptPage({ flat = false }: PageMode = {}): TemplateResult {
    has no variants to collect, and the widths it documents are reachable only
    in the story view. */
 const meta: Meta = {
-  title: 'Pages/Concept',
+  title: 'Pages/Paper/Concept',
   excludeStories: ['conceptPage', 'screenHtml'],
   parameters: {
     layout: 'fullscreen',
     dsScreen: dsScreen({
       path: 'screens/concept.html',
+      section: 'Paper',
       title: 'Soul Design System — concept',
       subtitle: 'A concept paper stands beside its panel: the numbered contents, folded to the part the reader is in',
       viewport: '1440x900',
