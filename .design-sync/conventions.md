@@ -67,11 +67,16 @@ Roman on white.
 puts every class under `window.SDS`. There is nothing to call. A project
 installs the same elements as the module `soul.js` of `@typo3/soul-frontend`.
 
-`sds-icon` fetches its glyph from a sprite beside the script, `icons/sprites/`.
-A page that carries the script inline says where the sprites are:
-`SDS.setIconSprites('<url of icons/sprites/>')`. Without a reachable sprite
-the element draws nothing, and the fallback is the SVG file of the icon,
-inlined.
+`sds-icon` draws its glyph out of a sprite, one file per category under
+`icons/sprites/`. Inside this design system the sprites are at
+`/project/icons/sprites/`; a page says so once,
+`SDS.setIconSprites('/project/icons/sprites/')`, before its first glyph.
+Without a reachable sprite the element draws nothing, and the fallback is
+the SVG file of the icon, inlined.
+
+A script sets a property that takes a template, a `body` or a table cell
+with markup in it. `SDS.html` and `SDS.unsafeHTML` come from Lit. Every
+element's `preview.html` shows the way.
 
 **Without the script you write the fallback.** The elements are how you use
 this system. Without them a page keeps the classes, and every part name in
@@ -222,8 +227,11 @@ not exist. That is the answer, not a reason to substitute something.
 
 Read the real files before you style: `tokens.json` and
 `components/bundle.css`. Per element, `components/<Class>/README.md` is its
-attributes and what goes between its tags, and `<Class>.d.ts` beside it the
-types. Read that before you write one. Per card,
+attributes and what goes between its tags, and `<Class>.d.ts` beside it
+the types. `preview.html` is the element live in its states, written the
+way a page writes it. Read that before you write one.
+
+Per card,
 `components/<Name>/README.md` has the markup to copy, and `preview.html`
 beside it is the card. `guidelines/build-rules.md` is the full rule set.
 Copy the nearest specimen instead of a variant of your own.

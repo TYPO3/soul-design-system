@@ -14,8 +14,13 @@ import { basename, extname, join, relative, resolve } from 'node:path';
 
 import * as esbuild from 'esbuild';
 
+import { pathToFileURL } from 'node:url';
+
+import { authored } from './lib/authored.ts';
+import { storyFiles } from './cards.ts';
 import { FRONTEND, GENERATED, ROOT, byGroup, cards, pascal, screens, type Card, type Screen } from './lib/cards.ts';
 import { elements, type ElementDoc } from './lib/elements.ts';
+import { prerender, type Props } from './lib/prerender.ts';
 import { tokens } from './lib/tokens.ts';
 import { TAGS } from '../packages/frontend/src/index.ts';
 import * as report from './lib/report.ts';
@@ -106,7 +111,7 @@ function knownBlobs(): Map<string, string> {
    large one names its upload, and the sync writes the blob's URL over the
    name once the upload has one. A `#fragment` addresses a `<use>`, which no
    data URI can carry. */
-const ASSET_REF = /(src|href)="(?:\.\.\/)+packages\/frontend\/assets\/([^"#]+)(#[^"]*)?"/g;
+const ASSET_REF = /(src|href|signet)="(?:\.\.\/)*(?:packages\/frontend\/)?assets\/([^"#]+)(#[^"]*)?"/g;
 
 interface Placed {
   text: string;
@@ -186,6 +191,138 @@ function screenDoc(s: Screen): string {
 }
 
 // -------------------------------------------------------------- elements --
+
+interface StoryModule {
+  default?: { render?: (args: object) => unknown; args?: object; excludeStories?: string[] };
+  [name: string]: unknown;
+}
+interface Story {
+  render?: (args: object) => unknown;
+  args?: object;
+}
+interface Preview {
+  sections: { name: string; html: string }[];
+  props: Record<string, unknown>[];
+}
+
+const isStory = (v: unknown): v is Story =>
+  typeof v === 'object' && v !== null && !Array.isArray(v) && ('args' in v || 'render' in v);
+
+/** `WithAMenu` → `With a menu`, the way a caption reads. */
+const humanize = (name: string): string => name
+  .split(/(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])/)
+  .map((w, i) => (i ? w.toLowerCase() : w))
+  .join(' ');
+
+/* A live preview per element, out of the stories that render it. A story
+   writes the element the way a surface does. That markup goes in as
+   authored, drawn once for the first frame, and the bundle upgrades it. A
+   property a story sets goes into the table the preview's script reads. */
+async function elementPreviews(byTag: Map<string, ElementDoc>): Promise<Map<string, Preview>> {
+  const out = new Map<string, Preview>();
+  const dir = join(ROOT, 'stories');
+  for (const file of storyFiles(dir)) {
+    if (file.startsWith('pages/') || file.startsWith('specimens/')) continue;
+    const mod = (await import(pathToFileURL(join(dir, file)).href)) as StoryModule;
+    const meta = mod.default;
+    if (!meta) continue;
+    const excluded = new Set(meta.excludeStories ?? []);
+    for (const [name, story] of Object.entries(mod)) {
+      if (name === 'default' || excluded.has(name) || !isStory(story)) continue;
+      const render = story.render ?? meta.render;
+      if (!render) continue;
+      /* Authored into a table of its own first, because only the markup says
+         which element it is, then moved onto the element's. */
+      const own: Record<string, unknown>[] = [];
+      let a: ReturnType<typeof authored>;
+      try {
+        a = authored(render({ ...(meta.args ?? {}), ...(story.args ?? {}) }) as never, own);
+      } catch (err) {
+        report.note(`${file} ${name}: no authored form — ${(err as Error).message.split('\n')[0]}`);
+        continue;
+      }
+      const tag = /<(sds-[a-z-]+)/.exec(a.html)?.[1];
+      const e = tag ? byTag.get(tag) : undefined;
+      if (!e) continue;
+      const preview = out.get(e.className) ?? { sections: [], props: [] };
+      const offset = preview.props.length;
+      const renumber = (txt: string): string => txt.replace(/data-sds-prop="(\d+)"/g, (_m, n: string) => `data-sds-prop="${Number(n) + offset}"`);
+      const html = renumber(a.html);
+      preview.props.push(...(JSON.parse(renumber(JSON.stringify(own))) as Record<string, unknown>[]));
+      let drawn: string;
+      try {
+        drawn = prerender(html, TAGS, preview.props as Props);
+      } catch (err) {
+        report.note(`${file} ${name}: the first frame did not draw — ${(err as Error).message.split('\n')[0]}`);
+        drawn = html;
+      }
+      preview.sections.push({ name: humanize(name), html: drawn });
+      out.set(e.className, preview);
+    }
+  }
+  return out;
+}
+
+/* Enough chrome to tell one story from the next, in the tokens. The script
+   sets what an attribute cannot carry, after the bundle has upgraded the
+   elements; without the bundle the drawn first frame stands. */
+const PREVIEW_STYLE = `body { margin: 0; padding: var(--space-4); }
+.story { padding: var(--space-4) 0; border-top: 1px solid var(--border-subtle); }
+.story:first-child { padding-top: 0; border-top: 0; }
+.story-name { margin: 0 0 var(--space-3); font: var(--weight-medium) 12px/1.35 var(--font-mono); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--text-muted); }`;
+
+const PREVIEW_SCRIPT = `(function () {
+  if (!window.SDS) return;
+  /* The glyphs come out of the sprites, served beside the page. */
+  SDS.setIconSprites('/project/icons/sprites/');
+  var props = PROPS;
+  var revive = function (v) {
+    if (Array.isArray(v)) return v.map(revive);
+    if (v && typeof v === 'object') {
+      if ('$html' in v) {
+        var strings = ['', ''];
+        strings.raw = ['', ''];
+        return SDS.html(strings, SDS.unsafeHTML(v.$html));
+      }
+      var o = {};
+      for (var k in v) o[k] = revive(v[k]);
+      return o;
+    }
+    return v;
+  };
+  var apply = function () {
+    document.querySelectorAll('[data-sds-prop]').forEach(function (el) {
+      var p = props[Number(el.getAttribute('data-sds-prop'))] || {};
+      for (var k in p) el[k] = revive(p[k]);
+    });
+  };
+  apply();
+  /* An element a property brought in renders after the upgrade: once more. */
+  setTimeout(apply, 0);
+})();`;
+
+/* A story that draws the whole icon set is bigger than the page permits a
+   preview to be. The largest stories go first until the rest fits, and the
+   build says which; the card the specimen makes of them stays. */
+function previewDoc(e: ElementDoc, preview: Preview): string {
+  const sections = [...preview.sections];
+  const render = (): string => sections
+    .map((s) => `<section class="story">\n<p class="story-name">${s.name}</p>\n${s.html}\n</section>`)
+    .join('\n');
+  let body = render();
+  while (Buffer.byteLength(body) > PREVIEW_MAX - 8 * 1024 && sections.length > 1) {
+    const biggest = sections.reduce((a, b) => (b.html.length > a.html.length ? b : a));
+    sections.splice(sections.indexOf(biggest), 1);
+    report.note(`${e.tag}: the story "${biggest.name}" is too big for a preview and stays out`);
+    body = render();
+  }
+  /* A JSON `<` inside a script ends nothing once it is an escape. */
+  const json = JSON.stringify(preview.props).replace(/</g, '\\u003c');
+  const subtitle = e.purpose.replace(/"/g, '').replace(/\.$/, '').replace(/^./, (c) => c.toUpperCase());
+  return [`<!-- @dsCard group="Elements" height=120 subtitle="${subtitle}" -->`, '<!doctype html>', '<html lang="en">', '<head>',
+    '<meta charset="utf-8" />', `<title>${e.tag}</title>`, `<style>\n${PREVIEW_STYLE}\n</style>`, '</head>', '<body class="sds-app">',
+    body, `<script>\n${PREVIEW_SCRIPT.replace('PROPS', json)}\n</script>`, '</body>', '</html>', ''].join('\n');
+}
 
 /* A table cell ends at a pipe, and half these types are unions written with
    one. Escaped, because a row that breaks takes the rest of the table with it. */
@@ -281,7 +418,7 @@ write('components/bundle.css', css);
    that, so this is the same entry under the other format. A literal `<!--`
    or `</script` ends an inline copy, so both go in as escapes. */
 const built = await esbuild.build({
-  entryPoints: [join(FRONTEND, 'src', 'index.ts')],
+  entryPoints: [join(ROOT, 'scripts', 'lib', 'bundle-entry.ts')],
   write: false,
   bundle: true,
   format: 'iife',
@@ -307,10 +444,12 @@ const js = (built.outputFiles[0]?.text ?? '').replace(/<!--/g, '\\x3C!--').repla
 const bundleJs = `/* @ds-bundle: ${JSON.stringify(header)} */\n${js}`;
 write('components/bundle.js', bundleJs);
 
-// every element: its types and its guideline
+// every element: its types, its guideline and its live preview
 const seen = new Set<string>();
 const index: string[] = [];
 const elementHashes: Record<string, string> = {};
+const previews = await elementPreviews(byTag);
+const previewed: string[] = [];
 for (const e of els) {
   const dts = elementDts(e, new Set());
   const prompt = elementPrompt(e);
@@ -318,9 +457,13 @@ for (const e of els) {
   write(`components/${e.className}/README.md`, prompt);
   index.push(elementDts(e, seen));
   elementHashes[e.tag] = sha12(dts + prompt);
+  const preview = previews.get(e.className);
+  if (preview) previewed.push(`components/${e.className}/preview.html|${previewDoc(e, preview)}`);
 }
 index.push('declare global {', `  interface Window { ${NS}: {`, ...els.map((e) => `    ${e.className}: typeof ${e.className};`),
   '    /** Point the icons at the sprites: a directory URL, one file per category. */', '    setIconSprites(dir: string): void;',
+  '    /** Lit\'s, for a property that takes a template: `SDS.html(strings, SDS.unsafeHTML(markup))`. */',
+  '    html(strings: readonly string[], ...values: unknown[]): unknown;', '    unsafeHTML(markup: string): unknown;',
   '  } }', '}', '');
 write('components/index.d.ts', index.join('\n'));
 
@@ -353,6 +496,13 @@ const preview = (folder: string, mark: string, text: string): string => {
   write(`components/${folder}/preview.html`, html);
   return html;
 };
+for (const doc of previewed) {
+  const [folder = '', text = ''] = doc.split(/\|(.*)/s);
+  const marked = text.slice(0, text.indexOf('\n'));
+  const html = preview(folder.replace(/^components\/|\/preview\.html$/g, ''), marked, text);
+  const tag = /<title>([^<]+)</.exec(text)?.[1] ?? '';
+  elementHashes[tag] = sha12((elementHashes[tag] ?? '') + html);
+}
 for (const c of list) {
   const html = preview(c.name, marker(c.group, c.width, c.height, c.subtitle, false), c.text);
   write(`components/${c.name}/README.md`, cardDoc(c, place(c.text, byRepo, blobs, shas, 'doc').text));
@@ -460,5 +610,5 @@ report.align([...groupsOf].map(([group]) => ({ name: group, label: group })));
 for (const [group, items] of groupsOf) report.fact(group, `${items.length} cards`);
 for (const s of skipped) report.note(`screen left out — ${s}`);
 if (pending.size) report.note(`${pending.size} preview(s) name an upload with no blob id yet — the sync fills them in`);
-report.summary(`${list.length} cards · ${shipped.length} screens · ${els.length} elements · ${ups.length} uploads · ${Object.keys(fileHashes).length} files`, problems);
+report.summary(`${list.length} cards · ${shipped.length} screens · ${els.length} elements, ${previewed.length} with a live preview · ${ups.length} uploads · ${Object.keys(fileHashes).length} files`, problems);
 if (problems.length) process.exit(1);

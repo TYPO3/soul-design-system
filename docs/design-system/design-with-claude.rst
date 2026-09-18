@@ -136,6 +136,8 @@ Everything the agent needs is there before your first sentence:
 - ``guidelines/build-rules.md``: ``SKILL.md``, the operating instruction
 - each element's ``README.md`` and ``.d.ts``: its attributes, and what goes
   between its tags
+- each element's ``preview.html``: the element live, in the states its
+  stories show, written the way a page writes it
 - each card's ``README.md``: its classes and its markup, as a block to copy
 - each screen's ``preview.html``: a complete page at its design width
 
@@ -357,7 +359,7 @@ artifact keeps:
          bundle.js         the elements, as one classic script — window.SDS
          bundle.css        the faces, the tokens and the class layer, as one sheet
          index.d.ts        every element's properties, read out of its source
-         <Class>/          an element: README.md and <Class>.d.ts
+         <Class>/          an element: README.md, <Class>.d.ts and preview.html, live from its stories
          <Name>/           a card: preview.html at a declared size, and README.md
          <Name>Screen/     a whole page to start a design from
          Cover/            the system's face, above the brand book
@@ -394,7 +396,9 @@ their own place.
 element's own source. The properties Lit registers, the attribute each
 answers to, and what the props interface says about it. A second copy of a
 component's surface goes stale at the next property, so this one reads the
-source.
+source. Beside them ``preview.html`` shows the element live. Its stories,
+written the way a page writes them, drawn once for the first frame; the
+bundle in the artifact upgrades them.
 
 ``components/bundle.js`` is the bundle that registers them, built from the
 same entry as the drop-in's ``soul.js``. The artifact loads a classic script

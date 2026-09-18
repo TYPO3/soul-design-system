@@ -22,7 +22,7 @@ is the reason.
 | `guidelines/*.md` | `SKILL.md` and the two prompts, as further sections of the brand book |
 | `components/bundle.js` | the elements as one classic script, `window.SDS`, built from `src/index.ts` |
 | `components/bundle.css` | `packages/frontend/dist/soul-inline.css`, a copy |
-| `components/<Class>/` | an element: `README.md` and `<Class>.d.ts`, read out of its source |
+| `components/<Class>/` | an element: `README.md` and `<Class>.d.ts`, read out of its source, and `preview.html` live from its stories |
 | `components/<Name>/` | a card: `preview.html` and `README.md`, from the specimen |
 | `components/<Name>Screen/` | a screen, a `page` preview at its design width |
 | `components/Cover/preview.html` | `cover.html` beside this file |
@@ -57,6 +57,20 @@ the durations go under `timing`.
 
 **A screen with an `<iframe>` stays out.** A preview holds none. The tour
 embeds the other screens, and the pane lists those itself.
+
+**An element's preview is its stories, authored.** `scripts/lib/authored.ts`
+writes a story's template out as the markup its author wrote, the element
+tags intact, and `prerender()` draws the first frame beside each tag. A
+property a story sets, `.items` or a `body` with markup in it, has no
+attribute. It goes into a table under `data-sds-prop`, and the preview's
+script sets it after the bundle upgraded the elements. A template comes
+back through `SDS.html` and `SDS.unsafeHTML`, which the bundle carries for
+that.
+
+The bundle loads before the markup in the frame, so `SdsElement` waits for
+the parse to end before it takes its children. A story whose
+render needs a browser, or a story too big for the page's cap, stays out
+and the build says so.
 
 ## The link
 

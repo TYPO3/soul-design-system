@@ -118,7 +118,7 @@ ${indent(withAssets(body, up), 0)}
    a filing decision and nothing else — Storybook builds its tree from each
    story's `title` — so a moved file moves nothing a reader sees. Read flat,
    this quietly loses a card the moment its file moves. */
-function storyFiles(dir: string, prefix = ''): string[] {
+export function storyFiles(dir: string, prefix = ''): string[] {
   return readdirSync(dir, { withFileTypes: true })
     .flatMap((entry) => {
       const rel = prefix ? `${prefix}/${entry.name}` : entry.name;

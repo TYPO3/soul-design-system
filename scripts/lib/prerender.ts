@@ -9,8 +9,7 @@
    drew. Each leaves here as the address, that template, and the markup.
    Innermost first, so an element that composes others gets complete markup. */
 
-import { html } from 'lit';
-import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
+import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
 import { renderUpgradable } from '../../packages/frontend/src/lib/render.ts';
@@ -45,24 +44,49 @@ function closeOf(source: string, tag: string, from: number): { inner: string; en
   return null;
 }
 
+/** The properties a script sets on an element, keyed by the marker
+    `data-sds-prop` carries. A value under `$html` is markup and comes back
+    as a template, which is what a `body` or a cell takes. */
+export type Props = readonly Record<string, unknown>[];
+
+const MARK = /\bdata-sds-prop="(\d+)"/;
+
+function revive(v: unknown): unknown {
+  if (Array.isArray(v)) return v.map(revive);
+  if (typeof v === 'object' && v !== null) {
+    if ('$html' in v) return html`${unsafeHTML(String((v as { $html: string }).$html))}`;
+    return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, revive(x)]));
+  }
+  return v;
+}
+
+/* A template written by hand, one hole per property. Lit's tag fixes the
+   holes at authoring time and a story sets any property it likes, so the
+   strings assemble here. The tag came out of this repository's own list.
+   The attributes go back exactly as they arrived: a second serialisation
+   is a second chance to get escaping wrong. */
+function template(tag: string, attrs: string, bound: Record<string, unknown>): TemplateResult {
+  const parts = [`<${tag}${attrs} .content=`, ' .authored='];
+  const values = Object.values(bound);
+  for (const k of Object.keys(bound).slice(2)) parts.push(` .${k}=`);
+  parts.push(`></${tag}>`);
+  const strings = Object.assign(parts, { raw: [...parts] }) as unknown as TemplateStringsArray;
+  return { _$litType$: 1, strings, values } as unknown as TemplateResult;
+}
+
 /** What one element becomes, with content that is already complete.
     `authored` is the same content as the author wrote it, before anything
     in it rendered. An element that reads its children rather than places
-    them renders them itself from that. */
-function one(tag: string, attrs: string, written: string, authored: string): string {
-  const rendered = renderUpgradable(
-    /* `unsafeStatic` for the tag and the attributes, both values here where a
-       Lit template fixes them at authoring time. The tag came out of this
-       repository's own list. The attributes go back exactly as they arrived,
-       as a second serialisation is a second chance to get escaping wrong. */
-    /* Wrapped in a template of its own rather than passed as the directive.
-       `unsafeHTML` is a child binding and a property binding is not one. So
-       the element gets a one-hole template whose hole is the markup, which is
-       exactly what a story gives it. */
-    staticHtml`<${unsafeStatic(tag)}${unsafeStatic(attrs)} .content=${
-      written ? html`${unsafeHTML(written)}` : undefined
-    } .authored=${authored || undefined}></${unsafeStatic(tag)}>`,
-  );
+    them renders them itself from that. `unsafeHTML` is a child binding and
+    a property binding is not one. So the content goes over as a one-hole
+    template, which is exactly what a story gives it. */
+function one(tag: string, attrs: string, written: string, authored: string, props: Props): string {
+  const marked = MARK.exec(attrs);
+  const rendered = renderUpgradable(template(tag, attrs, {
+    content: written ? html`${unsafeHTML(written)}` : undefined,
+    authored: authored || undefined,
+    ...(marked ? (revive(props[Number(marked[1])] ?? {}) as Record<string, unknown>) : {}),
+  }));
 
   /* SSR renders the element with its own tag, and that tag is the one already
      in the page. Kept as found, since the attributes on it are the renderer's
@@ -87,7 +111,7 @@ function one(tag: string, attrs: string, written: string, authored: string): str
  *
  * Returns the page unchanged where it holds none.
  */
-export function prerender(page: string, tags: readonly string[] = TAGS): string {
+export function prerender(page: string, tags: readonly string[] = TAGS, props: Props = []): string {
   const pattern = element(tags);
 
   /* A complete element goes aside and a marker stays where it stood. SSR
@@ -122,7 +146,7 @@ export function prerender(page: string, tags: readonly string[] = TAGS): string 
         rest = rest.slice(open);
         continue;
       }
-      done += rest.slice(0, found.index) + aside(one(tag, attrs, walk(closed.inner).trim(), closed.inner.trim()));
+      done += rest.slice(0, found.index) + aside(one(tag, attrs, walk(closed.inner).trim(), closed.inner.trim(), props));
       rest = rest.slice(closed.end);
     }
   };
