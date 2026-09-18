@@ -4,16 +4,16 @@
   sds-table {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-flow);
+    margin-block: var(--space-components);
   }
   sds-table > :is(.sds-table, .sds-table-scroll) {
-    margin-bottom: 0;
+    margin-block: 0;
   }
   .sds-table {
-    margin: 0 0 var(--space-flow);
+    margin-block: var(--space-components);
   }
   .sds-table-scroll {
-    margin: 0 0 var(--space-flow);
+    margin-block: var(--space-components);
   }
 }
 
@@ -306,7 +306,7 @@
     /* The wrapper carries the step for both of them. Left here it is dead air
        inside the scroller and nothing below it. */
     > .sds-table {
-      margin-bottom: 0;
+      margin-block: 0;
     }
   }
 }

@@ -30,7 +30,7 @@
        reason a stanza has a gap in it. The parser sets these two names, not a
        template, so they are the one pair here this system cannot rename. */
     .line-block {
-      margin-bottom: var(--sds-prose-step);
+      margin-block: var(--sds-prose-step);
 
       .line-block {
         margin: 0 0 0 var(--sds-prose-indent);

@@ -3,7 +3,7 @@
 
 @layer base {
   .sds-topic {
-    margin: 0 0 var(--space-flow);
+    margin-block: var(--space-components);
   }
 }
 
@@ -17,9 +17,12 @@
 
     max-width: var(--sds-topic-measure);
 
-    /* No margin under its own last line: the box's padding is that gap. */
+    /* No margin at the box's edges: the padding is that gap. */
+    > :first-child {
+      margin-block-start: 0;
+    }
     > :last-child {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
   }
   /* The fourth heading level's register — weight and air, not a size — because

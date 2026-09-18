@@ -17,10 +17,10 @@ import '../../packages/frontend/src/components/note.ts';
 import { dsCard, DIVIDER, part, spec } from '../lib/specimen.ts';
 
 /** The page register: the address is the headline, what answered is the lead
-    under it, and the label says which boundary this is. */
+    under it, and the eyebrow says which boundary this is. */
 const asAPage = (): string =>
   part(html`<div>
-  <span class="sds-label">404 · nothing at this address</span>
+  <p class="sds-eyebrow">404 · nothing at this address</p>
   <div class="sds-h3">There is no page at this address</div>
   <p>
     <span class="sds-mono">/tools/typo3_label_lookup/v2</span> was read and the site has nothing
@@ -54,7 +54,7 @@ const meta: Meta = {
       group: 'States',
       name: 'Empty & not found',
       subtitle: 'A boundary is an answer — say which source was asked and what it does not cover',
-      viewport: '700x449',
+      viewport: '700x419',
     }),
   },
 };

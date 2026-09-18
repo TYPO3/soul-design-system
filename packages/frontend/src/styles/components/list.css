@@ -18,8 +18,6 @@
     --sds-facts-step: var(--space-1);
     --sds-facts-gap: var(--space-6);
     --sds-facts-step-after: var(--space-6);
-    --sds-facts-step-before-h2: var(--space-10);
-    --sds-facts-step-before-h3: var(--space-8);
     --sds-facts-term-ink: var(--text-muted);
     --sds-facts-term-weight: var(--weight-regular);
     --sds-facts-note-gap: var(--space-0-5);
@@ -34,16 +32,6 @@
        block takes below, or a second group under the first reads as one. */
     margin-block: 0 var(--sds-facts-step-after);
 
-    /* The air above a heading is the heading's, and `base.css` states it
-       under whatever stands before one. This layer wins over that one, so
-       the two steps stand here again. */
-    &:has(+ :is(h2, .sds-h2):not([hidden], .sds-said-only)) {
-      margin-block-end: var(--sds-facts-step-before-h2);
-    }
-    &:has(+ :is(h3, .sds-h3):not([hidden], .sds-said-only)) {
-      margin-block-end: var(--sds-facts-step-before-h3);
-    }
-
     /* Quiet, and not the semibold a passage gives a term. The value is what a
        reader came for, and a column of bold names beside it reads as the
        louder half of every pair. */
@@ -57,8 +45,11 @@
 
       /* A value a renderer wrote is a paragraph, and a paragraph carries its
          step. The pair's step is the list's. */
+      > :first-child {
+        margin-block-start: 0;
+      }
       > :last-child {
-        margin-bottom: 0;
+        margin-block-end: 0;
       }
     }
     /* What is true about the value and not part of it: a line under it, in the

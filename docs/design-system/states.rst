@@ -85,7 +85,7 @@ Empty and not found
    a failure. It gets ``actions-info-circle``, not an error colour.
 
 .. specimen:: guidelines/states-empty.card.html
-   :viewport: 700x449
+   :viewport: 700x419
    :title: Empty & not found
 
 A status on a word

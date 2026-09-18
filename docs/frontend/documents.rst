@@ -110,7 +110,7 @@ exists to avoid.
 Where block spacing lives
 =========================
 
-A paragraph, a list or a heading carries its own step below it, in the flow
+A paragraph, a list or a heading carries its own step, in the flow
 contract. One distance for every block, in a passage or not. Authored
 blocks also sit inside notes, accordion answers, the stops of an
 instruction, cards and modal bodies. None of those has to be a document, and
@@ -118,7 +118,7 @@ a step from the passage leaves two paragraphs in one of them without a gap.
 
 A passage adds what only a reading flow can know: the measure, the ink, and
 the air between the items of a list. A container that declares its own gap
-takes the blocks' lower margins back. So ``.sds-column``, ``.sds-stack`` and
+takes the blocks' margins back. So ``.sds-column``, ``.sds-stack`` and
 component bodies produce one step, not two.
 
 This split is a contract. A container of authored blocks either lets those
@@ -126,14 +126,14 @@ blocks keep their step or owns the gap and removes it. Never both.
 ``tests/defaults.spec.ts`` exercises both sides.
 
 The section is the one box a renderer draws that the theme had to take over.
-A heading gets its air from the block *before* it, the only way to state a
-distance in one direction. A heading inside a section has no sibling outside
-it, so every section ran into the next at a paragraph's step.
+A section is a box, and a box takes the margins at its edges back. So a
+heading's own air stops at the section it opens, and every section ran into
+the next at a paragraph's step.
 
 The Guides theme draws the box as ``.sds-section``, and the section carries
 the step.
 One distance above every section that is not the first in its box, whatever
-level its heading has. The last block inside a section owes its edge
+level its heading has. The blocks at either edge of a section owe it
 nothing. ``tests/guides.spec.ts`` measures it on the rendered page.
 
 A document that numbers its parts

@@ -13,13 +13,13 @@
   sds-accordion {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-flow);
+    margin-block: var(--space-components);
   }
   sds-accordion > .sds-accordion {
-    margin-bottom: 0;
+    margin-block: 0;
   }
   .sds-accordion {
-    margin: 0 0 var(--space-flow);
+    margin-block: var(--space-components);
   }
 }
 
@@ -143,10 +143,13 @@
     line-height: var(--sds-accordion-body-leading);
     color: var(--sds-accordion-body-ink);
 
-    /* An answer is blocks and they bring their own margins; the step under the
-       last one is the space below, which the box draws itself. */
+    /* An answer is blocks and they bring their own margins; at the edges the
+       box's own padding is the space. */
+    > :first-child {
+      margin-block-start: 0;
+    }
     > :last-child {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
     /* The space under an answer, drawn rather than padded. Padding is outside the
        height a row can shrink. As `padding-bottom` it was a floor the fold

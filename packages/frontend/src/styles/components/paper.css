@@ -122,6 +122,9 @@
     padding-block: var(--sds-paper-main-pad-y);
     padding-inline: var(--sds-paper-inset);
 
+    > :first-child {
+      margin-block-start: 0;
+    }
     > :last-child {
       margin-block-end: 0;
     }

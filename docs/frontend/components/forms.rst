@@ -671,7 +671,7 @@ sds-switch
 A setting that takes effect where it stands.
 
 .. specimen:: components/core/form-controls.card.html
-   :viewport: 700x436
+   :viewport: 700x437
    :title: Beyond the text field
 
 A checkbox answers a question the form asks, and the submit sends it. A

@@ -1047,7 +1047,7 @@ origin, and what the entry holds as paragraphs, evidence, a table. The
 indent is the scope: a reader sees where an entry begins and ends.
 
 .. specimen:: components/content/register.card.html
-   :viewport: 700x1680
+   :viewport: 700x1673
    :title: Register
 
 .. code-block:: html

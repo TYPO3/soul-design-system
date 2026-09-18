@@ -43,9 +43,12 @@
     font-size: var(--sds-footnote-label-size);
     color: var(--sds-footnote-label-ink);
   }
-  /* The note's last line owes the note below it the step the block already
-     carries, and owes the edge of its own box nothing. */
+  /* A block in the note owes the edge of its box nothing. The step between
+     two notes is the note's own. */
+  .sds-footnote__content > :first-child {
+    margin-block-start: 0;
+  }
   .sds-footnote__content > :last-child {
-    margin-bottom: 0;
+    margin-block-end: 0;
   }
 }

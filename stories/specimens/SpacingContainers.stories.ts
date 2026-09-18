@@ -6,8 +6,8 @@
    holds nothing but the containers and the blocks in them. The numbers are in
    the caption, where the specimen chrome belongs.
 
-   A column ranks what stands in it: every block carries its own step, and the
-   one before a heading carries more. A stack does not rank anything — one
+   A column ranks what stands in it: every block carries its own step, and a
+   heading carries more above itself. A stack does not rank anything — one
    distance, whatever it holds. That is the whole difference between them. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -44,7 +44,7 @@ export const specimenHtml = (): string =>
       [`<div class="sds-column">
     ${blocks()}
   </div>`],
-      'column — 16 between blocks, 32 before a heading, 8 under one',
+      'column — 16 between blocks, 32 above a heading, 8 under one',
       { style: 'flex-direction: column; align-items: stretch;' },
     ),
     specRow(

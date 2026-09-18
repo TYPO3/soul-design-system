@@ -8,13 +8,13 @@
   sds-timeline {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-flow-wide);
+    margin-block: var(--space-components);
   }
   sds-timeline > .sds-timeline {
-    margin-bottom: 0;
+    margin-block: 0;
   }
   .sds-timeline {
-    margin: 0 0 var(--space-flow-wide);
+    margin-block: var(--space-components);
   }
 }
 
@@ -89,8 +89,11 @@
       inset-inline-start: calc((var(--sds-timeline-column) - var(--sds-timeline-rail)) / 2);
       border-inline-start: var(--sds-timeline-rail) dashed var(--sds-timeline-rail-ink-ahead);
     }
+    > :first-child {
+      margin-block-start: 0;
+    }
     > :last-child {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
   }
   /* The rail runs from one stop to the next, so the last one draws none.
@@ -158,8 +161,11 @@
   .sds-timeline__stop--ahead .sds-timeline__title {
     color: var(--sds-timeline-title-ink-ahead);
   }
+  .sds-timeline__body > :first-child {
+    margin-block-start: 0;
+  }
   .sds-timeline__body > :last-child {
-    margin-bottom: 0;
+    margin-block-end: 0;
   }
   /* The stops inside a stop: the packages of a sprint. The same rail and
      the same marks, a step in, at the stop's own text edge. The rail of the

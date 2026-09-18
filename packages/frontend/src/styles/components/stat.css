@@ -7,14 +7,14 @@
   sds-stat {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-flow);
+    margin-block: var(--space-components);
   }
   sds-stat > .sds-stat {
     block-size: 100%;
-    margin-bottom: 0;
+    margin-block: 0;
   }
   .sds-stat {
-    margin: 0 0 var(--space-flow);
+    margin-block: var(--space-components);
   }
 }
 

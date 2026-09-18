@@ -17,13 +17,13 @@
   sds-steps {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-flow-wide);
+    margin-block: var(--space-components);
   }
   sds-steps > .sds-steps {
-    margin-bottom: 0;
+    margin-block: 0;
   }
   .sds-steps {
-    margin: 0 0 var(--space-flow-wide);
+    margin-block: var(--space-components);
   }
 }
 
@@ -133,8 +133,11 @@
     }
     /* A step is blocks and they bring their own margins; what stands between
        two stops is the set's gap. */
+    > :first-child {
+      margin-block-start: 0;
+    }
     > :last-child {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
   }
   /* The rail runs from one stop to the next, so the last one draws none. Said
@@ -155,6 +158,11 @@
     font-size: var(--sds-steps-title-size);
     font-weight: var(--sds-steps-title-weight);
     line-height: var(--sds-steps-title-leading);
+
+    /* The title states the gap to its own text, as a heading does. */
+    + * {
+      margin-block-start: 0;
+    }
 
     /* What says a reader can skip a stop, in the label register every other
        block states itself in. A word rather than a badge. A badge is a box

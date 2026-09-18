@@ -4,13 +4,13 @@
   sds-embed {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-flow);
+    margin-block: var(--space-components);
   }
   sds-embed > .sds-embed {
-    margin-bottom: 0;
+    margin-block: 0;
   }
   .sds-embed {
-    margin: 0 0 var(--space-flow);
+    margin-block: var(--space-components);
   }
 
   /* The embedded document before its element upgrades, and on a page that
@@ -19,7 +19,7 @@
      this system's border and stops at the column. */
   sds-embed:not(:defined) {
     display: block;
-    margin: 0 0 var(--space-flow);
+    margin-block: var(--space-components);
   }
   sds-embed:not(:defined) > iframe {
     display: block;

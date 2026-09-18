@@ -1,10 +1,10 @@
 /* sds-eyebrow — the line over a title, saying what kind of thing it opens. */
 
 /* Flush against what it opens. The register's own leading is the air between
-   an eyebrow and its title, so it carries no step at all. The air a heading
-   takes above the pair lands before the eyebrow, not inside the title. The
-   last two rules out-rank the heading-air rules in `base`, which otherwise
-   put a section's whole step between the pair. */
+   an eyebrow and its title, so it carries no step below. The air a heading
+   takes above lands before the eyebrow instead, not inside the pair. The
+   eyebrow carries the air of the level it opens, and `layout` takes the
+   heading's own back. */
 @layer base {
   sds-eyebrow {
     display: block;
@@ -14,11 +14,11 @@
   .sds-eyebrow {
     margin: 0;
   }
-  :is(sds-eyebrow, .sds-eyebrow):has(+ *) {
-    margin-block-end: 0;
+  :is(sds-eyebrow, .sds-eyebrow):has(+ :is(h2, .sds-h2)) {
+    margin-block-start: var(--space-10);
   }
-  :has(+ :is(sds-eyebrow, .sds-eyebrow) + :is(h2, .sds-h2)) {
-    margin-block-end: var(--space-10);
+  :is(sds-eyebrow, .sds-eyebrow):has(+ :is(h3, .sds-h3)) {
+    margin-block-start: var(--space-8);
   }
 }
 

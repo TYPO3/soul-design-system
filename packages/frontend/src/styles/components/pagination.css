@@ -19,13 +19,13 @@
   sds-nav-pagination {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-flow);
+    margin-block: var(--space-components);
   }
   sds-nav-pagination > .sds-pagination {
-    margin-bottom: 0;
+    margin-block: 0;
   }
   .sds-pagination {
-    margin: 0 0 var(--space-flow);
+    margin-block: var(--space-components);
   }
 }
 

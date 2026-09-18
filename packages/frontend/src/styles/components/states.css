@@ -4,13 +4,13 @@
   sds-note {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-flow);
+    margin-block: var(--space-components);
   }
   sds-note > .sds-note {
-    margin-bottom: 0;
+    margin-block: 0;
   }
   .sds-note {
-    margin: 0 0 var(--space-flow);
+    margin-block: var(--space-components);
   }
 
   /* The admonition before its element upgrades, for the reason the code block
@@ -20,13 +20,16 @@
      carry a tone is the colour-only meaning the component avoids. */
   sds-note:not(:defined) {
     display: block;
-    margin: 0 0 var(--space-flow);
+    margin-block: var(--space-components);
     padding: var(--block-pad-y) var(--block-pad-x);
     border: var(--border-hairline) solid var(--border-subtle);
     border-radius: var(--radius-card);
   }
+  sds-note:not(:defined) > :first-child {
+    margin-block-start: 0;
+  }
   sds-note:not(:defined) > :last-child {
-    margin-bottom: 0;
+    margin-block-end: 0;
   }
 }
 
@@ -147,10 +150,10 @@
        list, a code block. They bring their own margins from the document layer,
        and the outermost two push the note's own padding out of true. */
     > :first-child {
-      margin-top: 0;
+      margin-block-start: 0;
     }
     > :last-child {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
   }
 

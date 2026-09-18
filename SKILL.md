@@ -148,22 +148,23 @@ label names what goes.
 **A card is a hairline and 6px, no fill.** A panel is a raised fill. Sunken
 is machine output.
 
-**The step above a thing says what it is.** A reading column runs on one gap,
-`--space-flow` between anything and anything. A heading buys its own air on top:
-40px above a second level, 32px above a third, 24px above a fourth. That
+**The step around a thing says what it is.** Every block carries its step
+on both sides, and two that meet collapse into the larger. A paragraph and a
+list carry `--space-flow`. A component carries `--space-components`, and so
+does a bare table, figure, quote or code block: a reader's eye stops at an
+edge.
+
+A heading carries its own air above: 40px at a second level, 32px at a
+third, 24px at a fourth. Under itself it keeps the small step. That
 decreasing air is the hierarchy. By the fourth level only the air still
 changes.
 
-**The step below a thing is the element's own.** A paragraph, a list and a
-heading carry `--space-flow` under them, less as a heading deepens. A block
-that is a thing rather than a text, a timeline, a list of steps, carries
-`--space-flow-wide`. So blocks in a component's box stand apart without that
-box being a document.
-
-A container that states its own step takes those margins back:
-`.sds-column`, `.sds-stack`, a card's body, a specimen's stack. A box of your
-own either lets authored blocks keep their margin or joins that list. Never
-both.
+**The step is the element's own, and the larger wins.** So blocks in a
+component's box stand apart, and that box is no document. A table stands
+off the text on either side by its own step. A container that states its
+own gap or padding takes both sides back at its edges: `.sds-column`,
+`.sds-stack`, a card's body, a specimen's stack. A box of your own either
+lets authored blocks keep their margin or joins that list. Never both.
 
 **A titled block carries a pair, not two sizes.** A *block* with a heading
 over its own text, a note, a surface, an empty state, a modal, an accordion,

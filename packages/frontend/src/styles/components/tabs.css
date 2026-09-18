@@ -8,13 +8,13 @@
   sds-tabs {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-flow);
+    margin-block: var(--space-components);
   }
   sds-tabs > .sds-tabs {
-    margin-bottom: 0;
+    margin-block: 0;
   }
   .sds-tabs {
-    margin: 0 0 var(--space-flow);
+    margin-block: var(--space-components);
   }
 }
 
@@ -66,9 +66,12 @@
     padding-top: var(--sds-tab-panel-gap);
 
     /* A panel ends where it ends. Whatever stands in it carries the step it
-       owes a page, and under the last one that step is air with nothing after. */
+       owes a page, and at either edge that step is air with nothing beside it. */
+    > :first-child {
+      margin-block-start: 0;
+    }
     > :last-child {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
   }
 }

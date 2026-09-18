@@ -455,11 +455,11 @@ test.describe('what the theme repaired', () => {
 
   /* Two sections stand apart by the heading the second one opens.
 
-     The rule that gives a heading its air names the block *before* it, and a
-     heading inside a section has no sibling outside it. So with the renderer's
-     own wrapper in the way, every section ran into the next at the step
-     between two paragraphs. The theme draws the section itself now, and the
-     section is what carries the distance. */
+     A section is a box, and a box takes the margins at its edges back. So a
+     heading's own air stops at the section it opens. With the renderer's own
+     wrapper in the way, every section ran into the next at the step between
+     two paragraphs. The theme draws the section itself now, and the section
+     is what carries the distance. */
   test('two sections stand apart by the heading the second opens', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

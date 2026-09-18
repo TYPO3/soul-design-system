@@ -156,10 +156,13 @@
     line-height: var(--sds-modal-body-leading);
     color: var(--sds-modal-ink-body);
 
-    /* The body is blocks that bring their own margins, and the air under the last
-       one is padding the box already states. */
+    /* The body is blocks that bring their own margins, and the air at either
+       edge is padding the box already states. */
+    > :first-child {
+      margin-block-start: 0;
+    }
     > :last-child {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
   }
   .sds-modal__foot {

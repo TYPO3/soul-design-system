@@ -106,7 +106,7 @@ const meta: Meta<EntryProps> = {
       path: 'components/content/register.card.html',
       name: 'Register',
       subtitle: 'A list a reader cites: numbered, addressed, grouped, and the work it asks for',
-      viewport: '700x1680',
+      viewport: '700x1673',
     }),
   },
 };

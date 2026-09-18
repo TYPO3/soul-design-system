@@ -20,8 +20,11 @@
     &:not(:first-child) {
       margin-block-start: var(--sds-section-step);
     }
-    /* The last block inside owes the section's edge nothing: the step is the
+    /* The blocks at either edge owe the section nothing: the step is the
        section's, and a block that still carries its own adds to it. */
+    > :first-child {
+      margin-block-start: 0;
+    }
     > :last-child {
       margin-block-end: 0;
     }

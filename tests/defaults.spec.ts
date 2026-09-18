@@ -72,15 +72,19 @@ test('bare elements already have their style, with no wrapper class', async ({ p
   expect(h1, 'h1 must not be at the browser default').not.toBe(32);
   expect(h2, 'h2 must not be at the browser default').not.toBe(24);
 
-  /* Nothing carries a margin above it. Every distance in this system stands
-     below the block it belongs to. One direction, so nothing collapses, and
-     the number an element computes is the one a reader sees. The air above a
-     heading is the step below whatever stands before it. */
+  /* A block carries its step on both sides, and two that meet collapse into
+     the larger. A text block and a title carry nothing above: a paragraph
+     owes its neighbour one step, and a title opens what it stands over. */
   const above = (id: string) =>
     page.locator(`#${id}`).evaluate((el) => getComputedStyle(el).marginBlockStart);
-  for (const id of ['bare-h1', 'bare-h2', 'bare-h3', 'bare-p']) {
+  for (const id of ['bare-h1', 'bare-p']) {
     expect(await above(id), `${id} must carry no margin above it`).toBe('0px');
   }
+  /* The air above a heading is the heading's own, and it decreases with the
+     level. It wins against the paragraph's step before it rather than adds to
+     it. */
+  expect(await above('bare-h2'), 'a second level carries its air above').toBe('40px');
+  expect(await above('bare-h3'), 'a third level less').toBe('32px');
 
   /* The step *below* is the element's. The box a paragraph lands in is as
      often a component's as a document's — an answer, a note, a modal. None
@@ -89,15 +93,9 @@ test('bare elements already have their style, with no wrapper class', async ({ p
   const under = (id: string) =>
     page.locator(`#${id}`).evaluate((el) => getComputedStyle(el).marginBlockEnd);
   expect(await under('plain-p'), 'a paragraph carries the step under it').toBe('16px');
-  /* And more where a heading follows. The air above a heading stands below
-     the block before it, because that is the block with a box to put it on. */
-  expect(await under('before-head'), 'and more where a heading follows').toBe('32px');
-  /* A heading's own step is the small one — it belongs to what follows. This
-     is the only heading in the fixture with text after it rather than another
-     heading. The ones above carry the air of the heading that follows them,
-     which is the same rule from the other side. */
+  expect(await under('before-head'), 'the same before a heading, which brings its own air').toBe('16px');
+  /* A heading's own step is the small one — it belongs to what follows. */
   expect(await under('bare-h4'), 'a heading sits close to its own text').toBe('8px');
-  expect(await under('bare-h1'), 'and carries the next heading’s air where one follows').toBe('40px');
 
   /* And no measure on one. A paragraph stands in a component's box as often as
      in a document. So the reading width is the passage's decision rather than
@@ -290,12 +288,12 @@ test('the element sets a list, and the source still picks the marker', async ({ 
     });
 
   /* Indented by the marker's own width, not by the browser's 40px, and the
-     step under it is the one every other block carries. */
+     step around it is the one every other text block carries. */
   const bullets = await list('bullets');
   expect(bullets.marker).toBe('disc');
   expect(bullets.indent).not.toBe('40px');
   expect(parseFloat(bullets.indent)).toBeGreaterThan(0);
-  expect(bullets.above).toBe('0px');
+  expect(bullets.above).toBe('16px');
   expect(bullets.under).toBe('16px');
 
   /* A level in is a different mark, so the nest is visible and the indent
@@ -378,10 +376,14 @@ test('markup written by hand keeps the rhythm markup from a component has', asyn
     expect(one.start, `${id} sits where the column puts it`).toBe('0px');
     expect(one.end, `${id} sits where the column puts it`).toBe('0px');
   }
-  for (const id of ['hand-figure', 'hand-quote', 'hand-dl', 'hand-pre', 'hand-table']) {
-    expect((await box(id)).under, `${id} carries the step under it`).toBe('16px');
+  expect((await box('hand-dl')).under, 'a list of terms is a text and carries its step').toBe('16px');
+  /* A thing rather than a text carries the wider step, on both sides, and the
+     paragraph beside it stands off by that. */
+  for (const id of ['hand-figure', 'hand-quote', 'hand-pre', 'hand-table']) {
+    expect((await box(id)).under, `${id} carries the wider step`).toBe('24px');
   }
-  expect(await gap('hand-table', 'after-table')).toBe(16);
+  expect(await gap('before-figure', 'hand-figure')).toBe(24);
+  expect(await gap('hand-table', 'after-table')).toBe(24);
 });
 
 /* The rhythm a column actually produces.
@@ -423,11 +425,11 @@ test('a column produces one step between blocks and two above a heading', async 
   /* Two paragraphs: the column's own gap and nothing else. */
   expect(await gap('r-a', 'r-b'), 'two paragraphs are one step apart').toBe(16);
 
-  /* A block a component draws carries a step of its own for the flow it can
-     land in. Inside a column that step is the gap, and the column takes it
-     back. Stacked, the two read as one distance nobody chose. */
-  expect(await gap('r-b', 'r-note'), 'a component block is one step below the text').toBe(16);
-  expect(await gap('r-note', 'r-c'), 'and one step above the text under it').toBe(16);
+  /* A block a component draws is a thing, and it carries the wider step on
+     both sides. Against the paragraph's step that is the distance a reader
+     sees, on either side of it: the larger wins, nothing adds. */
+  expect(await gap('r-b', 'r-note'), 'a component block stands the wider step below the text').toBe(24);
+  expect(await gap('r-note', 'r-c'), 'and the wider step above the text under it').toBe(24);
 
   /* The heading's own air above, collapsed with the block's step rather than
      added to it. Closer to the text under it than to what came before, because
@@ -475,11 +477,11 @@ test('a column is a flow and a stack is one distance', async ({ page }) => {
       return Math.round(top - bottom);
     }, [a, b]);
 
-  /* A column ranks what is in it: the blocks carry their own step, and the one
-     before a heading carries more. Every distance stands below the block it
-     belongs to, so what an element computes is what a reader sees. */
+  /* A column ranks what is in it: the blocks carry their own step, and a
+     heading carries more above itself. The two collapse into the larger, so
+     what a reader sees is the one distance the heading states. */
   expect(await gap('c-a', 'c-b'), 'two blocks are one step apart').toBe(16);
-  expect(await gap('c-b', 'c-h'), 'the block before a heading carries more').toBe(32);
+  expect(await gap('c-b', 'c-h'), 'a heading carries more above itself').toBe(32);
   expect(await gap('c-h', 'c-c'), 'and a heading belongs to what follows').toBe(8);
 
   /* A stack does not rank what is in it. That is the whole of the difference,

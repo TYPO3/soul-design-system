@@ -10,13 +10,13 @@
   sds-grid {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-block: var(--space-components);
   }
   sds-grid > .sds-grid {
-    margin-bottom: 0;
+    margin-block: 0;
   }
   .sds-grid {
-    margin: 0 0 var(--space-4);
+    margin-block: var(--space-components);
   }
 }
 
@@ -29,6 +29,16 @@
      pays, because that is where somebody who changes the gap looks. */
   :is(.sds-stack, .sds-sections, .sds-split, .sds-grid, .sds-row, .sds-actions) > * {
     margin-block: 0;
+  }
+
+  /* A heading states the distance to its own text, and an eyebrow the one to
+     the title it opens. So what follows either carries nothing above: the
+     small step is the heading's, and a block's own step wins it otherwise.
+     A heading after a heading opens a level of its own and keeps its air. */
+  :is(h1, h2, h3, h4, h5, h6, .sds-h1, .sds-h2, .sds-h3, .sds-display)
+  + :not(h1, h2, h3, h4, h5, h6, .sds-h1, .sds-h2, .sds-h3, .sds-display),
+  :is(sds-eyebrow, .sds-eyebrow) + * {
+    margin-block-start: 0;
   }
 
   /* ------------------------------------------------------------ page -- */
@@ -114,9 +124,11 @@
      distance written twice, in two numbers that only agree by arithmetic.
      It is a half of a split and nothing else; the split states its width. */
 
-  /* All a flow container has to say about spacing. Nothing carries a step above
-     it, so there is nothing to trim at the top. What the last block owes its
+  /* All a flow container has to say about spacing. What a block owes its
      neighbour it does not owe the edge of the box it stands in. */
+  :where(.sds-band, .sds-body__main, .sds-column, .sds-page) > :first-child {
+    margin-block-start: 0;
+  }
   :where(.sds-band, .sds-body__main, .sds-column, .sds-page) > :last-child {
     margin-block-end: 0;
   }
@@ -255,10 +267,10 @@
     padding-block: var(--space-12);
   }
   .sds-band > :first-child {
-    margin-top: 0;
+    margin-block-start: 0;
   }
   .sds-band > :last-child {
-    margin-bottom: 0;
+    margin-block-end: 0;
   }
 
   /* Without the rules, a quiet band against the canvas is a fill whose edge is

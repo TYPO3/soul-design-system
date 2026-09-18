@@ -11,19 +11,23 @@
   sds-run {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-flow-wide);
+    margin-block: var(--space-components);
   }
   /* One run standing in a passage takes the step a block takes. Two in a row
      are a log, and a log is a list: entries a step apart, not blocks a
-     paragraph apart. */
+     paragraph apart. Both sides of the seam, because the larger margin wins
+     where two meet. */
   sds-run:has(+ sds-run) {
-    margin-bottom: var(--space-2);
+    margin-block-end: var(--space-2);
+  }
+  sds-run + sds-run {
+    margin-block-start: var(--space-2);
   }
   sds-run > .sds-run {
-    margin-bottom: 0;
+    margin-block: 0;
   }
   .sds-run {
-    margin: 0 0 var(--space-flow-wide);
+    margin-block: var(--space-components);
   }
 }
 

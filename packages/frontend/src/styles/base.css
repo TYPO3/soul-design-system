@@ -190,7 +190,7 @@
   .sds-section > math:not(:has(*)),
   .sds-prose > math:not(:has(*)) {
     display: block;
-    margin-bottom: var(--space-flow);
+    margin-block: var(--space-flow);
   }
 
   /* ------------------------------------------------------------ lists -- */
@@ -235,35 +235,52 @@
 
   /* ------------------------------------------------------------- flow -- */
 
-  /* The step below a block. */
+  /* The step around a block, on both sides. Two margins that meet collapse
+     into the larger one. So a thing that needs more air than a paragraph
+     carries it, and gets it against whatever stands beside it. A box that
+     pays its own gap or padding takes both sides back at its edges. */
   p,
   ul,
   ol,
-  dl,
+  dl {
+    margin-block: var(--space-flow);
+  }
+  /* A thing rather than a text: a reader's eye stops at its edge, and the
+     paragraph's step reads as too little there. */
   pre,
   table,
   figure,
-  blockquote,
+  blockquote {
+    margin-block: var(--space-components);
+  }
+  /* A title opens what it stands over, so it carries nothing above. The lead
+     closes the title group, and what follows is the page. So it ends on the
+     step a group ends on, not the one between two blocks. */
   h1,
   .sds-h1,
   .sds-display {
-    margin-bottom: var(--space-flow);
+    margin-block: 0 var(--space-flow);
   }
-  /* The lead closes the title group, and what follows is the page. So it
-     ends on the step a group ends on, not the one between two blocks. */
   .sds-lead {
-    margin-bottom: var(--space-flow-wide);
+    margin-block: 0 var(--space-components);
   }
+  /* The air above a heading is the heading's own, and it decreases with the
+     level. By the fourth only the air still says which level starts. A
+     hidden heading, or one only said, draws no box and takes no air. */
   h2,
   .sds-h2 {
-    margin-bottom: var(--space-3);
+    margin-block: var(--space-10) var(--space-3);
   }
   h3,
-  h4,
-  h5,
-  h6,
   .sds-h3 {
-    margin-bottom: var(--space-2);
+    margin-block: var(--space-8) var(--space-2);
+  }
+  h4 {
+    margin-block: var(--space-6) var(--space-2);
+  }
+  h5,
+  h6 {
+    margin-block: var(--space-5) var(--space-2);
   }
 
   /* The step under the containers this layer and `layout` own. A column is in
@@ -275,24 +292,7 @@
   .sds-sections,
   .sds-split,
   .sds-stack {
-    margin: 0 0 var(--space-flow);
-  }
-
-  /* The air above a heading, said below whatever stands before it — which is
-     the only way to state it and keep to one direction. Asked of a heading that
-     is *on the page*. A hidden one or one only said draws nothing, and the
-     air made for it was a gap with no reason anybody can see. */
-  :has(+ :is(h2, .sds-h2):not([hidden], .sds-said-only)) {
-    margin-block-end: var(--space-10);
-  }
-  :has(+ :is(h3, .sds-h3):not([hidden], .sds-said-only)) {
-    margin-block-end: var(--space-8);
-  }
-  :has(+ h4:not([hidden], .sds-said-only)) {
-    margin-block-end: var(--space-6);
-  }
-  :has(+ :is(h5, h6):not([hidden], .sds-said-only)) {
-    margin-block-end: var(--space-5);
+    margin-block: var(--space-components);
   }
 
   /* A title and its lead are one thing, so the pair closes to the title
@@ -322,7 +322,7 @@
   hr {
     border: 0;
     border-top: var(--border-hairline) solid var(--border-subtle);
-    margin: var(--space-section) 0;
+    margin-block: var(--space-section);
   }
 }
 

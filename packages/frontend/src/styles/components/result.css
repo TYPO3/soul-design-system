@@ -8,13 +8,13 @@
   sds-search-hits {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-flow);
+    margin-block: var(--space-components);
   }
   sds-search-hits > .sds-hits {
-    margin-bottom: 0;
+    margin-block: 0;
   }
   .sds-hits {
-    margin: 0 0 var(--space-flow);
+    margin-block: var(--space-components);
   }
 }
 

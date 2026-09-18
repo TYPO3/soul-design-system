@@ -235,7 +235,7 @@ of the reading as well.
 
 Every value is a token: `--surface-*`, `--text-*`, `--border-*`,
 `--accent`, `--status-*`, `--syntax-*`, `--font-*`, `--space-1…16`,
-`--space-inline|cluster|flow|flow-wide|section`, `--radius-*`,
+`--space-inline|cluster|flow|components|section`, `--radius-*`,
 `--duration-*`. Never a literal colour, size, radius or duration, and never
 the raw `--orange-*` scale behind `--accent`. Both modes ship in one
 declaration. Every colour is `light-dark()` against

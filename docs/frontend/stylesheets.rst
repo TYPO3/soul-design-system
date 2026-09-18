@@ -60,9 +60,9 @@ The flow contract
 =================
 
 **Every distance stands once, on the thing that owes it.** A block carries
-the step below itself. A container that spaces its children takes those
-steps back. No rule reaches past a tag to find a block, and no distance is
-two halves.
+its step on both sides, and where two meet the larger one wins. A container
+that spaces its children takes those steps back at its edges. No rule
+reaches past a tag to find a block, and no distance is two halves.
 
 So an element in a flow has three rules in ``base``, in its component's own
 file, that only mean anything together:
@@ -73,13 +73,13 @@ file, that only mean anything together:
      sds-note {
        display: block;
        min-width: 0;
-       margin-bottom: var(--space-flow);
+       margin-block: var(--space-components);
      }
      sds-note > .sds-note {
-       margin-bottom: 0;
+       margin-block: 0;
      }
      .sds-note {
-       margin: 0 0 var(--space-flow);
+       margin-block: var(--space-components);
      }
    }
 

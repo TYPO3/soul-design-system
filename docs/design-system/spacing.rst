@@ -60,10 +60,10 @@ means. The reading step then moves once, in every flow at once.
      - between the items of a row: pills, badges, a control's icon and its label
    * - ``--space-flow``
      - ``--space-4``
-     - the step under a block in a reading column
-   * - ``--space-flow-wide``
+     - the step a text block carries in a reading column: a paragraph, a list
+   * - ``--space-components``
      - ``--space-6``
-     - the step under a block that is a thing rather than a text: a timeline, a contents, the lead
+     - the step a component carries there, and a bare table, figure, quote or code block
    * - ``--space-section``
      - ``--space-12``
      - between the sections of a page
@@ -75,25 +75,31 @@ start their text on the same edge, in any stack.
 Reading rhythm
 ==============
 
-A reading column runs on ``--space-flow`` between neighbours. A heading adds
-its own air above that step: ``--space-10`` above a second level,
-``--space-8`` above a third and ``--space-6`` above a fourth. The decreasing air carries
-the hierarchy where the heading sizes no longer change.
+Every block carries its step on both sides, and two margins that meet
+collapse into the larger one. A text block carries ``--space-flow``. A
+component carries ``--space-components``, and so does a bare table, figure,
+quote or code block. A reader's eye stops at an edge, and a paragraph's
+step reads as too little there. So a table stands off the paragraphs on
+either side of it by its own step, and nothing adds up.
+
+A heading carries its own air above: ``--space-10`` above a second level,
+``--space-8`` above a third and ``--space-6`` above a fourth. The decreasing
+air carries the hierarchy where the heading sizes no longer change. Under
+itself a heading keeps the small step, because it belongs to what follows.
 
 One flex gap cannot express this. A gap is a minimum between every pair of
 children, and it cannot shrink for the quieter step into a paragraph or a
-list. So the shared step belongs to the column, and the extra distance
-belongs to the heading whose level gives it meaning. A flow where a heading
-gets a paragraph's air has no hierarchy, whatever its type size says.
+list. So the step belongs to the block, and the larger one wins where two
+meet. A flow where a heading gets a paragraph's air has no hierarchy,
+whatever its type size says.
 
-The air is for a heading **on the page**. A ``hidden`` heading, and one in
-the ``sds-said-only`` register, heard and not seen, take none with them. The
-distance says which level starts, and a gap for a heading nobody sees has no
-reason in it.
+The air is for a heading **on the page**. A ``hidden`` heading draws no box,
+and one in the ``sds-said-only`` register, heard and not seen, stands out of
+the flow. Neither takes air with it.
 
-The lower step follows a different ownership rule, because authored blocks
-also appear inside components. :doc:`/frontend/documents` says when the
-element keeps that step and when a container with its own gap takes it back.
+A box that pays its own gap or padding takes both sides back at its edges.
+:doc:`/frontend/documents` says when the element keeps its step and when a
+container takes it back.
 
 The scale, enforced
 ===================

@@ -46,6 +46,9 @@ body {
 /* And the last block of any box a specimen builds by hand, at any depth. A
    step under the last one is air at the bottom of a card, which is the one
    place nothing follows. */
+:is(.spec, .spec-col, .spec-row, .spec-box, .spec-pane, .spec-sw) [class*="sds-"]:first-child {
+  margin-block-start: 0;
+}
 :is(.spec, .spec-col, .spec-row, .spec-box, .spec-pane, .spec-sw) [class*="sds-"]:last-child {
   margin-block-end: 0;
 }
