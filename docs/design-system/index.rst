@@ -27,6 +27,7 @@ cannot drift apart.
    brand
    forms
    screens
+   slides
 
 Non-negotiable
 ==============

@@ -10,6 +10,7 @@
 
 import type { StorybookConfig } from '@storybook/web-components-vite';
 import remarkGfm from 'remark-gfm';
+import { mergeConfig } from 'vite';
 
 /* A built Storybook has no Vite behind it, so the sources a card links have to
    go in as files. A dev server does, and it answers that same path both ways
@@ -97,6 +98,10 @@ const config: StorybookConfig = {
        at its own root. See the `site` service in the compose file for why a
        sub-path under this server is a lie about how it ships. */
   ],
+  /* The dev server answers to its compose name too. `make look` runs in the
+     `app` container, where `localhost` is somebody else, and a live story is
+     what it photographs: `make look ARGS='http://storybook:6007/iframe.html?id=slides-cards--page'`. */
+  viteFinal: (viteConfig) => mergeConfig(viteConfig, { server: { allowedHosts: ['storybook'] } }),
 };
 
 export default config;

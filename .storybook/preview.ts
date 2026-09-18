@@ -11,6 +11,8 @@ import type { Preview } from '@storybook/web-components-vite';
 import '../packages/frontend/src/styles/styles.css';
 import '../packages/frontend/src/styles/_specimen.css';
 import './docs.css';
+import './stage.css';
+import { html } from 'lit';
 import { addons } from 'storybook/preview-api';
 import { VIEWPORTS } from './viewports.ts';
 import { readable } from './source.ts';
@@ -88,7 +90,10 @@ const preview: Preview = {
       const pinned = context.parameters['pinTheme'] as string | undefined;
       document.documentElement.dataset['theme'] = pinned ?? (context.globals['theme'] as string);
       dropCanvas(context.canvasElement);
-      return story();
+      /* A slide gets a stage in the story view. In the docs view the preview
+         block is the frame already — see `docs.css`. */
+      const staged = context.viewMode === 'story' && (context.title.startsWith('Slides/') || context.title === 'Components/Content/Slide');
+      return staged ? html`<div class="sb-stage">${story()}</div>` : story();
     },
   ],
   parameters: {
@@ -111,7 +116,7 @@ const preview: Preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: ['Introduction', 'Guidelines', ['Brand', 'Colours', 'Type', 'Spacing & layout', 'Icons', 'States', 'Illustrations', 'Diagrams'], 'Components', ['Actions', 'Forms', 'Navigation', 'Content', 'Code', 'Overlays', 'Feedback', 'Theme'], 'Pages', ['Site', 'Docs', 'Catalog', 'Service', 'Paper']],
+        order: ['Introduction', 'Guidelines', ['Brand', 'Colours', 'Type', 'Spacing & layout', 'Icons', 'States', 'Illustrations', 'Diagrams'], 'Components', ['Actions', 'Forms', 'Navigation', 'Content', 'Code', 'Overlays', 'Feedback', 'Theme'], 'Pages', ['Site', 'Docs', 'Catalog', 'Service', 'Paper'], 'Slides'],
       },
     },
     /* The markup is the documentation. A canvas hides its source behind a

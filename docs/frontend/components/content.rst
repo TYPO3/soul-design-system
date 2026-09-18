@@ -242,6 +242,7 @@ One 16:9 frame of a deck. The frame is 960 × 540 and the stylesheet doubles
 it, so a slide renders at 1920 × 1080. Every element between the tags keeps
 the set it has on a page. The element owns the frame, the ground, the head,
 the foot and the deck's outline. The body is the system's elements.
+:doc:`/design-system/slides` has the reason and the layouts.
 
 .. code-block:: html
 

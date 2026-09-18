@@ -151,11 +151,11 @@ export function dsCard(c: DsCardInput): DsCard {
   return { group: 'Components', theme: 'both', bodyClass: '', ...c, width: Number(w), height: Number(h) };
 }
 
-/** Where a screen stands: its group under `Pages`. The front of a site, its
-    reference, a set, the pages a site owes, and the documents outside one.
-    `.storybook/preview.ts` orders the groups, as a literal: Storybook reads
-    that list and does not run it. */
-export type ScreenSection = 'Site' | 'Docs' | 'Catalog' | 'Service' | 'Paper';
+/** Where a screen stands: in a group under `Pages`, or in the deck beside
+    them. The front of a site, its reference, a set, the pages a site owes,
+    and the documents outside one. `.storybook/preview.ts` orders the groups,
+    as a literal: Storybook reads that list and does not run it. */
+export type ScreenSection = 'Site' | 'Docs' | 'Catalog' | 'Service' | 'Paper' | 'Slides';
 
 export interface DsScreenInput {
   /** The file to generate, relative to the repo root — under `screens/`. */

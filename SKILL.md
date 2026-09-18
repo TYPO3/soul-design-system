@@ -421,6 +421,12 @@ has more places than a window is tall. The panel beside it is its frame.
 The screens under `specimens/screens/` are those layouts assembled: start
 from the nearest one.
 
+A deck is not a fourth body. A slide is `sds-slide`, the page at twice the
+size, and what it holds is the system's elements at the page's size. The
+deck stands on paper and its cover on the terminal. The slides under
+`specimens/screens/slide-*.html` are the layouts, and `docs/design-system/slides.rst`
+has the reason.
+
 A renderer, a theme or a template set writes no class the stylesheets do not
 define. A name it needs and cannot find is a gap in the system, closed there.
 

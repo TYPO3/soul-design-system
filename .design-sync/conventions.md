@@ -88,6 +88,87 @@ the browser's own scrollbars and form controls stay in the other mode.
 
 <!-- @startingPoints -->
 
+## A deck
+
+A slide is the page at twice the size, read from twice the distance. On a
+page the frame is `sds-slide`, and the layouts under **Slides** above are
+the slides to start from. Nothing on a slide is a slide's own. A card is
+`sds-surface` and a figure is `sds-stat`. A block is `sds-code`, a quote
+is `sds-quote`, an order is `sds-steps`, a wall is `sds-grid`.
+
+**A deck written in the Slides app follows the same rules in that app's own
+format.** The canvas is 1920 × 1080, every style inline, every colour a hex.
+The values are the page's, doubled, and they stand here written out:
+
+| The page says | On a slide |
+|---|---|
+| `--space-16` 64px, the margin of the frame | `padding:128px` on every side, and 176px at the foot where a foot stands |
+| `--font-size-display` 58px, the title of a cover, a divider, a statement | `font-size:116px`, weight 700, `line-height:1.08`, `letter-spacing:-3px` |
+| `--font-size-h2` 34px, the title of a content slide | `font-size:68px`, weight 700, `line-height:1.2`, `letter-spacing:-1px` |
+| `--font-size-h3` 24px, a card's heading, a quote | `font-size:48px`, weight 600 for a heading, 400 for a quote |
+| `--font-size-lead` 19px, the sentence under a cover's title | `font-size:38px`, weight 400, `line-height:1.55` |
+| `--font-size-body` 16px, what a room reads | `font-size:32px`, weight 400, `line-height:1.55` |
+| `--font-size-small` 14px, a source line, a caption | `font-size:28px` |
+| the label register: `--font-size-small` 14px × 0.9 in the mono face, upper case, `--tracking-label` 0.09em | `font-size:25px`, `font-family:'Source Code Pro'`, `text-transform:uppercase`, `letter-spacing:2px` |
+| `--radius-control` 4px, a code block | `border-radius:8px` |
+| `--radius-card` 6px, a card | `border-radius:12px` |
+| `--border-hairline` 1px, every edge | `border:2px solid` the hairline colour |
+
+The faces are the system's: `Source Sans 3` for everything a person wrote,
+`Source Code Pro` for everything the machine reads, writes or names, at
+every size. Both are in `fonts/`.
+
+**The grounds.** A deck stands on paper. The cover stands on the terminal,
+and that flip is the deck's emphasis: no accent ground, no gradient, no
+second colour. Every other slide is paper, whatever the reader's mode.
+
+| Token | Paper | Terminal |
+|---|---|---|
+| `--surface-canvas`, the slide | `#fbfaf7` | `#131210` |
+| `--surface-raised`, a card | `#ffffff` | `#171614` |
+| `--surface-sunken`, a code block | `#f4f2ee` | `#0c0b0a` |
+| `--surface-inset`, a monogram | `#efebe3` | `#221f1b` |
+| `--text-primary`, a title | `#1c1a17` | `#ede9e2` |
+| `--text-secondary`, a sentence | `#4a453d` | `#a9a299` |
+| `--text-muted`, a label, a count, a source | `#726c63` | `#878076` |
+| `--border-subtle`, a hairline | `#e3dfd6` | `#2b2823` |
+| `--border-strong`, a quote's rule | `#c9c3b7` | `#37332c` |
+| `--accent` | `#ff8700` | `#ff8700` |
+| `--syntax-key` | `#a85400` | `#ffa338` |
+| `--syntax-string` | `#3f6b2b` | `#9cc27f` |
+| `--syntax-comment` | `#726c63` | `#878076` |
+
+**The accent marks three things on a slide**, as on a page. The pipe in the
+lockup, the prompt in a code block, and the rule under the current entry of
+the outline on a divider. Nothing else is orange. Nothing floats: a card
+and a code block separate with a hairline, never a shadow. Status is a
+colour and a word, never an emoji.
+
+**The kinds, and what each holds.**
+
+- **Cover**, on the terminal. The eyebrow in the label register and the
+  title at the display step. The lead under it, the lockup at the foot. The
+  lockup is the signet, `TYPO3` at weight 600, a 2px accent rule and the
+  product at weight 300. It stands at the h3 step with the mark at 64.
+- **Section**. The eyebrow says which of how many, the title at the display
+  step. The outline in a row at the foot, over a hairline. Every entry takes
+  the muted ink. The current one is primary, weight 600, with a 4px accent
+  rule under it.
+- **Statement**. One sentence at the display step, centred, and its source
+  under it at the small step, muted. No foot.
+- **Content**. The title at the h2 step at the top margin, never centred,
+  so it never hops. The body under it: cards in a row with a 32px gap, or
+  a table. A code block beside a plane, three figures, a numbered rail. The
+  foot at `bottom:64px`. The lockup at the page's size, its mark at 48. The
+  count in the label register at the right.
+- **The closing**, on paper. The cover's shape and lockup, with the one
+  thing to do next as the title.
+
+One idea per slide. A list becomes cards, a table or figures. A title
+introduces the topic in sentence case, with no superlative. A figure carries
+its unit beside it and a sentence under it; a quote carries who said it. A
+deck built in the app and a deck built from the layouts are the same design.
+
 ## The idiom
 
 Classes carry the prefix `sds-`, with `__element`, `--modifier`, and

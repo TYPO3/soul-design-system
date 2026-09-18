@@ -1,0 +1,17 @@
+/* The stage a slide stands on in the story view.
+
+   A slide's ground is the page's, so alone in the canvas it has no edge and no
+   size: it is the canvas. On the sunken plane, centred with air around it,
+   it is an object on a table. That is what a person who designs one has to
+   see. Storybook's own chrome, like `docs.css`: no product surface draws it,
+   and no generated file names it. */
+
+.sb-stage {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: var(--space-8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-sunken);
+}
