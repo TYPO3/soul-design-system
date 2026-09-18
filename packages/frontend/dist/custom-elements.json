@@ -9518,6 +9518,22 @@
               "fieldName": "width"
             },
             {
+              "name": "caption",
+              "description": "What the table is, in a sentence. A caption with markup in it stands between the tags as `<caption>`, with the rows.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "caption"
+            },
+            {
+              "name": "caption-side",
+              "description": "Where the caption stands, `bottom` unless said. `top` puts it above the head, and it moves a caption the rows brought as markup too.",
+              "type": {
+                "text": "'bottom' | 'top'"
+              },
+              "fieldName": "captionSide"
+            },
+            {
               "name": "loading",
               "description": "The wait for the answer. The head stays, and the body draws as bars at the height the rows will have. A skeleton is honest only where the shape is certain, and a table with declared columns has one. Under 200ms show nothing at all. With no shape, the answer is `.sds-loading` with a spinner.",
               "type": {
@@ -9567,6 +9583,26 @@
             },
             {
               "kind": "field",
+              "name": "caption",
+              "privacy": "public",
+              "description": "What the table is, in a sentence. A caption with markup in it stands between the tags as `<caption>`, with the rows.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "caption"
+            },
+            {
+              "kind": "field",
+              "name": "captionSide",
+              "privacy": "public",
+              "description": "Where the caption stands, `bottom` unless said. `top` puts it above the head, and it moves a caption the rows brought as markup too.",
+              "type": {
+                "text": "'bottom' | 'top'"
+              },
+              "attribute": "caption-side"
+            },
+            {
+              "kind": "field",
               "name": "columns",
               "privacy": "public",
               "description": "The columns, each with its heading and its edge. Set from script, as a list.",
@@ -9608,6 +9644,7 @@
           "cssClasses": [
             "sds-skeleton",
             "sds-table",
+            "sds-table--caption-top",
             "sds-table--loading",
             "sds-table-scroll",
             "sds-td-end",

@@ -1,6 +1,10 @@
 import { type TemplateResult } from 'lit';
 import { SdsElement } from '../lib/element.js';
 export type Density = 'compact' | 'medium' | 'airy';
+/** Where the caption stands. Under the last row, where a figure's caption
+    stands too: a reader reads it after the rows. Above the head where it
+    has to come first, as the name of a list a reader scans. */
+export type CaptionSide = 'bottom' | 'top';
 /** The edge a reader reads a column down. `end` for a count, a date or a
     duration, on its right edge and in tabular figures, so the digits line
     up. There is no third: nobody scans a centred column down an edge. The
@@ -57,6 +61,12 @@ export interface TableProps {
         name for it and cannot have one. It is a fact about these contents, not
         a kind of table, the reason a row carries `style` too. */
     width?: string;
+    /** What the table is, in a sentence. A caption with markup in it stands
+        between the tags as `<caption>`, with the rows. */
+    caption?: string;
+    /** Where the caption stands, `bottom` unless said. `top` puts it above the
+        head, and it moves a caption the rows brought as markup too. */
+    captionSide?: CaptionSide;
     /** The columns, each with its heading and its edge. Set from script, as a
         list. */
     columns?: readonly Column[];
@@ -86,6 +96,14 @@ export declare class SdsTable extends SdsElement {
         width: {
             type: StringConstructor;
         };
+        caption: {
+            type: StringConstructor;
+        };
+        captionSide: {
+            type: StringConstructor;
+            reflect: boolean;
+            attribute: string;
+        };
         columns: {
             type: ArrayConstructor;
         };
@@ -104,6 +122,8 @@ export declare class SdsTable extends SdsElement {
     density: Density;
     scrollable: boolean;
     width: string;
+    caption: string;
+    captionSide: CaptionSide;
     columns: Column[];
     rows: Row[];
     loading: boolean;

@@ -13,6 +13,11 @@ import { define, isBlank, SdsElement } from '../lib/element.ts';
 
 export type Density = 'compact' | 'medium' | 'airy';
 
+/** Where the caption stands. Under the last row, where a figure's caption
+    stands too: a reader reads it after the rows. Above the head where it
+    has to come first, as the name of a list a reader scans. */
+export type CaptionSide = 'bottom' | 'top';
+
 /** The edge a reader reads a column down. `end` for a count, a date or a
     duration, on its right edge and in tabular figures, so the digits line
     up. There is no third: nobody scans a centred column down an edge. The
@@ -74,6 +79,12 @@ export interface TableProps {
       name for it and cannot have one. It is a fact about these contents, not
       a kind of table, the reason a row carries `style` too. */
   width?: string;
+  /** What the table is, in a sentence. A caption with markup in it stands
+      between the tags as `<caption>`, with the rows. */
+  caption?: string;
+  /** Where the caption stands, `bottom` unless said. `top` puts it above the
+      head, and it moves a caption the rows brought as markup too. */
+  captionSide?: CaptionSide;
   /** The columns, each with its heading and its edge. Set from script, as a
       list. */
   columns?: readonly Column[];
@@ -96,6 +107,8 @@ export class SdsTable extends SdsElement {
     density: { type: String, reflect: true },
     scrollable: { type: Boolean, reflect: true },
     width: { type: String },
+    caption: { type: String },
+    captionSide: { type: String, reflect: true, attribute: 'caption-side' },
     columns: { type: Array },
     rows: { type: Array },
     loading: { type: Boolean, reflect: true },
@@ -105,6 +118,8 @@ export class SdsTable extends SdsElement {
   declare density: Density;
   declare scrollable: boolean;
   declare width: string;
+  declare caption: string;
+  declare captionSide: CaptionSide;
   declare columns: Column[];
   declare rows: Row[];
   declare loading: boolean;
@@ -112,11 +127,11 @@ export class SdsTable extends SdsElement {
 
   /* The table a document wrote, taken before Lit renders over it. A cell
      there carries a link, a literal, an emphasis, and none survives a JSON
-     attribute. `colspan`, `rowspan` and a caption have no property at all.
-     The hand-over is the table's own children, so the element still draws
-     the `<table>` and decides its density. The parser drops a `<thead>`
-     outside a `<table>`. So those children come from a `<template>` or a
-     property, never from markup typed into a page. */
+     attribute. `colspan` and `rowspan` have no property at all. The hand-over
+     is the table's own children, so the element still draws the `<table>`
+     and decides its density. The parser drops a `<thead>` outside a
+     `<table>`. So those children come from a `<template>` or a property,
+     never from markup typed into a page. */
   private taken: Node[] | null = null;
 
   constructor() {
@@ -124,6 +139,8 @@ export class SdsTable extends SdsElement {
     this.density = 'medium';
     this.scrollable = false;
     this.width = '';
+    this.caption = '';
+    this.captionSide = 'bottom';
     this.columns = [];
     this.rows = [];
     this.loading = false;
@@ -191,8 +208,13 @@ export class SdsTable extends SdsElement {
        element stops as the way to use this system. A class the element
        cannot emit invites hand-written markup again. That is why scroll is a
        property, not a wrapper the caller has to remember. */
-    const cls = `sds-table sds-table--${this.density}${this.loading ? ' sds-table--loading' : ''}`;
+    const cls = `sds-table sds-table--${this.density}${this.loading ? ' sds-table--loading' : ''}`
+      + (this.captionSide === 'top' ? ' sds-table--caption-top' : '');
     const style = this.width ? `width: ${this.width}` : nothing;
+    /* First in source whichever side it stands on. `caption-side` places it,
+       and a screen reader announces it with the table either way. The break
+       travels with it, so a table without one keeps its lines. */
+    const caption = this.caption ? html`<caption>${this.caption}</caption>\n  ` : '';
     /* What a document wrote, where it wrote one. Its rows are already markup,
        and a rebuild from properties is a second chance to lose a cell.
        Everything the table itself is stays the element's. While the answer
@@ -202,9 +224,9 @@ export class SdsTable extends SdsElement {
       ? Array.from({ length: Math.max(this.loadingRows, 1) }, () => this.waitingRow())
       : this.rows.map((r) => this.bodyRow(r));
     const table = given
-      ? html`<table class="${cls}" style="${style}">${given}</table>`
+      ? html`<table class="${cls}" style="${style}">${caption}${given}</table>`
       : html`<table class="${cls}" style="${style}" aria-busy="${this.loading ? 'true' : nothing}">
-  <thead><tr>
+  ${caption}<thead><tr>
     ${lines(this.columns.map((c) => {
       const mark = this.marks(c, true);
       return mark ? html`<th class="${mark}">${c.head}</th>` : html`<th>${c.head}</th>`;

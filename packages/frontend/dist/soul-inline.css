@@ -841,7 +841,6 @@
   sds-table{display:block;min-width:0;margin-bottom:var(--space-4)}
   sds-table>:is(.sds-table,.sds-table-scroll){margin-bottom:0}
   .sds-table,.sds-table-scroll{margin:0 0 var(--space-4)}
-  caption{margin-bottom:var(--space-2);font-size:var(--font-size-small);color:var(--text-muted);text-align:start}
 }
 @layer components{
   table,.sds-table{
@@ -862,6 +861,10 @@
     --sds-table-name-ink: var(--text-link);
     --sds-table-meta-ink: var(--text-muted);
     --sds-table-note-gap: var(--space-0-5);
+    --sds-table-caption-side: bottom;
+    --sds-table-caption-margin: var(--space-2) 0;
+    --sds-table-caption-size: var(--font-size-small);
+    --sds-table-caption-ink: var(--text-muted);
     --sds-table-fill-hover: var(--surface-raised);
     --sds-table-graph-node: 10px;
     --sds-table-graph-gap: var(--space-3);
@@ -879,8 +882,10 @@
     --sds-table-skeleton-step: .12s;
     width:100%;
     border-collapse:collapse;
+    caption-side:var(--sds-table-caption-side);
     font-size:var(--sds-table-font-size);
     line-height:var(--sds-table-leading);
+    >caption{margin-block:var(--sds-table-caption-margin);font-size:var(--sds-table-caption-size);color:var(--sds-table-caption-ink);text-align:start}
     th{text-align:start;font-family:var(--sds-table-font);font-size:var(--sds-table-head-size);letter-spacing:var(--sds-table-head-tracking);text-transform:uppercase;color:var(--sds-table-head-ink);font-weight:var(--sds-table-head-weight);padding-block:0 var(--sds-table-pad);padding-inline:0 var(--sds-table-cell-gap);border-bottom:var(--sds-table-border) solid var(--sds-table-rule-head);vertical-align:bottom}
     td{padding-block:var(--sds-table-pad);padding-inline:0 var(--sds-table-cell-gap);border-bottom:var(--sds-table-border) solid var(--sds-table-rule);color:var(--sds-table-ink);vertical-align:middle}
     th:last-child,td:last-child{padding-inline-end:0}
@@ -903,6 +908,7 @@
   .sds-table--compact{--sds-table-pad: var(--row-pad-compact);--sds-table-font-size: var(--row-font-size-compact)}
   .sds-table--medium{--sds-table-pad: var(--row-pad-medium)}
   .sds-table--airy{--sds-table-pad: var(--row-pad-airy)}
+  .sds-table--caption-top{--sds-table-caption-side: top;--sds-table-caption-margin: 0 var(--space-2)}
   .sds-table--loading{
     --sds-table-fill-hover: transparent;
     td>.sds-skeleton{--sds-skeleton-height: var(--sds-table-skeleton-height);--sds-skeleton-fill: var(--sds-table-skeleton-fill);display:inline-block;vertical-align:middle;width:var(--sds-table-skeleton-wide)}

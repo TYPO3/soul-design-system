@@ -50,6 +50,34 @@ sds-table
    no name for it and cannot have one. It is a fact about these contents,
    not a kind of table, which is also why a row carries ``style``.
 
+.. confval:: caption
+   :name: sds-table-caption
+   :type: string
+
+   What the table is, in a sentence. It renders as the table's own
+   ``<caption>``, so a screen reader announces it with the table. A caption
+   with markup in it stands between the tags with the rows; see the note
+   below.
+
+.. confval:: caption-side
+   :name: sds-table-caption-side
+   :type: "bottom" | "top"
+   :default: "bottom"
+
+   Where the caption stands. Under the last row, where a figure's caption
+   stands too: a reader reads it after the rows. A source, a total, what a
+   mark in the cells meant. ``top`` puts it above the head, where it has to
+   come first: the name of a list a reader scans. It emits
+   ``sds-table--caption-top``, and it moves a caption the rows brought as
+   markup too. The caption stays first in the source either way.
+
+   .. code-block:: html
+
+      <sds-table caption="The tools the server answers with." caption-side="top"
+        .columns="${[{ head: 'Tool', cls: 'sds-td-name' }, { head: 'Versions' }]}"
+        .rows="${[{ cells: ['typo3_rule_lookup', '12.4 · 13.4 · 14.3 · main'] }]}"
+      ></sds-table>
+
 .. confval:: columns
    :name: sds-table-columns
    :type: "{ head, cls? }[]"
@@ -190,9 +218,9 @@ sds-table
       </sds-table>
 
    That is the form a renderer uses, and only a renderer. A cell in a
-   document carries a link, a literal or an emphasis. ``colspan``,
-   ``rowspan`` and a caption have no property. And the rows have to be on
-   the page before a script runs. What the table *is*, the class, the
+   document carries a link, a literal or an emphasis. ``colspan`` and
+   ``rowspan`` have no property, and nor has a caption with markup in it.
+   And the rows have to be on the page before a script runs. What the table *is*, the class, the
    density, the box it scrolls in, stays the element's either way.
 
    **Nobody can write a page that way by hand.** The HTML parser drops a

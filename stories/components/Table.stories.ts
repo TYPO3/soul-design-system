@@ -72,9 +72,11 @@ const CARD_TABLE: TableProps = {
   ],
 };
 
-export const sdsTable = ({ density = 'medium', columns, rows, loading, loadingRows }: TableProps) =>
+export const sdsTable = ({ density = 'medium', caption, captionSide, columns, rows, loading, loadingRows }: TableProps) =>
   html`<sds-table
     density="${density}"
+    caption="${ifDefined(caption)}"
+    caption-side="${ifDefined(captionSide)}"
     ?loading="${loading}"
     loading-rows="${ifDefined(loadingRows)}"
     .columns="${columns}"
@@ -93,6 +95,8 @@ const meta: Meta<TableProps> = {
   render: (args) => sdsTable(args),
   argTypes: {
     density: { control: 'inline-radio', options: ['compact', 'medium', 'airy'] },
+    caption: { control: 'text' },
+    captionSide: { control: 'inline-radio', options: ['bottom', 'top'] },
     columns: { control: 'object' },
     rows: { control: 'object' },
     loading: { control: 'boolean' },
@@ -279,10 +283,30 @@ export const Log: Story = {
 export const Compact: Story = { args: { ...CARD_TABLE, density: 'compact' } };
 export const Airy: Story = { args: { ...CARD_TABLE, density: 'airy' } };
 
+/** What the table is, in a sentence. Under the last row, where a figure's
+    caption stands: a reader reads it after the rows. A source, a total,
+    what a mark in the cells meant. `caption-side="top"` puts it above the
+    head, where it has to come first: the name of a list a reader scans.
+    First in the source either way, so a screen reader announces it with
+    the table. */
+export const Captioned: Story = {
+  args: {
+    ...CARD_TABLE,
+    caption: 'Versions as of the last sync. A dash is a tool that reads no installation.',
+  },
+};
+export const CaptionAbove: Story = {
+  args: {
+    ...CARD_TABLE,
+    caption: 'The tools the server answers with, and where each one reads.',
+    captionSide: 'top',
+  },
+};
+
 /** The form a renderer uses: the table's own children between the tags. A cell
-    of a document carries a link, a literal or an emphasis. `colspan` and a
-    caption have no property at all, and a page has to hold the rows before any
-    script runs. What the table *is* — the class, the density, the box it
+    of a document carries a link, a literal or an emphasis. `colspan` has no
+    property at all, nor has a caption with markup in it. And a page has to
+    hold the rows before any script runs. What the table *is* — the class, the density, the box it
     scrolls in — stays the element's either way. */
 const GIVEN_ROWS = `<caption>What each lookup answers with, and where it reads it.</caption>
 <thead>

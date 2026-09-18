@@ -15,16 +15,6 @@
   .sds-table-scroll {
     margin: 0 0 var(--space-4);
   }
-
-  /* The caption names the table from above it and quietly. A label for the
-     block, not a row of it. It starts at the left edge like everything else
-     here, not centred the way a browser sets one. */
-  caption {
-    margin-bottom: var(--space-2);
-    font-size: var(--font-size-small);
-    color: var(--text-muted);
-    text-align: start;
-  }
 }
 
 @layer components {
@@ -58,6 +48,12 @@
     --sds-table-name-ink: var(--text-link);
     --sds-table-meta-ink: var(--text-muted);
     --sds-table-note-gap: var(--space-0-5);
+    /* The caption stands under the last row, where a figure's stands, and
+       the gap is on the side that faces the rows. `top` turns both over. */
+    --sds-table-caption-side: bottom;
+    --sds-table-caption-margin: var(--space-2) 0;
+    --sds-table-caption-size: var(--font-size-small);
+    --sds-table-caption-ink: var(--text-muted);
     --sds-table-fill-hover: var(--surface-raised);
     --sds-table-graph-node: 10px;
     --sds-table-graph-gap: var(--space-3);
@@ -79,8 +75,19 @@
 
     width: 100%;
     border-collapse: collapse;
+    caption-side: var(--sds-table-caption-side);
     font-size: var(--sds-table-font-size);
     line-height: var(--sds-table-leading);
+
+    /* The caption names the table quietly. A label for the block, not a row
+       of it. It starts at the left edge like everything else here, not
+       centred the way a browser sets one. */
+    > caption {
+      margin-block: var(--sds-table-caption-margin);
+      font-size: var(--sds-table-caption-size);
+      color: var(--sds-table-caption-ink);
+      text-align: start;
+    }
 
     th {
       text-align: start;
@@ -242,6 +249,12 @@
   }
   .sds-table--airy {
     --sds-table-pad: var(--row-pad-airy);
+  }
+  /* The caption above the head, where it has to come first. The name of a
+     list a reader scans, not a note after the rows. */
+  .sds-table--caption-top {
+    --sds-table-caption-side: top;
+    --sds-table-caption-margin: 0 var(--space-2);
   }
 
   /* A table that waits for its answer. The head is already there — the columns

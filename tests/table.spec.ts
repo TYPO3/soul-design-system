@@ -181,3 +181,35 @@ test('the row still lights up under the pointer, and a selected row still fills'
   });
   expect(lit.selected, 'selection is still the one fill a row gets').not.toBe(lit.rest);
 });
+
+test('the caption stands under the last row, or above the head when asked', async ({ page }) => {
+  await page.evaluate(() => {
+    const table = document.createElement('sds-table') as HTMLElement & { columns: unknown; rows: unknown };
+    table.id = 'captioned';
+    table.setAttribute('caption', 'Versions as of the last sync.');
+    table.columns = [{ head: 'Tool', cls: 'sds-td-name' }, { head: 'Versions' }];
+    table.rows = [{ cells: ['typo3_rule_lookup', '12.4 · 13.4 · 14.3 · main'] }];
+    document.body.append(table);
+  });
+  await expect(page.locator('#captioned caption')).toHaveText('Versions as of the last sync.');
+
+  const placed = () => page.evaluate(() => {
+    const box = (sel: string) => (document.querySelector(sel) as HTMLElement).getBoundingClientRect();
+    const caption = box('#captioned caption');
+    const head = box('#captioned thead');
+    const last = box('#captioned tbody tr:last-child');
+    return { caption, head, last, first: document.querySelector('#captioned table')?.firstElementChild?.tagName };
+  });
+
+  const below = await placed();
+  expect(below.first, 'first in the source, so a reader hears what the table is first').toBe('CAPTION');
+  expect(below.caption.top, 'under the last row, with a gap to it').toBeGreaterThan(below.last.bottom);
+
+  await page.evaluate(() => document.querySelector('#captioned')!.setAttribute('caption-side', 'top'));
+  await expect(page.locator('#captioned table')).toHaveClass(/sds-table--caption-top/);
+
+  const above = await placed();
+  expect(above.first, 'the side is a matter of layout, and the source order stays').toBe('CAPTION');
+  expect(above.caption.bottom).toBeLessThanOrEqual(above.head.top);
+  expect(above.caption.height, 'and the caption keeps its size').toBe(below.caption.height);
+});

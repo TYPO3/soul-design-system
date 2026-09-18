@@ -7026,11 +7026,11 @@ var SdsTable = class extends SdsElement {
     super();
     /* The table a document wrote, taken before Lit renders over it. A cell
        there carries a link, a literal, an emphasis, and none survives a JSON
-       attribute. `colspan`, `rowspan` and a caption have no property at all.
-       The hand-over is the table's own children, so the element still draws
-       the `<table>` and decides its density. The parser drops a `<thead>`
-       outside a `<table>`. So those children come from a `<template>` or a
-       property, never from markup typed into a page. */
+       attribute. `colspan` and `rowspan` have no property at all. The hand-over
+       is the table's own children, so the element still draws the `<table>`
+       and decides its density. The parser drops a `<thead>` outside a
+       `<table>`. So those children come from a `<template>` or a property,
+       never from markup typed into a page. */
     this.taken = null;
     /* The one of the three that is a plain object of this system's own. A
        string is not an object at all. A template carries Lit's marker and its
@@ -7039,6 +7039,8 @@ var SdsTable = class extends SdsElement {
     this.density = "medium";
     this.scrollable = false;
     this.width = "";
+    this.caption = "";
+    this.captionSide = "bottom";
     this.columns = [];
     this.rows = [];
     this.loading = false;
@@ -7049,6 +7051,8 @@ var SdsTable = class extends SdsElement {
       density: { type: String, reflect: true },
       scrollable: { type: Boolean, reflect: true },
       width: { type: String },
+      caption: { type: String },
+      captionSide: { type: String, reflect: true, attribute: "caption-side" },
       columns: { type: Array },
       rows: { type: Array },
       loading: { type: Boolean, reflect: true },
@@ -7094,12 +7098,13 @@ var SdsTable = class extends SdsElement {
     </tr>`;
   }
   render() {
-    const cls = `sds-table sds-table--${this.density}${this.loading ? " sds-table--loading" : ""}`;
+    const cls = `sds-table sds-table--${this.density}${this.loading ? " sds-table--loading" : ""}` + (this.captionSide === "top" ? " sds-table--caption-top" : "");
     const style = this.width ? `width: ${this.width}` : nothing33;
+    const caption = this.caption ? html58`<caption>${this.caption}</caption>\n  ` : "";
     const given = this.loading ? null : this.taken ?? this.content;
     const body = this.loading ? Array.from({ length: Math.max(this.loadingRows, 1) }, () => this.waitingRow()) : this.rows.map((r) => this.bodyRow(r));
-    const table = given ? html58`<table class="${cls}" style="${style}">${given}</table>` : html58`<table class="${cls}" style="${style}" aria-busy="${this.loading ? "true" : nothing33}">
-  <thead><tr>
+    const table = given ? html58`<table class="${cls}" style="${style}">${caption}${given}</table>` : html58`<table class="${cls}" style="${style}" aria-busy="${this.loading ? "true" : nothing33}">
+  ${caption}<thead><tr>
     ${lines(this.columns.map((c) => {
       const mark = this.marks(c, true);
       return mark ? html58`<th class="${mark}">${c.head}</th>` : html58`<th>${c.head}</th>`;
