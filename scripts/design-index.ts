@@ -94,16 +94,28 @@ for (const rel of anchor.pending ?? []) {
 }
 anchor.pending = [];
 
-/* The index: the system's own, with this build's groups written over it. A
-   group or a record the page holds and the build does not know stays, since
-   a person added it there. */
+/* The index: the system's own, with this build's groups written over it.
+   The build's groups are the ones its uploads name: this task writes over
+   the built index, and a second run reads its own work back. A
+   group the page holds and the build does not know stays when a person
+   added it: it holds a blob the build never uploaded. A group of known
+   blobs is the build's own from before, and goes. */
 const remote: Index | null = existsSync(REMOTE_INDEX) ? JSON.parse(readFileSync(REMOTE_INDEX, 'utf8')) : null;
 const index: Index = remote ? { ...remote } : built;
 if (remote) {
-  const groups = new Set([...(remote.groups ?? []), ...(built.groups ?? [])]);
-  index.groups = [...groups];
-  const assetGroups: Record<string, AssetGroup> = { ...(remote.assetGroups ?? {}) };
+  const ours = new Set(Object.values(anchor.uploads).map((rec) => rec.blob));
+  const builtGroups = [...new Set(Object.keys(anchor.uploads).map((p) => p.split('/')[1] ?? ''))];
+  const theirsToo = (name: string): boolean => {
+    const group = remote.assetGroups?.[name];
+    return !!group && Object.values(group.files).some((rec) => rec.blob && !ours.has(rec.blob));
+  };
+  const kept = (remote.groups ?? []).filter((name) => builtGroups.includes(name) || theirsToo(name));
+  index.groups = [...new Set([...kept, ...builtGroups])];
+  const assetGroups: Record<string, AssetGroup> = Object.fromEntries(
+    Object.entries(remote.assetGroups ?? {}).filter(([name]) => index.groups!.includes(name)),
+  );
   for (const [name, group] of Object.entries(built.assetGroups ?? {})) {
+    if (!builtGroups.includes(name)) continue;
     const theirs = assetGroups[name];
     assetGroups[name] = theirs
       ? { ...theirs, ...group, order: [...new Set([...group.order, ...theirs.order])], files: { ...theirs.files, ...group.files } }
