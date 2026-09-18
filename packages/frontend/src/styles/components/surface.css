@@ -7,23 +7,23 @@
   sds-surface {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-surface > :is(.sds-plane, .sds-panel, .sds-sunken) {
     block-size: 100%;
     margin-bottom: 0;
   }
   .sds-example {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
   .sds-plane {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
   .sds-panel {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
   .sds-sunken {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 }
 

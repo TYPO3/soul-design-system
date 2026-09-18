@@ -4,13 +4,13 @@
   sds-confval {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-confval > .sds-confval {
     margin-bottom: 0;
   }
   .sds-confval {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 }
 

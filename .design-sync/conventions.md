@@ -183,9 +183,9 @@ Classes carry the prefix `sds-`, with `__element`, `--modifier`, and
 **Never set a colour, size, radius or duration literal.** Every value is a
 token: `--surface-*`, `--text-*`, `--border-*`, `--accent*`, `--status-*`,
 `--syntax-*`, `--font-*`, `--weight-*`, `--leading-*`, `--tracking-*`,
-`--measure-*`, `--space-1…16`, `--radius-none|control|card|pill`,
-`--focus-offset|--focus-halo`, `--duration-*`, `--ease-*`. Use
-`--accent`, never the raw `--orange-*` scale.
+`--measure-*`, `--space-1…16`, `--space-inline|cluster|flow|flow-wide|section`,
+`--radius-none|control|card|pill`, `--focus-offset|--focus-halo`,
+`--duration-*`, `--ease-*`. Use `--accent`, never the raw `--orange-*` scale.
 
 **The semantic colours have names, not patterns.** Surfaces are
 `--surface-canvas`, `--surface-raised`, `--surface-sunken`,

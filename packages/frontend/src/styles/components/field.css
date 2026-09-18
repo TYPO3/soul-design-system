@@ -15,13 +15,13 @@
   sds-form-errors {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-form-errors > .sds-form-errors {
     margin-bottom: 0;
   }
   .sds-form-errors {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 }
 

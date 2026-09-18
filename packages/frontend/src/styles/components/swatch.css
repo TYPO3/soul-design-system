@@ -7,14 +7,14 @@
   sds-swatch {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-swatch > .sds-swatch {
     block-size: 100%;
     margin-bottom: 0;
   }
   .sds-swatch {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 }
 

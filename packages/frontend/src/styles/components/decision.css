@@ -8,13 +8,13 @@
   sds-decision {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-flow-wide);
   }
   sds-decision > .sds-decision {
     margin-bottom: 0;
   }
   .sds-decision {
-    margin: 0 0 var(--space-6);
+    margin: 0 0 var(--space-flow-wide);
   }
 }
 

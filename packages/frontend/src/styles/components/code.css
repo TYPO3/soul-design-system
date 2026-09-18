@@ -4,12 +4,12 @@
   sds-code {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-diff {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-code > .sds-code {
     margin-bottom: 0;
@@ -18,14 +18,14 @@
     margin-bottom: 0;
   }
   .sds-code {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 
   /* The plane goes on the `<code>` and not the host, or the frame swallows
      the caption beside it. */
   sds-code:not(:defined) {
     display: block;
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 
   /* The sunken box machine output sits in, said once for the two ways it

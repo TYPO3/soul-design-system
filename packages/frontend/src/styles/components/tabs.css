@@ -8,13 +8,13 @@
   sds-tabs {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-tabs > .sds-tabs {
     margin-bottom: 0;
   }
   .sds-tabs {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 }
 

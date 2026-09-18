@@ -8,13 +8,13 @@
   sds-timeline {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-flow-wide);
   }
   sds-timeline > .sds-timeline {
     margin-bottom: 0;
   }
   .sds-timeline {
-    margin: 0 0 var(--space-6);
+    margin: 0 0 var(--space-flow-wide);
   }
 }
 

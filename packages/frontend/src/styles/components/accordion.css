@@ -13,13 +13,13 @@
   sds-accordion {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-accordion > .sds-accordion {
     margin-bottom: 0;
   }
   .sds-accordion {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 }
 

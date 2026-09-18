@@ -10,13 +10,13 @@
   sds-progress {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-progress > .sds-progress {
     margin-bottom: 0;
   }
   .sds-progress {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 }
 

@@ -4,13 +4,13 @@
   sds-nav-toc {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-flow-wide);
   }
   sds-nav-toc > .sds-toc {
     margin-bottom: 0;
   }
   .sds-toc {
-    margin: 0 0 var(--space-6);
+    margin: 0 0 var(--space-flow-wide);
   }
 
   /* Nothing at every other width. The box is in the markup on every page and

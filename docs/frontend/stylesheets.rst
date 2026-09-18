@@ -73,13 +73,13 @@ file, that only mean anything together:
      sds-note {
        display: block;
        min-width: 0;
-       margin-bottom: var(--space-4);
+       margin-bottom: var(--space-flow);
      }
      sds-note > .sds-note {
        margin-bottom: 0;
      }
      .sds-note {
-       margin: 0 0 var(--space-4);
+       margin: 0 0 var(--space-flow);
      }
    }
 

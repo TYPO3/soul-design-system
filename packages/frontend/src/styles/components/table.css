@@ -4,16 +4,16 @@
   sds-table {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-table > :is(.sds-table, .sds-table-scroll) {
     margin-bottom: 0;
   }
   .sds-table {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
   .sds-table-scroll {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 }
 

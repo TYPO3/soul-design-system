@@ -11,7 +11,7 @@
   sds-run {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-flow-wide);
   }
   /* One run standing in a passage takes the step a block takes. Two in a row
      are a log, and a log is a list: entries a step apart, not blocks a
@@ -23,7 +23,7 @@
     margin-bottom: 0;
   }
   .sds-run {
-    margin: 0 0 var(--space-6);
+    margin: 0 0 var(--space-flow-wide);
   }
 }
 

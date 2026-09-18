@@ -190,7 +190,7 @@
   .sds-section > math:not(:has(*)),
   .sds-prose > math:not(:has(*)) {
     display: block;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
 
   /* ------------------------------------------------------------ lists -- */
@@ -247,12 +247,12 @@
   h1,
   .sds-h1,
   .sds-display {
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   /* The lead closes the title group, and what follows is the page. So it
      ends on the step a group ends on, not the one between two blocks. */
   .sds-lead {
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-flow-wide);
   }
   h2,
   .sds-h2 {
@@ -275,7 +275,7 @@
   .sds-sections,
   .sds-split,
   .sds-stack {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 
   /* The air above a heading, said below whatever stands before it — which is
@@ -322,7 +322,7 @@
   hr {
     border: 0;
     border-top: var(--border-hairline) solid var(--border-subtle);
-    margin: var(--space-12) 0;
+    margin: var(--space-section) 0;
   }
 }
 

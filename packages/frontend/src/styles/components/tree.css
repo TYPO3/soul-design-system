@@ -4,13 +4,13 @@
   sds-tree {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-tree > .sds-tree {
     margin-bottom: 0;
   }
   .sds-tree {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 }
 

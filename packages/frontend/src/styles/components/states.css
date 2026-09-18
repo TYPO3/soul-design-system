@@ -4,13 +4,13 @@
   sds-note {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-note > .sds-note {
     margin-bottom: 0;
   }
   .sds-note {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 
   /* The admonition before its element upgrades, for the reason the code block
@@ -20,7 +20,7 @@
      carry a tone is the colour-only meaning the component avoids. */
   sds-note:not(:defined) {
     display: block;
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
     padding: var(--block-pad-y) var(--block-pad-x);
     border: var(--border-hairline) solid var(--border-subtle);
     border-radius: var(--radius-card);

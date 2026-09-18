@@ -3,7 +3,7 @@
 
 @layer base {
   .sds-topic {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 }
 

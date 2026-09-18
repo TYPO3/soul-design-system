@@ -21,6 +21,22 @@
     --space-16: 4rem;
     --space-19: 4.75rem;
 
+    /* The distances with a name, each bound to a step. A component reads the
+       role where the role is what it means, and the step where the number
+       is its own. So the reading step moves once, in every flow at once. */
+    /* A glyph beside a word, a label over its value. */
+    --space-inline: var(--space-1);
+    /* Between the items of a row: the pills, the badges, a control's icon
+       and its label. */
+    --space-cluster: var(--space-2);
+    /* The step under a block in a reading column. The flow contract. */
+    --space-flow: var(--space-4);
+    /* The step under a block that is a thing rather than a text: a list of
+       steps, a timeline, a contents, the lead. */
+    --space-flow-wide: var(--space-6);
+    /* Between the sections of a page. */
+    --space-section: var(--space-12);
+
     --gutter-page: 3rem;
     /* The measure a page runs at. The bar, the body, the column and the foot
        all stop at it and centre on it, so a page is one width. Nothing a

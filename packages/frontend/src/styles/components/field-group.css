@@ -4,13 +4,13 @@
   sds-field-group {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-field-group > .sds-field-group {
     margin-bottom: 0;
   }
   .sds-field-group {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 }
 

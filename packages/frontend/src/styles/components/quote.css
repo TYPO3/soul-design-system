@@ -4,13 +4,13 @@
   sds-quote {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-quote > .sds-quote {
     margin-bottom: 0;
   }
   .sds-quote {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 
   /* A bare `<blockquote>` is this component without its element, so it draws

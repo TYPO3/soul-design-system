@@ -235,9 +235,10 @@ of the reading as well.
 
 Every value is a token: `--surface-*`, `--text-*`, `--border-*`,
 `--accent`, `--status-*`, `--syntax-*`, `--font-*`, `--space-1…16`,
-`--radius-*`, `--duration-*`. Never a literal colour, size, radius or
-duration, and never the raw `--orange-*` scale behind `--accent`. Both
-modes ship in one declaration. Every colour is `light-dark()` against
+`--space-inline|cluster|flow|flow-wide|section`, `--radius-*`,
+`--duration-*`. Never a literal colour, size, radius or duration, and never
+the raw `--orange-*` scale behind `--accent`. Both modes ship in one
+declaration. Every colour is `light-dark()` against
 `color-scheme: light dark`, so the two cannot drift. Force one with
 `data-theme="light"` or `"dark"` on `<html>`, or the browser's own
 scrollbars and form controls stay in the other.

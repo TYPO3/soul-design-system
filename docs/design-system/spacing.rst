@@ -39,6 +39,35 @@ hairline, a radius, a focus ring, a viewport width a layout changes at.
    :viewport: 700x125
    :title: Space scale
 
+Distances with a name
+=====================
+
+A step is a number. A role is what the number is for, and it binds to one
+step in ``spacing.css``. A component reads the role where the role is what it
+means. The reading step then moves once, in every flow at once.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Role
+     - Step
+     - Where it stands
+   * - ``--space-inline``
+     - ``--space-1``
+     - a glyph beside a word, a label over its value
+   * - ``--space-cluster``
+     - ``--space-2``
+     - between the items of a row: pills, badges, a control's icon and its label
+   * - ``--space-flow``
+     - ``--space-4``
+     - the step under a block in a reading column
+   * - ``--space-flow-wide``
+     - ``--space-6``
+     - the step under a block that is a thing rather than a text: a timeline, a contents, the lead
+   * - ``--space-section``
+     - ``--space-12``
+     - between the sections of a page
+
 A boxed block takes ``--block-pad-y`` by ``--block-pad-x``, and every box
 shares the horizontal value. So a card, a note, a modal and a code block
 start their text on the same edge, in any stack.
@@ -46,9 +75,9 @@ start their text on the same edge, in any stack.
 Reading rhythm
 ==============
 
-A reading column runs on ``--space-4`` between neighbours. A heading adds its
-own air above that step: ``--space-10`` above a second level, ``--space-8``
-above a third and ``--space-6`` above a fourth. The decreasing air carries
+A reading column runs on ``--space-flow`` between neighbours. A heading adds
+its own air above that step: ``--space-10`` above a second level,
+``--space-8`` above a third and ``--space-6`` above a fourth. The decreasing air carries
 the hierarchy where the heading sizes no longer change.
 
 One flex gap cannot express this. A gap is a minimum between every pair of

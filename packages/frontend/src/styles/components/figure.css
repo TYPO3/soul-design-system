@@ -7,14 +7,14 @@
   sds-figure {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-flow);
   }
   sds-figure > .sds-figure {
     block-size: 100%;
     margin-bottom: 0;
   }
   .sds-figure {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
 
   /* A bare `<figure>` is this component without its element, and its caption
@@ -42,7 +42,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-flow);
   }
   sds-figure:not(:defined) > .sds-art {
     /* The border counts against the width the picture stops at, not on top of

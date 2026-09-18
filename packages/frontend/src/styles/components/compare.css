@@ -4,13 +4,13 @@
   sds-compare {
     display: block;
     min-width: 0;
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-flow-wide);
   }
   sds-compare > .sds-compare {
     margin-bottom: 0;
   }
   .sds-compare {
-    margin: 0 0 var(--space-6);
+    margin: 0 0 var(--space-flow-wide);
   }
 }
 

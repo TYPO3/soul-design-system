@@ -6,7 +6,7 @@
 
 @layer components {
   .sds-section {
-    --sds-section-step: var(--space-12);
+    --sds-section-step: var(--space-section);
     --sds-section-mark-ink: var(--text-accent-quiet);
     --sds-section-number-font: var(--font-mono);
     --sds-section-number-size: 0.7em;

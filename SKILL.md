@@ -149,17 +149,21 @@ label names what goes.
 is machine output.
 
 **The step above a thing says what it is.** A reading column runs on one gap,
-`--space-4` between anything and anything. A heading buys its own air on top:
+`--space-flow` between anything and anything. A heading buys its own air on top:
 40px above a second level, 32px above a third, 24px above a fourth. That
 decreasing air is the hierarchy. By the fourth level only the air still
 changes.
 
 **The step below a thing is the element's own.** A paragraph, a list and a
-heading carry `--space-4` under them, less as a heading deepens. So blocks in
-a component's box stand apart without that box being a document. A container
-that states its own step takes those margins back: `.sds-column`,
-`.sds-stack`, a card's body, a specimen's stack. A box of your own either lets
-authored blocks keep their margin or joins that list. Never both.
+heading carry `--space-flow` under them, less as a heading deepens. A block
+that is a thing rather than a text, a timeline, a list of steps, carries
+`--space-flow-wide`. So blocks in a component's box stand apart without that
+box being a document.
+
+A container that states its own step takes those margins back:
+`.sds-column`, `.sds-stack`, a card's body, a specimen's stack. A box of your
+own either lets authored blocks keep their margin or joins that list. Never
+both.
 
 **A titled block carries a pair, not two sizes.** A *block* with a heading
 over its own text, a note, a surface, an empty state, a modal, an accordion,
