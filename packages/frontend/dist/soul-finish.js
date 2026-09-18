@@ -502,7 +502,7 @@ ${c}`}};v("sds-image",Lr);function Hr({signet:e="",brand:t="",product:s="",href:
     class="${a?"sds-outline__item is-active":"sds-outline__item"}"
     href="${s.href??"#"}"
     aria-current="${a?"location":p}"
-  >${this.numbered?o`<span class="sds-outline__number">${r}</span> `:p}${s.label}</a>`}row(s,r){let a=s.items??[];return o`<li>
+  >${this.numbered?o`<span class="sds-outline__number">${r}</span> `:p}<span class="sds-outline__label">${s.label}</span></a>`}row(s,r){let a=s.items??[];return o`<li>
   ${this.item(s,r)}
   ${a.length?this.list(a,r):p}
 </li>`}follow(){let s=this.querySelector(".sds-outline__item.is-active"),r=s?.closest(".sds-outline");if(!s||!r||r.scrollHeight-r.clientHeight<2)return;let a=getComputedStyle(r),n=r.getBoundingClientRect(),c=s.getBoundingClientRect(),l=c.top-(n.top+(parseFloat(a.paddingTop)||0)),d=c.bottom-(n.bottom-(parseFloat(a.paddingBottom)||0));l<0?r.scrollTop+=l:d>0&&(r.scrollTop+=d)}updated(s){(s.has("at")||s.has("entries"))&&this.follow()}render(){let s=this.label||Qo;return o`<nav class="sds-outline" aria-label="${s}" @click="${r=>this.chose(r)}">

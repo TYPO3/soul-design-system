@@ -83,7 +83,10 @@ export declare class SdsNavOutline extends SdsElement {
         of the entry above: `4`, then `4.1`, `4.2`. */
     private list;
     /** One row. `aria-current="location"` and not `page`: every entry here is
-        the document, and the mark is the part of it the reader is at. */
+        the document, and the mark is the part of it the reader is at. The
+        space after the number is text, so the name a row has out loud keeps
+        the two apart. The name stands in a node of its own, so the underline
+        under the pointer is the name's and never the space's. */
     private item;
     /** One part, and the sections under it. */
     private row;

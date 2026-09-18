@@ -105,6 +105,10 @@
 
     &:hover {
       color: var(--sds-outline-ink-hover);
+    }
+    /* The underline is the name's. On the anchor it ran under the space
+       between the number and the name too, and started a step early. */
+    &:hover .sds-outline__label {
       text-decoration: underline;
     }
   }
@@ -120,6 +124,8 @@
   .sds-outline__list .sds-outline__list .sds-outline__item.is-active {
     background: var(--sds-outline-fill-active);
     color: var(--sds-outline-ink-active);
+  }
+  .sds-outline__item.is-active .sds-outline__label {
     text-decoration: none;
   }
 

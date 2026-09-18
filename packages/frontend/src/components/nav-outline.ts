@@ -218,14 +218,17 @@ export class SdsNavOutline extends SdsElement {
   }
 
   /** One row. `aria-current="location"` and not `page`: every entry here is
-      the document, and the mark is the part of it the reader is at. */
+      the document, and the mark is the part of it the reader is at. The
+      space after the number is text, so the name a row has out loud keeps
+      the two apart. The name stands in a node of its own, so the underline
+      under the pointer is the name's and never the space's. */
   private item(entry: MenuEntry, number: string): TemplateResult {
     const here = this.isCurrent(entry);
     return html`<a
     class="${here ? 'sds-outline__item is-active' : 'sds-outline__item'}"
     href="${entry.href ?? '#'}"
     aria-current="${here ? 'location' : nothing}"
-  >${this.numbered ? html`<span class="sds-outline__number">${number}</span> ` : nothing}${entry.label}</a>`;
+  >${this.numbered ? html`<span class="sds-outline__number">${number}</span> ` : nothing}<span class="sds-outline__label">${entry.label}</span></a>`;
   }
 
   /** One part, and the sections under it. */

@@ -5775,6 +5775,7 @@
             "sds-outline",
             "sds-outline__fold",
             "sds-outline__item",
+            "sds-outline__label",
             "sds-outline__list",
             "sds-outline__number",
             "sds-outline__toggle"
