@@ -302,7 +302,7 @@
     }
     /* The height a desktop can spare is height a phone reads with. */
     :root {
-      --height-header: 56px;
+      --height-header: 3.5rem;
     }
     .sds-body {
       flex-direction: column;

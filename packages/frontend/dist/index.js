@@ -28,9 +28,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// node_modules/highlight.js/lib/core.js
+// ../../node_modules/highlight.js/lib/core.js
 var require_core = __commonJS({
-  "node_modules/highlight.js/lib/core.js"(exports, module) {
+  "../../node_modules/highlight.js/lib/core.js"(exports, module) {
     function deepFreeze(obj) {
       if (obj instanceof Map) {
         obj.clear = obj.delete = obj.set = function() {
@@ -5079,7 +5079,7 @@ var SdsNavMain = class extends SdsNav {
       }
     }
     this.travel();
-    this.decide();
+    void this.updateComplete.then(() => this.decide());
   }
   /** The step, shown as one. The level arrives from the side of its approach,
         and the drawer grows into its new height instead of a jump. Both in the
@@ -5100,7 +5100,9 @@ var SdsNavMain = class extends SdsNav {
     const duration = parseFloat(style.getPropertyValue("--duration-fast"));
     const easing = style.getPropertyValue("--ease-out").trim();
     if (!duration || !easing) return;
-    const away = parseFloat(style.getPropertyValue("--space-6")) || 24;
+    const step = style.getPropertyValue("--space-6").trim();
+    const root = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    const away = (parseFloat(step) || 1.5) * (step.endsWith("rem") ? root : 1);
     const forwards = style.direction === "rtl" ? -away : away;
     const from = how === "in" ? forwards : -forwards;
     level.animate(
@@ -7467,11 +7469,11 @@ define("sds-nav-pager", SdsNavPager);
 import { html as html65 } from "lit";
 import { unsafeHTML as unsafeHTML5 } from "lit/directives/unsafe-html.js";
 
-// node_modules/highlight.js/es/core.js
+// ../../node_modules/highlight.js/es/core.js
 var import_core = __toESM(require_core(), 1);
 var core_default = import_core.default;
 
-// node_modules/highlight.js/es/languages/bash.js
+// ../../node_modules/highlight.js/es/languages/bash.js
 function bash(hljs) {
   const regex = hljs.regex;
   const VAR = {};
@@ -7865,7 +7867,7 @@ function bash(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/css.js
+// ../../node_modules/highlight.js/es/languages/css.js
 var MODES = (hljs) => {
   return {
     IMPORTANT: {
@@ -8802,7 +8804,7 @@ function css(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/diff.js
+// ../../node_modules/highlight.js/es/languages/diff.js
 function diff(hljs) {
   const regex = hljs.regex;
   return {
@@ -8855,7 +8857,7 @@ function diff(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/javascript.js
+// ../../node_modules/highlight.js/es/languages/javascript.js
 var IDENT_RE = "[A-Za-z$_][0-9A-Za-z$_]*";
 var KEYWORDS = [
   "as",
@@ -9556,7 +9558,7 @@ function javascript(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/json.js
+// ../../node_modules/highlight.js/es/languages/json.js
 function json(hljs) {
   const ATTRIBUTE = {
     className: "attr",
@@ -9596,7 +9598,7 @@ function json(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/markdown.js
+// ../../node_modules/highlight.js/es/languages/markdown.js
 function markdown(hljs) {
   const regex = hljs.regex;
   const INLINE_HTML = {
@@ -9828,7 +9830,7 @@ function markdown(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/php.js
+// ../../node_modules/highlight.js/es/languages/php.js
 function php(hljs) {
   const regex = hljs.regex;
   const NOT_PERL_ETC = /(?![A-Za-z0-9])(?![$])/;
@@ -10429,7 +10431,7 @@ function php(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/plaintext.js
+// ../../node_modules/highlight.js/es/languages/plaintext.js
 function plaintext(hljs) {
   return {
     name: "Plain text",
@@ -10441,7 +10443,7 @@ function plaintext(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/scss.js
+// ../../node_modules/highlight.js/es/languages/scss.js
 var MODES2 = (hljs) => {
   return {
     IMPORTANT: {
@@ -11363,7 +11365,7 @@ function scss(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/sql.js
+// ../../node_modules/highlight.js/es/languages/sql.js
 function sql(hljs) {
   const regex = hljs.regex;
   const COMMENT_MODE = hljs.COMMENT("--", "$");
@@ -12006,7 +12008,7 @@ function sql(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/twig.js
+// ../../node_modules/highlight.js/es/languages/twig.js
 function twig(hljs) {
   const regex = hljs.regex;
   const FUNCTION_NAMES = [
@@ -12245,7 +12247,7 @@ function twig(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/typescript.js
+// ../../node_modules/highlight.js/es/languages/typescript.js
 var IDENT_RE2 = "[A-Za-z$_][0-9A-Za-z$_]*";
 var KEYWORDS2 = [
   "as",
@@ -13059,7 +13061,7 @@ function typescript(hljs) {
   return tsLanguage;
 }
 
-// node_modules/highlight.js/es/languages/xml.js
+// ../../node_modules/highlight.js/es/languages/xml.js
 function xml(hljs) {
   const regex = hljs.regex;
   const TAG_NAME_RE = regex.concat(/[\p{L}_]/u, regex.optional(/[\p{L}0-9_.-]*:/u), /[\p{L}0-9_.-]*/u);
@@ -13285,7 +13287,7 @@ function xml(hljs) {
   };
 }
 
-// node_modules/highlight.js/es/languages/yaml.js
+// ../../node_modules/highlight.js/es/languages/yaml.js
 function yaml(hljs) {
   const LITERALS3 = "true false yes no null";
   const URI_CHARACTERS = "[\\w#;/?:@&=+$,.~*'()[\\]]+";

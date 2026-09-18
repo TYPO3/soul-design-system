@@ -1,53 +1,53 @@
 @layer tokens {
   :root {
-    /* A 4px base, halved below 16 and thinner above 24. The half-steps do not
-       loosen the grid; they are the part of it that was absent. A glyph beside
-       a word, a label over its value and a control's inner air read at
-       distances 4px is too coarse for. Where the scale had no step, somebody
-       typed the value instead. Above 16 nothing has ever needed one. */
-    --space-0-5: 2px;
-    --space-1: 4px;
-    --space-1-5: 6px;
-    --space-2: 8px;
-    --space-2-5: 10px;
-    --space-3: 12px;
-    --space-3-5: 14px;
-    --space-4: 16px;
-    --space-5: 20px;
-    --space-6: 24px;
-    --space-8: 32px;
-    --space-10: 40px;
-    --space-12: 48px;
-    --space-16: 64px;
-    --space-19: 76px;
+    /* A 4px base, halved below 16 and thinner above 24, in rem so the grid
+       follows the reader's type size. The half-steps are the part of the
+       grid that was absent. A glyph beside a word and a label over its value
+       read at distances 4px is too coarse for. Above 16 nothing has ever
+       needed one. */
+    --space-0-5: 0.125rem;
+    --space-1: 0.25rem;
+    --space-1-5: 0.375rem;
+    --space-2: 0.5rem;
+    --space-2-5: 0.625rem;
+    --space-3: 0.75rem;
+    --space-3-5: 0.875rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-19: 4.75rem;
 
-    --gutter-page: 48px;
+    --gutter-page: 3rem;
     /* The measure a page runs at. The bar, the body, the column and the foot
        all stop at it and centre on it, so a page is one width. Nothing a
        reader *reads* runs this wide — prose, a lead and display type each
        keep their own measure. This is for what a reader scans: tables, grids
        of cards, a band's two columns, which is the part short of room. */
-    --width-page: 1200px;
-    --width-sidebar: 210px;
+    --width-page: 75rem;
+    --width-sidebar: 13.125rem;
     /* The panel a long document stands beside: its contents, numbered, with
        the whole reach of the document in it. Wider than the rail, because a
        row here carries a number and a sentence rather than a name. */
-    --width-panel: 300px;
+    --width-panel: 18.75rem;
     /* The bar. Room to stand on a desktop; a phone gives the height back to
        the page, which is the thing a reader reads. */
-    --height-header: 72px;
+    --height-header: 4.5rem;
 
     /* A modal centres and stops here. The specimen says so in words; this
        is where the number lives. */
-    --measure-modal: 560px;
+    --measure-modal: 35rem;
 
     /* The sizes a modal comes in, both directions at once. How wide each one
        is, and how tall it can get before the body inside it gives. `md` is the
        reading measure. `lg` is past it on purpose. What needs that much room
        is a tool rather than a text: a table, a picker, a diff. */
-    --modal-width-sm: 360px;
+    --modal-width-sm: 22.5rem;
     --modal-width-md: var(--measure-modal);
-    --modal-width-lg: 800px;
+    --modal-width-lg: 50rem;
     --modal-height-sm: 50vh;
     --modal-height-md: 70vh;
     --modal-height-lg: 85vh;

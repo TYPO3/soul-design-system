@@ -5,16 +5,16 @@
    like `--nav-font-size` binds to a step here and adds no value. */
 @layer tokens {
   :root {
-    --font-size-display: 58px;
-    --font-size-h1: 44px;
-    --font-size-h2: 34px;
-    --font-size-h3: 24px;
-    --font-size-lead: 19px;
-    --font-size-body: 16px;
+    --font-size-display: 3.625rem;
+    --font-size-h1: 2.75rem;
+    --font-size-h2: 2.125rem;
+    --font-size-h3: 1.5rem;
+    --font-size-lead: 1.1875rem;
+    --font-size-body: 1rem;
     /* Two sizes carry text a person reads, and there is nothing under them.
        The box and the face separate a nav item from a button label, or a
        table head from the meta beside it — not the size. */
-    --font-size-small: 14px;
+    --font-size-small: 0.875rem;
 
     /* Openness, closed to open, and every role binds to one of these rather
        than writes its own. `tight` is in use: a row's height comes from it,
@@ -46,8 +46,8 @@
        font, so one token resolves to a different edge on every register it
        touches. The character count moves into the number instead; larger type
        reads in fewer of them, not more. */
-    --measure-prose: 620px;
-    --measure-lead: 560px;
-    --measure-display: 480px;
+    --measure-prose: 38.75rem;
+    --measure-lead: 35rem;
+    --measure-display: 30rem;
   }
 }

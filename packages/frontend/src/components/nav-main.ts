@@ -668,7 +668,9 @@ export class SdsNavMain extends SdsNav {
       }
     }
     this.travel();
-    this.decide();
+    /* After the update, not in it: a state set inside `updated()` starts
+       the next cycle before this one has closed. */
+    void this.updateComplete.then(() => this.decide());
   }
 
   /** The step, shown as one. The level arrives from the side of its approach,
@@ -694,8 +696,11 @@ export class SdsNavMain extends SdsNav {
     if (!duration || !easing) return;
 
     /* The way in is forwards, the end of the line the page reads towards. So
-       the level comes from there, and the way back from the start. */
-    const away = parseFloat(style.getPropertyValue('--space-6')) || 24;
+       the level comes from there, and the way back from the start. The step
+       is in rem, and a keyframe wants pixels. */
+    const step = style.getPropertyValue('--space-6').trim();
+    const root = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    const away = (parseFloat(step) || 1.5) * (step.endsWith('rem') ? root : 1);
     const forwards = style.direction === 'rtl' ? -away : away;
     const from = how === 'in' ? forwards : -forwards;
     level.animate(

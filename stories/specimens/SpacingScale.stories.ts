@@ -5,8 +5,9 @@
    value are read: without them the value gets typed instead. A gap that is
    not on this list is a gap somebody typed.
 
-   Each step is drawn as a square, so the number under it and the size of the
-   mark say the same thing — the scale is read rather than looked up. */
+   Each step is drawn as a square out of its own token, so the number under
+   it and the size of the mark say the same thing at the default type size —
+   the scale is read rather than looked up. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
@@ -15,9 +16,12 @@ import { dsCard, specPad } from '../lib/specimen.ts';
 
 const STEPS = [2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 32, 40, 48, 64] as const;
 
+/** `--space-1-5` for 6px: the step's name is its multiple of 4, halves with a dash. */
+const token = (px: number): string => `--space-${String(px / 4).replace('.', '-')}`;
+
 const step = (px: number): string =>
   `<div style="display:flex; flex-direction:column; align-items:flex-start; gap:6px;">
-  <div style="width:${px}px; height:${px}px; background:var(--accent);"></div>
+  <div style="width:var(${token(px)}); height:var(${token(px)}); background:var(--accent);"></div>
   <div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">${px}</div>
 </div>`;
 

@@ -20,9 +20,9 @@
        same padding, and a header shows all three on one line. A floor and
        not a ceiling. Every control's padding comes in under it, and one whose
        content outgrows it, a field with two lines, still grows. */
-    --control-height: 36px;
-    --control-height-sm: 28px;
-    --control-height-lg: 44px;
+    --control-height: 2.25rem;
+    --control-height-sm: 1.75rem;
+    --control-height-lg: 2.75rem;
 
     /* Controls do not carry prose leading. It puts a 14px label in a 22px line
        box, most of a small control's height before any padding. And it makes
@@ -33,19 +33,19 @@
     /* Padding comes in under the height, which is what makes the height a
        floor rather than a ceiling. At the reading size the vertical pair no
        longer did, and a button stood over the field beside it on one line. */
-    --control-pad-y: 6px;
-    --control-pad-x: 15px;
-    --control-pad-y-sm: 4px;
-    --control-pad-x-sm: 11px;
-    --control-pad-y-lg: 11px;
-    --control-pad-x-lg: 19px;
-    --control-gap: 8px;
+    --control-pad-y: 0.375rem;
+    --control-pad-x: 0.9375rem;
+    --control-pad-y-sm: 0.25rem;
+    --control-pad-x-sm: 0.6875rem;
+    --control-pad-y-lg: 0.6875rem;
+    --control-pad-x-lg: 1.1875rem;
+    --control-gap: var(--space-2);
     /* The icon square itself. 16 is the system's floor and the size every
        control assumes; sizes go 16, 20, 24, never 18 or 22. */
-    --control-icon-size: 16px;
+    --control-icon-size: 1rem;
     /* The next step up, for the glyph that is the whole of a large control.
        16 in a 44px square is a mark lost in its box. */
-    --control-icon-size-lg: 20px;
+    --control-icon-size-lg: 1.25rem;
 
     /* A field's padding is not a button's at the same height. A button's stands
        around a label. A field's stands in front of what somebody types, and the
@@ -70,8 +70,8 @@
        of. It stops under their height rather than at it. Taller than the pair,
        it sets the row for a swatch with one line too. A chip twice its own
        words is the same fault the other way round. */
-    --swatch-chip-size: 40px;
-    --tile-art-size: 64px;
+    --swatch-chip-size: 2.5rem;
+    --tile-art-size: 4rem;
 
     /* Tables. The head names the column and a reader reads it to understand
        the row. So it sets at the row's own size, and its case, its tracking
@@ -82,9 +82,9 @@
     /* A table a person reads is prose in columns and sets like it. Density
        is room, and the one density that also changes the type is the one a
        reader scans rather than reads. */
-    --row-pad-compact: 6px;
-    --row-pad-medium: 9px;
-    --row-pad-airy: 14px;
+    --row-pad-compact: 0.375rem;
+    --row-pad-medium: 0.5625rem;
+    --row-pad-airy: 0.875rem;
     --row-font-size: var(--font-size-body);
     --row-font-size-compact: var(--font-size-small);
 

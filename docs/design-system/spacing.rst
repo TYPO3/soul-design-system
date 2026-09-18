@@ -28,13 +28,20 @@ small end of the same grid. A glyph beside a word and a label over its value
 sit at distances 4px is too coarse for. A scale with no step there gets a
 literal under it. Above 16 nothing has needed one.
 
-A boxed block takes ``--block-pad-y`` by ``--block-pad-x``, and every box
-shares the horizontal value. So a card, a note, a modal and a code block
-start their text on the same edge, in any stack.
+Every step stands in ``rem``. So do the type scale, the measures, the
+control heights and the widths of the page. The whole grid follows the type
+size a reader set in the browser, and a gap grows with the word beside it. A
+pixel figure in this manual is what a token draws at the browser's default,
+16px to the rem. A pixel stays on what the browser draws rather than sets: a
+hairline, a radius, a focus ring, a viewport width a layout changes at.
 
 .. specimen:: guidelines/spacing-scale.card.html
    :viewport: 700x125
    :title: Space scale
+
+A boxed block takes ``--block-pad-y`` by ``--block-pad-x``, and every box
+shares the horizontal value. So a card, a note, a modal and a code block
+start their text on the same edge, in any stack.
 
 Reading rhythm
 ==============

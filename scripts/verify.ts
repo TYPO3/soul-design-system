@@ -82,10 +82,20 @@ function tokenValues(): Map<string, string> {
   const out = new Map<string, string>();
   for (const [name, value] of raw) {
     const done = resolve1(value);
-    if (/^-?\d+(\.\d+)?(px|em|ms)?$/.test(done)) out.set(name, done);
+    if (/^-?\d+(\.\d+)?(px|rem|em|ms)?$/.test(done)) out.set(name, done);
   }
   return out;
 }
+
+/** A length as the browser draws it at the default type size. So a caption
+    that says `16px` beside a token that holds `1rem` says the same thing. */
+const drawn = (value: string): string => {
+  const m = /^(-?\d+(?:\.\d+)?)(px|rem|em|ms)?$/.exec(value);
+  if (!m) return value;
+  const n = Number(m[1]);
+  if (m[2] === 'rem') return String(Math.round(n * 16 * 1000) / 1000);
+  return m[2] === 'px' || !m[2] ? String(n) : value;
+};
 
 /** Where a figure stands beside a token name. Sources and documents both: a
     comment that quotes a size drifts exactly like a sentence does, and
@@ -385,7 +395,7 @@ const CHECKS: readonly Check[] = [
          than a quotation. Nothing after the figure but the end of it, so a
          paired caption with two tokens and two numbers stays as it is. And
          `var(--x)` is a use rather than a quotation. */
-      const quoted = /(?<!var\()(--[a-z0-9-]+)(?![a-z0-9-])[ \t·,]{0,3}(-?\d+(?:\.\d+)?)\s*(px|em|ms)?(?![\w-])(?!\s*[/×*])/g;
+      const quoted = /(?<!var\()(--[a-z0-9-]+)(?![a-z0-9-])[ \t·,]{0,3}(-?\d+(?:\.\d+)?)\s*(px|rem|em|ms)?(?![\w-])(?!\s*[/×*])/g;
       const problems: string[] = [];
       let seen = 0;
       for (const path of files) {
@@ -396,8 +406,7 @@ const CHECKS: readonly Check[] = [
           if (!held) continue;
           seen += 1;
           const written = `${m[2] as string}${m[3] ?? ''}`;
-          const bare = (v: string): string => v.replace(/px$/, '');
-          if (bare(written) === bare(held)) continue;
+          if (drawn(written) === drawn(held)) continue;
           const line = text.slice(0, m.index).split('\n').length;
           problems.push(`${rel}:${line} writes "${m[1]} ${written}" and the token is ${held}`);
         }
