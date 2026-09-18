@@ -89,7 +89,7 @@
      bleeds by exactly its padding, and one entry is one line: a long name
      ends in an ellipsis rather than a second line. */
   .sds-outline__item {
-    display: block;
+    display: flex;
     margin-inline: calc(-1 * var(--sds-outline-bleed));
     padding: var(--sds-outline-step) var(--sds-outline-bleed);
     line-height: var(--sds-outline-leading);
@@ -99,6 +99,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    align-items: center;
     transition:
       background var(--sds-outline-duration) var(--sds-outline-ease),
       color var(--sds-outline-duration) var(--sds-outline-ease);

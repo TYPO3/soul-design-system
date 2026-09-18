@@ -1857,7 +1857,7 @@
     >li:last-child{margin-bottom:0}
   }
   .sds-toc__item{
-    display:block;
+    display:flex;
     margin-inline:calc(-1 * var(--sds-toc-bleed));
     padding:var(--sds-toc-step) var(--sds-toc-bleed);
     line-height:var(--sds-toc-leading);
@@ -1867,6 +1867,7 @@
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+    align-items:center;
     transition:background var(--sds-toc-duration) var(--sds-toc-ease),color var(--sds-toc-duration) var(--sds-toc-ease);
     &:hover{color:var(--sds-toc-ink-hover);text-decoration:underline}
   }
@@ -1931,7 +1932,7 @@
     >li:last-child{margin-bottom:0}
   }
   .sds-outline__item{
-    display:block;
+    display:flex;
     margin-inline:calc(-1 * var(--sds-outline-bleed));
     padding:var(--sds-outline-step) var(--sds-outline-bleed);
     line-height:var(--sds-outline-leading);
@@ -1941,6 +1942,7 @@
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+    align-items:center;
     transition:background var(--sds-outline-duration) var(--sds-outline-ease),color var(--sds-outline-duration) var(--sds-outline-ease);
     &:hover{color:var(--sds-outline-ink-hover)}
     &:hover .sds-outline__label{text-decoration:underline}

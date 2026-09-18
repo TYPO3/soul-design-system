@@ -134,7 +134,7 @@
      ends where the column does. A reader scans a list of places down its left
      edge, so the heading it names is short or the cut says so. */
   .sds-toc__item {
-    display: block;
+    display: flex;
     margin-inline: calc(-1 * var(--sds-toc-bleed));
     padding: var(--sds-toc-step) var(--sds-toc-bleed);
     line-height: var(--sds-toc-leading);
@@ -144,6 +144,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    align-items: center;
     transition:
       background var(--sds-toc-duration) var(--sds-toc-ease),
       color var(--sds-toc-duration) var(--sds-toc-ease);
