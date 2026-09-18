@@ -73,6 +73,9 @@ const ELSEWHERE = [
   /* Something a page opens over itself, which a document does not do. */
   'sds-modal',
   'sds-dialog',
+  /* One frame of a deck. A reader reads a document, and a room watches a
+     deck: the same elements at twice the size, in a frame no page has. */
+  'sds-slide',
   /* A wall of glyphs is an index of an asset set, which a manual page is not.
      A document that wants one is a catalog with prose round it, and that is
      a product surface — see `Pages/Catalog/Catalog`. */

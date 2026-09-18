@@ -233,6 +233,119 @@ of six.
    top. Four items in a three-wide row wrap as three and one, so it lays
    them out two and two.
 
+.. _component-sds-slide:
+
+sds-slide
+=========
+
+One 16:9 frame of a deck. The frame is 960 × 540 and the stylesheet doubles
+it, so a slide renders at 1920 × 1080. Every element between the tags keeps
+the set it has on a page. The element owns the frame, the ground, the head,
+the foot and the deck's outline. The body is the system's elements.
+
+.. code-block:: html
+
+   <sds-slide kind="content" heading="Three places for every component"
+     number="03" signet="signet-m.svg" brand="TYPO3" product="Dev Companion">
+     <sds-grid>
+       <sds-surface label="Story" heading="Every element has one" body="…"></sds-surface>
+     </sds-grid>
+   </sds-slide>
+
+.. confval:: kind
+   :name: sds-slide-kind
+   :type: "cover" | "section" | "statement" | "content" | "closing"
+   :default: "content"
+
+   What the slide is in the run of a deck. ``cover`` and ``closing`` hold the
+   title up and the lockup down. ``section`` holds the outline down.
+   ``statement`` centres one sentence. ``content`` keeps its title at the
+   top margin, so it never hops between slides.
+
+.. confval:: ground
+   :name: sds-slide-ground
+   :type: "paper" | "terminal"
+   :default: "paper"
+
+   The ground, whatever mode the page is in. A deck stands on paper and its
+   cover on the terminal: the flip is the emphasis, and the one accent stays
+   where it is.
+
+.. confval:: eyebrow
+   :name: sds-slide-eyebrow
+   :type: string
+
+   The line over the title, in the label register: the occasion, the
+   section's number, the date.
+
+.. confval:: heading
+   :name: sds-slide-heading
+   :type: string
+
+   The title. A cover, a divider and a statement set it at the display
+   step. A content slide sets it at the h2 step, so the body has room.
+
+.. confval:: lead
+   :name: sds-slide-lead
+   :type: string
+
+   The sentence under a cover's or a closing's title.
+
+.. confval:: note
+   :name: sds-slide-note
+   :type: string
+
+   The line under a statement, in the small register: where the sentence
+   is from.
+
+.. confval:: number
+   :name: sds-slide-number
+   :type: string
+
+   The count in the foot. A string, because a deck numbers its slides the
+   way it likes: ``03``, ``3 / 12``.
+
+.. confval:: signet, brand, product
+   :name: sds-slide-lockup
+   :type: string
+
+   The lockup, as ``sds-nav-main`` and ``sds-footer`` take it. On a cover
+   and a closing it stands at the foot, at the h3 step with the mark at 32.
+   On every other kind it stands in the foot at the page's size. Without a
+   product there is no lockup.
+
+.. confval:: sections
+   :name: sds-slide-sections
+   :type: string[]
+
+   The deck's outline, on a divider: one entry per section, as a JSON
+   attribute or the ``.sections`` property.
+
+.. confval:: current
+   :name: sds-slide-current
+   :type: number
+   :default: 0
+
+   Which entry of the outline this section is. It takes the page's ink and
+   the accent rule under it, the way a bar marks its active item.
+
+.. confval:: fit
+   :name: sds-slide-fit
+   :type: boolean
+
+   If the frame scales to the room it has. The room is the width its parent
+   gives it and the height from there to the bottom of the window. The
+   element measures and writes the zoom as a style, the way ``sds-grid``
+   writes its columns. Unset, the frame draws at the size the stylesheet
+   states.
+
+.. confval:: body
+   :name: sds-slide-body
+   :type: markup
+
+   What the slide shows between its title and its foot. Between the tags, or
+   as ``.body`` where a renderer cannot write between them.
+
 .. _component-sds-stat:
 
 sds-stat

@@ -152,6 +152,9 @@ group.
    * - ``sds-quote``
      - a sentence borrowed from somewhere, with where it came from
      - :ref:`Content — sds-quote <component-sds-quote>`
+   * - ``sds-slide``
+     - one 16:9 frame of a deck, the page at twice the size
+     - :ref:`Content — sds-slide <component-sds-slide>`
    * - ``sds-radio``
      - one answer out of a few, all of them visible
      - :ref:`Forms — sds-radio <component-sds-radio>`

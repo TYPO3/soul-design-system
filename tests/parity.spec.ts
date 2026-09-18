@@ -134,6 +134,13 @@ const CASES: { name: string; markup: string; template: TemplateResult }[] = [
     template: html`<sds-quote by="installation-fallback" as="diagram" body="A partial registry never looks complete."></sds-quote>`,
   },
   {
+    /* No signet: the mark is `sds-image`, whose element and its `<img>`
+       both carry the class, and that is that element's own case. */
+    name: 'slide, a content frame with its foot',
+    markup: '<sds-slide heading="Three places" number="03" brand="TYPO3" product="Dev Companion" body="One idea."></sds-slide>',
+    template: html`<sds-slide heading="Three places" number="03" brand="TYPO3" product="Dev Companion" body="One idea."></sds-slide>`,
+  },
+  {
     name: 'byline, with a mark',
     markup: '<sds-byline name="Benjamin Kott" as="maintainer" initials="BK"></sds-byline>',
     template: html`<sds-byline name="Benjamin Kott" as="maintainer" initials="BK"></sds-byline>`,

@@ -1,0 +1,165 @@
+/* sds-slide — one 16:9 frame of a deck.
+
+   A slide is the page at twice the size, read from twice the distance. The
+   frame is 960 × 540 under `zoom: 2`, so it renders at 1920 × 1080. Every
+   register, set and hairline keeps its value. The display step is a slide's
+   title and the body step is what a room reads. The slide owns the frame
+   alone. That is the ground, the margin, the foot with the lockup and the
+   count, and the list of sections a divider carries. */
+
+@layer base {
+  sds-slide {
+    display: block;
+  }
+}
+
+@layer components {
+  .sds-slide {
+    /* The frame. */
+    --sds-slide-width: 960px;
+    --sds-slide-height: 540px;
+    --sds-slide-zoom: 2;
+    --sds-slide-pad: var(--space-16);
+    /* Where a foot stands, the frame ends a step above it. */
+    --sds-slide-pad-footed: calc(var(--sds-slide-pad) + var(--space-6));
+    --sds-slide-gap: var(--space-6);
+    --sds-slide-head-gap: var(--space-4);
+    /* If the body takes the room between the head and the foot. A
+       statement centres what it holds instead. */
+    --sds-slide-body-grow: 1;
+    --sds-slide-fill: var(--surface-canvas);
+    --sds-slide-ink: var(--text-primary);
+    --sds-slide-edge: var(--border-subtle);
+    --sds-slide-rule: var(--border-hairline);
+    /* The foot: one row, and how far off the bottom edge it stands. */
+    --sds-slide-foot: var(--space-8);
+    --sds-slide-count-font: var(--font-mono);
+    --sds-slide-count-size: calc(var(--font-size-small) * var(--font-modifier-mono));
+    --sds-slide-count-ink: var(--text-muted);
+    /* The lockup on a cover, larger than the foot's. */
+    --sds-slide-lockup-size: var(--font-size-h3);
+    --sds-slide-lockup-signet: 32px;
+    /* The divider's list of sections. */
+    --sds-slide-nav-gap: var(--space-8);
+    --sds-slide-nav-pad: var(--space-4);
+    --sds-slide-nav-ink: var(--text-muted);
+    --sds-slide-nav-current: var(--text-primary);
+    --sds-slide-nav-weight: var(--weight-semibold);
+    --sds-slide-nav-mark: var(--border-emphasis);
+    /* The line under a statement, in the small register. */
+    --sds-slide-note-size: var(--font-size-small);
+    --sds-slide-note-ink: var(--text-muted);
+
+    position: relative;
+    box-sizing: border-box;
+    /* Centred where the room is wider than the frame. A slide fitted to a
+       short window stands in the middle of it, not at its left edge. */
+    margin-inline: auto;
+    width: var(--sds-slide-width);
+    height: var(--sds-slide-height);
+    zoom: var(--sds-slide-zoom);
+    padding: var(--sds-slide-pad);
+    /* A hairline, like every surface that stays on the page. A slide on a
+       page shares its ground, and the edge is what says where it ends. */
+    border: var(--sds-slide-rule) solid var(--sds-slide-edge);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-slide-gap);
+    background: var(--sds-slide-fill);
+    color: var(--sds-slide-ink);
+
+    &:has(> .sds-slide__foot) {
+      padding-bottom: var(--sds-slide-pad-footed);
+    }
+  }
+
+  /* The kinds. A cover and a closing hold the title up and the lockup down. A
+     divider holds its list down. A statement centres. A content slide keeps
+     its title at the top margin, so it never hops between slides. */
+  .sds-slide--cover,
+  .sds-slide--closing,
+  .sds-slide--section {
+    justify-content: space-between;
+  }
+  .sds-slide--statement {
+    --sds-slide-body-grow: 0;
+
+    justify-content: center;
+  }
+
+  .sds-slide__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-slide-head-gap);
+
+    > * {
+      margin: 0;
+    }
+  }
+  .sds-slide__body {
+    flex: var(--sds-slide-body-grow);
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-slide-gap);
+  }
+  .sds-slide__note {
+    margin: 0;
+    font-size: var(--sds-slide-note-size);
+    color: var(--sds-slide-note-ink);
+  }
+
+  /* The cover's lockup is the page's lockup one step up. The mark at 32,
+     the size its own file is true at, and the name at the h3 step. */
+  .sds-slide__lockup {
+    font-size: var(--sds-slide-lockup-size);
+
+    /* Said on the lockup itself: a set stands on its component, and the
+       lockup's own declaration outweighs a value on an ancestor. */
+    .sds-lockup {
+      --sds-lockup-signet-size: var(--sds-slide-lockup-signet);
+      --sds-lockup-gap: var(--sds-slide-head-gap);
+    }
+  }
+
+  /* The foot stands off the bottom edge, so a body that runs short leaves
+     the count where the last slide had it. */
+  .sds-slide__foot {
+    position: absolute;
+    inset-inline: var(--sds-slide-pad);
+    bottom: var(--sds-slide-foot);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .sds-slide__count {
+    margin: 0;
+    font-family: var(--sds-slide-count-font);
+    font-size: var(--sds-slide-count-size);
+    font-variant-numeric: tabular-nums;
+    color: var(--sds-slide-count-ink);
+  }
+
+  /* The deck's outline, on the slide that opens a section. The current entry
+     is the active item of a bar: the ink of the page and the accent rule under
+     it. The rule is the third place the accent stands on a slide. */
+  .sds-slide__nav {
+    margin: 0;
+    padding: var(--sds-slide-nav-pad) 0 0;
+    list-style: none;
+    display: flex;
+    gap: var(--sds-slide-nav-gap);
+    border-top: var(--sds-slide-rule) solid var(--sds-slide-edge);
+  }
+  .sds-slide__nav-item {
+    color: var(--sds-slide-nav-ink);
+    border-bottom: var(--sds-slide-nav-mark) solid transparent;
+
+    &.is-active {
+      color: var(--sds-slide-nav-current);
+      font-weight: var(--sds-slide-nav-weight);
+      border-bottom-color: var(--accent);
+    }
+  }
+}

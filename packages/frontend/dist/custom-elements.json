@@ -8285,6 +8285,310 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/slide.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsSlide",
+          "tagName": "sds-slide",
+          "summary": "One 16:9 frame of a deck.",
+          "description": "One 16:9 frame of a deck.\n\nA slide is the page at twice the size. The frame is 960 × 540 and the stylesheet doubles it. So the display step is a title, the body step is what a room reads, and every element between the tags keeps its own set. The element owns the frame: its kind, its ground, its head and its foot. The head is the eyebrow and the title, the foot the lockup and the count. A divider carries the deck's outline.",
+          "attributes": [
+            {
+              "name": "kind",
+              "description": "",
+              "type": {
+                "text": "'cover' | 'section' | 'statement' | 'content' | 'closing'"
+              },
+              "fieldName": "kind"
+            },
+            {
+              "name": "ground",
+              "description": "",
+              "type": {
+                "text": "'paper' | 'terminal'"
+              },
+              "fieldName": "ground"
+            },
+            {
+              "name": "eyebrow",
+              "description": "The line over the title, in the label register: the occasion, the section's number, the date.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "eyebrow"
+            },
+            {
+              "name": "heading",
+              "description": "The title. A cover, a divider and a statement set it at the display step. A content slide sets it at the h2 step, so the body has room.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "heading"
+            },
+            {
+              "name": "lead",
+              "description": "The sentence under a cover's or a closing's title.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "lead"
+            },
+            {
+              "name": "note",
+              "description": "The line under a statement: where the sentence is from.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "note"
+            },
+            {
+              "name": "number",
+              "description": "The slide's count, in the foot. A string, because a deck numbers its slides the way it likes: `03`, `3 / 12`.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "number"
+            },
+            {
+              "name": "signet",
+              "description": "The mark and the name, as the bar and the footer draw them. The lockup stands at the foot of a cover and a closing, and in the foot of every other kind. Without a product there is no lockup.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "signet"
+            },
+            {
+              "name": "brand",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "brand"
+            },
+            {
+              "name": "product",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "product"
+            },
+            {
+              "name": "current",
+              "description": "",
+              "type": {
+                "text": "number"
+              },
+              "fieldName": "current"
+            },
+            {
+              "name": "body",
+              "description": "What the slide shows between its title and its foot. Markup where a caller holds it: the elements of the system at the page's size.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "body"
+            },
+            {
+              "name": "fit",
+              "description": "If the frame scales to the room it has. The room is the width its parent gives it and the height from there to the bottom of the window. Unset, it draws at the size the stylesheet states: a 1920 × 1080 viewport.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "fit"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "kind",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "'cover' | 'section' | 'statement' | 'content' | 'closing'"
+              },
+              "attribute": "kind"
+            },
+            {
+              "kind": "field",
+              "name": "ground",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "'paper' | 'terminal'"
+              },
+              "attribute": "ground"
+            },
+            {
+              "kind": "field",
+              "name": "eyebrow",
+              "privacy": "public",
+              "description": "The line over the title, in the label register: the occasion, the section's number, the date.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "eyebrow"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "The title. A cover, a divider and a statement set it at the display step. A content slide sets it at the h2 step, so the body has room.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "lead",
+              "privacy": "public",
+              "description": "The sentence under a cover's or a closing's title.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "lead"
+            },
+            {
+              "kind": "field",
+              "name": "note",
+              "privacy": "public",
+              "description": "The line under a statement: where the sentence is from.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "note"
+            },
+            {
+              "kind": "field",
+              "name": "number",
+              "privacy": "public",
+              "description": "The slide's count, in the foot. A string, because a deck numbers its slides the way it likes: `03`, `3 / 12`.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "number"
+            },
+            {
+              "kind": "field",
+              "name": "signet",
+              "privacy": "public",
+              "description": "The mark and the name, as the bar and the footer draw them. The lockup stands at the foot of a cover and a closing, and in the foot of every other kind. Without a product there is no lockup.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "signet"
+            },
+            {
+              "kind": "field",
+              "name": "brand",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "brand"
+            },
+            {
+              "kind": "field",
+              "name": "product",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "product"
+            },
+            {
+              "kind": "field",
+              "name": "sections",
+              "privacy": "public",
+              "description": "The deck's outline, on a divider, and which entry this section is.",
+              "type": {
+                "text": "readonly string[]"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "current",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "current"
+            },
+            {
+              "kind": "field",
+              "name": "body",
+              "privacy": "public",
+              "description": "What the slide shows between its title and its foot. Markup where a caller holds it: the elements of the system at the page's size.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "body"
+            },
+            {
+              "kind": "field",
+              "name": "fit",
+              "privacy": "public",
+              "description": "If the frame scales to the room it has. The room is the width its parent gives it and the height from there to the bottom of the window. Unset, it draws at the size the stylesheet states: a 1920 × 1080 viewport.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "fit"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-display",
+            "sds-h2",
+            "sds-lead",
+            "sds-slide",
+            "sds-slide--closing",
+            "sds-slide--cover",
+            "sds-slide--section",
+            "sds-slide--statement",
+            "sds-slide__body",
+            "sds-slide__count",
+            "sds-slide__foot",
+            "sds-slide__head",
+            "sds-slide__lockup",
+            "sds-slide__nav",
+            "sds-slide__nav-item",
+            "sds-slide__note"
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "What an attribute cannot carry — prose, a block, a section of a document."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsSlide",
+          "declaration": {
+            "name": "SdsSlide",
+            "module": "src/components/slide.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-slide",
+          "declaration": {
+            "name": "SdsSlide",
+            "module": "src/components/slide.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/stat.ts",
       "declarations": [
         {
