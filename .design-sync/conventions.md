@@ -229,10 +229,9 @@ attributes and what goes between its tags, and `<Class>.d.ts` beside it
 the types. `preview.html` is the element live in its states, written the
 way a page writes it. Read that before you write one.
 
-Per card,
-`components/<Name>/README.md` has the markup to copy, and `preview.html`
-beside it is the card. `guidelines/build-rules.md` is the full rule set.
-Copy the nearest specimen instead of a variant of your own.
+`guidelines/build-rules.md` is the full rule set. The sections after it
+carry the brand, the signet, the states and the icons, each rule as a
+picture. Copy the nearest element instead of a variant of your own.
 
 A product on this system brings its own mark and its own pictures.
 `guidelines/signet-prompt.md` draws a signet to the construction, and

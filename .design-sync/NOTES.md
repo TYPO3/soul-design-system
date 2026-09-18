@@ -18,16 +18,15 @@ is the reason.
 | --- | --- |
 | `design-system.json` | the index, written last. `make design-index` merges it over the one the system holds |
 | `tokens.json` | `scripts/lib/tokens.ts`, out of `packages/frontend/src/tokens/*.css` |
-| `README.md` | `conventions.md`, with the screens at `<!-- @startingPoints -->` |
-| `guidelines/*.md` | `SKILL.md` and the two prompts, as further sections of the brand book |
+| `README.md` | `conventions.md`, with the layouts at `<!-- @startingPoints -->` |
+| `guidelines/*.md` | the sections after the tokens, in file order. `SKILL.md` first. Then the brand, the signet, the states and the icons, their cards photographed in. Then the two prompts with worked examples. `SECTIONS` in `build.ts` is the list |
 | `components/bundle.js` | the elements as one classic script, `window.SDS`, built from `src/index.ts` |
 | `components/bundle.css` | `packages/frontend/dist/soul-inline.css`, a copy |
-| `components/<Class>/` | an element: `README.md` and `<Class>.d.ts`, read out of its source, and `preview.html` live from its stories |
-| `components/<Name>/` | a card: `preview.html` and `README.md`, from the specimen |
-| `components/<Name>Screen/` | a screen, a `page` preview at its design width |
+| `components/<Class>/` | an element: `README.md` and `<Class>.d.ts`, read out of its source, and `preview.html` live from its stories. Its group is the domain in the story title |
+| `components/<Name>Screen/` | a layout: a `page` preview at its design width, under "Layouts" |
 | `components/Cover/preview.html` | `cover.html` beside this file |
 | `fonts/` | the faces |
-| `assets/<Group>/` | the pictures: uploads the index names by blob id, and a `README.md` per group |
+| `assets/<Group>/` | the marks, the icons and the fixtures: uploads the index names by blob id, and a `README.md` per group. A diagram, a placeholder and a screenshot are fixtures the previews point at, not a set to draw from |
 | `icons/` | the lookup and the sprites, as files |
 | `sync.json` | the record: a hash per file, a record per upload, the previews still pending |
 
@@ -40,8 +39,7 @@ sprite. A literal `<!--` or `</script` in the file ends an inline copy, so
 both go in as escapes.
 
 **A preview fetches nothing.** The frame preloads the tokens, the faces,
-`bundle.css` and `bundle.js`, so a card's stylesheet link goes and its chrome
-goes inline. A picture up to `INLINE_MAX` travels as a data URI. A larger one
+`bundle.css` and `bundle.js`, so a preview's stylesheet link goes. A picture up to `INLINE_MAX` travels as a data URI. A larger one
 names its upload as `{{upload:<path>}}`. Once the upload has an id, `make
 design-index` writes `_blob/<id>` over it, relative like the page's own
 references from inside the frame. Such a preview is `pending` in the record

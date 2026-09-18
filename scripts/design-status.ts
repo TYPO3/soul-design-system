@@ -2,8 +2,9 @@
 /* What does a sync change?
 
    Compares the fresh `project/sync.json` against the record of the last
-   upload. That is the file the design system itself stores, a hash per card.
-   So the answer is "which cards moved" rather than "which files did I touch".
+   upload. That is the file the design system itself stores, a hash per
+   guideline section, per layout and per element. So the answer is "what
+   moved" rather than "which files did I touch".
    With no cached record it prints what a first upload pushes and exits 0.
 
      make design-status
@@ -25,23 +26,23 @@ if (!existsSync(BUILT)) {
   process.exit(1);
 }
 const local = JSON.parse(readFileSync(BUILT, 'utf8'));
-const cards = Object.keys(local.renderHashes).sort();
+const sections = Object.keys(local.renderHashes).sort();
 
 if (!existsSync(ANCHOR)) {
   report.note('no record cached — the plan reads the real state from the system and uploads only what changed');
-  report.summary(`${cards.length} cards go up, all of them`);
+  report.summary(`${sections.length} sections go up, all of them`);
   process.exit(0);
 }
 
 const remote = JSON.parse(readFileSync(ANCHOR, 'utf8'));
 const was = remote.renderHashes ?? {};
-const added = cards.filter((n) => !(n in was));
-const changed = cards.filter((n) => n in was && was[n] !== local.renderHashes[n]);
+const added = sections.filter((n) => !(n in was));
+const changed = sections.filter((n) => n in was && was[n] !== local.renderHashes[n]);
 const removed = Object.keys(was).filter((n) => !(n in local.renderHashes)).sort();
 const styling = remote.styleSha !== local.styleSha;
 
-/* Screens ship with the system and are what a consuming project seeds from,
-   so a changed screen is a changed upload. An anchor from before their hashes
+/* Layouts ship with the system and are what a consuming project seeds from,
+   so a changed layout is a changed upload. An anchor from before their hashes
    has no `screenHashes` at all. Treat that as "unknown", not as "unchanged",
    or the first sync after this lands reports nothing. */
 const wasScreens = remote.screenHashes as Record<string, string> | undefined;
@@ -84,15 +85,15 @@ for (const f of otherChanged) {
 
 if (!added.length && !changed.length && !removed.length && !styling && !screensChanged.length
   && !elementsChanged.length && !otherChanged.length) {
-  report.summary(`nothing to do — every one of the ${cards.length} cards is at the uploaded state`);
+  report.summary(`nothing to do — every one of the ${sections.length} sections is at the uploaded state`);
   process.exit(0);
 }
 
 const MOVED = [
-  ['added', added],
-  ['changed', changed],
-  ['removed', removed],
-  ['screens changed', screensChanged],
+  ['sections added', added],
+  ['sections changed', changed],
+  ['sections removed', removed],
+  ['layouts changed', screensChanged],
   ['elements changed', elementsChanged],
 ] as const;
 report.align([...MOVED.map(([label]) => ({ name: label, label })),

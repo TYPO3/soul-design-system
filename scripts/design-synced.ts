@@ -35,4 +35,4 @@ rmSync(UPLOADED, { force: true });
 
 const a = JSON.parse(readFileSync(CACHE, 'utf8'));
 report.fact('`make design-status` compares against this state from now on');
-report.summary(`${Object.keys(a.renderHashes).length} cards \u00b7 ${pathsOf(a).length} files recorded as uploaded`);
+report.summary(`${Object.keys(a.renderHashes).length} sections \u00b7 ${pathsOf(a).length} files recorded as uploaded`);

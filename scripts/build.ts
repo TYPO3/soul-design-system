@@ -3,8 +3,9 @@
 
    The artifact keeps a system as files under `project/`. An index, the
    tokens as one JSON, a README, a classic-script bundle, the faces. A
-   preview and a guideline per component. Every picture as an upload the
-   index names. This writes that tree into `.out/bundle/project/`.
+   preview and a guideline per element, a layout per screen, and the
+   guideline cards as sections with their picture. Every other picture as
+   an upload the index names. This writes that tree into `.out/bundle/project/`.
 
      node scripts/build.ts [outdir]
 */
@@ -17,8 +18,9 @@ import * as esbuild from 'esbuild';
 import { pathToFileURL } from 'node:url';
 
 import { authored } from './lib/authored.ts';
+import { openCard, withPage } from './lib/browser.ts';
 import { storyFiles } from './cards.ts';
-import { FRONTEND, GENERATED, ROOT, byGroup, cards, pascal, screens, type Card, type Screen } from './lib/cards.ts';
+import { FRONTEND, GENERATED, ROOT, cards, pascal, screens, type Card, type Screen } from './lib/cards.ts';
 import { elements, type ElementDoc } from './lib/elements.ts';
 import { prerender, type Props } from './lib/prerender.ts';
 import { tokens } from './lib/tokens.ts';
@@ -33,9 +35,10 @@ const ANCHOR = join(ROOT, '.design-sync/.cache/remote-sync.json');
 
 /* A picture up to this size travels inside its preview as a data URI. Past
    it, the preview names the upload and the sync fills the blob in. The
-   page caps a preview at 256 kB. */
+   page caps a preview at 256 kB, and a Markdown section at 200 kB. */
 const INLINE_MAX = 24 * 1024;
 const PREVIEW_MAX = 256 * 1024;
+const SECTION_MAX = 200 * 1024;
 
 const sha12 = (b: string | Buffer): string => createHash('sha256').update(b).digest('hex').slice(0, 12);
 const MIME: Readonly<Record<string, string>> = {
@@ -48,7 +51,9 @@ const mime = (p: string): string => MIME[extname(p).toLowerCase()] ?? 'applicati
 
 /* Where a file of `packages/frontend/assets/` goes. The first folder under
    `assets/` is the group the page shows it in. The icons' lookup and sprites
-   stay files at `icons/`, where the bundle's own fallback path finds them. */
+   stay files at `icons/`, where the bundle's own fallback path finds them.
+   A diagram, a screenshot and a placeholder are a story's fixtures: the
+   layouts and the previews point at them, and nobody draws from them. */
 interface Upload {
   /** Under `project/`: `assets/<Group>/<name>`. */
   path: string;
@@ -59,9 +64,9 @@ interface Upload {
 
 const GROUPS: readonly (readonly [RegExp, string, string])[] = [
   [/^icons\/svgs\/(.+\.svg)$/, 'Icons', 'xs'],
-  [/^diagrams\/(.+\.svg)$/, 'Diagrams', 'l'],
-  [/^screenshots\/(.+\.png)$/, 'Screenshots', 'l'],
-  [/^placeholders\/(.+\.png)$/, 'Illustrations', 'l'],
+  [/^(diagrams\/.+\.svg)$/, 'Fixtures', 'm'],
+  [/^(screenshots\/.+\.png)$/, 'Fixtures', 'm'],
+  [/^(placeholders\/.+\.png)$/, 'Fixtures', 'm'],
   [/^([^/]+\.svg)$/, 'Logos', 'm'],
 ];
 const TILE = new Map(GROUPS.map(([, group, tile]) => [group, tile]));
@@ -69,9 +74,7 @@ const TILE = new Map(GROUPS.map(([, group, tile]) => [group, tile]));
 const GROUP_NOTES: Readonly<Record<string, string>> = {
   Icons: '# Icons\n\nEvery `actions-*` icon of TYPO3.Icons (MIT), 16 × 16, drawn in `currentColor`. An `<img>` cannot inherit a colour: inline the file, or write `<sds-icon name="actions-search">` and the element inlines it. `icons/icons.json` is the lookup, `icons/sprites/` one file per category.\n',
   Logos: '# Logos\n\nThe marks belong to the products named on them. A product on this system brings its own mark: `guidelines/signet-prompt.md` draws one to the construction. `typo3-soul.svg` and `typo3-soul-mono.svg` are the signet of this system.\n',
-  Diagrams: '# Diagrams\n\nOne file, in both modes. Every colour reads `var(--token, #light)`, so a page that references a drawing with `<use>` gives it that page\'s tokens. An `<img>` shows the light fallback.\n',
-  Illustrations: '# Illustrations\n\nThe picture set: mode-neutral editorial imagery, broad shapes, one halftone field, one accent, and nobody photographed. `guidelines/illustration-prompt.md` extends it.\n',
-  Screenshots: '# Screenshots\n\nA story\'s fixture: a screen of this system, photographed for the concept paper that discusses it.\n',
+  Fixtures: '# Fixtures\n\nThe pictures the layouts and the previews point at: the diagrams, the placeholders and the screenshots. Not a set to draw from. A product brings its own, and the Diagrams, Illustrations and Signet sections say how to make one.\n',
 };
 
 function* walk(dir: string, base = dir): Generator<string> {
@@ -118,12 +121,11 @@ interface Placed {
   pending: string[];
 }
 
-function place(txt: string, byRepo: Map<string, Upload>, blobs: Map<string, string>, shas: Map<string, string>, mode: 'preview' | 'doc'): Placed {
+function place(txt: string, byRepo: Map<string, Upload>, blobs: Map<string, string>, shas: Map<string, string>): Placed {
   const pending: string[] = [];
   const text = txt.replace(ASSET_REF, (whole, attr: string, rel: string, frag = '') => {
     const up = byRepo.get(rel);
     if (!up) return whole;
-    if (mode === 'doc') return `${attr}="${up.path}${frag}"`;
     const bytes = readFileSync(up.source);
     if (!frag && bytes.length <= INLINE_MAX) return `${attr}="data:${mime(up.source)};base64,${bytes.toString('base64')}"`;
     const blob = blobs.get(`${up.path}@${shas.get(up.path)}`);
@@ -134,15 +136,10 @@ function place(txt: string, byRepo: Map<string, Upload>, blobs: Map<string, stri
   return { text, pending };
 }
 
-const SPECIMEN_CSS = readFileSync(join(FRONTEND, 'src', 'styles', '_specimen.css'), 'utf8');
-
 /* The frame loads the tokens, the faces and `bundle.css` before the first
-   byte of a preview. So the stylesheet link goes, and the card chrome, which
-   no consumer links, goes inline. */
+   byte of a preview. So the stylesheet link goes. */
 function head(txt: string): string {
-  return txt
-    .replace(/\s*<link rel="stylesheet" href="[^"]*styles\.css" \/>/, '')
-    .replace(/<link rel="stylesheet" href="[^"]*_specimen\.css" \/>/, `<style>\n${SPECIMEN_CSS}</style>`);
+  return txt.replace(/\s*<link rel="stylesheet" href="[^"]*styles\.css" \/>/, '');
 }
 
 function marker(group: string, width: number, height: number, subtitle: string, page: boolean): string {
@@ -152,40 +149,9 @@ function marker(group: string, width: number, height: number, subtitle: string, 
 /** The second line on: everything after the repo's own marker. */
 const body = (txt: string): string => txt.slice(txt.indexOf('\n') + 1);
 
-function classesUsed(txt: string): string[] {
-  const found = new Set<string>();
-  for (const m of txt.matchAll(/class="([^"]*)"/g)) {
-    for (const c of (m[1] ?? '').split(/\s+/)) if (c.startsWith('sds-')) found.add(c);
-  }
-  return [...found].sort();
-}
-
-/** A readable excerpt of the card's own markup: SVGs elided, trimmed. */
-function snippet(txt: string): string {
-  const b = /<body>([\s\S]*)<\/body>/.exec(txt);
-  if (!b) return '';
-  const s = (b[1] ?? '').replace(/<svg[\s\S]*?<\/svg>/g, '<svg class="sds-icon">…</svg>');
-  const lines = s.replace(/\n\s*\n/g, '\n').trim().split('\n');
-  return (lines.length > 26 ? [...lines.slice(0, 26), '  <!-- … -->'] : lines).join('\n');
-}
-
-function cardDoc(c: Card, doc: string): string {
-  const cls = classesUsed(c.text);
-  const out = [`# ${c.label}`, '', `${c.subtitle}.`, '', `Group: ${c.group}. Rendered at ${c.viewport}.`, ''];
-  if (cls.length) out.push('## Classes this uses', '', ...cls.map((x) => `- \`.${x}\``), '');
-  out.push(
-    '## How to build it', '',
-    'Link `components/bundle.css`: it carries the tokens, the faces and the whole class layer.',
-    'Copy the markup below rather than invent a variant. Every class in it is',
-    'defined there, and every value comes from a token.', '',
-    '```html', snippet(doc), '```', '',
-  );
-  return out.join('\n');
-}
-
 function screenDoc(s: Screen): string {
   return [`# ${s.name}`, '', `${s.subtitle}.`, '',
-    `A whole page at ${s.viewport}, to start a design from. Keep its shell and replace its content.`,
+    `A layout, not a component: a whole page at ${s.viewport}, to start a design from. Keep its shell and replace its content.`,
     'The shell is the bar, the skip link, and either a column beside a rail or a run of bands.', '',
     `Source: \`specimens/screens/${basename(s.path)}\`.`, ''].join('\n');
 }
@@ -193,7 +159,7 @@ function screenDoc(s: Screen): string {
 // -------------------------------------------------------------- elements --
 
 interface StoryModule {
-  default?: { render?: (args: object) => unknown; args?: object; excludeStories?: string[] };
+  default?: { title?: string; render?: (args: object) => unknown; args?: object; excludeStories?: string[] };
   [name: string]: unknown;
 }
 interface Story {
@@ -201,6 +167,8 @@ interface Story {
   args?: object;
 }
 interface Preview {
+  /** The domain the story file stands in: `Components/<group>/<name>`. */
+  group: string;
   sections: { name: string; html: string }[];
   props: Record<string, unknown>[];
 }
@@ -254,7 +222,8 @@ async function elementPreviews(byTag: Map<string, ElementDoc>): Promise<Map<stri
       const tag = tags.find((t) => byTag.get(t)?.className === own) ?? tags[0];
       const e = tag ? byTag.get(tag) : undefined;
       if (!e) continue;
-      const preview = out.get(e.className) ?? { sections: [], props: [] };
+      const group = (meta.title ?? '').split('/').slice(1, -1).join(' / ') || 'Elements';
+      const preview = out.get(e.className) ?? { group, sections: [], props: [] };
       const offset = preview.props.length;
       const renumber = (txt: string): string => txt.replace(/data-sds-prop="(\d+)"/g, (_m, n: string) => `data-sds-prop="${Number(n) + offset}"`);
       const html = renumber(a.html);
@@ -335,7 +304,7 @@ function previewDoc(e: ElementDoc, preview: Preview): string {
   /* A JSON `<` inside a script ends nothing once it is an escape. */
   const json = JSON.stringify(preview.props).replace(/</g, '\\u003c');
   const subtitle = e.purpose.replace(/"/g, '').replace(/\.$/, '').replace(/^./, (c) => c.toUpperCase());
-  return [`<!-- @dsCard group="Elements" height=120 subtitle="${subtitle}" -->`, '<!doctype html>', '<html lang="en">', '<head>',
+  return [`<!-- @dsCard group="${preview.group}" height=120 subtitle="${subtitle}" -->`, '<!doctype html>', '<html lang="en">', '<head>',
     '<meta charset="utf-8" />', `<title>${e.tag}</title>`, `<style>\n${PREVIEW_STYLE}\n</style>`, '</head>', '<body class="sds-app">',
     body, `<script>\n${PREVIEW_SCRIPT.replace('PROPS', json)}\n</script>`, '</body>', '</html>', ''].join('\n');
 }
@@ -499,14 +468,11 @@ for (const [group, note] of Object.entries(GROUP_NOTES)) write(`assets/${group}/
 cpSync(join(FRONTEND, 'assets', 'icons', 'icons.json'), join(PROJECT, 'icons', 'icons.json'));
 cpSync(join(FRONTEND, 'assets', 'icons', 'sprites'), join(PROJECT, 'icons', 'sprites'), { recursive: true });
 
-// cards and screens, each a preview and a guideline
-const list = cards();
-const renderHashes: Record<string, string> = {};
-const sourceKeys: Record<string, string> = {};
+// the elements' previews, and a layout per screen
 const pending = new Set<string>();
 const oversized: string[] = [];
 const preview = (folder: string, mark: string, text: string): string => {
-  const placed = place(head(body(text)), byRepo, blobs, shas, 'preview');
+  const placed = place(head(body(text)), byRepo, blobs, shas);
   const html = `${mark}\n${placed.text}`;
   if (placed.pending.length) pending.add(`components/${folder}/preview.html`);
   if (Buffer.byteLength(html) > PREVIEW_MAX) oversized.push(`components/${folder}/preview.html (${Math.round(Buffer.byteLength(html) / 1024)} kB)`);
@@ -520,14 +486,9 @@ for (const doc of previewed) {
   const tag = /<title>([^<]+)</.exec(text)?.[1] ?? '';
   elementHashes[tag] = sha12((elementHashes[tag] ?? '') + html);
 }
-for (const c of list) {
-  const html = preview(c.name, marker(c.group, c.width, c.height, c.subtitle, false), c.text);
-  write(`components/${c.name}/README.md`, cardDoc(c, place(c.text, byRepo, blobs, shas, 'doc').text));
-  renderHashes[c.name] = sha12(html);
-  sourceKeys[c.name] = sha12(c.text);
-}
-/* A screen is a page to start a design from, at its design width. One that
-   embeds another document in an `<iframe>` stays out: a preview holds none. */
+/* A screen is a layout to start a design from, at its design width: a
+   showcase page in the pane, never a component. One that embeds another
+   document in an `<iframe>` stays out: a preview holds none. */
 const sp = screens();
 const screenHashes: Record<string, string> = {};
 const skipped: string[] = [];
@@ -538,7 +499,7 @@ for (const s of sp) {
     continue;
   }
   const folder = `${pascal(basename(s.path, '.html'))}Screen`;
-  const html = preview(folder, marker('Screens', s.width, s.height, s.subtitle, true), s.text);
+  const html = preview(folder, marker('Layouts', s.width, s.height, s.subtitle, true), s.text);
   write(`components/${folder}/README.md`, screenDoc(s));
   screenHashes[s.name] = sha12(html);
   shipped.push(s);
@@ -551,23 +512,96 @@ if (existsSync(cover)) write('components/Cover/preview.html', readFileSync(cover
 // the brand book and the written rules
 const SCREEN_MARK = '<!-- @startingPoints -->';
 const screenBlock = shipped.length
-  ? ['## Start from a screen', '',
-      'A page is a screen with its content replaced, never a stack of cards. Open the',
+  ? ['## Start from a layout', '',
+      'A page is a layout with its content replaced, never a stack of cards. Open the',
       'one nearest the job and keep its shell — the bar, the skip link, and either a',
-      'column beside a rail or a run of bands. A card answers what one part looks like.', '',
+      'column beside a rail or a run of bands. An element answers what one part looks like.', '',
       ...shipped.map((s) => `- **${s.name}** — ${s.subtitle}: \`components/${pascal(basename(s.path, '.html'))}Screen/preview.html\``), '']
     .join('\n')
   : '';
 const conventions = readFileSync(join(ROOT, '.design-sync/conventions.md'), 'utf8').trimEnd();
 write('README.md', `${conventions.includes(SCREEN_MARK) ? conventions.replace(SCREEN_MARK, screenBlock.trimEnd()) : `${conventions}\n\n${screenBlock}`}\n`);
-/* The prompts, as something to act on rather than read about. A design that
-   adopts this system needs a mark and pictures; the alternative is an agent
-   that invents both from the cards. The skill's front matter is metadata for
-   a loader, not a heading, and stays out. */
+
+/* The guidelines, one section each, in the order a reader arrives in. The
+   rules come first. A guideline card is a picture of its rule, so a section
+   carries its group's cards as photographs until the page's cap is spent.
+   A prompt is something to act on: a design that adopts this system needs
+   a mark and pictures, or an agent invents both. */
 const frontMatter = /^---\n[\s\S]*?\n---\n\s*/;
-write('guidelines/build-rules.md', readFileSync(join(ROOT, 'SKILL.md'), 'utf8').replace(frontMatter, ''));
-write('guidelines/signet-prompt.md', readFileSync(join(ROOT, 'docs/design-system/signet-prompt.md'), 'utf8').replace(frontMatter, ''));
-write('guidelines/illustration-prompt.md', readFileSync(join(ROOT, 'docs/design-system/illustration-prompt.md'), 'utf8').replace(frontMatter, ''));
+const prose = (rel: string): string => readFileSync(join(ROOT, rel), 'utf8').replace(frontMatter, '').trimEnd();
+interface Section {
+  file: string;
+  /** Above the cards: a heading with a line under it, or a prompt. */
+  text: string;
+  group?: string;
+  /** What the cards are to the text above them. */
+  heading?: string;
+  /** Pictures that are not cards, in place of the group's. */
+  examples?: { label: string; subtitle: string; image: string }[];
+}
+/* The diagrams are the worked examples of their prompt as the files
+   themselves: small, and drawn in the light fallback of every token. */
+const drawings = (): { label: string; subtitle: string; image: string }[] =>
+  [...walk(join(FRONTEND, 'assets', 'diagrams'))].filter((f) => f.endsWith('.svg')).map((f) => ({
+    label: basename(f, '.svg').replace(/-/g, ' ').replace(/^./, (c) => c.toUpperCase()),
+    subtitle: `\`assets/diagrams/${f}\``,
+    image: `data:image/svg+xml;base64,${readFileSync(join(FRONTEND, 'assets', 'diagrams', f)).toString('base64')}`,
+  }));
+const SECTIONS: Section[] = [
+  { file: '10-build-rules.md', text: prose('SKILL.md') },
+  { file: '20-brand.md', text: '# Brand\n\nThe lockup, its clear space, its edges and its motion, and what breaks the mark.', group: 'Brand', heading: 'The rules' },
+  { file: '21-signet.md', text: prose('docs/design-system/signet-prompt.md'), group: 'Signet', heading: 'Worked examples' },
+  { file: '30-states.md', text: '# States\n\nWhat a surface says when it has less than an answer: empty, loading, failed, focused, and the tone of each.', group: 'States', heading: 'The rules' },
+  { file: '40-icons.md', text: '# Icons\n\nThe set, and how a glyph stands beside its words.', group: 'Icons', heading: 'The rules' },
+  { file: '50-diagrams.md', text: prose('docs/design-system/diagram-prompt.md'), heading: 'Worked examples', examples: drawings() },
+  { file: '60-illustrations.md', text: prose('docs/design-system/illustration-prompt.md'), group: 'Illustrations', heading: 'Worked examples' },
+];
+const list = cards();
+const renderHashes: Record<string, string> = {};
+const sourceKeys: Record<string, string> = {};
+/* A card as a WebP, encoded by the page's own canvas. A third smaller than
+   a JPEG, which is a whole card more per section. */
+const pictured = new Map<string, string>();
+await withPage(async ({ map }) => {
+  await map(list.filter((c) => SECTIONS.some((x) => x.group === c.group)), async (page, card) => {
+    await openCard(page, card);
+    await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important}' });
+    const png = await page.screenshot({ type: 'png', animations: 'disabled', caret: 'hide' });
+    pictured.set(card.name, await page.evaluate(async (b64) => {
+      const img = new Image();
+      img.src = `data:image/png;base64,${b64}`;
+      await img.decode();
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      canvas.getContext('2d')!.drawImage(img, 0, 0);
+      return canvas.toDataURL('image/webp', 0.8);
+    }, png.toString('base64')));
+  });
+});
+const unpictured: string[] = [];
+for (const section of SECTIONS) {
+  const own = list.filter((c) => c.group === section.group);
+  for (const c of own) sourceKeys[c.name] = sha12(c.text);
+  const examples = section.examples ?? own.map((c) => ({ label: c.label, subtitle: `${c.subtitle}.`, image: pictured.get(c.name) ?? '' }));
+  const parts = [section.text, ''];
+  if (examples.length) parts.push(`## ${section.heading}`, '');
+  let size = Buffer.byteLength(parts.join('\n'));
+  for (const x of examples) {
+    const image = x.image ? `![${x.label}](${x.image})` : '';
+    const block = [`### ${x.label}`, '', x.subtitle, ''];
+    /* One picture over half the cap stays out, so it cannot take the room
+       of every card after it. */
+    const fits = image && Buffer.byteLength(image) < SECTION_MAX / 2 && size + Buffer.byteLength(image) < SECTION_MAX - 8 * 1024;
+    if (fits) block.push(image, '');
+    else unpictured.push(`${section.file}: ${x.label}`);
+    size += Buffer.byteLength(block.join('\n'));
+    parts.push(...block);
+  }
+  const text = `${parts.join('\n').trimEnd()}\n`;
+  write(`guidelines/${section.file}`, text);
+  renderHashes[section.file] = sha12(text);
+}
 
 // the index the page opens, and the record the next sync compares against
 const groups = [...new Set(ups.map((u) => u.group))];
@@ -622,10 +656,14 @@ write('sync.json', JSON.stringify({
 }, null, 2));
 
 const problems = oversized.map((p) => `${p} is over the page's 256 kB cap for a preview`);
-const groupsOf = byGroup(list);
-report.align([...groupsOf].map(([group]) => ({ name: group, label: group })));
-for (const [group, items] of groupsOf) report.fact(group, `${items.length} cards`);
+report.align(SECTIONS.map((x) => ({ name: x.file, label: x.file })));
+for (const x of SECTIONS) {
+  const own = list.filter((c) => c.group === x.group).length;
+  const kb = Math.round(Buffer.byteLength(readFileSync(join(PROJECT, 'guidelines', x.file))) / 1024);
+  report.fact(x.file, `${own ? `${own} cards · ` : ''}${kb} kB`);
+}
 for (const s of skipped) report.note(`screen left out — ${s}`);
+for (const s of unpictured) report.note(`no room for the picture of ${s}`);
 if (pending.size) report.note(`${pending.size} preview(s) name an upload with no blob id yet — the sync fills them in`);
-report.summary(`${list.length} cards · ${shipped.length} screens · ${els.length} elements, ${previewed.length} with a live preview · ${ups.length} uploads · ${Object.keys(fileHashes).length} files`, problems);
+report.summary(`${SECTIONS.length} sections · ${shipped.length} layouts · ${els.length} elements, ${previewed.length} with a live preview · ${ups.length} uploads · ${Object.keys(fileHashes).length} files`, problems);
 if (problems.length) process.exit(1);

@@ -4,9 +4,10 @@
 Design with Claude
 ==================
 
-Claude designs from a Design System artifact on claude.ai: a brand book, the
-tokens, a bundle of the elements, and rendered cards it can open. This
-repository builds the files such an artifact keeps.
+Claude designs from a Design System artifact on claude.ai. It holds a brand
+book, the tokens, the elements live in their states, the layouts to start
+from, and the guidelines with their pictures. This repository builds the
+files such an artifact keeps.
 
 Import it once into a design system of your own, then design against it. The
 artifact is yours, and ``make design-sync`` is an ordinary task.
@@ -122,24 +123,26 @@ The first import
    .. step:: Open it
 
       Open the artifact. The cover stands above the brand book, the tokens
-      have their sections, and every card opens under its group. The page
-      compiles its own cards, ``tokens.css`` and the README's index on that
-      first open.
+      have their sections, and the guidelines follow them. The Components
+      pane holds every element under its domain and every layout under
+      "Layouts". The page compiles its own cards, ``tokens.css`` and the
+      README's index on that first open.
 
 Designing with it
 =================
 
 Everything the agent needs is there before your first sentence:
 
-- ``README.md``: the conventions, the screens to start from, and the index
+- ``README.md``: the conventions, the layouts to start from, and the index
   the page appends
-- ``guidelines/build-rules.md``: ``SKILL.md``, the operating instruction
+- ``guidelines/``: ``SKILL.md`` as the operating instruction, then the
+  brand, the signet, the states and the icons, each card a picture
+- the diagram and illustration prompts, with worked examples
 - each element's ``README.md`` and ``.d.ts``: its attributes, and what goes
   between its tags
 - each element's ``preview.html``: the element live, in the states its
   stories show, written the way a page writes it
-- each card's ``README.md``: its classes and its markup, as a block to copy
-- each screen's ``preview.html``: a complete page at its design width
+- each layout's ``preview.html``: a complete page at its design width
 
 How to ask for a surface
 ------------------------
@@ -148,7 +151,7 @@ How to ask for a surface
 extension: what it does, how it installs, the first command." The layout is
 a decision already made; :doc:`screens` says which shape answers which job.
 
-**Start from a screen where one fits.** It settles the shell, header,
+**Start from a layout where one fits.** It settles the shell, header,
 measure and footer in one move.
 
 **Name a component by its element.** ``<sds-code code-lang="bash">``, not a
@@ -267,8 +270,8 @@ link names.
          make design-synced
 
 Look at what moved. The gate checks mechanics, not judgement. When ``make
-design-status`` lists changed cards, run ``make baseline`` before the change
-and ``make shots && make diff`` after.
+design-status`` lists changed sections, run ``make baseline`` before the
+change and ``make shots && make diff`` after.
 
 .. note::
 
@@ -322,10 +325,10 @@ When it does not look right
 
    * - What you see
      - What it is
-   * - Every card renders in a system face with no icons
+   * - Every preview renders in a system face with no icons
      - The generated fonts and icons are not in the clone.
        ``make verify ARGS=assets`` names what to run.
-   * - A card shows a broken picture
+   * - A preview shows a broken picture
      - The preview names an upload the store had no id for when the file went
        up. ``make design-index`` fills the ids; run the plan from step 2.
    * - The gallery lists a picture twice
@@ -353,43 +356,41 @@ artifact keeps:
    .out/bundle/project/
      design-system.json    the index: the system's name, the asset groups, the last change
      tokens.json           every token, one list per family, a colour per theme
-     README.md             the conventions, and the screens to start from
-     guidelines/           the written rules, and the two prompts
+     README.md             the conventions, and the layouts to start from
+     guidelines/           the rules, the brand, the signet, the states, the icons, the two prompts — one section each
      components/
          bundle.js         the elements, as one classic script — window.SDS
          bundle.css        the faces, the tokens and the class layer, as one sheet
          index.d.ts        every element's properties, read out of its source
          <Class>/          an element: README.md, <Class>.d.ts and preview.html, live from its stories
-         <Name>/           a card: preview.html at a declared size, and README.md
-         <Name>Screen/     a whole page to start a design from
+         <Name>Screen/     a layout: a whole page to start a design from
          Cover/            the system's face, above the brand book
      fonts/                the faces
-     assets/<Group>/       the marks, the icons, the drawings, the pictures — uploads the index names
+     assets/<Group>/       the marks, the icons, and the fixtures the previews point at — uploads the index names
      icons/                the icon lookup and the sprites
      sync.json             the record the next sync compares against
 
-Why cards and not descriptions
-==============================
+Why the guidelines are sections
+===============================
 
-Every component ships as a static HTML card at a declared viewport, generated
-from the story that documents it in Storybook.
+A guideline card is a picture of its rule: the clear space around the mark,
+what breaks it, what an empty state says. The page has one place
+for a picture with prose beside it, and that is a Markdown section. So each
+group of guideline cards is one section, with its cards photographed in.
+The two prompts stand in the same row with their worked examples. The page
+caps a section, so a picture that cannot fit stays out and ``make build``
+says which.
 
-.. warning::
-
-   A card contains **no custom elements**. It holds the markup the element
-   *produces*, so it reads with the stylesheet alone, and the page shows the
-   same card whatever the bundle does.
-
-Beside each card is a ``README.md``: what the component is, which classes it
-uses, and its markup as a block to copy. The agent reads that when it places
-one.
+The Components pane holds the elements alone, each under the domain its
+story stands in, and the layouts as showcase pages. The token cards the
+specimens draw — colour, type, spacing — stay in Storybook: the page compiles
+its own from ``tokens.json``.
 
 Why every element ships a contract
 ==================================
 
-A card cannot carry a custom element, so the cards alone describe a system of
-classes. An agent that only has classes writes classes. So the elements have
-their own place.
+An agent that only has classes writes classes. So the elements have their
+own place.
 
 ``components/<Class>/`` is what the elements *are*: a ``.d.ts`` and a
 ``README.md`` per tag, which ``scripts/lib/elements.ts`` compiles out of the
@@ -419,6 +420,7 @@ What the gate checks
 - every class in use has a definition in the stylesheets
 - every local reference resolves
 - every card comes from a story, and every story has its card
+- every element renders outside a browser, so its first frame draws
 - the committed drop-in still matches its sources
 - every name the conventions header writes exists in the built stylesheet
 
