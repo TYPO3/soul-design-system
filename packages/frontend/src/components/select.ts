@@ -495,7 +495,7 @@ export class SdsSelect extends SdsFormElement {
     aria-expanded="${this.listed ? 'true' : 'false'}"
     aria-controls="${this.listId}"
     aria-activedescendant="${this.listed && this.active >= 0 ? `${this.listId}-${this.active}` : nothing}"
-    aria-label="${this.label || nothing}"
+    aria-label="${this.label || this.caption || nothing}"
     aria-invalid="${this.invalid || this.error ? 'true' : nothing}"
     ?disabled="${disabled}"
     popovertarget="${this.open ? nothing : this.listId}"

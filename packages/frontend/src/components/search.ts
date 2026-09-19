@@ -106,15 +106,20 @@ export class SdsSearch extends SdsElement {
     if (drop && !drop.matches(':popover-open')) drop.showPopover();
   }
 
-  /* Fetched once, on the first keystroke. */
-  private async load(): Promise<void> {
-    if (this.entries || !this.index) return;
-    try {
-      const res = await fetch(this.index);
-      this.entries = (await res.json()) as SearchEntry[];
-    } catch {
-      this.entries = [];
-    }
+  /* Fetched once, on the first keystroke. The second keystroke arrives
+     before the answer does, so the fetch in flight is what it waits for. */
+  private loading?: Promise<void>;
+
+  private load(): Promise<void> {
+    if (this.entries || !this.index) return Promise.resolve();
+    this.loading ??= fetch(this.index)
+      .then(async (res) => {
+        this.entries = (await res.json()) as SearchEntry[];
+      })
+      .catch(() => {
+        this.entries = [];
+      });
+    return this.loading;
   }
 
   /** Where the site's root is, from this page. The index lists every page as

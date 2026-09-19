@@ -1,4 +1,4 @@
-import { LitElement } from 'lit';
+import { LitElement, type PropertyDeclarations } from 'lit';
 /** The name the prerenderer keeps a caller's own content under.
 
     An element rendered ahead of the browser has its output as its children.
@@ -12,7 +12,9 @@ export declare class SdsElement extends LitElement {
         between them. `@lit-labs/ssr` never runs `connectedCallback`, so there are
         no children to lift in Node. A property is the one channel both sides
         have, and it carries markup, which an attribute cannot. Every component
-        reads `this.taken ?? this.content`. */
+        reads `this.taken ?? this.content`. A property, so a caller who hands
+        over another set gets it drawn. */
+    static properties: PropertyDeclarations;
     content?: unknown;
     /** The same content as the author wrote it, before anything in it
         rendered. For an element that reads facts out of its children and

@@ -85,7 +85,9 @@ export class SdsGrid extends SdsElement {
     /* The room, not the grid: measured off the grid it reads back its own
        answer and settles wherever it started. The host draws nothing, so what
        the row has is what the parent gives it. */
-    this.watch = new ResizeObserver(() => this.decide());
+    /* A frame later, not in the callback: an answer that changes the room
+       in the same frame is an observation the browser reports undelivered. */
+    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.decide()));
     if (this.parentElement) this.watch.observe(this.parentElement);
     void this.updateComplete.then(() => this.decide());
   }
@@ -123,8 +125,11 @@ export class SdsGrid extends SdsElement {
     this.columns = wanted >= fits ? 0 : wanted;
   }
 
+  /* After the update, not in it. A state set inside `updated()` starts the
+     next cycle before this one has closed, which Lit's dev build names as
+     the inefficiency it is. */
   protected override updated(): void {
-    this.decide();
+    void this.updateComplete.then(() => this.decide());
   }
 
   protected override render(): TemplateResult {

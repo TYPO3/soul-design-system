@@ -275,7 +275,9 @@ value that is not part of it is ``sds-facts__note``, under the value.
 sds-code
 ========
 
-A fenced block, its head and its copy button.
+A fenced block, its head and its copy button. A line longer than the
+column scrolls inside the block. The block is a keyboard stop, so a reader
+with no pointer reaches the end of the line too.
 
 .. specimen:: components/code/code.card.html
    :viewport: 700x370

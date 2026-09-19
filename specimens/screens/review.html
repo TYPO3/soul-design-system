@@ -383,7 +383,7 @@
     <span class="sds-code__lang">text</span>
     
   </div>
-  <pre class="sds-code__body"><code class="language-text"># typo3_label_lookup · page 12 · 40 labels
+  <pre class="sds-code__body" tabindex="0"><code class="language-text"># typo3_label_lookup · page 12 · 40 labels
 read Resources/Private/Language/locallang.xlf (de)   3.1 ms
 read Resources/Private/Language/locallang.xlf (de)   3.0 ms
 read Resources/Private/Language/locallang.xlf (de)   3.2 ms
@@ -593,7 +593,7 @@ read Resources/Private/Language/locallang.xlf (de)   3.2 ms
     <span class="sds-code__lang">bash</span>
     
   </div>
-  <pre class="sds-code__body"><span class="sds-code__prompt">$</span> <span class="sds-code__cmd">vendor/bin/phpunit tests/Unit/Lookup</span>
+  <pre class="sds-code__body" tabindex="0"><span class="sds-code__prompt">$</span> <span class="sds-code__cmd">vendor/bin/phpunit tests/Unit/Lookup</span>
 Tests: 41, Assertions: 97, Failures: 6.</pre>
 </div>
       <p>Four of the six expect the second read the change removes on purpose: adapt those. The
@@ -742,7 +742,7 @@ Tests: 41, Assertions: 97, Failures: 6.</pre>
     <span class="sds-code__lang">php</span>
     
   </div>
-  <pre class="sds-code__body"><code class="language-php" style="--sds-code-no-width:2ch"><span class="sds-code__row"><span class="sds-code__no">41</span>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">resolve</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> <span class="hljs-variable">$key</span>, <span class="hljs-keyword">string</span> <span class="hljs-variable">$language</span></span>): ?<span class="hljs-title">string</span></span></span><span class="sds-code__row"><span class="sds-code__no">42</span><span class="hljs-function">    </span>{</span><span class="sds-code__row sds-code__row--cited"><span class="sds-code__no">43</span>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable language_">$this</span>-&gt;cache[<span class="hljs-variable">$key</span>])) {</span><span class="sds-code__row"><span class="sds-code__no">44</span>            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span>-&gt;cache[<span class="hljs-variable">$key</span>];</span><span class="sds-code__row"><span class="sds-code__no">45</span>        }</span><span class="sds-code__row sds-code__row--cited"><span class="sds-code__no">46</span>        <span class="hljs-variable">$catalogue</span> = <span class="hljs-variable language_">$this</span>-&gt;reader-&gt;<span class="hljs-title function_ invoke__">read</span>(<span class="hljs-variable">$this</span>-&gt;<span class="hljs-title function_ invoke__">fileFor</span>(<span class="hljs-variable">$key</span>), <span class="hljs-variable">$language</span>);</span><span class="sds-code__row sds-code__row--cited"><span class="sds-code__no">47</span>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span>-&gt;cache[<span class="hljs-variable">$key</span>] = <span class="hljs-variable">$catalogue</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$key</span>);</span><span class="sds-code__row"><span class="sds-code__no">48</span>    }</span></code></pre>
+  <pre class="sds-code__body" tabindex="0"><code class="language-php" style="--sds-code-no-width:2ch"><span class="sds-code__row"><span class="sds-code__no">41</span>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">resolve</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> <span class="hljs-variable">$key</span>, <span class="hljs-keyword">string</span> <span class="hljs-variable">$language</span></span>): ?<span class="hljs-title">string</span></span></span><span class="sds-code__row"><span class="sds-code__no">42</span><span class="hljs-function">    </span>{</span><span class="sds-code__row sds-code__row--cited"><span class="sds-code__no">43</span>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable language_">$this</span>-&gt;cache[<span class="hljs-variable">$key</span>])) {</span><span class="sds-code__row"><span class="sds-code__no">44</span>            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span>-&gt;cache[<span class="hljs-variable">$key</span>];</span><span class="sds-code__row"><span class="sds-code__no">45</span>        }</span><span class="sds-code__row sds-code__row--cited"><span class="sds-code__no">46</span>        <span class="hljs-variable">$catalogue</span> = <span class="hljs-variable language_">$this</span>-&gt;reader-&gt;<span class="hljs-title function_ invoke__">read</span>(<span class="hljs-variable">$this</span>-&gt;<span class="hljs-title function_ invoke__">fileFor</span>(<span class="hljs-variable">$key</span>), <span class="hljs-variable">$language</span>);</span><span class="sds-code__row sds-code__row--cited"><span class="sds-code__no">47</span>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span>-&gt;cache[<span class="hljs-variable">$key</span>] = <span class="hljs-variable">$catalogue</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$key</span>);</span><span class="sds-code__row"><span class="sds-code__no">48</span>    }</span></code></pre>
   <dl class="sds-code__remarks">
     <dt>43</dt>
     <dd>The key has no language. A lookup after a switch answers in the language before it; probe P2 shows that. Key on both. [F1.2]</dd>
@@ -757,7 +757,7 @@ Tests: 41, Assertions: 97, Failures: 6.</pre>
     <span class="sds-code__lang">php</span>
     
   </div>
-  <pre class="sds-code__body"><code class="language-php" style="--sds-code-no-width:2ch"><span class="sds-code__row"><span class="sds-code__no">60</span>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reader</span>(<span class="hljs-params"></span>): <span class="hljs-title">CatalogueReader</span></span></span><span class="sds-code__row"><span class="sds-code__no">61</span><span class="hljs-function">    </span>{</span><span class="sds-code__row sds-code__row--cited"><span class="sds-code__no">62</span>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CatalogueReader</span>(<span class="hljs-variable language_">$this</span>-&gt;files);</span><span class="sds-code__row"><span class="sds-code__no">63</span>    }</span></code></pre>
+  <pre class="sds-code__body" tabindex="0"><code class="language-php" style="--sds-code-no-width:2ch"><span class="sds-code__row"><span class="sds-code__no">60</span>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reader</span>(<span class="hljs-params"></span>): <span class="hljs-title">CatalogueReader</span></span></span><span class="sds-code__row"><span class="sds-code__no">61</span><span class="hljs-function">    </span>{</span><span class="sds-code__row sds-code__row--cited"><span class="sds-code__no">62</span>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CatalogueReader</span>(<span class="hljs-variable language_">$this</span>-&gt;files);</span><span class="sds-code__row"><span class="sds-code__no">63</span>    }</span></code></pre>
   <dl class="sds-code__remarks">
     <dt>62</dt>
     <dd>A new reader per call, in a service the container holds once. The constructor is the place; the reader carries no state of its own. [F3.1]</dd>
@@ -962,7 +962,7 @@ Tests: 41, Assertions: 97, Failures: 6.</pre>
     <span class="sds-code__lang">php</span>
     
   </div>
-  <pre class="sds-code__body"><code class="language-php"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">aSecondLookupReadsNoFile</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
+  <pre class="sds-code__body" tabindex="0"><code class="language-php"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">aSecondLookupReadsNoFile</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
 </span>{
     <span class="hljs-variable language_">$this</span>-&gt;subject-&gt;<span class="hljs-title function_ invoke__">resolve</span>(<span class="hljs-string">&#x27;answer.empty&#x27;</span>, <span class="hljs-string">&#x27;de&#x27;</span>);
     <span class="hljs-variable language_">$this</span>-&gt;subject-&gt;<span class="hljs-title function_ invoke__">resolve</span>(<span class="hljs-string">&#x27;answer.empty&#x27;</span>, <span class="hljs-string">&#x27;de&#x27;</span>);
@@ -986,7 +986,7 @@ Tests: 41, Assertions: 97, Failures: 6.</pre>
     <span class="sds-code__lang">php</span>
     
   </div>
-  <pre class="sds-code__body"><code class="language-php"><span class="hljs-variable">$lookup</span> = <span class="hljs-variable">$container</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-title class_">LabelLookup</span>::<span class="hljs-variable language_">class</span>);
+  <pre class="sds-code__body" tabindex="0"><code class="language-php"><span class="hljs-variable">$lookup</span> = <span class="hljs-variable">$container</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-title class_">LabelLookup</span>::<span class="hljs-variable language_">class</span>);
 <span class="hljs-variable">$reader</span> = <span class="hljs-variable">$container</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-title class_">CatalogueReader</span>::<span class="hljs-variable language_">class</span>);
 
 <span class="hljs-variable">$lookup</span>-&gt;<span class="hljs-title function_ invoke__">resolve</span>(<span class="hljs-string">&#x27;answer.empty&#x27;</span>, <span class="hljs-string">&#x27;de&#x27;</span>);

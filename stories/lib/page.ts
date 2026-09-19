@@ -31,12 +31,14 @@ export const skipLink = (): TemplateResult =>
 /** A set laid out side by side, in whichever form the rendering can hold. The
     branch is the one this file exists for. A static file has no
     `connectedCallback` to take authored children, so there the same set goes
-    to the same element as a property. Here rather than in every page, because
+    to the same element as a property. So does a set the page draws again:
+    the element takes what stands between its tags once, and a second
+    render finds those nodes moved. Here rather than in every page, because
     a wall of cards is what a page most often ends a section with. */
 export const grid = (
   items: readonly TemplateResult[],
-  { flat = false, variant = 'default' }: PageMode & { variant?: GridVariant } = {},
+  { flat = false, redrawn = false, variant = 'default' }: PageMode & { redrawn?: boolean; variant?: GridVariant } = {},
 ): TemplateResult =>
-  flat
+  flat || redrawn
     ? html`<sds-grid variant="${variant}" .content="${items}"></sds-grid>`
     : html`<sds-grid variant="${variant}">${items}</sds-grid>`;

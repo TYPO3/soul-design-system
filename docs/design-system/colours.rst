@@ -17,6 +17,9 @@ exception.
 Force a mode on a subtree with ``data-theme="light"`` or
 ``data-theme="dark"``. Put it on ``<html>`` for a whole page. Deeper, the
 browser's own chrome, scrollbars and form controls, stays in the other mode.
+Every token follows the subtree's mode, and so does the ink. The subtree
+sets its text colour again, because the colour above it resolved in the
+other mode.
 
 A mode choice is a product control, not a preference screen. :ref:`sds-theme
 <component-sds-theme>` shows the choices in place and returns to the

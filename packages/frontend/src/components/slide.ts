@@ -152,7 +152,7 @@ export class SdsSlide extends SdsElement {
     /* The room is the parent's width and the window's height. Measured off
        the frame itself it reads back its own answer and never moves. And a
        frame taller than the window is a slide nobody sees whole. */
-    this.watch = new ResizeObserver(() => this.decide());
+    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.decide()));
     if (this.parentElement) this.watch.observe(this.parentElement);
     this.watch.observe(document.documentElement);
     void this.updateComplete.then(() => this.decide());

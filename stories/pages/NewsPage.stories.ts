@@ -147,7 +147,8 @@ export function newsPage({ flat = false, filter = 0, onFilter }: NewsMode = {}):
               href="#"
             ></sds-card>`,
           ),
-  { flat },
+  /* A press on a filter draws the list again. */
+  { flat, redrawn: true },
 )}`
     : html`<sds-note
           tone="info"

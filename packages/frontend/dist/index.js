@@ -28,9 +28,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// ../../node_modules/highlight.js/lib/core.js
+// node_modules/highlight.js/lib/core.js
 var require_core = __commonJS({
-  "../../node_modules/highlight.js/lib/core.js"(exports, module) {
+  "node_modules/highlight.js/lib/core.js"(exports, module) {
     function deepFreeze(obj) {
       if (obj instanceof Map) {
         obj.clear = obj.delete = obj.set = function() {
@@ -1577,6 +1577,17 @@ var SdsElement = class extends LitElement {
   createRenderRoot() {
     return this;
   }
+  static {
+    /** What a caller wrote between the tags, for a renderer that cannot write
+        between them. `@lit-labs/ssr` never runs `connectedCallback`, so there are
+        no children to lift in Node. A property is the one channel both sides
+        have, and it carries markup, which an attribute cannot. Every component
+        reads `this.taken ?? this.content`. A property, so a caller who hands
+        over another set gets it drawn. */
+    this.properties = {
+      content: { attribute: false }
+    };
+  }
   /** Asked once. These elements render into themselves, so after the first
       render the children are the element's own output. `connectedCallback`
       runs again every time an element moves in the document, and a second
@@ -2354,15 +2365,14 @@ var SdsSearch = class extends SdsElement {
     const drop = this.querySelector(".sds-search__panel");
     if (drop && !drop.matches(":popover-open")) drop.showPopover();
   }
-  /* Fetched once, on the first keystroke. */
-  async load() {
-    if (this.entries || !this.index) return;
-    try {
-      const res = await fetch(this.index);
+  load() {
+    if (this.entries || !this.index) return Promise.resolve();
+    this.loading ??= fetch(this.index).then(async (res) => {
       this.entries = await res.json();
-    } catch {
+    }).catch(() => {
       this.entries = [];
-    }
+    });
+    return this.loading;
   }
   /** Where the site's root is, from this page. The index lists every page as
       the build sees them, and a reader rarely stands in the root. So a path
@@ -3564,7 +3574,7 @@ var SdsSelect = class extends SdsFormElement {
     aria-expanded="${this.listed ? "true" : "false"}"
     aria-controls="${this.listId}"
     aria-activedescendant="${this.listed && this.active >= 0 ? `${this.listId}-${this.active}` : nothing7}"
-    aria-label="${this.label || nothing7}"
+    aria-label="${this.label || this.caption || nothing7}"
     aria-invalid="${this.invalid || this.error ? "true" : nothing7}"
     ?disabled="${disabled}"
     popovertarget="${this.open ? nothing7 : this.listId}"
@@ -3800,7 +3810,7 @@ var SdsRange = class extends SdsFormElement {
     return html19`<div class="sds-field-row sds-range">
   <span class="sds-range__head">
     <label class="sds-field-label" for="${id}">${this.caption}</label>
-    <output class="sds-range__value" for="${id}">${this.value}${this.unit ? ` ${this.unit}` : ""}</output>
+    <output class="sds-range__value" for="${id}" aria-disabled="${this.disabled ? "true" : nothing10}">${this.value}${this.unit ? ` ${this.unit}` : ""}</output>
   </span>
   ${slider}
   ${this.hint ? html19`<span class="sds-field-hint">${this.hint}</span>` : nothing10}
@@ -4679,7 +4689,7 @@ var SdsNavMain = class extends SdsNav {
     const written = this.lifted().filter((node) => node.nodeType === 1);
     if (written.length) this.taken = written;
     super.connectedCallback();
-    this.watch = new ResizeObserver(() => this.decide());
+    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.decide()));
     void document.fonts?.ready.then(() => {
       this.needNav = 0;
       this.needSearch = 0;
@@ -7297,7 +7307,7 @@ var SdsGrid = class extends SdsElement {
     const written = this.lifted();
     if (written.length) this.taken = written;
     super.connectedCallback();
-    this.watch = new ResizeObserver(() => this.decide());
+    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.decide()));
     if (this.parentElement) this.watch.observe(this.parentElement);
     void this.updateComplete.then(() => this.decide());
   }
@@ -7327,8 +7337,11 @@ var SdsGrid = class extends SdsElement {
     const wanted = evenColumns(count, fits);
     this.columns = wanted >= fits ? 0 : wanted;
   }
+  /* After the update, not in it. A state set inside `updated()` starts the
+     next cycle before this one has closed, which Lit's dev build names as
+     the inefficiency it is. */
   updated() {
-    this.decide();
+    void this.updateComplete.then(() => this.decide());
   }
   render() {
     const modifier = VARIANT[this.variant] ?? "";
@@ -7469,11 +7482,11 @@ define("sds-nav-pager", SdsNavPager);
 import { html as html65 } from "lit";
 import { unsafeHTML as unsafeHTML5 } from "lit/directives/unsafe-html.js";
 
-// ../../node_modules/highlight.js/es/core.js
+// node_modules/highlight.js/es/core.js
 var import_core = __toESM(require_core(), 1);
 var core_default = import_core.default;
 
-// ../../node_modules/highlight.js/es/languages/bash.js
+// node_modules/highlight.js/es/languages/bash.js
 function bash(hljs) {
   const regex = hljs.regex;
   const VAR = {};
@@ -7867,7 +7880,7 @@ function bash(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/css.js
+// node_modules/highlight.js/es/languages/css.js
 var MODES = (hljs) => {
   return {
     IMPORTANT: {
@@ -8804,7 +8817,7 @@ function css(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/diff.js
+// node_modules/highlight.js/es/languages/diff.js
 function diff(hljs) {
   const regex = hljs.regex;
   return {
@@ -8857,7 +8870,7 @@ function diff(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/javascript.js
+// node_modules/highlight.js/es/languages/javascript.js
 var IDENT_RE = "[A-Za-z$_][0-9A-Za-z$_]*";
 var KEYWORDS = [
   "as",
@@ -9558,7 +9571,7 @@ function javascript(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/json.js
+// node_modules/highlight.js/es/languages/json.js
 function json(hljs) {
   const ATTRIBUTE = {
     className: "attr",
@@ -9598,7 +9611,7 @@ function json(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/markdown.js
+// node_modules/highlight.js/es/languages/markdown.js
 function markdown(hljs) {
   const regex = hljs.regex;
   const INLINE_HTML = {
@@ -9830,7 +9843,7 @@ function markdown(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/php.js
+// node_modules/highlight.js/es/languages/php.js
 function php(hljs) {
   const regex = hljs.regex;
   const NOT_PERL_ETC = /(?![A-Za-z0-9])(?![$])/;
@@ -10431,7 +10444,7 @@ function php(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/plaintext.js
+// node_modules/highlight.js/es/languages/plaintext.js
 function plaintext(hljs) {
   return {
     name: "Plain text",
@@ -10443,7 +10456,7 @@ function plaintext(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/scss.js
+// node_modules/highlight.js/es/languages/scss.js
 var MODES2 = (hljs) => {
   return {
     IMPORTANT: {
@@ -11365,7 +11378,7 @@ function scss(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/sql.js
+// node_modules/highlight.js/es/languages/sql.js
 function sql(hljs) {
   const regex = hljs.regex;
   const COMMENT_MODE = hljs.COMMENT("--", "$");
@@ -12008,7 +12021,7 @@ function sql(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/twig.js
+// node_modules/highlight.js/es/languages/twig.js
 function twig(hljs) {
   const regex = hljs.regex;
   const FUNCTION_NAMES = [
@@ -12247,7 +12260,7 @@ function twig(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/typescript.js
+// node_modules/highlight.js/es/languages/typescript.js
 var IDENT_RE2 = "[A-Za-z$_][0-9A-Za-z$_]*";
 var KEYWORDS2 = [
   "as",
@@ -13061,7 +13074,7 @@ function typescript(hljs) {
   return tsLanguage;
 }
 
-// ../../node_modules/highlight.js/es/languages/xml.js
+// node_modules/highlight.js/es/languages/xml.js
 function xml(hljs) {
   const regex = hljs.regex;
   const TAG_NAME_RE = regex.concat(/[\p{L}_]/u, regex.optional(/[\p{L}0-9_.-]*:/u), /[\p{L}0-9_.-]*/u);
@@ -13287,7 +13300,7 @@ function xml(hljs) {
   };
 }
 
-// ../../node_modules/highlight.js/es/languages/yaml.js
+// node_modules/highlight.js/es/languages/yaml.js
 function yaml(hljs) {
   const LITERALS3 = "true false yes no null";
   const URI_CHARACTERS = "[\\w#;/?:@&=+$,.~*'()[\\]]+";
@@ -13797,7 +13810,7 @@ var SdsCode = class extends SdsElement {
     const caption = this.captioned ? html65`${this.captioned}` : this.caption ? html65`<div class="sds-code__caption">${this.caption}</div>` : void 0;
     return html65`${caption}<div class="sds-code">
   ${head}
-  <pre class="sds-code__body">${this.taken || this.content || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>${this.remarked ? html65`
+  <pre class="sds-code__body" tabindex="0">${this.taken || this.content || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>${this.remarked ? html65`
   ${this.remarked}` : ""}
 </div>`;
   }
@@ -14089,7 +14102,7 @@ var SdsSlide = class extends SdsElement {
     if (written.length) this.taken = written;
     super.connectedCallback();
     if (!this.fit) return;
-    this.watch = new ResizeObserver(() => this.decide());
+    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.decide()));
     if (this.parentElement) this.watch.observe(this.parentElement);
     this.watch.observe(document.documentElement);
     void this.updateComplete.then(() => this.decide());

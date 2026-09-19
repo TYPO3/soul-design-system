@@ -167,7 +167,7 @@ export class SdsNavMain extends SdsNav {
     const written = this.lifted().filter((node): node is Element => node.nodeType === 1);
     if (written.length) this.taken = written;
     super.connectedCallback();
-    this.watch = new ResizeObserver(() => this.decide());
+    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.decide()));
     /* In the fallback face, the sections measure narrower than they will be.
        So the bar asks again once the real face is there, from the one state
        that gives a measurement. */

@@ -185,6 +185,9 @@
   .sds-code__copy.is-copied .sds-code__copied {
     display: inline-flex;
   }
+  /* A keyboard stop: a line longer than the column scrolls, and a reader
+     with no pointer has to reach it. The ring turns inwards, because the
+     frame clips what draws outside it, and the halo goes with it. */
   .sds-code__body {
     margin: 0;
     min-width: 0;
@@ -194,6 +197,11 @@
     line-height: var(--sds-code-body-leading);
     color: var(--sds-code-body-ink);
     overflow-x: auto;
+
+    &:focus-visible {
+      outline-offset: calc(-1 * (var(--border-emphasis) + var(--focus-offset)));
+      box-shadow: none;
+    }
   }
   /* The shell prompt is one of the three places the accent can appear. */
   .sds-code__prompt {

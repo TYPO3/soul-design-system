@@ -91,7 +91,7 @@ export const Reading: Story = {
      show. The element reads the scroller its headings are in, and the top of
      the window is not the top of a pane. */
   render: ({ label }) => html`<div style="display:flex; gap:48px; height:420px">
-    <div style="flex:1 1 auto; min-width:0; max-width:640px; height:100%; overflow-y:auto">
+    <div style="flex:1 1 auto; min-width:0; max-width:640px; height:100%; overflow-y:auto" tabindex="0">
       ${READING.map(
         (section) => html`<section id="${section.anchor}" style="min-height:320px">
         <h2 class="sds-h3">${section.label}</h2>

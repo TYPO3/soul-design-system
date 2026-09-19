@@ -9,7 +9,7 @@
    head at run time. No decorators anywhere: `static properties` is erasable,
    which is what lets Node run these files with no build step. */
 
-import { LitElement } from 'lit';
+import { LitElement, type PropertyDeclarations } from 'lit';
 
 /** The name the prerenderer keeps a caller's own content under.
 
@@ -27,7 +27,12 @@ export class SdsElement extends LitElement {
       between them. `@lit-labs/ssr` never runs `connectedCallback`, so there are
       no children to lift in Node. A property is the one channel both sides
       have, and it carries markup, which an attribute cannot. Every component
-      reads `this.taken ?? this.content`. */
+      reads `this.taken ?? this.content`. A property, so a caller who hands
+      over another set gets it drawn. */
+  static override properties: PropertyDeclarations = {
+    content: { attribute: false },
+  };
+
   declare content?: unknown;
 
   /** The same content as the author wrote it, before anything in it

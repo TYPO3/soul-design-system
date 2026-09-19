@@ -65,6 +65,7 @@
     --sds-table-graph-rail: var(--border-strong);
     --sds-table-graph-here: var(--text-primary);
     --sds-table-fill-selected: var(--surface-accent-quiet);
+    --sds-table-link-ink-selected: var(--text-link-hover);
     --sds-table-head-weight: var(--weight-regular);
     --sds-table-skeleton-fill: var(--surface-inset);
     --sds-table-skeleton-height: 9px;
@@ -238,6 +239,10 @@
       --sds-table-meta-ink: var(--text-primary);
 
       background: var(--sds-table-fill-selected);
+
+      a {
+        color: var(--sds-table-link-ink-selected);
+      }
     }
   }
   .sds-table--compact {

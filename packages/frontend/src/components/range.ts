@@ -125,7 +125,7 @@ export class SdsRange extends SdsFormElement {
     return html`<div class="sds-field-row sds-range">
   <span class="sds-range__head">
     <label class="sds-field-label" for="${id}">${this.caption}</label>
-    <output class="sds-range__value" for="${id}">${this.value}${this.unit ? ` ${this.unit}` : ''}</output>
+    <output class="sds-range__value" for="${id}" aria-disabled="${this.disabled ? 'true' : nothing}">${this.value}${this.unit ? ` ${this.unit}` : ''}</output>
   </span>
   ${slider}
   ${this.hint ? html`<span class="sds-field-hint">${this.hint}</span>` : nothing}

@@ -63,6 +63,7 @@ export declare class SdsSearch extends SdsElement {
     disconnectedCallback(): void;
     private readonly onToggle;
     protected updated(): void;
+    private loading?;
     private load;
     /** Where the site's root is, from this page. The index lists every page as
         the build sees them, and a reader rarely stands in the root. So a path

@@ -110,12 +110,18 @@
     --syntax-text: var(--text-primary);
   }
 
-  /* A mode forced on any subtree — every token above follows. */
+  /* A mode forced on any subtree — every token above follows. The subtree
+     sets the ink again: the ink comes down from above the subtree, where it
+     resolved in the other mode. A token follows the scheme, an inherited
+     value does not. */
   [data-theme="light"] {
     color-scheme: light;
   }
   [data-theme="dark"] {
     color-scheme: dark;
+  }
+  [data-theme] {
+    color: var(--text-primary);
   }
 
   /* Scrollbars are part of the surface, not chrome the browser owns.

@@ -365,7 +365,7 @@ export class SdsCode extends SdsElement {
 
     return html`${caption}<div class="sds-code">
   ${head}
-  <pre class="sds-code__body">${this.taken || this.content || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>${this.remarked ? html`
+  <pre class="sds-code__body" tabindex="0">${this.taken || this.content || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>${this.remarked ? html`
   ${this.remarked}` : ''}
 </div>`;
   }
