@@ -22,7 +22,7 @@
   "types": "./dist/types/src/index.d.ts",
   "customElements": "dist/custom-elements.json",
   "bin": {
-    "soul-check": "./dist/soul-check.js"
+    "soul-check": "dist/soul-check.js"
   },
   "exports": {
     ".": {
