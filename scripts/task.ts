@@ -38,7 +38,7 @@ const TASKS: Record<string, Task> = {
   embed: { cmd: node('scripts/embed.ts'), help: 'put the generated cards where the documents that embed them can reach them' },
   chrome: { cmd: node('scripts/chrome.ts'), help: 'copy the chrome those cards are drawn with into a rendered root — make chrome ARGS=.out/site' },
   typecheck: { cmd: node('node_modules/typescript/bin/tsc', '--noEmit'), help: 'tsc --noEmit' },
-  test: { cmd: ['npx', 'playwright', 'test'], help: 'the Playwright suite' },
+  test: { cmd: node('scripts/test.ts'), help: 'the suite: Vitest over the stories and the frames, then Playwright against the servers — ARGS names a file' },
   fit: { cmd: node('scripts/fit.ts'), help: 'does every card fit its declared viewport' },
   ssr: { cmd: node('scripts/ssr.ts'), help: 'does every element render outside a browser' },
   coverage: { cmd: node('scripts/coverage.ts'), help: 'is every component shown in a story, a class and the Guides render' },

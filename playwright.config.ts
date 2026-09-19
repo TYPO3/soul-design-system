@@ -1,9 +1,11 @@
-/* Playwright — the tests that need a real browser.
+/* Playwright — the tests that need a server.
 
    The repo already drives Chromium for `fit`, `shots` and `diff`, which
    measure *pixels*. These tests measure something the screenshots cannot.
-   That every story renders at all. That the custom elements produce the same
-   markup the static cards ship. That the specimens survive an axe pass.
+   That the Storybook shell boots. That the custom elements produce the same
+   markup the static cards ship. That the rendered site and the drop-in work
+   the way a reader and a consumer get them. What lives inside a story runs
+   under Vitest instead — `vitest.config.ts`.
 
    Tests run against a built Storybook, not `storybook dev`. A built
    Storybook is deterministic and starts in a second. The dev server
@@ -43,6 +45,9 @@ export const ACCEPTANCE_DIR = '.out/acceptance';
 
 export default defineConfig({
   testDir: './tests',
+  /* The `.spec.ts` files. A `.test.ts` beside one is Vitest's, and runs in a
+     frame of its own — `vitest.config.ts`. */
+  testMatch: '**/*.spec.ts',
   fullyParallel: true,
   forbidOnly: !!process.env['CI'],
   retries: process.env['CI'] ? 1 : 0,

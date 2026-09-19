@@ -40,11 +40,13 @@ const config: StorybookConfig = {
       },
     },
     /* A system that documents focus rings and status colour must be able to
-       prove them, so the panel runs axe against the rendered story. It ships in
-       every build, the one the Playwright suite serves included: a surface
-       assembled differently for the test is not the one that ships. The axe
-       collision that causes has its answer in `preview.ts`. */
+       prove them, so the panel runs axe against the rendered story. Under
+       Vitest the run is `preview.ts`'s own, which holds a story to the line
+       the panel reports past. */
     '@storybook/addon-a11y',
+    /* The suite, from the sidebar: every story is a test, and the panel runs
+       it. `vitest.config.ts` at the root is the same run from the terminal. */
+    '@storybook/addon-vitest',
   ],
   framework: { name: '@storybook/web-components-vite', options: {} },
   /* The container keeps no state between rebuilds, so Storybook's release
@@ -101,7 +103,16 @@ const config: StorybookConfig = {
   /* The dev server answers to its compose name too. `make look` runs in the
      `app` container, where `localhost` is somebody else, and a live story is
      what it photographs: `make look ARGS='http://storybook:6007/iframe.html?id=slides-cards--page'`. */
-  viteFinal: (viteConfig) => mergeConfig(viteConfig, { server: { allowedHosts: ['storybook'] } }),
+  viteFinal: (viteConfig) =>
+    mergeConfig(viteConfig, {
+      server: { allowedHosts: ['storybook'] },
+      /* The stylesheet as written. Lowered for older browsers, every
+         `light-dark()` becomes two variables resolved at the root, and a
+         mode forced on a subtree forces nothing. The system needs the
+         function — `docs/frontend/index.rst` says so — and the build must
+         not quietly put a polyfill under what the suite proved. */
+      build: { cssTarget: ['chrome123', 'firefox120', 'safari17.5'] },
+    }),
 };
 
 export default config;

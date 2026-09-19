@@ -6,25 +6,14 @@
    exists with no way to look at it.
 
    Not a check that the sizes *are* the breakpoints; they are deliberately not.
-   This asks only that the menu reaches everywhere. No browser: both sides are
-   files. */
+   This asks only that the menu reaches everywhere. No page: both sides are
+   files, read as text. */
 
-import { test, expect } from '@playwright/test';
-import { readFileSync, readdirSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { expect, test } from 'vitest';
 
 import { VIEWPORT_WIDTHS, VIEWPORTS } from '../.storybook/viewports.ts';
 
-const STYLES = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'packages', 'frontend', 'src', 'styles');
-
-function stylesheets(dir: string): string[] {
-  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const path = join(dir, entry.name);
-    if (entry.isDirectory()) return stylesheets(path);
-    return entry.name.endsWith('.css') ? [path] : [];
-  });
-}
+const SHEETS = import.meta.glob<string>('../packages/frontend/src/styles/**/*.css', { query: '?raw', import: 'default', eager: true });
 
 /* Every width the layer changes at, widest first, as the last width *below*
    the change. A `max-width` query is that already; a `min-width` one starts at
@@ -33,8 +22,7 @@ function stylesheets(dir: string): string[] {
    query drew the line. */
 function breakpoints(): number[] {
   const widths = new Set<number>();
-  for (const sheet of stylesheets(STYLES)) {
-    const css = readFileSync(sheet, 'utf8');
+  for (const css of Object.values(SHEETS)) {
     for (const [, width] of css.matchAll(/@media[^{]*?\(\s*max-width:\s*(\d+)px\s*\)/g)) widths.add(Number(width));
     for (const [, width] of css.matchAll(/@media[^{]*?\(\s*min-width:\s*(\d+)px\s*\)/g)) widths.add(Number(width) - 1);
   }

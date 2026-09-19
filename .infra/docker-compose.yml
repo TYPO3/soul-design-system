@@ -3,7 +3,7 @@
 #   make              # every task
 #   make storybook    # the documentation surface, on a port Docker picks
 #   make verify       # the gate
-#   make test         # the Playwright suite
+#   make test         # the suite
 #
 # The Makefile at the repo root drives this — you never need to type
 # `docker compose` yourself.

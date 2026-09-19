@@ -145,7 +145,7 @@ is half-shipped.
 | `packages/frontend/assets/portraits/` | portraits made for a story |
 | `docs/` | the published documentation, and the prompts it prints |
 | `packages/guides-theme/` | the Composer package: templates, directives, the acceptance render |
-| `tests/*.spec.ts` | the Playwright suite |
+| `tests/` | the suite: a `.test.ts` runs under Vitest in a frame, a `.spec.ts` under Playwright against a server |
 | `scripts/` | the tooling behind the tasks |
 | `.storybook/`, `.infra/`, `.github/` | the documentation surface, the container, the gate on every push |
 
@@ -192,7 +192,7 @@ make          # the task list, with what each does
 make start    # bring the stack up; it takes the old one down first
 make status   # what is running, and where it answers
 make verify   # the gate
-make test     # the Playwright suite
+make test     # the suite
 ```
 
 `make start` tears down before it comes up. Do not run it to check a stack:
@@ -253,19 +253,41 @@ is how you ask for one:
 | `prose` | every text against ASD-STE100 and the terse rule |
 | `conventions` | the names in `.design-sync/conventions.md` against the built stylesheets |
 
-`make test` runs these suites. Each guards what the others cannot see:
+`make test` runs two runners, and both must pass. Vitest runs what lives
+inside a story or a frame, in one Chromium. That is every story as a test
+of its own, judged in both themes, and the `.test.ts` files under `tests/`.
+Playwright runs what needs a server, the `.spec.ts` files: the built
+Storybook, the rendered site, the drop-in. `vitest.config.ts` and
+`playwright.config.ts` say which is which, and `scripts/test.ts` runs them
+in that order.
 
-| Suite | What it holds |
+Every story is a test. It renders and says nothing on the console, it runs
+its `play`, and axe judges it: only a serious or critical violation fails
+it. `.storybook/preview.ts` holds that verdict and the specimen's contract,
+and `.storybook/vitest.setup.ts` the silence. The same run starts from the
+Storybook sidebar, through `@storybook/addon-vitest`.
+
+`make test ARGS=--coverage` measures what the run covers of
+`packages/frontend/src/`, and `vitest.config.ts` holds the floor it must
+not fall under. A component that arrives with no test of its behaviour is
+what lowers it; the sidebar's coverage box shows the same figures.
+
+Each file guards what the others cannot see:
+
+| File | What it holds |
 | --- | --- |
-| `parity` | the element rendered by Lit and by `@lit-labs/ssr` is the same markup |
-| `stories` | every story renders in both themes, silently |
 | `pages` | the page layouts at every width they must survive |
 | `viewports` | every layout band is selectable from the toolbar |
-| `a11y` | axe on the specimens, serious and critical only |
-| `dropin` | `packages/frontend/dist/` works the way a consumer copies it |
+| `specimens` | every story file that generates a card has a Specimen story |
+| `ring` | a card draws the focus ring on its frame when the keyboard reaches it |
 | `defaults` | unclassed content: what a page gets before it reaches for a class |
 | `content` | content between an element's tags survives its upgrade |
+| `code` | a code block a line runs out of: a keyboard stop, and the keys scroll it |
 | `forms` | a form submits what it shows, and a reset puts back what the markup said |
+| `tabs` | a real tablist: the arrows and the ends, the focus that follows, and the sets that agree on a word |
+| `theme` | the mode switch: three states round, what it writes, and what it says out loud |
+| `rail` | a rail row with nowhere to go is a choice, and a press says which |
+| `search` | the search field: the index fetched once, the hits, the way into the drop and out |
 | `states` | what the pointer changes on a control: no box moves, and every state colour resolves |
 | `select` | the drawn list: the keys, what it says about itself, and the real `select` underneath |
 | `dialog` | the question a dialog asks: the pair, the two events, the size cap, and the head every surface draws |
@@ -274,9 +296,12 @@ is how you ask for one:
 | `copy` | a value carried off: what reaches the clipboard, the button names, and a press that says so in words |
 | `table` | the way into a row: an anchor at its end, one keyboard stop per row, a column at its edge |
 | `toc` | the contents list: which section it marks, and the mark inside a box too short for the list |
+| `outline` | the outline of a long document: the numbers, the mark in a scrolling panel, and the fold |
 | `dropdown` | the popover: not clipped, under its button by either route, and closed the way the platform closes one |
 | `highlight` | every language `CodeLang` promises has a grammar |
-| `manager` | the Storybook shell boots |
+| `parity` | the element rendered by Lit and by `@lit-labs/ssr` is the same markup |
+| `dropin` | `packages/frontend/dist/` works the way a consumer copies it |
+| `manager` | the Storybook shell: it boots, its index is complete, a control change re-renders, the docs canvas carries the theme |
 | `search` | a hit in the site index resolves from a page below the root |
 | `guides` | the rendered site, opened: the theme's findings, the page with no script, the Markdown twin beside every page |
 
@@ -286,19 +311,22 @@ Never disable an addon, a spec or a threshold to get a green run.
 
 The gate is what a piece of work ends against, not the loop inside it.
 While you work, run the narrowest thing that can fail on what you touched.
-Ask for a check by name, and a spec by path:
+Ask for a check by name, and a test by path. A path names the runner that
+owns it, and a story file is a test of Vitest's:
 
 ```sh
 make verify ARGS=classes            # one check
 make verify ARGS="refs heights"     # two
 make verify ARGS=--help             # the names
 make test ARGS=tests/parity.spec.ts
-make test ARGS="tests/a11y.spec.ts --grep card"
+make test ARGS=tests/select.test.ts
+make test ARGS=stories/components/Card.stories.ts
+make test ARGS="tests/dialog.test.ts --grep Escape"
 ```
 
 | Touched | Run |
 | --- | --- |
-| a component's template or its story | `make verify ARGS=cards`, then the one spec |
+| a component's template or its story | `make verify ARGS=cards`, then `make test ARGS=<its story file>` and the one test |
 | types only | `make verify ARGS=types` |
 | a class name, in a sheet or on a card | `make verify ARGS=classes` |
 | a stylesheet, for its shape alone | `make verify ARGS=css`; `make css` fixes |

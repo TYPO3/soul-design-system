@@ -3,7 +3,7 @@
 #   make              # every task
 #   make storybook    # the documentation surface
 #   make verify       # the gate
-#   make test         # the Playwright suite
+#   make test         # the suite
 #
 # The host needs Docker and Make, and nothing else — no Node, no `npm ci`,
 # no `playwright install`. The Makefile drives compose; `scripts/task.ts`

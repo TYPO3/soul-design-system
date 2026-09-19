@@ -58,7 +58,6 @@ repeated change from the known drift in guideline cards.
 Test Storybook
 ==============
 
-The component preview and the Storybook shell are separate browser
-surfaces, and the accessibility panel shares axe with the test suite.
-:doc:`storybook-tests` explains how the shipped build keeps those paths
-from a test around one another.
+Every story is a test, and the Storybook shell is a second surface a story
+proves nothing about. :doc:`storybook-tests` explains which runner opens
+which, and how the suite judges a story with axe.

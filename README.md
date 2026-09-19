@@ -115,14 +115,20 @@ make start   # bring the stack up and report what is running
 make status  # what is running, and where it answers
 make         # every task, with what it does
 make verify  # the gate
-make test    # the Playwright suite
+make test    # the suite
 ```
 
-The gate is a sequence of named checks, and the suite a set of spec files.
+The gate is a sequence of named checks, and the suite a set of test files.
 While you work, ask for one of either: `make verify ARGS=classes`, `make
-test ARGS=tests/parity.spec.ts`. `make verify ARGS=--help` names the checks.
+test ARGS=tests/select.test.ts`. `make verify ARGS=--help` names the checks.
 A partial run says so. Only the whole sequence claims that the system is
 consistent.
+
+The suite has two runners. Vitest runs every story as a test of its own,
+with axe over it in both themes. It also runs the `.test.ts` files that
+render markup into a frame. Playwright runs the `.spec.ts` files against a
+server: the built Storybook, the rendered site, the drop-in. The same story
+run starts from the Storybook sidebar.
 
 `make start` brings Storybook up and prints its address. It is the one
 surface. The guidelines as pages with their specimens at the exact viewport
@@ -246,7 +252,7 @@ what each symptom means.
 | `stories/` | the specimen every card and screen comes from, and the components with their controls |
 | `docs/` | the published documentation: the manual, the guideline pages with their specimens, and the prompts they print |
 | `packages/guides-theme/` | the Composer package that maps phpDocumentor Guides onto this system, and its acceptance render |
-| `tests/` | the Playwright suite |
+| `tests/` | the suite: `.test.ts` under Vitest, `.spec.ts` under Playwright |
 | `scripts/` | the tooling behind the tasks |
 | `.infra/` | Dockerfile, compose and the entrypoint |
 | `.github/` | the gate on every push, the site published from `main`, and the release a tag publishes |

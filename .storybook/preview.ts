@@ -7,6 +7,7 @@
    never inherits it. If a story needs `.spec-*` to look right it is a
    specimen; if a product surface does, something is wrong. */
 
+/// <reference types="vite/client" />
 import type { Preview } from '@storybook/web-components-vite';
 import '../packages/frontend/src/styles/styles.css';
 import '../packages/frontend/src/styles/_specimen.css';
@@ -64,13 +65,29 @@ export const globalTypes = {
   },
 };
 
-/* `a11y.manual` is a GLOBAL, not a parameter. Under `parameters.a11y` the addon
-   does not read it and the panel runs axe on every story render. That races
-   the axe the Playwright suite starts on purpose. Axe is one global with
-   one run at a time, and the loser gets "Axe is already running" rather than
-   a place in a queue. */
-export const initialGlobals = { theme: 'dark', a11y: { manual: true } };
+export const initialGlobals = { theme: 'dark' };
 
+/* Axe, on the part it can judge with honesty. Only a serious or critical
+   violation fails a story. The specimens show states on purpose that no
+   automated pass can interpret, and a failure on `minor` trains everyone to
+   ignore the run. The addon has no such line, so under Vitest the verdict is
+   this file's and the addon's run is off. In the panel it reports and fails none. */
+const TESTING = import.meta.env.MODE === 'test';
+const SPECIMEN_CHROME = ['.spec-cap', '.spec-note', '.spec-lbl', '.spec-h'];
+
+async function judged(): Promise<string[]> {
+  const axe = (await import('axe-core')).default;
+  const result = await axe.run(
+    /* `.spec-cap` and friends are the specimen's own annotation layer,
+       styled by `_specimen.css`, which never ships to a product. */
+    { include: document.body, exclude: ['.sb-wrapper', ...SPECIMEN_CHROME] },
+    /* No landmarks in a fragment, which is what a story is. */
+    { rules: { region: { enabled: false } } },
+  );
+  return result.violations
+    .filter((v) => v.impact === 'serious' || v.impact === 'critical')
+    .map((v) => `${v.id} — ${v.help} (${v.nodes.length} node(s): ${v.nodes[0]?.target.join(' ')})\n    ${v.nodes[0]?.failureSummary?.split('\n').join('\n    ')}`);
+}
 
 /* The container the renderer keeps between renders, dropped so the next one
    builds the story rather than updates it. An element takes what stands
@@ -133,11 +150,40 @@ const preview: Preview = {
       source: { transform: readable },
     },
     a11y: {
-      // Report, do not fail. The specimens deliberately include states no
-      // automated pass can judge — a disabled control, a focus ring drawn on
-      // an element that does not have focus.
       test: 'todo',
+      disable: TESTING,
+      context: { exclude: SPECIMEN_CHROME },
     },
+  },
+  afterEach: async ({ title, name, canvasElement, globals, parameters }) => {
+    /* An empty root is a story that "rendered" nothing. Storybook reports
+       no error for it, and it looks like a deliberate blank specimen. */
+    if (!canvasElement.innerHTML.trim()) throw new Error(`${title}/${name} rendered nothing`);
+    /* A Specimen is what a card is a picture of, and a card opens without
+       JavaScript. So the subject draws from the system's classes or tokens,
+       and no custom element can survive in it. */
+    if (name === 'Specimen') {
+      const drawn = [...canvasElement.querySelectorAll('[class]')].some((el) => [...el.classList].some((c) => c.startsWith('sds-')));
+      if (!drawn && !canvasElement.innerHTML.includes('var(--')) throw new Error(`${title} must draw from the system — its classes, or its tokens`);
+      const live = [...canvasElement.querySelectorAll('*')].map((el) => el.tagName.toLowerCase()).filter((tag) => tag.startsWith('sds-'));
+      if (live.length) throw new Error(`${title} specimen must be static markup, and holds ${live.join(', ')}`);
+    }
+    /* The addon's own word for "no automatic run". A test that mounts a
+       story as its fixture says it: the story run has judged it already. */
+    if (!TESTING || (globals['a11y'] as { manual?: boolean } | undefined)?.manual === true) return;
+    /* Both themes, from one render: the switch sets `data-theme` on `<html>`
+       and nothing else, so the story need not mount twice. A specimen that
+       pins its mode stays in it. */
+    const pinned = parameters['pinTheme'] as string | undefined;
+    const root = document.documentElement;
+    const was = root.dataset['theme'];
+    for (const theme of pinned ? [pinned] : ['dark', 'light']) {
+      root.dataset['theme'] = theme;
+      await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+      const serious = await judged();
+      if (serious.length) throw new Error(`serious axe violations on ${title}/${name} in ${theme}:\n  ${serious.join('\n  ')}`);
+    }
+    if (was) root.dataset['theme'] = was;
   },
 };
 

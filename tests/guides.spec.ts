@@ -14,7 +14,7 @@ import { test, expect, type Locator, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 import { ACCEPTANCE_DIR, ACCEPTANCE_URL, SITE_DIR, SITE_URL } from '../playwright.config.ts';
-import { pageClipped, pageOverflow, pageOverlaps } from './lib/layout.ts';
+import { clippedOf, overflowOf, overlapsOf } from './lib/layout.ts';
 import { axeIdle, resizeTo } from './lib/story.ts';
 
 const FIXTURE = `${ACCEPTANCE_URL}/index.html`;
@@ -1602,13 +1602,13 @@ test.describe('what a page measures for', () => {
       await page.goto(`${ACCEPTANCE_URL}/${path}`, { waitUntil: 'load' });
       for (const width of WIDTHS) {
         await resizeTo(page, width);
-        const over = await pageOverflow(page);
+        const over = await overflowOf(page);
         expect(over, `${path} at ${width}px: ${JSON.stringify(over)}`).toBeNull();
         /* At the two ends only: the pairs count against each other, and a
            manual page is long. What lands on something else does it where
            the column is widest or where it has just folded. */
         if (width === WIDTHS[0] || width === WIDTHS.at(-1)) {
-          expect(await pageOverlaps(page), `${path} at ${width}px`).toEqual([]);
+          expect(await overlapsOf(page), `${path} at ${width}px`).toEqual([]);
         }
       }
     }
@@ -1622,7 +1622,7 @@ test.describe('what a page measures for', () => {
       await page.goto(`${ACCEPTANCE_URL}/${path}`, { waitUntil: 'load' });
       for (const width of WIDTHS) {
         await resizeTo(page, width);
-        expect(await pageClipped(page), `${path} at ${width}px`).toEqual([]);
+        expect(await clippedOf(page), `${path} at ${width}px`).toEqual([]);
       }
     }
   });

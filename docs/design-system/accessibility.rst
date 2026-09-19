@@ -124,7 +124,7 @@ what a project has to do.
 What the suite checks
 =====================
 
-``make test`` runs axe over the specimens in **both modes** and fails on
+``make test`` runs axe over every story in **both modes** and fails on
 serious and critical violations. Only those two. The specimens draw states no
 automated pass can interpret, a control drawn disabled, a ring on an element
 without focus. A fail on ``minor`` trains everyone to ignore the run.

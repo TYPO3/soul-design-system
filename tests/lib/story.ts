@@ -1,10 +1,12 @@
-/* A story opened the same way every time.
+/* A story opened in the built Storybook, the same way every time, and a
+   page settled before it measures.
 
    `?globals=theme:light` is a request, not a fact. Storybook applies globals
    when the preview boots, and only then does `data-theme` land on `<html>`.
-   Measure before that lands and the page is still in the previous theme. That
-   is how a contrast test passes alone and fails in a parallel run. So: wait
-   for the theme asked for, and for the story to have rendered. */
+   Measure before that lands and the page is still in the previous theme. So:
+   wait for the theme asked for, and for the story to have rendered. The
+   stories themselves run under Vitest; this is for the specs that open the
+   shell around them. */
 
 import type { Page } from '@playwright/test';
 
@@ -38,14 +40,6 @@ export async function resizeTo(page: Page, width: number, height = 900): Promise
   await page.evaluate(
     () => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))),
   );
-  await settleElements(page);
-}
-
-export async function setStoryTheme(page: Page, theme: Theme): Promise<void> {
-  await page.evaluate((want) => {
-    document.documentElement.dataset['theme'] = want;
-  }, theme);
-  await page.waitForFunction((want) => document.documentElement.dataset['theme'] === want, theme);
   await settleElements(page);
 }
 
@@ -85,8 +79,7 @@ export async function gotoStory(page: Page, id: string, theme?: Theme): Promise<
   });
 }
 
-/* Wait until no axe run is in flight. The addon's configuration stops the
-   automatic run, but the guard stays. Axe is a single global with one run at
+/* Wait until no axe run is in flight. Axe is a single global with one run at
    a time. A second caller gets "Axe is already running" rather than a place
    in a queue — a failure that only appears under parallelism. */
 export async function axeIdle(page: Page): Promise<void> {

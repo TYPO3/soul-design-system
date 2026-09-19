@@ -3,7 +3,7 @@
 #   make                # this list
 #   make storybook      # the documentation surface
 #   make verify         # the gate
-#   make test           # the Playwright suite
+#   make test           # the suite
 #
 # The host needs Docker and Make. Nothing else — no Node version to match,
 # no `npm ci`, no `playwright install`. That is the reason this is a Makefile
@@ -68,8 +68,8 @@ help:
 	@echo '  make verify          the gate: headers, classes, refs, fit, cards, types'
 	@echo '                       one check while working: make verify ARGS=classes'
 	@echo '                       the names: make verify ARGS=--help'
-	@echo '  make test            the Playwright suite'
-	@echo '                       one spec: make test ARGS=tests/parity.spec.ts'
+	@echo '  make test            the suite: Vitest over the stories, Playwright against the servers'
+	@echo '                       one file: make test ARGS=tests/select.test.ts'
 	@echo '  make cards           regenerate the component cards from their stories'
 	@echo
 	@echo '  make guides          render the documentation fixture into .out/site/'
