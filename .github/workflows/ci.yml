@@ -42,9 +42,9 @@ jobs:
       github.event_name == 'push'
       || github.event.pull_request.head.repo.full_name != github.repository
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v4
 
       # The image is only the toolchain. Source arrives through Compose's /app
       # mount, so a normal commit changes no image layer. Buildx restores the
@@ -59,7 +59,7 @@ jobs:
       # `<project>-<service>`, and the compose file names the project. Miss it
       # and `up` finds no image and builds its own, uncached.
       - name: Load the toolchain image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: .infra/Dockerfile
@@ -92,7 +92,7 @@ jobs:
       # Only on failure, and only then worth the upload: traces and the
       # screenshots of what the browser actually had on screen.
       - if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: playwright-report
           path: |
@@ -105,7 +105,7 @@ jobs:
       # under the documentation. Only where that job runs, so a branch push
       # stores nothing. A day, because the deployment is minutes behind.
       - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: storybook
           path: .out/storybook/
@@ -149,7 +149,7 @@ jobs:
       # The whole history and every tag, which a release checkout otherwise has
       # none of: the notes below are the commits between this tag and the one
       # before it, and a shallow clone knows neither end of that range.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -157,7 +157,7 @@ jobs:
       # cache in a release build — npm's instruction, and a restored one is a
       # tree nobody checked. Node 24 carries an npm that can do OIDC at all;
       # anything older fails at the publish rather than quietly.
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'

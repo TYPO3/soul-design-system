@@ -58,7 +58,7 @@ jobs:
     steps:
       # The whole history and every tag: the mirror replays commits, and a
       # shallow checkout has none of them to replay.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -67,7 +67,7 @@ jobs:
       # and Node strips the types and runs it. A rebuild of the committed
       # drop-in against its source needs both — that is the gate's `dist`
       # check, over this same commit, before this job can start.
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '24'
 
