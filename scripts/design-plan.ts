@@ -131,6 +131,11 @@ const preflight = url
         action: 'list', why: 'a publish replaces only a path this session has seen',
         call: { action: 'list', scope: 'files', url },
       },
+      {
+        action: 'note', why: 'a read holds until the next save, and the page saves on its own when somebody opens it',
+        when: 'after `make design-sync`, right before step 1 — never before the build',
+        onRefusal: 'a refusal naming a newer version: read the record and the index again; unchanged, publish the same call again; changed, refresh the cache, `make design-index` again, then step 3; a second refusal on the same call: stop and say so',
+      },
     ]
   : [{
       action: 'create', why: 'no link — make a NEW design system from the type rather than reuse anything',

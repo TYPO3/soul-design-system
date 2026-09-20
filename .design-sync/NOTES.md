@@ -138,7 +138,15 @@ record before: the plan on disk knows nothing of it.
 
 **The Artifact tool refuses a publish into an artifact this session has not
 read, and a path it has not seen.** The preflight's read and listing are what
-make the later calls admissible.
+make the later calls admissible. They hold until the next save, and the page
+saves on its own when somebody opens it. So the preflight comes after `make
+design-sync`, right before the first publish, never before the build.
+
+**On a refusal that names a newer version, read the record and the index
+again and compare them with the cache.** Unchanged: publish the same call
+again. Changed: refresh the cache, run `make design-index` again, and go on
+from step 3. A second refusal on the same call is the moment to stop and
+say so: somebody else has the system open for edits.
 
 **Uploads go first, one call each.** `publish` with `asset: true` and the
 file's full path answers with `/_blob/<id>`. Append `{"path", "blob"}` to

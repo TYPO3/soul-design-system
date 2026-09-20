@@ -347,6 +347,11 @@ When it does not look right
    * - The tool refuses the publish
      - The session has not read the artifact, or a path it touches. Run the
        plan's preflight first, in the same session.
+   * - The tool refuses the publish and names a newer version
+     - A save landed after the preflight: the page saves on its own
+       when somebody opens it. Read the record and the index again. Unchanged,
+       publish the same call again; changed, refresh the cache and run
+       ``make design-index`` again first.
 
 What goes up
 ============
