@@ -21,6 +21,14 @@
 }
 
 @layer layout {
+  /* A place jumped to arrives a step below the top of the window, never on
+     its edge. One offset on the scroller for every target, where a
+     `scroll-margin` per target is a rule each new one has to hear. What
+     stands over the page sets its own instead: the bar, and the paper's head. */
+  html {
+    scroll-padding-top: var(--space-12);
+  }
+
   /* ------------------------------------------------------- containers -- */
 
   /* A gap and a margin are the same answer twice. So a container that pays the

@@ -45,6 +45,13 @@ The canvas and the frame
    The column the whole page is: full height, bar at the top, footer at the
    bottom, and the rest between them.
 
+**A place jumped to arrives a step below the top of the window**, never on
+its edge. The scroller keeps ``scroll-padding-top`` for every target, so no
+target carries a margin of its own. Where nothing stands over the page it is
+the section step, which is where a page's content starts. The bar and the
+paper's head each set the offset to their own height instead.
+``sds-nav-toc`` reads it for the line it marks against.
+
 .. confval:: .sds-skip
    :name: sds-skip
    :type: class

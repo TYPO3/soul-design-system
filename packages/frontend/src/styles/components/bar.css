@@ -87,8 +87,8 @@
   /* The bar rests over the top of the page, so anything jumped to arrives behind
      it. One offset on the scroller answers that for every target, where a
      `scroll-margin` per target is a rule each new one has to hear. Asked with
-     `:has()`: a page with no bar of ours keeps its own. The element counts
-     too, as it stands over the page a frame before it draws anything. */
+     `:has()`: a page with no bar of ours keeps the layout's step. The element
+     counts too, as it stands over the page a frame before it draws anything. */
   html:has(.sds-bar, sds-nav-main) {
     /* Declared here and not with the bar: what reads it is the page, which is
        the bar's ancestor, and a property only ever travels down. */

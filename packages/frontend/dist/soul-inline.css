@@ -121,6 +121,7 @@
   .sds-grid{margin-block:var(--space-components)}
 }
 @layer layout{
+  html{scroll-padding-top:var(--space-12)}
   :is(.sds-stack,.sds-sections,.sds-split,.sds-grid,.sds-row,.sds-actions)>*{margin-block:0}
   :is(h1,h2,h3,h4,h5,h6,.sds-h1,.sds-h2,.sds-h3,.sds-display)+:not(h1,h2,h3,h4,h5,h6,.sds-h1,.sds-h2,.sds-h3,.sds-display),:is(sds-eyebrow,.sds-eyebrow)+*{margin-block-start:0}
   .sds-shell{min-height:100vh;display:flex;flex-direction:column}
