@@ -1277,17 +1277,18 @@ test.describe('what the theme repaired', () => {
     const fold = page.locator('details.sds-accordion__item:has(> #who-opens)');
     const question = fold.locator('summary');
     /* An arrival is an arrival somewhere with a name. An answer whose question
-       is off the top of the screen has opened for somebody who cannot see
-       what it answers. */
+       is off the top of the screen, or behind the bar, has opened for somebody
+       who cannot see what it answers. The line is the scroller's offset. */
     const landed = () =>
       expect
         .poll(
           () =>
             question.evaluate((el) => {
               const box = el.getBoundingClientRect();
-              return box.top >= 0 && box.bottom <= window.innerHeight;
+              const line = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+              return box.top >= line - 1 && box.bottom <= window.innerHeight;
             }),
-          { message: 'the question is in the viewport' },
+          { message: 'the question stands at or under the line' },
         )
         .toBe(true);
 

@@ -694,7 +694,7 @@ An item with no literal in it is a name and nothing else:
 ``:multiple:`` empties that name, for a set whose answers a reader compares.
 An answer with a ``:name:`` has an address of its own. `This one
 <#who-opens>`__ opens on arrival, because the platform unfolds what a
-fragment points into.
+fragment points into, and the question stands at the line over it.
 
 .. accordion::
    :multiple:

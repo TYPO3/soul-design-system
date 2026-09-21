@@ -20,8 +20,9 @@ export declare class SdsAccordionItem extends SdsElement {
             reflect: boolean;
         };
         /** The address of this one answer. It lands on the answer and not on the
-            question. The platform opens a fold when a jump lands *inside* it, and
-            one the jump lands *at* stays shut. */
+            question. The platform opens a fold when a jump lands *inside* it. One
+            the jump lands *at* stays shut, and so does one it lands on the summary
+            of. The stylesheet keeps the question over the arrival. */
         anchor: {
             type: StringConstructor;
             reflect: boolean;

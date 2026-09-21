@@ -2220,7 +2220,7 @@
   .sds-accordion{margin-block:var(--space-components)}
 }
 @layer components{
-  .sds-accordion{--sds-accordion-pad-y: var(--space-4);--sds-accordion-gap: var(--space-3);--sds-accordion-foot: var(--space-5);--sds-accordion-border: var(--border-hairline);--sds-accordion-rule: var(--border-subtle);--sds-accordion-glyph: var(--control-icon-size);--sds-accordion-head-size: var(--block-title-size);--sds-accordion-head-weight: var(--weight-semibold);--sds-accordion-head-leading: var(--leading-heading);--sds-accordion-head-ink: var(--text-primary);--sds-accordion-head-ink-hover: var(--text-link);--sds-accordion-mark-ink: var(--text-muted);--sds-accordion-body-size: var(--block-body-size);--sds-accordion-body-leading: var(--leading-body);--sds-accordion-body-ink: var(--text-secondary);--sds-accordion-duration: var(--duration-base);--sds-accordion-ease: var(--ease-standard);--sds-accordion-duration-fast: var(--duration-fast);--sds-accordion-ease-out: var(--ease-out);display:flex;flex-direction:column;border-bottom:var(--sds-accordion-border) solid var(--sds-accordion-rule)}
+  .sds-accordion{--sds-accordion-pad-y: var(--space-4);--sds-accordion-gap: var(--space-3);--sds-accordion-foot: var(--space-5);--sds-accordion-border: var(--border-hairline);--sds-accordion-rule: var(--border-subtle);--sds-accordion-glyph: var(--control-icon-size);--sds-accordion-head-size: var(--block-title-size);--sds-accordion-head-weight: var(--weight-semibold);--sds-accordion-head-leading: var(--leading-heading);--sds-accordion-head-ink: var(--text-primary);--sds-accordion-head-height: calc( var(--sds-accordion-pad-y) * 2 + var(--sds-accordion-head-size) * var(--sds-accordion-head-leading) );--sds-accordion-head-ink-hover: var(--text-link);--sds-accordion-mark-ink: var(--text-muted);--sds-accordion-body-size: var(--block-body-size);--sds-accordion-body-leading: var(--leading-body);--sds-accordion-body-ink: var(--text-secondary);--sds-accordion-duration: var(--duration-base);--sds-accordion-ease: var(--ease-standard);--sds-accordion-duration-fast: var(--duration-fast);--sds-accordion-ease-out: var(--ease-out);display:flex;flex-direction:column;border-bottom:var(--sds-accordion-border) solid var(--sds-accordion-rule)}
   .sds-accordion__item{
     border-top:var(--sds-accordion-border) solid var(--sds-accordion-rule);
     &::details-content{display:grid;grid-template-rows:0fr;overflow:clip;overflow-clip-margin:5px;opacity:0;transition:grid-template-rows var(--sds-accordion-duration) var(--sds-accordion-ease),opacity var(--sds-accordion-duration-fast) var(--sds-accordion-ease-out),content-visibility var(--sds-accordion-duration) allow-discrete}
@@ -2249,6 +2249,7 @@
     min-height:0;
     min-width:0;
     padding:0 0 0 calc(var(--sds-accordion-glyph) + var(--sds-accordion-gap));
+    scroll-margin-top:var(--sds-accordion-head-height);
     font-size:var(--sds-accordion-body-size);
     line-height:var(--sds-accordion-body-leading);
     color:var(--sds-accordion-body-ink);

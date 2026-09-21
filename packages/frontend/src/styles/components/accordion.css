@@ -39,6 +39,13 @@
     --sds-accordion-head-weight: var(--weight-semibold);
     --sds-accordion-head-leading: var(--leading-heading);
     --sds-accordion-head-ink: var(--text-primary);
+    /* One line of question, with its padding: what stands over an answer. */
+    --sds-accordion-head-height: calc(
+      var(--sds-accordion-pad-y) *
+      2 +
+      var(--sds-accordion-head-size) *
+      var(--sds-accordion-head-leading)
+    );
     --sds-accordion-head-ink-hover: var(--text-link);
     --sds-accordion-mark-ink: var(--text-muted);
     --sds-accordion-body-size: var(--block-body-size);
@@ -139,6 +146,11 @@
     min-height: 0;
     min-width: 0;
     padding: 0 0 0 calc(var(--sds-accordion-glyph) + var(--sds-accordion-gap));
+    /* The address is on the answer, as only a fragment that points into a
+       fold opens it. A jump to it still lands on the question. The head's
+       height stands over the target, so the row a reader pressed for is at
+       the line and not behind the bar. */
+    scroll-margin-top: var(--sds-accordion-head-height);
     font-size: var(--sds-accordion-body-size);
     line-height: var(--sds-accordion-body-leading);
     color: var(--sds-accordion-body-ink);

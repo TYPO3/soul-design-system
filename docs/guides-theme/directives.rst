@@ -1063,7 +1063,9 @@ One question, and the blocks folded behind it.
    The address of this one answer, for a page that links to it. It stands
    on the answer, not on the question. The platform opens a fold whose
    content a fragment points into. One a fragment points at stays shut,
-   which is why a link that has to show the answer aims inside it.
+   which is why a link that has to show the answer aims inside it. The
+   reader still arrives at the question. The answer keeps the head's height
+   as scroll margin, so the row stands at the line and not behind the bar.
 
 .. confval:: class
    :name: accordion-item-class

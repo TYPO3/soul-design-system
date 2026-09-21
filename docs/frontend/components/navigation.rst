@@ -619,8 +619,13 @@ that.
 
    On ``sds-accordion-item``. The address of this one answer. It lands on
    the **answer**, not on the question. A fragment that points *into* a
-   ``<details>`` unfolds it, and one that points *at* the element leaves it
-   shut. So no rule forces the fold, and nothing watches the hash.
+   ``<details>`` unfolds it. One that points *at* the element leaves it
+   shut, and so does one that points at the summary. So no rule forces the
+   fold, and nothing watches the hash.
+
+   The reader still arrives at the question. The answer keeps the head's
+   height as ``scroll-margin-top``, so the row they pressed for stands at
+   the line, not behind the bar.
 
 .. note::
 
