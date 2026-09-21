@@ -171,3 +171,30 @@ test('the caption stands under the last row, or above the head when asked', asyn
   expect(above.caption.bottom).toBeLessThanOrEqual(above.head.top);
   expect(above.caption.height, 'and the caption keeps its size').toBe(below.caption.height);
 });
+
+/* The box a wide table scrolls in scrolls sideways and never down. `auto` on
+   one axis makes the other `auto` too. At a browser zoom the rows round to a
+   pixel more than the box. That pixel is a bar down the whole table with
+   nothing to scroll to. Zoom is the browser's and no test can turn it, so
+   the test holds the declaration and forces the pixel by hand. */
+test('the scroll box of a wide table draws no bar down its side', async () => {
+  const table = document.createElement('sds-table') as HTMLElement & { columns: unknown; rows: unknown };
+  table.id = 'wide';
+  table.setAttribute('scrollable', '');
+  table.setAttribute('caption', 'Wider than its column.');
+  table.setAttribute('width', '3000px');
+  table.columns = Array.from({ length: 12 }, (_, i) => ({ head: `Column ${i + 1}` }));
+  table.rows = [{ cells: Array.from({ length: 12 }, (_, i) => `a value in column ${i + 1}`) }];
+  document.body.append(table);
+  await settle();
+
+  const scroller = q('#wide .sds-table-scroll');
+  expect(scroller.scrollWidth - scroller.clientWidth, 'the fixture must be wider than the column').toBeGreaterThan(0);
+  expect(getComputedStyle(scroller).overflowY).toBe('hidden');
+
+  /* The rounding, made by hand: a fraction of a pixel under the rows. */
+  q('#wide table').style.marginBottom = '0.6px';
+  await settle();
+  expect(scroller.scrollHeight - scroller.clientHeight, 'nothing to scroll to down the side').toBeLessThanOrEqual(1);
+  expect(scroller.clientWidth, 'no bar takes width off the box').toBe(scroller.offsetWidth);
+});

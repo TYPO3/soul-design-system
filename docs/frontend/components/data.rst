@@ -42,6 +42,11 @@ sds-table
    layout with it. A property, not a wrapper the caller has to remember. A
    class the element cannot emit invites hand-written markup.
 
+   The box scrolls sideways and never down. ``auto`` on one axis makes the
+   other ``auto`` too. At a browser zoom the rows round to a pixel more than
+   the box. That pixel is a bar down the whole table with nothing to scroll
+   to. So the box clips that axis. Code blocks scroll by the same rule.
+
 .. confval:: width
    :name: sds-table-width
    :type: string

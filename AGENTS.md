@@ -294,7 +294,7 @@ Each file guards what the others cannot see:
 | `run` | work in progress: which rows are a control, the name of every state, and a fold that survives |
 | `tree` | a directory: a level is how deep it stands open, and the fold works with no script |
 | `copy` | a value carried off: what reaches the clipboard, the button names, and a press that says so in words |
-| `table` | the way into a row: an anchor at its end, one keyboard stop per row, a column at its edge |
+| `table` | the way into a row: an anchor at its end, one stop per row, a column at its edge. No bar down the side |
 | `toc` | the contents list: which section it marks, the mark in a box too short for it, the wheel it keeps |
 | `outline` | the outline of a long document: the numbers, the mark in a scrolling panel, the wheel it keeps, the fold |
 | `dropdown` | the popover: not clipped, under its button by either route, and closed the way the platform closes one |

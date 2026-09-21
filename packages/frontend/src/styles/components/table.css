@@ -306,7 +306,10 @@
      a wrapper nothing changes, and the table overflows only where it must. */
   .sds-table-scroll {
     max-width: 100%;
-    overflow-x: auto;
+    /* Sideways only. `auto` on one axis makes the other `auto` too, and at a
+       browser zoom the rows round to a pixel more than the box. That pixel is
+       a bar down the whole table with nothing to scroll to. */
+    overflow: auto hidden;
 
     /* The wrapper carries the step for both of them. Left here it is dead air
        inside the scroller and nothing below it. */

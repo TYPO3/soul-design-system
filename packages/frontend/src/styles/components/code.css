@@ -36,7 +36,8 @@
   pre:not(.sds-code__body, .sds-diff),
   sds-code:not(:defined) > code {
     padding: var(--space-3) var(--space-4);
-    overflow-x: auto;
+    /* Sideways only, for the reason the table's scroller is. */
+    overflow: auto hidden;
     border: var(--border-hairline) solid var(--border-subtle);
     border-radius: var(--radius-control);
     background: var(--surface-sunken);
@@ -196,7 +197,8 @@
     font-size: var(--sds-code-body-size);
     line-height: var(--sds-code-body-leading);
     color: var(--sds-code-body-ink);
-    overflow-x: auto;
+    /* Sideways only, for the reason the table's scroller is. */
+    overflow: auto hidden;
 
     &:focus-visible {
       outline-offset: calc(-1 * (var(--border-emphasis) + var(--focus-offset)));
@@ -352,7 +354,8 @@
     font-family: var(--sds-diff-font);
     font-size: var(--sds-diff-font-size);
     line-height: var(--sds-diff-leading);
-    overflow-x: auto;
+    /* Sideways only, for the reason the table's scroller is. */
+    overflow: auto hidden;
   }
   .sds-diff__line {
     display: block;
