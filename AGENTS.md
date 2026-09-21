@@ -286,7 +286,7 @@ Each file guards what the others cannot see:
 | `forms` | a form submits what it shows, and a reset puts back what the markup said |
 | `tabs` | a real tablist: the arrows and the ends, the focus that follows, and the sets that agree on a word |
 | `theme` | the mode switch: three states round, what it writes, and what it says out loud |
-| `rail` | a rail row with nowhere to go is a choice, and a press says which |
+| `rail` | a rail row with nowhere to go is a choice, a press says which, and the box keeps the wheel |
 | `search` | the search field: the index fetched once, the hits, the way into the drop and out |
 | `states` | what the pointer changes on a control: no box moves, and every state colour resolves |
 | `select` | the drawn list: the keys, what it says about itself, and the real `select` underneath |

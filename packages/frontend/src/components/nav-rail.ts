@@ -38,10 +38,41 @@ export class SdsNavRail extends SdsElement {
       its own tree writes the classes below, so the two shapes are one shape. */
   private taken: Element[] = [];
 
+  private watch?: ResizeObserver;
+
   constructor() {
     super();
     this.entry = { label: '' };
     this.picked = -1;
+  }
+
+  /** The box the rail scrolls in: the nearest ancestor that scrolls, which
+      the page writes and the rail stands in. None on a page that has none. */
+  private box(): HTMLElement | null {
+    for (let up = this.parentElement; up && up !== document.body; up = up.parentElement) {
+      if (/auto|scroll/.test(getComputedStyle(up).overflowY)) return up;
+    }
+    return null;
+  }
+
+  /** The box keeps the wheel while it has rows to scroll to, for the reason
+      the outline does, and by the same measure. The rail measures because
+      the box is the page's and a fold that opens is the rail's own height. */
+  private keep(): void {
+    const box = this.box();
+    box?.classList.toggle('is-scrollable', box.scrollHeight - box.clientHeight > 1);
+  }
+
+  protected override firstUpdated(): void {
+    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.keep()));
+    this.watch.observe(this);
+    const box = this.box();
+    if (box) this.watch.observe(box);
+  }
+
+  override disconnectedCallback(): void {
+    this.watch?.disconnect();
+    super.disconnectedCallback();
   }
 
   override connectedCallback(): void {

@@ -146,6 +146,11 @@ third, below: a panel beside it.
    pages is the frame, not the text. It comes to rest where it started, not
    against the bar, so nothing jumps as it catches.
 
+   It keeps the wheel while it has rows to scroll to, as the outline and the
+   contents list do. ``sds-nav-rail`` measures the box it stands in and
+   writes ``is-scrollable`` on it; :doc:`components/navigation` has the
+   reason.
+
    Below the width where a column beside the text fits, it does not draw at
    all. The bar holds the whole site on every page, and its drawer holds
    these pages among the rest.

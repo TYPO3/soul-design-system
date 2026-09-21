@@ -24,7 +24,17 @@ export declare class SdsNavRail extends SdsElement {
     /** The rows a server wrote between the tags. A renderer that has resolved
         its own tree writes the classes below, so the two shapes are one shape. */
     private taken;
+    private watch?;
     constructor();
+    /** The box the rail scrolls in: the nearest ancestor that scrolls, which
+        the page writes and the rail stands in. None on a page that has none. */
+    private box;
+    /** The box keeps the wheel while it has rows to scroll to, for the reason
+        the outline does, and by the same measure. The rail measures because
+        the box is the page's and a fold that opens is the rail's own height. */
+    private keep;
+    protected firstUpdated(): void;
+    disconnectedCallback(): void;
     connectedCallback(): void;
     /** Every page in the rail, folds flattened. A rail has one current page
         wherever it sits, and a caller who thinks in "third item of the second

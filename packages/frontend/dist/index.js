@@ -5670,6 +5670,31 @@ var SdsNavRail = class extends SdsElement {
       picked: { type: Number, state: true }
     };
   }
+  /** The box the rail scrolls in: the nearest ancestor that scrolls, which
+      the page writes and the rail stands in. None on a page that has none. */
+  box() {
+    for (let up = this.parentElement; up && up !== document.body; up = up.parentElement) {
+      if (/auto|scroll/.test(getComputedStyle(up).overflowY)) return up;
+    }
+    return null;
+  }
+  /** The box keeps the wheel while it has rows to scroll to, for the reason
+      the outline does, and by the same measure. The rail measures because
+      the box is the page's and a fold that opens is the rail's own height. */
+  keep() {
+    const box = this.box();
+    box?.classList.toggle("is-scrollable", box.scrollHeight - box.clientHeight > 1);
+  }
+  firstUpdated() {
+    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.keep()));
+    this.watch.observe(this);
+    const box = this.box();
+    if (box) this.watch.observe(box);
+  }
+  disconnectedCallback() {
+    this.watch?.disconnect();
+    super.disconnectedCallback();
+  }
   connectedCallback() {
     const written = this.lifted().filter((node) => node.nodeType === 1);
     if (written.length) this.taken = written;

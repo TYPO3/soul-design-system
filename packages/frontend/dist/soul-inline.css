@@ -131,6 +131,7 @@
   .sds-body,.sds-page,.sds-band{--page-gutter: var(--gutter-page);--page-inset: max(var(--page-gutter), (100% - var(--width-page)) / 2);padding-inline:var(--page-inset);transition:--page-gutter var(--duration-fast) var(--ease-out),column-gap var(--duration-fast) var(--ease-out)}
   .sds-body{flex:1;display:flex;gap:var(--space-12);padding-block:var(--space-8)}
   .sds-body__rail{width:calc(var(--width-sidebar) + var(--space-2) * 2);margin-inline:calc(-1 * var(--space-2));margin-block-start:calc(-1 * var(--space-1-5));padding:var(--space-1-5) var(--space-2);flex:none;position:sticky;top:calc(var(--height-header) + var(--space-8) - var(--space-1-5));align-self:flex-start;max-height:calc(100vh - var(--height-header) - var(--space-8) * 2);overflow-y:auto}
+  .sds-body__rail.is-scrollable{overscroll-behavior:contain}
   .sds-body__main{flex:1;min-width:0}
   :where(.sds-band,.sds-body__main,.sds-column,.sds-page)>:first-child{margin-block-start:0}
   :where(.sds-band,.sds-body__main,.sds-column,.sds-page)>:last-child{margin-block-end:0}
