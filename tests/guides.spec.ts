@@ -15,7 +15,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 import { ACCEPTANCE_DIR, ACCEPTANCE_URL, SITE_DIR, SITE_URL } from '../playwright.config.ts';
 import { clippedOf, overflowOf, overlapsOf } from './lib/layout.ts';
-import { axeIdle, resizeTo } from './lib/story.ts';
+import { axeIdle, resizeTo, settled } from './lib/story.ts';
 
 const FIXTURE = `${ACCEPTANCE_URL}/index.html`;
 const REFERENCE = `${ACCEPTANCE_URL}/nodes.html`;
@@ -1569,6 +1569,10 @@ test.describe('what nobody thought to assert', () => {
       const found: string[] = [];
       for (const path of rendered) {
         await page.goto(`${ACCEPTANCE_URL}/${path}`, { waitUntil: 'load' });
+        /* Settled before the switch, so no transition runs on it. Under a
+           parallel run axe read a pill mid-transition and reported a contrast
+           that belonged to neither theme. */
+        await settled(page);
         await page.evaluate((mode) => document.documentElement.setAttribute('data-theme', mode), theme);
         await axeIdle(page);
 

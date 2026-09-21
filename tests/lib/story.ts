@@ -58,7 +58,13 @@ export async function gotoStory(page: Page, id: string, theme?: Theme): Promise<
       { timeout: 15_000 },
     );
   }
+  await settled(page);
+}
 
+/** A page settled before anything measures. The same three steps for a story
+    and for a rendered page. A measurement taken before any of them reads a
+    page that is not there yet. */
+export async function settled(page: Page): Promise<void> {
   /* Wait for every element to upgrade before anything measures. A custom
      element upgrades asynchronously, so a colour read too early comes off
      markup that does not exist yet. Twice, because a nested element only exists
