@@ -47,8 +47,14 @@
     font-family: var(--sds-mono-font);
     font-size: var(--sds-mono-font-size);
     font-weight: var(--sds-mono-weight);
-    color: var(--sds-mono-ink);
     overflow-wrap: anywhere;
+  }
+  /* The ink, unless the word is a link or stands in one. Colour is what says
+     a word is a link, at rest, under the pointer and on a tinted plane, and
+     the link's rules say it. A name in the primary ink on a link was a link
+     nobody saw. */
+  :is(.sds-mono, code, kbd, samp):not(a, a *) {
+    color: var(--sds-mono-ink);
   }
   /* Inside a block the machine wrote, the block has already decided the size,
      the weight and the colour. `<code>` there is the element `<pre>` must

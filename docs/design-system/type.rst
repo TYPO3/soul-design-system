@@ -212,6 +212,10 @@ cost of no box and no hue. A block the machine wrote takes the step off
 again. The block decides size, weight and colour, and a whole block in medium
 reads as emphasis.
 
+A name that is a link, or stands in one, keeps the link's ink. The face is
+the machine's. The colour is what says the word is a link. The link's
+rules say it at rest, under the pointer and on a tinted plane.
+
 .. specimen:: guidelines/type-mono.card.html
    :viewport: 700x230
    :title: Mono & labels

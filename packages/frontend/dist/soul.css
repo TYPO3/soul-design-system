@@ -230,7 +230,8 @@
   .sds-ok{color:var(--status-ok)}
   .sds-warn{color:var(--status-warn)}
   .sds-error{color:var(--status-error)}
-  .sds-mono,code,kbd,samp{--sds-mono-font: var(--font-mono);--sds-mono-font-size: calc(1em * var(--font-modifier-mono));--sds-mono-weight: var(--weight-medium);--sds-mono-ink: var(--text-primary);font-family:var(--sds-mono-font);font-size:var(--sds-mono-font-size);font-weight:var(--sds-mono-weight);color:var(--sds-mono-ink);overflow-wrap:anywhere}
+  .sds-mono,code,kbd,samp{--sds-mono-font: var(--font-mono);--sds-mono-font-size: calc(1em * var(--font-modifier-mono));--sds-mono-weight: var(--weight-medium);--sds-mono-ink: var(--text-primary);font-family:var(--sds-mono-font);font-size:var(--sds-mono-font-size);font-weight:var(--sds-mono-weight);overflow-wrap:anywhere}
+  :is(.sds-mono,code,kbd,samp):not(a,a *){color:var(--sds-mono-ink)}
   .sds-code__body code,.sds-diff code{--sds-mono-font-size: inherit;--sds-mono-weight: inherit;--sds-mono-ink: inherit}
   .sds-said-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;white-space:nowrap;clip-path:inset(50%)}
 }

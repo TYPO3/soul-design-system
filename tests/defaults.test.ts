@@ -180,6 +180,7 @@ const CONTENT = `
   </div>
   <p>A sentence naming <code id="inline-code">typo3_icon_lookup</code>, which is a thing the machine named.</p>
   <p><a id="bare-a" href="#somewhere">a link nobody classed</a></p>
+  <p><a id="mono-a" class="sds-mono" href="#somewhere">WP1</a> and <a id="code-a" href="#somewhere"><code>F6.2</code></a></p>
   <div><a id="standalone-a" href="#somewhere">a link that is a block of its own</a></div>
   <hr id="rule" />
 
@@ -211,6 +212,13 @@ test('content that arrives without a class is still the system', async () => {
   expect(inSentence.color).not.toBe('rgb(0, 0, 238)');
   expect(inSentence.decoration, 'a link inside a sentence carries an underline at rest').toBe('underline');
   expect(link('standalone-a').decoration, 'a link that is a block of its own is not').toBe('none');
+
+  /* A name that is a link keeps the link's ink. The mono class and the code
+     element carry an ink of their own. On a link it took the one colour that
+     says the word is a link. */
+  expect(getComputedStyle(q('#mono-a')).fontFamily).toContain('Source Code Pro');
+  expect(link('mono-a').color, 'a link in mono is the link ink').toBe(inSentence.color);
+  expect(getComputedStyle(q('#code-a code')).color, 'code inside a link is the link ink').toBe(inSentence.color);
 
   /* And where the container states the step itself, the element gives its own
      up. A gap and a margin stacked are neither of the two values. */
