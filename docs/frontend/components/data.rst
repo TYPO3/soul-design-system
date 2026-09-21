@@ -88,8 +88,10 @@ sds-table
    :type: "{ head, cls? }[]"
 
    ``cls`` is the cell class for the whole column. ``sds-td-name`` for the
-   identifier the machine owns, ``sds-td-meta`` for anything secondary,
-   ``sds-td-into`` for the column at the end with the way into the row.
+   identifier the machine owns, in the mono face and the primary ink.
+   ``sds-td-meta`` for anything secondary, ``sds-td-into`` for the column at
+   the end with the way into the row. A link in a cell keeps the link ink,
+   and nothing else in the row wears it.
 
    ``align`` is the edge a reader reads the column down. ``end`` for a
    count, a date or a duration. It stands at the right edge in tabular

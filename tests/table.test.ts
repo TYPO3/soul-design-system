@@ -142,6 +142,23 @@ test('the row still lights up under the pointer, and a selected row still fills'
   expect(getComputedStyle(row).backgroundColor, 'selection is still the one fill a row gets').not.toBe(rest);
 });
 
+/* The name is what a reader scans the column for, and it is not a link. In
+   the link ink it read as one, on a page where the cell beside it held a real
+   link in the same colour. The primary ink is the step up a name gets, and the
+   link in the row keeps the one colour that says link. */
+test('a name cell is in the primary ink, and only a link in the row is in the link ink', () => {
+  const ink = (el: Element) => getComputedStyle(el).color;
+  const canvas = q('.sds-app') ?? document.body;
+  const primary = getComputedStyle(canvas).getPropertyValue('--text-primary').trim();
+  const probe = document.createElement('span');
+  probe.style.color = primary;
+  document.body.append(probe);
+  const resolved = getComputedStyle(probe).color;
+  probe.remove();
+  expect(ink(q('#checkouts td.sds-td-name'))).toBe(resolved);
+  expect(ink(q('#site-0')), 'the link in the row is not the name ink').not.toBe(resolved);
+});
+
 test('the caption stands under the last row, or above the head when asked', async () => {
   const table = document.createElement('sds-table') as HTMLElement & { columns: unknown; rows: unknown };
   table.id = 'captioned';

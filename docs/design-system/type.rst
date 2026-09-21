@@ -214,7 +214,9 @@ reads as emphasis.
 
 A name that is a link, or stands in one, keeps the link's ink. The face is
 the machine's. The colour is what says the word is a link. The link's
-rules say it at rest, under the pointer and on a tinted plane.
+rules say it at rest, under the pointer and on a tinted plane. The same
+holds for a name cell in a table: the primary ink, never the link ink,
+because ``--text-link`` says link and nothing else.
 
 .. specimen:: guidelines/type-mono.card.html
    :viewport: 700x230

@@ -45,7 +45,10 @@
     --sds-table-head-tracking: var(--table-head-tracking);
     --sds-table-head-ink: var(--text-muted);
     --sds-table-ink: var(--text-secondary);
-    --sds-table-name-ink: var(--text-link);
+    /* The primary ink: the name is what a reader scans the column for. The
+       link ink stood here once, and a page of real links read every name as
+       one more of them. `--text-link` says link and nothing else. */
+    --sds-table-name-ink: var(--text-primary);
     --sds-table-meta-ink: var(--text-muted);
     --sds-table-note-gap: var(--space-0-5);
     /* The caption stands under the last row, where a figure's stands, and
@@ -229,13 +232,12 @@
       text-align: end;
     }
 
-    /* The selected row leaves the scan registers. `--text-muted` and
-       `--text-link` sit against the canvas, and the accent fill moves the
-       ground under them: each lands a hair under 4.5:1 on it. Nothing is wrong
-       with either token or with the fill. The pair only meets on this row,
-       which is also the one row with no reason to set for a scan. */
+    /* The selected row leaves the scan register. `--text-muted` sits against
+       the canvas, and the accent fill moves the ground under it: it lands a
+       hair under 4.5:1 on it. Nothing is wrong with the token or with the
+       fill. The pair only meets on this row, which is also the one row with
+       no reason to set for a scan. */
     tbody tr.is-selected {
-      --sds-table-name-ink: var(--text-primary);
       --sds-table-meta-ink: var(--text-primary);
 
       background: var(--sds-table-fill-selected);

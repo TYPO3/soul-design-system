@@ -865,7 +865,7 @@
     --sds-table-head-tracking: var(--table-head-tracking);
     --sds-table-head-ink: var(--text-muted);
     --sds-table-ink: var(--text-secondary);
-    --sds-table-name-ink: var(--text-link);
+    --sds-table-name-ink: var(--text-primary);
     --sds-table-meta-ink: var(--text-muted);
     --sds-table-note-gap: var(--space-0-5);
     --sds-table-caption-side: bottom;
@@ -912,7 +912,6 @@
     .sds-graph--current{background:var(--sds-table-fill-hover);box-shadow:inset 0 0 0 var(--sds-table-graph-ring) var(--sds-table-graph-here)}
     td.sds-td-into{text-align:end}
     tbody tr.is-selected{
-      --sds-table-name-ink: var(--text-primary);
       --sds-table-meta-ink: var(--text-primary);
       background:var(--sds-table-fill-selected);
       a{color:var(--sds-table-link-ink-selected)}
