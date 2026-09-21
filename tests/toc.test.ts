@@ -11,7 +11,8 @@
    enough to scroll and a box too short to hold the list. */
 
 import { beforeEach, expect, test } from 'vitest';
-import { page } from 'vitest/browser';
+import { commands, page } from 'vitest/browser';
+import './lib/commands.d.ts';
 import { frames, q, qa, shown, sleep, write } from './lib/frame.ts';
 
 /** Sections enough to outrun the list's own box, each tall enough to scroll
@@ -116,6 +117,32 @@ test('a heading the list does not draw leaves the section it is in marked', asyn
   expect(at, 'no mark while the reader stood at a hidden heading').not.toBeNull();
   expect(at?.href).toBe('#part-4-a');
   expect(at?.inView).toBe(true);
+});
+
+/* The reader at the foot, the last section marked and the list scrolled to
+   it, turns the wheel over the list to find the first. At the list's top the
+   scroll used to run on into the page, the mark moved up, and the list jumped
+   after it. A list with more rows than it shows keeps the wheel; one the box
+   holds whole hands it on, as any block does. */
+test('the wheel over the list scrolls the list, and nothing else', async () => {
+  const list = q('.sds-prose .sds-aside .sds-toc');
+  window.scrollTo(0, document.documentElement.scrollHeight);
+  await sleep(120);
+  expect(marked()?.href).toBe('#part-11-a');
+  expect(list.scrollTop, 'the fixture must put the mark below the box').toBeGreaterThan(0);
+  expect(getComputedStyle(list).overscrollBehaviorY).toBe('contain');
+
+  const pageY = window.scrollY;
+  for (let i = 0; i < 12; i++) await commands.wheel('.sds-prose .sds-aside .sds-toc', -200);
+  await sleep(200);
+  expect(list.scrollTop, 'the list reached its top').toBe(0);
+  expect(window.scrollY, 'the page stood still under the list').toBe(pageY);
+  expect(marked()?.href, 'the mark stayed where the reader is').toBe('#part-11-a');
+
+  (q('#toc') as HTMLElement & { entries: unknown }).entries = entries.slice(0, 2);
+  await frames();
+  expect(list.scrollHeight - list.clientHeight, 'the fixture must fit the box').toBeLessThan(2);
+  expect(getComputedStyle(list).overscrollBehaviorY).toBe('auto');
 });
 
 test('a list already showing its mark stands still', async () => {

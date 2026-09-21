@@ -95,6 +95,12 @@ export declare class SdsNavOutline extends SdsElement {
         not fight a reader who scrolled it. Its own `scrollTop`, never
         `scrollIntoView`: that walks up every scroller and takes the page along. */
     private follow;
+    /** A box with more rows than it shows keeps the wheel, by a class the
+        sheet reads. Let through, the scroll runs on into the page at the edge,
+        the mark moves, and the list jumps back under the reader's pointer.
+        Only while it overflows: on a box with nothing to scroll, containment
+        swallows the wheel and the page stops. So the element measures it. */
+    private keep;
     protected updated(changed: PropertyValues): void;
     protected render(): TemplateResult;
 }

@@ -172,6 +172,11 @@
     color: var(--sds-toc-ink-active);
     text-decoration: none;
   }
+  /* The box keeps the wheel while it has rows to scroll to, for the reason
+     the outline does. The element measures and writes the class. */
+  .sds-toc.is-scrollable {
+    overscroll-behavior: contain;
+  }
 
   /* At full measure the list rests in the aside's reserve, at the rail's line
      and with the rail's bounds. The frame goes: its rules set a

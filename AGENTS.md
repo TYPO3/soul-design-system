@@ -295,8 +295,8 @@ Each file guards what the others cannot see:
 | `tree` | a directory: a level is how deep it stands open, and the fold works with no script |
 | `copy` | a value carried off: what reaches the clipboard, the button names, and a press that says so in words |
 | `table` | the way into a row: an anchor at its end, one keyboard stop per row, a column at its edge |
-| `toc` | the contents list: which section it marks, and the mark inside a box too short for the list |
-| `outline` | the outline of a long document: the numbers, the mark in a scrolling panel, and the fold |
+| `toc` | the contents list: which section it marks, the mark in a box too short for it, the wheel it keeps |
+| `outline` | the outline of a long document: the numbers, the mark in a scrolling panel, the wheel it keeps, the fold |
 | `dropdown` | the popover: not clipped, under its button by either route, and closed the way the platform closes one |
 | `highlight` | every language `CodeLang` promises has a grammar |
 | `parity` | the element rendered by Lit and by `@lit-labs/ssr` is the same markup |

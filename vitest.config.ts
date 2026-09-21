@@ -22,6 +22,12 @@ const hold = defineBrowserCommand(async ({ frame, page }, selector: string) => {
 const release = defineBrowserCommand(async ({ page }) => {
   await page.mouse.up();
 });
+/* And the wheel, which no event a test makes will scroll anything with. Over
+   the element, by the same route as the press. */
+const wheel = defineBrowserCommand(async ({ frame, page }, selector: string, deltaY: number) => {
+  await (await frame()).locator(selector).hover();
+  await page.mouse.wheel(0, deltaY);
+});
 
 /* The clipboard is one for the whole browser, and every file runs in a
    context of its own. Here is the one place they all share, so a test
@@ -54,7 +60,7 @@ const browser = () => ({
      test that asks about another width sets it. */
   viewport: { width: 1280, height: 900 },
   instances: [{ browser: 'chromium' as const }],
-  commands: { hold, release, takeClipboard, giveClipboard },
+  commands: { hold, release, wheel, takeClipboard, giveClipboard },
   screenshotFailures: false,
 });
 

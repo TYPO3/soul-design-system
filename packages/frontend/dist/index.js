@@ -5855,6 +5855,7 @@ var SdsNavToc = class extends SdsElement {
       line, and none while none has. A page opens above its first heading, and
       a mark there answers a question nobody asked. */
   read() {
+    this.keep();
     const marks = this.marks();
     const first = marks[0];
     if (!first) return;
@@ -5910,8 +5911,18 @@ var SdsNavToc = class extends SdsElement {
     if (above < 0) box.scrollTop += above;
     else if (below > 0) box.scrollTop += below;
   }
+  /** A box with more rows than it shows keeps the wheel, by a class the
+      sheet reads. Let through, the scroll runs on into the page at the edge,
+      the mark moves, and the list jumps back under the reader's pointer.
+      Only while it overflows: on a box with nothing to scroll, containment
+      swallows the wheel and the page stops. So the element measures it. */
+  keep() {
+    const box = this.querySelector(".sds-toc");
+    box?.classList.toggle("is-scrollable", box.scrollHeight - box.clientHeight > 1);
+  }
   updated(changed) {
     if (changed.has("at") || changed.has("entries")) this.follow();
+    this.keep();
   }
   render() {
     const label = this.label || HEADING;
@@ -6054,6 +6065,7 @@ var SdsNavOutline = class extends SdsElement {
   /** Which part the reader is in: the last heading that has passed the line,
       and none while none has. A document opens above its first heading. */
   read() {
+    this.keep();
     const marks = this.marks();
     const first = marks[0];
     if (!first) return;
@@ -6115,8 +6127,18 @@ var SdsNavOutline = class extends SdsElement {
     if (above < 0) box.scrollTop += above;
     else if (below > 0) box.scrollTop += below;
   }
+  /** A box with more rows than it shows keeps the wheel, by a class the
+      sheet reads. Let through, the scroll runs on into the page at the edge,
+      the mark moves, and the list jumps back under the reader's pointer.
+      Only while it overflows: on a box with nothing to scroll, containment
+      swallows the wheel and the page stops. So the element measures it. */
+  keep() {
+    const box = this.querySelector(".sds-outline");
+    box?.classList.toggle("is-scrollable", box.scrollHeight - box.clientHeight > 1);
+  }
   updated(changed) {
     if (changed.has("at") || changed.has("entries")) this.follow();
+    this.keep();
   }
   render() {
     const label = this.label || HEADING2;

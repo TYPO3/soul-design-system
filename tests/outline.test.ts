@@ -10,7 +10,8 @@
    again. */
 
 import { beforeEach, describe, expect, test } from 'vitest';
-import { page, userEvent } from 'vitest/browser';
+import { commands, page, userEvent } from 'vitest/browser';
+import './lib/commands.d.ts';
 import { frames, q, sleep, write } from './lib/frame.ts';
 
 const PARTS = Array.from({ length: 12 }, (_, i) => ({
@@ -126,6 +127,41 @@ describe('beside the page', () => {
     }
     expect(missed, 'the panel marked a place off its own edge').toEqual([]);
     expect(marked()?.href, 'at the foot the last place is the mark').toBe('#part-11-b');
+  });
+
+  /* The reader at the foot, with the last place marked and the list scrolled
+     to it. They turn the wheel over the list to find the first part. At the
+     list's top the scroll used to run on into the page. The mark moved to a
+     part further up, and the list jumped down to it: a list the reader
+     cannot scroll. So a list with more rows than it shows keeps the wheel. */
+  test('the wheel over the list scrolls the list, and nothing else', async () => {
+    const list = q('.sds-outline');
+    window.scrollTo(0, document.documentElement.scrollHeight);
+    await sleep(120);
+    expect(marked()?.href).toBe('#part-11-b');
+    expect(list.scrollTop, 'the fixture must put the mark below the box').toBeGreaterThan(0);
+    expect(getComputedStyle(list).overscrollBehaviorY).toBe('contain');
+
+    const pageY = window.scrollY;
+    for (let i = 0; i < 12; i++) await commands.wheel('.sds-outline', -200);
+    await sleep(200);
+    expect(list.scrollTop, 'the list reached its top').toBe(0);
+    expect(window.scrollY, 'the page stood still under the list').toBe(pageY);
+    expect(marked()?.href, 'the mark stayed where the reader is').toBe('#part-11-b');
+  });
+
+  /* And a list the box holds whole hands the wheel on, as any block does.
+     Containment on that box swallows the wheel, and the page stops under it. */
+  test('a list with nothing to scroll lets the wheel through to the page', async () => {
+    (q('#outline') as HTMLElement & { entries: unknown }).entries = entries.slice(0, 2);
+    await frames();
+    const list = q('.sds-outline');
+    expect(list.scrollHeight - list.clientHeight, 'the fixture must fit the box').toBeLessThan(2);
+    expect(getComputedStyle(list).overscrollBehaviorY).toBe('auto');
+
+    await commands.wheel('.sds-outline', 300);
+    await sleep(200);
+    expect(window.scrollY, 'the page moved').toBeGreaterThan(0);
   });
 });
 

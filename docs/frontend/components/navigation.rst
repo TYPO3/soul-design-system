@@ -321,6 +321,14 @@ the entry does not move under a reader who scrolled it. Its own scroll
 offset and nothing else. The page is what the reader moves, and a list that
 went along reads itself.
 
+A list with more rows than it shows **keeps the wheel**. Let through, a
+scroll at the list's edge runs on into the page. The mark moves, and the
+list jumps after it, away from where the reader put it. So the element
+measures its own overflow and writes ``is-scrollable`` on the box, and the
+stylesheet gives that box ``overscroll-behavior: contain``. Measured, not
+declared: on a box with nothing to scroll, containment swallows the wheel
+and the page stops under it.
+
 An entry is **one line**, cut with an ellipsis where the column runs out. A
 reader scans a list of places down its left edge, and an entry on a second
 line is two places to that scan. So a heading is short enough to scan, and
@@ -383,8 +391,9 @@ a reader has the whole document in reach from any part of it.
 
 It reads the page for where the reader is, as ``sds-nav-toc`` does, by the
 same line and the same rule. The marked row stays inside its own scrolling
-box, by the least move that brings it there. Above the first heading nothing
-has the mark.
+box, by the least move that brings it there. The box keeps the wheel while
+it has rows to scroll to, by the same measure. Above the first heading
+nothing has the mark.
 
 **Where the panel has no room beside the page**, under 860px, the list
 folds behind one press in the page's head. The press is the glyph of a

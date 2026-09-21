@@ -128,6 +128,14 @@
   .sds-outline__item.is-active .sds-outline__label {
     text-decoration: none;
   }
+  /* The box keeps the wheel while it has rows to scroll to. Let through, a
+     scroll at its edge runs on into the page, and the list follows the mark
+     away from where the reader put it. The element measures and writes the
+     class: declared on every box, containment swallows the wheel over a
+     short list and the page stops under it. */
+  .sds-outline.is-scrollable {
+    overscroll-behavior: contain;
+  }
   /* One entry is one line: a long name ends in an ellipsis rather than a
      second line. The cut is the name's own, because a flex row cuts nothing
      and a flex item does not shrink below its text unless told to. */

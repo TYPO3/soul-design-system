@@ -1894,6 +1894,7 @@
   .sds-toc__list .sds-toc__list .sds-toc__item{color:var(--sds-toc-ink-nested)}
   .sds-toc__list .sds-toc__list .sds-toc__item:hover{color:var(--sds-toc-ink-hover)}
   .sds-toc__item.is-active,.sds-toc__list .sds-toc__list .sds-toc__item.is-active{background:var(--sds-toc-fill-active);color:var(--sds-toc-ink-active);text-decoration:none}
+  .sds-toc.is-scrollable{overscroll-behavior:contain}
   @media(min-width:1296px){
     .sds-prose .sds-aside .sds-toc{--sds-toc-rest-top: calc(var(--height-header) + var(--space-8) - var(--space-1-5));--sds-toc-rest-max: calc(100vh - var(--height-header) - var(--space-8) * 2);--sds-toc-rest-pad-y: var(--space-1-5);--sds-toc-rest-pad-x: var(--space-4);position:sticky;top:var(--sds-toc-rest-top);max-height:var(--sds-toc-rest-max);margin:0;padding:var(--sds-toc-rest-pad-y) var(--sds-toc-rest-pad-x);border:0;max-width:none;overflow-y:auto}
     .sds-prose .sds-aside .sds-toc__list .sds-toc__list .sds-toc__list{display:none}
@@ -1970,6 +1971,7 @@
   .sds-outline__list .sds-outline__list .sds-outline__item:hover{color:var(--sds-outline-ink-hover)}
   .sds-outline__item.is-active,.sds-outline__list .sds-outline__list .sds-outline__item.is-active{background:var(--sds-outline-fill-active);color:var(--sds-outline-ink-active)}
   .sds-outline__item.is-active .sds-outline__label{text-decoration:none}
+  .sds-outline.is-scrollable{overscroll-behavior:contain}
   .sds-outline__label{min-width:0;overflow:hidden;text-overflow:ellipsis}
   .sds-outline__number{flex:none;min-width:var(--sds-outline-number-width);margin-inline-end:var(--sds-outline-number-gap);font-family:var(--sds-outline-number-font);font-size:var(--sds-outline-number-size);color:var(--sds-outline-number-ink)}
   .sds-outline__list .sds-outline__list .sds-outline__number{min-width:var(--sds-outline-number-width-nested)}
