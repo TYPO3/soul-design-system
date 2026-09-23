@@ -76,4 +76,7 @@ app
     ;;
 esac
 
-exec $compose run --rm --build $tty app "$@"
+# The build first and on stderr. `run --build` writes its progress to stdout,
+# and a task whose output a caller reads, `release --paths`, read the build.
+$compose build app >&2
+exec $compose run --rm $tty app "$@"
