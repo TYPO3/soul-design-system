@@ -94,6 +94,11 @@
     line-height: var(--sds-paper-title-leading);
     text-wrap: balance;
   }
+  /* A press in the head, such as the one that plays the document's slides,
+     stands the head's step under the title. */
+  .sds-paper__head > :is(sds-button, .sds-btn) {
+    margin-block-start: var(--sds-paper-gap);
+  }
   /* What the document says about its state, small. A line for the state,
      with a status colour on the word where it is a verdict, and a line of
      dates. A row each, so a date never breaks at its hyphen. */

@@ -6,10 +6,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { type TemplateResult } from 'lit';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
-import { slide } from '../lib/deck.ts';
 
-export function closingSlide({ flat = false }: PageMode = {}): TemplateResult {
+import { slide, type DeckMode } from '../lib/deck.ts';
+
+export function closingSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     {
       kind: 'closing',
@@ -17,7 +17,7 @@ export function closingSlide({ flat = false }: PageMode = {}): TemplateResult {
       lead: 'Open the one nearest the job and keep its shell. An element answers what one part looks like.',
     },
     undefined,
-    { flat },
+    { flat, bare },
   );
 }
 

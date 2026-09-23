@@ -9,10 +9,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
-import { slide } from '../lib/deck.ts';
 
-export function speakerSlide({ flat = false }: PageMode = {}): TemplateResult {
+import { slide, type DeckMode } from '../lib/deck.ts';
+
+export function speakerSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     {
       kind: 'speaker',
@@ -24,7 +24,7 @@ export function speakerSlide({ flat = false }: PageMode = {}): TemplateResult {
       number: '02',
     },
     html`<p>Answers for the tokens, the elements and the gate that holds them together.</p>`,
-    { flat },
+    { flat, bare },
   );
 }
 

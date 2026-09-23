@@ -432,6 +432,13 @@ deck stands on paper and its cover on the terminal. The slides under
 `specimens/screens/slide-*.html` are the layouts, and `docs/design-system/slides.rst`
 has the reason.
 
+A long document can sum up each part in a slide. The slide stands in its
+section as a picture at the column's width (`shrink`), and takes no press. `sds-deck`
+is the way through: over the page with `from`, or with slides of its own
+between its tags. Say the lockup and `numbered` once on the deck, never on
+each slide. Material from a page goes on a slide with `kind="figure"`, and
+what does not fit shrinks. A slide that shrinks far is two slides.
+
 A renderer, a theme or a template set writes no class the stylesheets do not
 define. A name it needs and cannot find is a gap in the system, closed there.
 

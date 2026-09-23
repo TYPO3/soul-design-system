@@ -23,6 +23,12 @@ export const DECK = {
 /** The deck's sections, in order. A divider shows them and marks its own. */
 export const OUTLINE: readonly string[] = ['Why one system', 'What it consists of', 'How to build a slide', 'Where to start'];
 
+/** How a layout renders. `bare` leaves out what a deck gives every slide:
+    the lockup and the count. A deck that holds the slide says those once. */
+export interface DeckMode extends PageMode {
+  bare?: boolean;
+}
+
 /** One slide, in whichever form the rendering can hold. The body goes between
     the tags where the page is live, and as a property where it is static. A
     file has no `connectedCallback` to lift authored children. The live one
@@ -31,9 +37,13 @@ export const OUTLINE: readonly string[] = ['Why one system', 'What it consists o
 export const slide = (
   { kind = 'content', ground, eyebrow, heading, lead, note, number, sections, current, portrait, alt }: SlideProps,
   body?: TemplateResult,
-  { flat = false }: PageMode = {},
+  { flat = false, bare = false }: DeckMode = {},
 ): TemplateResult => {
   const large = kind === 'cover' || kind === 'closing';
+  const signet = bare ? '' : large ? DECK.signetLarge : DECK.signet;
+  const brand = bare ? '' : DECK.brand;
+  const product = bare ? '' : DECK.product;
+  const count = bare ? '' : (number ?? '');
   return flat
     ? html`<sds-slide
         kind="${kind}"
@@ -42,10 +52,10 @@ export const slide = (
         heading="${heading ?? ''}"
         lead="${lead ?? ''}"
         note="${note ?? ''}"
-        number="${number ?? ''}"
-        signet="${large ? DECK.signetLarge : DECK.signet}"
-        brand="${DECK.brand}"
-        product="${DECK.product}"
+        number="${count}"
+        signet="${signet}"
+        brand="${brand}"
+        product="${product}"
         sections="${JSON.stringify(sections ?? [])}"
         current="${current ?? 0}"
         portrait="${portrait ?? ''}"
@@ -59,10 +69,10 @@ export const slide = (
         heading="${heading ?? ''}"
         lead="${lead ?? ''}"
         note="${note ?? ''}"
-        number="${number ?? ''}"
-        signet="${large ? DECK.signetLarge : DECK.signet}"
-        brand="${DECK.brand}"
-        product="${DECK.product}"
+        number="${count}"
+        signet="${signet}"
+        brand="${brand}"
+        product="${product}"
         sections="${JSON.stringify(sections ?? [])}"
         current="${current ?? 0}"
         portrait="${portrait ?? ''}"

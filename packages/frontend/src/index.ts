@@ -71,6 +71,7 @@ import './components/tree.ts';
 import './components/diff.ts';
 import './components/quote.ts';
 import './components/slide.ts';
+import './components/deck.ts';
 import './components/byline.ts';
 import './components/note.ts';
 import './components/facts.ts';
@@ -160,6 +161,7 @@ export { SdsTree, type TreeProps, type TreeEntry } from './components/tree.ts';
 export { SdsDiff, type DiffProps, type DiffLine, type DiffKind } from './components/diff.ts';
 export { SdsQuote, type QuoteProps } from './components/quote.ts';
 export { SdsSlide, type SlideProps, type SlideKind, type SlideGround } from './components/slide.ts';
+export { SdsDeck, type DeckProps } from './components/deck.ts';
 export { SdsByline, type BylineProps } from './components/byline.ts';
 export { SdsNote, type NoteProps, type NoteTone } from './components/note.ts';
 export { SdsFacts, type FactsProps, type FactsEntry } from './components/facts.ts';
@@ -243,6 +245,7 @@ export const TAGS = [
   'sds-diff',
   'sds-quote',
   'sds-slide',
+  'sds-deck',
   'sds-byline',
   'sds-note',
   'sds-facts',

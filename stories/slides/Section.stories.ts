@@ -7,12 +7,11 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { type TemplateResult } from 'lit';
-import { OUTLINE } from '../lib/deck.ts';
+import { OUTLINE, slide, type DeckMode } from '../lib/deck.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
-import { slide } from '../lib/deck.ts';
 
-export function sectionSlide({ flat = false }: PageMode = {}): TemplateResult {
+
+export function sectionSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     {
       kind: 'section',
@@ -23,7 +22,7 @@ export function sectionSlide({ flat = false }: PageMode = {}): TemplateResult {
       current: 1,
     },
     undefined,
-    { flat },
+    { flat, bare },
   );
 }
 

@@ -8,10 +8,10 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/quote.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
-import { slide } from '../lib/deck.ts';
 
-export function quoteSlide({ flat = false }: PageMode = {}): TemplateResult {
+import { slide, type DeckMode } from '../lib/deck.ts';
+
+export function quoteSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     { kind: 'statement', number: '09' },
     html`<sds-quote
@@ -19,7 +19,7 @@ export function quoteSlide({ flat = false }: PageMode = {}): TemplateResult {
       by="AGENTS.md"
       as="what fails review"
     ></sds-quote>`,
-    { flat },
+    { flat, bare },
   );
 }
 

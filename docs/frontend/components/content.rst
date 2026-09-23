@@ -255,7 +255,7 @@ the foot and the deck's outline. The body is the system's elements.
 
 .. confval:: kind
    :name: sds-slide-kind
-   :type: "cover" | "speaker" | "section" | "statement" | "content" | "closing"
+   :type: "cover" | "speaker" | "section" | "statement" | "content" | "closing" | "figure"
    :default: "content"
 
    What the slide is in the run of a deck. ``cover`` and ``closing`` hold the
@@ -263,6 +263,10 @@ the foot and the deck's outline. The body is the system's elements.
    ``statement`` centres one sentence. ``content`` keeps its title at the
    top margin, so it never hops between slides. ``speaker`` gives the name
    the left column and the portrait the right, edge to edge.
+
+   ``figure`` shows material from a page: a table, a drawing, a screenshot.
+   Its title and its margin are a step smaller, so the material has the
+   frame.
 
 .. confval:: ground
    :name: sds-slide-ground
@@ -344,11 +348,34 @@ the foot and the deck's outline. The body is the system's elements.
    :name: sds-slide-fit
    :type: boolean
 
-   If the frame scales to the room it has. The room is the width its parent
-   gives it and the height from there to the bottom of the window. The
-   element measures and writes the zoom as a style, the way ``sds-grid``
-   writes its columns. Unset, the frame draws at the size the stylesheet
-   states.
+   If the frame scales to the room it has: a stage. The room is the width
+   and the height its parent gives it, and no more of the window than stands
+   below the parent's top. The element measures and writes the zoom as a
+   style, the way ``sds-grid`` writes its columns. Unset, and with no
+   ``shrink``, the frame draws at the size the stylesheet states.
+
+.. confval:: shrink
+   :name: sds-slide-shrink
+   :type: boolean
+
+   If the frame is a picture in a column. It shrinks to a column narrower
+   than it, and never grows past the size the stylesheet states. A
+   measurement, so a page with no script draws the stated size. A deck sets
+   it on every slide it runs through.
+
+   What the body holds fits the body, always. Content taller or wider than
+   the room shrinks until it fits, at the width it had, so nothing wraps
+   anew. Nothing grows. A slide never cuts off what it holds.
+
+.. confval:: zoomable
+   :name: sds-slide-zoomable
+   :type: boolean
+
+   If the slide carries a press that opens it at the window's size. A press
+   anywhere on the frame does the same, as a press on a picture opens the
+   picture. The slide sends ``sds-slide-open``, and the deck that runs
+   through it answers. ``sds-deck`` sets it on every slide of the page it
+   runs through.
 
 .. confval:: body
    :name: sds-slide-body
@@ -356,6 +383,96 @@ the foot and the deck's outline. The body is the system's elements.
 
    What the slide shows between its title and its foot. Between the tags, or
    as ``.body`` where a renderer cannot write between them.
+
+   Nothing in it takes a press or a stop of the keyboard. A slide is a
+   picture of a part, and the part on the page is where its links and its
+   controls work. A reader who hears the page still hears the text.
+
+.. _component-sds-deck:
+
+sds-deck
+========
+
+Slides one after the other, at the window's size. It is the platform's
+``<dialog>`` with one frame on a stage and the keys to go on. It has a list
+of every slide as a picture, and the full screen. The deck holds no copy. It
+lends a slide the stage and puts it back where it stood.
+:doc:`/design-system/slides` has the reason.
+
+Two ways in. Slides between the tags are a deck of its own. The page shows
+the cover, and under it the press that plays the deck and the one that
+saves it as a PDF:
+
+.. code-block:: html
+
+   <sds-deck label="The system in front of a room" brand="TYPO3"
+     product="Dev Companion" signet="signet-m.svg" signet-large="signet-l.svg" numbered>
+     <sds-slide kind="cover" ground="terminal" heading="One system, every surface"></sds-slide>
+     <sds-slide heading="Three places for every component">…</sds-slide>
+   </sds-deck>
+
+With none between the tags, the deck runs through the slides of the page,
+each where its section put it. Every one of them gets a press that opens
+the deck there. A button names the deck by id to open it from the start:
+
+.. code-block:: html
+
+   <sds-button for="the-deck">Click through the slides</sds-button>
+   <sds-deck id="the-deck" from="main-content" label="A record of reads"></sds-deck>
+
+.. confval:: label
+   :name: sds-deck-label
+   :type: string
+   :default: "Slides"
+
+   The name of the deck, in its head: what the reader has open.
+
+.. confval:: from
+   :name: sds-deck-from
+   :type: string
+
+   The id of the part of the page whose slides the deck runs through. Empty
+   is the whole document. A slide inside another deck belongs to that one,
+   and a deck with slides of its own ignores this.
+
+.. confval:: brand, product, signet, signet-large
+   :name: sds-deck-lockup
+   :type: string
+
+   The lockup, said once for every slide. The deck gives it to each slide
+   that says none of its own. A cover and a closing take ``signet-large``,
+   the larger mark, and every other kind ``signet``.
+
+.. confval:: numbered
+   :name: sds-deck-numbered
+   :type: boolean
+
+   If the deck counts its slides in their feet: ``02``, ``03``, by where each
+   stands. A cover and a closing carry no count. A slide with a ``number``
+   of its own keeps it.
+
+   The deck also gives the dividers their outline. Each ``section`` slide
+   with no ``sections`` of its own gets the headings of every divider in the
+   deck, and its own place among them.
+
+.. confval:: open
+   :name: sds-deck-open
+   :type: boolean
+
+   If it stands over the page. ``show(at)``, ``close()``, ``go(index)``,
+   ``fullscreen()`` and ``print()`` are the calls behind the presses.
+
+The keys are the arrows, Page Up and Page Down, Home and End, and ``F`` for
+the full screen. Escape leaves the full screen first, then the deck. A
+finger or a pointer drags the slide: past a part of the stage it turns, and
+short of that it goes back. On the full screen the head steps aside, and a
+press on the slide turns it. A turn pushes the old slide out, and the next
+one comes in from the side the deck moves to. A reader who asks for reduced
+motion gets the next slide at once.
+
+The PDF is the browser's print. Every slide stands on a page of its own at
+1920 × 1080, with no margin, and the dialog saves it. Text stays text and a
+link stays a link. The slides go back when the print is over.
 
 .. _component-sds-stat:
 

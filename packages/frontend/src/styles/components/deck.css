@@ -1,0 +1,438 @@
+/* sds-deck — slides one after the other, over the page.
+
+   The whole window, because a slide is a frame and the room is the window.
+   The head is the modal's: the list, the name, the count with its two steps,
+   the close. Under it the list of every slide as a picture, and the stage,
+   the sunken ground a slide stands on, as a story's stage is. */
+
+@layer base {
+  /* It draws nothing where it stands, unless it holds a deck of its own.
+     Then the poster is the box, and the rest is in the top layer. */
+  sds-deck {
+    display: contents;
+  }
+}
+
+@layer components {
+  dialog.sds-deck {
+    --sds-deck-fill: var(--surface-raised);
+    --sds-deck-stage-fill: var(--surface-sunken);
+    --sds-deck-stage-pad: var(--space-6);
+    --sds-deck-ink: var(--text-primary);
+    --sds-deck-backdrop: var(--surface-overlay);
+    --sds-deck-gap: var(--control-gap);
+    --sds-deck-rule: var(--border-hairline);
+    --sds-deck-edge: var(--border-subtle);
+    --sds-deck-count-font: var(--font-mono);
+    --sds-deck-count-size: calc(var(--font-size-small) * var(--font-modifier-mono));
+    --sds-deck-count-ink: var(--text-muted);
+    /* The list: one column of pictures, each a fifth of the frame. The
+       width is the frame's 960 at that fifth, and the list is that picture
+       with its entry's and its own padding round it. */
+    --sds-deck-thumb-width: 192px;
+    --sds-deck-thumb-zoom: 0.2;
+    --sds-deck-list-pad: var(--space-4);
+    --sds-deck-list-width: calc(
+      var(--sds-deck-thumb-width) +
+      var(--sds-deck-list-pad) *
+      2 +
+      var(--sds-deck-entry-gap) *
+      2
+    );
+    --sds-deck-list-gap: var(--space-1);
+    --sds-deck-entry-gap: var(--space-2);
+    --sds-deck-entry-size: var(--font-size-small);
+    --sds-deck-entry-ink: var(--text-secondary);
+    --sds-deck-entry-current: var(--text-primary);
+    --sds-deck-entry-radius: var(--radius-control);
+    --sds-deck-thumb-edge: var(--border-subtle);
+    --sds-deck-thumb-hover: var(--border-strong);
+    --sds-deck-thumb-current: var(--text-secondary);
+    --sds-deck-thumb-mark: var(--border-emphasis);
+    --sds-deck-thumb-mark-offset: var(--focus-offset);
+    /* How far through the deck, as a line under the head. Neutral: the
+       accent marks three things, and a position is none of them. */
+    --sds-deck-progress-size: var(--border-emphasis);
+    --sds-deck-progress-track: var(--border-subtle);
+    --sds-deck-progress-fill: var(--text-muted);
+    /* A slide let go goes back, or on, at this pace: a whole stage width
+       wants longer than a control's change of state. The drag is where the
+       finger has it; the element measures it onto the stage. */
+    --sds-deck-turn: calc(var(--duration-base) + var(--duration-fast)) var(--ease-out);
+    --sds-deck-drag: 0px;
+
+    margin: 0;
+    padding: 0;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    border: 0;
+    background: var(--sds-deck-fill);
+    color: var(--sds-deck-ink);
+    overflow: hidden;
+
+    &[open] {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &::backdrop {
+      background: var(--sds-deck-backdrop);
+    }
+  }
+  /* The page under the deck stays where it is. No gutter: the deck covers
+     the whole window, and a reserved scrollbar is a stripe down its edge. */
+  html:has(dialog.sds-deck[open]) {
+    overflow: hidden;
+  }
+
+  /* Everything the deck shows, in the one box that can take the whole
+     screen. */
+  .sds-deck__screen {
+    outline: 0;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--sds-deck-fill);
+  }
+
+  /* The head in three parts: the list and the name, the count, the close.
+     The count stands in the middle of the window, whatever the name's width. */
+  .sds-deck .sds-modal__head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    background: var(--sds-deck-fill);
+
+    /* The name on one line, cut where it runs out. On a phone a name that
+       wraps takes the height the slide needs. */
+    .sds-modal__title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    > .sds-deck__end {
+      justify-self: end;
+    }
+  }
+  .sds-deck__start,
+  .sds-deck__controls,
+  .sds-deck__end {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--sds-deck-gap);
+  }
+  .sds-deck__count {
+    margin: 0;
+    min-width: 7ch;
+    text-align: center;
+    font-family: var(--sds-deck-count-font);
+    font-size: var(--sds-deck-count-size);
+    font-weight: normal;
+    font-variant-numeric: tabular-nums;
+    color: var(--sds-deck-count-ink);
+  }
+
+  .sds-deck__progress {
+    flex: none;
+    block-size: var(--sds-deck-progress-size);
+    background: var(--sds-deck-progress-track);
+
+    > span {
+      display: block;
+      block-size: 100%;
+      background: var(--sds-deck-progress-fill);
+      transition: inline-size var(--sds-deck-turn);
+    }
+  }
+
+  .sds-deck__main {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+  }
+
+  /* The slide fits itself into this box: its width, and the window's height
+     below its top edge. It stands in the middle of what it has. */
+  .sds-deck__stage {
+    flex: 1;
+    min-width: 0;
+    padding: var(--sds-deck-stage-pad);
+    position: relative;
+    display: grid;
+    align-content: center;
+    background: var(--sds-deck-stage-fill);
+    overflow: hidden;
+    /* A sideways drag is the deck's, and an upright one the page's. */
+    touch-action: pan-y pinch-zoom;
+
+    > sds-slide {
+      translate: var(--sds-deck-drag) 0;
+      transition: translate var(--sds-deck-turn);
+    }
+
+    /* The next slide takes its place beside the stage at once. */
+    &.is-placing > sds-slide {
+      transition: none;
+    }
+
+    /* The slide follows the finger, with no delay and no text to select. */
+    &.is-dragging {
+      cursor: grabbing;
+      user-select: none;
+
+      > sds-slide {
+        transition: none;
+      }
+    }
+  }
+
+  /* The slide that leaves, as a picture, on its way out. */
+  .sds-deck__ghost {
+    position: absolute;
+    pointer-events: none;
+    transition: translate var(--sds-deck-turn);
+
+    > .sds-slide {
+      margin: 0;
+    }
+  }
+
+  /* The whole screen: the slide takes all of it, and the head goes. It
+     comes back under the pointer, or for a focus the keyboard put there.
+     A press leaves no such focus. The line stays, at the bottom edge. */
+  dialog.sds-deck.is-full {
+    .sds-modal__head {
+      position: absolute;
+      inset-inline: 0;
+      inset-block-start: 0;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity var(--sds-deck-turn);
+
+      &:hover,
+      &:has(:focus-visible) {
+        opacity: 1;
+      }
+    }
+    .sds-deck__progress {
+      position: absolute;
+      inset-inline: 0;
+      inset-block-end: 0;
+      z-index: 1;
+    }
+    .sds-deck__nav {
+      display: none;
+    }
+    .sds-deck__stage {
+      padding: 0;
+      cursor: pointer;
+    }
+  }
+
+  /* Every slide as a picture, one column, the current one marked. It scrolls
+     on its own, and the stage keeps its place beside it. */
+  .sds-deck__nav {
+    position: relative;
+    flex: none;
+    width: var(--sds-deck-list-width);
+    padding: var(--sds-deck-list-pad);
+    overflow-y: auto;
+    border-inline-end: var(--sds-deck-rule) solid var(--sds-deck-edge);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+  .sds-deck__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-deck-list-gap);
+  }
+  /* One slide in the list: its picture, and under it one line with its
+     count and its title. Nothing stands on the picture, whose corner is
+     where every slide starts. The current one takes a frame a step off the
+     picture, and its line the page's ink. */
+  .sds-deck__entry {
+    position: relative;
+    width: calc(var(--sds-deck-thumb-width) + var(--sds-deck-entry-gap) * 2);
+    padding: var(--sds-deck-entry-gap);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-deck-entry-gap);
+    border: 0;
+    border-radius: var(--sds-deck-entry-radius);
+    background: none;
+    color: var(--sds-deck-entry-ink);
+    font: inherit;
+    font-size: var(--sds-deck-entry-size);
+    text-align: start;
+    cursor: pointer;
+
+    &:hover .sds-deck__thumb {
+      outline-color: var(--sds-deck-thumb-hover);
+    }
+
+    &.is-active {
+      color: var(--sds-deck-entry-current);
+
+      .sds-deck__thumb {
+        outline: var(--sds-deck-thumb-mark) solid var(--sds-deck-thumb-current);
+        outline-offset: var(--sds-deck-thumb-mark-offset);
+      }
+    }
+  }
+  .sds-deck__thumb {
+    display: block;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    pointer-events: none;
+    outline: var(--sds-deck-rule) solid var(--sds-deck-thumb-edge);
+
+    > .sds-slide {
+      --sds-slide-zoom: var(--sds-deck-thumb-zoom);
+
+      margin: 0;
+      border: 0;
+    }
+  }
+  .sds-deck__entry-count {
+    flex: none;
+    color: var(--sds-deck-count-ink);
+    font-family: var(--sds-deck-count-font);
+    font-size: var(--sds-deck-count-size);
+    font-variant-numeric: tabular-nums;
+  }
+  .sds-deck__entry-line {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sds-deck-entry-gap);
+    min-width: 0;
+  }
+  .sds-deck__entry-title {
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* A deck of its own, on the page: the cover, and the press over it. The
+     rest takes the cover's width, out of sight and out of the flow, so every
+     slide has fitted itself before the deck opens. */
+  .sds-deck__poster {
+    --sds-deck-poster-step: var(--space-components);
+    --sds-deck-presses-step: var(--space-3);
+    --sds-deck-presses-gap: var(--control-gap);
+
+    position: relative;
+    margin-block: var(--sds-deck-poster-step);
+
+    > .sds-deck__cover > sds-slide {
+      margin-block: 0;
+    }
+  }
+  /* The presses under the cover, never on it: a cover a column narrows
+     has no corner free of its own lockup. */
+  .sds-deck__cover {
+    cursor: pointer;
+  }
+  .sds-deck__presses {
+    margin-block-start: var(--sds-deck-presses-step);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--sds-deck-presses-gap);
+  }
+  .sds-deck__rest {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+}
+
+@layer components {
+  /* A narrow screen has no room beside the stage. The list stands over it,
+     as many pictures to a row as fit, and gives the stage back on a choice. */
+  @media (max-width: 640px) {
+    .sds-deck__nav {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: auto;
+      border: 0;
+      background: var(--sds-deck-fill);
+    }
+    .sds-deck__list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, calc(var(--sds-deck-thumb-width) + var(--sds-deck-entry-gap) * 2));
+      justify-content: center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sds-deck__stage > sds-slide,
+    .sds-deck__ghost,
+    .sds-deck__progress > span,
+    dialog.sds-deck.is-full .sds-modal__head {
+      transition: none;
+    }
+  }
+}
+
+/* A print of the deck: every slide on a page of its own, each page the
+   frame's 1920 × 1080 and no margin. A page of its own name, so a print of
+   the page around the deck keeps the reader's paper. */
+@page sds-deck {
+  size: 1920px 1080px;
+  margin: 0;
+}
+
+@layer components {
+  /* On the screen the sheet waits out of sight, at the width a page will
+     have. So every slide fits itself before the print starts. */
+  .sds-deck__print {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline-start: -300vw;
+    inline-size: 1920px;
+  }
+
+  @media print {
+    /* Every page is the deck's while it prints, the root's too. And the sheet
+       stands at the page's corner, whatever margin the body keeps. */
+    html[data-sds-deck-print] {
+      page: sds-deck;
+    }
+    html[data-sds-deck-print] body > :not(.sds-deck__print) {
+      display: none;
+    }
+    .sds-deck__print {
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-start: 0;
+      page: sds-deck;
+      print-color-adjust: exact;
+
+      > sds-slide {
+        margin: 0;
+      }
+      > sds-slide:not(:last-child) {
+        break-after: page;
+      }
+
+      .sds-slide {
+        border: 0;
+      }
+    }
+  }
+}

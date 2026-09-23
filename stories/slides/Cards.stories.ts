@@ -10,8 +10,8 @@ import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/surface.ts';
 import '../../packages/frontend/src/components/grid.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { grid, type PageMode } from '../lib/page.ts';
-import { slide } from '../lib/deck.ts';
+import { grid } from '../lib/page.ts';
+import { slide, type DeckMode } from '../lib/deck.ts';
 
 const PLACES = [
   { label: 'Story', heading: 'Every element has one', body: 'The source of every specimen card. Edit the story, never the card.' },
@@ -19,14 +19,14 @@ const PLACES = [
   { label: 'Rendered page', heading: 'The Guides renderer made it', body: 'A page built on the system follows the layouts and invents no class.' },
 ];
 
-export function cardsSlide({ flat = false }: PageMode = {}): TemplateResult {
+export function cardsSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     { heading: 'Three places for every component', number: '04' },
     grid(
       PLACES.map((one) => html`<sds-surface label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-surface>`),
       { flat },
     ),
-    { flat },
+    { flat, bare },
   );
 }
 

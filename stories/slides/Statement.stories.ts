@@ -7,10 +7,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { type TemplateResult } from 'lit';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
-import { slide } from '../lib/deck.ts';
 
-export function statementSlide({ flat = false }: PageMode = {}): TemplateResult {
+import { slide, type DeckMode } from '../lib/deck.ts';
+
+export function statementSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     {
       kind: 'statement',
@@ -18,7 +18,7 @@ export function statementSlide({ flat = false }: PageMode = {}): TemplateResult 
       note: 'Non-negotiable · docs/design-system/index.rst',
     },
     undefined,
-    { flat },
+    { flat, bare },
   );
 }
 

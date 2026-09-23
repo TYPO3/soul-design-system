@@ -298,6 +298,7 @@ Each file guards what the others cannot see:
 | `toc` | the contents list: which section it marks, the mark in a box too short for it, the wheel it keeps |
 | `outline` | the outline of a long document: the numbers, the mark in a scrolling panel, the wheel it keeps, the fold |
 | `dropdown` | the popover: not clipped, under its button by either route, and closed the way the platform closes one |
+| `deck` | slides one after the other: each one whole, the ways through, the print, and each one back where it stood |
 | `highlight` | every language `CodeLang` promises has a grammar |
 | `parity` | the element rendered by Lit and by `@lit-labs/ssr` is the same markup |
 | `dropin` | `packages/frontend/dist/` works the way a consumer copies it |

@@ -1,13 +1,15 @@
 import { type TemplateResult } from 'lit';
 import { SdsElement } from '../lib/element.js';
 import './eyebrow.ts';
+import './icon.ts';
 import './image.ts';
 /** What a slide is in the run of a deck. `cover` and `closing` hold the title
     up and the lockup down, and `section` holds the outline down. `statement`
     centres one sentence, and `content` keeps its title at the top margin.
     `speaker` gives the name the left column and a portrait the right, edge
-    to edge. */
-export type SlideKind = 'cover' | 'section' | 'statement' | 'content' | 'closing' | 'speaker';
+    to edge. `figure` shows material from a page: a table, a drawing, a
+    screenshot. Its title is a step smaller, and the material takes the rest. */
+export type SlideKind = 'cover' | 'section' | 'statement' | 'content' | 'closing' | 'speaker' | 'figure';
 /** The ground. A deck stands on paper, and the slide that opens it on the
     terminal. The flip is the emphasis, and the one accent stays where it is.
     Paper unless said, whatever mode the page is in. A room watches a deck,
@@ -46,11 +48,17 @@ export interface SlideProps {
     /** What the slide shows between its title and its foot. Markup where a
         caller holds it: the elements of the system at the page's size. */
     body?: string | TemplateResult;
-    /** If the frame scales to the room it has. The room is the width its
-        parent gives it and the height from there to the bottom of the window.
-        Unset, it draws at the size the stylesheet states: a 1920 × 1080
-        viewport. */
+    /** If the slide carries a press that opens it at the window's size. A deck
+        sets it on every slide it runs through. */
+    zoomable?: boolean;
+    /** If the frame scales to the room it has: a stage. The room is the width
+        and the height its parent gives it, and the window below its top. */
     fit?: boolean;
+    /** If the frame is a picture in a column. It shrinks to a column that is
+        narrower than it, and never grows past the size the stylesheet states.
+        A measurement, so a page with no script draws the stated size. A deck
+        sets it on every slide it runs through. */
+    shrink?: boolean;
 }
 export declare class SdsSlide extends SdsElement {
     static properties: {
@@ -105,6 +113,14 @@ export declare class SdsSlide extends SdsElement {
             type: BooleanConstructor;
             reflect: boolean;
         };
+        shrink: {
+            type: BooleanConstructor;
+            reflect: boolean;
+        };
+        zoomable: {
+            type: BooleanConstructor;
+            reflect: boolean;
+        };
         /** The zoom the last measurement settled on. Zero is "not measured". */
         zoom: {
             type: NumberConstructor;
@@ -127,19 +143,28 @@ export declare class SdsSlide extends SdsElement {
     alt: string;
     body: string | TemplateResult;
     fit: boolean;
+    shrink: boolean;
+    zoomable: boolean;
     zoom: number;
     private watch?;
+    private settling;
     private taken;
     constructor();
     connectedCallback(): void;
     disconnectedCallback(): void;
+    protected updated(changed: Map<PropertyKey, unknown>): void;
+    private decide;
+    private quiet;
+    private settle;
     /** How far to scale the frame so it fits. The frame's size comes off the
         stylesheet, never a copy here. `--sds-slide-width` and its height are
         the set's, and a copy in TypeScript is the copy that goes stale. */
-    private decide;
+    private measure;
     private head;
     private outline;
     private foot;
     private portraitColumn;
+    private readonly open;
+    private readonly onFrame;
     protected render(): TemplateResult;
 }

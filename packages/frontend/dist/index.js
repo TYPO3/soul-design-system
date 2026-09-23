@@ -918,10 +918,10 @@ var require_core = __commonJS({
     }
     var version = "11.11.1";
     var HTMLInjectionError = class extends Error {
-      constructor(reason, html76) {
+      constructor(reason, html77) {
         super(reason);
         this.name = "HTMLInjectionError";
-        this.html = html76;
+        this.html = html77;
       }
     };
     var escape2 = escapeHTML;
@@ -4523,10 +4523,10 @@ function opener(host) {
   openers.set(host, open);
   return open;
 }
-function zoom(host, picture, options) {
+function zoom(host, picture2, options) {
   const { src, alt, caption } = options;
   return {
-    trigger: html31`<a class="sds-zoom" href="${src}" title="Open the picture at full size" @click="${opener(host)}">${picture}</a>`,
+    trigger: html31`<a class="sds-zoom" href="${src}" title="Open the picture at full size" @click="${opener(host)}">${picture2}</a>`,
     viewer: html31`<sds-lightbox src="${src}" alt="${alt}" caption="${ifDefined(caption || void 0)}"></sds-lightbox>`
   };
 }
@@ -4568,9 +4568,9 @@ var SdsImage = class extends SdsElement {
     const width = this.width || void 0;
     const height = this.height || void 0;
     const cls = this.cls || (width || height ? "" : "sds-art");
-    const picture = art(this.src, this.alt, { cls, width, height });
-    if (!this.zoomable) return picture;
-    const { trigger, viewer } = zoom(this, picture, { src: this.src, alt: this.alt });
+    const picture2 = art(this.src, this.alt, { cls, width, height });
+    if (!this.zoomable) return picture2;
+    const { trigger, viewer } = zoom(this, picture2, { src: this.src, alt: this.alt });
     return html32`${trigger}
 ${viewer}`;
   }
@@ -6550,15 +6550,15 @@ var SdsFigure = class extends SdsElement {
   connectedCallback() {
     const written = this.lifted().filter((node) => !isNothing(node));
     const caption = written.filter(isCaption);
-    const picture = written.filter((node) => !isCaption(node));
+    const picture2 = written.filter((node) => !isCaption(node));
     if (caption.length) this.captioned = caption;
-    if (picture.length) this.taken = picture;
+    if (picture2.length) this.taken = picture2;
     super.connectedCallback();
   }
   render() {
     const given = this.taken ?? this.content;
-    const picture = given ? html50`${given}` : art(this.src, this.alt, { width: this.width, height: this.height });
-    const press = this.zoomable ? zoom(this, picture, {
+    const picture2 = given ? html50`${given}` : art(this.src, this.alt, { width: this.width, height: this.height });
+    const press = this.zoomable ? zoom(this, picture2, {
       src: this.src,
       alt: this.alt,
       caption: typeof this.caption === "string" ? this.caption : ""
@@ -6566,7 +6566,7 @@ var SdsFigure = class extends SdsElement {
     const caption = this.captioned ? html50`${this.captioned}` : this.caption ? html50`<figcaption class="sds-figure__caption">${this.caption}</figcaption>` : "";
     return html50`<figure class="sds-figure">
   <div class="sds-figure__frame${exported(this.src) ? " sds-figure__frame--exported" : ""}">
-    ${press ? press.trigger : picture}
+    ${press ? press.trigger : picture2}
   </div>
   ${caption}
   ${press ? press.viewer : ""}
@@ -14096,15 +14096,28 @@ var KIND = {
   statement: "sds-slide--statement",
   content: "",
   closing: "sds-slide--closing",
-  speaker: "sds-slide--speaker"
+  speaker: "sds-slide--speaker",
+  figure: "sds-slide--figure"
 };
 var GROUND = { paper: "light", terminal: "dark" };
+var STOPS = 'a[href], button, input, select, textarea, summary, iframe, [tabindex]:not([tabindex="-1"])';
 var SdsSlide = class extends SdsElement {
   constructor() {
     super();
+    this.settling = 0;
     /* The body, where it stood between the tags. A deck's slide holds the
        system's elements, which is markup or it is nothing. */
     this.taken = null;
+    /* The slide does not open itself. It asks, and the deck that runs
+       through it answers with the slide at the window's size. */
+    this.open = () => {
+      this.dispatchEvent(new CustomEvent("sds-slide-open", { bubbles: true, composed: true }));
+    };
+    /* A press anywhere on a slide that opens is a press on its button, as a
+       press on a picture opens the picture. */
+    this.onFrame = () => {
+      if (this.zoomable) this.open();
+    };
     this.kind = "content";
     this.ground = "paper";
     this.eyebrow = "";
@@ -14121,6 +14134,8 @@ var SdsSlide = class extends SdsElement {
     this.alt = "";
     this.body = "";
     this.fit = false;
+    this.shrink = false;
+    this.zoomable = false;
     this.zoom = 0;
   }
   static {
@@ -14141,6 +14156,8 @@ var SdsSlide = class extends SdsElement {
       alt: { type: String },
       body: { type: String },
       fit: { type: Boolean, reflect: true },
+      shrink: { type: Boolean, reflect: true },
+      zoomable: { type: Boolean, reflect: true },
       /** The zoom the last measurement settled on. Zero is "not measured". */
       zoom: { type: Number, state: true }
     };
@@ -14149,43 +14166,105 @@ var SdsSlide = class extends SdsElement {
     const written = this.lifted().filter((node) => !isBlank(node));
     if (written.length) this.taken = written;
     super.connectedCallback();
-    if (!this.fit) return;
-    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.decide()));
+    this.watch = new ResizeObserver(() => {
+      cancelAnimationFrame(this.settling);
+      this.settling = requestAnimationFrame(() => this.isConnected && this.decide());
+    });
     if (this.parentElement) this.watch.observe(this.parentElement);
     this.watch.observe(document.documentElement);
-    void this.updateComplete.then(() => this.decide());
+    void this.updateComplete.then(() => {
+      this.decide();
+      const fit = this.querySelector(".sds-slide__fit");
+      if (fit) this.watch?.observe(fit);
+    });
   }
   disconnectedCallback() {
     this.watch?.disconnect();
+    cancelAnimationFrame(this.settling);
     super.disconnectedCallback();
+  }
+  /* A deck lends the slide its stage and sets `fit` for the loan. */
+  updated(changed) {
+    if (changed.has("fit") && changed.get("fit") !== void 0 || changed.has("shrink") && changed.get("shrink") !== void 0) requestAnimationFrame(() => this.isConnected && this.decide());
+  }
+  /* The frame first, then what stands in it. */
+  decide() {
+    this.measure();
+    this.settle();
+    this.quiet();
+  }
+  /* No stop for the keyboard inside the body. The pointer the stylesheet
+     keeps out. The text stays, for a reader who hears the page. */
+  quiet() {
+    for (const stop of this.querySelectorAll(".sds-slide__fit :is(" + STOPS + ")")) stop.setAttribute("tabindex", "-1");
+  }
+  /* The material is a picture too. What is taller or wider than the body
+     shrinks until it fits, and nothing grows. Its width stays what it was,
+     so nothing wraps anew and the shrink is exact. Measurements, so styles. */
+  settle() {
+    const fit = this.querySelector(".sds-slide__fit");
+    const body = fit?.parentElement;
+    if (!fit || !body) return;
+    fit.style.removeProperty("zoom");
+    fit.style.removeProperty("width");
+    fit.style.removeProperty("align-self");
+    const room = body.getBoundingClientRect();
+    const need = fit.getBoundingClientRect();
+    if (!(room.height > 0) || !(need.height > 0)) return;
+    const wide = fit.scrollWidth > fit.clientWidth + 1 ? fit.clientWidth / fit.scrollWidth : 1;
+    const ratio = Math.min(room.height / need.height, wide);
+    if (ratio >= 1) return;
+    fit.style.width = getComputedStyle(fit).width;
+    fit.style.alignSelf = "center";
+    let zoom2 = ratio;
+    for (let pass = 0; pass < 3; pass += 1) {
+      fit.style.zoom = String(zoom2);
+      const over = fit.getBoundingClientRect().bottom - body.getBoundingClientRect().bottom;
+      if (over <= 0) return;
+      zoom2 *= (need.height * zoom2 - over) / (need.height * zoom2);
+    }
   }
   /** How far to scale the frame so it fits. The frame's size comes off the
       stylesheet, never a copy here. `--sds-slide-width` and its height are
       the set's, and a copy in TypeScript is the copy that goes stale. */
-  decide() {
+  measure() {
     const box = this.firstElementChild;
-    if (!box || !this.fit) return;
+    if (!box) return;
     const style = getComputedStyle(box);
     const width = parseFloat(style.getPropertyValue("--sds-slide-width"));
     const height = parseFloat(style.getPropertyValue("--sds-slide-height"));
+    const stated = parseFloat(style.getPropertyValue("--sds-slide-zoom"));
     const parent = this.parentElement;
     if (!parent) return;
     const rect = parent.getBoundingClientRect();
     const around = getComputedStyle(parent);
     const room = rect.width - parseFloat(around.paddingLeft) - parseFloat(around.paddingRight);
-    const tall = window.innerHeight - Math.max(0, rect.top + parseFloat(around.paddingTop)) - parseFloat(around.paddingBottom);
-    if (!(width > 0) || !(height > 0) || !(room > 0) || !(tall > 0)) return;
-    this.zoom = Math.min(room / width, tall / height);
+    if (!this.fit) {
+      if (!this.shrink) {
+        this.zoom = 0;
+        return;
+      }
+      if (!(width > 0) || !(room > 0)) return;
+      this.zoom = room / width < stated ? room / width : 0;
+      return;
+    }
+    const pads = parseFloat(around.paddingTop) + parseFloat(around.paddingBottom);
+    const inner = rect.height - pads;
+    const below = window.innerHeight - Math.max(0, rect.top + parseFloat(around.paddingTop)) - parseFloat(around.paddingBottom);
+    const tall = below > 0 ? Math.min(below, inner) : inner;
+    if (!(width > 0) || !(height > 0) || !(room > 0)) return;
+    this.zoom = tall > 0 ? Math.min(room / width, tall / height) : room / width;
   }
   /* The title's step follows the kind. The display step stands alone on a
      slide that says one thing. A content slide's title shares the frame
      with a body and takes the h2 step. Both are the page's own registers. */
   head() {
     if (!this.eyebrow && !this.heading && !this.lead) return nothing39;
-    const display = this.kind !== "content";
+    const display = this.kind !== "content" && this.kind !== "figure";
+    const step = this.kind === "figure" ? "sds-h3" : "sds-h2";
     return html71`<div class="sds-slide__head">
     ${this.eyebrow ? html71`<sds-eyebrow label="${this.eyebrow}"></sds-eyebrow>` : nothing39}
-    ${this.heading ? display ? html71`<h1 class="sds-display">${this.heading}</h1>` : html71`<h2 class="sds-h2">${this.heading}</h2>` : nothing39}
+    ${this.heading ? display ? html71`<h1 class="sds-display">${this.heading}</h1>` : html71`<h2 class="${step}">${this.heading}</h2>` : nothing39}
     ${this.lead ? html71`<p class="sds-lead">${this.lead}</p>` : nothing39}
     ${this.note ? html71`<p class="sds-slide__note">${this.note}</p>` : nothing39}
   </div>`;
@@ -14217,18 +14296,509 @@ var SdsSlide = class extends SdsElement {
     const body = this.taken ?? this.content ?? this.body;
     const zoom2 = this.zoom > 0 ? `zoom:${this.zoom}` : nothing39;
     const page = html71`${this.head()}
-  ${body ? html71`<div class="sds-slide__body">${body}</div>` : nothing39}
+  ${body ? html71`<div class="sds-slide__body"><div class="sds-slide__fit">${body}</div></div>` : nothing39}
   ${this.outline()}
   ${this.foot()}`;
-    return html71`<div class="sds-slide${KIND[this.kind] ? ` ${KIND[this.kind]}` : ""}" data-theme="${GROUND[this.ground] ?? GROUND.paper}" style="${zoom2}">
+    return html71`<div class="sds-slide${KIND[this.kind] ? ` ${KIND[this.kind]}` : ""}" data-theme="${GROUND[this.ground] ?? GROUND.paper}" style="${zoom2}" @click="${this.onFrame}">
   ${this.kind === "speaker" ? html71`<div class="sds-slide__page">${page}</div>${this.portraitColumn()}` : page}
-</div>`;
+</div>${this.zoomable ? html71`<button class="sds-btn sds-btn--secondary sds-btn--sm sds-btn--icon sds-slide__zoom" type="button" title="Open the slide" data-theme="${GROUND[this.ground] ?? GROUND.paper}" @click="${this.open}"><sds-icon name="actions-fullscreen"></sds-icon></button>` : nothing39}`;
   }
 };
 define("sds-slide", SdsSlide);
 
-// packages/frontend/src/components/facts.ts
+// packages/frontend/src/components/deck.ts
 import { html as html72, nothing as nothing40 } from "lit";
+var BOOKENDS = /* @__PURE__ */ new Set(["cover", "closing"]);
+var STEP = { ArrowRight: 1, ArrowDown: 1, PageDown: 1, ArrowLeft: -1, ArrowUp: -1, PageUp: -1 };
+var OWN = "a, button, input, select, textarea, summary, label, [contenteditable], pre, .sds-code";
+var TURN = 0.15;
+var REACH = 120;
+var LIVE = /* @__PURE__ */ new Set(["a", "button", "input", "select", "textarea", "summary", "details", "label", "iframe", "video", "audio", "dialog"]);
+function picture(frame, { sized = false } = {}) {
+  const copy = frame.cloneNode(true);
+  if (!sized) copy.style.removeProperty("zoom");
+  const from = [...frame.querySelectorAll("*")];
+  const to = [...copy.querySelectorAll("*")];
+  for (let i = to.length - 1; i >= 0; i -= 1) {
+    const el = to[i];
+    for (const name of ["id", "tabindex", "name", "for", "href"]) el.removeAttribute(name);
+    if (el.namespaceURI !== "http://www.w3.org/1999/xhtml") continue;
+    if (!el.localName.includes("-") && !LIVE.has(el.localName)) continue;
+    const plain = document.createElement("span");
+    for (const { name, value } of [...el.attributes]) plain.setAttribute(name, value);
+    plain.style.display = getComputedStyle(from[i]).display;
+    plain.append(...el.childNodes);
+    el.replaceWith(plain);
+  }
+  return copy;
+}
+function titleOf(slide, index) {
+  const words = (slide.querySelector(".sds-slide__body")?.textContent ?? "").replace(/\s+/g, " ").trim();
+  return slide.heading || slide.eyebrow || words || `Slide ${index + 1}`;
+}
+var SdsDeck = class extends SdsElement {
+  constructor() {
+    super();
+    /** The slides written between the tags, if any. */
+    this.own = [];
+    this.slides = [];
+    /** The slide to come back to after a print, if the deck was open. */
+    this.resume = -1;
+    /** A drag just ended, so the click the pointer sends after it is no press. */
+    this.dragged = false;
+    this.onCommand = (event) => {
+      const command = event.detail?.command ?? "show";
+      if (command === "close") this.close();
+      else if (command === "toggle") this.open ? this.close() : this.show();
+      else this.show();
+    };
+    /* A press on a slide of the page opens the deck at that slide. */
+    this.onAsk = (event) => {
+      if (this.own.length || this.open) return;
+      const at = this.collect().indexOf(event.target);
+      if (at >= 0) this.show(at);
+    };
+    this.onKey = (event) => {
+      if (!this.open || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
+      const target = event.target;
+      if (target?.closest?.(".sds-deck__stage")) return;
+      const step = STEP[event.key];
+      if (event.key === "Home") this.go(0);
+      else if (event.key === "End") this.go(this.slides.length - 1);
+      else if (event.key === "f" || event.key === "F") this.fullscreen();
+      else if (step) this.go(this.at + step);
+      else return;
+      event.preventDefault();
+    };
+    /* A finger or a pointer drags the slide. Past a part of the stage it
+       turns, short of that it goes back. At either end of the deck it gives
+       a third of the way, so the reader feels the end rather than hits it. */
+    this.onDown = (event) => {
+      if (event.button !== 0 || !this.slides.length) return;
+      if (event.target?.closest?.(OWN)) return;
+      this.drag = { id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, moved: false };
+    };
+    this.onMove = (event) => {
+      const drag = this.drag;
+      const stage = this.stage;
+      if (!drag || !stage || event.pointerId !== drag.id) return;
+      const dx = event.clientX - drag.x;
+      const dy = event.clientY - drag.y;
+      if (!drag.moved) {
+        if (Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx)) this.drag = void 0;
+        if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy)) return;
+        drag.moved = true;
+        try {
+          stage.setPointerCapture(event.pointerId);
+        } catch {
+        }
+        stage.classList.add("is-dragging");
+      }
+      const end = dx > 0 && this.at === 0 || dx < 0 && this.at === this.slides.length - 1;
+      drag.dx = dx;
+      stage.style.setProperty("--sds-deck-drag", `${end ? dx / 3 : dx}px`);
+    };
+    this.onUp = (event) => {
+      const drag = this.drag;
+      const stage = this.stage;
+      if (!drag || event.pointerId !== drag.id) return;
+      this.drag = void 0;
+      if (!drag.moved || !stage) return;
+      this.dragged = true;
+      setTimeout(() => {
+        this.dragged = false;
+      });
+      stage.classList.remove("is-dragging");
+      stage.style.removeProperty("--sds-deck-drag");
+      if (event.type === "pointercancel") return;
+      if (Math.abs(drag.dx) > Math.min(REACH, stage.clientWidth * TURN)) this.go(this.at + (drag.dx < 0 ? 1 : -1), { from: drag.dx });
+    };
+    /* On the whole screen a press on the slide turns it. Not on a link or a
+       control, and not the press a drag ends in. */
+    this.onStageClick = (event) => {
+      if (this.dragged) {
+        this.dragged = false;
+        return;
+      }
+      if (!this.full || event.target?.closest?.(OWN)) return;
+      this.go(this.at + 1);
+    };
+    /* The slide goes back first, then the page scrolls to it. The reader
+       leaves the deck where the slide stands, or at the cover it played from. */
+    this.onClose = () => {
+      this.keys?.abort();
+      const slide = this.giveBack();
+      this.open = false;
+      if (this.resume >= 0) return;
+      const back = this.own.length ? this.querySelector(".sds-deck__poster") : slide;
+      back?.scrollIntoView({ block: "nearest" });
+    };
+    this.label = "Slides";
+    this.from = "";
+    this.open = false;
+    this.at = 0;
+    this.titles = [];
+    this.listed = false;
+    this.full = false;
+    this.brand = "";
+    this.product = "";
+    this.signet = "";
+    this.signetLarge = "";
+    this.numbered = false;
+  }
+  static {
+    this.properties = {
+      label: { type: String },
+      from: { type: String },
+      open: { type: Boolean, reflect: true },
+      at: { type: Number, state: true },
+      titles: { type: Array, state: true },
+      listed: { type: Boolean, state: true },
+      full: { type: Boolean, state: true },
+      brand: { type: String },
+      product: { type: String },
+      signet: { type: String },
+      signetLarge: { type: String, attribute: "signet-large" },
+      numbered: { type: Boolean }
+    };
+  }
+  get dialog() {
+    return this.querySelector("dialog");
+  }
+  connectedCallback() {
+    const written = this.lifted().filter((node) => !isBlank(node));
+    if (written.length) this.own = written.filter((node) => node.localName === "sds-slide");
+    super.connectedCallback();
+    this.addEventListener("sds-command", this.onCommand);
+    this.asks = new AbortController();
+    document.addEventListener("sds-slide-open", this.onAsk, { signal: this.asks.signal });
+    const slides = this.collect();
+    this.hand(slides);
+    if (!this.own.length) for (const slide of slides) slide.setAttribute("zoomable", "");
+  }
+  /* What the deck says once, given to every slide that does not say it. An
+     attribute, because a slide can still wait for its upgrade, and a value
+     set on it then outweighs the attribute its author wrote. The count and
+     the outline come from the order: nobody keeps either by hand. */
+  hand(slides) {
+    const kind = (slide) => slide.getAttribute("kind") || "content";
+    const give = (slide, name, value) => {
+      if (value && !slide.getAttribute(name)) slide.setAttribute(name, value);
+    };
+    const dividers = slides.filter((slide) => kind(slide) === "section");
+    const outline = JSON.stringify(dividers.map((slide) => slide.getAttribute("heading") ?? ""));
+    slides.forEach((slide, i) => {
+      const bookend = BOOKENDS.has(kind(slide));
+      if (!slide.hasAttribute("shrink")) slide.setAttribute("shrink", "");
+      give(slide, "brand", this.brand);
+      give(slide, "product", this.product);
+      give(slide, "signet", bookend ? this.signetLarge || this.signet : this.signet);
+      if (this.numbered && !bookend) give(slide, "number", String(i + 1).padStart(2, "0"));
+      const said = slide.getAttribute("sections");
+      if (dividers.includes(slide) && (!said || said === "[]")) {
+        slide.setAttribute("sections", outline);
+        slide.setAttribute("current", String(dividers.indexOf(slide)));
+      }
+    });
+  }
+  disconnectedCallback() {
+    this.removeEventListener("sds-command", this.onCommand);
+    this.keys?.abort();
+    this.asks?.abort();
+    this.giveBack();
+    super.disconnectedCallback();
+  }
+  /* The slides between the tags go where the poster draws them, once. Lit
+     leaves a node alone that no binding placed, so a loan survives a render. */
+  firstUpdated() {
+    const [cover, ...rest] = this.own;
+    if (cover) this.querySelector(".sds-deck__cover")?.append(cover);
+    this.querySelector(".sds-deck__rest")?.append(...rest);
+  }
+  /** The slides in the order the page has them, read at every opening. A
+      page that grew a slide since the last one has it in the deck. A slide
+      of another deck belongs to that one. */
+  collect() {
+    if (this.own.length) return this.own;
+    const root = this.from ? document.getElementById(this.from) : document;
+    if (!root) return [];
+    return [...root.querySelectorAll("sds-slide")].filter((slide) => !slide.closest("sds-deck"));
+  }
+  show(at = 0) {
+    this.slides = this.collect();
+    this.titles = this.slides.map(titleOf);
+    this.open = true;
+    void this.updateComplete.then(() => {
+      this.draw();
+      const el = this.dialog;
+      if (el && !el.open) el.showModal();
+      this.listen();
+      this.go(at);
+    });
+  }
+  close() {
+    if (document.fullscreenElement && document.fullscreenElement === this.screen) void document.exitFullscreen();
+    this.dialog?.close();
+  }
+  /* What goes to the full screen. Not the dialog: the platform refuses a
+     `<dialog>` there. The box inside it carries all it shows. */
+  get screen() {
+    return this.querySelector(".sds-deck__screen");
+  }
+  /** The deck on the whole screen, or back in the window. The head steps
+      aside until the pointer asks for it, and a press on the slide turns it,
+      as a room expects of a deck. */
+  fullscreen() {
+    const el = this.screen;
+    if (!el) return;
+    if (document.fullscreenElement === el) void document.exitFullscreen();
+    else void el.requestFullscreen?.().catch(() => void 0);
+  }
+  /** Show slide `index`, counted from zero. Past either end it stays. The
+      slide on the stage goes out the way the deck moves, and the next one
+      comes in behind it. `from` is where a drag let go of the slide. */
+  go(index, { from = 0 } = {}) {
+    if (!this.slides.length) return;
+    const to = Math.min(Math.max(index, 0), this.slides.length - 1);
+    if (to === this.at && this.loan) return;
+    const stage = this.stage;
+    const frame = this.loan?.slide.querySelector(":scope > .sds-slide");
+    const way = Math.sign(to - this.at);
+    const moves = Boolean(stage && frame && way) && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ghost = moves && stage && frame ? this.ghost(frame, stage) : void 0;
+    this.lend(to);
+    if (ghost && stage) this.push(stage, ghost, way, from);
+    void this.updateComplete.then(() => this.follow());
+  }
+  /* The slide that leaves, as a picture where it stands, so the slide the
+     deck lends next can take the stage at once. A push still under way
+     ends here: the next one starts from where the slides are. */
+  ghost(frame, stage) {
+    for (const old of stage.querySelectorAll(".sds-deck__ghost")) old.remove();
+    const box = frame.getBoundingClientRect();
+    const room = stage.getBoundingClientRect();
+    const ghost = document.createElement("div");
+    ghost.className = "sds-deck__ghost";
+    ghost.setAttribute("aria-hidden", "true");
+    ghost.inert = true;
+    ghost.style.insetInlineStart = `${box.left - room.left}px`;
+    ghost.style.insetBlockStart = `${box.top - room.top}px`;
+    ghost.style.inlineSize = `${box.width}px`;
+    ghost.style.blockSize = `${box.height}px`;
+    ghost.append(picture(frame, { sized: true }));
+    stage.append(ghost);
+    return ghost;
+  }
+  /* Both slides move one stage width, side by side: the old one out, the
+     new one in from where the old one goes next. The new one starts with
+     no transition, the stylesheet runs the rest. */
+  push(stage, ghost, way, from) {
+    const width = stage.clientWidth;
+    stage.classList.add("is-placing");
+    stage.style.setProperty("--sds-deck-drag", `${from + way * width}px`);
+    void stage.offsetWidth;
+    stage.classList.remove("is-placing");
+    stage.style.removeProperty("--sds-deck-drag");
+    ghost.style.translate = `${-way * width - from}px 0`;
+    const gone = () => ghost.remove();
+    ghost.addEventListener("transitionend", gone, { once: true });
+    setTimeout(gone, 1e3);
+  }
+  /* A picture of every slide for the list, before the first loan. Each
+     slide still stands where the page drew it, fitted to its column. */
+  draw() {
+    const boxes2 = this.querySelectorAll(".sds-deck__thumb");
+    this.slides.forEach((slide, i) => {
+      const frame = slide.querySelector(":scope > .sds-slide");
+      const box = boxes2[i];
+      if (frame && box) box.replaceChildren(picture(frame));
+    });
+  }
+  /* The slide leaves the page for the stage, and a box of its height holds
+     its place. So the page under the backdrop does not move, and the reader
+     comes back to the scroll they left. */
+  lend(index) {
+    const slide = this.slides[index];
+    const stage = this.querySelector(".sds-deck__stage");
+    if (!slide || !stage) return;
+    this.giveBack();
+    const hold = document.createElement("div");
+    hold.className = "sds-deck__hold";
+    hold.style.height = `${slide.getBoundingClientRect().height}px`;
+    slide.replaceWith(hold);
+    this.loan = { slide, hold, fit: slide.fit, zoomable: slide.zoomable };
+    slide.fit = true;
+    slide.zoomable = false;
+    stage.append(slide);
+    this.at = index;
+  }
+  giveBack() {
+    const loan = this.loan;
+    if (!loan) return void 0;
+    this.loan = void 0;
+    loan.slide.fit = loan.fit;
+    loan.slide.zoomable = loan.zoomable;
+    loan.hold.replaceWith(loan.slide);
+    return loan.slide;
+  }
+  /* The current entry stays in view in the list. Its own `scrollTop`, never
+     `scrollIntoView`, which also moves the page under the backdrop. */
+  follow() {
+    const list = this.querySelector(".sds-deck__nav");
+    const row = list?.querySelector(".sds-deck__entry.is-active");
+    if (!list || !row || list.hidden) return;
+    if (row.offsetTop < list.scrollTop) list.scrollTop = row.offsetTop;
+    else if (row.offsetTop + row.offsetHeight > list.scrollTop + list.clientHeight) {
+      list.scrollTop = row.offsetTop + row.offsetHeight - list.clientHeight;
+    }
+  }
+  /* On the document, not the dialog: a press that disables the last button
+     leaves the focus on no element inside it. */
+  listen() {
+    this.keys?.abort();
+    this.keys = new AbortController();
+    document.addEventListener("keydown", this.onKey, { signal: this.keys.signal });
+    document.addEventListener(
+      "fullscreenchange",
+      () => {
+        this.full = Boolean(document.fullscreenElement) && document.fullscreenElement === this.screen;
+        if (this.full) this.screen?.focus();
+      },
+      { signal: this.keys.signal }
+    );
+  }
+  /** Every slide on a page of its own, and the browser's print. Its dialog
+      saves a PDF: text stays text, and a link stays a link. The slides go
+      back when the print is over. */
+  print() {
+    this.resume = this.open ? this.at : -1;
+    this.giveBack();
+    if (this.open) this.close();
+    const sheet = document.createElement("div");
+    sheet.className = "sds-deck__print";
+    document.body.append(sheet);
+    const loans = this.collect().map((slide) => {
+      const hold = document.createElement("div");
+      hold.className = "sds-deck__hold";
+      slide.replaceWith(hold);
+      const loan = { slide, hold, fit: slide.fit, zoomable: slide.zoomable };
+      slide.fit = false;
+      slide.zoomable = false;
+      sheet.append(slide);
+      return loan;
+    });
+    document.documentElement.setAttribute("data-sds-deck-print", "");
+    let done = false;
+    const restore = () => {
+      if (done) return;
+      done = true;
+      document.documentElement.removeAttribute("data-sds-deck-print");
+      for (const loan of loans) {
+        loan.slide.fit = loan.fit;
+        loan.slide.zoomable = loan.zoomable;
+        loan.hold.replaceWith(loan.slide);
+      }
+      sheet.remove();
+      const at = this.resume;
+      this.resume = -1;
+      if (at >= 0) this.show(at);
+    };
+    window.addEventListener("afterprint", restore, { once: true });
+    requestAnimationFrame(
+      () => requestAnimationFrame(() => {
+        window.print();
+        restore();
+      })
+    );
+  }
+  get stage() {
+    return this.querySelector(".sds-deck__stage");
+  }
+  updated() {
+    const el = this.dialog;
+    if (!el || !this.isConnected) return;
+    if (!this.open && el.open) el.close();
+  }
+  /* The cover as the page shows it, and the press over it. The rest of the
+     deck takes the cover's width out of sight, because a slide fits itself
+     to the room it has. */
+  poster() {
+    if (!this.own.length) return nothing40;
+    return html72`<div class="sds-deck__poster">
+  <div class="sds-deck__cover" @click="${() => this.show(0)}"></div>
+  <div class="sds-deck__presses">
+    <button class="sds-btn sds-btn--secondary sds-btn--icon" type="button" title="Save as PDF" @click="${() => this.print()}"><sds-icon name="actions-file-pdf"></sds-icon></button>
+    <button class="sds-btn sds-btn--primary sds-deck__play" type="button" @click="${() => this.show(0)}"><sds-icon name="actions-play"></sds-icon>Play the deck · ${this.own.length} slides</button>
+  </div>
+  <div class="sds-deck__rest"></div>
+</div>`;
+  }
+  /* A list that stands over the stage, on a narrow screen, gives the stage
+     back once the reader has chosen. The stylesheet says which it is. */
+  pick(index) {
+    this.go(index);
+    const nav = this.querySelector(".sds-deck__nav");
+    if (nav && getComputedStyle(nav).position === "absolute") this.listed = false;
+  }
+  list() {
+    return html72`<nav class="sds-deck__nav" aria-label="All slides" ?hidden="${!this.listed}">
+  <ol class="sds-deck__list">${this.titles.map((title, i) => html72`<li>
+    <button class="${i === this.at ? "sds-deck__entry is-active" : "sds-deck__entry"}" type="button" aria-current="${i === this.at ? "true" : nothing40}" @click="${() => this.pick(i)}">
+      <span class="sds-deck__thumb" aria-hidden="true" inert></span>
+      <span class="sds-deck__entry-line">
+        <span class="sds-deck__entry-count">${String(i + 1).padStart(2, "0")}</span>
+        <span class="sds-deck__entry-title">${title}</span>
+      </span>
+    </button>
+  </li>`)}</ol>
+</nav>`;
+  }
+  render() {
+    const total = this.titles.length;
+    const count = total ? `${this.at + 1} / ${total}` : "";
+    const through = total ? `inline-size: ${(this.at + 1) / total * 100}%` : "inline-size: 0";
+    return html72`${this.poster()}<dialog class="${this.full ? "sds-deck is-full" : "sds-deck"}" aria-label="${this.label}" @close="${this.onClose}">
+  <div class="sds-deck__screen" tabindex="-1">
+  <div class="sds-modal__head">
+    <div class="sds-deck__start">
+      <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" type="button" title="${this.listed ? "Hide the slides" : "Show all slides"}" aria-expanded="${this.listed ? "true" : "false"}" @click="${() => {
+      this.listed = !this.listed;
+      void this.updateComplete.then(() => this.follow());
+    }}"><sds-icon name="actions-list"></sds-icon></button>
+      <span class="sds-modal__title">${this.label}</span>
+    </div>
+    <div class="sds-deck__controls">
+      <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" type="button" title="Previous slide (←)" ?disabled="${this.at <= 0}" @click="${() => this.go(this.at - 1)}"><sds-icon name="actions-arrow-left"></sds-icon></button>
+      <p class="sds-deck__count" aria-live="polite">${count}</p>
+      <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" type="button" title="Next slide (→)" ?disabled="${this.at >= total - 1}" @click="${() => this.go(this.at + 1)}"><sds-icon name="actions-arrow-right"></sds-icon></button>
+    </div>
+    <div class="sds-deck__end">
+      <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" type="button" title="Save as PDF" @click="${() => this.print()}"><sds-icon name="actions-file-pdf"></sds-icon></button>
+      <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" type="button" title="${this.full ? "Leave the full screen (F)" : "Full screen (F)"}" aria-pressed="${this.full ? "true" : "false"}" @click="${() => this.fullscreen()}"><sds-icon name="actions-fullscreen"></sds-icon></button>
+      <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" type="button" title="Close (Esc)" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
+    </div>
+  </div>
+  <div class="sds-deck__progress" aria-hidden="true"><span style="${through}"></span></div>
+  <div class="sds-deck__main">
+    ${this.list()}
+    <div
+      class="sds-deck__stage"
+      @pointerdown="${this.onDown}"
+      @pointermove="${this.onMove}"
+      @pointerup="${this.onUp}"
+      @pointercancel="${this.onUp}"
+      @dragstart="${(event) => event.preventDefault()}"
+      @click="${this.onStageClick}"
+    ></div>
+  </div>
+  </div>
+</dialog>`;
+  }
+};
+define("sds-deck", SdsDeck);
+
+// packages/frontend/src/components/facts.ts
+import { html as html73, nothing as nothing41 } from "lit";
 var SdsFacts = class extends SdsElement {
   constructor() {
     super();
@@ -14249,10 +14819,10 @@ var SdsFacts = class extends SdsElement {
   }
   render() {
     const pairs = this.entries.map(
-      ({ term, value, note }) => html72`<dt>${term}</dt>
-  <dd>${value}${note ? html72`<span class="sds-facts__note">${note}</span>` : nothing40}</dd>`
+      ({ term, value, note }) => html73`<dt>${term}</dt>
+  <dd>${value}${note ? html73`<span class="sds-facts__note">${note}</span>` : nothing41}</dd>`
     );
-    return html72`<dl class="sds-facts">
+    return html73`<dl class="sds-facts">
   ${this.taken ?? this.content ?? pairs}
 </dl>`;
   }
@@ -14260,7 +14830,7 @@ var SdsFacts = class extends SdsElement {
 define("sds-facts", SdsFacts);
 
 // packages/frontend/src/components/entry.ts
-import { html as html73, nothing as nothing41 } from "lit";
+import { html as html74, nothing as nothing42 } from "lit";
 var SdsEntry = class extends SdsElement {
   constructor() {
     super();
@@ -14300,22 +14870,22 @@ var SdsEntry = class extends SdsElement {
     super.connectedCallback();
   }
   render() {
-    return html73`<article class="sds-entry" id="${this.anchor || nothing41}">
+    return html74`<article class="sds-entry" id="${this.anchor || nothing42}">
   <span class="sds-entry__number">${this.number ? `${this.prefix}${this.number}` : ""}</span>
   <h3 class="sds-entry__title">${this.heading}</h3>
-  ${this.label || this.origin ? html73`<div class="sds-entry__meta">
-    ${this.label ? html73`<sds-badge label="${this.label}" tone="${this.tone}"></sds-badge>` : nothing41}
-    ${this.origin ? html73`<span class="sds-entry__origin">${this.origin}</span>` : nothing41}
-  </div>` : nothing41}
+  ${this.label || this.origin ? html74`<div class="sds-entry__meta">
+    ${this.label ? html74`<sds-badge label="${this.label}" tone="${this.tone}"></sds-badge>` : nothing42}
+    ${this.origin ? html74`<span class="sds-entry__origin">${this.origin}</span>` : nothing42}
+  </div>` : nothing42}
   <div class="sds-entry__body">${this.taken ?? this.content ?? this.body}</div>
-  ${this.todo ? html73`<p class="sds-entry__todo"><span class="sds-entry__number">${this.number ? `${this.todoPrefix}${this.number}` : ""}</span>${this.todo}</p>` : nothing41}
+  ${this.todo ? html74`<p class="sds-entry__todo"><span class="sds-entry__number">${this.number ? `${this.todoPrefix}${this.number}` : ""}</span>${this.todo}</p>` : nothing42}
 </article>`;
   }
 };
 define("sds-entry", SdsEntry);
 
 // packages/frontend/src/components/register.ts
-import { html as html74, nothing as nothing42 } from "lit";
+import { html as html75, nothing as nothing43 } from "lit";
 import { unsafeHTML as unsafeHTML6 } from "lit/directives/unsafe-html.js";
 var FINDING_GROUPS = [
   { key: "blocks", heading: "Blocks submission", label: "blocks", tone: "error" },
@@ -14390,7 +14960,7 @@ var SdsRegister = class extends SdsElement {
       anchor: e.anchor ?? "",
       render: (placed, group) => {
         const f = this.facts(placed, group);
-        return html74`<sds-entry number="${f["number"]}" prefix="${f["prefix"]}" todo-prefix="${f["todo-prefix"]}" label="${f["label"]}" tone="${f["tone"]}" heading="${e.heading}" group="${e.group ?? ""}" origin="${e.origin ?? ""}" anchor="${f["anchor"]}" todo="${e.todo ?? ""}" .body="${e.body ?? ""}"></sds-entry>`;
+        return html75`<sds-entry number="${f["number"]}" prefix="${f["prefix"]}" todo-prefix="${f["todo-prefix"]}" label="${f["label"]}" tone="${f["tone"]}" heading="${e.heading}" group="${e.group ?? ""}" origin="${e.origin ?? ""}" anchor="${f["anchor"]}" todo="${e.todo ?? ""}" .body="${e.body ?? ""}"></sds-entry>`;
       }
     }));
   }
@@ -14408,7 +14978,7 @@ var SdsRegister = class extends SdsElement {
         anchor: facts2["anchor"] ?? "",
         render: (placed, group) => {
           const f = this.facts(placed, group);
-          return html74`<sds-entry number="${f["number"]}" prefix="${f["prefix"]}" todo-prefix="${f["todo-prefix"]}" label="${f["label"]}" tone="${f["tone"]}" heading="${facts2["heading"] ?? ""}" group="${facts2["group"] ?? ""}" origin="${facts2["origin"] ?? ""}" anchor="${f["anchor"]}" todo="${facts2["todo"] ?? ""}" .content="${html74`${unsafeHTML6(inner)}`}"></sds-entry>`;
+          return html75`<sds-entry number="${f["number"]}" prefix="${f["prefix"]}" todo-prefix="${f["todo-prefix"]}" label="${f["label"]}" tone="${f["tone"]}" heading="${facts2["heading"] ?? ""}" group="${facts2["group"] ?? ""}" origin="${facts2["origin"] ?? ""}" anchor="${f["anchor"]}" todo="${facts2["todo"] ?? ""}" .content="${html75`${unsafeHTML6(inner)}`}"></sds-entry>`;
         }
       };
     });
@@ -14437,7 +15007,7 @@ var SdsRegister = class extends SdsElement {
     ];
   }
   badge(group) {
-    return group?.label ? html74`<sds-badge label="${group.label}" tone="${group.tone ?? "default"}"></sds-badge>` : "";
+    return group?.label ? html75`<sds-badge label="${group.label}" tone="${group.tone ?? "default"}"></sds-badge>` : "";
   }
   get columns() {
     return [
@@ -14450,7 +15020,7 @@ var SdsRegister = class extends SdsElement {
   row(entry) {
     const cells = [
       `${this.prefix}${entry.number}`,
-      html74`<a href="#${entry.anchor}">${entry.heading}</a>`
+      html75`<a href="#${entry.anchor}">${entry.heading}</a>`
     ];
     if (this.groups.length) cells.push(this.badge(entry.group));
     cells.push(entry.origin || "\u2014");
@@ -14467,7 +15037,7 @@ var SdsRegister = class extends SdsElement {
       that tells the two apart. The number is the way back to the entry. */
   todoRow(entry) {
     const cells = [
-      html74`<a href="#${entry.anchor}">${this.todoPrefix}${entry.number}</a>`,
+      html75`<a href="#${entry.anchor}">${this.todoPrefix}${entry.number}</a>`,
       entry.todo
     ];
     if (this.groups.length) cells.push(this.badge(entry.group));
@@ -14477,19 +15047,19 @@ var SdsRegister = class extends SdsElement {
     const placed = this.placed;
     const todos = placed.filter((e) => e.todo);
     const groups = this.groups.length ? [...this.groups, null] : [null];
-    return html74`<div class="sds-register">
+    return html75`<div class="sds-register">
   <sds-table density="compact" scrollable .columns="${this.columns}" .rows="${placed.map((e) => this.row(e))}"></sds-table>
-  ${todos.length ? html74`<section class="sds-section" id="${this.name}-todo">
+  ${todos.length ? html75`<section class="sds-section" id="${this.name}-todo">
     <h3>To do</h3>
     <sds-table density="compact" scrollable .columns="${this.todoColumns}" .rows="${todos.map((e) => this.todoRow(e))}"></sds-table>
-  </section>` : nothing42}
+  </section>` : nothing43}
   ${groups.map((group) => {
       const own = placed.filter((e) => e.group === group);
-      if (!own.length) return nothing42;
-      return group ? html74`<section class="sds-section" id="${this.name}-${group.key}">
+      if (!own.length) return nothing43;
+      return group ? html75`<section class="sds-section" id="${this.name}-${group.key}">
     <h3>${group.heading}</h3>
     ${own.map((e) => e.out)}
-  </section>` : html74`<div class="sds-register__entries">${own.map((e) => e.out)}</div>`;
+  </section>` : html75`<div class="sds-register__entries">${own.map((e) => e.out)}</div>`;
     })}
 </div>`;
   }
@@ -14497,7 +15067,7 @@ var SdsRegister = class extends SdsElement {
 define("sds-register", SdsRegister);
 
 // packages/frontend/src/components/confval.ts
-import { html as html75, nothing as nothing43 } from "lit";
+import { html as html76, nothing as nothing44 } from "lit";
 var SdsConfval = class extends SdsElement {
   constructor() {
     super();
@@ -14538,22 +15108,22 @@ var SdsConfval = class extends SdsElement {
     ];
   }
   fact({ label, value }) {
-    return html75`<dt class="sds-label">${label}</dt>
+    return html76`<dt class="sds-label">${label}</dt>
       <dd class="sds-mono">${value}</dd>`;
   }
   render() {
     const facts2 = this.stated;
-    const mark = this.anchor ? html75`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing43;
-    return html75`<dl class="sds-confval">
-  <dt class="sds-confval__term" id="${this.anchor || nothing43}">
+    const mark = this.anchor ? html76`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing44;
+    return html76`<dl class="sds-confval">
+  <dt class="sds-confval__term" id="${this.anchor || nothing44}">
     <code class="sds-confval__name">${this.name}</code>
-    ${this.required ? html75`<sds-badge label="required"></sds-badge>` : nothing43}
+    ${this.required ? html76`<sds-badge label="required"></sds-badge>` : nothing44}
     ${mark}
   </dt>
   <dd class="sds-confval__detail">
-    ${facts2.length ? html75`<dl class="sds-confval__facts">
+    ${facts2.length ? html76`<dl class="sds-confval__facts">
       ${lines(facts2.map((f) => this.fact(f)), 6)}
-    </dl>` : nothing43}
+    </dl>` : nothing44}
     <div class="sds-confval__body">${this.taken ?? this.content ?? this.body}</div>
   </dd>
 </dl>`;
@@ -14627,6 +15197,7 @@ var TAGS4 = [
   "sds-diff",
   "sds-quote",
   "sds-slide",
+  "sds-deck",
   "sds-byline",
   "sds-note",
   "sds-facts",
@@ -14650,6 +15221,7 @@ export {
   SdsConfval,
   SdsCopy,
   SdsDecision,
+  SdsDeck,
   SdsDialog,
   SdsDiff,
   SdsDropdown,

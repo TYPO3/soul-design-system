@@ -32,6 +32,9 @@ export const sdsSlide = ({ kind, ground, eyebrow, heading, lead, note, number, s
 const meta: Meta<SlideProps> = {
   title: 'Components/Content/Slide',
   tags: ['autodocs', '!dev'],
+  /* The stage is the window's height, as it is under `Slides/`. A padded
+     canvas adds its padding to that, and the stage scrolls. */
+  parameters: { layout: 'fullscreen' },
   render: (args) => sdsSlide(args),
   argTypes: {
     kind: { control: 'select', options: ['cover', 'section', 'statement', 'content', 'closing'] },

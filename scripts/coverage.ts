@@ -76,6 +76,10 @@ const ELSEWHERE = [
   /* One frame of a deck. A reader reads a document, and a room watches a
      deck: the same elements at twice the size, in a frame no page has. */
   'sds-slide',
+  /* And the way through them. A manual holds no slide to run through. A
+     paper that carries slides is a page built on the system, not a page
+     this renderer writes. */
+  'sds-deck',
   /* A wall of glyphs is an index of an asset set, which a manual page is not.
      A document that wants one is a catalog with prose round it, and that is
      a product surface — see `Pages/Catalog/Catalog`. */

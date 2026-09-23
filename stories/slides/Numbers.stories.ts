@@ -9,8 +9,8 @@ import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/stat.ts';
 import '../../packages/frontend/src/components/grid.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { grid, type PageMode } from '../lib/page.ts';
-import { slide } from '../lib/deck.ts';
+import { grid } from '../lib/page.ts';
+import { slide, type DeckMode } from '../lib/deck.ts';
 
 const VALUES = [
   { value: '16', unit: 'px', label: 'Floor', note: 'The floor for the signet and the icons.' },
@@ -18,14 +18,14 @@ const VALUES = [
   { value: '1', unit: 'px', label: 'Hairline', note: 'Hairlines do the structural work.' },
 ];
 
-export function numbersSlide({ flat = false }: PageMode = {}): TemplateResult {
+export function numbersSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     { heading: 'The values the design rests on', number: '08' },
     grid(
       VALUES.map((one) => html`<sds-stat value="${one.value}" unit="${one.unit}" label="${one.label}" note="${one.note}"></sds-stat>`),
       { flat },
     ),
-    { flat },
+    { flat, bare },
   );
 }
 

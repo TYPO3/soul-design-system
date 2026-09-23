@@ -65,6 +65,9 @@ group.
    * - ``sds-confval``
      - one configuration value in a reference
      - :ref:`Data — sds-confval <component-sds-confval>`
+   * - ``sds-deck``
+     - slides one after the other, at the window's size
+     - :ref:`Content — sds-deck <component-sds-deck>`
    * - ``sds-dialog``
      - a surface that opens over the page, and what opens it
      - :ref:`Overlays — sds-dialog <component-sds-dialog>`
@@ -227,10 +230,11 @@ row of controls is inline. Either way a reader reads a distance off the
 element it belongs to, not off two of them. No rule in this system reaches
 past a tag to find a block.
 
-Four elements are ``display: contents``: ``sds-dialog``, ``sds-lightbox``,
-``sds-modal`` and ``sds-overlay``. What they draw is in the top layer or
-fixed to the viewport, so a box where they stand is one nothing fills. That
-is the whole list, and each states it.
+``sds-dialog``, ``sds-lightbox``, ``sds-modal``, ``sds-overlay`` and
+``sds-deck`` are ``display: contents``. What they draw is in the top layer or
+fixed to the viewport, so a box where they stand is one nothing fills. A
+deck of its own draws its poster, and the poster is its own box. That is
+the whole list, and each states it.
 
 What a component is made of
 ===========================
@@ -396,6 +400,9 @@ element, not on what is inside it.
      - ``sds-dialog``
      - none. Anything that closed a dialog without a confirm: the cancel
        button, the header X, Escape, a ``close()``
+   * - ``sds-slide-open``
+     - ``sds-slide`` with ``zoomable``
+     - none. The deck that runs through the slide opens at it
    * - ``sds-theme-change``
      - ``sds-theme``
      - ``{ theme }``: ``"light"``, ``"dark"``, or ``null`` for the machine's

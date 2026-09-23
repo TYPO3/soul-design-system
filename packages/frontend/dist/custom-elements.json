@@ -2213,6 +2213,224 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/deck.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsDeck",
+          "tagName": "sds-deck",
+          "summary": "Slides one after the other, at the window's size.",
+          "description": "Slides one after the other, at the window's size.\n\nTwo ways in. Slides between the tags are a deck of their own: the page shows the cover and a press that plays it. With none, the deck runs through the slides of the page, each where its section put it. Every one gets a press that opens the deck there. The deck holds no copy. It lends a slide the stage and puts it back where it stood.\n\n<sds-deck label=\"…\"><sds-slide kind=\"cover\" …></sds-slide>…</sds-deck> <sds-deck id=\"the-deck\" from=\"main-content\"></sds-deck>",
+          "attributes": [
+            {
+              "name": "label",
+              "description": "The name of the deck, in its head: what the reader has open.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "label"
+            },
+            {
+              "name": "from",
+              "description": "The id of the part of the page whose slides the deck runs through. Empty is the whole document. A deck with slides of its own ignores it.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "from"
+            },
+            {
+              "name": "open",
+              "description": "If it stands over the page.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "open"
+            },
+            {
+              "name": "brand",
+              "description": "What every slide of the deck has in common, said once. A slide that says its own keeps it. The lockup in every foot, and the larger mark a cover and a closing carry.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "brand"
+            },
+            {
+              "name": "product",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "product"
+            },
+            {
+              "name": "signet",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "signet"
+            },
+            {
+              "name": "signet-large",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "signetLarge"
+            },
+            {
+              "name": "numbered",
+              "description": "If the deck counts its slides in their feet. A cover and a closing carry no count.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "numbered"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "The name of the deck, in its head: what the reader has open.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "from",
+              "privacy": "public",
+              "description": "The id of the part of the page whose slides the deck runs through. Empty is the whole document. A deck with slides of its own ignores it.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "from"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "description": "If it stands over the page.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "open"
+            },
+            {
+              "kind": "field",
+              "name": "brand",
+              "privacy": "public",
+              "description": "What every slide of the deck has in common, said once. A slide that says its own keeps it. The lockup in every foot, and the larger mark a cover and a closing carry.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "brand"
+            },
+            {
+              "kind": "field",
+              "name": "product",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "product"
+            },
+            {
+              "kind": "field",
+              "name": "signet",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "signet"
+            },
+            {
+              "kind": "field",
+              "name": "signetLarge",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "signet-large"
+            },
+            {
+              "kind": "field",
+              "name": "numbered",
+              "privacy": "public",
+              "description": "If the deck counts its slides in their feet. A cover and a closing carry no count.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "numbered"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-btn",
+            "sds-btn--ghost",
+            "sds-btn--icon",
+            "sds-btn--primary",
+            "sds-btn--secondary",
+            "sds-btn--sm",
+            "sds-code",
+            "sds-deck",
+            "sds-deck__controls",
+            "sds-deck__count",
+            "sds-deck__cover",
+            "sds-deck__end",
+            "sds-deck__entry",
+            "sds-deck__entry-count",
+            "sds-deck__entry-line",
+            "sds-deck__entry-title",
+            "sds-deck__ghost",
+            "sds-deck__list",
+            "sds-deck__main",
+            "sds-deck__nav",
+            "sds-deck__poster",
+            "sds-deck__presses",
+            "sds-deck__print",
+            "sds-deck__progress",
+            "sds-deck__rest",
+            "sds-deck__screen",
+            "sds-deck__stage",
+            "sds-deck__start",
+            "sds-deck__thumb",
+            "sds-modal__close",
+            "sds-modal__head",
+            "sds-modal__title",
+            "sds-slide",
+            "sds-slide__body"
+          ],
+          "slots": []
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsDeck",
+          "declaration": {
+            "name": "SdsDeck",
+            "module": "src/components/deck.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-deck",
+          "declaration": {
+            "name": "SdsDeck",
+            "module": "src/components/deck.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/dialog.ts",
       "declarations": [
         {
@@ -8300,7 +8518,7 @@
               "name": "kind",
               "description": "",
               "type": {
-                "text": "'cover' | 'section' | 'statement' | 'content' | 'closing' | 'speaker'"
+                "text": "'cover' | 'section' | 'statement' | 'content' | 'closing' | 'speaker' | 'figure'"
               },
               "fieldName": "kind"
             },
@@ -8410,11 +8628,27 @@
             },
             {
               "name": "fit",
-              "description": "If the frame scales to the room it has. The room is the width its parent gives it and the height from there to the bottom of the window. Unset, it draws at the size the stylesheet states: a 1920 × 1080 viewport.",
+              "description": "If the frame scales to the room it has: a stage. The room is the width and the height its parent gives it, and the window below its top.",
               "type": {
                 "text": "boolean"
               },
               "fieldName": "fit"
+            },
+            {
+              "name": "shrink",
+              "description": "If the frame is a picture in a column. It shrinks to a column that is narrower than it, and never grows past the size the stylesheet states. A measurement, so a page with no script draws the stated size. A deck sets it on every slide it runs through.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "shrink"
+            },
+            {
+              "name": "zoomable",
+              "description": "If the slide carries a press that opens it at the window's size. A deck sets it on every slide it runs through.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "zoomable"
             }
           ],
           "members": [
@@ -8424,7 +8658,7 @@
               "privacy": "public",
               "description": "",
               "type": {
-                "text": "'cover' | 'section' | 'statement' | 'content' | 'closing' | 'speaker'"
+                "text": "'cover' | 'section' | 'statement' | 'content' | 'closing' | 'speaker' | 'figure'"
               },
               "attribute": "kind"
             },
@@ -8571,26 +8805,60 @@
               "kind": "field",
               "name": "fit",
               "privacy": "public",
-              "description": "If the frame scales to the room it has. The room is the width its parent gives it and the height from there to the bottom of the window. Unset, it draws at the size the stylesheet states: a 1920 × 1080 viewport.",
+              "description": "If the frame scales to the room it has: a stage. The room is the width and the height its parent gives it, and the window below its top.",
               "type": {
                 "text": "boolean"
               },
               "attribute": "fit"
+            },
+            {
+              "kind": "field",
+              "name": "shrink",
+              "privacy": "public",
+              "description": "If the frame is a picture in a column. It shrinks to a column that is narrower than it, and never grows past the size the stylesheet states. A measurement, so a page with no script draws the stated size. A deck sets it on every slide it runs through.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "shrink"
+            },
+            {
+              "kind": "field",
+              "name": "zoomable",
+              "privacy": "public",
+              "description": "If the slide carries a press that opens it at the window's size. A deck sets it on every slide it runs through.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "zoomable"
             }
           ],
-          "events": [],
+          "events": [
+            {
+              "name": "sds-slide-open",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
           "cssClasses": [
+            "sds-btn",
+            "sds-btn--icon",
+            "sds-btn--secondary",
+            "sds-btn--sm",
             "sds-display",
             "sds-h2",
+            "sds-h3",
             "sds-lead",
             "sds-slide",
             "sds-slide--closing",
             "sds-slide--cover",
+            "sds-slide--figure",
             "sds-slide--section",
             "sds-slide--speaker",
             "sds-slide--statement",
             "sds-slide__body",
             "sds-slide__count",
+            "sds-slide__fit",
             "sds-slide__foot",
             "sds-slide__head",
             "sds-slide__lockup",
@@ -8598,7 +8866,8 @@
             "sds-slide__nav-item",
             "sds-slide__note",
             "sds-slide__page",
-            "sds-slide__portrait"
+            "sds-slide__portrait",
+            "sds-slide__zoom"
           ],
           "slots": [
             {

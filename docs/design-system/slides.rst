@@ -37,6 +37,8 @@ What a slide owns
   marked. ``statement`` centres one sentence. ``content`` keeps its title at
   the top margin, so it never hops between slides. ``speaker`` gives the
   name the left column and the portrait the right, edge to edge.
+  ``figure`` shows a table, a drawing or a screenshot from a page. Its
+  title and its margin are a step smaller.
 - **The foot.** One row, ``--space-8`` off the bottom edge. The lockup the
   bar and the footer draw, and the count in the label register. A cover and
   a closing end on the lockup alone, one step up.
@@ -49,6 +51,53 @@ pipe in the lockup, the prompt in a code block, and the rule under the
 current entry of the outline. Nothing floats. A plane separates with a
 hairline, and the slide itself draws one. So a slide on a page, a deck's
 overview or a story's stage, has an edge where its ground is the page's.
+
+A slide on a page
+=================
+
+A long document can carry a slide in each of its parts: what the part says,
+in one frame. **The slide stands where its section puts it, as a picture.**
+With ``shrink`` it takes the column's width where the column is narrower
+than the frame, and never grows past its own size. The deck sets it on
+every slide it runs through. Two slides in a row stand the flow's
+step apart, like two figures.
+
+A picture takes no press. Nothing in a slide on a page is a link, a control
+or a stop for the keyboard. The part on the page is where those work. A
+reader who hears the page still hears the text. A press anywhere on the
+slide opens the deck at it, as a press on a picture opens the picture.
+
+What a slide holds always fits it. Content taller than the room shrinks
+until it fits, at the width it had, so nothing wraps anew. Nothing grows.
+A summary that cuts off its own end has stopped being a summary.
+
+The deck
+========
+
+``sds-deck`` is the way through the slides, one frame at the window's size.
+It has two ways in:
+
+- **A deck of its own.** The slides stand between its tags. The page shows
+  the cover and the press that plays the deck. That is a talk inside the
+  text that reports on it.
+- **The deck over a page.** It runs through the slides the page's sections
+  hold, in page order. A long paper reads twice that way: in full, and as
+  its summaries, clicked through.
+
+The deck holds no copy of a slide. It lends each one the stage and puts it
+back where it stood. So a slide has one set of markup, and the page after
+the deck is the page before it.
+
+**What every slide of a deck shares, the deck says once.** The lockup and
+the count, and the outline a divider carries. A slide that says its own
+keeps it. The count and the outline come from the order, so nobody keeps
+either by hand.
+
+A reader goes on with the keys, with a drag or a swipe, or from the list
+of every slide as a picture. On the full screen the head steps aside and a
+press turns the slide. A turn pushes the old slide out and the next one
+in. A reader who asks for reduced motion gets the next one at once. The PDF is the browser's print: a page per slide at the
+frame's size, text as text.
 
 The layouts
 ===========
@@ -124,7 +173,13 @@ What a slide needs is an element, never a value. A card that has to be
 taller, a table that has to be denser, a code block that has to say more.
 Each is a property of the element that draws it. Each is a gap in that
 element if the property is not there. The page rule holds on a slide.
-Nothing scales a font, and nothing writes a size.
+Nothing writes a size.
+
+One thing scales: what a slide holds, when it does not fit. A slide is a
+picture of a part, so it scales as a picture does, the whole of it at once
+and never up. A font in a design is still its register. The shrink is the
+slide's answer to more than a frame holds, and a slide that shrinks far
+says the part needs a second slide.
 
 A deck in the Claude app
 ========================
@@ -161,3 +216,13 @@ What a deck needed
        layout's follows the illustration prompt, a fixture under
        ``assets/portraits/``. Two speakers are a ``sds-byline`` each on a
        plain plane
+   * - material from a page on a slide
+     - ``kind="figure"``: the title a step smaller, and the material fits
+       the frame
+   * - a slide in a long document
+     - ``shrink``: the frame is a picture at the column's width, and
+       ``zoomable`` opens it
+   * - a way through the slides
+     - ``sds-deck``, over the page or with slides of its own
+   * - the lockup and the count on every slide
+     - said once on the deck, and a slide's own wins

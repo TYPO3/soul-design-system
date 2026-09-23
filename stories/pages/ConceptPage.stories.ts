@@ -13,7 +13,7 @@
    from one composition: `lib/page.ts`. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html, type TemplateResult } from 'lit';
+import { html, nothing, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/accordion.ts';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/byline.ts';
@@ -21,6 +21,7 @@ import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/code.ts';
 import '../../packages/frontend/src/components/compare.ts';
 import '../../packages/frontend/src/components/confval.ts';
+import '../../packages/frontend/src/components/deck.ts';
 import '../../packages/frontend/src/components/decision.ts';
 import '../../packages/frontend/src/components/diff.ts';
 import '../../packages/frontend/src/components/entry.ts';
@@ -32,6 +33,9 @@ import '../../packages/frontend/src/components/nav-outline.ts';
 import '../../packages/frontend/src/components/note.ts';
 import '../../packages/frontend/src/components/quote.ts';
 import '../../packages/frontend/src/components/register.ts';
+import '../../packages/frontend/src/components/slide.ts';
+import '../../packages/frontend/src/components/stat.ts';
+import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/steps.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import '../../packages/frontend/src/components/table.ts';
@@ -44,12 +48,14 @@ import { type EntryProps } from '../../packages/frontend/src/components/entry.ts
 import { type FactsEntry } from '../../packages/frontend/src/components/facts.ts';
 import { type RegisterGroup } from '../../packages/frontend/src/components/register.ts';
 import { type Step } from '../../packages/frontend/src/components/steps.ts';
+import { type SlideProps } from '../../packages/frontend/src/components/slide.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { tabsBarMarkup } from '../../packages/frontend/src/components/tabs.ts';
 import { type TreeEntry } from '../../packages/frontend/src/components/tree.ts';
 import { PAGES, sdsCompare } from '../components/Compare.stories.ts';
 import { ANSWERS, sdsDecision, sdsDecisionFlat } from '../components/Decision.stories.ts';
 import { PLAN, sdsTimeline, sdsTimelineFlat } from '../components/Timeline.stories.ts';
+import { DECK } from '../lib/deck.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode } from '../lib/page.ts';
 
@@ -375,7 +381,20 @@ const SECTIONS = [
 ];
 
 /** The page. `flat` composes the form a static file can hold. */
-export function conceptPage({ flat = false }: PageMode = {}): TemplateResult {
+export function conceptPage({ flat = false, slides = false }: PageMode & { slides?: boolean } = {}): TemplateResult {
+  /* The slides of one section, where the section starts. Live only: a
+     static file has no script to fit a frame into its column. */
+  const sums = (id: string): TemplateResult | typeof nothing =>
+    slides && !flat
+      ? html`${(SLIDES[id] ?? []).map(({ body, ...one }) => html`<sds-slide
+          kind="${one.kind ?? 'content'}"
+          ground="${one.ground ?? 'paper'}"
+          eyebrow="${one.eyebrow ?? ''}"
+          heading="${one.heading ?? ''}"
+          lead="${one.lead ?? ''}"
+          note="${one.note ?? ''}"
+        >${body ?? ''}</sds-slide>`)}`
+      : nothing;
   /* Where the two renderings differ: what stands between an element's tags,
      because `renderStatic` flattens no element with children. Flat, the
      same blocks go over as the property. */
@@ -422,6 +441,89 @@ export function conceptPage({ flat = false }: PageMode = {}): TemplateResult {
     ? html`${tabsBarMarkup(TERMINAL.map(({ label }) => ({ label })), 0)}<div class="sds-tab__panel"><sds-code code-lang="bash" .body="${first.body}"></sds-code></div>`
     : html`<sds-tabs>${TERMINAL.map((one) => html`<sds-tab-item label="${one.label}"><sds-code code-lang="bash" .body="${one.body}"></sds-code></sds-tab-item>`)}</sds-tabs>`;
 
+  /* What a slide in each part shows: the part's own material, read from the
+     data the page reads. A slide that sums up a table shows that table. */
+  const finding = (f: EntryProps): Row => {
+    const group = GROUPS.find((one) => one.key === f.group);
+    return { cells: [html`<sds-badge label="${group?.label ?? ''}" tone="${group?.tone ?? 'neutral'}"></sds-badge>`, f.heading] };
+  };
+  const SLIDES: Record<string, readonly (SlideProps & { body?: TemplateResult })[]> = {
+    paper: [{
+      kind: 'cover',
+      ground: 'terminal',
+      eyebrow: 'Concept paper · draft 2',
+      heading: 'A record of reads for every source',
+      lead: 'Readers ask since when a source has failed, and how often. Neither page can say. The paper recommends option A.',
+    }],
+    purpose: [{
+      kind: 'statement',
+      heading: 'If the server keeps a record of its own reads, how long it is, and where it shows.',
+      note: '1 · What this paper decides',
+    }],
+    stands: [{
+      kind: 'figure',
+      eyebrow: '2 · Where it stands',
+      heading: 'The two pages, as a reader sees them',
+      body: sdsCompare(PAGES),
+    }],
+    asked: [
+      {
+        kind: 'figure',
+        eyebrow: '3 · What readers asked',
+        heading: 'Four tasks, eight readers',
+        body: html`<sds-table density="compact" .columns="${TASK_COLUMNS}" .rows="${TASKS}"></sds-table>`,
+      },
+      {
+        kind: 'statement',
+        body: html`<sds-quote
+          body="I can see that it stopped yesterday. I cannot see if yesterday was the first time."
+          by="Reader 3"
+          as="runs the server for two agencies"
+        ></sds-quote>`,
+      },
+    ],
+    findings: [{
+      kind: 'figure',
+      eyebrow: '4 · Findings',
+      heading: 'What the evidence says',
+      body: html`<sds-table density="compact" .columns="${[{ head: 'Group' }, { head: 'Finding' }]}" .rows="${FINDINGS.map(finding)}"></sds-table>`,
+    }],
+    proposal: [
+      {
+        kind: 'figure',
+        eyebrow: '5 · The proposal',
+        heading: 'One record, three places it shows',
+        body: html`<sds-figure
+          src="assets/diagrams/record-of-reads.svg"
+          alt="Three boxes side by side: the row on the status page with five marks, the page of the source with the record, and the terminal with one command and its answer."
+        ></sds-figure>`,
+      },
+      {
+        kind: 'figure',
+        eyebrow: '5 · The proposal',
+        heading: 'The record, in the terminal',
+        body: html`<sds-code code-lang="bash" .body="${(TERMINAL[1] as (typeof TERMINAL)[number]).body}"></sds-code>`,
+      },
+    ],
+    options: [{
+      kind: 'figure',
+      eyebrow: '6 · Options weighed',
+      heading: 'Three ways, one recommended',
+      body: grid(WAYS.map((way) => html`<sds-card label="${way.label}" heading="${way.heading}" body="${way.body}" icon="${way.icon}" footer="${way.footer}"></sds-card>`)),
+    }],
+    costs: [{
+      kind: 'figure',
+      eyebrow: '7 · What it costs',
+      heading: 'Five packages, six days',
+      body: html`<sds-table density="compact" .columns="${WORK_COLUMNS}" .rows="${WORK}"></sds-table>`,
+    }],
+    decision: [{
+      kind: 'figure',
+      eyebrow: '8 · Decision',
+      body: sdsDecision(asked),
+    }],
+  };
+
   return html`<div class="sds-shell">
   <div class="sds-paper">
     <!-- The panel is the document's frame. No bar and no footer: nothing here
@@ -434,6 +536,19 @@ export function conceptPage({ flat = false }: PageMode = {}): TemplateResult {
       <div class="sds-paper__head">
         <sds-eyebrow label="Concept paper · draft 2"></sds-eyebrow>
         <p class="sds-paper__title">A record of reads for every source</p>
+        ${slides && !flat
+          ? html`<sds-button variant="secondary" size="sm" for="concept-deck"><sds-icon name="actions-play"></sds-icon>Click through the slides</sds-button>
+            <sds-deck
+              id="concept-deck"
+              from="main-content"
+              label="A record of reads · slides"
+              brand="${DECK.brand}"
+              product="${DECK.product}"
+              signet="${DECK.signet}"
+              signet-large="${DECK.signetLarge}"
+              numbered
+            ></sds-deck>`
+          : nothing}
       </div>
       <sds-nav-outline label="Contents" numbered .entries="${SECTIONS}"></sds-nav-outline>
       <div class="sds-paper__foot">
@@ -455,6 +570,7 @@ export function conceptPage({ flat = false }: PageMode = {}): TemplateResult {
             when a source has failed. The pages as they stand, what readers asked, three options
             weighed, and the one this paper recommends.
           </p>
+          ${sums('paper')}
           <sds-byline name="Mara Lindqvist" as="for the status pages" meta="draft 2 · 2026-09-15"></sds-byline>
 
           ${facts}
@@ -464,6 +580,7 @@ export function conceptPage({ flat = false }: PageMode = {}): TemplateResult {
 
         <section class="sds-section" id="purpose">
           <h2><span class="sds-section__number">1</span> Purpose</h2>
+          ${sums('purpose')}
           <p>
             One question, and the evidence behind it. The pages report the moment. Readers ask
             about the days before it. This paper says what the server must keep so the pages
@@ -508,6 +625,7 @@ export function conceptPage({ flat = false }: PageMode = {}): TemplateResult {
 
         <section class="sds-section" id="stands">
           <h2><span class="sds-section__number">2</span> Where it stands</h2>
+          ${sums('stands')}
           <p>
             The two pages, as a reader sees them in <span class="sds-mono">1.4</span>, read
             against each other. Then a table for each: what the page says, and what a reader
@@ -554,6 +672,7 @@ export function conceptPage({ flat = false }: PageMode = {}): TemplateResult {
 
         <section class="sds-section" id="asked">
           <h2><span class="sds-section__number">3</span> What readers asked</h2>
+          ${sums('asked')}
           <p>
             Two kinds of evidence. The questions that arrived on their own, over thirty days,
             and a test that put eight readers in front of the pages with four tasks.
@@ -603,6 +722,7 @@ export function conceptPage({ flat = false }: PageMode = {}): TemplateResult {
 
         <section class="sds-section" id="findings">
           <h2><span class="sds-section__number">4</span> Findings</h2>
+          ${sums('findings')}
           <p>
             What the evidence says, in three groups: what stands in the way of the goal, what
             costs the reader, and what already does its job and must stay.
@@ -614,6 +734,7 @@ export function conceptPage({ flat = false }: PageMode = {}): TemplateResult {
 
         <section class="sds-section" id="proposal">
           <h2><span class="sds-section__number">5</span> The proposal</h2>
+          ${sums('proposal')}
           <p>
             The server keeps a record of its own reads, and every surface that shows the reads
             reads that record. Three surfaces, one file, and a name for what it is.
@@ -724,6 +845,7 @@ export function conceptPage({ flat = false }: PageMode = {}): TemplateResult {
 
         <section class="sds-section" id="options">
           <h2><span class="sds-section__number">6</span> Options weighed</h2>
+          ${sums('options')}
           <p>
             Three ways to answer the two questions, against what the findings ask. The
             recommendation is the first column. The third is the fallback if six days is too
@@ -757,6 +879,7 @@ export function conceptPage({ flat = false }: PageMode = {}): TemplateResult {
 
         <section class="sds-section" id="costs">
           <h2><span class="sds-section__number">7</span> What it costs</h2>
+          ${sums('costs')}
           <p>Five packages, six days, one order. And what can go wrong on the way.</p>
 
           <section class="sds-section" id="work">
@@ -792,6 +915,7 @@ export function conceptPage({ flat = false }: PageMode = {}): TemplateResult {
 
         <section class="sds-section" id="decision">
           <h2><span class="sds-section__number">8</span> Decision</h2>
+          ${sums('decision')}
           ${decision}
 
           <section class="sds-section" id="open">
@@ -860,6 +984,14 @@ type Story = StoryObj;
 export const Page: Story = {
   name: 'Concept',
   render: () => conceptPage(),
+};
+
+/** The same paper, with the slides its sections provide. Each slide stands
+    at the start of its part, a picture at the column's width. The press in
+    the panel runs through all of them, one frame at the window's size. */
+export const WithSlides: Story = {
+  name: 'Concept with slides',
+  render: () => conceptPage({ slides: true }),
 };
 
 export const screenHtml = (): string => part(conceptPage({ flat: true }));

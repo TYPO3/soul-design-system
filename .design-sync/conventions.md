@@ -33,7 +33,7 @@ Two rules follow, and both carry weight:
 | Plans | `sds-timeline`/`sds-timeline-stop`. A plan on the calendar: dated stops down one rail, as elements between the tags, one marked `now`. A stop holds what it delivers and the stops inside it. The passed ones carry the check, the ones ahead stand a step quieter. Not `sds-steps` and not `sds-run` |
 | Decisions | `sds-decision`/`sds-answer`. The question a paper asks, who decides and by when. The answers as elements between the tags, with the one it recommends. `sds-compare` is two pictures read against each other, each a figure with its claim |
 | Work | `sds-run`. Work in progress, which is not `sds-steps`. A run arrives one stop at a time, each stop with what it wrote. The whole ends on a `verdict`. Stops take `label`, `state` (`ahead|running|done|failed`), `meta` for a duration. `note` is what happens to it in words, `output` what it wrote. `group` is for many jobs at once. `open` says if the whole stands unfolded. The share, where the work reports one, is `sds-progress` above it. A run whose end is not a number draws no bar |
-| Decks | `sds-slide`. One 16:9 frame: the page at twice the size, so every element between the tags keeps its set. `kind` is `cover`, `speaker`, `section`, `statement`, `content` or `closing`. A speaker's `portrait` and `alt`. `ground` is `paper` unless said, and `terminal` on the cover. `eyebrow`, `heading`, `lead`, `note`, `number`. The lockup as `signet`, `brand`, `product`; the outline as `sections` and `current`. `fit` scales the frame to the room it has. |
+| Decks | `sds-slide`. One 16:9 frame: the page at twice the size, so every element between the tags keeps its set. `kind` is `cover`, `speaker`, `section`, `statement`, `content`, `closing` or `figure`, which gives a page's material the frame. A speaker's `portrait` and `alt`. `ground` is `paper` unless said, and `terminal` on the cover. `eyebrow`, `heading`, `lead`, `note`, `number`. The lockup as `signet`, `brand`, `product`; the outline as `sections` and `current`. `fit` scales the frame to a stage, and `shrink` makes it a picture at its column's width. What it holds shrinks until it fits. `sds-deck` runs through slides at the window's size: its own between the tags, or the page's with `from`. It says the lockup and `numbered` once for every slide. |
 | Long text | `sds-quote` `sds-byline` `sds-confval` `sds-facts` `sds-entry` `sds-register`. The first two take `as` for what the source is. `role` is the ARIA attribute and is out of reach. `sds-confval` is one configuration value in a reference. `name`, `anchor`, `required`, `type`, `default`, and `facts` for whatever else the source named |
 
 They render **light DOM** and emit exactly the classes below. So an element
@@ -95,6 +95,10 @@ page the frame is `sds-slide`, and the layouts under **Slides** above are
 the slides to start from. Nothing on a slide is a slide's own. A card is
 `sds-surface` and a figure is `sds-stat`. A block is `sds-code`, a quote
 is `sds-quote`, an order is `sds-steps`, a wall is `sds-grid`.
+
+A long page can sum up each part in a `sds-slide` in its section, and a
+`sds-deck` with `from` runs through them. A talk inside a page is a
+`sds-deck` with its slides between the tags: the page shows the cover.
 
 **A deck written in the Slides app follows the same rules in that app's own
 format.** The canvas is 1920 × 1080, every style inline, every colour a hex.

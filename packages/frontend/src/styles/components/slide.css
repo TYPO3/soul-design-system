@@ -8,8 +8,25 @@
    count, and the list of sections a divider carries. */
 
 @layer base {
+  /* A slide on a page is a block of the flow, like a figure. Two in a row
+     stand the flow's step apart, and the press sits on the element's box. */
   sds-slide {
+    position: relative;
     display: block;
+    margin-block: var(--space-components);
+  }
+  /* A fitted slide stands alone on its stage and takes the stage's room. A
+     step there pushes the frame past the room it measured. */
+  sds-slide[fit] {
+    margin-block: 0;
+  }
+  sds-slide > .sds-slide {
+    margin-block: 0;
+  }
+  /* The frame alone carries the same step. It draws under its own zoom, and
+     a margin zooms with it, so the step stands divided by the zoom. */
+  .sds-slide {
+    margin-block: calc(var(--space-components) / var(--sds-slide-zoom));
   }
 }
 
@@ -136,12 +153,48 @@
       margin: 0;
     }
   }
+  /* The body's own height is where it starts. A basis of zero leaves a body
+     that does not grow as tall as nothing, and what it holds hangs out of it. */
   .sds-slide__body {
-    flex: var(--sds-slide-body-grow);
+    flex: var(--sds-slide-body-grow) 1 auto;
     min-height: 0;
     display: flex;
     flex-direction: column;
+  }
+  /* What the body holds, in one box the element can measure and shrink. It
+     never shrinks as a flex item: the element holds its own height against
+     the room. */
+  .sds-slide__fit {
+    /* A picture of a part: nothing in it takes a press. The part on the page
+       is where its links and its controls work. */
+    pointer-events: none;
+    flex: none;
+    display: flex;
+    flex-direction: column;
     gap: var(--sds-slide-gap);
+  }
+
+  /* Material from a page: a table, a drawing, a screenshot. The margin is a
+     step smaller, and so is the title, so the material has the frame. */
+  .sds-slide--figure {
+    --sds-slide-pad: var(--space-10);
+    --sds-slide-head-gap: var(--space-2);
+    --sds-slide-gap: var(--space-5);
+  }
+
+  /* The press that opens the slide, in the corner of the element's box and
+     outside the frame. So it keeps the page's size at every width the frame
+     draws at. */
+  /* A slide that opens opens on a press anywhere, as a picture does. */
+  sds-slide[zoomable] > .sds-slide {
+    cursor: zoom-in;
+  }
+  .sds-slide__zoom {
+    --sds-slide-press-inset: var(--space-3);
+
+    position: absolute;
+    inset-block-start: var(--sds-slide-press-inset);
+    inset-inline-end: var(--sds-slide-press-inset);
   }
   .sds-slide__note {
     margin: 0;

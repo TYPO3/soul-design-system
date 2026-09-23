@@ -9,8 +9,8 @@ import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/table.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
-import { slide } from '../lib/deck.ts';
+
+import { slide, type DeckMode } from '../lib/deck.ts';
 
 const COLUMNS: readonly Column[] = [{ head: 'Check', cls: 'sds-td-name' }, { head: 'What it holds' }];
 
@@ -22,11 +22,11 @@ const ROWS: readonly Row[] = [
   { cells: ['prose', 'every text against ASD-STE100 and the terse rule'] },
 ];
 
-export function tableSlide({ flat = false }: PageMode = {}): TemplateResult {
+export function tableSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     { heading: 'What the gate holds', number: '07' },
     html`<sds-table .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>`,
-    { flat },
+    { flat, bare },
   );
 }
 

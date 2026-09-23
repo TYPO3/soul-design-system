@@ -9,10 +9,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { type TemplateResult } from 'lit';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
-import { slide } from '../lib/deck.ts';
 
-export function coverSlide({ flat = false }: PageMode = {}): TemplateResult {
+import { slide, type DeckMode } from '../lib/deck.ts';
+
+export function coverSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     {
       kind: 'cover',
@@ -22,7 +22,7 @@ export function coverSlide({ flat = false }: PageMode = {}): TemplateResult {
       lead: 'Custom elements, tokens and the class layer they emit. For pages, for documentation, and for a deck.',
     },
     undefined,
-    { flat },
+    { flat, bare },
   );
 }
 

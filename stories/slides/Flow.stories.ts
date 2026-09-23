@@ -9,8 +9,8 @@ import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/steps.ts';
 import { type Step } from '../../packages/frontend/src/components/steps.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { type PageMode } from '../lib/page.ts';
-import { slide } from '../lib/deck.ts';
+
+import { slide, type DeckMode } from '../lib/deck.ts';
 
 const STEPS: readonly Step[] = [
   { heading: 'The story', body: 'Under stories/. The one place somebody writes a specimen.' },
@@ -18,11 +18,11 @@ const STEPS: readonly Step[] = [
   { heading: 'The page', body: 'Under docs/. It embeds the same card the design system photographs into its sections.' },
 ];
 
-export function flowSlide({ flat = false }: PageMode = {}): TemplateResult {
+export function flowSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     { heading: 'Truth runs story → card → page', number: '05' },
     html`<sds-steps .steps="${STEPS}"></sds-steps>`,
-    { flat },
+    { flat, bare },
   );
 }
 

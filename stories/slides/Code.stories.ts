@@ -11,14 +11,14 @@ import '../../packages/frontend/src/components/code.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import '../../packages/frontend/src/components/grid.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { grid, type PageMode } from '../lib/page.ts';
-import { slide } from '../lib/deck.ts';
+import { grid } from '../lib/page.ts';
+import { slide, type DeckMode } from '../lib/deck.ts';
 
 const SOURCE = `<sds-code code-lang="bash">
   <code>make verify ARGS=classes</code>
 </sds-code>`;
 
-export function codeSlide({ flat = false }: PageMode = {}): TemplateResult {
+export function codeSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     { heading: 'Address a component, never rebuild one', number: '06' },
     grid(
@@ -32,7 +32,7 @@ export function codeSlide({ flat = false }: PageMode = {}): TemplateResult {
       ],
       { flat },
     ),
-    { flat },
+    { flat, bare },
   );
 }
 
