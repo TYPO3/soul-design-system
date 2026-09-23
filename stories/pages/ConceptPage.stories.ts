@@ -382,6 +382,10 @@ const SECTIONS = [
 
 /** The page. `flat` composes the form a static file can hold. */
 export function conceptPage({ flat = false, slides = false }: PageMode & { slides?: boolean } = {}): TemplateResult {
+  /* With slides the paper stops after its third part. The whole paper with
+     its slides takes longer than the runner gives one story. Three parts
+     show every way a slide sums a part up. */
+  const whole = !slides || flat;
   /* The slides of one section, where the section starts. Live only: a
      static file has no script to fit a frame into its column. */
   const sums = (id: string): TemplateResult | typeof nothing =>
@@ -443,10 +447,6 @@ export function conceptPage({ flat = false, slides = false }: PageMode & { slide
 
   /* What a slide in each part shows: the part's own material, read from the
      data the page reads. A slide that sums up a table shows that table. */
-  const finding = (f: EntryProps): Row => {
-    const group = GROUPS.find((one) => one.key === f.group);
-    return { cells: [html`<sds-badge label="${group?.label ?? ''}" tone="${group?.tone ?? 'neutral'}"></sds-badge>`, f.heading] };
-  };
   const SLIDES: Record<string, readonly (SlideProps & { body?: TemplateResult })[]> = {
     paper: [{
       kind: 'cover',
@@ -482,46 +482,6 @@ export function conceptPage({ flat = false, slides = false }: PageMode & { slide
         ></sds-quote>`,
       },
     ],
-    findings: [{
-      kind: 'figure',
-      eyebrow: '4 · Findings',
-      heading: 'What the evidence says',
-      body: html`<sds-table density="compact" .columns="${[{ head: 'Group' }, { head: 'Finding' }]}" .rows="${FINDINGS.map(finding)}"></sds-table>`,
-    }],
-    proposal: [
-      {
-        kind: 'figure',
-        eyebrow: '5 · The proposal',
-        heading: 'One record, three places it shows',
-        body: html`<sds-figure
-          src="assets/diagrams/record-of-reads.svg"
-          alt="Three boxes side by side: the row on the status page with five marks, the page of the source with the record, and the terminal with one command and its answer."
-        ></sds-figure>`,
-      },
-      {
-        kind: 'figure',
-        eyebrow: '5 · The proposal',
-        heading: 'The record, in the terminal',
-        body: html`<sds-code code-lang="bash" .body="${(TERMINAL[1] as (typeof TERMINAL)[number]).body}"></sds-code>`,
-      },
-    ],
-    options: [{
-      kind: 'figure',
-      eyebrow: '6 · Options weighed',
-      heading: 'Three ways, one recommended',
-      body: grid(WAYS.map((way) => html`<sds-card label="${way.label}" heading="${way.heading}" body="${way.body}" icon="${way.icon}" footer="${way.footer}"></sds-card>`)),
-    }],
-    costs: [{
-      kind: 'figure',
-      eyebrow: '7 · What it costs',
-      heading: 'Five packages, six days',
-      body: html`<sds-table density="compact" .columns="${WORK_COLUMNS}" .rows="${WORK}"></sds-table>`,
-    }],
-    decision: [{
-      kind: 'figure',
-      eyebrow: '8 · Decision',
-      body: sdsDecision(asked),
-    }],
   };
 
   return html`<div class="sds-shell">
@@ -550,7 +510,7 @@ export function conceptPage({ flat = false, slides = false }: PageMode & { slide
             ></sds-deck>`
           : nothing}
       </div>
-      <sds-nav-outline label="Contents" numbered .entries="${SECTIONS}"></sds-nav-outline>
+      <sds-nav-outline label="Contents" numbered .entries="${whole ? SECTIONS : SECTIONS.slice(0, 3)}"></sds-nav-outline>
       <div class="sds-paper__foot">
         <p>Draft 2, for discussion</p>
         <p>Decision by 2026‑09‑30</p>
@@ -720,9 +680,9 @@ export function conceptPage({ flat = false, slides = false }: PageMode & { slide
           </section>
         </section>
 
-        <section class="sds-section" id="findings">
+        ${whole
+          ? html`<section class="sds-section" id="findings">
           <h2><span class="sds-section__number">4</span> Findings</h2>
-          ${sums('findings')}
           <p>
             What the evidence says, in three groups: what stands in the way of the goal, what
             costs the reader, and what already does its job and must stay.
@@ -734,7 +694,6 @@ export function conceptPage({ flat = false, slides = false }: PageMode & { slide
 
         <section class="sds-section" id="proposal">
           <h2><span class="sds-section__number">5</span> The proposal</h2>
-          ${sums('proposal')}
           <p>
             The server keeps a record of its own reads, and every surface that shows the reads
             reads that record. Three surfaces, one file, and a name for what it is.
@@ -845,7 +804,6 @@ export function conceptPage({ flat = false, slides = false }: PageMode & { slide
 
         <section class="sds-section" id="options">
           <h2><span class="sds-section__number">6</span> Options weighed</h2>
-          ${sums('options')}
           <p>
             Three ways to answer the two questions, against what the findings ask. The
             recommendation is the first column. The third is the fallback if six days is too
@@ -879,7 +837,6 @@ export function conceptPage({ flat = false, slides = false }: PageMode & { slide
 
         <section class="sds-section" id="costs">
           <h2><span class="sds-section__number">7</span> What it costs</h2>
-          ${sums('costs')}
           <p>Five packages, six days, one order. And what can go wrong on the way.</p>
 
           <section class="sds-section" id="work">
@@ -915,7 +872,6 @@ export function conceptPage({ flat = false, slides = false }: PageMode & { slide
 
         <section class="sds-section" id="decision">
           <h2><span class="sds-section__number">8</span> Decision</h2>
-          ${sums('decision')}
           ${decision}
 
           <section class="sds-section" id="open">
@@ -950,7 +906,8 @@ export function conceptPage({ flat = false, slides = false }: PageMode & { slide
         <section class="sds-section" id="appendix">
           <h2><span class="sds-section__number">9</span> Appendix</h2>
           <sds-accordion name="appendix" .entries="${APPENDIX}"></sds-accordion>
-        </section>
+        </section>`
+          : nothing}
       </article>
     </main>
   </div>
@@ -986,9 +943,9 @@ export const Page: Story = {
   render: () => conceptPage(),
 };
 
-/** The same paper, with the slides its sections provide. Each slide stands
-    at the start of its part, a picture at the column's width. The press in
-    the panel runs through all of them, one frame at the window's size. */
+/** The paper's first three parts, with the slides they provide. Each slide
+    stands at the start of its part, a picture at the column's width. The
+    press in the panel runs through all of them at the window's size. */
 export const WithSlides: Story = {
   name: 'Concept with slides',
   render: () => conceptPage({ slides: true }),
