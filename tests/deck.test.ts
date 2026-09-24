@@ -32,6 +32,16 @@ const rest = async (): Promise<void> => {
   await frames();
 };
 
+/** The frame and the boxes it draws itself, to the pixel. A picture that
+    reads other rules than the slide lays out to another height, and the frame
+    compresses its own boxes to keep its 16:9. */
+const shape = (frame: Element): string => [frame, ...frame.querySelectorAll('[class^="sds-slide__"]')]
+  .map((el) => {
+    const box = el.getBoundingClientRect();
+    return `${el.className} ${Math.round(box.width)}x${Math.round(box.height)}`;
+  })
+  .join('\n');
+
 const count = (): string => q('.sds-deck__count').textContent?.trim() ?? '';
 const staged = (): SdsSlide => q<SdsSlide>('.sds-deck__stage sds-slide');
 
@@ -281,6 +291,24 @@ test('a turn pushes the slide out as a picture, and leaves nothing behind', asyn
   await sleep(1100);
   expect(qa('.sds-deck__ghost')).toHaveLength(0);
   expect(qa('.sds-deck__stage sds-slide')).toHaveLength(1);
+});
+
+test('the picture of the slide that leaves is the slide', async () => {
+  document.body.replaceChildren();
+  await mount(Embedded);
+  const total = qa('sds-deck sds-slide').length;
+  q('.sds-deck__play').click();
+  await rest();
+  /* Every turn, because what the picture loses is a rule that names an
+     element, and each layout holds other elements. */
+  for (let i = 1; i < total; i += 1) {
+    const stood = shape(q('.sds-deck__stage > sds-slide > .sds-slide'));
+    await userEvent.keyboard('{ArrowRight}');
+    const picture = q('.sds-deck__ghost > .sds-slide');
+    expect(shape(picture), `the picture of slide ${i}`).toEqual(stood);
+    expect(over(picture), `the picture of slide ${i} holds it whole`).toBeLessThanOrEqual(0.5);
+    await rest();
+  }
 });
 
 test('nothing on a slide takes the keyboard or a press', async () => {

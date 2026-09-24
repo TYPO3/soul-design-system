@@ -70,19 +70,30 @@ interface Drag {
     control, a thing that plays. */
 const LIVE = new Set(['a', 'button', 'input', 'select', 'textarea', 'summary', 'details', 'label', 'iframe', 'video', 'audio', 'dialog']);
 
-/** A slide as a picture, for the list. The frame's markup with every element
-    and every control turned into a plain box of the same display. A copy
-    of an element upgrades again and takes its own output for its content. */
+/** A slide as a picture, for the list and for the slide on its way off the
+    stage. Every element goes and the box it drew stands in its place, as the
+    static renderer leaves a card. A copy of an element upgrades again and
+    takes its own output for its content. A control becomes a plain box of the
+    same display, which keeps the layout and takes the keyboard out of it. */
 function picture(frame: Element, { sized = false }: { sized?: boolean } = {}): HTMLElement {
   const copy = frame.cloneNode(true) as HTMLElement;
   if (!sized) copy.style.removeProperty('zoom');
   const from = [...frame.querySelectorAll('*')];
   const to = [...copy.querySelectorAll('*')];
+  /* Deepest first, so a box lifted out of an element is one this pass has
+     already been through. */
   for (let i = to.length - 1; i >= 0; i -= 1) {
     const el = to[i] as HTMLElement;
     for (const name of ['id', 'tabindex', 'name', 'for', 'href']) el.removeAttribute(name);
     if (el.namespaceURI !== 'http://www.w3.org/1999/xhtml') continue;
-    if (!el.localName.includes('-') && !LIVE.has(el.localName)) continue;
+    /* The third of a component's three rules: the same box alone carries
+       the step. A span in the element's place matches no rule that names
+       the element, and the box inside takes the step back. */
+    if (el.localName.includes('-')) {
+      el.replaceWith(...el.childNodes);
+      continue;
+    }
+    if (!LIVE.has(el.localName)) continue;
     const plain = document.createElement('span');
     for (const { name, value } of [...el.attributes]) plain.setAttribute(name, value);
     plain.style.display = getComputedStyle(from[i] as Element).display;

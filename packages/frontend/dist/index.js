@@ -14323,7 +14323,11 @@ function picture(frame, { sized = false } = {}) {
     const el = to[i];
     for (const name of ["id", "tabindex", "name", "for", "href"]) el.removeAttribute(name);
     if (el.namespaceURI !== "http://www.w3.org/1999/xhtml") continue;
-    if (!el.localName.includes("-") && !LIVE.has(el.localName)) continue;
+    if (el.localName.includes("-")) {
+      el.replaceWith(...el.childNodes);
+      continue;
+    }
+    if (!LIVE.has(el.localName)) continue;
     const plain = document.createElement("span");
     for (const { name, value } of [...el.attributes]) plain.setAttribute(name, value);
     plain.style.display = getComputedStyle(from[i]).display;
