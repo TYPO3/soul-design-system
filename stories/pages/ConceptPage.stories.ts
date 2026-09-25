@@ -55,7 +55,7 @@ import { type TreeEntry } from '../../packages/frontend/src/components/tree.ts';
 import { PAGES, sdsCompare } from '../components/Compare.stories.ts';
 import { ANSWERS, sdsDecision, sdsDecisionFlat } from '../components/Decision.stories.ts';
 import { PLAN, sdsTimeline, sdsTimelineFlat } from '../components/Timeline.stories.ts';
-import { DECK } from '../lib/deck.ts';
+import { DECK, head } from '../lib/deck.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode } from '../lib/page.ts';
 
@@ -393,11 +393,7 @@ export function conceptPage({ flat = false, slides = false }: PageMode & { slide
       ? html`${(SLIDES[id] ?? []).map(({ body, ...one }) => html`<sds-slide
           kind="${one.kind ?? 'content'}"
           ground="${one.ground ?? 'paper'}"
-          eyebrow="${one.eyebrow ?? ''}"
-          heading="${one.heading ?? ''}"
-          lead="${one.lead ?? ''}"
-          note="${one.note ?? ''}"
-        >${body ?? ''}</sds-slide>`)}`
+        >${head(one)}${body ?? ''}</sds-slide>`)}`
       : nothing;
   /* Where the two renderings differ: what stands between an element's tags,
      because `renderStatic` flattens no element with children. Flat, the

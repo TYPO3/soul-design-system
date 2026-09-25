@@ -33,6 +33,11 @@ export interface DeckMode extends PageMode {
   bare?: boolean;
 }
 
+/** The lines of a slide's head, each in its region. A line nobody wrote
+    stays out. */
+export const head = ({ eyebrow, heading, lead, note }: Pick<SlideProps, 'eyebrow' | 'heading' | 'lead' | 'note'>): TemplateResult =>
+  html`${eyebrow ? html`<span slot="eyebrow">${eyebrow}</span>` : nothing}${heading ? html`<h2 slot="heading">${heading}</h2>` : nothing}${lead ? html`<p slot="lead">${lead}</p>` : nothing}${note ? html`<p slot="note">${note}</p>` : nothing}`;
+
 /** One slide, written the way a page writes it. The settings are
     attributes, and each line of the head and the body stands between the
     tags in its region. The same markup renders live and static. The live one fits the
@@ -48,7 +53,7 @@ export const slide = (
   const brand = bare ? '' : DECK.brand;
   const product = bare ? '' : DECK.product;
   const count = bare ? '' : (number ?? '');
-  const regions = html`${eyebrow ? html`<span slot="eyebrow">${eyebrow}</span>` : nothing}${heading ? html`<h2 slot="heading">${heading}</h2>` : nothing}${lead ? html`<p slot="lead">${lead}</p>` : nothing}${note ? html`<p slot="note">${note}</p>` : nothing}${body ?? nothing}`;
+  const regions = html`${head({ eyebrow, heading, lead, note })}${body ?? nothing}`;
   return html`<sds-slide
       kind="${kind}"
       ground="${ground ?? 'paper'}"

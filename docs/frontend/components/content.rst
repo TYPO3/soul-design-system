@@ -246,12 +246,16 @@ the foot and the deck's outline. The body is the system's elements.
 
 .. code-block:: html
 
-   <sds-slide kind="content" heading="Three places for every component"
-     number="03" signet="signet-m.svg" brand="TYPO3" product="Dev Companion">
+   <sds-slide kind="content" number="03" signet="signet-m.svg" brand="TYPO3" product="Dev Companion">
+     <span slot="eyebrow">02 · What it consists of</span>
+     <h2 slot="heading">Three places for every component</h2>
      <sds-grid>
        <sds-surface label="Story" heading="Every element has one" body="…"></sds-surface>
      </sds-grid>
    </sds-slide>
+
+The attributes set the slide up: its kind, its count, its lockup. What it
+says stands between the tags, each line of the head in its region.
 
 .. confval:: kind
    :name: sds-slide-kind
@@ -475,8 +479,13 @@ saves it as a PDF:
 
    <sds-deck label="The system in front of a room" brand="TYPO3"
      product="Dev Companion" signet="signet-m.svg" signet-large="signet-l.svg" numbered>
-     <sds-slide kind="cover" ground="terminal" heading="One system, every surface"></sds-slide>
-     <sds-slide heading="Three places for every component">…</sds-slide>
+     <sds-slide kind="cover" ground="terminal">
+       <h1 slot="heading">One system, every surface</h1>
+     </sds-slide>
+     <sds-slide>
+       <h2 slot="heading">Three places for every component</h2>
+       …
+     </sds-slide>
    </sds-deck>
 
 With none between the tags, the deck runs through the slides of the page,

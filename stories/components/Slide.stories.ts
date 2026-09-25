@@ -10,16 +10,12 @@ import { html } from 'lit';
 import '../../packages/frontend/src/components/slide.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import { type SlideProps } from '../../packages/frontend/src/components/slide.ts';
-import { DECK, OUTLINE } from '../lib/deck.ts';
+import { DECK, OUTLINE, head } from '../lib/deck.ts';
 
 export const sdsSlide = ({ kind, ground, eyebrow, heading, lead, note, number, sections, current, src, alt, layout, bleed, plain, body }: SlideProps) =>
   html`<sds-slide
     kind="${kind ?? 'content'}"
     ground="${ground ?? 'paper'}"
-    eyebrow="${eyebrow ?? ''}"
-    heading="${heading ?? ''}"
-    lead="${lead ?? ''}"
-    note="${note ?? ''}"
     number="${number ?? ''}"
     signet="${kind === 'cover' || kind === 'closing' ? DECK.signetLarge : DECK.signet}"
     brand="${DECK.brand}"
@@ -32,7 +28,7 @@ export const sdsSlide = ({ kind, ground, eyebrow, heading, lead, note, number, s
     ?bleed="${bleed ?? false}"
     ?plain="${plain ?? false}"
     fit
-  >${body ?? ''}</sds-slide>`;
+  >${head({ eyebrow, heading, lead, note })}${body ?? ''}</sds-slide>`;
 
 const meta: Meta<SlideProps> = {
   title: 'Components/Content/Slide',
