@@ -198,7 +198,9 @@ function one(tag: string, attrs: string, written: string, authored: string, prop
   const rendered = renderUpgradable(template(tag, attrs, {
     content: rest ? html`${unsafeHTML(rest)}` : undefined,
     authored: authored || undefined,
-    regions: named ? split : undefined,
+    /* Always, so an element that reads its text region finds it in Node as
+       it does in a browser. */
+    regions: written ? split : undefined,
     ...(marked ? (revive(props[Number(marked[1])] ?? {}) as Record<string, unknown>) : {}),
   }));
 

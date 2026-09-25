@@ -7139,8 +7139,8 @@ var SdsTable = class extends SdsElement {
        attribute. `colspan` and `rowspan` have no property at all. The hand-over
        is the table's own children, so the element still draws the `<table>`
        and decides its density. The parser drops a `<thead>` outside a
-       `<table>`. So those children come from a `<template>` or a property,
-       never from markup typed into a page. */
+       `<table>`. So a page writes a whole `<table>` between the tags, and its
+       rows are what the element takes. */
     this.taken = null;
     /* The one of the three that is a plain object of this system's own. A
        string is not an object at all. A template carries Lit's marker and its
@@ -7170,9 +7170,17 @@ var SdsTable = class extends SdsElement {
     };
   }
   connectedCallback() {
-    const written = this.lifted().filter((node) => !isBlank(node));
-    if (written.length) this.taken = written;
+    this.taken = this.written();
     super.connectedCallback();
+  }
+  /* What stands between the tags: the rows of a `<table>` written whole, or
+     its parts written bare where a template kept them. Read off the text
+     region, so Node takes the same as a browser. */
+  written() {
+    const text = this.region(TEXT);
+    if (!text.length) return null;
+    const [one] = text;
+    return text.length === 1 && one?.tag === "table" ? one.inner : text.map((part) => part.node);
   }
   /** What a column puts on both its head and its cells: what kind of cell it
       is, and its edge. One string, because the head and the cells have to
@@ -7211,7 +7219,7 @@ var SdsTable = class extends SdsElement {
     const cls = `sds-table sds-table--${this.density}${this.loading ? " sds-table--loading" : ""}` + (this.captionSide === "top" ? " sds-table--caption-top" : "");
     const style = this.width ? `width: ${this.width}` : nothing33;
     const caption = this.caption ? html58`<caption>${this.caption}</caption>\n  ` : "";
-    const given = this.loading ? null : this.taken ?? this.content;
+    const given = this.loading ? null : this.taken ?? this.written() ?? this.content;
     const body = this.loading ? Array.from({ length: Math.max(this.loadingRows, 1) }, () => this.waitingRow()) : this.rows.map((r) => this.bodyRow(r));
     const table = given ? html58`<table class="${cls}" style="${style}">${caption}${given}</table>` : html58`<table class="${cls}" style="${style}" aria-busy="${this.loading ? "true" : nothing33}">
   ${caption}<thead><tr>

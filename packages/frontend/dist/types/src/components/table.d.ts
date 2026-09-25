@@ -131,6 +131,7 @@ export declare class SdsTable extends SdsElement {
     private taken;
     constructor();
     connectedCallback(): void;
+    private written;
     private stacked;
     /** What a column puts on both its head and its cells: what kind of cell it
         is, and its edge. One string, because the head and the cells have to

@@ -212,6 +212,12 @@ const REGIONS: { name: string; markup: string }[] = [
     name: 'surface, its label and its heading in regions',
     markup: '<sds-surface label="Said as an attribute"><span slot="label">Story</span><h3 slot="heading">Every element has <em>one</em></h3><p>The source of every card.</p></sds-surface>',
   },
+  {
+    /* A table written whole: the element takes its rows and draws its own
+       table round them. */
+    name: 'table, a whole table between the tags',
+    markup: '<sds-table><table><thead><tr><th>Check</th><th>What it holds</th></tr></thead><tbody><tr><td class="sds-td-name">classes</td><td>every class in use</td></tr></tbody></table></sds-table>',
+  },
 ];
 
 for (const c of REGIONS) {

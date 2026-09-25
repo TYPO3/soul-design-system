@@ -9,7 +9,7 @@
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { lines } from '../lib/template.ts';
-import { define, isBlank, SdsElement } from '../lib/element.ts';
+import { define, SdsElement, TEXT } from '../lib/element.ts';
 
 export type Density = 'compact' | 'medium' | 'airy';
 
@@ -130,9 +130,9 @@ export class SdsTable extends SdsElement {
      attribute. `colspan` and `rowspan` have no property at all. The hand-over
      is the table's own children, so the element still draws the `<table>`
      and decides its density. The parser drops a `<thead>` outside a
-     `<table>`. So those children come from a `<template>` or a property,
-     never from markup typed into a page. */
-  private taken: Node[] | null = null;
+     `<table>`. So a page writes a whole `<table>` between the tags, and its
+     rows are what the element takes. */
+  private taken: unknown = null;
 
   constructor() {
     super();
@@ -148,9 +148,18 @@ export class SdsTable extends SdsElement {
   }
 
   override connectedCallback(): void {
-    const written = this.lifted().filter((node) => !isBlank(node));
-    if (written.length) this.taken = written;
+    this.taken = this.written();
     super.connectedCallback();
+  }
+
+  /* What stands between the tags: the rows of a `<table>` written whole, or
+     its parts written bare where a template kept them. Read off the text
+     region, so Node takes the same as a browser. */
+  private written(): unknown {
+    const text = this.region(TEXT);
+    if (!text.length) return null;
+    const [one] = text;
+    return text.length === 1 && one?.tag === 'table' ? one.inner : text.map((part) => part.node);
   }
 
   /* The one of the three that is a plain object of this system's own. A
@@ -219,7 +228,7 @@ export class SdsTable extends SdsElement {
        and a rebuild from properties is a second chance to lose a cell.
        Everything the table itself is stays the element's. While the answer
        is on its way there is nothing to draw either way. */
-    const given = this.loading ? null : (this.taken ?? this.content);
+    const given = this.loading ? null : (this.taken ?? this.written() ?? this.content);
     const body = this.loading
       ? Array.from({ length: Math.max(this.loadingRows, 1) }, () => this.waitingRow())
       : this.rows.map((r) => this.bodyRow(r));
