@@ -299,24 +299,25 @@ const PREVIEW_SCRIPT = `(function () {
 /* A story that draws the whole icon set is bigger than the page permits a
    preview to be. The largest stories go first until the rest fits, and the
    build says which; the card the specimen makes of them stays. */
-function previewDoc(e: ElementDoc, preview: Preview): string {
+function previewDoc(e: ElementDoc, preview: Preview, size: (doc: string) => number): string {
   const sections = [...preview.sections];
-  const render = (): string => sections
-    .map((s) => `<section class="story">\n<p class="story-name">${s.name}</p>\n${s.html}\n</section>`)
-    .join('\n');
-  let body = render();
-  while (Buffer.byteLength(body) > PREVIEW_MAX - 8 * 1024 && sections.length > 1) {
-    const biggest = sections.reduce((a, b) => (b.html.length > a.html.length ? b : a));
-    sections.splice(sections.indexOf(biggest), 1);
-    report.note(`${e.tag}: the story "${biggest.name}" is too big for a preview and stays out`);
-    body = render();
-  }
   /* A JSON `<` inside a script ends nothing once it is an escape. */
   const json = JSON.stringify(preview.props).replace(/</g, '\\u003c');
   const subtitle = e.purpose.replace(/"/g, '').replace(/\.$/, '').replace(/^./, (c) => c.toUpperCase());
-  return [`<!-- @dsCard group="${preview.group}" height=120 subtitle="${subtitle}" -->`, '<!doctype html>', '<html lang="en">', '<head>',
+  const render = (): string => [`<!-- @dsCard group="${preview.group}" height=120 subtitle="${subtitle}" -->`, '<!doctype html>', '<html lang="en">', '<head>',
     '<meta charset="utf-8" />', `<title>${e.tag}</title>`, `<style>\n${PREVIEW_STYLE}\n</style>`, '</head>', '<body class="sds-app">',
-    body, `<script>\n${PREVIEW_SCRIPT.replace('PROPS', json)}\n</script>`, '</body>', '</html>', ''].join('\n');
+    sections.map((s) => `<section class="story">\n<p class="story-name">${s.name}</p>\n${s.html}\n</section>`).join('\n'),
+    `<script>\n${PREVIEW_SCRIPT.replace('PROPS', json)}\n</script>`, '</body>', '</html>', ''].join('\n');
+  /* Measured as it ships, once the pictures stand in it. A mark in every
+     slide's lockup weighs more than the markup around it. */
+  let doc = render();
+  while (size(doc) > PREVIEW_MAX && sections.length > 1) {
+    const biggest = sections.reduce((a, b) => (b.html.length > a.html.length ? b : a));
+    sections.splice(sections.indexOf(biggest), 1);
+    report.note(`${e.tag}: the story "${biggest.name}" is too big for a preview and stays out`);
+    doc = render();
+  }
+  return doc;
 }
 
 /* A table cell ends at a pipe, and half these types are unions written with
@@ -444,7 +445,7 @@ const seen = new Set<string>();
 const index: string[] = [];
 const elementHashes: Record<string, string> = {};
 const previews = await elementPreviews(byTag);
-const previewed: string[] = [];
+const previewed: { e: ElementDoc; preview: Preview }[] = [];
 for (const e of els) {
   const dts = elementDts(e, new Set());
   const prompt = elementPrompt(e);
@@ -453,7 +454,7 @@ for (const e of els) {
   index.push(elementDts(e, seen));
   elementHashes[e.tag] = sha12(dts + prompt);
   const preview = previews.get(e.className);
-  if (preview) previewed.push(`components/${e.className}/preview.html|${previewDoc(e, preview)}`);
+  if (preview) previewed.push({ e, preview });
 }
 index.push('declare global {', `  interface Window { ${NS}: {`, ...els.map((e) => `    ${e.className}: typeof ${e.className};`),
   '    /** Point the icons at the sprites: a directory URL, one file per category. */', '    setIconSprites(dir: string): void;',
@@ -489,12 +490,12 @@ const preview = (folder: string, mark: string, text: string): string => {
   write(`components/${folder}/preview.html`, html);
   return html;
 };
-for (const doc of previewed) {
-  const [folder = '', text = ''] = doc.split(/\|(.*)/s);
-  const marked = text.slice(0, text.indexOf('\n'));
-  const html = preview(folder.replace(/^components\/|\/preview\.html$/g, ''), marked, text);
-  const tag = /<title>([^<]+)</.exec(text)?.[1] ?? '';
-  elementHashes[tag] = sha12((elementHashes[tag] ?? '') + html);
+for (const { e, preview: drawn } of previewed) {
+  const placed = (doc: string): number =>
+    Buffer.byteLength(`${doc.slice(0, doc.indexOf('\n'))}\n${place(head(body(doc)), byRepo, blobs, shas).text}`);
+  const text = previewDoc(e, drawn, placed);
+  const html = preview(e.className, text.slice(0, text.indexOf('\n')), text);
+  elementHashes[e.tag] = sha12((elementHashes[e.tag] ?? '') + html);
 }
 /* A screen is a layout to start a design from, at its design width: a
    showcase page in the pane, never a component. One that embeds another
