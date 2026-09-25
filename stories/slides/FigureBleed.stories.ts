@@ -29,9 +29,7 @@ export function figureBleedSlide({ flat = false, bare = false }: DeckMode = {}):
       alt: 'The status page of dev-companion at the table of six sources. Each row names a source, its state as a badge, when it was last checked, and an Open button.',
       number: '08',
     },
-    flat
-      ? html`<sds-facts .entries="${FACTS}"></sds-facts>`
-      : html`<sds-facts>${FACTS.map(({ term, value }) => html`<dt>${term}</dt><dd>${value}</dd>`)}</sds-facts>`,
+    html`<sds-facts>${FACTS.map(({ term, value }) => html`<dt>${term}</dt><dd>${value}</dd>`)}</sds-facts>`,
     { flat, bare },
   );
 }

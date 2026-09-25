@@ -9,8 +9,8 @@
      make cards              # write them
      make cards ARGS=--check # fail if any is stale
 */
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { basename, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 import { inlineArtRefs } from '../packages/frontend/src/components/art.static.ts';
@@ -18,6 +18,14 @@ import { indent, type DsCard, type DsScreen } from '../stories/lib/specimen.ts';
 import { cards, embedCards, inRepo, screens, ROOT } from './lib/cards.ts';
 import { PROJECTS } from './lib/projects.ts';
 import * as report from './lib/report.ts';
+import { authored } from './lib/authored.ts';
+import { pretty } from './lib/prerender.ts';
+import type { TemplateResult } from 'lit';
+
+/* Where each slide layout's markup goes, as the example its page prints
+   under the picture. A slide as a deck holds it: the deck says the lockup
+   and the count once. */
+const EXAMPLES = join('docs', 'design-system', '_slides');
 
 const STORIES = join(ROOT, 'stories');
 
@@ -164,6 +172,22 @@ export async function buildCards({ check = false } = {}): Promise<CardResult[]> 
     const changed = prev !== next;
     if (changed && !check) writeFileSync(out, next);
     results.push({ file, path, changed, existed: prev !== null });
+
+    /* A slide layout also writes what an author types for it. */
+    const make = Object.entries(mod).find(([name, value]) => /Slide$/.test(name) && typeof value === 'function')?.[1] as
+      | ((mode: { flat: boolean; bare: boolean }) => TemplateResult)
+      | undefined;
+    if (screen && (screen as DsScreen).section === 'Slides' && make) {
+      const rel = join(EXAMPLES, basename((screen as DsScreen).path));
+      const example = `${pretty(authored(make({ flat: true, bare: true })).html)}\n`;
+      const at = join(ROOT, rel);
+      const was = existsSync(at) ? readFileSync(at, 'utf8') : null;
+      if (was !== example && !check) {
+        mkdirSync(join(ROOT, EXAMPLES), { recursive: true });
+        writeFileSync(at, example);
+      }
+      results.push({ file, path: rel, changed: was !== example, existed: was !== null });
+    }
   }
 
   return results;
@@ -175,7 +199,8 @@ export async function buildCards({ check = false } = {}): Promise<CardResult[]> 
     and the diff compares it, and nothing anywhere says it has no source. */
 function orphans(generated: readonly CardResult[]): string[] {
   const written = new Set(generated.map((r) => r.path));
-  return [...cards(), ...screens()].map((c) => c.rel).filter((rel) => !written.has(rel)).sort();
+  const examples = existsSync(join(ROOT, EXAMPLES)) ? readdirSync(join(ROOT, EXAMPLES)).map((name) => join(EXAMPLES, name)) : [];
+  return [...cards().map((c) => c.rel), ...screens().map((c) => c.rel), ...examples].filter((rel) => !written.has(rel)).sort();
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {

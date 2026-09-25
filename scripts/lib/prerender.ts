@@ -269,3 +269,48 @@ export function prerender(page: string, tags: readonly string[] = TAGS, props: P
 
   return back(walk(page));
 }
+
+/* The elements whose children stand one to a line in an example. The rest
+   read as one line: a paragraph, a title, a word in a region. */
+const BLOCK = /^(sds-[a-z-]+|figure|svg|g|ul|ol|dl|div|table|thead|tbody|tr)$/;
+
+/** Markup as an example prints it: one child to a line, a block's children a
+    step in, and a tag's attributes on its own line. What the author wrote,
+    in a shape a reader copies. */
+export function pretty(markup: string, depth = 0): string {
+  const pad = '  '.repeat(depth);
+  const lines: string[] = [];
+  let rest = markup.trim();
+  const tight = (s: string): string => s.replace(/\s+/g, ' ').replace(/\s+>/g, '>').trim();
+  while (rest) {
+    if (rest.startsWith('<!--')) {
+      const end = rest.indexOf('-->');
+      rest = (end < 0 ? '' : rest.slice(end + 3)).trim();
+      continue;
+    }
+    const open = OPEN.exec(rest);
+    if (!open) {
+      const next = rest.indexOf('<', 1);
+      const text = tight(next < 0 ? rest : rest.slice(0, next));
+      if (text) lines.push(pad + text);
+      rest = (next < 0 ? '' : rest.slice(next)).trim();
+      continue;
+    }
+    const [head, name = ''] = open;
+    const tag = name.toLowerCase();
+    if (VOID.has(tag) || head.trimEnd().endsWith('/>')) {
+      lines.push(pad + tight(head));
+      rest = rest.slice(head.length).trim();
+      continue;
+    }
+    const closed = closeOf(rest, name, head.length);
+    const inner = closed ? closed.inner : rest.slice(head.length);
+    rest = closed ? rest.slice(closed.end).trim() : '';
+    if (BLOCK.test(tag) && /<[a-zA-Z]/.test(inner)) {
+      lines.push(pad + tight(head), pretty(inner, depth + 1), `${pad}</${name}>`);
+    } else {
+      lines.push(pad + tight(head) + tight(inner) + `</${name}>`);
+    }
+  }
+  return lines.filter(Boolean).join('\n');
+}

@@ -21,7 +21,7 @@ const STEPS: readonly Step[] = [
 export function flowSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     { eyebrow: place(1), heading: 'Truth runs story → card → page', number: '05' },
-    html`<sds-steps .steps="${STEPS}"></sds-steps>`,
+    html`<sds-steps>${STEPS.map((step) => html`<sds-step heading="${step.heading}">${step.body}</sds-step>`)}</sds-steps>`,
     { flat, bare },
   );
 }

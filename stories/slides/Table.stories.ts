@@ -25,7 +25,10 @@ const ROWS: readonly Row[] = [
 export function tableSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     { eyebrow: place(1), heading: 'What the gate holds', number: '07' },
-    html`<sds-table .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>`,
+    html`<sds-table><table>
+      <thead><tr>${COLUMNS.map((column) => html`<th>${column.head}</th>`)}</tr></thead>
+      <tbody>${ROWS.map((row) => html`<tr>${row.cells.map((cell, i) => (COLUMNS[i]?.cls ? html`<td class="${COLUMNS[i]?.cls}">${cell}</td>` : html`<td>${cell}</td>`))}</tr>`)}</tbody>
+    </table></sds-table>`,
     { flat, bare },
   );
 }

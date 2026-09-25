@@ -9,7 +9,7 @@
    So a page stands once, as a function of its rendering, and branches only
    where the two genuinely differ: the components that take content. */
 
-import { html, type TemplateResult } from 'lit';
+import { html, nothing, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/grid.ts';
 import { type GridVariant } from '../../packages/frontend/src/components/grid.ts';
 
@@ -41,4 +41,4 @@ export const grid = (
 ): TemplateResult =>
   flat || redrawn
     ? html`<sds-grid variant="${variant}" .content="${items}"></sds-grid>`
-    : html`<sds-grid variant="${variant}">${items}</sds-grid>`;
+    : html`<sds-grid variant="${variant === 'default' ? nothing : variant}">${items}</sds-grid>`;

@@ -64,18 +64,21 @@ export const slide = (
       : nothing;
   const face = portrait ? html`<sds-image slot="portrait" src="${portrait}" alt="${alt ?? ''}"></sds-image>` : nothing;
   const regions = html`${head({ eyebrow, heading, lead, note })}${body ?? nothing}${figures}${face}`;
+  /* An attribute stands only where it says something. A page leaves a
+     default out, and so does this. */
+  const said = (value: string | undefined, fallback = ''): string | typeof nothing => (value && value !== fallback ? value : nothing);
   return html`<sds-slide
-      kind="${kind}"
-      ground="${ground ?? 'paper'}"
-      number="${count}"
-      signet="${signet}"
-      brand="${brand}"
-      product="${product}"
-      sections="${JSON.stringify(sections ?? [])}"
-      current="${current ?? 0}"
-      layout="${layout ?? 'wide'}"
+      kind="${said(kind, 'content')}"
+      ground="${said(ground, 'paper')}"
+      layout="${said(layout, 'wide')}"
       ?bleed="${bleed ?? false}"
       ?framed="${framed ?? false}"
+      sections="${sections?.length ? JSON.stringify(sections) : nothing}"
+      current="${sections?.length ? String(current ?? 0) : nothing}"
+      number="${said(count)}"
+      signet="${said(signet)}"
+      brand="${said(brand)}"
+      product="${said(product)}"
       ?fit="${!flat}"
     >${regions}</sds-slide>`;
 };
