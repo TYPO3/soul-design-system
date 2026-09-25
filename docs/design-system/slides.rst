@@ -232,9 +232,10 @@ Figures
 =======
 
 A figure slide shows a picture: a drawing, a screenshot, a matrix. The
-picture is ``src`` with its ``alt``, never markup between the tags, and it
-takes the room its layout leaves. **It grows or shrinks whole into that
-room, and stands in its middle.** A picture scales as a picture does. Text
+picture stands in the ``figure`` region, ``<sds-image slot="figure">`` or a
+drawing inline, and takes the room its layout leaves. ``src`` and ``alt``
+are the short form. **It grows or shrinks whole into that room.** A picture
+scales as a picture does. Text
 does not: what stands between the tags keeps its register, and only
 shrinks when it does not fit.
 

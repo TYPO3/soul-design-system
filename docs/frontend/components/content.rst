@@ -363,8 +363,9 @@ says stands between the tags, each line of the head in its region.
    :name: sds-slide-src
    :type: string
 
-   On a figure slide: the picture, and what it shows. It grows or shrinks
-   whole into the room its layout leaves, and stands in the middle of it.
+   On a figure slide: the picture, and what it shows, as the short form of
+   ``<sds-image slot="figure">``. It grows or shrinks whole into the room
+   its layout leaves.
    :doc:`/design-system/slides` states each room, so a picture is drawn for
    it. A picture for a slide has no title and no verdict of its own.
 

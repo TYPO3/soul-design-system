@@ -47,6 +47,7 @@ function closeOf(source: string, tag: string, from: number): { inner: string; en
 /* The elements that close themselves. */
 const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr']);
 const OPEN = /^<([a-zA-Z][\w-]*)((?:"[^"]*"|'[^']*'|[^>"'])*)>/;
+const PART = /^<!--sds-part:(\d+)-->/;
 const ATTR = /([^\s=/]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+)))?/g;
 
 const unescape = (s: string): string =>
@@ -55,7 +56,7 @@ const unescape = (s: string): string =>
 /** The children at the top of some markup, as a region's children. Each has
     its tag, its attributes, itself, what stands in it and its words. What
     `regionOf` reads off a node in a browser, read off the markup here. */
-export function regionsOf(markup: string): Region[] {
+export function regionsOf(markup: string, resolve: (at: number) => string = () => ''): Region[] {
   const out: Region[] = [];
   let rest = markup;
   const piece = (tag: string, attrs: Record<string, string>, outer: string, inner: string): Region => ({
@@ -64,9 +65,21 @@ export function regionsOf(markup: string): Region[] {
     node: html`${unsafeHTML(outer)}`,
     inner: html`${unsafeHTML(inner)}`,
     text: unescape(outer.replace(/<[^>]*>/g, '')).trim(),
-    children: inner ? regionsOf(inner) : [],
+    children: inner ? regionsOf(inner, resolve) : [],
   });
   while (rest) {
+    /* An element this pass rendered already stands as its marker. The marker
+       goes on as the child, and the element it stands for says the tag and
+       the region. */
+    const part = PART.exec(rest);
+    if (part) {
+      const [, tag = '', written = ''] = OPEN.exec(resolve(Number(part[1]))) ?? [];
+      const attrs: Record<string, string> = {};
+      for (const [, key = '', a, b, c] of written.matchAll(ATTR)) attrs[key] = unescape(a ?? b ?? c ?? '');
+      out.push({ ...piece(tag.toLowerCase(), attrs, part[0], ''), text: unescape(resolve(Number(part[1])).replace(/<[^>]*>/g, '')).trim() });
+      rest = rest.slice(part[0].length);
+      continue;
+    }
     if (rest.startsWith('<!--')) {
       const end = rest.indexOf('-->');
       rest = end < 0 ? '' : rest.slice(end + 3);
@@ -102,9 +115,9 @@ export function regionsOf(markup: string): Region[] {
 
 /** Markup split by the region each child at its top names, `text` for the
     rest. */
-function byRegion(markup: string): Record<string, Region[]> {
+function byRegion(markup: string, resolve: (at: number) => string): Record<string, Region[]> {
   const out: Record<string, Region[]> = {};
-  for (const one of regionsOf(markup)) {
+  for (const one of regionsOf(markup, resolve)) {
     const key = one.attrs.slot || TEXT;
     (out[key] ??= []).push(one);
   }
@@ -143,10 +156,17 @@ function template(tag: string, attrs: string, bound: Record<string, unknown>): T
 
 /* The markup of the children with no `slot`, in their order and exactly
    as written. */
-function textOf(markup: string): string {
+function textOf(markup: string, resolve: (at: number) => string): string {
   let out = '';
   let rest = markup;
   while (rest) {
+    const part = PART.exec(rest);
+    if (part) {
+      const [, , written = ''] = OPEN.exec(resolve(Number(part[1]))) ?? [];
+      if (!/\bslot\s*=/.test(written)) out += part[0];
+      rest = rest.slice(part[0].length);
+      continue;
+    }
     const open = OPEN.exec(rest);
     if (!open) {
       const next = rest.indexOf('<', 1);
@@ -168,13 +188,13 @@ function textOf(markup: string): string {
     them renders them itself from that. `unsafeHTML` is a child binding and
     a property binding is not one. So the content goes over as a one-hole
     template, which is exactly what a story gives it. */
-function one(tag: string, attrs: string, written: string, authored: string, props: Props): string {
+function one(tag: string, attrs: string, written: string, authored: string, props: Props, resolve: (at: number) => string = () => ''): string {
   const marked = MARK.exec(attrs);
   /* The text region goes over as the content, and every region with a name
      beside it. Content with no slot in it arrives as it always did. */
-  const split = written ? byRegion(written) : {};
+  const split = written ? byRegion(written, resolve) : {};
   const named = Object.keys(split).some((key) => key !== TEXT);
-  const rest = named ? textOf(written).trim() : written;
+  const rest = named ? textOf(written, resolve).trim() : written;
   const rendered = renderUpgradable(template(tag, attrs, {
     content: rest ? html`${unsafeHTML(rest)}` : undefined,
     authored: authored || undefined,
@@ -240,7 +260,7 @@ export function prerender(page: string, tags: readonly string[] = TAGS, props: P
         rest = rest.slice(open);
         continue;
       }
-      done += rest.slice(0, found.index) + aside(one(tag, attrs, walk(closed.inner).trim(), closed.inner.trim(), props));
+      done += rest.slice(0, found.index) + aside(one(tag, attrs, walk(closed.inner).trim(), closed.inner.trim(), props, (at) => put[at] ?? ''));
       rest = rest.slice(closed.end);
     }
   };

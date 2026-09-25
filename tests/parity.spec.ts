@@ -198,6 +198,16 @@ const REGIONS: { name: string; markup: string }[] = [
     name: 'slide, drawings in the figure region',
     markup: '<sds-slide kind="figure" layout="row" heading="Two"><figure slot="figure" data-label="One"><svg viewBox="0 0 10 10" preserveAspectRatio="xMidYMid meet"><rect width="10" height="10"></rect></svg><figcaption>The first.</figcaption></figure><figure slot="figure" data-label="Two"><svg viewBox="0 0 10 10" preserveAspectRatio="xMidYMid meet"><rect width="10" height="10"></rect></svg><figcaption>The second.</figcaption></figure></sds-slide>',
   },
+  {
+    /* An element in a region renders before the slide does, and still has
+       to reach the region its slot names. */
+    name: 'slide, a picture element in the figure region and beside the text',
+    markup: '<sds-slide kind="figure" layout="text-start" heading="Beside"><p>The text.</p><sds-image slot="figure" src="assets/diagrams/cache-key.svg" alt="A drawing"></sds-image></sds-slide>',
+  },
+  {
+    name: 'slide, a portrait element in the portrait region',
+    markup: '<sds-slide kind="speaker" heading="Somebody"><sds-image slot="portrait" src="assets/portraits/benjamin-kott.png" alt="A face"></sds-image><p>Says a thing.</p></sds-slide>',
+  },
 ];
 
 for (const c of REGIONS) {

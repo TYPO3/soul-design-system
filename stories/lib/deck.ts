@@ -53,7 +53,17 @@ export const slide = (
   const brand = bare ? '' : DECK.brand;
   const product = bare ? '' : DECK.product;
   const count = bare ? '' : (number ?? '');
-  const regions = html`${head({ eyebrow, heading, lead, note })}${body ?? nothing}`;
+  /* The pictures go in their regions too: one drawing, a row of them, or
+     a speaker's portrait. */
+  const picture = (one: { src?: string; alt?: string; content?: unknown }): unknown =>
+    one.content ?? html`<sds-image src="${one.src ?? ''}" alt="${one.alt ?? ''}"></sds-image>`;
+  const figures = drawings?.length
+    ? drawings.map((one) => html`<figure slot="figure" data-label="${one.label ?? ''}">${picture(one)}${one.caption ? html`<figcaption>${one.caption}</figcaption>` : nothing}</figure>`)
+    : src
+      ? html`<sds-image slot="figure" src="${src}" alt="${alt ?? ''}"></sds-image>`
+      : nothing;
+  const face = portrait ? html`<sds-image slot="portrait" src="${portrait}" alt="${alt ?? ''}"></sds-image>` : nothing;
+  const regions = html`${head({ eyebrow, heading, lead, note })}${body ?? nothing}${figures}${face}`;
   return html`<sds-slide
       kind="${kind}"
       ground="${ground ?? 'paper'}"
@@ -63,10 +73,6 @@ export const slide = (
       product="${product}"
       sections="${JSON.stringify(sections ?? [])}"
       current="${current ?? 0}"
-      portrait="${portrait ?? ''}"
-      alt="${alt ?? ''}"
-      src="${src ?? ''}"
-      .drawings="${drawings ?? []}"
       layout="${layout ?? 'wide'}"
       ?bleed="${bleed ?? false}"
       ?framed="${framed ?? false}"

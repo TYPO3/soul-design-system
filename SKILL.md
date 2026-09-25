@@ -438,8 +438,9 @@ is the way through: over the page with `from`, or with slides of its own
 between its tags. Say the lockup and `numbered` once on the deck, never on
 each slide.
 
-A picture goes on a slide with `kind="figure"` and `src`. It grows into the
-room its `layout` leaves. Draw it for that room. `docs/design-system/slides.rst`
+A picture goes on a slide with `kind="figure"`, in the `figure` region:
+`<sds-image slot="figure" src="…" alt="…">`. It grows into the room its
+`layout` leaves. Draw it for that room. `docs/design-system/slides.rst`
 states each room in the frame's pixels. A picture for a slide has no title
 and no verdict of its own. Text beside a picture is `text-start` or
 `text-end`.
