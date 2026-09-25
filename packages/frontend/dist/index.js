@@ -14152,7 +14152,7 @@ var KIND = {
   cover: "sds-slide--cover",
   section: "sds-slide--section",
   statement: "sds-slide--statement",
-  content: "",
+  content: "sds-slide--content",
   closing: "sds-slide--closing",
   speaker: "sds-slide--speaker",
   figure: "sds-slide--figure"

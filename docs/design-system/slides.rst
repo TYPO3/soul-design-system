@@ -10,10 +10,12 @@ frame is 960 × 540 and ``sds-slide`` doubles it, so a slide renders at
 1920 × 1080. Every register, every component set and every hairline keeps
 the value it has on a page.
 
-The display step is a slide's title. The body step is what a room reads. A
-card on a slide is ``sds-surface`` with nothing said to it.
+The display step is a slide's title. **What a room reads stands a step
+over the page.** The body of a content slide and the text beside a picture
+take the lead step, 19 over 16. A card on a slide is ``sds-surface`` with
+nothing said to it, at that step as a whole.
 
-So the system has no slide scale, no slide palette and no slide components.
+So the system has no slide palette and no slide components.
 It has one element that owns the frame, and the layouts below. Those are
 screens like every other page here: **Starting Points** the design system
 carries as layouts. They stand live under **Slides** in the Storybook
@@ -89,8 +91,13 @@ frame draws them at twice their size.
      - ``--font-size-lead``, 19px
      - The sentence under a cover's title, a speaker's role
    * - The body
+     - ``--font-size-lead``, 19px
+     - What a content slide holds, as a whole: its cards, lists, tables and
+       code. The text beside a picture. A figure, ``sds-stat``, stands at
+       the display step on its own
+   * - The count
      - ``--font-size-body``, 16px
-     - Cards, lists, tables, and the count in the foot
+     - The count in the foot
    * - The note
      - ``--font-size-small``, 14px
      - A figure's finding, a caption, a statement's source

@@ -11,6 +11,8 @@ import '../../packages/frontend/src/components/slide.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import { type SlideProps } from '../../packages/frontend/src/components/slide.ts';
 import '../../packages/frontend/src/components/facts.ts';
+import '../../packages/frontend/src/components/grid.ts';
+import '../../packages/frontend/src/components/stat.ts';
 import { OUTLINE, place, slide } from '../lib/deck.ts';
 
 /* The element alone, written as the layouts write it: the settings as
@@ -201,6 +203,20 @@ export const FigureBleed: Story = {
     src: 'assets/screenshots/status-sources.png',
     alt: 'The status page at the table of six sources.',
     body: html`<sds-facts><dt>Row</dt><dd>one source</dd><dt>Badge</dt><dd>what it does now</dd><dt>Checked</dt><dd>when it last answered</dd></sds-facts>`,
+    number: '08',
+  },
+};
+
+/** Figures on a content slide. Each `sds-stat` stands at the display step
+    on its own, because the slide asks for it. The figure says nothing. */
+export const Numbers: Story = {
+  args: {
+    heading: 'The values the design rests on',
+    body: html`<sds-grid>
+      <sds-stat value="16" unit="px" label="Floor" note="The floor for the signet and the icons."></sds-stat>
+      <sds-stat value="4" unit="px" label="Radius" note="One radius for everything interactive."></sds-stat>
+      <sds-stat value="1" unit="px" label="Hairline" note="Hairlines do the structural work."></sds-stat>
+    </sds-grid>`,
     number: '08',
   },
 };

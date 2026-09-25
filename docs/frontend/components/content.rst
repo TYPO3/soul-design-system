@@ -654,6 +654,9 @@ a page is not a row of boxes.
    What bounds the figure. **Without one the number is a boast**, and that
    is the whole reason the component exists.
 
+   On a content slide the figure stands at the display step, and its unit
+   a step under it. The slide asks for it, and the figure says nothing.
+
 .. _component-sds-swatch:
 
 sds-swatch

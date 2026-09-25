@@ -46,6 +46,17 @@
     gap: var(--sds-stat-gap);
     min-width: 0;
   }
+  /* Where its place asks for the display step, a slide's body for one, the
+     figure stands there and its unit a step under it. Nobody has to say so
+     on the figure. */
+  @container style(--sds-stat-step: display) {
+    .sds-stat {
+      --sds-stat-value-size: var(--font-size-display);
+      --sds-stat-value-leading: var(--leading-display);
+      --sds-stat-value-tracking: var(--tracking-display);
+      --sds-stat-unit-size: var(--font-size-h2);
+    }
+  }
   /* Muted and never in a status colour, for the reason a card's glyph is: a
      figure is a subject, not a result. A box of its own inside the figure's
      line, and on the number's baseline. There it reads as part of the figure

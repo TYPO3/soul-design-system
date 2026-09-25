@@ -14,7 +14,9 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/grid.ts';
 import '../../packages/frontend/src/components/stat.ts';
 import { type StatProps } from '../../packages/frontend/src/components/stat.ts';
+import '../../packages/frontend/src/components/slide.ts';
 import { grid } from '../lib/page.ts';
+import { place, slide } from '../lib/deck.ts';
 import { dsCard, DIVIDER, part, spec, specCap } from '../lib/specimen.ts';
 
 export const sdsStat = ({ value, unit, label, of, icon, note }: StatProps) =>
@@ -148,6 +150,15 @@ export const AsASet: Story = {
     why a figure anywhere else is still bare. Nothing about the stat changes. */
 export const Wall: Story = {
   render: () => grid(MIXED.map(sdsStat), { variant: 'flush' }),
+};
+
+/** On a slide, where a room reads it from its back row. The same figures
+    stand at the display step, and nothing on them says so: the slide asks
+    for it. */
+export const OnASlide: Story = {
+  name: 'On a slide',
+  parameters: { layout: 'fullscreen' },
+  render: () => html`<div class="sb-stage">${slide({ eyebrow: place(1), heading: 'The figures of a source', number: '08' }, grid(MIXED.slice(0, 3).map(sdsStat)))}</div>`,
 };
 
 /** The card, which is the two stories above one under the other: what a set

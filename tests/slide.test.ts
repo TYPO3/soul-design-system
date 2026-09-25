@@ -252,3 +252,14 @@ test('the head takes its lines from their regions, markup and all, and a region 
   expect(q('.sds-slide__body p').textContent).toBe('One idea.');
   document.body.replaceChildren();
 });
+
+test('a figure on a content slide takes the display step on its own', async () => {
+  await write(`<sds-stat value="4" unit="px" label="Radius"></sds-stat>
+    <sds-slide><h2 slot="heading">Values</h2><sds-stat value="16" unit="px" label="Floor"></sds-stat></sds-slide>`);
+  await rest();
+  const [page, slide] = qa('.sds-stat__value').map((value) => parseFloat(getComputedStyle(value).fontSize));
+  const display = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--font-size-display')) * 16;
+  expect(slide, 'on the slide, the display step').toBe(display);
+  expect(page, 'on the page, the figure keeps its own').toBeLessThan(display);
+  document.body.replaceChildren();
+});

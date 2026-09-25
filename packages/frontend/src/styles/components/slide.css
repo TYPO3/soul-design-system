@@ -92,6 +92,9 @@
     --sds-slide-body-align: center;
     /* What the body holds reads at the page's size, and the frame doubles it. */
     --sds-slide-text-size: 1em;
+    /* How much larger than the page what the body holds stands, as a whole:
+       its cards, its table, its code, at their own proportions. */
+    --sds-slide-body-scale: 1;
     --sds-slide-text-leading: var(--leading-body);
     --sds-slide-fill: var(--surface-canvas);
     --sds-slide-ink: var(--text-primary);
@@ -169,6 +172,19 @@
   /* The kinds. A cover and a closing hold the title up and the lockup down. A
      divider holds its list down. A statement centres. A content slide keeps
      its title at the top margin, so it never hops between slides. */
+  /* A room reads a content slide from its back row. What it holds stands a
+     step over the page, at the lead step over the body step: 19 over 16. The
+     same step the text beside a picture takes. Three cards at the grid's
+     minimum still stand in one row. */
+  .sds-slide--content {
+    --sds-slide-body-scale: 1.1875;
+
+    /* A figure on a slide carries it on its own, so it takes the display
+       step wherever it stands in the body. */
+    > .sds-slide__body {
+      --sds-stat-step: display;
+    }
+  }
   /* A display slide stands its title in the middle of the height its foot
      leaves: the cover, a divider over its outline, the closing. A content
      slide keeps its title on the top line. */
@@ -280,6 +296,7 @@
     justify-content: var(--sds-slide-body-align);
     font-size: var(--sds-slide-text-size);
     line-height: var(--sds-slide-text-leading);
+    zoom: var(--sds-slide-body-scale);
   }
   /* What the body holds, in one box the element can measure and shrink. It
      never shrinks as a flex item: the element holds its own height against

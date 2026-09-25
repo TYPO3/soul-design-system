@@ -8954,6 +8954,7 @@
             "sds-slide--beside",
             "sds-slide--bleed",
             "sds-slide--closing",
+            "sds-slide--content",
             "sds-slide--cover",
             "sds-slide--figure",
             "sds-slide--framed",
