@@ -270,9 +270,9 @@ says stands between the tags, each line of the head in its region.
    :type: "cover" | "speaker" | "section" | "statement" | "content" | "closing" | "figure"
    :default: "content"
 
-   What the slide is in the run of a deck. ``cover`` stands its title in
-   the middle of its height, and ``closing`` holds it up. Both hold the
-   lockup down. ``section`` holds the outline down.
+   What the slide is in the run of a deck. ``cover``, ``section`` and
+   ``closing`` stand their title in the middle of the height. The cover and
+   the closing hold the lockup down. ``section`` holds the outline down.
 
    ``statement`` centres one sentence, two thirds of the frame wide.
    ``content`` keeps its title at the top margin, so it never hops between

@@ -169,9 +169,12 @@
   /* The kinds. A cover and a closing hold the title up and the lockup down. A
      divider holds its list down. A statement centres. A content slide keeps
      its title at the top margin, so it never hops between slides. */
-  /* The cover's title and lead stand in the middle of the height the eyebrow
-     and the lockup leave. */
-  .sds-slide--cover {
+  /* A display slide stands its title in the middle of the height its foot
+     leaves: the cover, a divider over its outline, the closing. A content
+     slide keeps its title on the top line. */
+  .sds-slide--cover,
+  .sds-slide--section,
+  .sds-slide--closing {
     --sds-slide-head-place: auto;
   }
   .sds-slide--cover,
@@ -395,7 +398,8 @@
   /* A row shares its lines: the words on one, the pictures on the next, the
      captions on the last. So a caption of two lines narrows no picture. */
   .sds-slide--row {
-    --sds-slide-drawing-position: center;
+    /* Each picture starts under its word, in the middle of its column. */
+    --sds-slide-drawing-position: center top;
     --sds-slide-figure-rows: auto minmax(0, 1fr) auto;
     --sds-slide-drawing-display: grid;
     --sds-slide-drawing-span: span 3;

@@ -146,9 +146,9 @@ export const FigureFull: Story = {
     kind: 'figure',
     layout: 'full',
     eyebrow: place(1),
-    heading: 'The system at a glance',
-    src: 'assets/diagrams/system-overview.svg',
-    alt: 'The client, the app subprocess and the local sources sit inside the machine; one read-only path crosses to official services outside.',
+    heading: 'A page of the manual',
+    src: 'assets/screenshots/documentation.png',
+    alt: 'A page of the manual at the width of a desk. The bar, the column of pages, the page and its contents.',
     number: '05',
   },
 };

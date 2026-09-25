@@ -7,18 +7,18 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import type { TemplateResult } from 'lit';
 import { dsScreen, part } from '../lib/specimen.ts';
-import { slide, type DeckMode } from '../lib/deck.ts';
+import { place, slide, type DeckMode } from '../lib/deck.ts';
 
 export function figureFullSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     {
       kind: 'figure',
       layout: 'full',
-      eyebrow: 'What it consists of · Figure 1',
-      heading: 'The system at a glance',
-      note: 'One read-only path leaves the machine, and every other source stays on it.',
-      src: 'assets/diagrams/system-overview.svg',
-      alt: 'The client, the app subprocess and the local sources sit inside the machine; one read-only path crosses to official services outside.',
+      eyebrow: place(2),
+      heading: 'A page of the manual',
+      note: 'A view that needs the whole frame shows only the count.',
+      src: 'assets/screenshots/documentation.png',
+      alt: 'A page of the manual at the width of a desk. The bar, the column of pages, the page and its contents.',
       number: '05',
     },
     undefined,

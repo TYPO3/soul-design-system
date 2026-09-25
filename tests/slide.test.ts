@@ -189,7 +189,7 @@ test('a full figure shows the drawing and the count, and keeps its head for the 
   const room = inFrame(q('.sds-slide__figure'));
   expect(room.w, 'the drawing takes the width').toBeGreaterThanOrEqual(920);
   expect(room.h, 'and the height').toBeGreaterThanOrEqual(500);
-  expect(q('.sds-slide__head h2').textContent).toBe('The system at a glance');
+  expect(q('.sds-slide__head h2').textContent).toBe('A page of the manual');
   expect(inFrame(q('.sds-slide__head')).w, 'nobody sees the head').toBeLessThanOrEqual(1);
   expect(getComputedStyle(q('.sds-slide__foot .sds-lockup')).visibility).toBe('hidden');
   expect(getComputedStyle(q('.sds-slide__count')).borderTopStyle).toBe('solid');

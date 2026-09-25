@@ -35,8 +35,9 @@ What a slide owns
   accent ground, and the one accent stays where the system keeps it.
   ``ground`` says which. It says ``paper`` unless told, whatever mode the
   page around it is in. A room watches a deck, and a room has no mode.
-- **The kinds.** A ``cover`` stands its title in the middle of its height,
-  and a ``closing`` holds it up. Both hold the lockup
+- **The kinds.** A ``cover``, a ``section`` and a ``closing`` stand their
+  title in the middle of the height their foot leaves. The cover and the
+  closing hold the lockup
   down. ``section`` holds the deck's outline down, with its own entry
   marked. ``statement`` centres one sentence, two thirds of the frame wide. ``content`` keeps its title at
   the top margin, so it never hops between slides. Its body stands in the

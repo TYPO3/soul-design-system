@@ -161,7 +161,7 @@ colour and a word, never an emoji.
   A speaker has a portrait; it is the deck's own picture. Two speakers take
   a plain plane each, with a byline and one sentence.
 - **Section**. The eyebrow says which of how many, the title at the display
-  step. The outline in a row at the foot, over a hairline. Every entry takes
+  step in the middle of the height. The outline in a row at the foot, over a hairline. Every entry takes
   the muted ink. The current one is primary, weight 600, with a 4px accent
   rule under it.
 - **Statement**. One sentence at the display step, centred. It runs up to
