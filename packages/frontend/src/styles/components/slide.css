@@ -90,6 +90,9 @@
     /* Where what the body holds stands in the room under the head: in its
        middle, so a short body leaves no empty half under it. */
     --sds-slide-body-align: center;
+    /* What the body holds reads at the page's size, and the frame doubles it. */
+    --sds-slide-text-size: 1em;
+    --sds-slide-text-leading: var(--leading-body);
     --sds-slide-fill: var(--surface-canvas);
     --sds-slide-ink: var(--text-primary);
     --sds-slide-edge: var(--border-subtle);
@@ -129,6 +132,8 @@
     --sds-slide-drawing-rows: none;
     --sds-slide-drawing-pad: 0;
     --sds-slide-drawing-position: center;
+    /* A picture fits its room whole, unless it runs to the edges. */
+    --sds-slide-drawing-fit: contain;
     --sds-slide-drawing-edge: transparent;
     --sds-slide-drawing-fill: transparent;
     --sds-slide-drawing-radius: var(--radius-card);
@@ -270,6 +275,8 @@
     display: flex;
     flex-direction: column;
     justify-content: var(--sds-slide-body-align);
+    font-size: var(--sds-slide-text-size);
+    line-height: var(--sds-slide-text-leading);
   }
   /* What the body holds, in one box the element can measure and shrink. It
      never shrinks as a flex item: the element holds its own height against
@@ -287,6 +294,11 @@
        stand one gap apart, not a gap and two steps. */
     > * {
       margin-block: 0;
+    }
+    /* A paragraph reads at the body's size, as a list there does. */
+    > p {
+      font-size: inherit;
+      line-height: inherit;
     }
   }
 
@@ -358,7 +370,7 @@
         display: block;
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: var(--sds-slide-drawing-fit);
         object-position: var(--sds-slide-drawing-position);
       }
     }
@@ -367,7 +379,7 @@
       display: block;
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: var(--sds-slide-drawing-fit);
       object-position: var(--sds-slide-drawing-position);
     }
   }
@@ -428,6 +440,11 @@
     --sds-slide-figure-end: var(--sds-slide-pad-footed);
     /* The drawing starts on the line the text starts on. */
     --sds-slide-drawing-position: top;
+    /* The few lines beside a picture stand in the middle of the column's
+       height under the title, a step larger than a page's text. */
+    --sds-slide-body-align: center;
+    --sds-slide-text-size: var(--font-size-lead);
+    --sds-slide-text-leading: var(--leading-snug);
     --sds-slide-frame-pad: 0;
     --sds-slide-frame-top: 0;
     --sds-slide-frame-footed: 0;
@@ -441,28 +458,17 @@
       grid-area: figure;
     }
   }
-  .sds-slide--beside-end {
-    --sds-slide-beside-columns: minmax(0, 3fr) minmax(0, 2fr);
-    --sds-slide-beside-areas: "figure text";
-    --sds-slide-figure-pad: var(--sds-slide-top) 0 0 var(--sds-slide-pad);
-  }
   .sds-slide--bleed {
-    /* To the edges, the plane is the frame, and the picture stands in its
-       middle. */
-    --sds-slide-drawing-position: center;
+    /* To the edges, the picture fills its column as a portrait does. What
+       stands over goes at the right and at the bottom: a screenshot keeps
+       its bar and its title. */
+    --sds-slide-drawing-fit: cover;
+    --sds-slide-drawing-position: left top;
     --sds-slide-figure-pad: 0;
     --sds-slide-figure-end: 0;
     --sds-slide-figure-fill: var(--surface-inset);
     --sds-slide-count-fill: var(--sds-slide-plate-fill);
     --sds-slide-count-edge: var(--sds-slide-plate-edge);
-  }
-  .sds-slide--bleed.sds-slide--beside-end {
-    --sds-slide-eyebrow-fill: var(--sds-slide-plate-fill);
-    --sds-slide-eyebrow-edge: var(--sds-slide-plate-edge);
-    --sds-slide-lockup-fill: var(--sds-slide-plate-fill);
-    --sds-slide-lockup-edge: var(--sds-slide-plate-edge);
-    --sds-slide-count-fill: transparent;
-    --sds-slide-count-edge: transparent;
   }
   .sds-slide__text {
     grid-area: text;

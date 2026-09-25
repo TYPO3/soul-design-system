@@ -28,7 +28,7 @@ const meta: Meta<SlideProps> = {
     kind: { control: 'select', options: ['cover', 'speaker', 'section', 'statement', 'content', 'closing', 'figure'] },
     src: { control: 'text' },
     portrait: { control: 'text' },
-    layout: { control: 'select', options: ['wide', 'full', 'row', 'text-start', 'text-end'] },
+    layout: { control: 'select', options: ['wide', 'full', 'row', 'text-start'] },
     bleed: { control: 'boolean' },
     plain: { control: 'boolean' },
     framed: { control: 'boolean' },
@@ -182,28 +182,14 @@ export const FigureTextStart: Story = {
     heading: 'Five sources',
     src: 'assets/diagrams/slide-sources.svg',
     alt: 'Five sources against what the machine has to run. Bundled knowledge and the checkout need nothing. Packages need files on disk, the installation a booted site, the network outbound reach.',
-    body: html`<ul class="sds-list"><li>Bundled knowledge needs nothing running.</li><li>Packages need their files on disk.</li><li>The installation needs a booted site.</li></ul>`,
+    body: html`<p>Each source needs a part of the machine before it answers.</p><ul class="sds-list"><li>Bundled knowledge needs nothing.</li><li>Packages need files on disk.</li><li>The installation needs a booted site.</li></ul>`,
     number: '06',
   },
 };
 
-/** `text-end`: the picture first, the column of text at the end. */
-export const FigureTextEnd: Story = {
-  name: 'Figure, text end',
-  args: {
-    kind: 'figure',
-    layout: 'text-end',
-    eyebrow: place(2),
-    heading: 'Five sources',
-    src: 'assets/diagrams/slide-sources.svg',
-    alt: 'Five sources against what the machine has to run. Bundled knowledge and the checkout need nothing. Packages need files on disk, the installation a booted site, the network outbound reach.',
-    body: html`<p>Every source declares what it needs. So a reader knows the reach of an answer before the question.</p>`,
-    number: '06',
-  },
-};
-
-/** `bleed`: beside its text, a screenshot runs to the edges of the frame on
-    the inset plane. The count keeps its place over it, on a plate. */
+/** `bleed`: beside its text, a screenshot fills its column to the edges of
+    the frame, as a portrait does. The count keeps its place over it, on a
+    plate. */
 export const FigureBleed: Story = {
   name: 'Figure, bleed',
   args: {

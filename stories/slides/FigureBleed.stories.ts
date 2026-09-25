@@ -1,9 +1,9 @@
 /* A screenshot beside its text, to the edge.
 
    A screenshot has edges of its own, so a margin around it draws a second
-   frame. With `bleed` it runs to the top, the bottom and the side of the
-   frame, on a plane of its own. The text stands at the start and the
-   picture at the end. The count keeps its place over it, on a plate. */
+   frame. With `bleed` it fills its column to the top, the bottom and the
+   side of the frame, from its top left corner. The text stands at the
+   start. The count keeps its place over it, on a plate. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';

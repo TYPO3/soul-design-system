@@ -442,8 +442,7 @@ A picture goes on a slide with `kind="figure"`, in the `figure` region:
 `<sds-image slot="figure" src="…" alt="…">`. It grows into the room its
 `layout` leaves. Draw it for that room. `docs/design-system/slides.rst`
 states each room in the frame's pixels. A picture for a slide has no title
-and no verdict of its own. Text beside a picture is `text-start` or
-`text-end`.
+and no verdict of its own. Text beside a picture is `text-start`.
 
 A drawing inline goes in the `figure` region, `<figure slot="figure">` with
 its `<figcaption>`, and keeps the system's type.

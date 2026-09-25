@@ -32,9 +32,9 @@ export type SlideGround = 'paper' | 'terminal';
 /** Where a figure slide puts its drawing. `wide` keeps it inside the
     margin, under the head. `full` gives it the frame and shows only the
     count: the head stays for a reader who hears it. `row` sets
-    two or three drawings side by side. `text-start` and `text-end` stand it
+    two or three drawings side by side. `text-start` stands it
     beside a column of text, which stands on the side the name says. */
-export type SlideLayout = 'wide' | 'full' | 'row' | 'text-start' | 'text-end';
+export type SlideLayout = 'wide' | 'full' | 'row' | 'text-start';
 
 /** One drawing of a figure slide. The label is the word over it, where
     some stand side by side and a reader needs to know which is which. The
@@ -72,7 +72,6 @@ const LAYOUT: Record<SlideLayout, string> = {
   full: 'sds-slide--full',
   row: 'sds-slide--row',
   'text-start': 'sds-slide--beside',
-  'text-end': 'sds-slide--beside sds-slide--beside-end',
 };
 
 const GROUND: Record<SlideGround, string> = { paper: 'light', terminal: 'dark' };
@@ -407,7 +406,7 @@ export class SdsSlide extends SdsElement {
   }
 
   private beside(): boolean {
-    return this.kind === 'figure' && (this.layout === 'text-start' || this.layout === 'text-end');
+    return this.kind === 'figure' && this.layout === 'text-start';
   }
 
   /* What the room holds: every drawing of a row, and one for the rest. The

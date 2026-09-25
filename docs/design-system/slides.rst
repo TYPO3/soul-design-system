@@ -332,13 +332,13 @@ inside. That is for a sketch of an interface, which has no edge of its own.
    * - ``text-start``
      - 519 × 401
      - 1.29 : 1
-     - A column of text at the start and the picture beside it.
-       ``text-end`` is the same with the sides changed
+     - A column of text at the start and the picture beside it. The text
+       stands in the middle of the column under the title, a step larger
    * - ``bleed``
      - 559 × 538
      - 1.04 : 1
-     - Beside the text, a screenshot to the edges of the frame, on the
-       inset plane
+     - Beside the text, a screenshot that fills its column to the edges of
+       the frame. It keeps its top left corner, and the rest runs over
 
 **The room is the format.** It is in the frame's own pixels, 960 × 540,
 and the slide draws at twice that. The figures hold for a title of one
@@ -378,7 +378,7 @@ attribute stays as the short form for a line of plain text.
      - ``figure``
    * - ``figure``, ``row``
      - ``figure``, once for each drawing
-   * - ``figure``, ``text-start`` and ``text-end``
+   * - ``figure``, ``text-start``
      - ``text`` and ``figure``
    * - ``speaker``
      - ``text`` and ``portrait``
@@ -526,7 +526,7 @@ What a deck needed
      - ``kind="figure"``: a content slide's head, and the picture grows
        into the room its ``layout`` leaves
    * - a picture beside its text
-     - ``layout="text-start"`` or ``text-end``, and ``bleed`` for a
+     - ``layout="text-start"``, and ``bleed`` for a
        screenshot to the edge
    * - pictures read against each other
      - ``layout="row"`` with ``drawings``, each under its word

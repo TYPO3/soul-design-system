@@ -14161,8 +14161,7 @@ var LAYOUT = {
   wide: "",
   full: "sds-slide--full",
   row: "sds-slide--row",
-  "text-start": "sds-slide--beside",
-  "text-end": "sds-slide--beside sds-slide--beside-end"
+  "text-start": "sds-slide--beside"
 };
 var GROUND = { paper: "light", terminal: "dark" };
 var STOPS = 'a[href], button, input, select, textarea, summary, iframe, [tabindex]:not([tabindex="-1"])';
@@ -14381,7 +14380,7 @@ var SdsSlide = class extends SdsElement {
   </div>`;
   }
   beside() {
-    return this.kind === "figure" && (this.layout === "text-start" || this.layout === "text-end");
+    return this.kind === "figure" && this.layout === "text-start";
   }
   /* What the room holds: every drawing of a row, and one for the rest. The
      region between the tags first, then the property, then the file. */

@@ -8640,7 +8640,7 @@
               "name": "layout",
               "description": "",
               "type": {
-                "text": "'wide' | 'full' | 'row' | 'text-start' | 'text-end'"
+                "text": "'wide' | 'full' | 'row' | 'text-start'"
               },
               "fieldName": "layout"
             },
@@ -8868,7 +8868,7 @@
               "privacy": "public",
               "description": "",
               "type": {
-                "text": "'wide' | 'full' | 'row' | 'text-start' | 'text-end'"
+                "text": "'wide' | 'full' | 'row' | 'text-start'"
               },
               "attribute": "layout"
             },
@@ -8952,7 +8952,6 @@
             "sds-lead",
             "sds-slide",
             "sds-slide--beside",
-            "sds-slide--beside-end",
             "sds-slide--bleed",
             "sds-slide--closing",
             "sds-slide--cover",

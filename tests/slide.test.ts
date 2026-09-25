@@ -112,7 +112,8 @@ test('the drawing takes its room whole, as a picture does', async () => {
     await rest();
     for (const image of qa('.sds-slide__drawing sds-image')) {
       const picture = image.querySelector('img') as HTMLImageElement;
-      expect(getComputedStyle(picture).objectFit).toBe('contain');
+      /* Whole in its room, and to the edges where it bleeds. */
+      expect(getComputedStyle(picture).objectFit).toBe(name === 'bleed' ? 'cover' : 'contain');
       expect(inFrame(picture), `${name}: the picture fills its room`).toEqual(inFrame(image));
     }
   }
@@ -155,11 +156,7 @@ test('beside the text, the drawing stands on the side the layout leaves it', asy
   /* The edge is inside the frame's hairline. */
   expect(figureBox.y, 'a bleed runs to the top').toBeLessThanOrEqual(1);
   expect(figureBox.x + figureBox.w, 'and to the side').toBeGreaterThanOrEqual(959);
-  await write('<sds-slide kind="figure" layout="text-end" src="x.svg" heading="End"><p>Text</p></sds-slide>');
-  await rest();
-  expect(inFrame(q('.sds-slide__figure')).x, 'text-end: the drawing first').toBeLessThan(inFrame(q('.sds-slide__text')).x);
-  /* A fixture `write` leaves stays in the body, and the next mount measures it. */
-  document.body.replaceChildren();
+  expect(getComputedStyle(q('.sds-slide__drawing img')).objectFit, 'a bleed fills its column').toBe('cover');
 });
 
 test('every room is the one slides.rst states', async () => {

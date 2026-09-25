@@ -400,15 +400,15 @@ says stands between the tags, each line of the head in its region.
 
 .. confval:: layout
    :name: sds-slide-layout
-   :type: "wide" | "full" | "row" | "text-start" | "text-end"
+   :type: "wide" | "full" | "row" | "text-start"
    :default: "wide"
 
    Where a figure slide puts its picture. ``wide`` keeps it inside the
    margin, under the head and its note. ``full`` gives it nearly the whole
    frame and shows only the count. The head stays for a reader who hears
    the slide. ``row`` sets the ``drawings`` side by side.
-   ``text-start`` and ``text-end`` stand it beside a column of text, which
-   is the body, on the side the name says.
+   ``text-start`` stands it beside a column of text at the start, which is
+   the body.
 
 .. confval:: framed
    :name: sds-slide-framed
@@ -421,9 +421,10 @@ says stands between the tags, each line of the head in its region.
    :name: sds-slide-bleed
    :type: boolean
 
-   Beside a column of text: the picture runs to the edges of the frame, on
-   the inset plane. For a screenshot, which has edges of its own. The count
-   or the lockup it runs under stands on a plate.
+   Beside a column of text: the picture fills its column to the edges of
+   the frame, as a portrait does. It keeps its top left corner, and what
+   does not fit goes at the right and at the bottom. For a screenshot,
+   which has edges of its own. The count it runs under stands on a plate.
 
 .. confval:: fit
    :name: sds-slide-fit
