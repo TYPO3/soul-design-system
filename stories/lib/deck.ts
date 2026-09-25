@@ -5,7 +5,7 @@
    stands here once, and each slide says which kind it is and what it shows.
    Nothing here is a component. */
 
-import { html, type TemplateResult } from 'lit';
+import { html, nothing, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/slide.ts';
 import { type SlideProps } from '../../packages/frontend/src/components/slide.ts';
 import { type PageMode } from './page.ts';
@@ -33,11 +33,11 @@ export interface DeckMode extends PageMode {
   bare?: boolean;
 }
 
-/** One slide, in whichever form the rendering can hold. The body goes between
-    the tags where the page is live, and as a property where it is static. A
-    file has no `connectedCallback` to lift authored children. The live one
-    fits the window, because a story opens in whatever canvas there is. The
-    static one is its own viewport. */
+/** One slide, written the way a page writes it. The settings are
+    attributes, and each line of the head and the body stands between the
+    tags in its region. The same markup renders live and static. The live one fits the
+    window, because a story opens in whatever canvas there is. The static one
+    is its own viewport. */
 export const slide = (
   { kind = 'content', ground, eyebrow, heading, lead, note, number, sections, current, portrait, alt, src, drawings, layout, bleed, framed }: SlideProps,
   body?: TemplateResult,
@@ -48,49 +48,23 @@ export const slide = (
   const brand = bare ? '' : DECK.brand;
   const product = bare ? '' : DECK.product;
   const count = bare ? '' : (number ?? '');
-  return flat
-    ? html`<sds-slide
-        kind="${kind}"
-        ground="${ground ?? 'paper'}"
-        eyebrow="${eyebrow ?? ''}"
-        heading="${heading ?? ''}"
-        lead="${lead ?? ''}"
-        note="${note ?? ''}"
-        number="${count}"
-        signet="${signet}"
-        brand="${brand}"
-        product="${product}"
-        sections="${JSON.stringify(sections ?? [])}"
-        current="${current ?? 0}"
-        portrait="${portrait ?? ''}"
-        alt="${alt ?? ''}"
-        src="${src ?? ''}"
-        .drawings="${drawings ?? []}"
-        layout="${layout ?? 'wide'}"
-        ?bleed="${bleed ?? false}"
-        ?framed="${framed ?? false}"
-        .body="${body ?? ''}"
-      ></sds-slide>`
-    : html`<sds-slide
-        kind="${kind}"
-        ground="${ground ?? 'paper'}"
-        eyebrow="${eyebrow ?? ''}"
-        heading="${heading ?? ''}"
-        lead="${lead ?? ''}"
-        note="${note ?? ''}"
-        number="${count}"
-        signet="${signet}"
-        brand="${brand}"
-        product="${product}"
-        sections="${JSON.stringify(sections ?? [])}"
-        current="${current ?? 0}"
-        portrait="${portrait ?? ''}"
-        alt="${alt ?? ''}"
-        src="${src ?? ''}"
-        .drawings="${drawings ?? []}"
-        layout="${layout ?? 'wide'}"
-        ?bleed="${bleed ?? false}"
-        ?framed="${framed ?? false}"
-        fit
-      >${body ?? ''}</sds-slide>`;
+  const regions = html`${eyebrow ? html`<span slot="eyebrow">${eyebrow}</span>` : nothing}${heading ? html`<h2 slot="heading">${heading}</h2>` : nothing}${lead ? html`<p slot="lead">${lead}</p>` : nothing}${note ? html`<p slot="note">${note}</p>` : nothing}${body ?? nothing}`;
+  return html`<sds-slide
+      kind="${kind}"
+      ground="${ground ?? 'paper'}"
+      number="${count}"
+      signet="${signet}"
+      brand="${brand}"
+      product="${product}"
+      sections="${JSON.stringify(sections ?? [])}"
+      current="${current ?? 0}"
+      portrait="${portrait ?? ''}"
+      alt="${alt ?? ''}"
+      src="${src ?? ''}"
+      .drawings="${drawings ?? []}"
+      layout="${layout ?? 'wide'}"
+      ?bleed="${bleed ?? false}"
+      ?framed="${framed ?? false}"
+      ?fit="${!flat}"
+    >${regions}</sds-slide>`;
 };

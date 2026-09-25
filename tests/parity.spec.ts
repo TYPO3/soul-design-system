@@ -12,6 +12,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import { html, type TemplateResult } from 'lit';
 import { renderStatic } from '../packages/frontend/src/lib/render.ts';
+import { renderCard } from '../scripts/lib/card.ts';
 import { buttonLabel, buttonMarkup } from '../packages/frontend/src/components/button.ts';
 import '../packages/frontend/src/index.ts';
 
@@ -182,6 +183,27 @@ const CASES: { name: string; markup: string; template: TemplateResult }[] = [
 for (const c of CASES) {
   test(`${c.name} renders the same in the browser and in the export`, async ({ page }) => {
     expect(flat(await mount(page, c.markup))).toBe(flat(renderStatic(c.template)));
+  });
+}
+
+/* Content in named regions. The export reads the regions off the markup,
+   where the browser reads them off the children. Both have to place them the
+   same, and a region wins over the attribute of its name. */
+const REGIONS: { name: string; markup: string }[] = [
+  {
+    name: 'slide, its head and its text in regions',
+    markup: '<sds-slide heading="Said as an attribute" number="03" brand="TYPO3" product="Dev Companion"><span slot="eyebrow">02 · What it is</span><h2 slot="heading">Three <em>places</em></h2><p slot="note">The finding.</p><p>One idea.</p></sds-slide>',
+  },
+  {
+    name: 'slide, drawings in the figure region',
+    markup: '<sds-slide kind="figure" layout="row" heading="Two"><figure slot="figure" data-label="One"><svg viewBox="0 0 10 10" preserveAspectRatio="xMidYMid meet"><rect width="10" height="10"></rect></svg><figcaption>The first.</figcaption></figure><figure slot="figure" data-label="Two"><svg viewBox="0 0 10 10" preserveAspectRatio="xMidYMid meet"><rect width="10" height="10"></rect></svg><figcaption>The second.</figcaption></figure></sds-slide>',
+  },
+];
+
+for (const c of REGIONS) {
+  test(`${c.name} renders the same in the browser and in the export`, async ({ page }) => {
+    const strings = Object.assign([c.markup], { raw: [c.markup] }) as unknown as TemplateStringsArray;
+    expect(flat(await mount(page, c.markup))).toBe(flat(renderCard(html(strings))));
   });
 }
 

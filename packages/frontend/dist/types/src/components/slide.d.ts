@@ -36,9 +36,11 @@ export interface SlideDrawing {
     caption?: string;
 }
 /** The named regions a slide takes between its tags. A child without a
-    `slot`, or with `slot="text"`, is the text. `figure` is the picture's room,
-    one child for each drawing of a row. `portrait` is a speaker's picture. */
-export type SlideSlot = 'text' | 'figure' | 'portrait';
+    `slot`, or with `slot="text"`, is the text. The head's lines each have a
+    region, and a region wins over the attribute of the same name. `figure`
+    is the picture's room, one child for each drawing of a row. `portrait`
+    is a speaker's picture. */
+export type SlideSlot = 'text' | 'eyebrow' | 'heading' | 'lead' | 'note' | 'figure' | 'portrait';
 export interface SlideProps {
     kind?: SlideKind;
     ground?: SlideGround;
@@ -101,6 +103,7 @@ export interface SlideProps {
     shrink?: boolean;
 }
 export declare class SdsSlide extends SdsElement {
+    static regions: readonly SlideSlot[];
     static properties: {
         kind: {
             type: StringConstructor;
@@ -217,7 +220,6 @@ export declare class SdsSlide extends SdsElement {
     private watch?;
     private settling;
     private taken;
-    private slotted;
     constructor();
     connectedCallback(): void;
     disconnectedCallback(): void;
@@ -230,6 +232,7 @@ export declare class SdsSlide extends SdsElement {
         stylesheet, never a copy here. `--sds-slide-width` and its height are
         the set's, and a copy in TypeScript is the copy that goes stale. */
     private measure;
+    private line;
     private head;
     private outline;
     private foot;

@@ -23,7 +23,6 @@ export function numbersSlide({ flat = false, bare = false }: DeckMode = {}): Tem
     { eyebrow: place(1), heading: 'The values the design rests on', number: '08' },
     grid(
       VALUES.map((one) => html`<sds-stat value="${one.value}" unit="${one.unit}" label="${one.label}" note="${one.note}"></sds-stat>`),
-      { flat },
     ),
     { flat, bare },
   );

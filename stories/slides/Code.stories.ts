@@ -30,7 +30,6 @@ export function codeSlide({ flat = false, bare = false }: DeckMode = {}): Templa
           body="The classes are the fallback for a surface with no JavaScript, not the front door. Everything that fits in a string is a property. Between the tags goes only content."
         ></sds-surface>`,
       ],
-      { flat },
     ),
     { flat, bare },
   );

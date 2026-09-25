@@ -374,6 +374,10 @@ the foot and the deck's outline. The body is the system's elements.
    markup in place of the file, for a render that cannot write between the
    tags.
 
+   The lines of the head take regions too: ``eyebrow``, ``heading``,
+   ``lead`` and ``note``. A line there keeps its markup and wins over the
+   attribute of its name.
+
    Between the tags, the ``figure`` region does the same: a child with
    ``slot="figure"``, one for each drawing of a row. A ``<figure>`` brings
    its label as ``data-label`` and its caption as ``<figcaption>``. The

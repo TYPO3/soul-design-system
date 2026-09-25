@@ -3,8 +3,8 @@
    A drawing between the tags stands in the slide's own document. So it
    reads the page's tokens and its faces, in either mode. Each is a
    `<figure slot="figure">`: its word as `data-label`, what it shows as its
-   `<figcaption>`. The text needs no region name. A static card takes the
-   same drawings as the `drawings` property, with `content` for the markup. */
+   `<figcaption>`. The text needs no region name. A static card reads the
+   same regions off the same markup. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, svg, type TemplateResult } from 'lit';
@@ -29,10 +29,8 @@ const DRAWINGS = [
 
 export function figureSlotsSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
-    { kind: 'figure', layout: 'row', framed: true, eyebrow: place(2), heading: 'Navigation', drawings: flat ? DRAWINGS : [], number: '11' },
-    flat
-      ? undefined
-      : html`${DRAWINGS.map((one) => html`<figure slot="figure" data-label="${one.label}">${one.content}<figcaption>${one.caption}</figcaption></figure>`)}`,
+    { kind: 'figure', layout: 'row', framed: true, eyebrow: place(2), heading: 'Navigation', number: '11' },
+    html`${DRAWINGS.map((one) => html`<figure slot="figure" data-label="${one.label}">${one.content}<figcaption>${one.caption}</figcaption></figure>`)}`,
     { flat, bare },
   );
 }

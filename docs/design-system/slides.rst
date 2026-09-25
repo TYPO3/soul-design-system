@@ -296,8 +296,22 @@ and the bottom.
 Regions
 -------
 
-What a slide shows goes between its tags, into named regions. A string
-stays an attribute: the eyebrow, the title, the lead, the note.
+What a slide shows goes between its tags, into named regions. What sets
+it up stays an attribute: its kind, its layout, its ground, its count.
+
+Every kind takes the lines of its head as regions: ``eyebrow``,
+``heading``, ``lead`` and ``note``. A line in its region keeps its markup,
+an ``<em>`` or a ``<code>``, and wins over the attribute of its name. The
+attribute stays as the short form for a line of plain text.
+
+.. code-block:: html
+
+   <sds-slide kind="figure" layout="text-start">
+     <span slot="eyebrow">02 · What it consists of</span>
+     <h2 slot="heading">One key for <em>two</em> languages</h2>
+     <p>The German call fills the slot.</p>
+     <svg slot="figure" viewBox="0 0 1200 484">…</svg>
+   </sds-slide>
 
 .. list-table::
    :header-rows: 1

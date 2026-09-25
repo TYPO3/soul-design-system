@@ -2401,11 +2401,13 @@
             "sds-deck__stage",
             "sds-deck__start",
             "sds-deck__thumb",
+            "sds-eyebrow",
             "sds-modal__close",
             "sds-modal__head",
             "sds-modal__title",
             "sds-slide",
-            "sds-slide__body"
+            "sds-slide__body",
+            "sds-slide__head"
           ],
           "slots": []
         }

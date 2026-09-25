@@ -110,7 +110,9 @@ function picture(frame: Element, { sized = false }: { sized?: boolean } = {}): H
 /** What the list calls a slide: its title, its eyebrow, or its first words. */
 function titleOf(slide: SdsSlide, index: number): string {
   const words = (slide.querySelector('.sds-slide__body')?.textContent ?? '').replace(/\s+/g, ' ').trim();
-  return slide.heading || slide.eyebrow || words || `Slide ${index + 1}`;
+  /* A title in the heading region stands in the head, not in the attribute. */
+  const drawn = (slide.querySelector('.sds-slide__head :is(h1, h2)')?.textContent ?? '').trim();
+  return slide.heading || drawn || slide.eyebrow || words || `Slide ${index + 1}`;
 }
 
 export class SdsDeck extends SdsElement {
@@ -216,7 +218,9 @@ export class SdsDeck extends SdsElement {
       if (dividers.includes(slide)) {
         const at = Number(slide.getAttribute('current') ?? dividers.indexOf(slide)) + 1;
         place = `${String(at).padStart(2, '0')} · ${slide.getAttribute('heading') ?? ''}`;
-      } else if (PLACED.has(kind(slide))) give(slide, 'eyebrow', place);
+      } else if (PLACED.has(kind(slide)) && !slide.querySelector(':scope > [slot="eyebrow"], :scope > .sds-slide > .sds-slide__head > sds-eyebrow')) {
+        give(slide, 'eyebrow', place);
+      }
     });
   }
 

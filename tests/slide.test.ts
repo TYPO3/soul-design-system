@@ -239,3 +239,19 @@ test('markup in the figure region shrinks until it fits, and a speaker takes its
   expect(q('.sds-slide__page p').textContent).toBe('Says a thing.');
   document.body.replaceChildren();
 });
+
+test('the head takes its lines from their regions, markup and all, and a region wins', async () => {
+  await write(`<sds-slide heading="Said as an attribute" lead="A lead">
+    <span slot="eyebrow">02 · What it is</span>
+    <h2 slot="heading">Three <em>places</em></h2>
+    <p slot="note">The finding.</p>
+    <p>One idea.</p>
+  </sds-slide>`);
+  await rest();
+  expect(q('.sds-slide__head .sds-eyebrow').textContent?.trim()).toBe('02 · What it is');
+  expect(q('.sds-slide__head h2').innerHTML.replace(/<!--[^>]*-->/g, '')).toBe('Three <em>places</em>');
+  expect(q('.sds-slide__head .sds-lead').textContent).toBe('A lead');
+  expect(q('.sds-slide__head .sds-slide__note').textContent).toBe('The finding.');
+  expect(q('.sds-slide__body p').textContent).toBe('One idea.');
+  document.body.replaceChildren();
+});

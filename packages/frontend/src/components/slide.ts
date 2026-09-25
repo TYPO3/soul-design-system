@@ -8,7 +8,7 @@
    A divider carries the deck's outline. */
 
 import { html, nothing, type TemplateResult } from 'lit';
-import { define, isBlank, SdsElement } from '../lib/element.ts';
+import { define, SdsElement, TEXT, type Region } from '../lib/element.ts';
 import { lockup } from '../lib/lockup.ts';
 import './eyebrow.ts';
 import './icon.ts';
@@ -51,9 +51,11 @@ export interface SlideDrawing {
 }
 
 /** The named regions a slide takes between its tags. A child without a
-    `slot`, or with `slot="text"`, is the text. `figure` is the picture's room,
-    one child for each drawing of a row. `portrait` is a speaker's picture. */
-export type SlideSlot = 'text' | 'figure' | 'portrait';
+    `slot`, or with `slot="text"`, is the text. The head's lines each have a
+    region, and a region wins over the attribute of the same name. `figure`
+    is the picture's room, one child for each drawing of a row. `portrait`
+    is a speaker's picture. */
+export type SlideSlot = 'text' | 'eyebrow' | 'heading' | 'lead' | 'note' | 'figure' | 'portrait';
 
 const KIND: Record<SlideKind, string> = {
   cover: 'sds-slide--cover',
@@ -142,6 +144,8 @@ export interface SlideProps {
 }
 
 export class SdsSlide extends SdsElement {
+  static override regions: readonly SlideSlot[] = ['eyebrow', 'heading', 'lead', 'note', 'figure', 'portrait'];
+
   static override properties = {
     kind: { type: String, reflect: true },
     ground: { type: String, reflect: true },
@@ -203,8 +207,6 @@ export class SdsSlide extends SdsElement {
   /* The body, where it stood between the tags. A deck's slide holds the
      system's elements, which is markup or it is nothing. */
   private taken: Node[] | null = null;
-  /* The regions with a name, where they stood between the tags. */
-  private slotted: { figure: Element[]; portrait: Node[] } = { figure: [], portrait: [] };
 
   constructor() {
     super();
@@ -236,13 +238,8 @@ export class SdsSlide extends SdsElement {
   }
 
   override connectedCallback(): void {
-    const written = this.lifted().filter((node) => !isBlank(node));
-    const named = (node: Node, name: SlideSlot): boolean => node.nodeType === 1 && (node as Element).getAttribute('slot') === name;
-    this.slotted = {
-      figure: written.filter((node) => named(node, 'figure')) as Element[],
-      portrait: written.filter((node) => named(node, 'portrait')),
-    };
-    const text = written.filter((node) => !named(node, 'figure') && !named(node, 'portrait'));
+    /* The regions leave the element before its first render. */
+    const text = this.region(TEXT).map((one) => one.node as Node);
     if (text.length) this.taken = text;
     super.connectedCallback();
     /* The room is the parent's width, and under `fit` the window's height.
@@ -359,19 +356,28 @@ export class SdsSlide extends SdsElement {
   /* The title's step follows the kind. The display step stands alone on a
      slide that says one thing. A content slide's title shares the frame
      with a body and takes the h2 step. Both are the page's own registers. */
+  /* A line of the head: what its region holds, or the attribute. */
+  private line(name: SlideSlot, said: string): unknown {
+    const [one] = this.region(name);
+    return one ? one.inner : said;
+  }
+
   private head(): TemplateResult | typeof nothing {
-    if (!this.eyebrow && !this.heading && !this.lead) return nothing;
+    const eyebrow = this.region('eyebrow')[0]?.text || this.eyebrow;
+    const heading = this.line('heading', this.heading);
+    const lead = this.line('lead', this.lead);
+    const note = this.line('note', this.note);
+    if (!eyebrow && !heading && !lead) return nothing;
     const display = this.kind !== 'content' && this.kind !== 'figure';
-    const step = 'sds-h2';
     return html`<div class="sds-slide__head">
-    ${this.eyebrow ? html`<sds-eyebrow label="${this.eyebrow}"></sds-eyebrow>` : nothing}
-    ${this.heading
+    ${eyebrow ? html`<sds-eyebrow label="${eyebrow}"></sds-eyebrow>` : nothing}
+    ${heading
       ? display
-        ? html`<h1 class="sds-display">${this.heading}</h1>`
-        : html`<h2 class="${step}">${this.heading}</h2>`
+        ? html`<h1 class="sds-display">${heading}</h1>`
+        : html`<h2 class="sds-h2">${heading}</h2>`
       : nothing}
-    ${this.lead ? html`<p class="sds-lead">${this.lead}</p>` : nothing}
-    ${this.note ? html`<p class="sds-slide__note">${this.note}</p>` : nothing}
+    ${lead ? html`<p class="sds-lead">${lead}</p>` : nothing}
+    ${note ? html`<p class="sds-slide__note">${note}</p>` : nothing}
   </div>`;
   }
 
@@ -407,25 +413,26 @@ export class SdsSlide extends SdsElement {
   /* What the room holds: every drawing of a row, and one for the rest. The
      region between the tags first, then the property, then the file. */
   private shown(): readonly SlideDrawing[] {
-    const all = this.slotted.figure.length
-      ? this.slotted.figure.map((one) => this.fromSlot(one))
+    const slotted = this.region('figure');
+    const all = slotted.length
+      ? slotted.map((one) => this.fromSlot(one))
       : this.drawings.length ? this.drawings : this.src ? [{ src: this.src, alt: this.alt }] : [];
     return this.layout === 'row' ? all : all.slice(0, 1);
   }
 
   /* A `<figure slot="figure">` brings its word as `data-label` and its
      caption as `<figcaption>`. Any other child is the drawing alone. */
-  private fromSlot(one: Element): SlideDrawing {
-    const caption = one.localName === 'figure' ? one.querySelector(':scope > figcaption') : null;
-    const label = one.getAttribute('data-label') ?? '';
-    const parts = one.localName === 'figure' ? [...one.childNodes].filter((node) => node !== caption && !isBlank(node)) : [one];
-    const lone = parts.length === 1 && parts[0]?.nodeType === 1 ? (parts[0] as Element) : null;
+  private fromSlot(one: Region): SlideDrawing {
+    const figure = one.tag === 'figure';
+    const caption = figure ? one.children.find((child) => child.tag === 'figcaption') : undefined;
+    const parts = figure ? one.children.filter((child) => child !== caption) : [one];
+    const lone = parts.length === 1 ? parts[0]?.node : undefined;
     /* A drawing fits its room from the start it reads in: the corner for one
-       alone, the middle for one of a row. */
-    if (lone?.localName === 'svg' && !lone.hasAttribute('preserveAspectRatio')) {
+       alone, the middle for one of a row. Said on the node, where there is one. */
+    if (typeof Element !== 'undefined' && lone instanceof Element && lone.localName === 'svg' && !lone.hasAttribute('preserveAspectRatio')) {
       lone.setAttribute('preserveAspectRatio', this.layout === 'row' ? 'xMidYMid meet' : 'xMinYMin meet');
     }
-    return { label, caption: caption?.textContent?.trim() ?? '', content: html`${parts}` };
+    return { label: one.attrs['data-label'] ?? '', caption: caption?.text ?? '', content: html`${parts.map((part) => part.node)}` };
   }
 
   /* The room's content: the file as a picture, or markup in a box the
@@ -448,7 +455,8 @@ export class SdsSlide extends SdsElement {
 
   /* The right column of a speaker slide: the portrait, edge to edge. */
   private portraitColumn(): TemplateResult {
-    if (this.slotted.portrait.length) return html`<div class="sds-slide__portrait">${this.slotted.portrait}</div>`;
+    const own = this.region('portrait');
+    if (own.length) return html`<div class="sds-slide__portrait">${own.map((one) => one.node)}</div>`;
     return html`<div class="sds-slide__portrait">${this.portrait
       ? html`<sds-image src="${this.portrait}" alt="${this.alt}"></sds-image>`
       : nothing}</div>`;

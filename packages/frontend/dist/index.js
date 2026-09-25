@@ -14158,8 +14158,6 @@ var SdsSlide = class extends SdsElement {
     /* The body, where it stood between the tags. A deck's slide holds the
        system's elements, which is markup or it is nothing. */
     this.taken = null;
-    /* The regions with a name, where they stood between the tags. */
-    this.slotted = { figure: [], portrait: [] };
     /* The slide does not open itself. It asks, and the deck that runs
        through it answers with the slide at the window's size. */
     this.open = () => {
@@ -14197,6 +14195,9 @@ var SdsSlide = class extends SdsElement {
     this.zoom = 0;
   }
   static {
+    this.regions = ["eyebrow", "heading", "lead", "note", "figure", "portrait"];
+  }
+  static {
     this.properties = {
       kind: { type: String, reflect: true },
       ground: { type: String, reflect: true },
@@ -14227,13 +14228,7 @@ var SdsSlide = class extends SdsElement {
     };
   }
   connectedCallback() {
-    const written = this.lifted().filter((node) => !isBlank(node));
-    const named = (node, name) => node.nodeType === 1 && node.getAttribute("slot") === name;
-    this.slotted = {
-      figure: written.filter((node) => named(node, "figure")),
-      portrait: written.filter((node) => named(node, "portrait"))
-    };
-    const text = written.filter((node) => !named(node, "figure") && !named(node, "portrait"));
+    const text = this.region(TEXT).map((one) => one.node);
     if (text.length) this.taken = text;
     super.connectedCallback();
     this.watch = new ResizeObserver(() => {
@@ -14330,15 +14325,23 @@ var SdsSlide = class extends SdsElement {
   /* The title's step follows the kind. The display step stands alone on a
      slide that says one thing. A content slide's title shares the frame
      with a body and takes the h2 step. Both are the page's own registers. */
+  /* A line of the head: what its region holds, or the attribute. */
+  line(name, said) {
+    const [one] = this.region(name);
+    return one ? one.inner : said;
+  }
   head() {
-    if (!this.eyebrow && !this.heading && !this.lead) return nothing39;
+    const eyebrow = this.region("eyebrow")[0]?.text || this.eyebrow;
+    const heading = this.line("heading", this.heading);
+    const lead = this.line("lead", this.lead);
+    const note = this.line("note", this.note);
+    if (!eyebrow && !heading && !lead) return nothing39;
     const display = this.kind !== "content" && this.kind !== "figure";
-    const step = "sds-h2";
     return html71`<div class="sds-slide__head">
-    ${this.eyebrow ? html71`<sds-eyebrow label="${this.eyebrow}"></sds-eyebrow>` : nothing39}
-    ${this.heading ? display ? html71`<h1 class="sds-display">${this.heading}</h1>` : html71`<h2 class="${step}">${this.heading}</h2>` : nothing39}
-    ${this.lead ? html71`<p class="sds-lead">${this.lead}</p>` : nothing39}
-    ${this.note ? html71`<p class="sds-slide__note">${this.note}</p>` : nothing39}
+    ${eyebrow ? html71`<sds-eyebrow label="${eyebrow}"></sds-eyebrow>` : nothing39}
+    ${heading ? display ? html71`<h1 class="sds-display">${heading}</h1>` : html71`<h2 class="sds-h2">${heading}</h2>` : nothing39}
+    ${lead ? html71`<p class="sds-lead">${lead}</p>` : nothing39}
+    ${note ? html71`<p class="sds-slide__note">${note}</p>` : nothing39}
   </div>`;
   }
   outline() {
@@ -14368,20 +14371,21 @@ var SdsSlide = class extends SdsElement {
   /* What the room holds: every drawing of a row, and one for the rest. The
      region between the tags first, then the property, then the file. */
   shown() {
-    const all = this.slotted.figure.length ? this.slotted.figure.map((one) => this.fromSlot(one)) : this.drawings.length ? this.drawings : this.src ? [{ src: this.src, alt: this.alt }] : [];
+    const slotted = this.region("figure");
+    const all = slotted.length ? slotted.map((one) => this.fromSlot(one)) : this.drawings.length ? this.drawings : this.src ? [{ src: this.src, alt: this.alt }] : [];
     return this.layout === "row" ? all : all.slice(0, 1);
   }
   /* A `<figure slot="figure">` brings its word as `data-label` and its
      caption as `<figcaption>`. Any other child is the drawing alone. */
   fromSlot(one) {
-    const caption = one.localName === "figure" ? one.querySelector(":scope > figcaption") : null;
-    const label = one.getAttribute("data-label") ?? "";
-    const parts = one.localName === "figure" ? [...one.childNodes].filter((node) => node !== caption && !isBlank(node)) : [one];
-    const lone = parts.length === 1 && parts[0]?.nodeType === 1 ? parts[0] : null;
-    if (lone?.localName === "svg" && !lone.hasAttribute("preserveAspectRatio")) {
+    const figure = one.tag === "figure";
+    const caption = figure ? one.children.find((child) => child.tag === "figcaption") : void 0;
+    const parts = figure ? one.children.filter((child) => child !== caption) : [one];
+    const lone = parts.length === 1 ? parts[0]?.node : void 0;
+    if (typeof Element !== "undefined" && lone instanceof Element && lone.localName === "svg" && !lone.hasAttribute("preserveAspectRatio")) {
       lone.setAttribute("preserveAspectRatio", this.layout === "row" ? "xMidYMid meet" : "xMinYMin meet");
     }
-    return { label, caption: caption?.textContent?.trim() ?? "", content: html71`${parts}` };
+    return { label: one.attrs["data-label"] ?? "", caption: caption?.text ?? "", content: html71`${parts.map((part) => part.node)}` };
   }
   /* The room's content: the file as a picture, or markup in a box the
      element can shrink. A drawing alone in the box fills it instead. */
@@ -14401,7 +14405,8 @@ var SdsSlide = class extends SdsElement {
   }
   /* The right column of a speaker slide: the portrait, edge to edge. */
   portraitColumn() {
-    if (this.slotted.portrait.length) return html71`<div class="sds-slide__portrait">${this.slotted.portrait}</div>`;
+    const own = this.region("portrait");
+    if (own.length) return html71`<div class="sds-slide__portrait">${own.map((one) => one.node)}</div>`;
     return html71`<div class="sds-slide__portrait">${this.portrait ? html71`<sds-image src="${this.portrait}" alt="${this.alt}"></sds-image>` : nothing39}</div>`;
   }
   render() {
@@ -14455,7 +14460,8 @@ function picture(frame, { sized = false } = {}) {
 }
 function titleOf(slide, index) {
   const words = (slide.querySelector(".sds-slide__body")?.textContent ?? "").replace(/\s+/g, " ").trim();
-  return slide.heading || slide.eyebrow || words || `Slide ${index + 1}`;
+  const drawn = (slide.querySelector(".sds-slide__head :is(h1, h2)")?.textContent ?? "").trim();
+  return slide.heading || drawn || slide.eyebrow || words || `Slide ${index + 1}`;
 }
 var SdsDeck = class extends SdsElement {
   constructor() {
@@ -14624,7 +14630,9 @@ var SdsDeck = class extends SdsElement {
       if (dividers.includes(slide)) {
         const at = Number(slide.getAttribute("current") ?? dividers.indexOf(slide)) + 1;
         place2 = `${String(at).padStart(2, "0")} \xB7 ${slide.getAttribute("heading") ?? ""}`;
-      } else if (PLACED.has(kind(slide))) give(slide, "eyebrow", place2);
+      } else if (PLACED.has(kind(slide)) && !slide.querySelector(':scope > [slot="eyebrow"], :scope > .sds-slide > .sds-slide__head > sds-eyebrow')) {
+        give(slide, "eyebrow", place2);
+      }
     });
   }
   disconnectedCallback() {
