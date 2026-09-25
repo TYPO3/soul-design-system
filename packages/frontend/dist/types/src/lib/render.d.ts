@@ -4,4 +4,8 @@ import type { TemplateResult } from 'lit';
     markup only to be there already, for the first frame and for a reader who
     runs no script. Only the declarative shadow root comes off. */
 export declare function renderUpgradable(template: TemplateResult): string;
+/** A page whose elements the prerenderer drew in place, as a card. What each
+    element drew stays. Its tag and the template of what a caller wrote go.
+    So content between the tags reaches a card as it reaches a page. */
+export declare function flattenUpgraded(page: string): string;
 export declare function renderStatic(template: TemplateResult): string;

@@ -11,9 +11,19 @@
 
 import type { TemplateResult } from 'lit';
 import { renderStatic } from '../../packages/frontend/src/lib/render.ts';
+import { renderCard } from '../../scripts/lib/card.ts';
 
 /** Render a component template to the static markup a card ships. */
-export const part = (template: TemplateResult): string => renderStatic(template);
+export const part = (template: TemplateResult): string => {
+  /* The direct road first. A template with content between an element's tags
+     cannot take it, and goes the road a page takes, which can. */
+  try {
+    return renderStatic(template);
+  } catch (error) {
+    if (!/content between its tags/.test(String((error as Error).message))) throw error;
+    return renderCard(template);
+  }
+};
 
 /** Narrow no-break space, U+202F — what this system sets between a number and
     its unit, so `30 px` cannot break across a line. Named rather than typed.

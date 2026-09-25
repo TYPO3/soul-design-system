@@ -133,6 +133,34 @@ export function renderUpgradable(template: TemplateResult): string {
   return tidyTags(inlineIconRefs(html));
 }
 
+/* Where the prerenderer keeps what a caller wrote, and where each such
+   template closes, counted through the ones inside it. */
+const KEPT = /<template data-sds-content>/;
+
+/** A page whose elements the prerenderer drew in place, as a card. What each
+    element drew stays. Its tag and the template of what a caller wrote go.
+    So content between the tags reaches a card as it reaches a page. */
+export function flattenUpgraded(page: string): string {
+  let out = page;
+  for (let open = KEPT.exec(out); open; open = KEPT.exec(out)) {
+    const from = open.index + open[0].length;
+    ANY_TEMPLATE.lastIndex = from;
+    let depth = 1;
+    let close = -1;
+    for (let m = ANY_TEMPLATE.exec(out); m; m = ANY_TEMPLATE.exec(out)) {
+      depth += m[0] === '</template>' ? -1 : 1;
+      if (depth === 0) {
+        close = m.index;
+        break;
+      }
+    }
+    if (close < 0) throw new Error('a template of written content never closed');
+    out = out.slice(0, open.index) + out.slice(close + '</template>'.length);
+  }
+  out = out.replace(/<\/?sds-[a-z-]+(?![-\w])(?:"[^"]*"|'[^']*'|[^>"'])*>/g, '');
+  return tidyTags(inlineIconRefs(inlineArtRefs(out)));
+}
+
 export function renderStatic(template: TemplateResult): string {
   /* Order matters: unwrap the elements first, because the markers Lit leaves
      inside a shadow root have to go too. */

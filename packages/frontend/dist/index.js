@@ -1573,7 +1573,25 @@ import { unsafeHTML } from "lit/directives/unsafe-html.js";
 // packages/frontend/src/lib/element.ts
 import { LitElement } from "lit";
 var CONTENT = "data-sds-content";
+var TEXT = "text";
+function regionOf(node) {
+  const el = node.nodeType === 1 ? node : null;
+  const inner = el ? [...el.childNodes] : [];
+  return {
+    tag: el?.localName ?? "",
+    attrs: el ? Object.fromEntries([...el.attributes].map((a) => [a.name, a.value])) : {},
+    node,
+    inner,
+    text: (node.textContent ?? "").trim(),
+    children: el ? [...el.children].map((child) => regionOf(child)) : []
+  };
+}
 var SdsElement = class extends LitElement {
+  static {
+    /** The regions an element takes between its tags, by name. A child names
+        its region with `slot`, and one with none goes to `text`. */
+    this.regions = [];
+  }
   createRenderRoot() {
     return this;
   }
@@ -1585,8 +1603,33 @@ var SdsElement = class extends LitElement {
         reads `this.taken ?? this.content`. A property, so a caller who hands
         over another set gets it drawn. */
     this.properties = {
-      content: { attribute: false }
+      content: { attribute: false },
+      regions: { attribute: false }
     };
+  }
+  /* The regions a browser read off the children, once. */
+  #own = null;
+  /** The children of one region. In a browser, off what the caller wrote,
+      which leaves the element on the first call. In Node, off `regions`. A
+      region nobody wrote is empty. The text region holds every child whose
+      `slot` names no region of the element. */
+  region(name) {
+    if (this.regions) {
+      if (name !== TEXT) return this.regions[name] ?? [];
+      const named = this.constructor.regions;
+      return Object.entries(this.regions).flatMap(([key, list]) => key === TEXT || !named.includes(key) ? list : []);
+    }
+    if (typeof this.querySelector !== "function") return [];
+    if (!this.#own) {
+      const named = this.constructor.regions;
+      this.#own = /* @__PURE__ */ new Map();
+      for (const node of this.lifted().filter((one) => !isBlank(one))) {
+        const slot = node.nodeType === 1 ? node.getAttribute("slot") : null;
+        const key = slot && named.includes(slot) ? slot : TEXT;
+        this.#own.set(key, [...this.#own.get(key) ?? [], regionOf(node)]);
+      }
+    }
+    return this.#own.get(name) ?? [];
   }
   /** Asked once. These elements render into themselves, so after the first
       render the children are the element's own output. `connectedCallback`

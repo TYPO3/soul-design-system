@@ -13,7 +13,7 @@ import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
 import { renderUpgradable } from '../../packages/frontend/src/lib/render.ts';
-import { CONTENT } from '../../packages/frontend/src/lib/element.ts';
+import { CONTENT, TEXT, type Region } from '../../packages/frontend/src/lib/element.ts';
 import { TAGS } from '../../packages/frontend/src/index.ts';
 
 /* One of this system's elements, with its attributes and whatever stands
@@ -42,6 +42,73 @@ function closeOf(source: string, tag: string, from: number): { inner: string; en
     if (depth === 0) return { inner: source.slice(from, found.index), end: found.index + found[0].length };
   }
   return null;
+}
+
+/* The elements that close themselves. */
+const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr']);
+const OPEN = /^<([a-zA-Z][\w-]*)((?:"[^"]*"|'[^']*'|[^>"'])*)>/;
+const ATTR = /([^\s=/]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+)))?/g;
+
+const unescape = (s: string): string =>
+  s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+
+/** The children at the top of some markup, as a region's children. Each has
+    its tag, its attributes, itself, what stands in it and its words. What
+    `regionOf` reads off a node in a browser, read off the markup here. */
+export function regionsOf(markup: string): Region[] {
+  const out: Region[] = [];
+  let rest = markup;
+  const piece = (tag: string, attrs: Record<string, string>, outer: string, inner: string): Region => ({
+    tag,
+    attrs,
+    node: html`${unsafeHTML(outer)}`,
+    inner: html`${unsafeHTML(inner)}`,
+    text: unescape(outer.replace(/<[^>]*>/g, '')).trim(),
+    children: inner ? regionsOf(inner) : [],
+  });
+  while (rest) {
+    if (rest.startsWith('<!--')) {
+      const end = rest.indexOf('-->');
+      rest = end < 0 ? '' : rest.slice(end + 3);
+      continue;
+    }
+    const open = OPEN.exec(rest);
+    if (!open) {
+      const next = rest.indexOf('<', 1);
+      const text = next < 0 ? rest : rest.slice(0, next);
+      if (text.trim()) out.push(piece('', {}, text, ''));
+      rest = next < 0 ? '' : rest.slice(next);
+      continue;
+    }
+    const [head, name = '', written = ''] = open;
+    const tag = name.toLowerCase();
+    const attrs: Record<string, string> = {};
+    for (const [, key = '', a, b, c] of written.matchAll(ATTR)) attrs[key] = unescape(a ?? b ?? c ?? '');
+    if (VOID.has(tag) || written.trimEnd().endsWith('/')) {
+      out.push(piece(tag, attrs, head, ''));
+      rest = rest.slice(head.length);
+      continue;
+    }
+    const closed = closeOf(rest, name, head.length);
+    if (!closed) {
+      out.push(piece(tag, attrs, rest, rest.slice(head.length)));
+      break;
+    }
+    out.push(piece(tag, attrs, rest.slice(0, closed.end), closed.inner));
+    rest = rest.slice(closed.end);
+  }
+  return out;
+}
+
+/** Markup split by the region each child at its top names, `text` for the
+    rest. */
+function byRegion(markup: string): Record<string, Region[]> {
+  const out: Record<string, Region[]> = {};
+  for (const one of regionsOf(markup)) {
+    const key = one.attrs.slot || TEXT;
+    (out[key] ??= []).push(one);
+  }
+  return out;
 }
 
 /** The properties a script sets on an element, keyed by the marker
@@ -74,6 +141,27 @@ function template(tag: string, attrs: string, bound: Record<string, unknown>): T
   return { _$litType$: 1, strings, values } as unknown as TemplateResult;
 }
 
+/* The markup of the children with no `slot`, in their order and exactly
+   as written. */
+function textOf(markup: string): string {
+  let out = '';
+  let rest = markup;
+  while (rest) {
+    const open = OPEN.exec(rest);
+    if (!open) {
+      const next = rest.indexOf('<', 1);
+      out += next < 0 ? rest : rest.slice(0, next);
+      rest = next < 0 ? '' : rest.slice(next);
+      continue;
+    }
+    const [head, name = '', written = ''] = open;
+    const end = VOID.has(name.toLowerCase()) || written.trimEnd().endsWith('/') ? head.length : (closeOf(rest, name, head.length)?.end ?? rest.length);
+    if (!/\bslot\s*=/.test(written)) out += rest.slice(0, end);
+    rest = rest.slice(end);
+  }
+  return out;
+}
+
 /** What one element becomes, with content that is already complete.
     `authored` is the same content as the author wrote it, before anything
     in it rendered. An element that reads its children rather than places
@@ -82,9 +170,15 @@ function template(tag: string, attrs: string, bound: Record<string, unknown>): T
     template, which is exactly what a story gives it. */
 function one(tag: string, attrs: string, written: string, authored: string, props: Props): string {
   const marked = MARK.exec(attrs);
+  /* The text region goes over as the content, and every region with a name
+     beside it. Content with no slot in it arrives as it always did. */
+  const split = written ? byRegion(written) : {};
+  const named = Object.keys(split).some((key) => key !== TEXT);
+  const rest = named ? textOf(written).trim() : written;
   const rendered = renderUpgradable(template(tag, attrs, {
-    content: written ? html`${unsafeHTML(written)}` : undefined,
+    content: rest ? html`${unsafeHTML(rest)}` : undefined,
     authored: authored || undefined,
+    regions: named ? split : undefined,
     ...(marked ? (revive(props[Number(marked[1])] ?? {}) as Record<string, unknown>) : {}),
   }));
 
