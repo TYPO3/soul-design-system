@@ -10,7 +10,7 @@ import { html } from 'lit';
 import '../../packages/frontend/src/components/slide.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import { type SlideProps } from '../../packages/frontend/src/components/slide.ts';
-import { DECK, OUTLINE, head } from '../lib/deck.ts';
+import { DECK, OUTLINE, head, place } from '../lib/deck.ts';
 
 export const sdsSlide = ({ kind, ground, eyebrow, heading, lead, note, number, sections, current, src, alt, layout, bleed, plain, body }: SlideProps) =>
   html`<sds-slide
@@ -53,6 +53,7 @@ const meta: Meta<SlideProps> = {
   },
   args: {
     kind: 'content',
+    eyebrow: place(1),
     heading: 'Three places for every component',
     number: '03',
   },
@@ -115,6 +116,7 @@ export const Statement: Story = {
 export const Closing: Story = {
   args: {
     kind: 'closing',
+    eyebrow: place(3),
     heading: 'Start from a layout',
     lead: 'Open the one nearest the job and keep its shell.',
     number: '',
@@ -127,7 +129,7 @@ export const Closing: Story = {
 export const Figure: Story = {
   args: {
     kind: 'figure',
-    eyebrow: 'How a lookup keeps an answer',
+    eyebrow: place(2),
     heading: 'One key for two languages',
     note: 'The German call fills the slot, and the English call answers from it, in German.',
     src: 'assets/diagrams/cache-key.svg',
