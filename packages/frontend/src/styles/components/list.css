@@ -2,9 +2,19 @@
    are not sentences. */
 
 @layer base {
+  /* Nothing above a list of facts, as it begins where it stands. The step a
+     block takes below, or a second group under the first reads as one. The
+     element carries it, its box gives it up, and the box alone carries it. */
   sds-facts {
     display: block;
     min-width: 0;
+    margin-block: 0 var(--space-components);
+  }
+  sds-facts > .sds-facts {
+    margin-block: 0;
+  }
+  .sds-facts {
+    margin-block: 0 var(--sds-facts-step-after);
   }
 }
 
@@ -17,7 +27,7 @@
   .sds-facts {
     --sds-facts-step: var(--space-1);
     --sds-facts-gap: var(--space-6);
-    --sds-facts-step-after: var(--space-6);
+    --sds-facts-step-after: var(--space-components);
     --sds-facts-term-ink: var(--text-muted);
     --sds-facts-term-weight: var(--weight-regular);
     --sds-facts-note-gap: var(--space-0-5);
@@ -28,9 +38,6 @@
     display: grid;
     grid-template-columns: minmax(0, auto) minmax(0, 1fr);
     gap: var(--sds-facts-step) var(--sds-facts-gap);
-    /* Nothing above it, as a list of facts begins where it stands. The step a
-       block takes below, or a second group under the first reads as one. */
-    margin-block: 0 var(--sds-facts-step-after);
 
     /* Quiet, and not the semibold a passage gives a term. The value is what a
        reader came for, and a column of bold names beside it reads as the
