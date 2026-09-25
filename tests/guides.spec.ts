@@ -1635,8 +1635,12 @@ test.describe('what a page measures for', () => {
   test('local contents headings fit their narrow column', async ({ page }) => {
     /* A manual's headings also appear in its 210px local contents. A wrapped
        entry turns the index into prose; the second clause belongs below it. */
+    const visited = pages(SITE_DIR).filter((entry) => !entry.includes('_cards/'));
+    /* One page load each, so the time grows with the manual, as the check
+       above gives its own. */
+    test.setTimeout(Math.max(60_000, visited.length * 2_000));
     const tooLong: string[] = [];
-    for (const path of pages(SITE_DIR).filter((entry) => !entry.includes('_cards/'))) {
+    for (const path of visited) {
       await page.goto(`${SITE_URL}/${path}`, { waitUntil: 'load' });
       const headings = await page.locator('nav.sds-toc a').evaluateAll((links) =>
         links.map((link) => {
