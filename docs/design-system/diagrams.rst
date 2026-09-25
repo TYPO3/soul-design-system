@@ -69,6 +69,16 @@ A diagram sits on ``--surface-sunken``. The drawing brings its own canvas,
 which makes it read as a figure with clear space. On ``--surface-canvas`` it
 dissolves into the page.
 
+On a slide
+==========
+
+A drawing for a slide keeps the grammar and leaves the frame. It has no
+eyebrow, no title and no closing line: the slide's head says them. It has
+no margin, as the slide's margin is its margin. Its height follows the
+room of its layout, which :doc:`slides` states. A drawing in parts gives
+each part a plane with its heading, a line of context and its consequence.
+``slide-cache-key.svg`` is one.
+
 Drawing rules
 =============
 

@@ -12,7 +12,7 @@ import '../../packages/frontend/src/components/surface.ts';
 import { type SlideProps } from '../../packages/frontend/src/components/slide.ts';
 import { DECK, OUTLINE } from '../lib/deck.ts';
 
-export const sdsSlide = ({ kind, ground, eyebrow, heading, lead, note, number, sections, current, body }: SlideProps) =>
+export const sdsSlide = ({ kind, ground, eyebrow, heading, lead, note, number, sections, current, src, alt, layout, bleed, plain, body }: SlideProps) =>
   html`<sds-slide
     kind="${kind ?? 'content'}"
     ground="${ground ?? 'paper'}"
@@ -26,6 +26,11 @@ export const sdsSlide = ({ kind, ground, eyebrow, heading, lead, note, number, s
     product="${DECK.product}"
     sections="${JSON.stringify(sections ?? [])}"
     current="${current ?? 0}"
+    src="${src ?? ''}"
+    alt="${alt ?? ''}"
+    layout="${layout ?? 'wide'}"
+    ?bleed="${bleed ?? false}"
+    ?plain="${plain ?? false}"
     fit
   >${body ?? ''}</sds-slide>`;
 
@@ -37,7 +42,11 @@ const meta: Meta<SlideProps> = {
   parameters: { layout: 'fullscreen' },
   render: (args) => sdsSlide(args),
   argTypes: {
-    kind: { control: 'select', options: ['cover', 'section', 'statement', 'content', 'closing'] },
+    kind: { control: 'select', options: ['cover', 'section', 'statement', 'content', 'closing', 'figure'] },
+    layout: { control: 'select', options: ['wide', 'full', 'row', 'text-start', 'text-end'] },
+    bleed: { control: 'boolean' },
+    plain: { control: 'boolean' },
+    framed: { control: 'boolean' },
     ground: { control: 'select', options: ['paper', 'terminal'] },
     eyebrow: { control: 'text' },
     heading: { control: 'text' },
@@ -113,5 +122,21 @@ export const Closing: Story = {
     heading: 'Start from a layout',
     lead: 'Open the one nearest the job and keep its shell.',
     number: '',
+  },
+};
+
+/** A picture from a page. The title at a content slide's step, the note its finding,
+    and the drawing grown into the room its `layout` leaves. The head and the
+    foot stand where a content slide has them. */
+export const Figure: Story = {
+  args: {
+    kind: 'figure',
+    eyebrow: 'How a lookup keeps an answer',
+    heading: 'One key for two languages',
+    note: 'The German call fills the slot, and the English call answers from it, in German.',
+    src: 'assets/diagrams/cache-key.svg',
+    alt: 'Two calls for the same key reach one slot of the array.',
+    layout: 'wide',
+    number: '07',
   },
 };

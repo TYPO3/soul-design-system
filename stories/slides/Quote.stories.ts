@@ -9,11 +9,11 @@ import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/quote.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 
-import { slide, type DeckMode } from '../lib/deck.ts';
+import { place, slide, type DeckMode } from '../lib/deck.ts';
 
 export function quoteSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
-    { kind: 'statement', number: '09' },
+    { kind: 'statement', eyebrow: place(1), number: '09' },
     html`<sds-quote
       body="Comments carry the reason, not the story. No changelog, no anecdote, and never the name of another project."
       by="AGENTS.md"

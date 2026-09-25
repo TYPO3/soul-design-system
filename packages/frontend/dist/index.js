@@ -14099,6 +14099,13 @@ var KIND = {
   speaker: "sds-slide--speaker",
   figure: "sds-slide--figure"
 };
+var LAYOUT = {
+  wide: "",
+  full: "sds-slide--full",
+  row: "sds-slide--row",
+  "text-start": "sds-slide--beside",
+  "text-end": "sds-slide--beside sds-slide--beside-end"
+};
 var GROUND = { paper: "light", terminal: "dark" };
 var STOPS = 'a[href], button, input, select, textarea, summary, iframe, [tabindex]:not([tabindex="-1"])';
 var SdsSlide = class extends SdsElement {
@@ -14108,6 +14115,8 @@ var SdsSlide = class extends SdsElement {
     /* The body, where it stood between the tags. A deck's slide holds the
        system's elements, which is markup or it is nothing. */
     this.taken = null;
+    /* The regions with a name, where they stood between the tags. */
+    this.slotted = { figure: [], portrait: [] };
     /* The slide does not open itself. It asks, and the deck that runs
        through it answers with the slide at the window's size. */
     this.open = () => {
@@ -14128,10 +14137,16 @@ var SdsSlide = class extends SdsElement {
     this.signet = "";
     this.brand = "";
     this.product = "";
+    this.plain = false;
     this.sections = [];
     this.current = 0;
     this.portrait = "";
     this.alt = "";
+    this.src = "";
+    this.drawings = [];
+    this.layout = "wide";
+    this.bleed = false;
+    this.framed = false;
     this.body = "";
     this.fit = false;
     this.shrink = false;
@@ -14150,10 +14165,16 @@ var SdsSlide = class extends SdsElement {
       signet: { type: String },
       brand: { type: String },
       product: { type: String },
+      plain: { type: Boolean, reflect: true },
       sections: { type: Array },
       current: { type: Number },
       portrait: { type: String },
       alt: { type: String },
+      src: { type: String },
+      drawings: { type: Array },
+      layout: { type: String, reflect: true },
+      bleed: { type: Boolean, reflect: true },
+      framed: { type: Boolean, reflect: true },
       body: { type: String },
       fit: { type: Boolean, reflect: true },
       shrink: { type: Boolean, reflect: true },
@@ -14164,7 +14185,13 @@ var SdsSlide = class extends SdsElement {
   }
   connectedCallback() {
     const written = this.lifted().filter((node) => !isBlank(node));
-    if (written.length) this.taken = written;
+    const named = (node, name) => node.nodeType === 1 && node.getAttribute("slot") === name;
+    this.slotted = {
+      figure: written.filter((node) => named(node, "figure")),
+      portrait: written.filter((node) => named(node, "portrait"))
+    };
+    const text = written.filter((node) => !named(node, "figure") && !named(node, "portrait"));
+    if (text.length) this.taken = text;
     super.connectedCallback();
     this.watch = new ResizeObserver(() => {
       cancelAnimationFrame(this.settling);
@@ -14174,8 +14201,7 @@ var SdsSlide = class extends SdsElement {
     this.watch.observe(document.documentElement);
     void this.updateComplete.then(() => {
       this.decide();
-      const fit = this.querySelector(".sds-slide__fit");
-      if (fit) this.watch?.observe(fit);
+      for (const fit of this.querySelectorAll(".sds-slide__fit")) this.watch?.observe(fit);
     });
   }
   disconnectedCallback() {
@@ -14202,9 +14228,12 @@ var SdsSlide = class extends SdsElement {
      shrinks until it fits, and nothing grows. Its width stays what it was,
      so nothing wraps anew and the shrink is exact. Measurements, so styles. */
   settle() {
-    const fit = this.querySelector(".sds-slide__fit");
-    const body = fit?.parentElement;
-    if (!fit || !body) return;
+    for (const fit of this.querySelectorAll(".sds-slide__fit")) this.fitBox(fit);
+  }
+  /* One box of what the slide holds, against the room its parent gives it. */
+  fitBox(fit) {
+    const body = fit.parentElement;
+    if (!body) return;
     fit.style.removeProperty("zoom");
     fit.style.removeProperty("width");
     fit.style.removeProperty("align-self");
@@ -14261,7 +14290,7 @@ var SdsSlide = class extends SdsElement {
   head() {
     if (!this.eyebrow && !this.heading && !this.lead) return nothing39;
     const display = this.kind !== "content" && this.kind !== "figure";
-    const step = this.kind === "figure" ? "sds-h3" : "sds-h2";
+    const step = "sds-h2";
     return html71`<div class="sds-slide__head">
     ${this.eyebrow ? html71`<sds-eyebrow label="${this.eyebrow}"></sds-eyebrow>` : nothing39}
     ${this.heading ? display ? html71`<h1 class="sds-display">${this.heading}</h1>` : html71`<h2 class="${step}">${this.heading}</h2>` : nothing39}
@@ -14278,29 +14307,73 @@ var SdsSlide = class extends SdsElement {
   /* One lockup, drawn where the kind puts it. The foot is the row every slide
      that carries a count has; a cover and a closing end on the mark alone. */
   foot() {
-    const mark = lockup({ signet: this.signet, brand: this.brand, product: this.product });
+    const drawn = lockup({ signet: this.signet, brand: this.brand, product: this.product });
     if (this.kind === "cover" || this.kind === "closing") {
-      return mark ? html71`<div class="sds-slide__lockup">${mark}</div>` : nothing39;
+      return drawn && !this.plain ? html71`<div class="sds-slide__lockup">${drawn}</div>` : nothing39;
     }
-    if (!mark && !this.number) return nothing39;
+    if (!drawn && !this.number) return nothing39;
+    const plain = this.plain || this.kind === "figure" && this.layout === "full";
+    const mark = drawn && plain ? html71`<span class="sds-slide__void" aria-hidden="true">${drawn}</span>` : drawn;
     return html71`<div class="sds-slide__foot">
     ${mark || html71`<span></span>`}
     ${this.number ? html71`<p class="sds-slide__count">${this.number}</p>` : nothing39}
   </div>`;
   }
+  beside() {
+    return this.kind === "figure" && (this.layout === "text-start" || this.layout === "text-end");
+  }
+  /* What the room holds: every drawing of a row, and one for the rest. The
+     region between the tags first, then the property, then the file. */
+  shown() {
+    const all = this.slotted.figure.length ? this.slotted.figure.map((one) => this.fromSlot(one)) : this.drawings.length ? this.drawings : this.src ? [{ src: this.src, alt: this.alt }] : [];
+    return this.layout === "row" ? all : all.slice(0, 1);
+  }
+  /* A `<figure slot="figure">` brings its word as `data-label` and its
+     caption as `<figcaption>`. Any other child is the drawing alone. */
+  fromSlot(one) {
+    const caption = one.localName === "figure" ? one.querySelector(":scope > figcaption") : null;
+    const label = one.getAttribute("data-label") ?? "";
+    const parts = one.localName === "figure" ? [...one.childNodes].filter((node) => node !== caption && !isBlank(node)) : [one];
+    const lone = parts.length === 1 && parts[0]?.nodeType === 1 ? parts[0] : null;
+    if (lone?.localName === "svg" && !lone.hasAttribute("preserveAspectRatio")) {
+      lone.setAttribute("preserveAspectRatio", this.layout === "row" ? "xMidYMid meet" : "xMinYMin meet");
+    }
+    return { label, caption: caption?.textContent?.trim() ?? "", content: html71`${parts}` };
+  }
+  /* The room's content: the file as a picture, or markup in a box the
+     element can shrink. A drawing alone in the box fills it instead. */
+  art(one) {
+    if (one.src) return html71`<sds-image src="${one.src}" alt="${one.alt ?? ""}"></sds-image>`;
+    return html71`<div class="sds-slide__art"><div class="sds-slide__fit">${one.content ?? nothing39}</div></div>`;
+  }
+  /* A figure slide's drawings, in the room its layout leaves. */
+  drawing() {
+    const shown = this.kind === "figure" ? this.shown() : [];
+    if (!shown.length) return nothing39;
+    return html71`<div class="sds-slide__figure">${shown.map((one) => html71`<div class="sds-slide__drawing">
+    ${one.label ? html71`<p class="sds-label">${one.label}</p>` : nothing39}
+    ${this.art(one)}
+    ${one.caption ? html71`<p class="sds-slide__caption">${one.caption}</p>` : nothing39}
+  </div>`)}</div>`;
+  }
   /* The right column of a speaker slide: the portrait, edge to edge. */
   portraitColumn() {
+    if (this.slotted.portrait.length) return html71`<div class="sds-slide__portrait">${this.slotted.portrait}</div>`;
     return html71`<div class="sds-slide__portrait">${this.portrait ? html71`<sds-image src="${this.portrait}" alt="${this.alt}"></sds-image>` : nothing39}</div>`;
   }
   render() {
     const body = this.taken ?? this.content ?? this.body;
     const zoom2 = this.zoom > 0 ? `zoom:${this.zoom}` : nothing39;
-    const page = html71`${this.head()}
-  ${body ? html71`<div class="sds-slide__body"><div class="sds-slide__fit">${body}</div></div>` : nothing39}
-  ${this.outline()}
-  ${this.foot()}`;
-    return html71`<div class="sds-slide${KIND[this.kind] ? ` ${KIND[this.kind]}` : ""}" data-theme="${GROUND[this.ground] ?? GROUND.paper}" style="${zoom2}" @click="${this.onFrame}">
-  ${this.kind === "speaker" ? html71`<div class="sds-slide__page">${page}</div>${this.portraitColumn()}` : page}
+    const text = html71`${this.head()}
+  ${body ? html71`<div class="sds-slide__body"><div class="sds-slide__fit">${body}</div></div>` : nothing39}`;
+    const page = this.beside() ? html71`<div class="sds-slide__text">${text}</div>${this.drawing()}
+  ${this.foot()}` : html71`${text}${this.drawing()}
+  ${this.outline()}${this.kind === "speaker" ? nothing39 : html71`
+  ${this.foot()}`}`;
+    const layout = this.kind === "figure" ? [LAYOUT[this.layout] ?? "", this.beside() && this.bleed ? "sds-slide--bleed" : "", this.framed ? "sds-slide--framed" : ""].filter(Boolean).join(" ") : "";
+    return html71`<div class="sds-slide${KIND[this.kind] ? ` ${KIND[this.kind]}` : ""}${layout ? ` ${layout}` : ""}" data-theme="${GROUND[this.ground] ?? GROUND.paper}" style="${zoom2}" @click="${this.onFrame}">
+  ${this.kind === "speaker" ? html71`<div class="sds-slide__page">${page}</div>${this.portraitColumn()}
+  ${this.foot()}` : page}
 </div>${this.zoomable ? html71`<button class="sds-btn sds-btn--secondary sds-btn--sm sds-btn--icon sds-slide__zoom" type="button" title="Open the slide" data-theme="${GROUND[this.ground] ?? GROUND.paper}" @click="${this.open}"><sds-icon name="actions-fullscreen"></sds-icon></button>` : nothing39}`;
   }
 };
@@ -14309,6 +14382,7 @@ define("sds-slide", SdsSlide);
 // packages/frontend/src/components/deck.ts
 import { html as html72, nothing as nothing40 } from "lit";
 var BOOKENDS = /* @__PURE__ */ new Set(["cover", "closing"]);
+var PLACED = /* @__PURE__ */ new Set(["content", "figure", "speaker", "statement", "closing"]);
 var STEP = { ArrowRight: 1, ArrowDown: 1, PageDown: 1, ArrowLeft: -1, ArrowUp: -1, PageUp: -1 };
 var OWN = "a, button, input, select, textarea, summary, label, [contenteditable], pre, .sds-code";
 var TURN = 0.15;
@@ -14482,8 +14556,8 @@ var SdsDeck = class extends SdsElement {
   }
   /* What the deck says once, given to every slide that does not say it. An
      attribute, because a slide can still wait for its upgrade, and a value
-     set on it then outweighs the attribute its author wrote. The count and
-     the outline come from the order: nobody keeps either by hand. */
+     set on it then outweighs the attribute its author wrote. The count, the
+     outline and the place in it come from the order: nobody keeps them by hand. */
   hand(slides) {
     const kind = (slide) => slide.getAttribute("kind") || "content";
     const give = (slide, name, value) => {
@@ -14491,6 +14565,7 @@ var SdsDeck = class extends SdsElement {
     };
     const dividers = slides.filter((slide) => kind(slide) === "section");
     const outline = JSON.stringify(dividers.map((slide) => slide.getAttribute("heading") ?? ""));
+    let place2 = "";
     slides.forEach((slide, i) => {
       const bookend = BOOKENDS.has(kind(slide));
       if (!slide.hasAttribute("shrink")) slide.setAttribute("shrink", "");
@@ -14503,6 +14578,10 @@ var SdsDeck = class extends SdsElement {
         slide.setAttribute("sections", outline);
         slide.setAttribute("current", String(dividers.indexOf(slide)));
       }
+      if (dividers.includes(slide)) {
+        const at = Number(slide.getAttribute("current") ?? dividers.indexOf(slide)) + 1;
+        place2 = `${String(at).padStart(2, "0")} \xB7 ${slide.getAttribute("heading") ?? ""}`;
+      } else if (PLACED.has(kind(slide))) give(slide, "eyebrow", place2);
     });
   }
   disconnectedCallback() {

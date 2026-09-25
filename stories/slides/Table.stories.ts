@@ -10,7 +10,7 @@ import '../../packages/frontend/src/components/table.ts';
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 
-import { slide, type DeckMode } from '../lib/deck.ts';
+import { place, slide, type DeckMode } from '../lib/deck.ts';
 
 const COLUMNS: readonly Column[] = [{ head: 'Check', cls: 'sds-td-name' }, { head: 'What it holds' }];
 
@@ -24,7 +24,7 @@ const ROWS: readonly Row[] = [
 
 export function tableSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
-    { heading: 'What the gate holds', number: '07' },
+    { eyebrow: place(1), heading: 'What the gate holds', number: '07' },
     html`<sds-table .columns="${COLUMNS}" .rows="${ROWS}"></sds-table>`,
     { flat, bare },
   );

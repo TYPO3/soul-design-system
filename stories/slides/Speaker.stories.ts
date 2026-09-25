@@ -10,13 +10,13 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import { dsScreen, part } from '../lib/specimen.ts';
 
-import { slide, type DeckMode } from '../lib/deck.ts';
+import { place, slide, type DeckMode } from '../lib/deck.ts';
 
 export function speakerSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     {
       kind: 'speaker',
-      eyebrow: 'Who is speaking',
+      eyebrow: place(0),
       heading: 'Benjamin Kott',
       lead: 'Maintainer · Soul Design System',
       portrait: 'assets/portraits/benjamin-kott.png',

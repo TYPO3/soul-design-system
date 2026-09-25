@@ -38,6 +38,10 @@ export interface DeckProps {
 /** The kinds that carry no count and the larger mark. */
 const BOOKENDS = new Set(['cover', 'closing']);
 
+/** The kinds that say where they stand: the section's number and name, as
+    their eyebrow. A cover and a divider say something else. */
+const PLACED = new Set(['content', 'figure', 'speaker', 'statement', 'closing']);
+
 /** A slide on the stage, and what it gave up to stand there. */
 interface Loan {
   slide: SdsSlide;
@@ -184,8 +188,8 @@ export class SdsDeck extends SdsElement {
 
   /* What the deck says once, given to every slide that does not say it. An
      attribute, because a slide can still wait for its upgrade, and a value
-     set on it then outweighs the attribute its author wrote. The count and
-     the outline come from the order: nobody keeps either by hand. */
+     set on it then outweighs the attribute its author wrote. The count, the
+     outline and the place in it come from the order: nobody keeps them by hand. */
   private hand(slides: readonly SdsSlide[]): void {
     const kind = (slide: Element): string => slide.getAttribute('kind') || 'content';
     const give = (slide: Element, name: string, value: string): void => {
@@ -193,6 +197,7 @@ export class SdsDeck extends SdsElement {
     };
     const dividers = slides.filter((slide) => kind(slide) === 'section');
     const outline = JSON.stringify(dividers.map((slide) => slide.getAttribute('heading') ?? ''));
+    let place = '';
     slides.forEach((slide, i) => {
       const bookend = BOOKENDS.has(kind(slide));
       /* A slide of a deck stands on a page as a picture of its column. */
@@ -206,6 +211,12 @@ export class SdsDeck extends SdsElement {
         slide.setAttribute('sections', outline);
         slide.setAttribute('current', String(dividers.indexOf(slide)));
       }
+      /* The section a slide stands in, as its eyebrow: the number the
+         outline gives it, and its name. A slide before the first has none. */
+      if (dividers.includes(slide)) {
+        const at = Number(slide.getAttribute('current') ?? dividers.indexOf(slide)) + 1;
+        place = `${String(at).padStart(2, '0')} · ${slide.getAttribute('heading') ?? ''}`;
+      } else if (PLACED.has(kind(slide))) give(slide, 'eyebrow', place);
     });
   }
 

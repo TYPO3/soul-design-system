@@ -23,6 +23,10 @@ export const DECK = {
 /** The deck's sections, in order. A divider shows them and marks its own. */
 export const OUTLINE: readonly string[] = ['Why one system', 'What it consists of', 'How to build a slide', 'Where to start'];
 
+/** Where a slide stands in the outline, as its eyebrow says it: the number
+    and the name. The deck writes the same for a slide that says none. */
+export const place = (index: number): string => `${String(index + 1).padStart(2, '0')} · ${OUTLINE[index] ?? ''}`;
+
 /** How a layout renders. `bare` leaves out what a deck gives every slide:
     the lockup and the count. A deck that holds the slide says those once. */
 export interface DeckMode extends PageMode {
@@ -35,7 +39,7 @@ export interface DeckMode extends PageMode {
     fits the window, because a story opens in whatever canvas there is. The
     static one is its own viewport. */
 export const slide = (
-  { kind = 'content', ground, eyebrow, heading, lead, note, number, sections, current, portrait, alt }: SlideProps,
+  { kind = 'content', ground, eyebrow, heading, lead, note, number, sections, current, portrait, alt, src, drawings, layout, bleed, framed }: SlideProps,
   body?: TemplateResult,
   { flat = false, bare = false }: DeckMode = {},
 ): TemplateResult => {
@@ -60,6 +64,11 @@ export const slide = (
         current="${current ?? 0}"
         portrait="${portrait ?? ''}"
         alt="${alt ?? ''}"
+        src="${src ?? ''}"
+        .drawings="${drawings ?? []}"
+        layout="${layout ?? 'wide'}"
+        ?bleed="${bleed ?? false}"
+        ?framed="${framed ?? false}"
         .body="${body ?? ''}"
       ></sds-slide>`
     : html`<sds-slide
@@ -77,6 +86,11 @@ export const slide = (
         current="${current ?? 0}"
         portrait="${portrait ?? ''}"
         alt="${alt ?? ''}"
+        src="${src ?? ''}"
+        .drawings="${drawings ?? []}"
+        layout="${layout ?? 'wide'}"
+        ?bleed="${bleed ?? false}"
+        ?framed="${framed ?? false}"
         fit
       >${body ?? ''}</sds-slide>`;
 };

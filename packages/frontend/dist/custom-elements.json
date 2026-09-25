@@ -8595,6 +8595,14 @@
               "fieldName": "product"
             },
             {
+              "name": "plain",
+              "description": "A foot without the lockup: the count alone, where it always stands. For a slide whose picture needs the corner, or a run that needs no mark.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "plain"
+            },
+            {
               "name": "current",
               "description": "",
               "type": {
@@ -8617,6 +8625,38 @@
                 "text": "string"
               },
               "fieldName": "alt"
+            },
+            {
+              "name": "src",
+              "description": "On a figure slide: the drawing. It takes the room the layout gives it, and grows or shrinks whole to that room. `alt` says what it shows.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "src"
+            },
+            {
+              "name": "layout",
+              "description": "",
+              "type": {
+                "text": "'wide' | 'full' | 'row' | 'text-start' | 'text-end'"
+              },
+              "fieldName": "layout"
+            },
+            {
+              "name": "bleed",
+              "description": "Beside a column of text: the drawing runs to the edges of the frame, on a plane of its own. For a screenshot, which has its own edges.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "bleed"
+            },
+            {
+              "name": "framed",
+              "description": "Each drawing stands on a plane with a hairline, its caption inside. For sketches of an interface, which have no edge of their own.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "framed"
             },
             {
               "name": "body",
@@ -8754,6 +8794,16 @@
             },
             {
               "kind": "field",
+              "name": "plain",
+              "privacy": "public",
+              "description": "A foot without the lockup: the count alone, where it always stands. For a slide whose picture needs the corner, or a run that needs no mark.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "plain"
+            },
+            {
+              "kind": "field",
               "name": "sections",
               "privacy": "public",
               "description": "The deck's outline, on a divider, and which entry this section is.",
@@ -8790,6 +8840,55 @@
                 "text": "string"
               },
               "attribute": "alt"
+            },
+            {
+              "kind": "field",
+              "name": "src",
+              "privacy": "public",
+              "description": "On a figure slide: the drawing. It takes the room the layout gives it, and grows or shrinks whole to that room. `alt` says what it shows.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "src"
+            },
+            {
+              "kind": "field",
+              "name": "drawings",
+              "privacy": "public",
+              "description": "The drawings of a `row`, each with its word and its caption. A layout that shows one takes the first, where `src` is empty.",
+              "type": {
+                "text": "readonly SlideDrawing[]"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "layout",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "'wide' | 'full' | 'row' | 'text-start' | 'text-end'"
+              },
+              "attribute": "layout"
+            },
+            {
+              "kind": "field",
+              "name": "bleed",
+              "privacy": "public",
+              "description": "Beside a column of text: the drawing runs to the edges of the frame, on a plane of its own. For a screenshot, which has its own edges.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "bleed"
+            },
+            {
+              "kind": "field",
+              "name": "framed",
+              "privacy": "public",
+              "description": "Each drawing stands on a plane with a hairline, its caption inside. For sketches of an interface, which have no edge of their own.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "framed"
             },
             {
               "kind": "field",
@@ -8847,17 +8946,27 @@
             "sds-btn--sm",
             "sds-display",
             "sds-h2",
-            "sds-h3",
+            "sds-label",
             "sds-lead",
             "sds-slide",
+            "sds-slide--beside",
+            "sds-slide--beside-end",
+            "sds-slide--bleed",
             "sds-slide--closing",
             "sds-slide--cover",
             "sds-slide--figure",
+            "sds-slide--framed",
+            "sds-slide--full",
+            "sds-slide--row",
             "sds-slide--section",
             "sds-slide--speaker",
             "sds-slide--statement",
+            "sds-slide__art",
             "sds-slide__body",
+            "sds-slide__caption",
             "sds-slide__count",
+            "sds-slide__drawing",
+            "sds-slide__figure",
             "sds-slide__fit",
             "sds-slide__foot",
             "sds-slide__head",
@@ -8867,6 +8976,8 @@
             "sds-slide__note",
             "sds-slide__page",
             "sds-slide__portrait",
+            "sds-slide__text",
+            "sds-slide__void",
             "sds-slide__zoom"
           ],
           "slots": [

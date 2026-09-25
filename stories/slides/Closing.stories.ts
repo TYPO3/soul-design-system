@@ -7,12 +7,13 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { type TemplateResult } from 'lit';
 import { dsScreen, part } from '../lib/specimen.ts';
 
-import { slide, type DeckMode } from '../lib/deck.ts';
+import { place, slide, type DeckMode } from '../lib/deck.ts';
 
 export function closingSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     {
       kind: 'closing',
+      eyebrow: place(3),
       heading: 'Start from a layout',
       lead: 'Open the one nearest the job and keep its shell. An element answers what one part looks like.',
     },

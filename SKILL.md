@@ -436,8 +436,20 @@ A long document can sum up each part in a slide. The slide stands in its
 section as a picture at the column's width (`shrink`), and takes no press. `sds-deck`
 is the way through: over the page with `from`, or with slides of its own
 between its tags. Say the lockup and `numbered` once on the deck, never on
-each slide. Material from a page goes on a slide with `kind="figure"`, and
-what does not fit shrinks. A slide that shrinks far is two slides.
+each slide.
+
+A picture goes on a slide with `kind="figure"` and `src`. It grows into the
+room its `layout` leaves. Draw it for that room. `docs/design-system/slides.rst`
+states each room in the frame's pixels. A picture for a slide has no title
+and no verdict of its own. Text beside a picture is `text-start` or
+`text-end`.
+
+A drawing inline goes in the `figure` region, `<figure slot="figure">` with
+its `<figcaption>`, and keeps the system's type.
+
+What does not fit shrinks, and a slide that shrinks far is two slides.
+
+The lockup and the count never move. `plain` leaves the lockup out.
 
 A renderer, a theme or a template set writes no class the stylesheets do not
 define. A name it needs and cannot find is a gap in the system, closed there.

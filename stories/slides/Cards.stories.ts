@@ -11,7 +11,7 @@ import '../../packages/frontend/src/components/surface.ts';
 import '../../packages/frontend/src/components/grid.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { grid } from '../lib/page.ts';
-import { slide, type DeckMode } from '../lib/deck.ts';
+import { place, slide, type DeckMode } from '../lib/deck.ts';
 
 const PLACES = [
   { label: 'Story', heading: 'Every element has one', body: 'The source of every specimen card. Edit the story, never the card.' },
@@ -21,7 +21,7 @@ const PLACES = [
 
 export function cardsSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
-    { heading: 'Three places for every component', number: '04' },
+    { eyebrow: place(1), heading: 'Three places for every component', number: '04' },
     grid(
       PLACES.map((one) => html`<sds-surface label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-surface>`),
       { flat },

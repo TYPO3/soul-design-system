@@ -112,6 +112,28 @@ test('a slide’s press opens the deck at that slide', async () => {
   expect(staged().querySelector('.sds-slide__zoom'), 'no press on the stage').toBeNull();
 });
 
+test('on the full screen the list opens over the stage, and a choice closes it', async () => {
+  document.body.replaceChildren();
+  await mount(WithSlides);
+  const total = qa('main sds-slide').length;
+  q('sds-button[for="concept-deck"]').click();
+  await rest();
+  /* The platform's full screen needs a gesture a test cannot give. The
+     deck's own state is what the stylesheet reads. */
+  const theDeck = q<HTMLElement & { full: boolean }>('sds-deck');
+  theDeck.full = true;
+  await rest();
+  q('button[title="Show all slides"]').click();
+  await rest();
+  const nav = q('.sds-deck__nav');
+  expect(shown(nav), 'the list is there').toBe(true);
+  expect(getComputedStyle(nav).position).toBe('absolute');
+  (qa('.sds-deck__entry')[2] as HTMLElement).click();
+  await rest();
+  expect(count()).toBe(`3 / ${total}`);
+  expect(shown(nav), 'the choice gives the stage back').toBe(false);
+});
+
 test('the list shows every slide and goes to the one pressed', async () => {
   await mount(WithSlides);
   const total = qa('main sds-slide').length;
@@ -330,4 +352,19 @@ test('a press anywhere on a slide opens the deck at it', async () => {
   (slides[3]?.querySelector(':scope > .sds-slide') as HTMLElement).click();
   await rest();
   expect(count()).toBe(`4 / ${slides.length}`);
+});
+
+test('a slide says the section it stands in, and its own eyebrow wins', async () => {
+  document.body.replaceChildren();
+  await write(`<sds-deck brand="The deck" product="Its product">
+    <sds-slide kind="cover" heading="One"></sds-slide>
+    <sds-slide heading="Before any section"></sds-slide>
+    <sds-slide kind="section" heading="What it is"></sds-slide>
+    <sds-slide heading="Inside"></sds-slide>
+    <sds-slide kind="figure" heading="A picture" eyebrow="Its own"></sds-slide>
+    <sds-slide kind="section" heading="How to start"></sds-slide>
+    <sds-slide kind="figure" heading="Later"></sds-slide>
+  </sds-deck>`);
+  const eyebrows = qa<SdsSlide>('sds-slide').map((slide) => slide.getAttribute('eyebrow'));
+  expect(eyebrows).toEqual([null, null, null, '01 · What it is', 'Its own', null, '02 · How to start']);
 });

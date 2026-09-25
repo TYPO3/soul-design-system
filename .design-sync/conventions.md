@@ -33,7 +33,7 @@ Two rules follow, and both carry weight:
 | Plans | `sds-timeline`/`sds-timeline-stop`. A plan on the calendar: dated stops down one rail, as elements between the tags, one marked `now`. A stop holds what it delivers and the stops inside it. The passed ones carry the check, the ones ahead stand a step quieter. Not `sds-steps` and not `sds-run` |
 | Decisions | `sds-decision`/`sds-answer`. The question a paper asks, who decides and by when. The answers as elements between the tags, with the one it recommends. `sds-compare` is two pictures read against each other, each a figure with its claim |
 | Work | `sds-run`. Work in progress, which is not `sds-steps`. A run arrives one stop at a time, each stop with what it wrote. The whole ends on a `verdict`. Stops take `label`, `state` (`ahead|running|done|failed`), `meta` for a duration. `note` is what happens to it in words, `output` what it wrote. `group` is for many jobs at once. `open` says if the whole stands unfolded. The share, where the work reports one, is `sds-progress` above it. A run whose end is not a number draws no bar |
-| Decks | `sds-slide`. One 16:9 frame: the page at twice the size, so every element between the tags keeps its set. `kind` is `cover`, `speaker`, `section`, `statement`, `content`, `closing` or `figure`, which gives a page's material the frame. A speaker's `portrait` and `alt`. `ground` is `paper` unless said, and `terminal` on the cover. `eyebrow`, `heading`, `lead`, `note`, `number`. The lockup as `signet`, `brand`, `product`; the outline as `sections` and `current`. `fit` scales the frame to a stage, and `shrink` makes it a picture at its column's width. What it holds shrinks until it fits. `sds-deck` runs through slides at the window's size: its own between the tags, or the page's with `from`. It says the lockup and `numbered` once for every slide. |
+| Decks | `sds-slide`. One 16:9 frame: the page at twice the size, so every element between the tags keeps its set. `kind` is `cover`, `speaker`, `section`, `statement`, `content`, `closing` or `figure`. A figure's picture is `src` and `alt`, and a row is `drawings`, each with a `caption`. `layout` is `wide`, `full`, `row`, `text-start` or `text-end`. `framed` stands each drawing on a plane. Between the tags, the regions `text`, `figure` and `portrait` take markup: an inline drawing in `figure` keeps the page's type. `bleed` runs a screenshot beside its text to the edge. A speaker's `portrait` and `alt`. `plain` leaves the lockup out of the foot, and the count stays. `ground` is `paper` unless said, and `terminal` on the cover. `eyebrow`, `heading`, `lead`, `note`, `number`. The lockup as `signet`, `brand`, `product`; the outline as `sections` and `current`. `fit` scales the frame to a stage, and `shrink` makes it a picture at its column's width. What it holds shrinks until it fits. `sds-deck` runs through slides at the window's size: its own between the tags, or the page's with `from`. It says the lockup and `numbered` once for every slide. Every slide but the cover and a divider carries its section as its eyebrow: `02 · What it consists of`. The eyebrow stands at one place at the top of every slide. |
 | Long text | `sds-quote` `sds-byline` `sds-confval` `sds-facts` `sds-entry` `sds-register`. The first two take `as` for what the source is. `role` is the ARIA attribute and is out of reach. `sds-confval` is one configuration value in a reference. `name`, `anchor`, `required`, `type`, `default`, and `facts` for whatever else the source named |
 
 They render **light DOM** and emit exactly the classes below. So an element
@@ -106,7 +106,7 @@ The values are the page's, doubled, and they stand here written out:
 
 | The page says | On a slide |
 |---|---|
-| `--space-16` 64px, the margin of the frame | `padding:128px` on every side, and 176px at the foot where a foot stands |
+| `--space-10` 40px, the margin of the frame | `padding:80px` at the sides, 64px at the top, and 160px at the foot where a foot stands |
 | `--font-size-display` 58px, the title of a cover, a divider, a statement | `font-size:116px`, weight 700, `line-height:1.08`, `letter-spacing:-3px` |
 | `--font-size-h2` 34px, the title of a content slide | `font-size:68px`, weight 700, `line-height:1.2`, `letter-spacing:-1px` |
 | `--font-size-h3` 24px, a card's heading, a quote | `font-size:48px`, weight 600 for a heading, 400 for a quote |
@@ -151,7 +151,8 @@ colour and a word, never an emoji.
 **The kinds, and what each holds.**
 
 - **Cover**, on the terminal. The eyebrow in the label register and the
-  title at the display step. The lead under it, the lockup at the foot. The
+  title at the display step. Title and lead stand in the middle of the
+  height, the lockup at the foot. The
   lockup is the signet, `TYPO3` at weight 600, a 2px accent rule and the
   product at weight 300. It stands at the h3 step with the mark at 64.
 - **Speaker**. Two columns, and the portrait fills the right one edge to
@@ -163,13 +164,28 @@ colour and a word, never an emoji.
   step. The outline in a row at the foot, over a hairline. Every entry takes
   the muted ink. The current one is primary, weight 600, with a 4px accent
   rule under it.
-- **Statement**. One sentence at the display step, centred, and its source
+- **Statement**. One sentence at the display step, centred. It runs up to
+  two thirds of the width, and its source
   under it at the small step, muted. No foot.
 - **Content**. The title at the h2 step at the top margin, never centred,
-  so it never hops. The body under it: cards in a row with a 32px gap, or
+  so it never hops. The body stands in the middle of the room under it.
+  It holds cards in a row with a 32px gap, or
   a table. A code block beside a plane, three figures, a numbered rail. The
   foot at `bottom:64px`. The lockup at the page's size, its mark at 48. The
   count in the label register at the right.
+- **Figure**. The title at the h2 step, as on a content slide. One picture stands in the room the
+  layout leaves, grown to it with `object-fit:contain`. Wide: 1754×708
+  under the head. Full: 1850×1010, the whole frame, with only the count on a plate. Beside a text
+  column: 1038×802, and 1118×1076 to the edges of the frame for a
+  screenshot. Two pictures side by side: 844×634 each, under their word.
+  Three on planes with a caption each: 476×488 each. A
+  picture for a slide has no title and no verdict of its own. The slide's
+  title and note say them.
+
+**The foot never moves.** The lockup and the count stand at the same place
+on every slide but the cover and the closing. Where a picture runs under
+one of them, it stands on a plate in the slide's ground with a 1px hairline,
+at the same place. A slide can leave the lockup out, and the count stays.
 - **The closing**, on paper. The cover's shape and lockup, with the one
   thing to do next as the title.
 

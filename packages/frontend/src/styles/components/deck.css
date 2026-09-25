@@ -226,8 +226,14 @@
       inset-block-end: 0;
       z-index: 1;
     }
+    /* The list stands over the stage's edge, and goes once the reader
+       chooses a slide. The stage keeps the whole screen under it. */
     .sds-deck__nav {
-      display: none;
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 0;
+      z-index: 2;
+      background: var(--sds-deck-fill);
     }
     .sds-deck__stage {
       padding: 0;

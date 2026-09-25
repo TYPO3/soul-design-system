@@ -258,15 +258,18 @@ the foot and the deck's outline. The body is the system's elements.
    :type: "cover" | "speaker" | "section" | "statement" | "content" | "closing" | "figure"
    :default: "content"
 
-   What the slide is in the run of a deck. ``cover`` and ``closing`` hold the
-   title up and the lockup down. ``section`` holds the outline down.
-   ``statement`` centres one sentence. ``content`` keeps its title at the
-   top margin, so it never hops between slides. ``speaker`` gives the name
-   the left column and the portrait the right, edge to edge.
+   What the slide is in the run of a deck. ``cover`` stands its title in
+   the middle of its height, and ``closing`` holds it up. Both hold the
+   lockup down. ``section`` holds the outline down.
 
-   ``figure`` shows material from a page: a table, a drawing, a screenshot.
-   Its title and its margin are a step smaller, so the material has the
-   frame.
+   ``statement`` centres one sentence, two thirds of the frame wide.
+   ``content`` keeps its title at the top margin, so it never hops between
+   slides. ``speaker`` gives the name the left column and the portrait the
+   right, edge to edge.
+
+   ``figure`` shows a picture: a drawing, a screenshot, a matrix. Its head
+   is a content slide's, and the picture grows into the room its ``layout``
+   leaves. The head and the foot stand where a content slide has them.
 
 .. confval:: ground
    :name: sds-slide-ground
@@ -309,7 +312,8 @@ the foot and the deck's outline. The body is the system's elements.
    :type: string
 
    The count in the foot. A string, because a deck numbers its slides the
-   way it likes: ``03``, ``3 / 12``.
+   way it likes: ``03``, ``3 / 12``. It stands at the same place on every
+   kind. Where a picture runs under it, it stands on a plate.
 
 .. confval:: signet, brand, product
    :name: sds-slide-lockup
@@ -319,6 +323,13 @@ the foot and the deck's outline. The body is the system's elements.
    and a closing it stands at the foot, at the h3 step with the mark at 32.
    On every other kind it stands in the foot at the page's size. Without a
    product there is no lockup.
+
+.. confval:: plain
+   :name: sds-slide-plain
+   :type: boolean
+
+   A foot without the lockup: the count alone, at the place it always has.
+   The row keeps the lockup's box, so nothing moves by a pixel.
 
 .. confval:: sections
    :name: sds-slide-sections
@@ -343,6 +354,59 @@ the foot and the deck's outline. The body is the system's elements.
    It is the deck's own picture, as a product brings its own mark. The one
    the layout shows is a story's fixture under ``assets/portraits/``, drawn
    to the illustration prompt. Without it the column stands empty.
+
+.. confval:: src, alt
+   :name: sds-slide-src
+   :type: string
+
+   On a figure slide: the picture, and what it shows. It grows or shrinks
+   whole into the room its layout leaves, and stands in the middle of it.
+   :doc:`/design-system/slides` states each room, so a picture is drawn for
+   it. A picture for a slide has no title and no verdict of its own.
+
+.. confval:: drawings
+   :name: sds-slide-drawings
+   :type: { src?: string, alt?: string, content?: markup, label?: string, caption?: string }[]
+
+   The pictures of a ``row``, side by side, each under its label and over
+   its caption. A JSON attribute or the ``.drawings`` property. A layout
+   that shows one takes the first where ``src`` is empty. ``content`` is
+   markup in place of the file, for a render that cannot write between the
+   tags.
+
+   Between the tags, the ``figure`` region does the same: a child with
+   ``slot="figure"``, one for each drawing of a row. A ``<figure>`` brings
+   its label as ``data-label`` and its caption as ``<figcaption>``. The
+   ``text`` region is every child with no ``slot``, and a speaker takes its
+   picture from the ``portrait`` region. :doc:`/design-system/slides` has
+   the regions of every layout.
+
+.. confval:: layout
+   :name: sds-slide-layout
+   :type: "wide" | "full" | "row" | "text-start" | "text-end"
+   :default: "wide"
+
+   Where a figure slide puts its picture. ``wide`` keeps it inside the
+   margin, under the head and its note. ``full`` gives it nearly the whole
+   frame and shows only the count. The head stays for a reader who hears
+   the slide. ``row`` sets the ``drawings`` side by side.
+   ``text-start`` and ``text-end`` stand it beside a column of text, which
+   is the body, on the side the name says.
+
+.. confval:: framed
+   :name: sds-slide-framed
+   :type: boolean
+
+   Each drawing stands on a plane with a hairline, its caption inside, as a
+   card does. For a sketch of an interface, which has no edge of its own.
+
+.. confval:: bleed
+   :name: sds-slide-bleed
+   :type: boolean
+
+   Beside a column of text: the picture runs to the edges of the frame, on
+   the inset plane. For a screenshot, which has edges of its own. The count
+   or the lockup it runs under stands on a plate.
 
 .. confval:: fit
    :name: sds-slide-fit
@@ -454,6 +518,12 @@ the deck there. A button names the deck by id to open it from the start:
    The deck also gives the dividers their outline. Each ``section`` slide
    with no ``sections`` of its own gets the headings of every divider in the
    deck, and its own place among them.
+
+   And it gives every other slide its place. This holds for the kinds
+   ``content``, ``figure``, ``speaker``, ``statement`` and ``closing``. A
+   slide with no ``eyebrow`` gets the section it stands in, as the outline
+   numbers it: ``02 · What it consists of``. A slide before the first
+   divider gets none.
 
 .. confval:: open
    :name: sds-deck-open

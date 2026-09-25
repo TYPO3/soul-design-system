@@ -12,7 +12,7 @@ import '../../packages/frontend/src/components/surface.ts';
 import '../../packages/frontend/src/components/grid.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { grid } from '../lib/page.ts';
-import { slide, type DeckMode } from '../lib/deck.ts';
+import { place, slide, type DeckMode } from '../lib/deck.ts';
 
 const SOURCE = `<sds-code code-lang="bash">
   <code>make verify ARGS=classes</code>
@@ -20,7 +20,7 @@ const SOURCE = `<sds-code code-lang="bash">
 
 export function codeSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
-    { heading: 'Address a component, never rebuild one', number: '06' },
+    { eyebrow: place(1), heading: 'Address a component, never rebuild one', number: '06' },
     grid(
       [
         html`<sds-code code-lang="html" source="${SOURCE}"></sds-code>`,

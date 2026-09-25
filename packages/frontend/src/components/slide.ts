@@ -19,7 +19,8 @@ import './image.ts';
     centres one sentence, and `content` keeps its title at the top margin.
     `speaker` gives the name the left column and a portrait the right, edge
     to edge. `figure` shows material from a page: a table, a drawing, a
-    screenshot. Its title is a step smaller, and the material takes the rest. */
+    screenshot. Its head is a content slide's, and the material takes the
+    rest. */
 export type SlideKind = 'cover' | 'section' | 'statement' | 'content' | 'closing' | 'speaker' | 'figure';
 
 /** The ground. A deck stands on paper, and the slide that opens it on the
@@ -27,6 +28,32 @@ export type SlideKind = 'cover' | 'section' | 'statement' | 'content' | 'closing
     Paper unless said, whatever mode the page is in. A room watches a deck,
     and a room has no mode. */
 export type SlideGround = 'paper' | 'terminal';
+
+/** Where a figure slide puts its drawing. `wide` keeps it inside the
+    margin, under the head. `full` gives it the frame and shows only the
+    count: the head stays for a reader who hears it. `row` sets
+    two or three drawings side by side. `text-start` and `text-end` stand it
+    beside a column of text, which stands on the side the name says. */
+export type SlideLayout = 'wide' | 'full' | 'row' | 'text-start' | 'text-end';
+
+/** One drawing of a figure slide. The label is the word over it, where
+    some stand side by side and a reader needs to know which is which. The
+    caption is what it shows, in a line or two under it. */
+export interface SlideDrawing {
+  /** A picture by its file. */
+  src?: string;
+  alt?: string;
+  /** Or markup in the picture's place: an inline drawing, the system's
+      elements. A drawing fills the room, and markup shrinks until it fits. */
+  content?: TemplateResult | string;
+  label?: string;
+  caption?: string;
+}
+
+/** The named regions a slide takes between its tags. A child without a
+    `slot`, or with `slot="text"`, is the text. `figure` is the picture's room,
+    one child for each drawing of a row. `portrait` is a speaker's picture. */
+export type SlideSlot = 'text' | 'figure' | 'portrait';
 
 const KIND: Record<SlideKind, string> = {
   cover: 'sds-slide--cover',
@@ -36,6 +63,14 @@ const KIND: Record<SlideKind, string> = {
   closing: 'sds-slide--closing',
   speaker: 'sds-slide--speaker',
   figure: 'sds-slide--figure',
+};
+
+const LAYOUT: Record<SlideLayout, string> = {
+  wide: '',
+  full: 'sds-slide--full',
+  row: 'sds-slide--row',
+  'text-start': 'sds-slide--beside',
+  'text-end': 'sds-slide--beside sds-slide--beside-end',
 };
 
 const GROUND: Record<SlideGround, string> = { paper: 'light', terminal: 'dark' };
@@ -66,6 +101,9 @@ export interface SlideProps {
   signet?: string;
   brand?: string;
   product?: string;
+  /** A foot without the lockup: the count alone, where it always stands. For
+      a slide whose picture needs the corner, or a run that needs no mark. */
+  plain?: boolean;
   /** The deck's outline, on a divider, and which entry this section is. */
   sections?: readonly string[];
   current?: number;
@@ -74,6 +112,19 @@ export interface SlideProps {
       column stands empty, which is the gap it is. */
   portrait?: string;
   alt?: string;
+  /** On a figure slide: the drawing. It takes the room the layout gives it,
+      and grows or shrinks whole to that room. `alt` says what it shows. */
+  src?: string;
+  /** The drawings of a `row`, each with its word and its caption. A layout
+      that shows one takes the first, where `src` is empty. */
+  drawings?: readonly SlideDrawing[];
+  /** Each drawing stands on a plane with a hairline, its caption inside.
+      For sketches of an interface, which have no edge of their own. */
+  framed?: boolean;
+  layout?: SlideLayout;
+  /** Beside a column of text: the drawing runs to the edges of the frame,
+      on a plane of its own. For a screenshot, which has its own edges. */
+  bleed?: boolean;
   /** What the slide shows between its title and its foot. Markup where a
       caller holds it: the elements of the system at the page's size. */
   body?: string | TemplateResult;
@@ -102,10 +153,16 @@ export class SdsSlide extends SdsElement {
     signet: { type: String },
     brand: { type: String },
     product: { type: String },
+    plain: { type: Boolean, reflect: true },
     sections: { type: Array },
     current: { type: Number },
     portrait: { type: String },
     alt: { type: String },
+    src: { type: String },
+    drawings: { type: Array },
+    layout: { type: String, reflect: true },
+    bleed: { type: Boolean, reflect: true },
+    framed: { type: Boolean, reflect: true },
     body: { type: String },
     fit: { type: Boolean, reflect: true },
     shrink: { type: Boolean, reflect: true },
@@ -124,10 +181,16 @@ export class SdsSlide extends SdsElement {
   declare signet: string;
   declare brand: string;
   declare product: string;
+  declare plain: boolean;
   declare sections: readonly string[];
   declare current: number;
   declare portrait: string;
   declare alt: string;
+  declare src: string;
+  declare drawings: readonly SlideDrawing[];
+  declare layout: SlideLayout;
+  declare bleed: boolean;
+  declare framed: boolean;
   declare body: string | TemplateResult;
   declare fit: boolean;
   declare shrink: boolean;
@@ -140,6 +203,8 @@ export class SdsSlide extends SdsElement {
   /* The body, where it stood between the tags. A deck's slide holds the
      system's elements, which is markup or it is nothing. */
   private taken: Node[] | null = null;
+  /* The regions with a name, where they stood between the tags. */
+  private slotted: { figure: Element[]; portrait: Node[] } = { figure: [], portrait: [] };
 
   constructor() {
     super();
@@ -153,10 +218,16 @@ export class SdsSlide extends SdsElement {
     this.signet = '';
     this.brand = '';
     this.product = '';
+    this.plain = false;
     this.sections = [];
     this.current = 0;
     this.portrait = '';
     this.alt = '';
+    this.src = '';
+    this.drawings = [];
+    this.layout = 'wide';
+    this.bleed = false;
+    this.framed = false;
     this.body = '';
     this.fit = false;
     this.shrink = false;
@@ -166,7 +237,13 @@ export class SdsSlide extends SdsElement {
 
   override connectedCallback(): void {
     const written = this.lifted().filter((node) => !isBlank(node));
-    if (written.length) this.taken = written;
+    const named = (node: Node, name: SlideSlot): boolean => node.nodeType === 1 && (node as Element).getAttribute('slot') === name;
+    this.slotted = {
+      figure: written.filter((node) => named(node, 'figure')) as Element[],
+      portrait: written.filter((node) => named(node, 'portrait')),
+    };
+    const text = written.filter((node) => !named(node, 'figure') && !named(node, 'portrait'));
+    if (text.length) this.taken = text;
     super.connectedCallback();
     /* The room is the parent's width, and under `fit` the window's height.
        Measured off the frame itself it reads back its own answer and never
@@ -179,8 +256,7 @@ export class SdsSlide extends SdsElement {
     this.watch.observe(document.documentElement);
     void this.updateComplete.then(() => {
       this.decide();
-      const fit = this.querySelector('.sds-slide__fit');
-      if (fit) this.watch?.observe(fit);
+      for (const fit of this.querySelectorAll('.sds-slide__fit')) this.watch?.observe(fit);
     });
   }
 
@@ -212,9 +288,13 @@ export class SdsSlide extends SdsElement {
      shrinks until it fits, and nothing grows. Its width stays what it was,
      so nothing wraps anew and the shrink is exact. Measurements, so styles. */
   private settle(): void {
-    const fit = this.querySelector<HTMLElement>('.sds-slide__fit');
-    const body = fit?.parentElement;
-    if (!fit || !body) return;
+    for (const fit of this.querySelectorAll<HTMLElement>('.sds-slide__fit')) this.fitBox(fit);
+  }
+
+  /* One box of what the slide holds, against the room its parent gives it. */
+  private fitBox(fit: HTMLElement): void {
+    const body = fit.parentElement;
+    if (!body) return;
     fit.style.removeProperty('zoom');
     fit.style.removeProperty('width');
     fit.style.removeProperty('align-self');
@@ -282,7 +362,7 @@ export class SdsSlide extends SdsElement {
   private head(): TemplateResult | typeof nothing {
     if (!this.eyebrow && !this.heading && !this.lead) return nothing;
     const display = this.kind !== 'content' && this.kind !== 'figure';
-    const step = this.kind === 'figure' ? 'sds-h3' : 'sds-h2';
+    const step = 'sds-h2';
     return html`<div class="sds-slide__head">
     ${this.eyebrow ? html`<sds-eyebrow label="${this.eyebrow}"></sds-eyebrow>` : nothing}
     ${this.heading
@@ -305,19 +385,70 @@ export class SdsSlide extends SdsElement {
   /* One lockup, drawn where the kind puts it. The foot is the row every slide
      that carries a count has; a cover and a closing end on the mark alone. */
   private foot(): TemplateResult | typeof nothing {
-    const mark = lockup({ signet: this.signet, brand: this.brand, product: this.product });
+    const drawn = lockup({ signet: this.signet, brand: this.brand, product: this.product });
     if (this.kind === 'cover' || this.kind === 'closing') {
-      return mark ? html`<div class="sds-slide__lockup">${mark}</div>` : nothing;
+      return drawn && !this.plain ? html`<div class="sds-slide__lockup">${drawn}</div>` : nothing;
     }
-    if (!mark && !this.number) return nothing;
+    if (!drawn && !this.number) return nothing;
+    /* A plain foot keeps the lockup's box and shows nothing in it. So the
+       row keeps its height, and the count holds its place. */
+    const plain = this.plain || (this.kind === 'figure' && this.layout === 'full');
+    const mark = drawn && plain ? html`<span class="sds-slide__void" aria-hidden="true">${drawn}</span>` : drawn;
     return html`<div class="sds-slide__foot">
     ${mark || html`<span></span>`}
     ${this.number ? html`<p class="sds-slide__count">${this.number}</p>` : nothing}
   </div>`;
   }
 
+  private beside(): boolean {
+    return this.kind === 'figure' && (this.layout === 'text-start' || this.layout === 'text-end');
+  }
+
+  /* What the room holds: every drawing of a row, and one for the rest. The
+     region between the tags first, then the property, then the file. */
+  private shown(): readonly SlideDrawing[] {
+    const all = this.slotted.figure.length
+      ? this.slotted.figure.map((one) => this.fromSlot(one))
+      : this.drawings.length ? this.drawings : this.src ? [{ src: this.src, alt: this.alt }] : [];
+    return this.layout === 'row' ? all : all.slice(0, 1);
+  }
+
+  /* A `<figure slot="figure">` brings its word as `data-label` and its
+     caption as `<figcaption>`. Any other child is the drawing alone. */
+  private fromSlot(one: Element): SlideDrawing {
+    const caption = one.localName === 'figure' ? one.querySelector(':scope > figcaption') : null;
+    const label = one.getAttribute('data-label') ?? '';
+    const parts = one.localName === 'figure' ? [...one.childNodes].filter((node) => node !== caption && !isBlank(node)) : [one];
+    const lone = parts.length === 1 && parts[0]?.nodeType === 1 ? (parts[0] as Element) : null;
+    /* A drawing fits its room from the start it reads in: the corner for one
+       alone, the middle for one of a row. */
+    if (lone?.localName === 'svg' && !lone.hasAttribute('preserveAspectRatio')) {
+      lone.setAttribute('preserveAspectRatio', this.layout === 'row' ? 'xMidYMid meet' : 'xMinYMin meet');
+    }
+    return { label, caption: caption?.textContent?.trim() ?? '', content: html`${parts}` };
+  }
+
+  /* The room's content: the file as a picture, or markup in a box the
+     element can shrink. A drawing alone in the box fills it instead. */
+  private art(one: SlideDrawing): TemplateResult {
+    if (one.src) return html`<sds-image src="${one.src}" alt="${one.alt ?? ''}"></sds-image>`;
+    return html`<div class="sds-slide__art"><div class="sds-slide__fit">${one.content ?? nothing}</div></div>`;
+  }
+
+  /* A figure slide's drawings, in the room its layout leaves. */
+  private drawing(): TemplateResult | typeof nothing {
+    const shown = this.kind === 'figure' ? this.shown() : [];
+    if (!shown.length) return nothing;
+    return html`<div class="sds-slide__figure">${shown.map((one) => html`<div class="sds-slide__drawing">
+    ${one.label ? html`<p class="sds-label">${one.label}</p>` : nothing}
+    ${this.art(one)}
+    ${one.caption ? html`<p class="sds-slide__caption">${one.caption}</p>` : nothing}
+  </div>`)}</div>`;
+  }
+
   /* The right column of a speaker slide: the portrait, edge to edge. */
   private portraitColumn(): TemplateResult {
+    if (this.slotted.portrait.length) return html`<div class="sds-slide__portrait">${this.slotted.portrait}</div>`;
     return html`<div class="sds-slide__portrait">${this.portrait
       ? html`<sds-image src="${this.portrait}" alt="${this.alt}"></sds-image>`
       : nothing}</div>`;
@@ -340,14 +471,24 @@ export class SdsSlide extends SdsElement {
     /* A style rather than a property of the set, because it is a measurement
        and not a value anybody states. */
     const zoom = this.zoom > 0 ? `zoom:${this.zoom}` : nothing;
-    const page = html`${this.head()}
-  ${body ? html`<div class="sds-slide__body"><div class="sds-slide__fit">${body}</div></div>` : nothing}
-  ${this.outline()}
-  ${this.foot()}`;
-    /* A speaker slide is two columns, and the foot pins inside the second.
-       So that one gets its own page; every other kind is the frame. */
-    return html`<div class="sds-slide${KIND[this.kind] ? ` ${KIND[this.kind]}` : ''}" data-theme="${GROUND[this.ground] ?? GROUND.paper}" style="${zoom}" @click="${this.onFrame}">
-  ${this.kind === 'speaker' ? html`<div class="sds-slide__page">${page}</div>${this.portraitColumn()}` : page}
+    const text = html`${this.head()}
+  ${body ? html`<div class="sds-slide__body"><div class="sds-slide__fit">${body}</div></div>` : nothing}`;
+    /* Beside a drawing, the head and the body are one column of text. The
+       foot stays the frame's, where every other slide has it. */
+    const page = this.beside()
+      ? html`<div class="sds-slide__text">${text}</div>${this.drawing()}
+  ${this.foot()}`
+      : html`${text}${this.drawing()}
+  ${this.outline()}${this.kind === 'speaker' ? nothing : html`
+  ${this.foot()}`}`;
+    const layout = this.kind === 'figure'
+      ? [LAYOUT[this.layout] ?? '', this.beside() && this.bleed ? 'sds-slide--bleed' : '', this.framed ? 'sds-slide--framed' : ''].filter(Boolean).join(' ')
+      : '';
+    /* A speaker slide is two columns, so its text gets a page of its own.
+       The foot stays the frame's there too: the count never moves. */
+    return html`<div class="sds-slide${KIND[this.kind] ? ` ${KIND[this.kind]}` : ''}${layout ? ` ${layout}` : ''}" data-theme="${GROUND[this.ground] ?? GROUND.paper}" style="${zoom}" @click="${this.onFrame}">
+  ${this.kind === 'speaker' ? html`<div class="sds-slide__page">${page}</div>${this.portraitColumn()}
+  ${this.foot()}` : page}
 </div>${this.zoomable
       ? html`<button class="sds-btn sds-btn--secondary sds-btn--sm sds-btn--icon sds-slide__zoom" type="button" title="Open the slide" data-theme="${GROUND[this.ground] ?? GROUND.paper}" @click="${this.open}"><sds-icon name="actions-fullscreen"></sds-icon></button>`
       : nothing}`;

@@ -8,13 +8,37 @@ import './image.ts';
     centres one sentence, and `content` keeps its title at the top margin.
     `speaker` gives the name the left column and a portrait the right, edge
     to edge. `figure` shows material from a page: a table, a drawing, a
-    screenshot. Its title is a step smaller, and the material takes the rest. */
+    screenshot. Its head is a content slide's, and the material takes the
+    rest. */
 export type SlideKind = 'cover' | 'section' | 'statement' | 'content' | 'closing' | 'speaker' | 'figure';
 /** The ground. A deck stands on paper, and the slide that opens it on the
     terminal. The flip is the emphasis, and the one accent stays where it is.
     Paper unless said, whatever mode the page is in. A room watches a deck,
     and a room has no mode. */
 export type SlideGround = 'paper' | 'terminal';
+/** Where a figure slide puts its drawing. `wide` keeps it inside the
+    margin, under the head. `full` gives it the frame and shows only the
+    count: the head stays for a reader who hears it. `row` sets
+    two or three drawings side by side. `text-start` and `text-end` stand it
+    beside a column of text, which stands on the side the name says. */
+export type SlideLayout = 'wide' | 'full' | 'row' | 'text-start' | 'text-end';
+/** One drawing of a figure slide. The label is the word over it, where
+    some stand side by side and a reader needs to know which is which. The
+    caption is what it shows, in a line or two under it. */
+export interface SlideDrawing {
+    /** A picture by its file. */
+    src?: string;
+    alt?: string;
+    /** Or markup in the picture's place: an inline drawing, the system's
+        elements. A drawing fills the room, and markup shrinks until it fits. */
+    content?: TemplateResult | string;
+    label?: string;
+    caption?: string;
+}
+/** The named regions a slide takes between its tags. A child without a
+    `slot`, or with `slot="text"`, is the text. `figure` is the picture's room,
+    one child for each drawing of a row. `portrait` is a speaker's picture. */
+export type SlideSlot = 'text' | 'figure' | 'portrait';
 export interface SlideProps {
     kind?: SlideKind;
     ground?: SlideGround;
@@ -37,6 +61,9 @@ export interface SlideProps {
     signet?: string;
     brand?: string;
     product?: string;
+    /** A foot without the lockup: the count alone, where it always stands. For
+        a slide whose picture needs the corner, or a run that needs no mark. */
+    plain?: boolean;
     /** The deck's outline, on a divider, and which entry this section is. */
     sections?: readonly string[];
     current?: number;
@@ -45,6 +72,19 @@ export interface SlideProps {
         column stands empty, which is the gap it is. */
     portrait?: string;
     alt?: string;
+    /** On a figure slide: the drawing. It takes the room the layout gives it,
+        and grows or shrinks whole to that room. `alt` says what it shows. */
+    src?: string;
+    /** The drawings of a `row`, each with its word and its caption. A layout
+        that shows one takes the first, where `src` is empty. */
+    drawings?: readonly SlideDrawing[];
+    /** Each drawing stands on a plane with a hairline, its caption inside.
+        For sketches of an interface, which have no edge of their own. */
+    framed?: boolean;
+    layout?: SlideLayout;
+    /** Beside a column of text: the drawing runs to the edges of the frame,
+        on a plane of its own. For a screenshot, which has its own edges. */
+    bleed?: boolean;
     /** What the slide shows between its title and its foot. Markup where a
         caller holds it: the elements of the system at the page's size. */
     body?: string | TemplateResult;
@@ -94,6 +134,10 @@ export declare class SdsSlide extends SdsElement {
         product: {
             type: StringConstructor;
         };
+        plain: {
+            type: BooleanConstructor;
+            reflect: boolean;
+        };
         sections: {
             type: ArrayConstructor;
         };
@@ -105,6 +149,24 @@ export declare class SdsSlide extends SdsElement {
         };
         alt: {
             type: StringConstructor;
+        };
+        src: {
+            type: StringConstructor;
+        };
+        drawings: {
+            type: ArrayConstructor;
+        };
+        layout: {
+            type: StringConstructor;
+            reflect: boolean;
+        };
+        bleed: {
+            type: BooleanConstructor;
+            reflect: boolean;
+        };
+        framed: {
+            type: BooleanConstructor;
+            reflect: boolean;
         };
         body: {
             type: StringConstructor;
@@ -137,10 +199,16 @@ export declare class SdsSlide extends SdsElement {
     signet: string;
     brand: string;
     product: string;
+    plain: boolean;
     sections: readonly string[];
     current: number;
     portrait: string;
     alt: string;
+    src: string;
+    drawings: readonly SlideDrawing[];
+    layout: SlideLayout;
+    bleed: boolean;
+    framed: boolean;
     body: string | TemplateResult;
     fit: boolean;
     shrink: boolean;
@@ -149,6 +217,7 @@ export declare class SdsSlide extends SdsElement {
     private watch?;
     private settling;
     private taken;
+    private slotted;
     constructor();
     connectedCallback(): void;
     disconnectedCallback(): void;
@@ -156,6 +225,7 @@ export declare class SdsSlide extends SdsElement {
     private decide;
     private quiet;
     private settle;
+    private fitBox;
     /** How far to scale the frame so it fits. The frame's size comes off the
         stylesheet, never a copy here. `--sds-slide-width` and its height are
         the set's, and a copy in TypeScript is the copy that goes stale. */
@@ -163,6 +233,11 @@ export declare class SdsSlide extends SdsElement {
     private head;
     private outline;
     private foot;
+    private beside;
+    private shown;
+    private fromSlot;
+    private art;
+    private drawing;
     private portraitColumn;
     private readonly open;
     private readonly onFrame;

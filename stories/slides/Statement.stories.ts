@@ -8,12 +8,13 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { type TemplateResult } from 'lit';
 import { dsScreen, part } from '../lib/specimen.ts';
 
-import { slide, type DeckMode } from '../lib/deck.ts';
+import { place, slide, type DeckMode } from '../lib/deck.ts';
 
 export function statementSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
     {
       kind: 'statement',
+      eyebrow: place(1),
       heading: 'A shadow says a surface has left the page, and nothing else says it.',
       note: 'Non-negotiable · docs/design-system/index.rst',
     },

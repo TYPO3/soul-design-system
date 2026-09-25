@@ -13,7 +13,7 @@ import '../../packages/frontend/src/components/byline.ts';
 import '../../packages/frontend/src/components/grid.ts';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { grid } from '../lib/page.ts';
-import { slide, type DeckMode } from '../lib/deck.ts';
+import { place, slide, type DeckMode } from '../lib/deck.ts';
 
 const SPEAKERS = [
   {
@@ -36,7 +36,7 @@ const SPEAKERS = [
 
 export function speakersSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
-    { heading: 'Who is speaking', number: '02' },
+    { eyebrow: place(0), heading: 'Who is speaking', number: '02' },
     grid(
       SPEAKERS.map(
         (one) => html`<sds-surface
