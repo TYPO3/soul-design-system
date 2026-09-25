@@ -6,13 +6,14 @@
    figure, so the frame stands without a deck around it. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html, type TemplateResult } from 'lit';
+import { html, svg, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/slide.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import { type SlideProps } from '../../packages/frontend/src/components/slide.ts';
 import '../../packages/frontend/src/components/facts.ts';
 import '../../packages/frontend/src/components/grid.ts';
 import '../../packages/frontend/src/components/stat.ts';
+import '../../packages/frontend/src/components/quote.ts';
 import { OUTLINE, place, slide } from '../lib/deck.ts';
 
 /* The element alone, written as the layouts write it: the settings as
@@ -204,6 +205,60 @@ export const FigureBleed: Story = {
     alt: 'The status page at the table of six sources.',
     body: html`<sds-facts><dt>Row</dt><dd>one source</dd><dt>Badge</dt><dd>what it does now</dd><dt>Checked</dt><dd>when it last answered</dd></sds-facts>`,
     number: '08',
+  },
+};
+
+/** A quote: a statement that borrows its sentence. It stands centred, and
+    the byline says where it is from. */
+export const Quote: Story = {
+  args: {
+    kind: 'statement',
+    heading: '',
+    body: html`<sds-quote by="AGENTS.md" as="what fails review">Comments carry the reason, not the story.</sds-quote>`,
+    number: '09',
+  },
+};
+
+/** The title in its region, with its markup: a piece of code, an emphasis.
+    The attribute can hold only plain text. */
+export const HeadingWithMarkup: Story = {
+  name: 'Heading with markup',
+  args: {
+    heading: '',
+    body: html`<h2 slot="heading">Address <code>sds-code</code>, <em>never</em> rebuild it</h2><p>What a component says goes between its tags, each part in its region.</p>`,
+    number: '06',
+  },
+};
+
+/** `row` with no plane: two pictures side by side, each under its word. For
+    two screens a reader reads against each other. */
+export const FigurePair: Story = {
+  name: 'Figure, pair',
+  args: {
+    kind: 'figure',
+    layout: 'row',
+    eyebrow: place(2),
+    heading: 'Now and before',
+    drawings: [
+      { src: 'assets/screenshots/status-sources.png', alt: 'The status page at the table of six sources.', label: 'Status' },
+      { src: 'assets/screenshots/source-reads.png', alt: 'The page of one source with its earlier reads.', label: 'Source' },
+    ],
+    number: '09',
+  },
+};
+
+/** A drawing inline, in the figure region. It reads the page's tokens and
+    faces, so it keeps the system's type and turns with the mode. */
+export const FigureInline: Story = {
+  name: 'Figure, inline drawing',
+  args: {
+    kind: 'figure',
+    eyebrow: place(2),
+    heading: 'One slot for each key',
+    body: html`<svg slot="figure" viewBox="0 0 877 354" role="img" aria-label="Three slots of an array, one for each key.">
+      ${['answer.empty', 'answer.none', 'label.tool'].map((key, i) => svg`<rect x="0.5" y="${24 + i * 108}" width="876" height="84" rx="6" fill="var(--surface-raised, #FFFFFF)" stroke="var(--border-strong, #C9C3B7)"></rect><text x="32" y="${75 + i * 108}" font-family="var(--font-mono)" font-size="26" fill="var(--text-primary, #1C1A17)">${key}</text>`)}
+    </svg>`,
+    number: '07',
   },
 };
 
