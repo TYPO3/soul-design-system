@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="238" height="216" viewBox="0 0 238 216" role="img" aria-labelledby="d-title d-desc">
+<title id="d-title">The next call reads it</title>
+<desc id="d-desc">The English call reads the same slot and answers in German. Its path is the one accent.</desc>
+<g id="soul-ref">
+<rect x="0" y="20" width="238" height="34" rx="6" fill="var(--text-primary, #1C1A17)"></rect>
+<text x="119.0" y="41.32" fill="var(--surface-canvas, #FBFAF7)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="12" font-weight="600" text-anchor="middle">resolve(&#39;…&#39;, &#39;en&#39;)</text>
+<path d="M119 54 V130" stroke="var(--accent, #FF8700)" stroke-width="2" fill="none"></path>
+<path d="M114 130 L124 130 L119 138 Z" fill="var(--accent, #FF8700)"></path>
+<text x="128" y="98" fill="var(--text-muted, #726C63)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="11">answers in de</text>
+<rect x="0" y="140" width="238" height="38" rx="6" fill="var(--surface-raised, #FFFFFF)" stroke="var(--border-strong, #C9C3B7)" stroke-width="1"></rect>
+<text x="12" y="163.32" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="12">answer.empty</text>
+<text x="226" y="163.32" fill="var(--text-secondary, #4A453D)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12" text-anchor="end">found (de)</text>
+</g>
+</svg>

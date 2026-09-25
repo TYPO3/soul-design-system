@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="519" height="401" viewBox="0 0 519 401" role="img" aria-labelledby="d-title d-desc">
+<title id="d-title">Five sources against the machine</title>
+<desc id="d-desc">Each source is a bar across what the machine has to run: bundled knowledge and the checkout need nothing, packages need files on disk, the installation a booted site, the network outbound reach. Bundled knowledge is the one accent.</desc>
+<g id="soul-ref">
+<text x="138.0" y="22" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12">nothing running</text>
+<path d="M132.0 34 V336" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1" fill="none"></path>
+<text x="234.75" y="22" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12">files on disk</text>
+<path d="M228.75 34 V336" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1" fill="none"></path>
+<text x="331.5" y="22" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12">a booted site</text>
+<path d="M325.5 34 V336" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1" fill="none"></path>
+<text x="428.25" y="22" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12">network reach</text>
+<path d="M422.25 34 V336" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1" fill="none"></path>
+<text x="0" y="68" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="14">knowledge</text>
+<text x="0" y="86" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12">bundled, versioned</text>
+<rect x="132.0" y="58" width="387.0" height="28" rx="4" fill="var(--accent, #FF8700)"></rect>
+<text x="0" y="126" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="14">checkout</text>
+<text x="0" y="144" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12">this repository</text>
+<rect x="132.0" y="116" width="387.0" height="28" rx="4" fill="var(--text-primary, #1C1A17)"></rect>
+<text x="0" y="184" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="14">packages</text>
+<text x="0" y="202" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12">files, never run</text>
+<rect x="132" y="174" width="90.75" height="28" rx="4" fill="none" stroke="var(--border-strong, #C9C3B7)" stroke-width="1" stroke-dasharray="4 3"></rect>
+<rect x="228.75" y="174" width="290.25" height="28" rx="4" fill="var(--text-primary, #1C1A17)"></rect>
+<text x="0" y="242" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="14">installation</text>
+<text x="0" y="260" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12">the booted site</text>
+<rect x="132" y="232" width="187.5" height="28" rx="4" fill="none" stroke="var(--border-strong, #C9C3B7)" stroke-width="1" stroke-dasharray="4 3"></rect>
+<rect x="325.5" y="232" width="193.5" height="28" rx="4" fill="var(--text-primary, #1C1A17)"></rect>
+<text x="0" y="300" fill="var(--text-primary, #1C1A17)" font-family="&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="14">network</text>
+<text x="0" y="318" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12">official services</text>
+<rect x="132" y="290" width="284.25" height="28" rx="4" fill="none" stroke="var(--border-strong, #C9C3B7)" stroke-width="1" stroke-dasharray="4 3"></rect>
+<rect x="422.25" y="290" width="96.75" height="28" rx="4" fill="var(--text-primary, #1C1A17)"></rect>
+<rect x="0" y="362" width="14" height="14" rx="2" fill="var(--text-primary, #1C1A17)"></rect>
+<text x="22" y="374" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12">available</text>
+<rect x="110" y="362" width="14" height="14" rx="2" fill="none" stroke="var(--border-strong, #C9C3B7)" stroke-width="1" stroke-dasharray="4 3"></rect>
+<text x="132" y="374" fill="var(--text-muted, #726C63)" font-family="&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="12">what it still needs</text>
+</g>
+</svg>

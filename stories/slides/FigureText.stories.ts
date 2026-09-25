@@ -17,8 +17,8 @@ export function figureTextSlide({ flat = false, bare = false }: DeckMode = {}): 
       layout: 'text-start',
       eyebrow: place(2),
       heading: 'Five sources',
-      src: 'assets/diagrams/answer-sources.svg',
-      alt: 'The five sources against the state of the machine each one needs. Bundled knowledge and the checkout need nothing. Packages need files on disk. The installation needs a booted site, and network sources need outbound reach.',
+      src: 'assets/diagrams/slide-sources.svg',
+      alt: 'Five sources against what the machine has to run. Bundled knowledge and the checkout need nothing. Packages need files on disk, the installation a booted site, the network outbound reach.',
       number: '06',
     },
     html`<ul class="sds-list">

@@ -1,34 +1,21 @@
 /* One 16:9 frame of a deck.
 
    The markup lives in `src/components/slide.ts`. No `parameters.dsCard`: a
-   slide is a whole surface, and the ten under `Slides/` are its layouts. This
-   is the element alone, one story per kind, so the frame stands without a
-   deck around it. */
+   slide is a whole surface, and the stories under `Slides/` are its layouts.
+   This is the element alone, one story for each kind and each layout of a
+   figure, so the frame stands without a deck around it. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit';
+import { html, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/slide.ts';
 import '../../packages/frontend/src/components/surface.ts';
 import { type SlideProps } from '../../packages/frontend/src/components/slide.ts';
-import { DECK, OUTLINE, head, place } from '../lib/deck.ts';
+import '../../packages/frontend/src/components/facts.ts';
+import { OUTLINE, place, slide } from '../lib/deck.ts';
 
-export const sdsSlide = ({ kind, ground, eyebrow, heading, lead, note, number, sections, current, src, alt, layout, bleed, plain, body }: SlideProps) =>
-  html`<sds-slide
-    kind="${kind ?? 'content'}"
-    ground="${ground ?? 'paper'}"
-    number="${number ?? ''}"
-    signet="${kind === 'cover' || kind === 'closing' ? DECK.signetLarge : DECK.signet}"
-    brand="${DECK.brand}"
-    product="${DECK.product}"
-    sections="${JSON.stringify(sections ?? [])}"
-    current="${current ?? 0}"
-    src="${src ?? ''}"
-    alt="${alt ?? ''}"
-    layout="${layout ?? 'wide'}"
-    ?bleed="${bleed ?? false}"
-    ?plain="${plain ?? false}"
-    fit
-  >${head({ eyebrow, heading, lead, note })}${body ?? ''}</sds-slide>`;
+/* The element alone, written as the layouts write it: the settings as
+   attributes, what it says and shows in its regions. */
+export const sdsSlide = ({ body, ...props }: SlideProps) => slide(props, body as TemplateResult | undefined);
 
 const meta: Meta<SlideProps> = {
   title: 'Components/Content/Slide',
@@ -38,7 +25,9 @@ const meta: Meta<SlideProps> = {
   parameters: { layout: 'fullscreen' },
   render: (args) => sdsSlide(args),
   argTypes: {
-    kind: { control: 'select', options: ['cover', 'section', 'statement', 'content', 'closing', 'figure'] },
+    kind: { control: 'select', options: ['cover', 'speaker', 'section', 'statement', 'content', 'closing', 'figure'] },
+    src: { control: 'text' },
+    portrait: { control: 'text' },
     layout: { control: 'select', options: ['wide', 'full', 'row', 'text-start', 'text-end'] },
     bleed: { control: 'boolean' },
     plain: { control: 'boolean' },
@@ -119,18 +108,123 @@ export const Closing: Story = {
   },
 };
 
-/** A picture from a page. The title at a content slide's step, the note its finding,
-    and the drawing grown into the room its `layout` leaves. The head and the
-    foot stand where a content slide has them. */
+/** One who speaks. The name stands at the display step and the role as the
+    lead. The portrait stands in its region, to every edge of its column. */
+export const Speaker: Story = {
+  args: {
+    kind: 'speaker',
+    eyebrow: place(0),
+    heading: 'Benjamin Kott',
+    lead: 'Maintainer · Soul Design System',
+    portrait: 'assets/portraits/benjamin-kott.png',
+    alt: 'Benjamin Kott, drawn: cap, beard, hands in the pockets',
+    body: html`<p>Answers for the tokens, the elements and the gate that holds them together.</p>`,
+    number: '02',
+  },
+};
+
+/** A picture, `wide`: under the head, inside the margin, from its top left
+    corner. Its author draws it for the room, with no head of its own. The
+    note under the title is optional. */
 export const Figure: Story = {
   args: {
     kind: 'figure',
     eyebrow: place(2),
     heading: 'One key for two languages',
     note: 'The German call fills the slot, and the English call answers from it, in German.',
-    src: 'assets/diagrams/cache-key.svg',
-    alt: 'Two calls for the same key reach one slot of the array.',
-    layout: 'wide',
+    src: 'assets/diagrams/slide-lookup.svg',
+    alt: 'A German call writes the slot of a key. An English call for the same key reads it and answers in German.',
     number: '07',
+  },
+};
+
+/** `full`: the picture takes nearly the whole frame. Only the count shows,
+    on a plate, and the head stays for a reader who hears the slide. */
+export const FigureFull: Story = {
+  name: 'Figure, full',
+  args: {
+    kind: 'figure',
+    layout: 'full',
+    eyebrow: place(1),
+    heading: 'The system at a glance',
+    src: 'assets/diagrams/system-overview.svg',
+    alt: 'The client, the app subprocess and the local sources sit inside the machine; one read-only path crosses to official services outside.',
+    number: '05',
+  },
+};
+
+/** `row` with `framed`: pictures side by side, each on its plane under its
+    word, with its caption. */
+export const FigureRow: Story = {
+  name: 'Figure, row',
+  args: {
+    kind: 'figure',
+    layout: 'row',
+    framed: true,
+    eyebrow: place(2),
+    heading: 'One key for two languages',
+    drawings: [
+      { src: 'assets/diagrams/slide-cache-write.svg', alt: 'The German call writes the slot of its key.', label: 'A call writes', caption: 'The first call fills the slot in the language it names.' },
+      { src: 'assets/diagrams/slide-cache-slots.svg', alt: 'Three slots of the array, one for each key.', label: 'The key holds no language', caption: 'One slot for each key, whatever language the next call names.' },
+      { src: 'assets/diagrams/slide-cache-read.svg', alt: 'The English call reads the same slot and answers in German.', label: 'The next call reads it', caption: 'The English call answers in German. The key must name both.' },
+    ],
+    number: '10',
+  },
+};
+
+/** `text-start`: a column of text at the start, the picture beside it. */
+export const FigureTextStart: Story = {
+  name: 'Figure, text start',
+  args: {
+    kind: 'figure',
+    layout: 'text-start',
+    eyebrow: place(2),
+    heading: 'Five sources',
+    src: 'assets/diagrams/slide-sources.svg',
+    alt: 'Five sources against what the machine has to run. Bundled knowledge and the checkout need nothing. Packages need files on disk, the installation a booted site, the network outbound reach.',
+    body: html`<ul class="sds-list"><li>Bundled knowledge needs nothing running.</li><li>Packages need their files on disk.</li><li>The installation needs a booted site.</li></ul>`,
+    number: '06',
+  },
+};
+
+/** `text-end`: the picture first, the column of text at the end. */
+export const FigureTextEnd: Story = {
+  name: 'Figure, text end',
+  args: {
+    kind: 'figure',
+    layout: 'text-end',
+    eyebrow: place(2),
+    heading: 'Five sources',
+    src: 'assets/diagrams/slide-sources.svg',
+    alt: 'Five sources against what the machine has to run. Bundled knowledge and the checkout need nothing. Packages need files on disk, the installation a booted site, the network outbound reach.',
+    body: html`<p>Every source declares what it needs. So a reader knows the reach of an answer before the question.</p>`,
+    number: '06',
+  },
+};
+
+/** `bleed`: beside its text, a screenshot runs to the edges of the frame on
+    the inset plane. The count keeps its place over it, on a plate. */
+export const FigureBleed: Story = {
+  name: 'Figure, bleed',
+  args: {
+    kind: 'figure',
+    layout: 'text-start',
+    bleed: true,
+    eyebrow: place(2),
+    heading: 'The status page',
+    src: 'assets/screenshots/status-sources.png',
+    alt: 'The status page at the table of six sources.',
+    body: html`<sds-facts><dt>Row</dt><dd>one source</dd><dt>Badge</dt><dd>what it does now</dd><dt>Checked</dt><dd>when it last answered</dd></sds-facts>`,
+    number: '08',
+  },
+};
+
+/** `plain`: the foot without the lockup. The count stays where it stands on
+    every other slide. */
+export const Plain: Story = {
+  args: {
+    plain: true,
+    body: html`<p>A slide whose corner a picture needs, or a run that needs no mark.</p>`,
+    number: '12',
   },
 };

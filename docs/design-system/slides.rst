@@ -364,7 +364,7 @@ attribute stays as the short form for a line of plain text.
      <span slot="eyebrow">02 · What it consists of</span>
      <h2 slot="heading">One key for <em>two</em> languages</h2>
      <p>The German call fills the slot.</p>
-     <svg slot="figure" viewBox="0 0 1200 484">…</svg>
+     <svg slot="figure" viewBox="0 0 877 354">…</svg>
    </sds-slide>
 
 .. list-table::
@@ -402,9 +402,11 @@ A drawing for a slide is its own file:
 - **Each part says what it is.** A drawing in parts gives each part a
   plane. Over what the part shows stand its heading and a line of context,
   and its consequence stands under it.
-- **Drawn at its room's ratio,** 1200 wide as every diagram is. For
-  ``wide`` that is 1200 × 484, and 1200 × 440 under a note. A label at 13 then reads as 26 on the
-  room's screen.
+- **Drawn at its room,** in the frame's pixels: its canvas is the room in
+  the table above, ``viewBox="0 0 877 354"`` for ``wide``. A label at 13
+  there is 13 in the frame and 26 on the room's screen. A canvas 1200 wide
+  shrinks with the room. In a row of three, nobody in a room reads its
+  labels.
 - **One claim.** A drawing that needs more than its room has more than one
   claim, and is two slides.
 

@@ -74,10 +74,11 @@ On a slide
 
 A drawing for a slide keeps the grammar and leaves the frame. It has no
 eyebrow, no title and no closing line: the slide's head says them. It has
-no margin, as the slide's margin is its margin. Its height follows the
-room of its layout, which :doc:`slides` states. A drawing in parts gives
-each part a plane with its heading, a line of context and its consequence.
-``slide-cache-key.svg`` is one.
+no margin, as the slide's margin is its margin. Its canvas is the room of
+its layout in the frame's pixels, which :doc:`slides` states, and not 1200
+wide. A drawing in parts is a row of drawings: the slide gives each its
+plane, its word and its caption as text. ``slide-lookup.svg`` is one
+drawing for ``wide``, the three ``slide-cache-*.svg`` a row.
 
 Drawing rules
 =============
