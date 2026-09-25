@@ -205,7 +205,8 @@ async function elementPreviews(byTag: Map<string, ElementDoc>): Promise<Map<stri
   const out = new Map<string, Preview>();
   const dir = join(ROOT, 'stories');
   for (const file of storyFiles(dir)) {
-    if (file.startsWith('pages/') || file.startsWith('specimens/')) continue;
+    /* A page and a slide under `slides/` are layouts: each goes across as one. */
+    if (file.startsWith('pages/') || file.startsWith('slides/') || file.startsWith('specimens/')) continue;
     const mod = (await import(pathToFileURL(join(dir, file)).href)) as StoryModule;
     const meta = mod.default;
     if (!meta) continue;
