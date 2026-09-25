@@ -12,7 +12,7 @@
 import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
 import { type IconId } from './icon.ts';
-import { define, isBlank, SdsElement } from '../lib/element.ts';
+import { define, SdsElement, TEXT } from '../lib/element.ts';
 
 /** `raised` sits on the canvas and has to read as a plane. `sunken` is machine
     output: code, logs, structured content. `plain` is the hairline with no
@@ -51,6 +51,11 @@ export interface SurfaceProps {
 }
 
 export class SdsSurface extends SdsElement {
+  /** What it states goes between its tags. `label` and `heading` are the
+      lines over the statement, and a child with neither slot is the
+      statement. A region wins over the attribute of its name. */
+  static override regions: readonly string[] = ['label', 'heading'];
+
   static override properties = {
     plane: { type: String, reflect: true },
     label: { type: String },
@@ -90,7 +95,7 @@ export class SdsSurface extends SdsElement {
   }
 
   override connectedCallback(): void {
-    const written = this.lifted().filter((node) => !isBlank(node));
+    const written = this.region(TEXT).map((one) => one.node as Node);
     if (written.length) this.taken = written;
     super.connectedCallback();
   }
@@ -99,7 +104,8 @@ export class SdsSurface extends SdsElement {
     /* Over the title rather than in it. A set of cards with numbers or
        sources says so in the label register. A title that carries the
        number reads as part of the sentence. */
-    const label = this.label ? html`<div class="sds-label">${this.label}</div>` : undefined;
+    const said = this.region('label')[0]?.inner ?? this.label;
+    const label = said ? html`<div class="sds-label">${said}</div>` : undefined;
     /* Above the label rather than beside the title. A glyph on the title's
        line competes with it for the start of the card. A reader scans a set
        of cards down its left edge. */
@@ -109,7 +115,7 @@ export class SdsSurface extends SdsElement {
     return html`<div class="${PLANE[this.plane] ?? PLANE.raised}" style="${this.boxStyle || nothing}">
   ${icon}
   ${label}
-  <div class="sds-surface-title">${this.heading}</div>
+  <div class="sds-surface-title">${this.region('heading')[0]?.inner ?? this.heading}</div>
   <div class="sds-surface-body">${this.taken ?? this.content ?? this.body}</div>
 </div>`;
   }

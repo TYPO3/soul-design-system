@@ -208,6 +208,10 @@ const REGIONS: { name: string; markup: string }[] = [
     name: 'slide, a portrait element in the portrait region',
     markup: '<sds-slide kind="speaker" heading="Somebody"><sds-image slot="portrait" src="assets/portraits/benjamin-kott.png" alt="A face"></sds-image><p>Says a thing.</p></sds-slide>',
   },
+  {
+    name: 'surface, its label and its heading in regions',
+    markup: '<sds-surface label="Said as an attribute"><span slot="label">Story</span><h3 slot="heading">Every element has <em>one</em></h3><p>The source of every card.</p></sds-surface>',
+  },
 ];
 
 for (const c of REGIONS) {

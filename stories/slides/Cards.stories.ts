@@ -23,7 +23,7 @@ export function cardsSlide({ flat = false, bare = false }: DeckMode = {}): Templ
   return slide(
     { eyebrow: place(1), heading: 'Three places for every component', number: '04' },
     grid(
-      PLACES.map((one) => html`<sds-surface label="${one.label}" heading="${one.heading}" body="${one.body}"></sds-surface>`),
+      PLACES.map((one) => html`<sds-surface><span slot="label">${one.label}</span><span slot="heading">${one.heading}</span>${one.body}</sds-surface>`),
     ),
     { flat, bare },
   );

@@ -27,6 +27,10 @@ export interface SurfaceProps {
     icon?: IconId;
 }
 export declare class SdsSurface extends SdsElement {
+    /** What it states goes between its tags. `label` and `heading` are the
+        lines over the statement, and a child with neither slot is the
+        statement. A region wins over the attribute of its name. */
+    static regions: readonly string[];
     static properties: {
         plane: {
             type: StringConstructor;

@@ -68,11 +68,7 @@ type Story = StoryObj<SlideProps>;
     at twice that. */
 export const Default: Story = {
   args: {
-    body: html`<sds-surface
-      label="Story"
-      heading="Every element has one"
-      body="The source of every specimen card. Edit the story, never the card."
-    ></sds-surface>`,
+    body: html`<sds-surface><span slot="label">Story</span><span slot="heading">Every element has one</span>The source of every specimen card. Edit the story, never the card.</sds-surface>`,
   },
 };
 

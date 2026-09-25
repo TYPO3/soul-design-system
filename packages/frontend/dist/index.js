@@ -6771,6 +6771,12 @@ var SdsSurface = class extends SdsElement {
     this.boxStyle = "";
   }
   static {
+    /** What it states goes between its tags. `label` and `heading` are the
+        lines over the statement, and a child with neither slot is the
+        statement. A region wins over the attribute of its name. */
+    this.regions = ["label", "heading"];
+  }
+  static {
     this.properties = {
       plane: { type: String, reflect: true },
       label: { type: String },
@@ -6783,17 +6789,18 @@ var SdsSurface = class extends SdsElement {
     };
   }
   connectedCallback() {
-    const written = this.lifted().filter((node) => !isBlank(node));
+    const written = this.region(TEXT).map((one) => one.node);
     if (written.length) this.taken = written;
     super.connectedCallback();
   }
   render() {
-    const label = this.label ? html53`<div class="sds-label">${this.label}</div>` : void 0;
+    const said = this.region("label")[0]?.inner ?? this.label;
+    const label = said ? html53`<div class="sds-label">${said}</div>` : void 0;
     const icon = this.icon ? html53`<div class="sds-surface-icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>` : void 0;
     return html53`<div class="${PLANE[this.plane] ?? PLANE.raised}" style="${this.boxStyle || nothing31}">
   ${icon}
   ${label}
-  <div class="sds-surface-title">${this.heading}</div>
+  <div class="sds-surface-title">${this.region("heading")[0]?.inner ?? this.heading}</div>
   <div class="sds-surface-body">${this.taken ?? this.content ?? this.body}</div>
 </div>`;
   }

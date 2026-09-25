@@ -24,11 +24,7 @@ export function codeSlide({ flat = false, bare = false }: DeckMode = {}): Templa
     grid(
       [
         html`<sds-code code-lang="html" source="${SOURCE}"></sds-code>`,
-        html`<sds-surface
-          plane="plain"
-          heading="The element first"
-          body="The classes are the fallback for a surface with no JavaScript, not the front door. Everything that fits in a string is a property. Between the tags goes only content."
-        ></sds-surface>`,
+        html`<sds-surface plane="plain"><span slot="heading">The element first</span>The classes are the fallback for a surface with no JavaScript, not the front door. What a component says goes between its tags, each part in its region.</sds-surface>`,
       ],
     ),
     { flat, bare },

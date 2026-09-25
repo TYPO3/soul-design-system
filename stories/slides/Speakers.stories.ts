@@ -39,7 +39,7 @@ export function speakersSlide({ flat = false, bare = false }: DeckMode = {}): Te
     { eyebrow: place(0), heading: 'Who is speaking', number: '02' },
     grid(
       SPEAKERS.map(
-        (one) => html`<sds-surface plane="plain" label="${one.label}"><sds-byline name="${one.name}" initials="${one.initials}" as="${one.as}" meta="${one.meta}"></sds-byline>
+        (one) => html`<sds-surface plane="plain"><span slot="label">${one.label}</span><sds-byline name="${one.name}" initials="${one.initials}" as="${one.as}" meta="${one.meta}"></sds-byline>
             <p>${one.body}</p></sds-surface>`,
       ),
     ),

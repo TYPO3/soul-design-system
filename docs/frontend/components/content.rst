@@ -45,12 +45,17 @@ That is a thing to say in markup, not a position to infer.
 sds-surface
 ===========
 
-A plane that holds a statement.
+A plane that holds a statement. The attributes set it up. What it says
+stands between the tags: the ``label`` and the ``heading`` each in their
+region, and the statement as the rest.
 
 .. code-block:: html
 
-   <sds-surface plane="sunken" label="SOURCE 01" icon="actions-database"
-     heading="The package index" body="Answered in 240 ms."></sds-surface>
+   <sds-surface plane="sunken" icon="actions-database">
+     <span slot="label">Source 01</span>
+     <span slot="heading">The package index</span>
+     Answered in 240 ms.
+   </sds-surface>
 
 .. confval:: plane
    :name: sds-surface-plane
@@ -69,16 +74,18 @@ A plane that holds a statement.
    :name: sds-surface-heading
    :type: string
 
-   The statement. ``heading`` and not ``title``, which is a global attribute.
+   What the surface states, at the top of it. ``heading`` and not
+   ``title``, which is a global attribute. The ``heading`` region holds the
+   same with its markup and wins over the attribute, which stays as the
+   short form for plain text.
 
 .. confval:: body
    :name: sds-surface-body
    :type: string | markup
 
-   It can also stand **between the tags**, which is the form a document
-   uses. A plane on a product surface holds one composed sentence, and a
-   property carries it. A passage beside an argument is paragraphs, a list
-   or a block of its own: markup, or nothing.
+   The statement. It stands **between the tags**: a sentence, paragraphs,
+   a list or a block of its own. The attribute is the short form for one
+   sentence of plain text.
 
 .. confval:: label
    :name: sds-surface-label
@@ -86,6 +93,7 @@ A plane that holds a statement.
 
    The tracked-out line **over** the title, where a set of these has numbers
    or names. A title that carries the number reads as part of the sentence.
+   The ``label`` region wins over the attribute.
 
 .. confval:: icon
    :name: sds-surface-icon
