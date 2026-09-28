@@ -13,6 +13,7 @@ import * as speakers from '../stories/slides/Speakers.stories.ts';
 import * as section from '../stories/slides/Section.stories.ts';
 import * as statement from '../stories/slides/Statement.stories.ts';
 import * as flow from '../stories/slides/Flow.stories.ts';
+import * as matrix from '../stories/slides/Matrix.stories.ts';
 import * as code from '../stories/slides/Code.stories.ts';
 import * as table from '../stories/slides/Table.stories.ts';
 import * as numbers from '../stories/slides/Numbers.stories.ts';
@@ -76,6 +77,7 @@ const COUNTED = {
   section: stories(section).Page,
   statement: stories(statement).Page,
   flow: stories(flow).Page,
+  matrix: stories(matrix).Page,
   code: stories(code).Page,
   table: stories(table).Page,
   numbers: stories(numbers).Page,

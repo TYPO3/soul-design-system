@@ -57,6 +57,10 @@
     --sds-table-caption-margin: var(--space-2) 0;
     --sds-table-caption-size: var(--font-size-small);
     --sds-table-caption-ink: var(--text-muted);
+    /* A legend in the caption: each sign and its word, a gap before the
+       next sign. */
+    --sds-table-legend-gap: var(--space-6);
+    --sds-table-legend-word: var(--space-1-5);
     --sds-table-fill-hover: var(--surface-raised);
     --sds-table-graph-node: 10px;
     --sds-table-graph-gap: var(--space-3);
@@ -91,6 +95,14 @@
       font-size: var(--sds-table-caption-size);
       color: var(--sds-table-caption-ink);
       text-align: start;
+
+      > :is(sds-icon, .sds-icon) {
+        margin-inline-end: var(--sds-table-legend-word);
+        vertical-align: middle;
+      }
+      > :is(sds-icon, .sds-icon) ~ :is(sds-icon, .sds-icon) {
+        margin-inline-start: var(--sds-table-legend-gap);
+      }
     }
 
     th {
@@ -156,12 +168,19 @@
     }
     /* Which edge a reader reads a column down. A count, a date and a duration
        scan down their right edge and stand at it. Everything else reads from
-       the start, and there is no third — a centred column scans down neither
-       edge. Tabular figures come with the end, because that edge only pays
-       when the digits line up under each other. */
+       the start. Tabular figures come with the end, because that edge only
+       pays when the digits line up under each other. */
     :is(th, td).sds-td-end {
       text-align: end;
       font-variant-numeric: tabular-nums;
+    }
+    /* The one centred column: a sign under its criterion, an `sds-icon`
+       with a `label`. A glyph has no edge to scan, and a reader reads it
+       against its head. */
+    :is(th, td).sds-td-sign {
+      width: 1%;
+      text-align: center;
+      white-space: nowrap;
     }
 
     /* A column held to what it holds rather than to its share of the table: a

@@ -135,7 +135,7 @@ const preview: Preview = {
          reader who opens the group walks through a deck. */
       storySort: {
         method: 'alphabetical',
-        order: ['Introduction', 'Guidelines', ['Brand', 'Colours', 'Type', 'Spacing & layout', 'Icons', 'States', 'Illustrations', 'Diagrams'], 'Components', ['Actions', 'Forms', 'Navigation', 'Content', 'Code', 'Overlays', 'Feedback', 'Theme'], 'Pages', ['Site', 'Docs', 'Catalog', 'Service', 'Paper'], 'Slides', ['Cover', 'Speaker', 'Speakers', 'Section', 'Statement', 'Cards', 'Flow', 'Code', 'Table', 'Numbers', 'Quote', 'Figure', 'Figure full', 'Figure pair', 'Figure row', 'Figure slots', 'Figure text', 'Figure bleed', 'Closing']],
+        order: ['Introduction', 'Guidelines', ['Brand', 'Colours', 'Type', 'Spacing & layout', 'Icons', 'States', 'Illustrations', 'Diagrams'], 'Components', ['Actions', 'Forms', 'Navigation', 'Content', 'Code', 'Overlays', 'Feedback', 'Theme'], 'Pages', ['Site', 'Docs', 'Catalog', 'Service', 'Paper'], 'Slides', ['Cover', 'Speaker', 'Speakers', 'Section', 'Statement', 'Cards', 'Flow', 'Code', 'Table', 'Matrix', 'Numbers', 'Quote', 'Figure', 'Figure full', 'Figure pair', 'Figure row', 'Figure slots', 'Figure text', 'Figure bleed', 'Closing']],
       },
     },
     /* The markup is the documentation. A canvas hides its source behind a

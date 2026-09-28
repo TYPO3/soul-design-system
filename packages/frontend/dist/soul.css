@@ -874,6 +874,8 @@
     --sds-table-caption-margin: var(--space-2) 0;
     --sds-table-caption-size: var(--font-size-small);
     --sds-table-caption-ink: var(--text-muted);
+    --sds-table-legend-gap: var(--space-6);
+    --sds-table-legend-word: var(--space-1-5);
     --sds-table-fill-hover: var(--surface-raised);
     --sds-table-graph-node: 10px;
     --sds-table-graph-gap: var(--space-3);
@@ -895,7 +897,14 @@
     caption-side:var(--sds-table-caption-side);
     font-size:var(--sds-table-font-size);
     line-height:var(--sds-table-leading);
-    >caption{margin-block:var(--sds-table-caption-margin);font-size:var(--sds-table-caption-size);color:var(--sds-table-caption-ink);text-align:start}
+    >caption{
+      margin-block:var(--sds-table-caption-margin);
+      font-size:var(--sds-table-caption-size);
+      color:var(--sds-table-caption-ink);
+      text-align:start;
+      >:is(sds-icon,.sds-icon){margin-inline-end:var(--sds-table-legend-word);vertical-align:middle}
+      >:is(sds-icon,.sds-icon)~:is(sds-icon,.sds-icon){margin-inline-start:var(--sds-table-legend-gap)}
+    }
     th{text-align:start;font-family:var(--sds-table-font);font-size:var(--sds-table-head-size);letter-spacing:var(--sds-table-head-tracking);text-transform:uppercase;color:var(--sds-table-head-ink);font-weight:var(--sds-table-head-weight);padding-block:0 var(--sds-table-pad);padding-inline:0 var(--sds-table-cell-gap);border-bottom:var(--sds-table-border) solid var(--sds-table-rule-head);vertical-align:bottom}
     td{padding-block:var(--sds-table-pad);padding-inline:0 var(--sds-table-cell-gap);border-bottom:var(--sds-table-border) solid var(--sds-table-rule);color:var(--sds-table-ink);vertical-align:middle}
     th:last-child,td:last-child{padding-inline-end:0}
@@ -904,6 +913,7 @@
     .sds-td-note{display:block;margin-top:var(--sds-table-note-gap);font-family:var(--sds-table-font);font-size:var(--sds-table-meta-size);color:var(--sds-table-meta-ink)}
     tbody tr:hover{background:var(--sds-table-fill-hover)}
     :is(th,td).sds-td-end{text-align:end;font-variant-numeric:tabular-nums}
+    :is(th,td).sds-td-sign{width:1%;text-align:center;white-space:nowrap}
     :is(th,td):is(.sds-td-fit,.sds-td-into){width:1%;white-space:nowrap}
     :is(th,td).sds-td-graph{position:relative;width:1%;padding-inline-end:var(--sds-table-graph-gap)}
     td.sds-td-graph:before{content:"";position:absolute;inset-block:0;inset-inline-start:calc(var(--sds-table-graph-node) / 2);border-inline-start:var(--sds-table-border) solid var(--sds-table-graph-rail)}

@@ -6,11 +6,12 @@
    nothing at all. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit';
+import { html, type TemplateResult } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/table.ts';
 import { type Column, type TableProps } from '../../packages/frontend/src/components/table.ts';
+import { type IconId } from '../../packages/frontend/src/components/icon.ts';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/icon.ts';
@@ -86,12 +87,48 @@ export const sdsTable = ({ density = 'medium', caption, captionSide, columns, ro
 const sdsBadge = ({ label, tone = 'default' }: { label: string; tone?: string }) =>
   html`<sds-badge label="${label}" tone="${tone}"></sds-badge>`;
 
+/** The signs of a matrix: the glyph, what a screen reader hears, and the
+    word the legend shows. One place, so every matrix says the same. */
+export const SIGNS = {
+  yes: { icon: 'actions-check', label: 'Yes', word: 'available' },
+  partly: { icon: 'actions-circle', label: 'Partly', word: 'partly, see the notes' },
+  no: { icon: 'actions-minus', label: 'No', word: 'not available' },
+  unknown: { icon: 'actions-question', label: 'Not known', word: 'not documented' },
+} satisfies Record<string, { icon: IconId; label: string; word: string }>;
+
+type Sign = keyof typeof SIGNS;
+
+/** Where a product edits what. Nobody makes these products. The shape is
+    the one a market analysis has. */
+const MATRIX: { criteria: string[]; rows: { name: string; cells: Sign[] }[] } = {
+  criteria: ['Text in place', 'Media', 'Layout', 'Preview link', 'Undo'],
+  rows: [
+    { name: 'Product A', cells: ['yes', 'yes', 'partly', 'no', 'yes'] },
+    { name: 'Product B', cells: ['yes', 'partly', 'yes', 'yes', 'unknown'] },
+    { name: 'Product C', cells: ['partly', 'no', 'no', 'yes', 'yes'] },
+    { name: 'Product D', cells: ['yes', 'yes', 'yes', 'partly', 'no'] },
+  ],
+};
+
+/** A matrix: an `sds-icon` with a `label` in every cell, under a column of
+    `sds-td-sign`. The legend is the caption: each glyph, then its word. */
+export const matrix = (): TemplateResult =>
+  html`<sds-table><table>
+  <caption>${Object.values(SIGNS).map((sign) => html`<sds-icon name="${sign.icon}"></sds-icon>${sign.word} `)}</caption>
+  <thead><tr><th>Product</th>${MATRIX.criteria.map((head) => html`<th class="sds-td-sign">${head}</th>`)}</tr></thead>
+  <tbody>${MATRIX.rows.map(
+    (row) => html`<tr><td class="sds-td-name">${row.name}</td>${row.cells.map(
+      (value) => html`<td class="sds-td-sign"><sds-icon name="${SIGNS[value].icon}" label="${SIGNS[value].label}"></sds-icon></td>`,
+    )}</tr>`,
+  )}</tbody>
+</table></sds-table>`;
+
 const meta: Meta<TableProps> = {
   title: 'Components/Content/Table',
   tags: ['autodocs', '!dev'],
   /* Storybook treats every export as a story. These are the helpers the
      card generator and the sibling stories import. */
-  excludeStories: ['TOOLS', 'specimenHtml'],
+  excludeStories: ['TOOLS', 'SIGNS', 'matrix', 'specimenHtml'],
   render: (args) => sdsTable(args),
   argTypes: {
     density: { control: 'inline-radio', options: ['compact', 'medium', 'airy'] },
@@ -338,6 +375,12 @@ export const specimenHtml = (): string =>
       DIVIDER,
     ),
   ]);
+
+/** A matrix: things down the side, criteria across the top, a sign in
+    every cell. A screen reader hears each sign's `label`. */
+export const Matrix: Story = {
+  render: () => matrix(),
+};
 
 export const Specimen: Story = {
   parameters: { layout: 'fullscreen' },

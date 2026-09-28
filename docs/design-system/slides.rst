@@ -275,6 +275,14 @@ The content
    :language: html
    :caption: Table, as a deck holds it
 
+.. specimen:: screens/slide-matrix.html
+   :viewport: 1920x1080
+   :title: Matrix
+
+.. literalinclude:: _slides/slide-matrix.html
+   :language: html
+   :caption: Matrix, as a deck holds it
+
 .. specimen:: screens/slide-numbers.html
    :viewport: 1920x1080
    :title: Numbers
@@ -400,6 +408,32 @@ Other markup shrinks until it fits. ``<figure slot="figure">`` brings its
 word as ``data-label`` and what it shows as its ``<figcaption>``. A static
 render takes the same through the ``drawings`` property, with ``content``
 in place of ``src``.
+
+**Take an element before you draw.** Most figures of a paper are one of a
+few kinds, and the system has an element for each. Such a figure is markup
+between the tags of the slide, in the system's type, and a reader can copy
+its words:
+
+.. list-table::
+   :header-rows: 1
+
+   * - The figure
+     - What it is on a slide
+   * - Things against criteria, a sign in every cell
+     - ``sds-table`` with an ``sds-icon`` and its ``label`` in each cell,
+       under ``sds-td-sign``. The legend is the caption
+   * - Figures, each with its sentence
+     - ``sds-stat`` in ``sds-grid``
+   * - Boxes that each say a thing, in no order
+     - ``sds-card`` or ``sds-surface`` in ``sds-grid``
+   * - Three screens or sketches side by side
+     - Three drawings in ``row``, each drawn at its own room. Never one
+       drawing with three panels in it
+   * - One screen, whole
+     - One drawing under ``full``
+
+Only what has lines between its parts is a drawing: a flow with branches,
+an architecture, a sketch of an interface.
 
 A drawing for a slide is its own file:
 

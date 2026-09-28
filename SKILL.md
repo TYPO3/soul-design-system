@@ -449,6 +449,11 @@ its `<figcaption>`, and keeps the system's type.
 
 What does not fit shrinks, and a slide that shrinks far is two slides.
 
+Take an element before you draw. A matrix is `sds-table` with an `sds-icon` in each cell, figures are
+`sds-stat` in `sds-grid`. Three sketches side by side are three drawings in
+`row`, never one drawing with three panels. Only what has lines between its
+parts is a drawing. `docs/design-system/slides.rst` has the table.
+
 The lockup and the count never move. `plain` leaves the lockup out.
 
 A renderer, a theme or a template set writes no class the stylesheets do not
@@ -527,7 +532,7 @@ with a review use the same elements. What it has of its own:
 | the contents | `<sds-nav-outline label="Contents" numbered>` with `entries` nested as the parts nest. The whole tree, numbered, and the mark on the part under the reader. It scrolls on its own, and on a phone it folds behind the press in the head. Never `sds-nav-toc`, which is the contents beside a column and has its own place |
 | the numbers | as text in every heading, `<h2><span class="sds-section__number">4</span> Options weighed</h2>` and `4.2` on a section, counted the way the contents counts them. Never a counter the stylesheet draws: a screen reader never says one. The register's own sections carry the register's numbers, so they stay out of the contents |
 | where it stands | `sds-compare` with the two pages as screenshots, `zoomable`, the claim of each in its caption. Or one `sds-figure`, with `width` and `height` as the file has them. A table after it of what the page says and what the reader asks |
-| the evidence | tables whose cells are verdicts in `sds-badge`; what people said as `sds-quote` with `by` and `as` |
+| the evidence | a matrix of things against criteria: an `sds-icon` with a `label` in every cell, under `sds-td-sign`. Its legend is the caption. Other verdicts in `sds-badge`; what people said as `sds-quote` with `by` and `as` |
 | the findings | `sds-register` with groups of the paper's own, as `.groups`: a gap, a cost, what works. `prefix="F"`, `todo-prefix="W"` |
 | a file the proposal adds | `sds-tree` of the directory it lands in, the file with a `note` |
 | a setting it adds | `sds-confval` with `name`, `type`, `default` and its facts |

@@ -14295,6 +14295,21 @@ var SdsSlide = class extends SdsElement {
     const wide = fit.scrollWidth > fit.clientWidth + 1 ? fit.clientWidth / fit.scrollWidth : 1;
     const ratio = Math.min(room.height / need.height, wide);
     if (ratio >= 1) return;
+    if (!fit.closest(".sds-slide__art")) {
+      const scale = need.width / parseFloat(getComputedStyle(fit).width);
+      const width = room.width / scale;
+      let [low, high] = [ratio, 1];
+      for (let pass = 0; pass < 8; pass += 1) {
+        const zoom3 = (low + high) / 2;
+        fit.style.width = `${width / zoom3}px`;
+        fit.style.zoom = String(zoom3);
+        if (fit.getBoundingClientRect().height <= room.height) low = zoom3;
+        else high = zoom3;
+      }
+      fit.style.width = `${width / low}px`;
+      fit.style.zoom = String(low);
+      return;
+    }
     fit.style.width = getComputedStyle(fit).width;
     fit.style.alignSelf = "center";
     let zoom2 = ratio;
