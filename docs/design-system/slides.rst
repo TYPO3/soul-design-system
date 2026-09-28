@@ -251,6 +251,14 @@ The content
    :language: html
    :caption: Cards, as a deck holds it
 
+.. specimen:: screens/slide-columns.html
+   :viewport: 1920x1080
+   :title: Columns
+
+.. literalinclude:: _slides/slide-columns.html
+   :language: html
+   :caption: Columns, as a deck holds it
+
 .. specimen:: screens/slide-flow.html
    :viewport: 1920x1080
    :title: Flow

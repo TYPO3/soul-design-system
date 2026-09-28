@@ -7383,6 +7383,11 @@ var VARIANT = {
   dense: "sds-grid--dense",
   flush: "sds-grid--flush"
 };
+var CEILING = {
+  2: "sds-grid--2",
+  3: "sds-grid--3",
+  4: "sds-grid--4"
+};
 function evenColumns(count, fits) {
   for (let columns = Math.min(fits, count); columns > 1; columns--) {
     const rest = count % columns;
@@ -7398,15 +7403,16 @@ var SdsGrid = class extends SdsElement {
        business, and the grid never reaches inside one. */
     this.taken = null;
     this.variant = "default";
-    this.columns = 0;
+    this.settled = 0;
   }
   static {
     this.properties = {
       variant: { type: String },
+      columns: { type: Number, reflect: true },
       /** The columns the last measurement settled on. Zero is "not measured",
           which renders the grid the stylesheet declares. That is the state a
           page arrives in and the only one a reader with no script ever sees. */
-      columns: { type: Number, state: true }
+      settled: { type: Number, state: true }
     };
   }
   connectedCallback() {
@@ -7431,17 +7437,18 @@ var SdsGrid = class extends SdsElement {
     if (!grid) return;
     const count = grid.childElementCount;
     if (count < 3) {
-      this.columns = 0;
+      this.settled = 0;
       return;
     }
     const style = getComputedStyle(grid);
-    const min = parseFloat(style.getPropertyValue("--grid-min"));
+    const min = parseFloat(style.getPropertyValue(this.columns ? "--grid-least" : "--grid-min"));
     const gap = parseFloat(style.columnGap) || 0;
     const room = grid.getBoundingClientRect().width;
     if (!(min > 0) || !(room > 0)) return;
-    const fits = Math.max(1, Math.floor((room + gap) / (min + gap)));
+    const roomFits = Math.max(1, Math.floor((room + gap) / (min + gap)));
+    const fits = this.columns ? Math.min(roomFits, this.columns) : roomFits;
     const wanted = evenColumns(count, fits);
-    this.columns = wanted >= fits ? 0 : wanted;
+    this.settled = wanted >= fits ? 0 : wanted;
   }
   /* After the update, not in it. A state set inside `updated()` starts the
      next cycle before this one has closed, which Lit's dev build names as
@@ -7450,9 +7457,9 @@ var SdsGrid = class extends SdsElement {
     void this.updateComplete.then(() => this.decide());
   }
   render() {
-    const modifier = VARIANT[this.variant] ?? "";
-    const columns = this.columns > 0 ? `grid-template-columns:repeat(${this.columns},minmax(0,1fr))` : nothing36;
-    return html62`<div class="${modifier ? `sds-grid ${modifier}` : "sds-grid"}" style="${columns}">${this.taken ?? this.content}</div>`;
+    const cls = ["sds-grid", VARIANT[this.variant] ?? "", this.columns ? CEILING[this.columns] ?? "" : ""].filter(Boolean).join(" ");
+    const settled = this.settled > 0 ? `grid-template-columns:repeat(${this.settled},minmax(0,1fr))` : nothing36;
+    return html62`<div class="${cls}" style="${settled}">${this.taken ?? this.content}</div>`;
   }
 };
 define("sds-grid", SdsGrid);

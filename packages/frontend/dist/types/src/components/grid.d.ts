@@ -6,11 +6,16 @@ import { SdsElement } from '../lib/element.js';
     than a number. `default` is a name too: the width every set gets unless it
     says otherwise is a decision, and nobody can ask for an unnamed one. */
 export type GridVariant = 'default' | 'wide' | 'dense' | 'flush';
+/** How many items a row takes. */
+export type GridColumns = 2 | 3 | 4;
 export interface GridProps {
     /** How much room one item holds. `default` is the reading width. `wide` is
         for cards with a picture, `dense` for a set read as a list, `flush` for
         a wall with no air around it. */
     variant?: GridVariant;
+    /** This many across, while each keeps 150 px. A narrower room takes
+        fewer. */
+    columns?: GridColumns;
 }
 /**
  * The columns a count of items can stand in.
@@ -27,16 +32,21 @@ export declare class SdsGrid extends SdsElement {
         variant: {
             type: StringConstructor;
         };
+        columns: {
+            type: NumberConstructor;
+            reflect: boolean;
+        };
         /** The columns the last measurement settled on. Zero is "not measured",
             which renders the grid the stylesheet declares. That is the state a
             page arrives in and the only one a reader with no script ever sees. */
-        columns: {
+        settled: {
             type: NumberConstructor;
             state: boolean;
         };
     };
     variant: GridVariant;
-    columns: number;
+    columns: GridColumns | undefined;
+    settled: number;
     private taken;
     private watch?;
     constructor();

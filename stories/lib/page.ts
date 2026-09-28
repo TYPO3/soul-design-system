@@ -11,7 +11,7 @@
 
 import { html, nothing, type TemplateResult } from 'lit';
 import '../../packages/frontend/src/components/grid.ts';
-import { type GridVariant } from '../../packages/frontend/src/components/grid.ts';
+import { type GridColumns, type GridVariant } from '../../packages/frontend/src/components/grid.ts';
 
 /** Which of the two renderings the caller asks for. */
 export interface PageMode {
@@ -37,8 +37,8 @@ export const skipLink = (): TemplateResult =>
     a wall of cards is what a page most often ends a section with. */
 export const grid = (
   items: readonly TemplateResult[],
-  { flat = false, redrawn = false, variant = 'default' }: PageMode & { redrawn?: boolean; variant?: GridVariant } = {},
+  { flat = false, redrawn = false, variant = 'default', columns }: PageMode & { redrawn?: boolean; variant?: GridVariant; columns?: GridColumns } = {},
 ): TemplateResult =>
   flat || redrawn
-    ? html`<sds-grid variant="${variant}" .content="${items}"></sds-grid>`
-    : html`<sds-grid variant="${variant === 'default' ? nothing : variant}">${items}</sds-grid>`;
+    ? html`<sds-grid variant="${variant}" columns="${columns ?? nothing}" .content="${items}"></sds-grid>`
+    : html`<sds-grid variant="${variant === 'default' ? nothing : variant}" columns="${columns ?? nothing}">${items}</sds-grid>`;

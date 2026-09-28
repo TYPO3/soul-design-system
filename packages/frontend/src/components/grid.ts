@@ -1,9 +1,9 @@
 /* sds-grid — the wall a reader reads a set in.
 
    What goes between the tags is whatever stands side by side: cards, planes,
-   a column of links. What the element carries is the one decision the set
-   makes about itself, and it is not a column count. The grid reflows by a
-   minimum width, so a page says what its items hold and names no breakpoint.
+   a column of links. The grid reflows by a minimum width, so a page says
+   what its items hold and names no breakpoint. `columns` sets how many
+   stand across, while each keeps 150 px. A narrower room takes fewer.
 
    A component rather than a `div` with the class, for the reason every
    surface here is one. It is the system's own name for its own node. A page
@@ -19,11 +19,17 @@ import { define, SdsElement } from '../lib/element.ts';
     says otherwise is a decision, and nobody can ask for an unnamed one. */
 export type GridVariant = 'default' | 'wide' | 'dense' | 'flush';
 
+/** How many items a row takes. */
+export type GridColumns = 2 | 3 | 4;
+
 export interface GridProps {
   /** How much room one item holds. `default` is the reading width. `wide` is
       for cards with a picture, `dense` for a set read as a list, `flush` for
       a wall with no air around it. */
   variant?: GridVariant;
+  /** This many across, while each keeps 150 px. A narrower room takes
+      fewer. */
+  columns?: GridColumns;
 }
 
 /** The class each variant is. Written out rather than assembled from a
@@ -35,6 +41,13 @@ const VARIANT: Record<GridVariant, string> = {
   wide: 'sds-grid--wide',
   dense: 'sds-grid--dense',
   flush: 'sds-grid--flush',
+};
+
+/** The class each ceiling is, written out for the same reason. */
+const CEILING: Record<GridColumns, string> = {
+  2: 'sds-grid--2',
+  3: 'sds-grid--3',
+  4: 'sds-grid--4',
 };
 
 /**
@@ -57,14 +70,16 @@ export function evenColumns(count: number, fits: number): number {
 export class SdsGrid extends SdsElement {
   static override properties = {
     variant: { type: String },
+    columns: { type: Number, reflect: true },
     /** The columns the last measurement settled on. Zero is "not measured",
         which renders the grid the stylesheet declares. That is the state a
         page arrives in and the only one a reader with no script ever sees. */
-    columns: { type: Number, state: true },
+    settled: { type: Number, state: true },
   };
 
   declare variant: GridVariant;
-  declare columns: number;
+  declare columns: GridColumns | undefined;
+  declare settled: number;
 
   /* What a caller wrote between the tags, taken before Lit renders over it.
      Nothing else about the set is content: what an item is, is its own
@@ -75,7 +90,7 @@ export class SdsGrid extends SdsElement {
   constructor() {
     super();
     this.variant = 'default';
-    this.columns = 0;
+    this.settled = 0;
   }
 
   override connectedCallback(): void {
@@ -109,20 +124,21 @@ export class SdsGrid extends SdsElement {
        which is the answer that needs no measuring. */
     const count = grid.childElementCount;
     if (count < 3) {
-      this.columns = 0;
+      this.settled = 0;
       return;
     }
 
     const style = getComputedStyle(grid);
-    const min = parseFloat(style.getPropertyValue('--grid-min'));
+    const min = parseFloat(style.getPropertyValue(this.columns ? '--grid-least' : '--grid-min'));
     const gap = parseFloat(style.columnGap) || 0;
     const room = grid.getBoundingClientRect().width;
     if (!(min > 0) || !(room > 0)) return;
 
-    const fits = Math.max(1, Math.floor((room + gap) / (min + gap)));
+    const roomFits = Math.max(1, Math.floor((room + gap) / (min + gap)));
+    const fits = this.columns ? Math.min(roomFits, this.columns) : roomFits;
     const wanted = evenColumns(count, fits);
     /* Nothing to say where the sheet already lands there. */
-    this.columns = wanted >= fits ? 0 : wanted;
+    this.settled = wanted >= fits ? 0 : wanted;
   }
 
   /* After the update, not in it. A state set inside `updated()` starts the
@@ -133,12 +149,11 @@ export class SdsGrid extends SdsElement {
   }
 
   protected override render(): TemplateResult {
-    const modifier = VARIANT[this.variant] ?? '';
+    const cls = ['sds-grid', VARIANT[this.variant] ?? '', this.columns ? (CEILING[this.columns] ?? '') : ''].filter(Boolean).join(' ');
     /* A style rather than a class, because it is a measurement and not a
-       name. No page and no stylesheet can state it, and a class per column
-       count is the breakpoints this grid exists to avoid. */
-    const columns = this.columns > 0 ? `grid-template-columns:repeat(${this.columns},minmax(0,1fr))` : nothing;
-    return html`<div class="${modifier ? `sds-grid ${modifier}` : 'sds-grid'}" style="${columns}">${this.taken ?? this.content}</div>`;
+       name. No page and no stylesheet can state it. */
+    const settled = this.settled > 0 ? `grid-template-columns:repeat(${this.settled},minmax(0,1fr))` : nothing;
+    return html`<div class="${cls}" style="${settled}">${this.taken ?? this.content}</div>`;
   }
 }
 

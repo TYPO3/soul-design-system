@@ -11,7 +11,7 @@
    flush wall with no hole in it. A set that agrees hides it. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import '../../packages/frontend/src/components/grid.ts';
 import { type GridProps } from '../../packages/frontend/src/components/grid.ts';
 import { type CardProps } from '../../packages/frontend/src/components/card.ts';
@@ -70,13 +70,17 @@ const ENTRIES: readonly CardProps[] = [
   { icon: 'actions-globe', heading: 'Publishing', body: 'Three commands.' },
 ];
 
-const wall = (variant: GridProps['variant'], items: readonly CardProps[]) =>
-  html`<sds-grid variant="${variant ?? 'default'}">${items.map(sdsCard)}</sds-grid>`;
+const wall = (variant: GridProps['variant'], items: readonly CardProps[], columns?: GridProps['columns']) =>
+  html`<sds-grid variant="${variant ?? 'default'}" columns="${columns ?? nothing}">${items.map(sdsCard)}</sds-grid>`;
 
 const meta: Meta<GridProps> = {
   title: 'Components/Content/Grid',
   tags: ['autodocs', '!dev'],
-  render: ({ variant }) => wall(variant, CHAPTERS),
+  render: ({ variant, columns }) => wall(variant, CHAPTERS, columns),
+  argTypes: {
+    variant: { control: 'inline-radio', options: ['default', 'wide', 'dense', 'flush'] },
+    columns: { control: 'inline-radio', options: [undefined, 2, 3, 4] },
+  },
 };
 
 export default meta;
@@ -107,3 +111,16 @@ export const Dense: Story = {
     not four things to compare. A tile that stops at its own prose leaves the
     wall's ground visible under it. */
 export const Flush: Story = { args: { variant: 'flush' } };
+
+/** A count, where the page knows its room: two, three or four across. Each column
+    keeps 150 px, so a phone still takes fewer. */
+export const Four: Story = {
+  args: { columns: 4 },
+  render: ({ variant, columns }) => wall(variant, ENTRIES.slice(0, 4), columns),
+};
+
+/** Two across, for a set that reads as a pair of pairs. */
+export const Two: Story = {
+  args: { columns: 2 },
+  render: ({ variant, columns }) => wall(variant, ENTRIES.slice(0, 4), columns),
+};

@@ -234,9 +234,17 @@ of six.
    How wide the set runs, or if it runs as a wall at all. ``flush`` takes the
    gutter out: the cards share a hairline, and the set reads as one block.
 
+.. confval:: columns
+   :name: sds-grid-columns
+   :type: 2 | 3 | 4
+
+   How many stand across, where the page knows its room: a slide, a band of a
+   fixed width. Each column keeps 150 px, so a narrower room takes fewer.
+   Without it, the minimum width of the variant decides.
+
 .. note::
 
-   **No column count.** The grid reflows by a minimum width, so a page says
+   **No breakpoint.** The grid reflows by a minimum width, so a page says
    what its items hold and names no breakpoint. The element adds evenness on
    top. Four items in a three-wide row wrap as three and one, so it lays
    them out two and two.

@@ -13,6 +13,7 @@ import * as speakers from '../stories/slides/Speakers.stories.ts';
 import * as section from '../stories/slides/Section.stories.ts';
 import * as statement from '../stories/slides/Statement.stories.ts';
 import * as flow from '../stories/slides/Flow.stories.ts';
+import * as columns from '../stories/slides/Columns.stories.ts';
 import * as matrix from '../stories/slides/Matrix.stories.ts';
 import * as code from '../stories/slides/Code.stories.ts';
 import * as table from '../stories/slides/Table.stories.ts';
@@ -76,6 +77,7 @@ const COUNTED = {
   speakers: stories(speakers).Page,
   section: stories(section).Page,
   statement: stories(statement).Page,
+  columns: stories(columns).Page,
   flow: stories(flow).Page,
   matrix: stories(matrix).Page,
   code: stories(code).Page,
@@ -278,5 +280,18 @@ test('text too tall for the room keeps the room\'s width and scales until it fit
   expect(box.bottom, 'nothing over the foot').toBeLessThanOrEqual(body.bottom + 2);
   expect(box.top, 'nothing over the head').toBeGreaterThanOrEqual(body.top - 2);
   expect(box.width, 'the text takes the width of the room').toBeGreaterThan(body.width * 0.95);
+  document.body.replaceChildren();
+});
+
+test('a grid stands as many across as its columns say, on a slide as on a page', async () => {
+  for (const [story, across] of [[stories(columns).Two, 2], [stories(columns).Page, 3], [stories(columns).Four, 4]] as const) {
+    document.body.replaceChildren();
+    await mount(story);
+    await rest();
+    const cells = qa('.sds-slide__body .sds-grid > *');
+    const tops = new Set(cells.map((cell) => Math.round(cell.getBoundingClientRect().top)));
+    expect(cells, `${across} across`).toHaveLength(across);
+    expect(tops.size, `${across} in one row`).toBe(1);
+  }
   document.body.replaceChildren();
 });

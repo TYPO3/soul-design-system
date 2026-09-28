@@ -4796,7 +4796,7 @@
           "name": "SdsGrid",
           "tagName": "sds-grid",
           "summary": "The wall a reader reads a set in.",
-          "description": "The wall a reader reads a set in.\n\nWhat goes between the tags is whatever stands side by side: cards, planes, a column of links. What the element carries is the one decision the set makes about itself, and it is not a column count. The grid reflows by a minimum width, so a page says what its items hold and names no breakpoint.\n\nA component rather than a `div` with the class, for the reason every surface here is one. It is the system's own name for its own node. A page that writes one has a copy of what only the system can change.",
+          "description": "The wall a reader reads a set in.\n\nWhat goes between the tags is whatever stands side by side: cards, planes, a column of links. The grid reflows by a minimum width, so a page says what its items hold and names no breakpoint. `columns` sets how many stand across, while each keeps 150 px. A narrower room takes fewer.\n\nA component rather than a `div` with the class, for the reason every surface here is one. It is the system's own name for its own node. A page that writes one has a copy of what only the system can change.",
           "attributes": [
             {
               "name": "variant",
@@ -4805,6 +4805,14 @@
                 "text": "'default' | 'wide' | 'dense' | 'flush'"
               },
               "fieldName": "variant"
+            },
+            {
+              "name": "columns",
+              "description": "This many across, while each keeps 150 px. A narrower room takes fewer.",
+              "type": {
+                "text": "2 | 3 | 4"
+              },
+              "fieldName": "columns"
             }
           ],
           "members": [
@@ -4817,11 +4825,24 @@
                 "text": "'default' | 'wide' | 'dense' | 'flush'"
               },
               "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "columns",
+              "privacy": "public",
+              "description": "This many across, while each keeps 150 px. A narrower room takes fewer.",
+              "type": {
+                "text": "2 | 3 | 4"
+              },
+              "attribute": "columns"
             }
           ],
           "events": [],
           "cssClasses": [
             "sds-grid",
+            "sds-grid--2",
+            "sds-grid--3",
+            "sds-grid--4",
             "sds-grid--dense",
             "sds-grid--flush",
             "sds-grid--wide"

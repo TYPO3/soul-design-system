@@ -242,9 +242,24 @@
      too, to keep a set of four from a wrap as three and one. */
   .sds-grid {
     --grid-min: 230px;
+    --grid-gap: var(--space-4);
+    --grid-floor: var(--grid-min);
+    --grid-least: 150px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min), 100%), 1fr));
-    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-floor), 100%), 1fr));
+    gap: var(--grid-gap);
+  }
+  /* A count: each track is its share of the row, so that many fit and no
+     more. A share under `--grid-least` holds no text, so a narrow room
+     reflows to fewer. */
+  .sds-grid--2 {
+    --grid-floor: max(var(--grid-least), (100% - var(--grid-gap)) / 2);
+  }
+  .sds-grid--3 {
+    --grid-floor: max(var(--grid-least), (100% - 2 * var(--grid-gap)) / 3);
+  }
+  .sds-grid--4 {
+    --grid-floor: max(var(--grid-least), (100% - 3 * var(--grid-gap)) / 4);
   }
   .sds-grid--wide {
     --grid-min: 340px;
@@ -258,7 +273,7 @@
      reflows has no column count, so no tile can know which border to drop.
      The ground is the only thing that draws one line at every width. */
   .sds-grid--flush {
-    gap: var(--border-hairline);
+    --grid-gap: var(--border-hairline);
     background: var(--border-subtle);
     border: var(--border-hairline) solid var(--border-subtle);
     border-radius: var(--radius-card);
