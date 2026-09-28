@@ -263,3 +263,18 @@ test('a figure on a content slide takes the display step on its own', async () =
   expect(page, 'on the page, the figure keeps its own').toBeLessThan(display);
   document.body.replaceChildren();
 });
+
+test('text too tall for the room keeps the room\'s width and scales until it fits', async () => {
+  document.body.replaceChildren();
+  const lines = Array.from({ length: 24 }, (_, i) => `<p>Line ${i + 1} of a text that is too long for one slide.</p>`).join('');
+  await write(`<sds-slide kind="content" heading="Tall">${lines}</sds-slide>`);
+  await rest();
+  const body = q('.sds-slide__body').getBoundingClientRect();
+  const fit = q<HTMLElement>('.sds-slide__body > .sds-slide__fit');
+  expect(Number(fit.style.zoom)).toBeLessThan(1);
+  const box = fit.getBoundingClientRect();
+  expect(box.bottom, 'nothing over the foot').toBeLessThanOrEqual(body.bottom + 2);
+  expect(box.top, 'nothing over the head').toBeGreaterThanOrEqual(body.top - 2);
+  expect(box.width, 'the text takes the width of the room').toBeGreaterThan(body.width * 0.95);
+  document.body.replaceChildren();
+});

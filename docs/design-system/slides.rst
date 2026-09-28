@@ -134,7 +134,9 @@ reader who hears the page still hears the text. A press anywhere on the
 slide opens the deck at it, as a press on a picture opens the picture.
 
 What a slide holds always fits it. Content taller than the room shrinks
-until it fits, at the width it had, so nothing wraps anew. Nothing grows.
+until it fits. A picture keeps the width it had. Text keeps the room's
+width and wraps anew, so it takes the largest scale where its height fits.
+Nothing grows.
 A summary that cuts off its own end has stopped being a summary.
 
 The deck

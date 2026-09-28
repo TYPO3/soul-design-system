@@ -300,6 +300,24 @@ export class SdsSlide extends SdsElement {
     const wide = fit.scrollWidth > fit.clientWidth + 1 ? fit.clientWidth / fit.scrollWidth : 1;
     const ratio = Math.min(room.height / need.height, wide);
     if (ratio >= 1) return;
+    /* Text reflows. So it keeps the room's width at every scale, and the
+       largest scale where its height fits is the one it takes. */
+    if (!fit.closest('.sds-slide__art')) {
+      /* The frame's own zoom stands over the box: a width is in its pixels. */
+      const scale = need.width / parseFloat(getComputedStyle(fit).width);
+      const width = room.width / scale;
+      let [low, high] = [ratio, 1];
+      for (let pass = 0; pass < 8; pass += 1) {
+        const zoom = (low + high) / 2;
+        fit.style.width = `${width / zoom}px`;
+        fit.style.zoom = String(zoom);
+        if (fit.getBoundingClientRect().height <= room.height) low = zoom;
+        else high = zoom;
+      }
+      fit.style.width = `${width / low}px`;
+      fit.style.zoom = String(low);
+      return;
+    }
     fit.style.width = getComputedStyle(fit).width;
     fit.style.alignSelf = 'center';
     /* Laid out, a zoom rounds to whole pixels. So the element measures the
