@@ -63,9 +63,10 @@ Two shapes
 
 .. confval:: soul-boot.js
    :type: script
-   :required: where there is a mode switch
+   :required: true
 
-   A line or two, loaded **before** the stylesheet and **not** as a module.
+   A page with a mode switch needs it. A line or two, loaded **before** the
+   stylesheet and **not** as a module.
    It reads the stored choice and writes ``data-theme`` before the first
    paint. ``<sds-theme>`` then shows the active side, because it reads the
    document.
