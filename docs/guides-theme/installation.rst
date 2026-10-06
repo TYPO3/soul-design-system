@@ -29,7 +29,8 @@ reads.
    composer require typo3/soul-guides-theme
 
 ``vendor/bin/guides`` is then the command, out of a directory a build can
-throw away. PHP 8.2 is the floor.
+throw away. PHP 8.2 is the floor, and the renderer is ``phpdocumentor/guides``
+1.11 or a later 1.x release.
 
 .. note::
 
@@ -152,10 +153,10 @@ on a reference that leaves the output.
        assets/
 
 The theme's ``<head>`` links ``styles/`` at the site root directly, not
-through ``asset()``. That helper carries only what a parsed document points
-at, and no document points at a font file, the icon sprite or the second
-stylesheet. Put there whole, after the render, the directory stands on its
-own, and every path inside it is right.
+through ``asset()``. The render copies only the files a document or
+``guides.xml`` names. None of them names a font file, the icon sprite or the
+second stylesheet. Put there whole, after the render, the directory
+stands on its own, and every path inside it is right.
 
 .. warning::
 

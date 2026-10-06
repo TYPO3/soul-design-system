@@ -23,9 +23,11 @@
   },
   "require": {
     "php": "^8.2",
-    "phpdocumentor/guides-cli": "^1.9",
-    "phpdocumentor/guides-code": "^1.9",
-    "phpdocumentor/guides-markdown": "^1.10"
+    "phpdocumentor/guides": "^1.11",
+    "phpdocumentor/guides-cli": "^1.11",
+    "phpdocumentor/guides-code": "^1.11",
+    "phpdocumentor/guides-markdown": "^1.11",
+    "phpdocumentor/guides-restructured-text": "^1.11"
   },
   "require-dev": {
     "typo3/coding-standards": "^0.9"

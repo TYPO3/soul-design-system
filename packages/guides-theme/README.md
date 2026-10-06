@@ -20,7 +20,8 @@ The package brings `phpdocumentor/guides-cli`, `guides-code` and
 `guides-markdown` with it. So that one line is the command, the highlighter
 and the Markdown parser. The theme registers the last two itself, so
 reStructuredText and Markdown both render out of the box, and a project's
-configuration names neither. PHP 8.2 is the floor.
+configuration names neither. PHP 8.2 is the floor, and the renderer is
+`phpdocumentor/guides` 1.11 or a later 1.x release.
 
 ## Render a site
 

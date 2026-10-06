@@ -47,8 +47,8 @@ final class SpecimenDirective extends BaseDirective
 
         /* `make guides` writes `_cards/` from `specimens/`, with the links
            inside each card rewritten to the site's own stylesheets. It is a
-           path in the documentation source, so `asset()` in the template
-           copies it into the output and resolves it per page. */
+           path in the documentation source. `NodeFiles` copies it into the
+           output, and `asset()` in the template resolves it per page. */
         $node = new EmbeddedFrame('/_cards/' . $directive->getData());
 
         return $node->withOptions(array_filter([

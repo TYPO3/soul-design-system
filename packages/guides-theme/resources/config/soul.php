@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 use League\Tactician\CommandBus;
 use phpDocumentor\Guides\Code\Highlighter\Highlighter;
+use phpDocumentor\Guides\Event\PreRenderProcess;
+use phpDocumentor\Guides\RestructuredText\Directives\FigureDirective as RendererFigureDirective;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
 use phpDocumentor\Guides\RestructuredText\Parser\Productions\DirectiveContentRule;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use TYPO3\Soul\GuidesTheme\Assets\Files;
+use TYPO3\Soul\GuidesTheme\Assets\MarkFiles;
+use TYPO3\Soul\GuidesTheme\Assets\NodeFiles;
 use TYPO3\Soul\GuidesTheme\Code\Grammars;
 use TYPO3\Soul\GuidesTheme\Compiler\OnThisPage;
 use TYPO3\Soul\GuidesTheme\Directives\AccordionDirective;
@@ -19,6 +24,7 @@ use TYPO3\Soul\GuidesTheme\Directives\DirectoryTreeDirective;
 use TYPO3\Soul\GuidesTheme\Directives\EntryDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ExampleDirective;
 use TYPO3\Soul\GuidesTheme\Directives\FactsDirective;
+use TYPO3\Soul\GuidesTheme\Directives\FigureDirective;
 use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HalfDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HeroDirective;
@@ -62,6 +68,22 @@ return static function (ContainerConfigurator $container): void {
            before the project says anything. */
         ->set(SpecimenDirective::class)
         ->tag('phpdoc.guides.directive')
+
+        /* The renderer's own figure, with `:zoomable:` added. In its place
+           rather than beside it, so one directive has the name. */
+        ->set(FigureDirective::class)
+        ->decorate(RendererFigureDirective::class)
+        ->args([service('.inner')])
+
+        /* `asset()` copies nothing. These copy the files the templates name.
+           A node's files go before the node renders, and the signet and the
+           tab icons go once. */
+        ->set(Files::class)
+        ->set(NodeFiles::class)
+        ->tag('phpdoc.guides.prerenderer')
+        ->set(MarkFiles::class)
+        ->args(['$signet' => '%soul.signet%', '$favicons' => '%soul.favicons%'])
+        ->tag('event_listener', ['event' => PreRenderProcess::class])
 
         /* The marketing blocks share the node shape described by `BlockNode`. */
         ->set(BandDirective::class)
