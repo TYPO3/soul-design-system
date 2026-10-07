@@ -30,7 +30,9 @@ reads.
 
 ``vendor/bin/guides`` is then the command, out of a directory a build can
 throw away. PHP 8.2 is the floor, and the renderer is ``phpdocumentor/guides``
-1.11 or a later 1.x release.
+1.11 or a later 1.x release. That renderer needs ``doctrine/lexer`` 3.0.3 or
+later. A project that pins an older lexer gets an older release of this theme
+instead, with no error, and the site it renders breaks. Remove the pin.
 
 .. note::
 
