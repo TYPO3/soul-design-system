@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 
 /**
@@ -32,21 +33,18 @@ use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
  * reads as one wall. Anything else is the width every set gets unless it says
  * otherwise, because a name nobody defined is not a licence to invent one.
  */
+#[Attributes\Directive(name: 'grid', valueType: DirectiveValueType::String)]
+#[Attributes\Option(name: 'variant', description: 'The width of an item.')]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class GridDirective extends SubDirective
 {
     /** What the element answers to. See `GridVariant` in `grid.ts`. */
     private const VARIANTS = ['default', 'wide', 'dense', 'flush'];
 
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'grid';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
         /* The width is the one decision the set makes about itself, so it is
            the argument rather than an option. `:variant:` is the same thing
            spelt the way an option-only directive says it. */
@@ -54,7 +52,7 @@ final class GridDirective extends SubDirective
             ? $directive->getData()
             : $directive->getOption('variant')->getValue();
 
-        return (new GridNode($collectionNode->getChildren()))->withOptions([
+        return (new GridNode($directiveNode->getChildren()))->withOptions([
             'variant' => in_array($asked, self::VARIANTS, true) ? $asked : 'default',
             'class' => $directive->getOption('class')->getValue(),
         ]);

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
+use phpDocumentor\Guides\RestructuredText\Directives\OptionType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\AccordionItemNode;
 
 /**
@@ -32,19 +34,19 @@ use TYPO3\Soul\GuidesTheme\Nodes\AccordionItemNode;
  * *into* and leaves one shut that it points *at*. The element spells that
  * `anchor`, as `name` there is the set a `<details>` closes with.
  */
+#[Attributes\Directive(name: 'accordion-item', valueType: DirectiveValueType::String)]
+#[Attributes\Option(name: 'open', type: OptionType::Boolean, description: 'The answer stands open.')]
+#[Attributes\Option(name: 'show', type: OptionType::Boolean, description: 'The same as open.')]
+#[Attributes\Option(name: 'name', description: 'The address of the answer.')]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
+#[Attributes\Option(name: 'header-level', type: OptionType::Integer, description: 'Read, and not used.')]
 final class AccordionItemDirective extends SubDirective
 {
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'accordion-item';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
-        return (new AccordionItemNode($collectionNode->getChildren()))->withOptions([
+        return (new AccordionItemNode($directiveNode->getChildren()))->withOptions([
             'question' => $directive->getData(),
             'open' => $directive->hasOption('open') || $directive->hasOption('show'),
             'anchor' => $directive->getOption('name')->getValue(),

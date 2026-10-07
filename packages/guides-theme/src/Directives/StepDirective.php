@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
+use phpDocumentor\Guides\RestructuredText\Directives\OptionType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\StepNode;
 
 /**
@@ -33,19 +35,17 @@ use TYPO3\Soul\GuidesTheme\Nodes\StepNode;
  * where they are in an instruction. A page whose outline is its steps has
  * buried its own sections under them.
  */
+#[Attributes\Directive(name: 'step', valueType: DirectiveValueType::String)]
+#[Attributes\Option(name: 'optional', type: OptionType::Boolean, description: 'A reader can skip the step.')]
+#[Attributes\Option(name: 'name', description: 'The address of the step.')]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class StepDirective extends SubDirective
 {
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'step';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
-        return (new StepNode($collectionNode->getChildren()))->withOptions([
+        return (new StepNode($directiveNode->getChildren()))->withOptions([
             'heading' => $directive->getData(),
             'optional' => $directive->hasOption('optional'),
             'anchor' => $directive->getOption('name')->getValue(),

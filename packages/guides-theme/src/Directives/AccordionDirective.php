@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
+use phpDocumentor\Guides\RestructuredText\Directives\OptionType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\AccordionItemNode;
 use TYPO3\Soul\GuidesTheme\Nodes\AccordionNode;
 
@@ -44,21 +46,19 @@ use TYPO3\Soul\GuidesTheme\Nodes\AccordionNode;
  * it. So a group under that key loses to an answer's own address, and the set
  * no longer closes.
  */
+#[Attributes\Directive(name: 'accordion', valueType: DirectiveValueType::Empty)]
+#[Attributes\Option(name: 'multiple', type: OptionType::Boolean, description: 'More than one answer can stand open.')]
+#[Attributes\Option(name: 'group', description: 'The name the answers share.')]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class AccordionDirective extends SubDirective
 {
     /** Sets rendered so far, for the ones with no name. */
     private int $unnamed = 0;
 
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'accordion';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
         $multiple = $directive->hasOption('multiple');
         $name = (string)($directive->getOption('group')->getValue() ?? '');
         if ($name === '') {
@@ -71,7 +71,7 @@ final class AccordionDirective extends SubDirective
             static fn(Node $child): Node => $child instanceof AccordionItemNode
                 ? $child->withKeepExistingOptions(['group' => $group])
                 : $child,
-            $collectionNode->getChildren(),
+            $directiveNode->getChildren(),
         );
 
         return (new AccordionNode($children))->withOptions([

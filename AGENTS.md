@@ -391,7 +391,10 @@ prevent. Everything the classes can do, the element must emit.
 these:
 
 - the directive in `packages/guides-theme/src/Directives/` and the node it
-  returns;
+  returns. It builds the node in `createNode` and declares its name and every
+  option in `#[Directive]` and `#[Option]` attributes. A directive without
+  them is one the renderer deprecates. The node gets an option with a value,
+  but not a flag: `createNode` sets each flag itself;
 - its two templates under `resources/template/body/directive/`: `.html.twig`
   for the page and `.md.twig` for the twin, beside each other;
 - the registration in `resources/config/soul.php`;

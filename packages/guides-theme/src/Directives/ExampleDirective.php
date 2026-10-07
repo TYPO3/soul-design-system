@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\CodeNode;
-use phpDocumentor\Guides\Nodes\CollectionNode;
 use phpDocumentor\Guides\Nodes\Inline\PlainTextInlineNode;
 use phpDocumentor\Guides\Nodes\InlineCompoundNode;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ExampleNode;
 
 /**
@@ -43,25 +44,22 @@ use TYPO3\Soul\GuidesTheme\Nodes\ExampleNode;
  * at its parent's width, which is a render of something nobody writes. Those
  * three keep a `code-block` beside prose that says what they do.
  */
+#[Attributes\Directive(name: 'example', valueType: DirectiveValueType::String)]
+#[Attributes\Option(name: 'language', default: 'text', description: 'The language of the print.')]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class ExampleDirective extends SubDirective
 {
     /* No highlighter here knows reStructuredText, and a language the server
        cannot colour is better said than faked. */
     private const DEFAULT_LANGUAGE = 'text';
 
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'example';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
         $language = $directive->getOption('language')->getValue();
         $source = new CodeNode(
-            $this->body($blockContext),
+            $this->body($directiveNode),
             trim((string)($language ?? self::DEFAULT_LANGUAGE)),
         );
 
@@ -72,7 +70,7 @@ final class ExampleDirective extends SubDirective
             $source->setCaption(new InlineCompoundNode([new PlainTextInlineNode($caption)]));
         }
 
-        return (new ExampleNode($source, $collectionNode->getChildren()))->withOptions([
+        return (new ExampleNode($source, $directiveNode->getChildren()))->withOptions([
             /* An author who wrote `:class:` meant it for their own stylesheet.
                To drop what a theme does not understand is the one thing it
                must not do. Carried the way `card` carries it. */
@@ -83,15 +81,14 @@ final class ExampleDirective extends SubDirective
     /**
      * The lines the parser got, with the blank ones at either end gone.
      *
-     * `toArray()` is the whole block and not what remains of it. The rule that
-     * parsed the children read the iterator to the end, and the print has to
-     * be the same body they came from.
+     * The parser keeps the body as it read it, beside the nodes it made of it.
+     * So the print is the same body the render came from.
      *
      * @return list<string>
      */
-    private function body(BlockContext $blockContext): array
+    private function body(DirectiveNode $directiveNode): array
     {
-        $lines = $blockContext->getDocumentIterator()->toArray();
+        $lines = explode("\n", $directiveNode->getRawContent());
 
         while ($lines !== [] && trim($lines[0]) === '') {
             array_shift($lines);

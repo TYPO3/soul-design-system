@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\InlineCompoundNode;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\OptionType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ButtonNode;
 
 /**
@@ -36,18 +37,22 @@ use TYPO3\Soul\GuidesTheme\Nodes\ButtonNode;
  * the words, so the template composes `sds-icon` into the control the way this
  * system's own pages do.
  */
+#[Attributes\Directive(name: 'button')]
+#[Attributes\Option(name: 'href', description: 'Where the press goes.')]
+#[Attributes\Option(name: 'variant', description: 'The kind of button.')]
+#[Attributes\Option(name: 'size', description: 'The size of the button.')]
+#[Attributes\Option(name: 'icon', description: 'The name of an icon.')]
+#[Attributes\Option(name: 'icon-only', type: OptionType::Boolean, description: 'Only the icon shows.')]
+#[Attributes\Option(name: 'title', description: 'The name a reader hears.')]
+#[Attributes\Option(name: 'rel', description: 'The relation of the link.')]
+#[Attributes\Option(name: 'disabled', type: OptionType::Boolean, description: 'The button does nothing.')]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class ButtonDirective extends SubDirective
 {
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'button';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
         $label = $directive->getDataNode()
             ?? InlineCompoundNode::getPlainTextInlineNode($directive->getData());
 

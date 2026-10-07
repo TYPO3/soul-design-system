@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SplitNode;
 
@@ -38,6 +39,10 @@ use TYPO3\Soul\GuidesTheme\Nodes\SplitNode;
  * is one column. The order a reader reads is not source order at every
  * width.
  */
+#[Attributes\Directive(name: 'split', valueType: DirectiveValueType::Empty)]
+#[Attributes\Option(name: 'align', description: 'How the halves align.')]
+#[Attributes\Option(name: 'leads', description: 'The half that comes first.')]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class SplitDirective extends SubDirective
 {
     /** Where the shorter half sits against the taller one. */
@@ -46,16 +51,10 @@ final class SplitDirective extends SubDirective
     /** Which half a reader reads first once the two have stacked. */
     private const LEADS = ['start', 'end'];
 
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'split';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
         $align = (string)($directive->getOption('align')->getValue() ?? '');
         $leads = (string)($directive->getOption('leads')->getValue() ?? '');
 
@@ -64,7 +63,7 @@ final class SplitDirective extends SubDirective
            recognise. One node more, and no exception in the stylesheet. */
         $halves = array_map(
             static fn(Node $child): Node => $child instanceof HalfNode ? $child : new HalfNode([$child]),
-            $collectionNode->getChildren(),
+            $directiveNode->getChildren(),
         );
 
         return (new SplitNode($halves))->withOptions([

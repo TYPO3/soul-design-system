@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SurfaceNode;
 
 /**
@@ -37,19 +38,18 @@ use TYPO3\Soul\GuidesTheme\Nodes\SurfaceNode;
  * What it is there for — a plane sized against the others in its row — is what
  * a `grid` already decides.
  */
+#[Attributes\Directive(name: 'surface', valueType: DirectiveValueType::String)]
+#[Attributes\Option(name: 'plane', description: 'The ground of the plane.')]
+#[Attributes\Option(name: 'label', description: 'The label above the title.')]
+#[Attributes\Option(name: 'icon', description: 'The name of an icon.')]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class SurfaceDirective extends SubDirective
 {
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'surface';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
-        return (new SurfaceNode($collectionNode->getChildren()))->withOptions([
+        return (new SurfaceNode($directiveNode->getChildren()))->withOptions([
             'heading' => $directive->getData(),
             /* `raised` sits on the canvas, `sunken` is machine output. Named
                for the fill, which is what tells two planes apart in a system

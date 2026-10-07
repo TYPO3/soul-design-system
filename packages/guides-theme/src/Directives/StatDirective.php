@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\StatNode;
 
 /**
@@ -34,19 +35,19 @@ use TYPO3\Soul\GuidesTheme\Nodes\StatNode;
  * **The options cover that element and leave nothing of it out**, spelt the
  * way the element spells them — see `CardDirective` for why both hold.
  */
+#[Attributes\Directive(name: 'stat', valueType: DirectiveValueType::String)]
+#[Attributes\Option(name: 'unit', description: 'The unit of the number.')]
+#[Attributes\Option(name: 'label', description: 'What the number counts.')]
+#[Attributes\Option(name: 'of', description: 'The whole it is a part of.')]
+#[Attributes\Option(name: 'icon', description: 'The name of an icon.')]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class StatDirective extends SubDirective
 {
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'stat';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
-        return (new StatNode($collectionNode->getChildren()))->withOptions([
+        return (new StatNode($directiveNode->getChildren()))->withOptions([
             'value' => $directive->getData(),
             'unit' => $directive->getOption('unit')->getValue(),
             'label' => $directive->getOption('label')->getValue(),

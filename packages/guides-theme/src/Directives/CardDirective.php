@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\InlineCompoundNode;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
 
 /**
@@ -46,22 +46,26 @@ use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
  * own — `to` for the link — reads well in exactly one place and is a
  * translation everywhere else.
  */
+#[Attributes\Directive(name: 'card')]
+#[Attributes\Option(name: 'href', description: 'Where the card goes.')]
+#[Attributes\Option(name: 'label', description: 'The label above the title.')]
+#[Attributes\Option(name: 'tag', description: 'The tag above the title.')]
+#[Attributes\Option(name: 'icon', description: 'The name of an icon.')]
+#[Attributes\Option(name: 'src', description: 'The path of a picture.')]
+#[Attributes\Option(name: 'alt', description: 'The text of the picture.')]
+#[Attributes\Option(name: 'footer', description: 'The line under the body.')]
+#[Attributes\Option(name: 'action', description: 'The words of the action.')]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class CardDirective extends SubDirective
 {
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'card';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
         $title = $directive->getDataNode()
             ?? InlineCompoundNode::getPlainTextInlineNode($directive->getData());
 
-        return (new CardNode($title, $collectionNode->getChildren()))->withOptions([
+        return (new CardNode($title, $directiveNode->getChildren()))->withOptions([
             'href' => $directive->getOption('href')->getValue(),
             'label' => $directive->getOption('label')->getValue(),
             'tag' => $directive->getOption('tag')->getValue(),

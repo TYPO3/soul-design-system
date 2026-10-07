@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\EmbeddedFrame;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
 use phpDocumentor\Guides\RestructuredText\Directives\BaseDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 
 /**
  * A specimen: a rendered card, at the size it exists for.
@@ -31,17 +33,16 @@ use phpDocumentor\Guides\RestructuredText\Parser\Directive;
  * fits. This is that number. A card at any other size is a card that
  * documents something nobody checked.
  */
+#[Attributes\Directive(name: 'specimen', valueType: DirectiveValueType::Path)]
+#[Attributes\Option(name: 'viewport', default: '700x260', description: 'The width and height of the card.')]
+#[Attributes\Option(name: 'title', description: 'The name of the card.')]
 final class SpecimenDirective extends BaseDirective
 {
     private const DEFAULT_VIEWPORT = '700x260';
 
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): EmbeddedFrame
     {
-        return 'specimen';
-    }
-
-    public function process(BlockContext $blockContext, Directive $directive): EmbeddedFrame
-    {
+        $directive = $directiveNode->getDirective();
         $viewport = (string)($directive->getOption('viewport')->getValue() ?? self::DEFAULT_VIEWPORT);
         [$width, $height] = explode('x', $viewport) + [1 => null];
 

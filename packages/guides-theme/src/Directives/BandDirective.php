@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
+use phpDocumentor\Guides\RestructuredText\Directives\OptionType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\BandNode;
 
 /**
@@ -28,23 +30,20 @@ use TYPO3\Soul\GuidesTheme\Nodes\BandNode;
  * On a page whose layout is not `marketing` a band still works. It is simply
  * a section inside a column, which is what it looks like.
  */
+#[Attributes\Directive(name: 'band', valueType: DirectiveValueType::String)]
+#[Attributes\Option(name: 'quiet', type: OptionType::Boolean, description: 'The second ground.')]
+#[Attributes\Option(name: 'id', description: 'The anchor of the band.')]
 final class BandDirective extends SubDirective
 {
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'band';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
         /* The title is an option and not a section heading. A section
            heading inside a directive is not one. reStructuredText parses
            sections at document level. A page that writes `====` under a line
            in here ships the line and the equals signs as text. */
-        return (new BandNode($collectionNode->getChildren()))->withOptions([
+        return (new BandNode($directiveNode->getChildren()))->withOptions([
             'quiet' => $directive->hasOption('quiet'),
             'id' => $directive->getOption('id')->getValue(),
             'title' => $directive->getData(),

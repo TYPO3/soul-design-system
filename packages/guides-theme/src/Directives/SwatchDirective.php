@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SwatchNode;
 
 /**
@@ -32,19 +33,18 @@ use TYPO3\Soul\GuidesTheme\Nodes\SwatchNode;
  * **The options cover that element and leave nothing of it out**, spelt the
  * way the element spells them — see `CardDirective` for why both hold.
  */
+#[Attributes\Directive(name: 'swatch', valueType: DirectiveValueType::String)]
+#[Attributes\Option(name: 'name', description: 'The name of the colour.')]
+#[Attributes\Option(name: 'resolved', description: 'The value it resolves to.')]
+#[Attributes\Option(name: 'kind', description: 'The kind of colour.')]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class SwatchDirective extends SubDirective
 {
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'swatch';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
-        return (new SwatchNode($collectionNode->getChildren()))->withOptions([
+        return (new SwatchNode($directiveNode->getChildren()))->withOptions([
             'value' => $directive->getData(),
             'name' => $directive->getOption('name')->getValue(),
             'resolved' => $directive->getOption('resolved')->getValue(),

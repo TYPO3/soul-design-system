@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\CompoundNode;
 use phpDocumentor\Guides\Nodes\Inline\InlineNodeInterface;
 use phpDocumentor\Guides\Nodes\Inline\LiteralInlineNode;
@@ -12,9 +12,11 @@ use phpDocumentor\Guides\Nodes\InlineCompoundNode;
 use phpDocumentor\Guides\Nodes\ListItemNode;
 use phpDocumentor\Guides\Nodes\ListNode;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
+use phpDocumentor\Guides\RestructuredText\Directives\OptionType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\DirectoryTreeNode;
 
 /**
@@ -41,20 +43,18 @@ use TYPO3\Soul\GuidesTheme\Nodes\DirectoryTreeNode;
  * theme this comes from stops the render below the level, which loses what a
  * reader came for and the reader cannot undo it. A fold they can.
  */
+#[Attributes\Directive(name: 'directory-tree', valueType: DirectiveValueType::Empty)]
+#[Attributes\Option(name: 'level', type: OptionType::Integer, default: 2, description: 'How deep the tree stands open.')]
+#[Attributes\Option(name: 'show-file-icons', type: OptionType::Boolean, description: 'An icon before each name.')]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class DirectoryTreeDirective extends SubDirective
 {
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'directory-tree';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
         $entries = [];
-        foreach ($collectionNode->getChildren() as $child) {
+        foreach ($directiveNode->getChildren() as $child) {
             if ($child instanceof ListNode) {
                 $entries = [...$entries, ...$this->walk($child)];
             }

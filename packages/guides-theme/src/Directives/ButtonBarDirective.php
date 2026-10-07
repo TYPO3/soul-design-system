@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ButtonBarNode;
 
 /**
@@ -33,19 +34,15 @@ use TYPO3\Soul\GuidesTheme\Nodes\ButtonBarNode;
  * a directive that enforces it is a directive that rewrites what an author
  * said.
  */
+#[Attributes\Directive(name: 'button-bar', valueType: DirectiveValueType::Empty)]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class ButtonBarDirective extends SubDirective
 {
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'button-bar';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
-        return (new ButtonBarNode($collectionNode->getChildren()))->withOptions([
+        return (new ButtonBarNode($directiveNode->getChildren()))->withOptions([
             /* An author who wrote `:class:` meant it for their own stylesheet.
                To drop what a theme does not understand is the one thing it
                must not do. Carried the way `card` carries it. */

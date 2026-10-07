@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
 
 /**
@@ -24,19 +25,15 @@ use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
  * Anywhere else it is the run of blocks it holds, in the rhythm a page sets
  * between them.
  */
+#[Attributes\Directive(name: 'half', valueType: DirectiveValueType::String)]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class HalfDirective extends SubDirective
 {
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'half';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
-        return (new HalfNode($collectionNode->getChildren()))->withOptions([
+        return (new HalfNode($directiveNode->getChildren()))->withOptions([
             /* A section title inside a directive parses as text. The
                argument gives the grouped side a real heading instead. */
             'heading' => $directive->getData(),

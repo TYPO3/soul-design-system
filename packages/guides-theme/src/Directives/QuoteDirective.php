@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
-use phpDocumentor\Guides\Nodes\CollectionNode;
+use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
+use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
-use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
-use phpDocumentor\Guides\RestructuredText\Parser\Directive;
+use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\QuoteNode;
 
 /**
@@ -39,19 +40,19 @@ use TYPO3\Soul\GuidesTheme\Nodes\QuoteNode;
  * tell a person's name from a filename. A monogram derived from a document
  * is a person invented for a source that has none.
  */
+#[Attributes\Directive(name: 'quote', valueType: DirectiveValueType::String)]
+#[Attributes\Option(name: 'as', description: 'The role of the speaker.')]
+#[Attributes\Option(name: 'meta', description: 'The line under the name.')]
+#[Attributes\Option(name: 'initials', description: 'The initials of the speaker.')]
+#[Attributes\Option(name: 'href', description: 'Where the source is.')]
+#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class QuoteDirective extends SubDirective
 {
-    public function getName(): string
+    public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
-        return 'quote';
-    }
+        $directive = $directiveNode->getDirective();
 
-    protected function processSub(
-        BlockContext $blockContext,
-        CollectionNode $collectionNode,
-        Directive $directive,
-    ): ?Node {
-        return (new QuoteNode($collectionNode->getChildren()))->withOptions([
+        return (new QuoteNode($directiveNode->getChildren()))->withOptions([
             'by' => $directive->getData(),
             'as' => $directive->getOption('as')->getValue(),
             'meta' => $directive->getOption('meta')->getValue(),
