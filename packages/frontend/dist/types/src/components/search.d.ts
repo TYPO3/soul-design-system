@@ -71,6 +71,10 @@ export declare class SdsSearch extends SdsElement {
         root. Left to the browser, a hit one directory down names a page that
         does not exist. A picture beside it names a file that is not there. */
     private from;
+    /** The eight best hits. Every word of the query must occur, in any order,
+        so "page add" finds "Add a page". A title that is the query comes
+        first, then a title that starts with it, then one that holds it. A hit
+        in the text alone comes last. The index order breaks a tie. */
     private get hits();
     private type;
     /** The links in the drop, in the reader's order.

@@ -32,6 +32,19 @@ export interface SearchEntry {
     search fields on one page must not both call it `sds-search-panel`. */
 let seq = 0;
 
+/** Where an entry stands for a query, lower first. `Infinity` is no hit: a
+    word of the query that is in neither the title nor the text. */
+function rank(entry: SearchEntry, query: string): number {
+  const title = entry.title.toLowerCase();
+  const words = query.split(/\s+/);
+  if (title === query) return 0;
+  if (title.startsWith(query)) return 1;
+  if (title.includes(query)) return 2;
+  if (words.every((word) => title.includes(word))) return 3;
+  const all = `${title} ${entry.text.toLowerCase()}`;
+  return words.every((word) => all.includes(word)) ? 4 : Infinity;
+}
+
 export class SdsSearch extends SdsElement {
   static override properties = {
     /** Where the index is. Relative to the page, like every other asset. */
@@ -131,12 +144,19 @@ export class SdsSearch extends SdsElement {
     return new URL(path, new URL('.', new URL(this.index, location.href))).href;
   }
 
+  /** The eight best hits. Every word of the query must occur, in any order,
+      so "page add" finds "Add a page". A title that is the query comes
+      first, then a title that starts with it, then one that holds it. A hit
+      in the text alone comes last. The index order breaks a tie. */
   private get hits(): SearchEntry[] {
     const q = this.query.trim().toLowerCase();
     if (!q || !this.entries) return [];
     return this.entries
-      .filter((e) => `${e.title} ${e.text}`.toLowerCase().includes(q))
-      .slice(0, 8);
+      .map((entry, order) => ({ entry, order, rank: rank(entry, q) }))
+      .filter((hit) => hit.rank < Infinity)
+      .sort((a, b) => a.rank - b.rank || a.order - b.order)
+      .slice(0, 8)
+      .map((hit) => hit.entry);
   }
 
   private async type(event: Event): Promise<void> {

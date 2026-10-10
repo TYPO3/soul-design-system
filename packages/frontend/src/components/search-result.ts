@@ -27,8 +27,8 @@ export interface SearchResultProps {
   /** The sentence around the find, cut from the text and not written for the
       list. */
   snippet?: string;
-  /** The query. Every occurrence of it in the snippet and the heading gets a
-      mark. */
+  /** The query. Every occurrence of each of its words in the snippet and the
+      heading gets a mark. */
   match?: string;
   /** What kind of thing it is — reference, guide, changelog. */
   kind?: string;
@@ -40,6 +40,18 @@ export interface SearchResultProps {
   /** What the thumbnail shows. Empty where it adds nothing the heading has
       not said. */
   alt?: string;
+}
+
+/** The first place at or after `from` where a word of the query starts. Where
+    two words start at the same place, the longer one wins. */
+function nearest(hay: string, words: string[], from: number): { at: number; length: number } | undefined {
+  let best: { at: number; length: number } | undefined;
+  for (const word of words) {
+    const at = hay.indexOf(word, from);
+    if (at === -1) continue;
+    if (!best || at < best.at || (at === best.at && word.length > best.length)) best = { at, length: word.length };
+  }
+  return best;
 }
 
 export class SdsSearchResult extends SdsElement {
@@ -78,23 +90,22 @@ export class SdsSearchResult extends SdsElement {
     this.alt = '';
   }
 
-  /** The text with every occurrence of the query in a `<mark>`.
+  /** The text with every occurrence of each word of the query in a `<mark>`.
 
       Split rather than replaced, so nothing ever lands as markup. What comes
       back is text nodes and elements, and a query with `<` in it is a query
       and not a tag. */
   private marked(text: string): unknown {
-    const needle = this.match.trim();
-    if (!needle || !text) return text;
+    const words = this.match.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    if (!words.length || !text) return text;
 
     const out: unknown[] = [];
     const hay = text.toLowerCase();
-    const find = needle.toLowerCase();
     let at = 0;
-    for (let i = hay.indexOf(find, 0); i !== -1; i = hay.indexOf(find, at)) {
-      if (i > at) out.push(text.slice(at, i));
-      out.push(html`<mark class="sds-mark">${text.slice(i, i + needle.length)}</mark>`);
-      at = i + needle.length;
+    for (let next = nearest(hay, words, at); next; next = nearest(hay, words, at)) {
+      if (next.at > at) out.push(text.slice(at, next.at));
+      out.push(html`<mark class="sds-mark">${text.slice(next.at, next.at + next.length)}</mark>`);
+      at = next.at + next.length;
     }
     out.push(text.slice(at));
     return out;

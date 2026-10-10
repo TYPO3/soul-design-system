@@ -784,6 +784,11 @@ from the first goes back to the typed text, and Escape gives the page back.
 ``sds-search-hits`` draws what the search found, not a rebuild in the drop.
 A query with no match gets that element's sentence in the same box.
 
+**Every word of the query must occur, in any order.** So "page add" finds
+"Add a page". The drop shows the eight best hits. A title that is the query
+comes first, then a title that starts with it, then a title that holds it.
+A hit in the text alone comes last, and the index order breaks a tie.
+
 **The drop hangs from the end of the field**, where a bar usually puts its
 search. From the start edge instead where that leaves it off the page. A
 field near the start of a narrow window is the common case. A drop in the
@@ -910,7 +915,8 @@ it.
    The search term. **The mark happens here**, not in the caller. The
    highlight has to be the search term, and a page that marks by hand marks
    what it thinks it searched for. The two part at the first normalised
-   query.
+   query. Each word of the term gets its own mark, also where the words of
+   a query stand apart in the text.
 
 .. confval:: kind
    :name: sds-search-result-kind

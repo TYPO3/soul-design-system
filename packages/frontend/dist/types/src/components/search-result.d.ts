@@ -14,8 +14,8 @@ export interface SearchResultProps {
     /** The sentence around the find, cut from the text and not written for the
         list. */
     snippet?: string;
-    /** The query. Every occurrence of it in the snippet and the heading gets a
-        mark. */
+    /** The query. Every occurrence of each of its words in the snippet and the
+        heading gets a mark. */
     match?: string;
     /** What kind of thing it is — reference, guide, changelog. */
     kind?: string;
@@ -68,7 +68,7 @@ export declare class SdsSearchResult extends SdsElement {
     src: string;
     alt: string;
     constructor();
-    /** The text with every occurrence of the query in a `<mark>`.
+    /** The text with every occurrence of each word of the query in a `<mark>`.
   
         Split rather than replaced, so nothing ever lands as markup. What comes
         back is text nodes and elements, and a query with `<` in it is a query

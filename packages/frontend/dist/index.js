@@ -2186,6 +2186,15 @@ function art(src, alt, options = {}) {
 }
 
 // packages/frontend/src/components/search-result.ts
+function nearest(hay, words, from) {
+  let best;
+  for (const word of words) {
+    const at = hay.indexOf(word, from);
+    if (at === -1) continue;
+    if (!best || at < best.at || at === best.at && word.length > best.length) best = { at, length: word.length };
+  }
+  return best;
+}
 var SdsSearchResult = class extends SdsElement {
   static {
     this.properties = {
@@ -2212,22 +2221,21 @@ var SdsSearchResult = class extends SdsElement {
     this.src = "";
     this.alt = "";
   }
-  /** The text with every occurrence of the query in a `<mark>`.
+  /** The text with every occurrence of each word of the query in a `<mark>`.
   
         Split rather than replaced, so nothing ever lands as markup. What comes
         back is text nodes and elements, and a query with `<` in it is a query
         and not a tag. */
   marked(text) {
-    const needle = this.match.trim();
-    if (!needle || !text) return text;
+    const words = this.match.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    if (!words.length || !text) return text;
     const out = [];
     const hay = text.toLowerCase();
-    const find = needle.toLowerCase();
     let at = 0;
-    for (let i = hay.indexOf(find, 0); i !== -1; i = hay.indexOf(find, at)) {
-      if (i > at) out.push(text.slice(at, i));
-      out.push(html4`<mark class="sds-mark">${text.slice(i, i + needle.length)}</mark>`);
-      at = i + needle.length;
+    for (let next = nearest(hay, words, at); next; next = nearest(hay, words, at)) {
+      if (next.at > at) out.push(text.slice(at, next.at));
+      out.push(html4`<mark class="sds-mark">${text.slice(next.at, next.at + next.length)}</mark>`);
+      at = next.at + next.length;
     }
     out.push(text.slice(at));
     return out;
@@ -2356,6 +2364,16 @@ function fieldBox({ focused, invalid, filled, disabled, readonly, error, size = 
 
 // packages/frontend/src/components/search.ts
 var seq = 0;
+function rank(entry, query) {
+  const title = entry.title.toLowerCase();
+  const words = query.split(/\s+/);
+  if (title === query) return 0;
+  if (title.startsWith(query)) return 1;
+  if (title.includes(query)) return 2;
+  if (words.every((word) => title.includes(word))) return 3;
+  const all = `${title} ${entry.text.toLowerCase()}`;
+  return words.every((word) => all.includes(word)) ? 4 : Infinity;
+}
 var SdsSearch = class extends SdsElement {
   constructor() {
     super();
@@ -2425,10 +2443,14 @@ var SdsSearch = class extends SdsElement {
   from(path) {
     return new URL(path, new URL(".", new URL(this.index, location.href))).href;
   }
+  /** The eight best hits. Every word of the query must occur, in any order,
+      so "page add" finds "Add a page". A title that is the query comes
+      first, then a title that starts with it, then one that holds it. A hit
+      in the text alone comes last. The index order breaks a tie. */
   get hits() {
     const q = this.query.trim().toLowerCase();
     if (!q || !this.entries) return [];
-    return this.entries.filter((e) => `${e.title} ${e.text}`.toLowerCase().includes(q)).slice(0, 8);
+    return this.entries.map((entry, order) => ({ entry, order, rank: rank(entry, q) })).filter((hit) => hit.rank < Infinity).sort((a, b) => a.rank - b.rank || a.order - b.order).slice(0, 8).map((hit) => hit.entry);
   }
   async type(event) {
     this.query = event.target.value;

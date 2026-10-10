@@ -7925,7 +7925,7 @@
             },
             {
               "name": "match",
-              "description": "The query. Every occurrence of it in the snippet and the heading gets a mark.",
+              "description": "The query. Every occurrence of each of its words in the snippet and the heading gets a mark.",
               "type": {
                 "text": "string"
               },
@@ -8009,7 +8009,7 @@
               "kind": "field",
               "name": "match",
               "privacy": "public",
-              "description": "The query. Every occurrence of it in the snippet and the heading gets a mark.",
+              "description": "The query. Every occurrence of each of its words in the snippet and the heading gets a mark.",
               "type": {
                 "text": "string"
               },

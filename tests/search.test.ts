@@ -14,6 +14,7 @@ import { q, qa, shown, write } from './lib/frame.ts';
 const INDEX = [
   { title: 'Installing', url: 'guides/installing.html', text: 'Clone it, install once, then point a project at the binary.' },
   { title: 'Writing a skill', url: 'guides/skill.html', text: 'What a skill is, and where its files go.', image: 'images/skill.png' },
+  { title: 'Pages', url: 'pages.html', text: 'Every page of the status report.' },
   { title: 'The status page', url: 'status.html', text: 'Which sources answer, and since when.' },
 ];
 
@@ -48,6 +49,22 @@ test('a hit resolves against the index, which is the root, and so does its pictu
   const root = new URL('site/', location.href).href;
   expect(links()[0]?.href).toBe(`${root}guides/skill.html`);
   expect(q<HTMLImageElement>('.sds-search__panel img').getAttribute('src')).toBe(`${root}images/skill.png`);
+});
+
+test('every word must occur in any order, the title ranks above the text, and each word gets a mark', async () => {
+  const titles = (): (string | undefined)[] => qa('.sds-search__panel .sds-result__title').map((h) => h.textContent?.trim());
+
+  await userEvent.type(field(), 'skill writing');
+  await expect.poll(titles, { message: 'two words, in the other order' }).toEqual(['Writing a skill']);
+  expect(qa('.sds-search__panel .sds-result__title mark').map((m) => m.textContent), 'a mark for each word').toEqual(['Writing', 'skill']);
+
+  await userEvent.clear(field());
+  await userEvent.type(field(), 'status');
+  await expect.poll(titles, { message: 'the title before the text, against the index order' }).toEqual(['The status page', 'Pages']);
+
+  await userEvent.clear(field());
+  await userEvent.type(field(), 'page');
+  await expect.poll(titles, { message: 'a title that starts with the query before one that holds it' }).toEqual(['Pages', 'The status page']);
 });
 
 test('down goes into the drop, the arrows walk it, up from the first comes back, and Escape leaves', async () => {
