@@ -112,6 +112,11 @@ Lists
 
 3. A third
 
+A list that the renderer numbers by itself:
+
+#. A step the renderer numbers
+#. And the next one
+
 Definition list
    What the term means, as ordinary prose one step in. This is the shape a
    reference falls into whenever it names things.
