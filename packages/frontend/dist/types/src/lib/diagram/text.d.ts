@@ -18,7 +18,10 @@ export interface Setting {
 export declare const byParts: (s: string, max: number, fits: (t: string, room: number) => boolean) => string[] | undefined;
 /** The narrowest box `s` wraps into: its widest piece, where a word
     breaks as `pieces` breaks it. */
-export declare const narrowest: (s: string, setting: Setting) => number;
+export declare const narrowest: (s: string, setting: Setting, at?: RegExp) => number;
+/** The narrowest box `s` wraps into with every name whole: it breaks at a
+    space and after a slash, never inside a name. */
+export declare const unbroken: (s: string, setting: Setting) => number;
 /** The lines of `s` in a box `max` wide, as full as they go. Where the last
     line holds less than a third of the box, the lines even out, so no word
     stands alone under a full line. Throws on a piece that still does not

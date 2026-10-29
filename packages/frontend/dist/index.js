@@ -60,7 +60,7 @@ var init_metrics_generated = __esm({
 });
 
 // packages/frontend/src/lib/diagram/text.ts
-var INDEX, table, keyOf, sum, measure, measureSet, pieces, AFTER_ICON, lines3, byParts, narrowest, wrap, fit;
+var INDEX, table, keyOf, sum, measure, measureSet, PATH, PARTS, pieces, AFTER_ICON, lines3, byParts, narrowest, unbroken, wrap, fit;
 var init_text = __esm({
   "packages/frontend/src/lib/diagram/text.ts"() {
     "use strict";
@@ -88,7 +88,12 @@ var init_text = __esm({
       return Math.max(sum(s, size, shipped, spacing, false), sum(s, size, shipped, spacing, true), sum(s, size, fallback, spacing, false));
     };
     measureSet = (s, size, face = "sans", weight = 400) => sum(s, size, table(keyOf(face, weight)), 0, false);
-    pieces = (word, fits) => (fits(word) ? [word] : word.split(/(?<=[-/._])|(?<=[a-z])(?=[A-Z])/)).map((text2, i) => ({ text: text2, joined: i > 0 }));
+    PATH = /(?<=\/)/;
+    PARTS = /(?<=[-/._])|(?<=[a-z])(?=[A-Z])/;
+    pieces = (word, fits) => {
+      const split = fits(word) ? [word] : word.split(PATH).flatMap((part) => fits(part) ? [part] : part.split(PARTS));
+      return split.map((text2, i) => ({ text: text2, joined: i > 0 }));
+    };
     AFTER_ICON = /(?<![\uE000-\uF8FF]) (?!·)/;
     lines3 = (s, max, fits) => {
       const out = [];
@@ -118,7 +123,8 @@ var init_text = __esm({
       }
       return out;
     };
-    narrowest = (s, setting) => Math.max(0, ...s.split(/(?<![\uE000-\uF8FF])\s+(?!·)/).flatMap((word) => word.split(/(?<=[-/._])|(?<=[a-z])(?=[A-Z])/)).map((piece) => measure(piece, setting.size, setting.face, setting.weight, setting.spacing)));
+    narrowest = (s, setting, at = PARTS) => Math.max(0, ...s.split(/(?<![\uE000-\uF8FF])\s+(?!·)/).flatMap((word) => word.split(at)).map((piece) => measure(piece, setting.size, setting.face, setting.weight, setting.spacing)));
+    unbroken = (s, setting) => narrowest(s, setting, PATH);
     wrap = (s, max, setting, what) => {
       const width2 = (t) => measure(t, setting.size, setting.face, setting.weight, setting.spacing);
       const fits = (t, room) => width2(t) <= room + 0.5;
@@ -8181,7 +8187,7 @@ function layoutOf(first, body) {
   if (head.head === "compose" && options.gap) Object.assign(options, { gap: options.gap[0] });
   return { kind: head.head, ...options, ...layout2(body) };
 }
-var ARROWS, fail, quoted, tokenize, tree, OPTIONS, FLAGS, PARTS, fold, ungroup, read, option, numberOf, numbers, textOf, oneOf, state, shape, SIGNS2, isSign, TONES2, clean, flow, sequence, cell, matrix, bars, tiles, WIDGETS, isWidget, isControlRow, isControl, flag, controlOf, listRow, lines4, widgetOf, columns, columnsOf, region, sketch, units, chipOf, subOf, chips, cells, notes, compose, LAYOUTS, parse;
+var ARROWS, fail, quoted, tokenize, tree, OPTIONS, FLAGS, PARTS2, fold, ungroup, read, option, numberOf, numbers, textOf, oneOf, state, shape, SIGNS2, isSign, TONES2, clean, flow, sequence, cell, matrix, bars, tiles, WIDGETS, isWidget, isControlRow, isControl, flag, controlOf, listRow, lines4, widgetOf, columns, columnsOf, region, sketch, units, chipOf, subOf, chips, cells, notes, compose, LAYOUTS, parse;
 var init_parse = __esm({
   "packages/frontend/src/lib/diagram/parse.ts"() {
     "use strict";
@@ -8388,7 +8394,7 @@ var init_parse = __esm({
       "bar",
       "centred"
     ]);
-    PARTS = /* @__PURE__ */ new Set(["cells", "chips", "parts", "segments"]);
+    PARTS2 = /* @__PURE__ */ new Set(["cells", "chips", "parts", "segments"]);
     fold = (line2) => {
       const kept2 = [];
       for (const child of line2.children) {
@@ -8409,7 +8415,7 @@ var init_parse = __esm({
           before({ kind: "word", value: word });
         } else if ((OPTIONS.has(word) || line2.tokens[0]?.kind === "word" && line2.tokens[0].value === "legend") && value && !rest.length && (value.kind === "text" || value.kind === "word")) {
           before({ kind: "option", key: word, value: value.value, code: value.kind === "text" && value.code });
-        } else if (PARTS.has(word)) {
+        } else if (PARTS2.has(word)) {
           if (colon < 0) line2.tokens.push({ kind: "colon" });
           line2.tokens.push(...child.tokens.slice(1).filter((t) => t.kind !== "colon"));
         } else {
@@ -10678,14 +10684,15 @@ var init_card = __esm({
       const height = lines5.pad * 2 + (spec.mark ? MARK_LINE : 0) + (spec.eyebrow ? MARK_LINE : 0) + title.length * lines5.title + body.length * lines5.body - 6 + (spec.plain && body.length ? SPLIT : 0) + (list ? above + list : 0);
       return { spec, width: width2, height, title, body, items, itemWidth, lines: lines5 };
     };
-    leastCard = (spec) => {
+    leastCard = (spec, whole = false) => {
+      const narrowest2 = whole ? unbroken : narrowest;
       const glyph2 = spec.shape && spec.shape !== "node" ? GLYPH2 : 0;
       const value = spec.value ? measure(spec.value, SIZE.body) + 12 : 0;
       const tag = spec.tag ? measure(spec.tag, SIZE.label, "mono", 600) + 8 : 0;
-      const title = narrowest(spec.title, titleSetting(spec)) + glyph2 + value + tag;
+      const title = narrowest2(spec.title, titleSetting(spec)) + glyph2 + value + tag;
       const across = Math.max(1, spec.across ?? 1);
-      const item = Math.max(0, ...(spec.items ?? []).map((i) => Math.max(narrowest(i.title, itemSetting(i)) + (i.value ? measure(i.value, SIZE.body) + 12 : 0), narrowest(i.body ?? "", { size: SIZE.body }))));
-      return 2 * padX(spec) + Math.max(title, narrowest(spec.body ?? "", { size: SIZE.body }), 2 * value, across * item + (across - 1) * ITEM.across);
+      const item = Math.max(0, ...(spec.items ?? []).map((i) => Math.max(narrowest2(i.title, itemSetting(i)) + (i.value ? measure(i.value, SIZE.body) + 12 : 0), narrowest2(i.body ?? "", { size: SIZE.body }))));
+      return 2 * padX(spec) + Math.max(title, narrowest2(spec.body ?? "", { size: SIZE.body }), 2 * value, across * item + (across - 1) * ITEM.across);
     };
     drawCard = (m, x, y, height, ctx, what) => {
       const { spec } = m;
@@ -10831,15 +10838,7 @@ var init_flow = __esm({
       const between = (spec.columns.length - 1) * gapX;
       const given = space.width - labelW - 2 * inset - between;
       let widths = spec.columns.map((w) => given * w / total);
-      if (grow) {
-        const need = spec.columns.map((_, c) => Math.max(spec.letters?.[c] ? measure(spec.heads?.[c] ?? "", SIZE.node, "sans", 600) + measure(spec.letters[c] ?? "", SIZE.node, "sans", 600) + 8 : measure((spec.heads?.[c] ?? "").toUpperCase(), SIZE.label, "mono", 600, 0.8), ...spec.nodes.filter((n) => n.at[0] === c && (n.span ?? 1) === 1).map(leastCard)));
-        for (const g of groups) {
-          const cs = g.nodes.flatMap((id) => spec.nodes.filter((n) => n.id === id).map((n) => n.at[0]));
-          const [first, last] = [Math.min(...cs), Math.max(...cs)];
-          const weight = spec.columns.slice(first, last + 1).reduce((a, b) => a + b, 0);
-          const head = measure(g.label, SIZE.label, "mono") - (last - first) * gapX;
-          for (let c = first; c <= last; c++) need[c] = Math.max(need[c] ?? 0, head * (spec.columns[c] ?? 0) / weight);
-        }
+      const share = (need) => {
         const at = (k) => widths.map((w, c) => Math.max(need[c] ?? 0, w * k));
         let [low, high] = [0, 1];
         for (let i = 0; i < 30; i++) {
@@ -10847,7 +10846,27 @@ var init_flow = __esm({
           if (at(k).reduce((a, w) => a + w, 0) > given) high = k;
           else low = k;
         }
-        widths = at(low);
+        return at(low);
+      };
+      const cards = (c, whole2) => Math.max(0, ...spec.nodes.filter((n) => n.at[0] === c && (n.span ?? 1) === 1).map((n) => leastCard(n, whole2)));
+      const least = spec.columns.map((_, c) => Math.min(cards(c, false), widths[c] ?? 0));
+      const whole = spec.columns.map((_, c) => cards(c, true));
+      const keep = least.slice();
+      for (const c of spec.columns.map((_, c2) => c2).sort((a, b) => (whole[a] ?? 0) - (least[a] ?? 0) - ((whole[b] ?? 0) - (least[b] ?? 0)))) {
+        const tried = keep.map((w, i) => i === c ? Math.max(w, whole[c] ?? 0) : w);
+        if (tried.reduce((a, w) => a + w, 0) <= given) keep[c] = tried[c] ?? 0;
+      }
+      widths = share(keep);
+      if (grow) {
+        const need = spec.columns.map((_, c) => Math.max(spec.letters?.[c] ? measure(spec.heads?.[c] ?? "", SIZE.node, "sans", 600) + measure(spec.letters[c] ?? "", SIZE.node, "sans", 600) + 8 : measure((spec.heads?.[c] ?? "").toUpperCase(), SIZE.label, "mono", 600, 0.8), ...spec.nodes.filter((n) => n.at[0] === c && (n.span ?? 1) === 1).map((n) => leastCard(n))));
+        for (const g of groups) {
+          const cs = g.nodes.flatMap((id) => spec.nodes.filter((n) => n.id === id).map((n) => n.at[0]));
+          const [first, last] = [Math.min(...cs), Math.max(...cs)];
+          const weight = spec.columns.slice(first, last + 1).reduce((a, b) => a + b, 0);
+          const head = measure(g.label, SIZE.label, "mono") - (last - first) * gapX;
+          for (let c = first; c <= last; c++) need[c] = Math.max(need[c] ?? 0, head * (spec.columns[c] ?? 0) / weight);
+        }
+        widths = share(need);
         const across = (first, last, need2) => {
           const has = widths.slice(first, last + 1).reduce((a, w) => a + w, 0) + (last - first) * gapX;
           if (has >= need2) return;

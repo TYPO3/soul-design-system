@@ -186,8 +186,32 @@ const place = (spec: FlowSpec, space: Room, ctx: Context, grow: boolean): Drawn 
      drawing grows. A boundary's head and a spanning card share their lack
      out over their columns. */
   let widths = spec.columns.map((w) => (given * w) / total);
+  /* Each column at least as wide as the largest of k × its share and `need`,
+     with k as large as the room lets it be. */
+  const share = (need: number[]): number[] => {
+    const at = (k: number): number[] => widths.map((w, c) => Math.max(need[c] ?? 0, w * k));
+    let [low, high] = [0, 1];
+    for (let i = 0; i < 30; i++) {
+      const k = (low + high) / 2;
+      if (at(k).reduce((a, w) => a + w, 0) > given) high = k;
+      else low = k;
+    }
+    return at(low);
+  };
+  /* A name stays whole where the other columns can spare the width. A box
+     breaks a name only where the drawing has no room for it. The columns
+     that ask the least more go first. */
+  const cards = (c: number, whole: boolean): number => Math.max(0, ...spec.nodes.filter((n) => n.at[0] === c && (n.span ?? 1) === 1).map((n) => leastCard(n, whole)));
+  const least = spec.columns.map((_, c) => Math.min(cards(c, false), widths[c] ?? 0));
+  const whole = spec.columns.map((_, c) => cards(c, true));
+  const keep = least.slice();
+  for (const c of spec.columns.map((_, c) => c).sort((a, b) => (whole[a] ?? 0) - (least[a] ?? 0) - ((whole[b] ?? 0) - (least[b] ?? 0)))) {
+    const tried = keep.map((w, i) => (i === c ? Math.max(w, whole[c] ?? 0) : w));
+    if (tried.reduce((a, w) => a + w, 0) <= given) keep[c] = tried[c] ?? 0;
+  }
+  widths = share(keep);
   if (grow) {
-    const need = spec.columns.map((_, c) => Math.max(spec.letters?.[c] ? measure(spec.heads?.[c] ?? '', SIZE.node, 'sans', 600) + measure(spec.letters[c] ?? '', SIZE.node, 'sans', 600) + 8 : measure((spec.heads?.[c] ?? '').toUpperCase(), SIZE.label, 'mono', 600, 0.8), ...spec.nodes.filter((n) => n.at[0] === c && (n.span ?? 1) === 1).map(leastCard)));
+    const need = spec.columns.map((_, c) => Math.max(spec.letters?.[c] ? measure(spec.heads?.[c] ?? '', SIZE.node, 'sans', 600) + measure(spec.letters[c] ?? '', SIZE.node, 'sans', 600) + 8 : measure((spec.heads?.[c] ?? '').toUpperCase(), SIZE.label, 'mono', 600, 0.8), ...spec.nodes.filter((n) => n.at[0] === c && (n.span ?? 1) === 1).map((n) => leastCard(n))));
     /* A boundary's head asks its columns for its width, each at its weight. */
     for (const g of groups) {
       const cs = g.nodes.flatMap((id) => spec.nodes.filter((n) => n.id === id).map((n) => n.at[0]));
@@ -196,14 +220,7 @@ const place = (spec: FlowSpec, space: Room, ctx: Context, grow: boolean): Drawn 
       const head = measure(g.label, SIZE.label, 'mono') - (last - first) * gapX;
       for (let c = first; c <= last; c++) need[c] = Math.max(need[c] ?? 0, (head * (spec.columns[c] ?? 0)) / weight);
     }
-    const at = (k: number): number[] => widths.map((w, c) => Math.max(need[c] ?? 0, w * k));
-    let [low, high] = [0, 1];
-    for (let i = 0; i < 30; i++) {
-      const k = (low + high) / 2;
-      if (at(k).reduce((a, w) => a + w, 0) > given) high = k;
-      else low = k;
-    }
-    widths = at(low);
+    widths = share(need);
     const across = (first: number, last: number, need: number): void => {
       const has = widths.slice(first, last + 1).reduce((a, w) => a + w, 0) + (last - first) * gapX;
       if (has >= need) return;

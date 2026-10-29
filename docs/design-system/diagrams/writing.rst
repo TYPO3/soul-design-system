@@ -286,6 +286,11 @@ Nodes on a grid, joined by connectors, in boundaries.
   column that is too narrow takes room from the others. Where they have
   none to give, the flow grows, up to twice its width, and the page shrinks
   it. On a slide, the room stays the room.
+- A name in a box stays whole where the other columns can spare the
+  width, such as ``page-resolver``. A column takes that width from the
+  others before it breaks a name. With no room, a word breaks after a
+  slash first. A part still too wide breaks after a hyphen, a dot or an
+  underscore.
 
 sequence
 --------

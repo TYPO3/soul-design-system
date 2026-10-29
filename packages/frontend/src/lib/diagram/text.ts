@@ -51,11 +51,16 @@ export interface Setting {
   spacing?: number;
 }
 
-/* A word wider than the box breaks where an identifier or a path can. That
-   is after a hyphen, a slash, a dot or an underscore. It is also before a
-   capital after a small letter. The pieces join with no space. */
-const pieces = (word: string, fits: (s: string) => boolean): { text: string; joined: boolean }[] =>
-  (fits(word) ? [word] : word.split(/(?<=[-/._])|(?<=[a-z])(?=[A-Z])/)).map((text, i) => ({ text, joined: i > 0 }));
+/* A word wider than the box breaks where a path does, after a slash. A
+   part still too wide breaks where an identifier can. That is after a
+   hyphen, a dot or an underscore, or before a capital after a small letter.
+   The pieces join with no space. */
+const PATH = /(?<=\/)/;
+const PARTS = /(?<=[-/._])|(?<=[a-z])(?=[A-Z])/;
+const pieces = (word: string, fits: (s: string) => boolean): { text: string; joined: boolean }[] => {
+  const split = fits(word) ? [word] : word.split(PATH).flatMap((part) => (fits(part) ? [part] : part.split(PARTS)));
+  return split.map((text, i) => ({ text, joined: i > 0 }));
+};
 
 /* A space after an icon does not break: the icon stays with its word. Nor
    does a space before a separator: a line ends on the separator. */
@@ -95,8 +100,12 @@ export const byParts = (s: string, max: number, fits: (t: string, room: number) 
 
 /** The narrowest box `s` wraps into: its widest piece, where a word
     breaks as `pieces` breaks it. */
-export const narrowest = (s: string, setting: Setting): number =>
-  Math.max(0, ...s.split(/(?<![\uE000-\uF8FF])\s+(?!·)/).flatMap((word) => word.split(/(?<=[-/._])|(?<=[a-z])(?=[A-Z])/)).map((piece) => measure(piece, setting.size, setting.face, setting.weight, setting.spacing)));
+export const narrowest = (s: string, setting: Setting, at: RegExp = PARTS): number =>
+  Math.max(0, ...s.split(/(?<![\uE000-\uF8FF])\s+(?!·)/).flatMap((word) => word.split(at)).map((piece) => measure(piece, setting.size, setting.face, setting.weight, setting.spacing)));
+
+/** The narrowest box `s` wraps into with every name whole: it breaks at a
+    space and after a slash, never inside a name. */
+export const unbroken = (s: string, setting: Setting): number => narrowest(s, setting, PATH);
 
 /** The lines of `s` in a box `max` wide, as full as they go. Where the last
     line holds less than a third of the box, the lines even out, so no word

@@ -109,6 +109,16 @@ describe('the build refuses what the grammar forbids', () => {
     expect(svg).toContain('>hidden · timed · group<');
   });
 
+  test('a path breaks after its slashes, and a name in it stays whole where it fits', () => {
+    expect(wrap('typo3/cms-frontend/preview-simulator', 175, { size: 16, weight: 600 }, 'path')).toEqual(['typo3/', 'cms-frontend/', 'preview-simulator']);
+  });
+
+  test('a column takes the width a name needs from the others, where they can spare it', () => {
+    const text = `flow\n  columns 1,1,1\ntitle "A claim"\ndescription "Three boxes."\n\na "page-resolver"\n  at 0,0\nb "shortcut-and-mountpoint-redirect"\n  at 1,0\nc "auth"\n  at 2,0\n`;
+    const { svg } = diagram(parse(text), { name: 'whole' });
+    expect(svg).toContain('>shortcut-and-mountpoint-redirect</text>');
+  });
+
   test('a text of parts breaks after a separator where it can, and no line opens with one', () => {
     const lines = wrap('view of the page module · not the edit view', 192, { size: 13, face: 'mono' }, 'separator');
     expect(lines.length).toBeGreaterThan(1);

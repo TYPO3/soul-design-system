@@ -68,8 +68,10 @@ export interface Measured {
 /** The lines of a card at a width, and the height they take. */
 export declare const measureCard: (spec: CardSpec, width: number, what: string, dense?: boolean) => Measured;
 /** The narrowest card that holds its longest word on a line. A column
-    narrower than that refuses the card, so the flow widens to it. */
-export declare const leastCard: (spec: CardSpec) => number;
+    narrower than that refuses the card, so the flow widens to it. With
+    `whole`, the card that holds every name whole, which a flow gives where
+    it has the room. */
+export declare const leastCard: (spec: CardSpec, whole?: boolean) => number;
 /** The card at its place. `height` can be more than it measured, to line
     it up with its row, and the text then centres in it. */
 export declare const drawCard: (m: Measured, x: number, y: number, height: number, ctx: Context, what: string) => string;

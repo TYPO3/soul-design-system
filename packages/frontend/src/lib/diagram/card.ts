@@ -7,7 +7,7 @@
 
 import type { Context, State } from './context.ts';
 import { CANVAS, INK, MUTED, RAISED, SECONDARY, SIZE, SUBTLE, WARN, rect, shapeSign, text } from './paint.ts';
-import { measure, narrowest, wrap } from './text.ts';
+import { measure, narrowest as least, unbroken, wrap } from './text.ts';
 
 /** One entry of a card's list: a name, a line under it, a figure at its right. */
 export interface CardItem {
@@ -111,8 +111,11 @@ export const measureCard = (spec: CardSpec, width: number, what: string, dense =
 };
 
 /** The narrowest card that holds its longest word on a line. A column
-    narrower than that refuses the card, so the flow widens to it. */
-export const leastCard = (spec: CardSpec): number => {
+    narrower than that refuses the card, so the flow widens to it. With
+    `whole`, the card that holds every name whole, which a flow gives where
+    it has the room. */
+export const leastCard = (spec: CardSpec, whole = false): number => {
+  const narrowest = whole ? unbroken : least;
   const glyph = spec.shape && spec.shape !== 'node' ? GLYPH : 0;
   const value = spec.value ? measure(spec.value, SIZE.body) + 12 : 0;
   const tag = spec.tag ? measure(spec.tag, SIZE.label, 'mono', 600) + 8 : 0;
