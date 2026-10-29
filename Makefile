@@ -190,11 +190,12 @@ start:
 # and a task in one put a second `app` in the list. Under WSL the VM's
 # address stands here too: the relay stops while the stack stays healthy.
 # A port the image exposes and nothing publishes lists as 0, so the address
-# is the first published port that is not.
+# is the first published port that is not. The template reads the field, not
+# the printed form, which changes between Compose releases.
 status:
 	@command -v docker >/dev/null 2>&1 || { \
 		printf '\n  Docker is not installed — this repo runs nothing on the host\n\n'; exit 0; }
-	@rows=$$($(COMPOSE) ps -a --format '{{.Labels}}|{{.Service}}|{{.State}}|{{.Publishers}}' 2>/dev/null \
+	@rows=$$($(COMPOSE) ps -a --format '{{.Labels}}|{{.Service}}|{{.State}}|{{range .Publishers}}{{if .PublishedPort}}{{.PublishedPort}} {{end}}{{end}}' 2>/dev/null \
 		| grep -v 'oneoff=True' | cut -d'|' -f2-); \
 	case "$$rows" in *running*) ;; *) \
 		printf '\n  nothing is running        make start   brings the stack up\n\n'; exit 0;; esac; \
@@ -202,7 +203,7 @@ status:
 	printf '%s\n' $(SURFACES) | while IFS='|' read -r service idle what; do \
 		row=$$(printf '%s\n' "$$rows" | grep "^$$service|" || true); \
 		state=$$(printf '%s' "$$row" | cut -d'|' -f2); \
-		port=$$(printf '%s' "$$row" | sed -n 's/.*{[^ ]* [0-9]* \([1-9][0-9]*\) [a-z]*}.*/\1/p'); \
+		port=$$(printf '%s' "$$row" | cut -d'|' -f3 | cut -d' ' -f1); \
 		if [ -z "$$state" ]; then where='(not created)'; \
 		elif [ "$$state" != running ]; then where="($$state)"; \
 		elif [ -n "$$port" ]; then where="http://localhost:$$port"; \
@@ -210,7 +211,7 @@ status:
 		printf '    %-10s %-31s  %s\n' "$$service" "$$where" "$$what"; \
 	done; \
 	if grep -qi microsoft /proc/sys/kernel/osrelease 2>/dev/null; then \
-		port=$$(printf '%s\n' "$$rows" | sed -n 's/^storybook|running|.*{[^ ]* [0-9]* \([1-9][0-9]*\) [a-z]*}.*/\1/p'); \
+		port=$$(printf '%s\n' "$$rows" | grep '^storybook|running|' | cut -d'|' -f3 | cut -d' ' -f1); \
 		ip=$$(ip -4 addr show eth0 2>/dev/null | awk '/inet /{print $$2}' | cut -d/ -f1); \
 		[ -n "$$ip" ] && [ -n "$$port" ] && \
 			printf '\n    from Windows, if localhost does not answer:  http://%s:%s/\n' "$$ip" "$$port"; \
