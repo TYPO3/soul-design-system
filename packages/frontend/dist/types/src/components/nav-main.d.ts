@@ -217,7 +217,7 @@ export declare class SdsNavMain extends SdsNav {
     private toggle_;
     protected render(): TemplateResult;
     protected willUpdate(changed: PropertyValues<SdsNavMain>): void;
-    protected updated(): void;
+    protected updated(changed: Map<PropertyKey, unknown>): void;
     /** The step, shown as one. The level arrives from the side of its approach,
         and the drawer grows into its new height instead of a jump. Both in the
         one duration and curve the system moves anything in, read from the

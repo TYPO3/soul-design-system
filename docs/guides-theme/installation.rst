@@ -38,7 +38,8 @@ instead, with no error, and the site it renders breaks. Remove the pin.
 
    A stylesheet is not a PHP dependency, which is why this package carries
    one. ``vendor/typo3/soul-guides-theme/resources/dist/`` is the drop-in:
-   ``soul.css``, ``soul.js``, ``soul-boot.js``, the faces, the icon sprites,
+   ``soul.css``, ``soul.js`` with ``soul-chunks/``, ``soul-boot.js``, the
+   faces, the icon sprites,
    and the finishing step of step 4. The install above is the whole of it.
    No checkout of the design system is part of this.
 
@@ -151,6 +152,7 @@ on a reference that leaves the output.
        soul-boot.js     sets the mode before the first paint
        soul.css
        soul.js
+       soul-chunks/     the diagram engine and the highlighter, on first use
        fonts/
        assets/
 

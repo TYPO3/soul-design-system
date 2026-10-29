@@ -39,6 +39,7 @@ export declare function tell(deck: {
     numbered: boolean;
 }, slides: readonly Told[]): Record<string, string>[];
 export declare class SdsDeck extends SdsElement {
+    #private;
     static properties: {
         label: {
             type: StringConstructor;
@@ -99,12 +100,17 @@ export declare class SdsDeck extends SdsElement {
     private own;
     private slides;
     /** The slides whose picture the list already holds. */
+    /** The picture each entry of the list holds, by the slide it shows. A
+        deck that opens again keeps those whose slide stands in the same place. */
     private drawn;
     private drawing;
+    /** The pushes still under way, each with its last-resort end. */
+    private pushing;
+    /** A furnish asked, for the next microtask. */
+    private asked;
     private loan?;
     private keys?;
     private asks?;
-    private grows?;
     private readonly given;
     /** The slide to come back to after a print, if the deck was open. */
     private resume;
@@ -114,6 +120,7 @@ export declare class SdsDeck extends SdsElement {
     constructor();
     private get dialog();
     connectedCallback(): void;
+    private readonly onJoin;
     private furnish;
     private hand;
     disconnectedCallback(): void;

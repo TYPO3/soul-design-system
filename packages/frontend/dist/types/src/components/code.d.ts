@@ -71,6 +71,7 @@ export interface CodeBlockProps {
     start?: number;
 }
 export declare class SdsCode extends SdsElement {
+    #private;
     static properties: {
         lang: {
             type: StringConstructor;
@@ -129,10 +130,13 @@ export declare class SdsCode extends SdsElement {
         like any other. */
     private get written();
     private take;
+    disconnectedCallback(): void;
     private get copyButton();
     private line;
     private get given();
     private get wrapped();
+    private colour;
+    protected getUpdateComplete(): Promise<boolean>;
     /** Where the block's lines start, as the numbers say: `start`, or one
         where nothing set it and a remark still counts. */
     private get first();
@@ -142,5 +146,6 @@ export declare class SdsCode extends SdsElement {
     private rowOf;
     private get lined();
     private get remarked();
+    private get painted();
     protected render(): TemplateResult;
 }

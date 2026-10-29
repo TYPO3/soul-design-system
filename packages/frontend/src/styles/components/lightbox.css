@@ -60,7 +60,7 @@
      A wheel over the backdrop still moves the page behind the picture. The
      stable gutter keeps the scrollbar's width reserved, or the locked document
      jumps the page sideways as the viewer opens. */
-  html:has(dialog.sds-modal[open], dialog.sds-lightbox[open]) {
+  html[data-sds-hold~="modal"] {
     overflow: hidden;
     scrollbar-gutter: stable;
   }

@@ -126,6 +126,7 @@ export const PACKAGES: readonly Package[] = [
         'resources/config/soul.php',
         'resources/template/structure/layout.html.twig',
         'resources/dist/soul.css', 'resources/dist/soul.js',
+        'resources/dist/soul-chunks/diagram.js', 'resources/dist/soul-chunks/highlight.js',
         'resources/dist/soul-boot.js',
         'resources/dist/soul-finish.js',
       ].filter((path) => !existsSync(join(pkg, path)));
@@ -193,6 +194,7 @@ export const PACKAGES: readonly Package[] = [
         'src/styles/base.css', 'src/styles/layout.css', 'src/styles/components.css',
         'src/styles/components/card.css',
         'dist/soul.css', 'dist/soul.js', 'dist/soul-boot.js',
+        'dist/soul-chunks/diagram.js', 'dist/soul-chunks/highlight.js',
         'dist/index.js',
       ].filter((path) => !existsSync(join(pkg, path)));
 

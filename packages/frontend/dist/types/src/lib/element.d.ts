@@ -18,7 +18,8 @@ export interface Region {
 }
 /** The name of the region a child without a `slot` goes to. */
 export declare const TEXT = "text";
-/** A node as a region's child, one level of its own children with it. */
+/** A node as a region's child. Its own children come when a component
+    asks for them, so nothing reads a deep region once for every level. */
 export declare function regionOf(node: Node): Region;
 export declare class SdsElement extends LitElement {
     #private;

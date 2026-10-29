@@ -57,6 +57,8 @@ export declare class SdsDiagram extends SdsElement {
     /** The text to draw: `source`, else what stands between the tags, else
         the same under a prerender, where Node hands it over as markup. */
     private get text();
+    protected getUpdateComplete(): Promise<boolean>;
     protected render(): TemplateResult;
     private fits;
+    private tryRooms;
 }

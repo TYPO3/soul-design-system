@@ -321,3 +321,23 @@ test('a grid stands as many across as its columns say, on a slide as on a page',
   }
   document.body.replaceChildren();
 });
+
+/* A slide measures what it holds when its room changes, not when the page
+   around it grows. A long page of slides that watched the whole page
+   measured once for each slide in view on every line added above them. */
+test('a slide watches its parent and its own boxes, never the whole page', async () => {
+  const observe = ResizeObserver.prototype.observe;
+  const watched: Element[] = [];
+  ResizeObserver.prototype.observe = function (this: ResizeObserver, target: Element, options?: ResizeObserverOptions) {
+    watched.push(target);
+    return observe.call(this, target, options);
+  };
+  try {
+    await mount(COUNTED.table);
+    await rest();
+  } finally {
+    ResizeObserver.prototype.observe = observe;
+  }
+  expect(watched.length, 'a slide watches something').toBeGreaterThan(0);
+  expect(watched.includes(document.documentElement), 'nothing watches the root').toBe(false);
+});

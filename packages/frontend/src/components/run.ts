@@ -138,10 +138,15 @@ export class SdsRun extends SdsElement {
     return [...held].map(([name, steps]) => ({ name, steps }));
   }
 
-  /* What a step writes runs on, so the reader sees its end. */
+  /* What a step writes runs on, so the reader sees its end. Only when it
+     wrote more: a scroll reads the layout the render just wrote. */
+  #scrolled = '';
   protected override updated(): void {
     const output = this.querySelector('.sds-run__step--running .sds-run__output');
-    if (output) output.scrollTop = output.scrollHeight;
+    const written = output?.textContent ?? '';
+    if (!output || written === this.#scrolled) return;
+    this.#scrolled = written;
+    output.scrollTop = output.scrollHeight;
   }
 
   /** A press is the reader's answer to "must this stand open?", and the
@@ -216,10 +221,20 @@ export class SdsRun extends SdsElement {
     tools wrote. One span per line, so the gutter is a counter and the numbers
     are never in the text a reader copies out. */
 function lines(output: string): TemplateResult[] {
-  return output.split('\n').map((line) => {
+  const known = drawn.get(output);
+  if (known) return known;
+  const made = output.split('\n').map((line) => {
     const tone = TONES.find(({ mark }) => line.startsWith(mark))?.tone ?? '';
     return html`<span class="sds-run__line${tone ? ` sds-run__line--${tone}` : ''}">${line}</span>`;
   });
+  drawn.set(output, made);
+  /* The oldest output goes, so a long run keeps only what it shows. */
+  if (drawn.size > DRAWN) drawn.delete(drawn.keys().next().value as string);
+  return made;
 }
+/* The lines of an output already drawn, so a run that writes on draws only
+   the step that changed. */
+const DRAWN = 64;
+const drawn = new Map<string, TemplateResult[]>();
 
 define('sds-run', SdsRun);

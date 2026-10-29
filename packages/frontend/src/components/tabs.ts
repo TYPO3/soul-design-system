@@ -114,6 +114,18 @@ export class SdsTabs extends SdsNav {
     super.connectedCallback();
   }
 
+  /* Children that come with the page around this one arrive in the same
+     frame. A frame after the first render with none, the wait stops. */
+  protected override firstUpdated(): void {
+    if (!this.arriving) return;
+    requestAnimationFrame(() => {
+      if (!this.arriving || this.panels.length) return;
+      if (this.arriving.takeRecords().length && this.lift()) this.requestUpdate();
+      this.arriving.disconnect();
+      this.arriving = undefined;
+    });
+  }
+
   override disconnectedCallback(): void {
     this.arriving?.disconnect();
     SdsTabs.agreeing.delete(this);

@@ -392,3 +392,25 @@ test('a slide says the section it stands in, and its own eyebrow wins', async ()
   const eyebrows = qa<SdsSlide>('sds-slide').map((slide) => slide.getAttribute('eyebrow'));
   expect(eyebrows).toEqual([null, null, null, '01 · What it is', 'Its own', null, '02 · How to start']);
 });
+
+test('a deck watches no part of the page, and it still counts a slide that joins later', async () => {
+  const watched: Node[] = [];
+  const observe = MutationObserver.prototype.observe;
+  MutationObserver.prototype.observe = function (target: Node, options?: MutationObserverInit) {
+    if (options?.subtree) watched.push(target);
+    return observe.call(this, target, options);
+  };
+  try {
+    await mount(WithSlides);
+  } finally {
+    MutationObserver.prototype.observe = observe;
+  }
+  expect(watched.filter((node) => node === document.body || node === document.documentElement), 'no observer on the whole page').toEqual([]);
+
+  const slides = qa<SdsSlide>('main sds-slide');
+  const late = document.createElement('sds-slide');
+  late.setAttribute('heading', 'A slide that joins later');
+  slides.at(-1)?.after(late);
+  await rest();
+  expect(late.hasAttribute('shrink'), 'the deck furnishes a slide that joins later').toBe(true);
+});

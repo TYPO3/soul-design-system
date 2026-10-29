@@ -9189,6 +9189,12 @@
           ],
           "events": [
             {
+              "name": "sds-slide-join",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
               "name": "sds-slide-open",
               "type": {
                 "text": "CustomEvent"

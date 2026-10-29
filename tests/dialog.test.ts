@@ -157,8 +157,10 @@ test('a size is a width and a height, and the body is what scrolls', async () =>
 test('the head places its title and its close alike in every surface', async () => {
   const heads: Record<string, unknown>[] = [];
   for (const id of ['confirm', 'wide', 'word', 'drawing']) {
-    const root = q(`#${id}`) as HTMLElement & { show(): void; close(): void };
+    const root = q(`#${id}`) as HTMLElement & { show(): void; close(): void; updateComplete: Promise<unknown> };
     root.show();
+    /* A viewer draws its head in the update that opens it. */
+    await root.updateComplete;
     await expect.element(q(`#${id} dialog .sds-modal__head`)).toBeVisible();
     const frame = box(q('dialog', root));
     const title = box(q('.sds-modal__title', root));
@@ -216,4 +218,14 @@ test('a button that names the drawing opens it, and a command closes it', async 
   await expect.element(viewer).toBeVisible();
   command('toggle');
   await expect.element(viewer).not.toBeVisible();
+});
+
+test('an open question holds the page still, and its close lets it go', async () => {
+  const root = document.documentElement;
+  q('#open').click();
+  await expect.poll(() => shown(q('#confirm dialog'))).toBe(true);
+  expect(root.getAttribute('data-sds-hold'), 'the root says what holds it').toBe('modal');
+  expect(getComputedStyle(root).overflow, 'the page under the question does not scroll').toBe('hidden');
+  await userEvent.keyboard('{Escape}');
+  await expect.poll(() => root.hasAttribute('data-sds-hold')).toBe(false);
 });

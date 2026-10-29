@@ -18,6 +18,7 @@ export interface CopyProps {
     ellipsis?: CopyEllipsis;
 }
 export declare class SdsCopy extends SdsElement {
+    #private;
     static properties: {
         value: {
             type: StringConstructor;
@@ -39,5 +40,6 @@ export declare class SdsCopy extends SdsElement {
     copied: boolean;
     constructor();
     private take;
+    disconnectedCallback(): void;
     protected render(): TemplateResult;
 }

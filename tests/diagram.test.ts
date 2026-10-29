@@ -589,13 +589,15 @@ test('a zoomable drawing opens at the size of the window, drawn inline with ids 
   try {
     render(sdsDiagram({ source: flow.SYSTEM, name: 'system', zoomable: true }), host);
     await customElements.whenDefined('sds-lightbox');
+    /* The first drawing fetches the engine: its update waits for it. */
+    await host.querySelector<HTMLElement & { updateComplete: Promise<boolean> }>('sds-diagram')?.updateComplete;
     await new Promise((r) => requestAnimationFrame(r));
     const press = host.querySelector<HTMLButtonElement>('sds-diagram button.sds-zoom');
     expect(press?.querySelector('svg #system-title')).not.toBeNull();
+    expect(host.querySelector('svg #system-large-title'), 'the closed viewer draws nothing').toBeNull();
     press?.click();
-    await new Promise((r) => requestAnimationFrame(r));
+    await expect.poll(() => host.querySelector<HTMLDialogElement>('sds-diagram dialog')?.open).toBe(true);
     const dialog = host.querySelector<HTMLDialogElement>('sds-diagram dialog');
-    expect(dialog?.open).toBe(true);
     expect(dialog?.querySelector('svg #system-large-title')).not.toBeNull();
     expect(dialog?.getAttribute('aria-label')).toBe(parse(flow.SYSTEM).title);
   } finally {
@@ -609,6 +611,8 @@ test('the viewer opens the drawing fitted, and zooms, moves and fits it again', 
   try {
     render(sdsDiagram({ source: flow.SYSTEM, name: 'viewed', zoomable: true }), host);
     await customElements.whenDefined('sds-lightbox');
+    /* The first drawing fetches the engine: its update waits for it. */
+    await host.querySelector<HTMLElement & { updateComplete: Promise<boolean> }>('sds-diagram')?.updateComplete;
     await new Promise((r) => requestAnimationFrame(r));
     host.querySelector<HTMLButtonElement>('button.sds-zoom')!.click();
     await new Promise((r) => setTimeout(r, 100));

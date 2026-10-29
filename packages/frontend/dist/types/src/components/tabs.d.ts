@@ -43,6 +43,7 @@ export declare class SdsTabs extends SdsNav {
     private lift;
     private arriving?;
     connectedCallback(): void;
+    protected firstUpdated(): void;
     disconnectedCallback(): void;
     protected choose(index: number): void;
     /** Where the choice lives. One key per group, so two sets that agree

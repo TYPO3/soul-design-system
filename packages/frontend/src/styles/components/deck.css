@@ -42,6 +42,8 @@
     );
     --sds-deck-list-gap: var(--space-1);
     --sds-deck-entry-gap: var(--space-2);
+    --sds-deck-entry-unseen-width: calc(var(--sds-deck-thumb-width) + var(--sds-deck-entry-gap) * 2);
+    --sds-deck-entry-unseen: calc(var(--sds-deck-thumb-width) * 9 / 16 + var(--sds-deck-entry-gap) * 6);
     --sds-deck-entry-size: var(--font-size-small);
     --sds-deck-entry-ink: var(--text-secondary);
     --sds-deck-entry-current: var(--text-primary);
@@ -56,6 +58,7 @@
     --sds-deck-progress-size: var(--border-emphasis);
     --sds-deck-progress-track: var(--border-subtle);
     --sds-deck-progress-fill: var(--text-muted);
+    --sds-deck-through: 0;
     /* A slide let go goes back, or on, at this pace: a whole stage width
        wants longer than a control's change of state. The drag is where the
        finger has it; the element measures it onto the stage. */
@@ -111,7 +114,7 @@
   }
   /* The page under the deck stays where it is. No gutter: the deck covers
      the whole window, and a reserved scrollbar is a stripe down its edge. */
-  html:has(dialog.sds-deck[open]) {
+  html[data-sds-hold~="deck"] {
     overflow: hidden;
   }
 
@@ -187,11 +190,18 @@
     block-size: var(--sds-deck-progress-size);
     background: var(--sds-deck-progress-track);
 
+    /* Scaled, not sized: a turn moves the bar and lays out nothing. */
     > span {
       display: block;
       block-size: 100%;
       background: var(--sds-deck-progress-fill);
-      transition: inline-size var(--sds-deck-turn);
+      transform: scaleX(var(--sds-deck-through));
+      transform-origin: left;
+      transition: transform var(--sds-deck-turn);
+
+      &:dir(rtl) {
+        transform-origin: right;
+      }
     }
   }
 
@@ -307,6 +317,13 @@
     display: flex;
     flex-direction: column;
     gap: var(--sds-deck-list-gap);
+
+    /* The browser skips an entry out of the list's sight. Until first
+       seen, it holds the height of a picture and its line. */
+    > li {
+      content-visibility: auto;
+      contain-intrinsic-size: auto var(--sds-deck-entry-unseen-width) auto var(--sds-deck-entry-unseen);
+    }
   }
   /* One slide in the list: its picture, and under it one line with its
      count and its title. Nothing stands on the picture, whose corner is

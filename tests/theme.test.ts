@@ -8,7 +8,7 @@
 
 import { afterEach, beforeEach, expect, test } from 'vitest';
 import { userEvent } from 'vitest/browser';
-import { q, settle, write } from './lib/frame.ts';
+import { q, qa, settle, write } from './lib/frame.ts';
 
 const button = (): HTMLButtonElement => q<HTMLButtonElement>('sds-theme button');
 const said = (): string => button().getAttribute('aria-label') ?? '';
@@ -72,4 +72,34 @@ test('two products on one origin are two keys', async () => {
   await userEvent.click(button());
   expect(localStorage.getItem('companion-theme')).toBe('light');
   expect(localStorage.getItem('soul-theme'), 'the default key stays empty').toBeNull();
+});
+
+test('a press holds every transition but the mark for the frames of the switch', async () => {
+  await write('<sds-theme></sds-theme><a href="#" class="sds-link">a link</a>', { theme: 'dark' });
+  button().click();
+  expect(document.documentElement.hasAttribute('data-switching'), 'the switch carries its mark at once').toBe(true);
+  expect(getComputedStyle(q('.sds-link')).transitionDuration, 'nothing else transitions').toBe('0s');
+  await new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(() => requestAnimationFrame(done))));
+  expect(document.documentElement.hasAttribute('data-switching'), 'and the mark goes after two frames').toBe(false);
+  await settle();
+});
+
+test('every element that follows the mode hears it through one observer on the root', async () => {
+  let made = 0;
+  const Native = window.MutationObserver;
+  window.MutationObserver = class extends Native {
+    override observe(target: Node, options?: MutationObserverInit): void {
+      if (target === document.documentElement && options?.attributeFilter?.includes('data-theme')) made += 1;
+      super.observe(target, options);
+    }
+  };
+  try {
+    await write('<sds-theme></sds-theme><sds-theme key="other"></sds-theme><sds-embed src="about:blank" title="A frame"></sds-embed>', { theme: 'dark' });
+  } finally {
+    window.MutationObserver = Native;
+  }
+  expect(made, 'one observer for all of them').toBeLessThanOrEqual(1);
+  document.documentElement.dataset['theme'] = 'light';
+  await expect.poll(() => qa('sds-theme button').map((one) => one.getAttribute('aria-label')).join('|'))
+    .toBe('Colour mode: light. Switch to dark.|Colour mode: light. Switch to dark.');
 });

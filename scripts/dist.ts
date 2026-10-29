@@ -134,6 +134,33 @@ const catalogue: esbuild.Plugin = {
 
 /* The drop-in. Lit inside, one stylesheet, and the files both of them ask
    for beside them at the paths they already use. */
+/* The diagram engine and the highlighter stand apart, in `soul-chunks/`.
+   A page fetches one on its first drawing or coloured block, and none
+   where it has neither. Each chunk is whole on its own, so the bundle a
+   page always loads asks for no file of theirs. */
+const CHUNKS: Record<string, string> = {
+  diagram: join(FRONTEND, 'src', 'lib', 'diagram', 'engine.ts'),
+  highlight: join(FRONTEND, 'src', 'lib', 'highlight.ts'),
+};
+const apart: esbuild.Plugin = {
+  name: 'apart',
+  setup(build) {
+    build.onResolve({ filter: /^\.\/(engine|highlight)\.ts$/ }, (args) => {
+      if (args.kind !== 'dynamic-import') return undefined;
+      const name = Object.keys(CHUNKS).find((key) => CHUNKS[key] === join(args.resolveDir, args.path));
+      return name ? { path: `./soul-chunks/${name}.js`, external: true } : undefined;
+    });
+  },
+};
+const chunkOptions: esbuild.BuildOptions = {
+  entryPoints: CHUNKS,
+  outdir: join(OUT, 'soul-chunks'),
+  bundle: true,
+  format: 'esm',
+  target: 'es2022',
+  minify: true,
+  legalComments: 'none',
+};
 const jsOptions: esbuild.BuildOptions = {
   entryPoints: [join(FRONTEND, 'src', 'index.ts')],
   outfile: join(OUT, 'soul.js'),
@@ -143,7 +170,7 @@ const jsOptions: esbuild.BuildOptions = {
   minify: true,
   legalComments: 'none',
   metafile: true,
-  plugins: [catalogue],
+  plugins: [catalogue, apart],
 };
 
 /* What the stylesheet says about itself, because it is the file an outside
@@ -324,6 +351,7 @@ if (WATCH) {
 
   const contexts = await Promise.all([
     esbuild.context(watched(jsOptions, 'dist/soul.js')),
+    esbuild.context(watched(chunkOptions, 'dist/soul-chunks/')),
     esbuild.context(watched(cssOptions, 'dist/soul.css')),
     esbuild.context(watched(inlineOptions, 'dist/soul-inline.css')),
     esbuild.context(watched(bootOptions, 'dist/soul-boot.js')),
@@ -343,6 +371,7 @@ if (WATCH) {
 }
 
 const drop = await esbuild.build(jsOptions);
+await esbuild.build(chunkOptions);
 await esbuild.build(cssOptions);
 await esbuild.build(inlineOptions);
 await esbuild.build(bootOptions);
@@ -359,6 +388,7 @@ const BUILT: readonly (readonly [file: string, what: string])[] = [
   ['dist/soul.js', `${kb('soul.js')}, lit bundled, from ${Object.keys(drop.metafile?.inputs ?? {}).length} modules`],
   ['dist/soul.css', `${kb('soul.css')}, faces and tokens inlined`],
   ['dist/soul-inline.css', `${kb('soul-inline.css')}, the same sheet with the faces inside it`],
+  ['dist/soul-chunks/', `${kb('soul-chunks/diagram.js')} engine and ${kb('soul-chunks/highlight.js')} highlighter, fetched on first use`],
   ['dist/soul-boot.js', `${kb('soul-boot.js')}, the pre-paint line, not a module`],
   ['dist/soul-finish.js', `${kb('soul-finish.js')}, the step after a render, for Node`],
   ['dist/soul-check.js', `${kb('soul-check.js')}, the rule a consumer runs, for Node`],

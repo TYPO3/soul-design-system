@@ -193,3 +193,22 @@ test('a set can say its question without drawing it', async () => {
   const first = box(qa('.sds-check', set)[0] as HTMLElement).top;
   expect(first - box(set).top, 'and leaves no gap where it stood').toBeLessThan(4);
 });
+
+test('a textarea keeps its node, its focus and its caret while a reader types', async () => {
+  document.body.innerHTML = '<form><sds-textarea name="note" value="Say what happened" error="Say more"></sds-textarea></form>';
+  await customElements.whenDefined('sds-textarea');
+  const host = document.querySelector('sds-textarea') as HTMLElement & { updateComplete: Promise<unknown> };
+  await host.updateComplete;
+  const area = host.querySelector('textarea')!;
+  expect(area.getAttribute('placeholder'), 'the prompt stands before a keystroke').toBe('Say what happened');
+  area.focus();
+  await userEvent.keyboard('ab');
+  await host.updateComplete;
+  expect(host.querySelector('textarea'), 'the same node, not a new one').toBe(area);
+  expect(document.activeElement, 'the focus stays in the box').toBe(area);
+  expect(area.value).toBe('ab');
+  expect(area.selectionStart, 'the caret stays after the typed text').toBe(2);
+  expect(area.hasAttribute('placeholder'), 'the prompt goes once there is text').toBe(false);
+  expect(area.hasAttribute('aria-invalid'), 'a keystroke answers the error').toBe(false);
+  document.body.innerHTML = '';
+});

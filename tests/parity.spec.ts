@@ -86,7 +86,7 @@ const flat = (s: string): string =>
 const HOST = '/iframe.html?id=components-actions-button--primary&viewMode=story';
 
 test.beforeEach(async ({ page }) => {
-  await page.goto(HOST);
+  await page.goto(HOST, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => customElements.get('sds-button') !== undefined);
 });
 

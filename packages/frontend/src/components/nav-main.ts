@@ -57,6 +57,10 @@ function boxes(row: Element): HTMLElement[] {
 
 const widthOf = (el: HTMLElement): number => el.getBoundingClientRect().width;
 
+/* The states a reader's press or pointer sets, which leave the row as wide
+   as it was. */
+const PASSING = new Set<PropertyKey>(['open', 'opened', 'stack']);
+
 export class SdsNavMain extends SdsNav {
   static override properties = {
     ...SdsNav.properties,
@@ -184,6 +188,7 @@ export class SdsNavMain extends SdsNav {
   override disconnectedCallback(): void {
     clearTimeout(this.leaving);
     this.watch?.disconnect();
+    this.watched = false;
     document.removeEventListener('pointerdown', this.onOutside);
     super.disconnectedCallback();
   }
@@ -656,7 +661,7 @@ export class SdsNavMain extends SdsNav {
     }
   }
 
-  protected override updated(): void {
+  protected override updated(changed: Map<PropertyKey, unknown>): void {
     /* The row, not this element: the measurement is of what lays the items
        out. Once, or every render hands the observer a target it already
        watches, and it answers its own callback. */
@@ -669,8 +674,9 @@ export class SdsNavMain extends SdsNav {
     }
     this.travel();
     /* After the update, not in it: a state set inside `updated()` starts
-       the next cycle before this one has closed. */
-    void this.updateComplete.then(() => this.decide());
+       the next cycle before this one has closed. A panel that opens or a
+       step in the drawer changes nothing the row measures. */
+    if ([...changed.keys()].some((key) => !PASSING.has(key))) void this.updateComplete.then(() => this.decide());
   }
 
   /** The step, shown as one. The level arrives from the side of its approach,

@@ -143,17 +143,47 @@ export class SdsTextarea extends SdsFormElement {
     this.#initial ??= this.filled ? this.value : '';
   }
 
-  protected override updated(): void {
-    /* The control is a string, so any attribute that changes replaces the
-       element and with it the typed text. Its content is the *default* a
-       reset puts back; the real
-       value goes in here, after the render. The guard keeps the caret still:
+  protected override updated(changed: Map<PropertyKey, unknown>): void {
+    /* The control is a string drawn once, so typing never replaces it. Its
+       content is the *default* a reset puts back. The attributes and the real
+       value go onto the live control here. The guard keeps the caret still:
        the same string assigned again moves it to the end. */
     const area = this.querySelector('textarea');
-    const written = this.filled ? this.value : '';
-    if (area && area.value !== written) area.value = written;
-    this.setValidity(this.error, 'textarea');
+    if (area) {
+      for (const [key, value] of Object.entries(this.attrs())) {
+        if (value === null) area.removeAttribute(key);
+        else if (area.getAttribute(key) !== value) area.setAttribute(key, value);
+      }
+      const written = this.filled ? this.value : '';
+      if (area.value !== written) area.value = written;
+    }
+    if (changed.has('error') || !this.#validated) this.setValidity(this.error, 'textarea');
+    this.#validated = true;
   }
+  #validated = false;
+
+  /* Every attribute the control carries, `null` for one it has not. */
+  private attrs(): Record<string, string | null> {
+    const disabled = this.disabled || this.inheritedDisabled;
+    const or = (value: string): string | null => value || null;
+    return {
+      rows: String(this.rows),
+      id: or(this.fieldId),
+      name: or(this.name),
+      placeholder: this.filled ? null : or(this.value),
+      'aria-label': or(this.label ?? ''),
+      autocomplete: or(this.autocomplete),
+      maxlength: this.maxlength ? String(this.maxlength) : null,
+      'aria-invalid': this.invalid || this.error ? 'true' : null,
+      required: this.required ? '' : null,
+      disabled: disabled ? '' : null,
+      readonly: this.readonly ? '' : null,
+    };
+  }
+
+  /* The control as the first render wrote it. A prerendered page submits it
+     before a script runs, so it carries every attribute then. */
+  #drawn?: string;
 
   protected override restore(): void {
     this.value = this.#initial || this.value;
@@ -174,16 +204,10 @@ export class SdsTextarea extends SdsFormElement {
   protected override render(): TemplateResult {
     const cls = `${fieldBox(this)} sds-field--multi`;
     const box = `width:${this.minWidth}px; max-width:100%`;
-    const disabled = this.disabled || this.inheritedDisabled;
-    const attr = (key: string, value: string): string => (value ? ` ${key}="${esc(value)}"` : '');
-
-    const area =
-      `<textarea class="sds-input" rows="${this.rows}"${attr('id', this.fieldId)}${attr('name', this.name)}` +
-      `${this.filled ? '' : attr('placeholder', this.value)}${attr('aria-label', this.label ?? '')}` +
-      `${attr('autocomplete', this.autocomplete)}${this.maxlength ? ` maxlength="${this.maxlength}"` : ''}` +
-      `${this.invalid || this.error ? ' aria-invalid="true"' : ''}${this.required ? ' required' : ''}` +
-      `${disabled ? ' disabled' : ''}${this.readonly ? ' readonly' : ''}>` +
-      `${esc(this.#initial ?? '')}</textarea>`;
+    const written = Object.entries(this.attrs())
+      .map(([key, value]) => (value === null ? '' : value === '' ? ` ${key}` : ` ${key}="${esc(value)}"`))
+      .join('');
+    const area = (this.#drawn ??= `<textarea class="sds-input"${written}>${esc(this.#initial ?? '')}</textarea>`);
 
     const control = html`<span class="${cls}" style="${box}" @input="${(e: Event) => this.onInput(e)}">${unsafeHTML(area)}</span>`;
     return fieldRow(this, control);

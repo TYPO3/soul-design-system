@@ -37,52 +37,26 @@ const SSR_ELEMENT = /<(sds-[a-z-]+)\b[^>]*>\s*<template[^>]*>([\s\S]*?)<\/templa
    already, into a shadow root this only takes it back out of. */
 function flattenElements(html: string): string {
   let out = html;
-  /* Innermost first, so an element inside an element unwraps too. Bounded
-     because every pass removes one tag pair. */
-  for (let m = SSR_ELEMENT.exec(out); m; m = SSR_ELEMENT.exec(out)) {
-    out = out.slice(0, m.index) + (m[2] ?? '') + out.slice(m.index + m[0].length);
-  }
+  /* Innermost first, so an element inside an element unwraps too. Each pass
+     unwraps every innermost pair at once, so the passes count the depth. */
+  for (let next = out.replace(SSR_ELEMENTS, unwrapOne); next !== out; next = out.replace(SSR_ELEMENTS, unwrapOne)) out = next;
   return out;
 }
+const SSR_ELEMENTS = new RegExp(SSR_ELEMENT.source, 'g');
+const unwrapOne = (_: string, _tag: string, inner: string): string => inner;
 
 /* Whitespace an omitted attribute leaves inside a tag. `<input ... ${cond ?
    attr : nothing}>` keeps the space either way and a browser serialises none,
    so without this every component with an optional attribute fails parity.
    Scanned, because a `>` in a value does not end a tag. */
 function tidyTags(html: string): string {
-  let out = '';
-  let inTag = false;
-  let quote = '';
-
-  for (const ch of html) {
-    if (!inTag) {
-      if (ch === '<') inTag = true;
-      out += ch;
-      continue;
-    }
-    if (quote) {
-      if (ch === quote) quote = '';
-      out += ch;
-      continue;
-    }
-    if (ch === '"' || ch === "'") {
-      quote = ch;
-      out += ch;
-      continue;
-    }
-    if (ch === '>') {
-      /* Newlines too: a tag written one attribute per line otherwise keeps
-         the indentation of the omitted attribute. */
-      out = out.replace(/\s+$/, '');
-      inTag = false;
-      out += ch;
-      continue;
-    }
-    out += ch;
-  }
-
-  return out;
+  /* One tag at a time, quotes and all, and only its own end trimmed.
+     Newlines too: a tag written one attribute per line otherwise keeps the
+     indentation of the omitted attribute. */
+  return html.replace(TAG, (tag) => tag.replace(TAG_END, '>'));
 }
+const TAG = /<(?:"[^"]*"|'[^']*'|[^>"'])*>/g;
+const TAG_END = /\s+>$/;
 
 /* Where a declarative shadow root opens. */
 const SSR_SHADOW = /<template shadowroot[^>]*>/;
@@ -90,27 +64,42 @@ const SSR_SHADOW = /<template shadowroot[^>]*>/;
    holds templates of its own, so the first `</template>` is somebody else's. */
 const ANY_TEMPLATE = /<template\b[^>]*>|<\/template>/g;
 
+/* One walk over every template: the ones `opens` names lose their tags, and
+   with `drop` their content too. Pieces collect and join once at the end. */
+function untemplate(html: string, opens: (tag: string) => boolean, drop: boolean, fault: string): string {
+  const pieces: string[] = [];
+  /* For each template open now: does it come off, and where its content starts. */
+  const stack: { off: boolean; from: number }[] = [];
+  let at = 0;
+  let dropping = 0;
+  ANY_TEMPLATE.lastIndex = 0;
+  for (let m = ANY_TEMPLATE.exec(html); m; m = ANY_TEMPLATE.exec(html)) {
+    if (m[0] !== '</template>') {
+      const off = !dropping && opens(m[0]);
+      if (off) {
+        pieces.push(html.slice(at, m.index));
+        at = m.index + m[0].length;
+        if (drop) dropping = stack.length + 1;
+      }
+      stack.push({ off, from: m.index });
+      continue;
+    }
+    const top = stack.pop();
+    if (!top) continue;
+    if (top.off) {
+      if (!drop) pieces.push(html.slice(at, m.index));
+      at = m.index + m[0].length;
+      if (dropping === stack.length + 1) dropping = 0;
+    }
+  }
+  if (stack.some((one) => one.off)) throw new Error(fault);
+  pieces.push(html.slice(at));
+  return pieces.join('');
+}
+
 /** Replace every declarative shadow root with what is inside it. */
 function unwrapShadows(html: string): string {
-  let out = html;
-  for (let open = SSR_SHADOW.exec(out); open; open = SSR_SHADOW.exec(out)) {
-    const from = open.index + open[0].length;
-    ANY_TEMPLATE.lastIndex = from;
-    let depth = 1;
-    let close = -1;
-    for (let m = ANY_TEMPLATE.exec(out); m; m = ANY_TEMPLATE.exec(out)) {
-      depth += m[0] === '</template>' ? -1 : 1;
-      if (depth === 0) {
-        close = m.index;
-        break;
-      }
-    }
-    if (close < 0) {
-      throw new Error('a declarative shadow root never closed — check src/lib/render.ts against the installed @lit-labs/ssr');
-    }
-    out = out.slice(0, open.index) + out.slice(from, close) + out.slice(close + '</template>'.length);
-  }
-  return out;
+  return untemplate(html, (tag) => SSR_SHADOW.test(tag), false, 'a declarative shadow root never closed — check src/lib/render.ts against the installed @lit-labs/ssr');
 }
 
 /** Render a template to markup that still holds this system's elements. A page
@@ -141,22 +130,7 @@ const KEPT = /<template data-sds-content>/;
     element drew stays. Its tag and the template of what a caller wrote go.
     So content between the tags reaches a card as it reaches a page. */
 export function flattenUpgraded(page: string): string {
-  let out = page;
-  for (let open = KEPT.exec(out); open; open = KEPT.exec(out)) {
-    const from = open.index + open[0].length;
-    ANY_TEMPLATE.lastIndex = from;
-    let depth = 1;
-    let close = -1;
-    for (let m = ANY_TEMPLATE.exec(out); m; m = ANY_TEMPLATE.exec(out)) {
-      depth += m[0] === '</template>' ? -1 : 1;
-      if (depth === 0) {
-        close = m.index;
-        break;
-      }
-    }
-    if (close < 0) throw new Error('a template of written content never closed');
-    out = out.slice(0, open.index) + out.slice(close + '</template>'.length);
-  }
+  let out = untemplate(page, (tag) => KEPT.test(tag), true, 'a template of written content never closed');
   out = out.replace(/<\/?sds-[a-z-]+(?![-\w])(?:"[^"]*"|'[^']*'|[^>"'])*>/g, '');
   return tidyTags(inlineIconRefs(inlineArtRefs(out)));
 }

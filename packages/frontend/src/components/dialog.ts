@@ -14,6 +14,7 @@ import './icon.ts';
 import { buttonClass, buttonLabel, type SdsCommand } from './button.ts';
 import { lines } from '../lib/template.ts';
 import { modalClass, type ModalSize } from './modal.ts';
+import { hold } from '../lib/hold.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 /** What kind of press the confirming button is: the work the question is for,
@@ -109,6 +110,8 @@ export class SdsDialog extends SdsElement {
 
   override disconnectedCallback(): void {
     this.removeEventListener('sds-command', this.onCommand as EventListener);
+    this.#release?.();
+    this.#release = undefined;
     super.disconnectedCallback();
   }
 
@@ -167,7 +170,15 @@ export class SdsDialog extends SdsElement {
     });
   }
 
+  /* The page stays still behind an open question. */
+  #release?: () => void;
+
   protected override updated(): void {
+    if (this.open && this.isConnected) this.#release ??= hold('modal');
+    else if (this.#release) {
+      this.#release();
+      this.#release = undefined;
+    }
     const el = this.dialog;
     if (!el) return;
 

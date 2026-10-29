@@ -38,6 +38,7 @@ export interface DialogProps {
     open?: boolean;
 }
 export declare class SdsDialog extends SdsElement {
+    #private;
     static properties: {
         heading: {
             type: StringConstructor;

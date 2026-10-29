@@ -195,9 +195,11 @@ export class SdsField extends SdsFormElement {
   /* What the caller said is wrong is what the browser refuses to submit past,
      reported on the box itself. Set from the render rather than from a setter,
      so a page that arrives with the sentence already in it arrives blocked. */
-  protected override updated(): void {
-    this.setValidity(this.error, 'input');
+  protected override updated(changed: Map<PropertyKey, unknown>): void {
+    if (changed.has('error') || !this.#validated) this.setValidity(this.error, 'input');
+    this.#validated = true;
   }
+  #validated = false;
 
   protected override restore(): void {
     this.value = this.#initial || this.value;

@@ -48,10 +48,11 @@ export declare class SdsGrid extends SdsElement {
     columns: GridColumns | undefined;
     settled: number;
     private taken;
-    private watch?;
+    private watched;
     constructor();
     connectedCallback(): void;
-    private ask;
+    /** A measurement in the next pass of every grid on the page. */
+    ask(): void;
     disconnectedCallback(): void;
     /** What the sheet draws on its own, and what to draw instead.
   

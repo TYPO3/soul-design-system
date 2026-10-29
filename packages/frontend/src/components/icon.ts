@@ -9,9 +9,27 @@
    bundle never loads. */
 
 import { html, type TemplateResult } from 'lit';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { define, SdsElement } from '../lib/element.ts';
 import { ICON_CATEGORIES, ICON_IDS, type IconId } from './icons.generated.ts';
+
+const KNOWN: ReadonlySet<string> = new Set(ICON_IDS);
+
+/* One template for one markup string, shared by every icon that draws it.
+   A wall of the same glyph parses it once and clones it after. Lit keys its
+   cache on the strings of a template, so the same strings are the same
+   template. Bounded, because a page can draw many sizes and labels. */
+const SHARED = 500;
+const shared = new Map<string, TemplateResult>();
+function once(markup: string): TemplateResult {
+  let made = shared.get(markup);
+  if (!made) {
+    const strings = Object.assign([markup], { raw: [markup] }) as unknown as TemplateStringsArray;
+    made = html(strings);
+    if (shared.size >= SHARED) shared.delete(shared.keys().next().value as string);
+    shared.set(markup, made);
+  }
+  return made;
+}
 
 export type { IconId };
 
@@ -104,7 +122,7 @@ export class SdsIcon extends SdsElement {
   }
 
   protected override render(): TemplateResult {
-    if (!ICON_IDS.includes(this.name)) {
+    if (!KNOWN.has(this.name)) {
       /* Loud rather than blank: a missing glyph reads as a design decision,
          and the fix is a one-line edit in scripts/icons.ts. */
       throw new Error(`unknown icon "${this.name}" — add its category to CATEGORIES in scripts/icons.ts and run \`make icons\``);
@@ -131,10 +149,10 @@ export class SdsIcon extends SdsElement {
     const inner = carried
       ? carried.replace(/^\s*<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '')
       : `<use href="${spriteFor(this.name)}#${this.name}"></use>`;
-    return html`${unsafeHTML(
+    return once(
       `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized}` +
         ` class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}">${inner}</svg>`,
-    )}`;
+    );
   }
 }
 

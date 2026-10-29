@@ -59,19 +59,17 @@ export class SdsNavRail extends SdsElement {
       the outline does, and by the same measure. The rail measures because
       the box is the page's and a fold that opens is the rail's own height. */
   private keep(): void {
-    const box = this.box();
+    const box = this.scroller;
     box?.classList.toggle('is-scrollable', box.scrollHeight - box.clientHeight > 1);
   }
 
-  protected override firstUpdated(): void {
-    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.keep()));
-    this.watch.observe(this);
-    const box = this.box();
-    if (box) this.watch.observe(box);
-  }
+  /* The box, found once a frame after the rail stands in the page, and
+     again wherever the page moves it. */
+  private scroller: HTMLElement | null = null;
 
   override disconnectedCallback(): void {
     this.watch?.disconnect();
+    this.watch = undefined;
     super.disconnectedCallback();
   }
 
@@ -81,6 +79,13 @@ export class SdsNavRail extends SdsElement {
     const written = this.lifted().filter((node): node is Element => node.nodeType === 1);
     if (written.length) this.taken = written;
     super.connectedCallback();
+    void this.updateComplete.then(() => requestAnimationFrame(() => {
+      if (!this.isConnected || this.watch) return;
+      this.scroller = this.box();
+      this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.keep()));
+      this.watch.observe(this);
+      if (this.scroller) this.watch.observe(this.scroller);
+    }));
   }
 
   /** Every page in the rail, folds flattened. A rail has one current page
@@ -91,7 +96,13 @@ export class SdsNavRail extends SdsElement {
   }
 
   private isCurrent(entry: MenuEntry): boolean {
-    return this.picked >= 0 ? this.flat()[this.picked] === entry : Boolean(entry.current);
+    return this.picked >= 0 ? this.chosen === entry : Boolean(entry.current);
+  }
+
+  /* The page a press chose, found once for each render, not once a row. */
+  private chosen?: MenuEntry;
+  protected override willUpdate(): void {
+    this.chosen = this.picked >= 0 ? this.flat()[this.picked] : undefined;
   }
 
   /** One page, and whatever hangs under it.

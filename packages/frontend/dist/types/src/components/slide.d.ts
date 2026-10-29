@@ -110,6 +110,12 @@ export interface SlideProps {
         sets it on every slide it runs through. */
     shrink?: boolean;
 }
+/** One box of what a slide holds, with the room its parent gives it. */
+export interface FitBox {
+    fit: HTMLElement;
+    room: DOMRect;
+    text: boolean;
+}
 export declare class SdsSlide extends SdsElement {
     static regions: readonly SlideSlot[];
     static properties: {
@@ -235,8 +241,7 @@ export declare class SdsSlide extends SdsElement {
     shrink: boolean;
     zoomable: boolean;
     zoom: number;
-    private watch?;
-    private settling;
+    private watched;
     private seen;
     private taken;
     constructor();
@@ -246,15 +251,21 @@ export declare class SdsSlide extends SdsElement {
     room(): number;
     /** The zoom from the pass, and then what the slide holds. */
     take(zoom: number): void;
+    /** Something the slide sits in or holds changed its size. The pass
+        measures a box that changed anew, even in the room it had. */
+    refit(target?: Element): void;
+    private queue;
+    /** The boxes of what the slide holds, each with its room. Reads only. A
+        drawing that takes a new room draws first, and asks again once drawn. */
+    boxes(): FitBox[];
+    /** The pass fitted what the slide holds. */
+    fitted(): void;
     /** Near the window for the first time: what the slide holds fits now. */
     arrive(): void;
     disconnectedCallback(): void;
     protected updated(changed: Map<PropertyKey, unknown>): void;
-    private decide;
     private quiet;
-    private settle;
     private lendRooms;
-    private fitBox;
     /** How far to scale the frame so it fits. The frame's size comes off the
         stylesheet, never a copy here. `--sds-slide-width` and its height are
         the set's, and a copy in TypeScript is the copy that goes stale. */

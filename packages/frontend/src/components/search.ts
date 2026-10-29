@@ -32,18 +32,27 @@ export interface SearchEntry {
     search fields on one page must not both call it `sds-search-panel`. */
 let seq = 0;
 
+/* An entry as the search reads it: lowered once when the index arrives,
+   not again for every entry on every keystroke. */
+interface Read {
+  entry: SearchEntry;
+  title: string;
+  all: string;
+}
+
 /** Where an entry stands for a query, lower first. `Infinity` is no hit: a
     word of the query that is in neither the title nor the text. */
-function rank(entry: SearchEntry, query: string): number {
-  const title = entry.title.toLowerCase();
-  const words = query.split(/\s+/);
+function rank({ title, all }: Read, query: string, words: string[]): number {
   if (title === query) return 0;
   if (title.startsWith(query)) return 1;
   if (title.includes(query)) return 2;
   if (words.every((word) => title.includes(word))) return 3;
-  const all = `${title} ${entry.text.toLowerCase()}`;
   return words.every((word) => all.includes(word)) ? 4 : Infinity;
 }
+
+/* The best hits of a ranked list, in index order on a tie, kept as they
+   arrive. Eight places, so the search sorts no more than eight. */
+const HITS = 8;
 
 export class SdsSearch extends SdsElement {
   static override properties = {
@@ -117,6 +126,11 @@ export class SdsSearch extends SdsElement {
   protected override updated(): void {
     const drop = this.querySelector<HTMLElement>('.sds-search__panel');
     if (drop && !drop.matches(':popover-open')) drop.showPopover();
+    /* A panel rendered away can send no toggle. Its placement stops here. */
+    if (!drop && this.following) {
+      this.following();
+      this.following = undefined;
+    }
   }
 
   /* Fetched once, on the first keystroke. The second keystroke arrives
@@ -151,13 +165,34 @@ export class SdsSearch extends SdsElement {
   private get hits(): SearchEntry[] {
     const q = this.query.trim().toLowerCase();
     if (!q || !this.entries) return [];
-    return this.entries
-      .map((entry, order) => ({ entry, order, rank: rank(entry, q) }))
-      .filter((hit) => hit.rank < Infinity)
-      .sort((a, b) => a.rank - b.rank || a.order - b.order)
-      .slice(0, 8)
-      .map((hit) => hit.entry);
+    if (this.#asked?.query === q && this.#asked.entries === this.entries) return this.#asked.hits;
+    if (this.#read?.entries !== this.entries) {
+      this.#read = {
+        entries: this.entries,
+        read: this.entries.map((entry) => {
+          const title = entry.title.toLowerCase();
+          return { entry, title, all: `${title} ${entry.text.toLowerCase()}` };
+        }),
+      };
+    }
+    const words = q.split(/\s+/);
+    const best: { rank: number; entry: SearchEntry }[] = [];
+    for (const one of this.#read.read) {
+      const at = rank(one, q, words);
+      if (at === Infinity || (best.length === HITS && at >= (best[HITS - 1]?.rank ?? 0))) continue;
+      /* After every hit of its rank or better: the index order breaks a tie. */
+      let put = best.length;
+      while (put > 0 && (best[put - 1]?.rank ?? 0) > at) put -= 1;
+      best.splice(put, 0, { rank: at, entry: one.entry });
+      if (best.length > HITS) best.pop();
+    }
+    const hits = best.map((hit) => hit.entry);
+    this.#asked = { query: q, entries: this.entries, hits };
+    return hits;
   }
+
+  #read?: { entries: SearchEntry[]; read: Read[] };
+  #asked?: { query: string; entries: SearchEntry[]; hits: SearchEntry[] };
 
   private async type(event: Event): Promise<void> {
     this.query = (event.target as HTMLInputElement).value;

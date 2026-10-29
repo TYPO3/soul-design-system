@@ -14,6 +14,7 @@ export interface SearchEntry {
     image?: string;
 }
 export declare class SdsSearch extends SdsElement {
+    #private;
     static properties: {
         /** Where the index is. Relative to the page, like every other asset. */
         index: {

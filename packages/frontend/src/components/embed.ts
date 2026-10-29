@@ -10,6 +10,7 @@
    iframe a renderer wrote moves in, and nothing writes it again. */
 
 import { html, nothing, type TemplateResult } from 'lit';
+import { onWritten } from '../lib/mode.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface EmbedProps {
@@ -100,8 +101,8 @@ export class SdsEmbed extends SdsElement {
     this.allowfullscreen = false;
   }
 
-  /* The page's mode, watched so the frame follows a switch. */
-  #watch: MutationObserver | null = null;
+  /* The page's mode, heard so the frame follows a switch. */
+  #stop: (() => void) | null = null;
 
   override connectedCallback(): void {
     const written = this.lifted().filter((node) => !isNothing(node));
@@ -111,16 +112,15 @@ export class SdsEmbed extends SdsElement {
     if (framed.length) this.taken = framed;
     super.connectedCallback();
     if (typeof document === 'undefined') return;
-    this.#watch = new MutationObserver(this.#paint);
-    this.#watch.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    this.#stop = onWritten(this.#paint);
     /* Captured, because `load` on a frame does not bubble. */
     this.addEventListener('load', this.#paint, true);
   }
 
   override disconnectedCallback(): void {
     this.removeEventListener('load', this.#paint, true);
-    this.#watch?.disconnect();
-    this.#watch = null;
+    this.#stop?.();
+    this.#stop = null;
     super.disconnectedCallback();
   }
 

@@ -286,6 +286,36 @@ test('a bundling consumer can say where the sprites went', async ({ page }) => {
   ).toBeGreaterThan(0);
 });
 
+/* The engine and the highlighter are chunks beside `soul.js`. A page with
+   neither a drawing nor a block to colour fetches none of them, and a page
+   with one fetches its chunk and draws. */
+test('a chunk loads only where a drawing or a block to colour asks for it', async ({ page }) => {
+  const fetched: string[] = [];
+  page.on('request', (request) => { if (request.url().includes('/soul-chunks/')) fetched.push(request.url()); });
+  const fixture = (body: string): string => `<!doctype html><html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="/dist/soul.css"><script type="module" src="/dist/soul.js"></script>
+</head><body class="sds-app">${body}</body></html>`;
+  await page.route('**/plain-fixture.html', (route) => route.fulfill({ contentType: 'text/html', body: fixture('<sds-button>Go</sds-button><sds-card heading="A card"></sds-card>') }));
+  await page.goto('/plain-fixture.html', { waitUntil: 'networkidle' });
+  await page.evaluate(() => customElements.whenDefined('sds-card'));
+  expect(fetched, 'a page with no drawing and no code fetches no chunk').toEqual([]);
+
+  await page.route('**/drawn-fixture.html', (route) => route.fulfill({ contentType: 'text/html', body: fixture(`<sds-diagram>flow
+  columns 1,1
+title "A claim"
+description "Two boxes."
+
+a "One"
+  at 0,0
+b "Two"
+  at 1,0
+a -> b</sds-diagram>`) }));
+  await page.goto('/drawn-fixture.html', { waitUntil: 'networkidle' });
+  await expect(page.locator('sds-diagram svg')).toHaveCount(1);
+  expect(fetched.some((url) => url.endsWith('/diagram.js')), 'a drawing fetches the engine').toBe(true);
+  expect(fetched.some((url) => url.endsWith('/highlight.js')), 'a drawing fetches no highlighter').toBe(false);
+});
+
 /* And the form a bundler emits: one classic script, no modules left.
    `import.meta` does not survive that. Anything resolved against it at
    import time throws before a line of the bundle runs. Nothing registers, and

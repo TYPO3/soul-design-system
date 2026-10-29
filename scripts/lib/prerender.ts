@@ -12,6 +12,7 @@
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
+import '../../packages/frontend/src/lib/eager.ts';
 import { renderUpgradable } from '../../packages/frontend/src/lib/render.ts';
 import { CONTENT, TEXT, type Region } from '../../packages/frontend/src/lib/element.ts';
 import { TAGS } from '../../packages/frontend/src/index.ts';
@@ -60,14 +61,21 @@ const unescape = (s: string): string =>
 export function regionsOf(markup: string, resolve: (at: number) => string = () => ''): Region[] {
   const out: Region[] = [];
   let rest = markup;
-  const piece = (tag: string, attrs: Record<string, string>, outer: string, inner: string): Region => ({
-    tag,
-    attrs,
-    node: html`${unsafeHTML(outer)}`,
-    inner: html`${unsafeHTML(inner)}`,
-    text: unescape(outer.replace(/<[^>]*>/g, '')).trim(),
-    children: inner ? regionsOf(inner, resolve) : [],
-  });
+  /* The children only when a component asks for them. Read at once, they
+     read every level of the markup again at each level. */
+  const piece = (tag: string, attrs: Record<string, string>, outer: string, inner: string, words = outer): Region => {
+    let children: Region[] | undefined;
+    return {
+      tag,
+      attrs,
+      node: html`${unsafeHTML(outer)}`,
+      inner: html`${unsafeHTML(inner)}`,
+      text: unescape(words.replace(/<[^>]*>/g, '')).trim(),
+      get children() {
+        return (children ??= inner ? regionsOf(inner, resolve) : []);
+      },
+    };
+  };
   while (rest) {
     /* An element this pass rendered already stands as its marker. The marker
        goes on as the child, and the element it stands for says the tag and
@@ -77,7 +85,7 @@ export function regionsOf(markup: string, resolve: (at: number) => string = () =
       const [, tag = '', written = ''] = OPEN.exec(resolve(Number(part[1]))) ?? [];
       const attrs: Record<string, string> = {};
       for (const [, key = '', a, b, c] of written.matchAll(ATTR)) attrs[key] = unescape(a ?? b ?? c ?? '');
-      out.push({ ...piece(tag.toLowerCase(), attrs, part[0], ''), text: unescape(resolve(Number(part[1])).replace(/<[^>]*>/g, '')).trim() });
+      out.push(piece(tag.toLowerCase(), attrs, part[0], '', resolve(Number(part[1]))));
       rest = rest.slice(part[0].length);
       continue;
     }
@@ -183,28 +191,13 @@ function textOf(markup: string, resolve: (at: number) => string): string {
   return out;
 }
 
-/* The written content as a template holds it. An element of ours inside it
-   keeps its own content in a template of its own, as the page has it. A
-   parser keeps the rows of a table only at the start of a template. The
-   element draws itself on upgrade from what that template holds. */
-function keep(markup: string, pattern: RegExp): string {
-  let out = '';
-  let rest = markup;
-  for (;;) {
-    const found = pattern.exec(rest);
-    if (!found) return out + rest;
-    const [whole, tag = '', attrs = ''] = found;
-    const open = found.index + whole.length;
-    const closed = closeOf(rest, tag, open);
-    if (!closed) {
-      out += rest.slice(0, open);
-      rest = rest.slice(open);
-      continue;
-    }
-    out += `${rest.slice(0, found.index)}<${tag}${attrs}><template ${CONTENT}>${keep(closed.inner.trim(), pattern)}</template></${tag}>`;
-    rest = rest.slice(closed.end);
-  }
-}
+/* The regions as a record that splits the content on its first read. */
+const lazily = (made: () => Record<string, Region[]>): Record<string, Region[]> => new Proxy({}, {
+  get: (_none, key) => (typeof key === 'string' ? made()[key] : undefined),
+  has: (_none, key) => key in made(),
+  ownKeys: () => Reflect.ownKeys(made()),
+  getOwnPropertyDescriptor: (_none, key) => Reflect.getOwnPropertyDescriptor(made(), key),
+});
 
 /** What one element becomes, with content that is already complete.
     `authored` is the same content as the author wrote it, before anything
@@ -216,15 +209,19 @@ function one(tag: string, attrs: string, written: string, authored: string, prop
   const marked = MARK.exec(attrs);
   /* The text region goes over as the content, and every region with a name
      beside it. Content with no slot in it arrives as it always did. */
-  const split = written ? byRegion(written, resolve) : {};
-  const named = Object.keys(split).some((key) => key !== TEXT);
+  /* Split only when a component reads a region, or the content names one.
+     Most content names none, and most elements read none. */
+  let split: Record<string, Region[]> | undefined;
+  const regions = (): Record<string, Region[]> => (split ??= byRegion(written, resolve));
+  /* A slot stands in the content, or on an element of ours a marker holds. */
+  const named = /\sslot\s*=|<!--sds-part:/.test(written) && Object.keys(regions()).some((key) => key !== TEXT);
   const rest = named ? textOf(written, resolve).trim() : written;
   const rendered = renderUpgradable(template(tag, attrs, {
     content: rest ? html`${unsafeHTML(rest)}` : undefined,
     authored: authored || undefined,
     /* Always, so an element that reads its text region finds it in Node as
        it does in a browser. */
-    regions: written ? split : undefined,
+    regions: written ? lazily(regions) : undefined,
     ...(marked ? (revive(props[Number(marked[1])] ?? {}) as Record<string, unknown>) : {}),
   }));
 
@@ -334,28 +331,38 @@ export function prerender(page: string, tags: readonly string[] = TAGS, props: P
      Across is a loop rather than a call, so the stack carries how deep
      elements nest and not how many a page holds. Nothing already written gets
      a second look, which keeps this away from its own output. */
-  const walk = (source: string): string => {
+  /* Each pass gives the content rendered and the content as the template
+     keeps it. Inside that, an element of ours keeps its own content in a
+     template of its own. A parser keeps the rows of a table only at the
+     start of a template. The walk makes both on the way up. */
+  const walk = (source: string): { done: string; kept: string } => {
     let done = '';
+    let kept = '';
     let rest = source;
 
     for (;;) {
       const found = pattern.exec(rest);
-      if (!found) return done + rest;
+      if (!found) return { done: done + rest, kept: kept + rest };
 
       const [whole, tag = '', attrs = ''] = found;
       const open = found.index + whole.length;
       const closed = closeOf(rest, tag, open);
       if (!closed) {
         done += rest.slice(0, open);
+        kept += rest.slice(0, open);
         rest = rest.slice(open);
         continue;
       }
-      done += rest.slice(0, found.index) + aside(one(tag, attrs, walk(closed.inner).trim(), closed.inner.trim(), props, (at) => put[at] ?? '', keep(closed.inner.trim(), pattern)));
+      const inner = walk(closed.inner);
+      const held = inner.kept.trim();
+      const before = rest.slice(0, found.index);
+      done += before + aside(one(tag, attrs, inner.done.trim(), closed.inner.trim(), props, (at) => put[at] ?? '', held));
+      kept += `${before}<${tag}${attrs}><template ${CONTENT}>${held}</template></${tag}>`;
       rest = rest.slice(closed.end);
     }
   };
 
-  return back(walk(told(page)));
+  return back(walk(told(page)).done);
 }
 
 /* The elements whose children stand one to a line in an example. The rest

@@ -11,13 +11,15 @@ export interface LightboxProps {
         carries, so opening it is not a change of subject. */
     caption?: string;
     /** A drawing in place of the file, for a script: an `sds-diagram` with
-        `zoomable` gives its own. It stays in the page's tokens. */
+        `zoomable` gives its own. It stays in the page's tokens. A function
+        draws it only while the viewer stands open. */
     content?: unknown;
     /** If it stands over the page. It is the modal’s behaviour around a
         drawing rather than a question, so it stops at no measure. */
     open?: boolean;
 }
 export declare class SdsLightbox extends SdsElement {
+    #private;
     static properties: {
         src: {
             type: StringConstructor;
@@ -80,5 +82,7 @@ export declare class SdsLightbox extends SdsElement {
     /** Fitted, the drawing at its own size; otherwise fitted again. */
     private readonly onDouble;
     protected updated(): void;
+    private drawn;
     protected render(): TemplateResult;
+    private body;
 }

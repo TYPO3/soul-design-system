@@ -30,7 +30,6 @@ export declare class SdsNavOutline extends SdsElement {
         reads the page, which is where a server stops and the data has the say. */
     at: string;
     private watching?;
-    private queued;
     constructor();
     connectedCallback(): void;
     /** The fold, and if its press draws. The stylesheet decides where the
@@ -43,14 +42,15 @@ export declare class SdsNavOutline extends SdsElement {
         keeps it open while they read. */
     private narrow;
     private fit;
+    private unfitted;
     /** A press on a row where the list folds: the reader chose a place, and
         the list has done its work. It shuts, and the page under it shows the
         place. */
     private chose;
-    protected firstUpdated(): void;
     disconnectedCallback(): void;
     /** One reading, a frame from now. A scroll fires far faster than a paint. */
     private soon;
+    private readonly reading;
     /** Follow the page. On the document and on the way down: a scroll event
         does not bubble, and the column can be the scroller rather than the
         window. On resize too, which moves every heading at once. */
@@ -59,6 +59,7 @@ export declare class SdsNavOutline extends SdsElement {
         from the data, so a level a stylesheet hides never takes the mark.
         Empty before the first render. */
     private drawn;
+    private rows?;
     /** The headings this list points at, in the order the page has them. An
         entry that points away from this page is a link and not a place in it,
         so it stays out. So does one the list does not draw. */
@@ -76,6 +77,7 @@ export declare class SdsNavOutline extends SdsElement {
     /** Which part the reader is in: the last heading that has passed the line,
         and none while none has. A document opens above its first heading. */
     private read;
+    private following;
     /** The entry the reader is in. The page wins once the element has read it.
         The data is what a card, a story and a server-rendered page have instead. */
     private isCurrent;

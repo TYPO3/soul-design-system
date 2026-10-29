@@ -12,7 +12,7 @@
 import { html, type TemplateResult } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import './icon.ts';
-import { highlight } from '../lib/highlight.ts';
+import { highlighter } from '../lib/highlighter.ts';
 import { lines } from '../lib/template.ts';
 import { define, SdsElement } from '../lib/element.ts';
 import { SAID, toClipboard } from '../lib/clipboard.ts';
@@ -231,7 +231,17 @@ export class SdsCode extends SdsElement {
        But both ways have to have run first. */
     if (!(await toClipboard(this.text))) return;
     this.copied = true;
-    setTimeout(() => { this.copied = false; }, SAID);
+    clearTimeout(this.#said);
+    this.#said = window.setTimeout(() => { this.copied = false; }, SAID);
+  }
+
+  /* The word goes back after a while: one timer, renewed by a new press and
+     gone with the element. */
+  #said = 0;
+
+  override disconnectedCallback(): void {
+    clearTimeout(this.#said);
+    super.disconnectedCallback();
   }
 
   /* Always drawn where the block asked for one. A question to the browser
@@ -295,10 +305,29 @@ export class SdsCode extends SdsElement {
     if (this.given) return html`${written}`;
     if (this.remarks.length || this.start) return this.lined;
     if (!this.lang) return html`<code>${written}</code>`;
-    const coloured = highlight(this.lang, this.text);
+    const coloured = this.colour(this.lang, this.text);
     return coloured === null
       ? html`<code class="language-${this.lang}">${written}</code>`
       : html`<code class="language-${this.lang}">${unsafeHTML(coloured)}</code>`;
+  }
+
+  /* The colour, once the highlighter arrived. The first block that needs it
+     fetches it, prints its text plain until then, and colours on arrival. */
+  private colour(lang: string, text: string): string | null {
+    const loaded = highlighter.now;
+    if (loaded) return loaded.highlight(lang, text);
+    void highlighter.load().then(() => {
+      this.#painted = undefined;
+      this.requestUpdate();
+    });
+    return null;
+  }
+
+  protected override async getUpdateComplete(): Promise<boolean> {
+    const done = await super.getUpdateComplete();
+    if (highlighter.now || !this.lang || this.given) return done;
+    await highlighter.load();
+    return super.getUpdateComplete();
   }
 
   /** Where the block's lines start, as the numbers say: `start`, or one
@@ -320,7 +349,7 @@ export class SdsCode extends SdsElement {
      gutter is as wide as the last number, and the width goes onto the
      element as a property. */
   private get lined(): TemplateResult {
-    const coloured = this.lang ? highlight(this.lang, this.text) : null;
+    const coloured = this.lang ? this.colour(this.lang, this.text) : null;
     const rows = perLine(coloured ?? escape(this.text));
     const cited = new Set(this.remarks.map(({ line }) => this.rowOf(line, rows.length)));
     const digits = String(this.first + rows.length - 1).length;
@@ -344,6 +373,17 @@ export class SdsCode extends SdsElement {
   </dl>`;
   }
 
+  /* The coloured block, kept while what it reads stays the same. A press
+     on the copy button renders the element twice and colours nothing. */
+  #painted?: { from: unknown[]; body: TemplateResult };
+  private get painted(): TemplateResult {
+    const from = [this.taken, this.content, this.source, this.lang, this.remarks, this.start];
+    if (this.#painted && from.every((one, at) => one === this.#painted?.from[at])) return this.#painted.body;
+    const body = this.wrapped;
+    this.#painted = { from, body };
+    return body;
+  }
+
   protected override render(): TemplateResult {
     const affordance = this.action ?? this.copyButton;
     /* A head with neither a language nor an affordance is an empty bar. */
@@ -357,6 +397,7 @@ export class SdsCode extends SdsElement {
        before the block, not in its chrome, but it is the block's, so the
        element places it. Nodes win over the attribute where there are both.
        They are what a renderer wrote, markup and all. */
+    const remarked = this.remarked;
     const caption = this.captioned
       ? html`${this.captioned}`
       : this.caption
@@ -365,8 +406,8 @@ export class SdsCode extends SdsElement {
 
     return html`${caption}<div class="sds-code">
   ${head}
-  <pre class="sds-code__body" tabindex="0">${this.taken || this.content || this.source ? this.wrapped : lines(this.body.map((l) => this.line(l)), 0)}</pre>${this.remarked ? html`
-  ${this.remarked}` : ''}
+  <pre class="sds-code__body" tabindex="0">${this.taken || this.content || this.source ? this.painted : lines(this.body.map((l) => this.line(l)), 0)}</pre>${remarked ? html`
+  ${remarked}` : ''}
 </div>`;
   }
 }

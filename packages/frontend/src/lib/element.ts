@@ -33,17 +33,20 @@ export interface Region {
 /** The name of the region a child without a `slot` goes to. */
 export const TEXT = 'text';
 
-/** A node as a region's child, one level of its own children with it. */
+/** A node as a region's child. Its own children come when a component
+    asks for them, so nothing reads a deep region once for every level. */
 export function regionOf(node: Node): Region {
   const el = node.nodeType === 1 ? (node as Element) : null;
-  const inner = el ? [...el.childNodes] : [];
+  let children: Region[] | undefined;
   return {
     tag: el?.localName ?? '',
     attrs: el ? Object.fromEntries([...el.attributes].map((a) => [a.name, a.value])) : {},
     node,
-    inner,
+    inner: el ? [...el.childNodes] : [],
     text: (node.textContent ?? '').trim(),
-    children: el ? [...el.children].map((child) => regionOf(child)) : [],
+    get children() {
+      return (children ??= el ? [...el.children].map((child) => regionOf(child)) : []);
+    },
   };
 }
 
@@ -93,7 +96,9 @@ export class SdsElement extends LitElement {
       for (const node of this.lifted().filter((one) => !isBlank(one))) {
         const slot = node.nodeType === 1 ? (node as Element).getAttribute('slot') : null;
         const key = slot && named.includes(slot) ? slot : TEXT;
-        this.#own.set(key, [...(this.#own.get(key) ?? []), regionOf(node)]);
+        const list = this.#own.get(key);
+        if (list) list.push(regionOf(node));
+        else this.#own.set(key, [regionOf(node)]);
       }
     }
     return this.#own.get(name) ?? [];

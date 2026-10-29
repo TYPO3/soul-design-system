@@ -49,3 +49,12 @@
     }
   }
 }
+
+@layer state {
+  /* A switch of mode recolours every box at once. Each box with a colour
+     transition starts one, and that doubles the switch's cost. So for the
+     frames of a switch nothing transitions except the button's mark. */
+  :root[data-switching] :not(.sds-theme__mark) {
+    transition: none;
+  }
+}

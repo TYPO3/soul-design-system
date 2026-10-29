@@ -23,10 +23,12 @@ export declare class SdsNavToc extends SdsElement {
         the say. */
     at: string;
     private watching?;
-    private queued;
     constructor();
     connectedCallback(): void;
     disconnectedCallback(): void;
+    /** One reading, a frame from now. A scroll fires far faster than a paint. */
+    private soon;
+    private readonly reading;
     /** Follow the page. On the document and on the way down: a scroll event
         does not bubble, and the column can be the scroller rather than the
         window. On resize too, which moves every heading at once. One reading a
@@ -62,6 +64,7 @@ export declare class SdsNavToc extends SdsElement {
         line, and none while none has. A page opens above its first heading, and
         a mark there answers a question nobody asked. */
     private read;
+    private following;
     /** The entry the reader is in. The page wins once the element has read it.
         The data is what a card, a story and a server-rendered page have instead. */
     private isCurrent;

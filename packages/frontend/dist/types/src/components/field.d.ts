@@ -199,7 +199,7 @@ export declare class SdsField extends SdsFormElement {
     pattern: string;
     constructor();
     protected willUpdate(): void;
-    protected updated(): void;
+    protected updated(changed: Map<PropertyKey, unknown>): void;
     protected restore(): void;
     private onInput;
     protected render(): TemplateResult;

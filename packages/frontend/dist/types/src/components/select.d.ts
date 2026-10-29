@@ -177,7 +177,7 @@ export declare class SdsSelect extends SdsFormElement {
     private get listed();
     private get list();
     private get button();
-    protected updated(): void;
+    protected updated(changed: Map<PropertyKey, unknown>): void;
     /** Where the keys start: on the choice, or on the first answer there is. A
         list that opens at the top every time makes a reader find their own
         answer again before they can move off it. */

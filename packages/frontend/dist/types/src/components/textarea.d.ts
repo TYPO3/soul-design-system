@@ -138,7 +138,8 @@ export declare class SdsTextarea extends SdsFormElement {
     invalid: boolean;
     constructor();
     protected willUpdate(): void;
-    protected updated(): void;
+    protected updated(changed: Map<PropertyKey, unknown>): void;
+    private attrs;
     protected restore(): void;
     private onInput;
     protected render(): TemplateResult;

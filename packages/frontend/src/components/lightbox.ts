@@ -9,12 +9,13 @@
 
    `sds-figure` needs none of that: it owns the viewer and calls `show()`. */
 
-import { html, type TemplateResult } from 'lit';
+import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
 /* Type-only, and deliberately so: hearing a command must not drag the element
    that sends one into every page that opens a drawing. */
 import type { SdsCommand } from './button.ts';
 import { art, exported } from '../lib/art.ts';
+import { hold } from '../lib/hold.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export interface LightboxProps {
@@ -27,7 +28,8 @@ export interface LightboxProps {
       carries, so opening it is not a change of subject. */
   caption?: string;
   /** A drawing in place of the file, for a script: an `sds-diagram` with
-      `zoomable` gives its own. It stays in the page's tokens. */
+      `zoomable` gives its own. It stays in the page's tokens. A function
+      draws it only while the viewer stands open. */
   content?: unknown;
   /** If it stands over the page. It is the modal’s behaviour around a
       drawing rather than a question, so it stops at no measure. */
@@ -75,6 +77,8 @@ export class SdsLightbox extends SdsElement {
 
   override disconnectedCallback(): void {
     this.removeEventListener('sds-command', this.onCommand as EventListener);
+    this.#release?.();
+    this.#release = undefined;
     this.watcher?.disconnect();
     this.watcher = null;
     super.disconnectedCallback();
@@ -143,7 +147,13 @@ export class SdsLightbox extends SdsElement {
   private async ready(): Promise<void> {
     const picture = this.canvas?.firstElementChild;
     if (picture instanceof HTMLImageElement && !picture.complete) {
-      await new Promise((done) => picture.addEventListener('load', done, { once: true }));
+      /* A file that fails ends the wait too, and leaves no listener. */
+      await new Promise((done) => {
+        const stop = new AbortController();
+        const end = (): void => { stop.abort(); done(undefined); };
+        picture.addEventListener('load', end, { signal: stop.signal });
+        picture.addEventListener('error', end, { signal: stop.signal });
+      });
     }
   }
 
@@ -249,17 +259,37 @@ export class SdsLightbox extends SdsElement {
     this.zoom(1 / this.scale, { x: event.clientX - box.left, y: event.clientY - box.top });
   };
 
+  /* The page stays still behind an open viewer. */
+  #release?: () => void;
+
   protected override updated(): void {
+    if (this.open && this.isConnected) this.#release ??= hold('modal');
+    else if (this.#release) {
+      this.#release();
+      this.#release = undefined;
+    }
     const el = this.dialog;
     /* `showModal()` throws on an element that is not in the document yet, and
        an exception here breaks the update cycle and renders nothing at all. */
     if (!el || !this.isConnected) return;
+    /* A closed viewer has no stage, and the next one is a new box. */
+    if (!this.open) {
+      this.watcher?.disconnect();
+      this.watcher = null;
+    }
     try {
       if (this.open && !el.open) el.showModal();
       if (!this.open && el.open) el.close();
     } catch {
       if (this.open) el.setAttribute('open', '');
     }
+  }
+
+  /* What the canvas holds. Content handed over as a function draws only
+     while the viewer stands open, so a closed viewer costs nothing. */
+  private drawn(): unknown {
+    if (typeof this.content === 'function') return this.open ? (this.content as () => unknown)() : nothing;
+    return this.content ?? art(this.src, this.alt);
   }
 
   protected override render(): TemplateResult {
@@ -269,7 +299,13 @@ export class SdsLightbox extends SdsElement {
       @close="${() => {
         this.open = false;
       }}"
-    >
+    >${this.open ? this.body() : nothing}</dialog>`;
+  }
+
+  /* What the viewer shows, drawn only while it stands open. A page of
+     zoomable pictures carries one empty dialog for each. */
+  private body(): TemplateResult {
+    return html`
   <div class="sds-modal__head">
     <span class="sds-modal__title">${this.caption || this.alt}</span>
     <div class="sds-lightbox__tools">
@@ -292,9 +328,8 @@ export class SdsLightbox extends SdsElement {
     @keydown="${this.onKey}"
     @dblclick="${this.onDouble}"
   >
-    <div class="sds-lightbox__canvas">${this.content ?? art(this.src, this.alt)}</div>
-  </div>
-</dialog>`;
+    <div class="sds-lightbox__canvas">${this.drawn()}</div>
+  </div>`;
   }
 }
 

@@ -11,6 +11,7 @@
 
 import { html, nothing, type TemplateResult, type PropertyValues } from 'lit';
 import { lines } from '../lib/template.ts';
+import { dropReading, readSoon } from '../lib/reading.ts';
 import { define, SdsElement } from '../lib/element.ts';
 import { branch, type MenuEntry } from './nav-base.ts';
 
@@ -42,7 +43,6 @@ export class SdsNavToc extends SdsElement {
   declare at: string;
 
   private watching?: AbortController;
-  private queued = 0;
 
   constructor() {
     super();
@@ -58,9 +58,15 @@ export class SdsNavToc extends SdsElement {
 
   override disconnectedCallback(): void {
     this.watching?.abort();
-    cancelAnimationFrame(this.queued);
+    dropReading(this.reading);
     super.disconnectedCallback();
   }
+
+  /** One reading, a frame from now. A scroll fires far faster than a paint. */
+  private soon(): void {
+    readSoon(this.reading);
+  }
+  private readonly reading = (): (() => void) | undefined => (this.isConnected ? this.read() : undefined);
 
   /** Follow the page. On the document and on the way down: a scroll event
       does not bubble, and the column can be the scroller rather than the
@@ -70,10 +76,7 @@ export class SdsNavToc extends SdsElement {
     this.watching?.abort();
     this.watching = new AbortController();
     const { signal } = this.watching;
-    const soon = (): void => {
-      cancelAnimationFrame(this.queued);
-      this.queued = requestAnimationFrame(() => this.read());
-    };
+    const soon = (): void => this.soon();
     document.addEventListener('scroll', soon, { capture: true, passive: true, signal });
     window.addEventListener('resize', soon, { passive: true, signal });
     soon();
@@ -144,20 +147,33 @@ export class SdsNavToc extends SdsElement {
   /** Which section the reader is in: the last heading that has passed the
       line, and none while none has. A page opens above its first heading, and
       a mark there answers a question nobody asked. */
-  private read(): void {
-    this.keep();
+  private read(): () => void {
+    /* Every read of the frame first, then every write: a write between two
+       reads lays the page out again. */
+    const writes: ((() => void) | undefined)[] = [this.keep()];
+    if (this.following) writes.push(this.follow());
+    this.following = false;
     const marks = this.marks();
     const first = marks[0];
-    if (!first) return;
-    const box = this.scroller(first.node);
-    const line = this.line(box);
-    let at = '';
-    for (const mark of marks) {
-      if (mark.node.getBoundingClientRect().top > line) break;
-      at = mark.href;
+    let at: string | undefined;
+    if (first) {
+      const box = this.scroller(first.node);
+      const line = this.line(box);
+      at = '';
+      for (const mark of marks) {
+        if (mark.node.getBoundingClientRect().top > line) break;
+        at = mark.href;
+      }
+      if (this.ended(box)) at = (marks[marks.length - 1] as Mark).href;
     }
-    this.at = this.ended(box) ? (marks[marks.length - 1] as Mark).href : at;
+    return () => {
+      for (const write of writes) write?.();
+      if (at !== undefined) this.at = at;
+    };
   }
+
+  /* The marked entry moved, so the next reading brings it into view. */
+  private following = false;
 
   /** The entry the reader is in. The page wins once the element has read it.
       The data is what a card, a story and a server-rendered page have instead. */
@@ -193,10 +209,10 @@ export class SdsNavToc extends SdsElement {
       about where the reader is, exactly where that matters. Its own `scrollTop`,
       never `scrollIntoView`: that walks up every scroller it finds and takes
       the page along with it. */
-  private follow(): void {
+  private follow(): (() => void) | undefined {
     const here = this.querySelector<HTMLElement>('.sds-toc__item.is-active');
     const box = here?.closest<HTMLElement>('.sds-toc');
-    if (!here || !box || box.scrollHeight - box.clientHeight < 2) return;
+    if (!here || !box || box.scrollHeight - box.clientHeight < 2) return undefined;
     const pad = getComputedStyle(box);
     const edge = box.getBoundingClientRect();
     const row = here.getBoundingClientRect();
@@ -204,8 +220,10 @@ export class SdsNavToc extends SdsElement {
        entry stands still and does not fight a reader who scrolled it. */
     const above = row.top - (edge.top + (parseFloat(pad.paddingTop) || 0));
     const below = row.bottom - (edge.bottom - (parseFloat(pad.paddingBottom) || 0));
-    if (above < 0) box.scrollTop += above;
-    else if (below > 0) box.scrollTop += below;
+    return () => {
+      if (above < 0) box.scrollTop += above;
+      else if (below > 0) box.scrollTop += below;
+    };
   }
 
   /** A box with more rows than it shows keeps the wheel, by a class the
@@ -213,14 +231,16 @@ export class SdsNavToc extends SdsElement {
       the mark moves, and the list jumps back under the reader's pointer.
       Only while it overflows: on a box with nothing to scroll, containment
       swallows the wheel and the page stops. So the element measures it. */
-  private keep(): void {
+  private keep(): () => void {
     const box = this.querySelector<HTMLElement>('.sds-toc');
-    box?.classList.toggle('is-scrollable', box.scrollHeight - box.clientHeight > 1);
+    const scrollable = box ? box.scrollHeight - box.clientHeight > 1 : false;
+    return () => box?.classList.toggle('is-scrollable', scrollable);
   }
 
   protected override updated(changed: PropertyValues): void {
-    if (changed.has('at') || changed.has('entries')) this.follow();
-    this.keep();
+    /* Measured in the next reading, with the rest of the frame. */
+    if (changed.has('at') || changed.has('entries')) this.following = true;
+    this.soon();
   }
 
   protected override render(): TemplateResult {

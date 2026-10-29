@@ -33,7 +33,7 @@ export declare class SdsNavRail extends SdsElement {
         the outline does, and by the same measure. The rail measures because
         the box is the page's and a fold that opens is the rail's own height. */
     private keep;
-    protected firstUpdated(): void;
+    private scroller;
     disconnectedCallback(): void;
     connectedCallback(): void;
     /** Every page in the rail, folds flattened. A rail has one current page
@@ -41,6 +41,8 @@ export declare class SdsNavRail extends SdsElement {
         group" thinks about the markup. */
     private flat;
     private isCurrent;
+    private chosen?;
+    protected willUpdate(): void;
     /** One page, and whatever hangs under it.
   
         A page that holds pages is a row like any other, with the marker that

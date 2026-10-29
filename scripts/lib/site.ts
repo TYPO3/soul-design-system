@@ -18,7 +18,7 @@ import { prerender } from './prerender.ts';
    stylesheet reaches for `fonts/` and the script resolves the icon sprite
    against its own URL. So they travel together, or the site serves
    `system-ui` and blank boxes with nothing in the log. */
-export const DROP_IN = ['soul.css', 'soul.js', 'soul-boot.js', 'fonts', 'assets'];
+export const DROP_IN = ['soul.css', 'soul.js', 'soul-chunks', 'soul-boot.js', 'fonts', 'assets'];
 
 /** Every rendered page under a directory. */
 export function* pages(dir: string): Generator<string> {

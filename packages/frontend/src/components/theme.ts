@@ -16,6 +16,7 @@
 import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
 import { type IconId } from './icon.ts';
+import { onMachine, onWritten } from '../lib/mode.ts';
 import { define, SdsElement } from '../lib/element.ts';
 
 export type ThemeChoice = 'light' | 'dark';
@@ -90,31 +91,29 @@ export class SdsTheme extends SdsElement {
      connect, the switch shows the wrong side. The attribute never carries
      the machine's setting. An attribute for that is a choice this element
      cannot tell from one, and a stop with no way back. */
-  #watch: MutationObserver | null = null;
+  #stop: (() => void) | null = null;
 
-  #dark: MediaQueryList | null = null;
+  #dark: ReturnType<typeof onMachine> | null = null;
 
   override connectedCallback(): void {
     super.connectedCallback();
     if (typeof document === 'undefined') return;
     this.#read();
-    this.#watch = new MutationObserver(() => this.#read());
-    this.#watch.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    this.#dark = matchMedia('(prefers-color-scheme: dark)');
+    this.#stop = onWritten(() => this.#read());
+    this.#dark = onMachine(this.#machine);
     this.#machine();
-    this.#dark.addEventListener('change', this.#machine);
   }
 
   override disconnectedCallback(): void {
-    this.#dark?.removeEventListener('change', this.#machine);
+    this.#dark?.stop();
     this.#dark = null;
-    this.#watch?.disconnect();
-    this.#watch = null;
+    this.#stop?.();
+    this.#stop = null;
     super.disconnectedCallback();
   }
 
   #machine = (): void => {
-    this.machine = this.#dark?.matches ? 'dark' : 'light';
+    this.machine = this.#dark?.dark() ? 'dark' : 'light';
   };
 
   /* What the document already says. The element's own idea of it disagrees
@@ -134,12 +133,15 @@ export class SdsTheme extends SdsElement {
     const to = STATES[(at + 1) % STATES.length] ?? 'machine';
     const next: ThemeChoice | null = to === 'machine' ? null : to;
     this.current = next;
+    const root = document.documentElement;
+    root.toggleAttribute('data-switching', true);
+    requestAnimationFrame(() => requestAnimationFrame(() => root.removeAttribute('data-switching')));
 
     if (next) {
-      document.documentElement.dataset['theme'] = next;
+      root.dataset['theme'] = next;
       localStorage.setItem(this.key, next);
     } else {
-      delete document.documentElement.dataset['theme'];
+      delete root.dataset['theme'];
       localStorage.removeItem(this.key);
     }
 

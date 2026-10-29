@@ -41,6 +41,6 @@ export declare class SdsFormErrors extends SdsElement {
     /** Move the reader to the summary. A summary nobody lands on is a summary
         nobody reads. */
     focusSummary(): void;
-    protected updated(): void;
+    protected updated(changed: Map<PropertyKey, unknown>): void;
     protected render(): TemplateResult;
 }

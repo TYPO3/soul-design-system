@@ -248,7 +248,7 @@ for the room the slide gives it, so the browser draws none.
 | `resources/template/` | the overrides, by the paths the renderer looks them up under. `*.html.twig` for the page and `*.md.twig` for the twin, beside each other |
 | `resources/template/markdown.php` | which template each node uses in the Markdown format |
 | `resources/highlight/` | the grammars the highlighter lacks, as the JSON it loads a language from. A task's output, and `Grammars` registers them |
-| `resources/dist/` | the drop-in: `soul.css`, `soul.js`, `soul-boot.js`, the faces, the icon sprites, and `soul-finish.js` |
+| `resources/dist/` | the drop-in: `soul.css`, `soul.js` with `soul-chunks/`, `soul-boot.js`, the faces, the icon sprites, and `soul-finish.js` |
 
 ## The manual
 

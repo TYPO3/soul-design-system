@@ -186,8 +186,13 @@ export class SdsSelect extends SdsFormElement {
   /** The list as entries, each with where it sits: one flat run, because the
       keys walk the answers and never the headings. */
   private get entries(): SelectOption[] {
-    return this.options.map((entry) => (typeof entry === 'string' ? { label: entry } : entry));
+    if (this.#entries?.from !== this.options) this.#entries = { from: this.options, list: this.options.map((entry) => (typeof entry === 'string' ? { label: entry } : entry)) };
+    return this.#entries.list;
   }
+  #entries?: { from: SelectProps['options']; list: SelectOption[] };
+  /* The keys moved the row, so it scrolls into view. A pointer moves it
+     only where the reader already sees it. */
+  #keyed = false;
 
   /** Which entries a key can land on. A disabled one reads out, and the keys
       step over it, the way the platform does. */
@@ -222,9 +227,11 @@ export class SdsSelect extends SdsFormElement {
     return this.querySelector<HTMLElement>('.sds-select__button');
   }
 
-  protected override updated(): void {
+  protected override updated(changed: Map<PropertyKey, unknown>): void {
     const control = this.querySelector('select');
-    if (control) {
+    const settled = this.#settled && !['value', 'filled', 'required', 'error', 'options', 'name'].some((key) => changed.has(key));
+    this.#settled = true;
+    if (control && !settled) {
       /* The `selected` attributes are the list's *defaults*, which a reset
          puts back. The live choice stands here. */
       if (this.filled) control.value = this.value;
@@ -243,14 +250,17 @@ export class SdsSelect extends SdsFormElement {
        validities the browser holds and refuses to submit past, on the button
        the reader can see. */
     const missing = this.required && !this.filled;
-    if (this.error) this.setValidity(this.error, '.sds-select__button');
-    else if (missing) this.setValidity('Choose one of the answers on the list', '.sds-select__button', 'valueMissing');
-    else this.setValidity('');
+    if (!settled) {
+      if (this.error) this.setValidity(this.error, '.sds-select__button');
+      else if (missing) this.setValidity('Choose one of the answers on the list', '.sds-select__button', 'valueMissing');
+      else this.setValidity('');
+    }
     /* The row the keys are on, kept in view. A list a reader has walked past
        the bottom of is a list they cannot see themselves in. */
-    if (this.listed && this.active >= 0) {
+    if (this.listed && this.active >= 0 && (this.#keyed || changed.has('open') || changed.has('shown'))) {
       this.querySelector(`#${this.listId}-${this.active}`)?.scrollIntoView({ block: 'nearest' });
     }
+    this.#keyed = false;
   }
 
   /** Where the keys start: on the choice, or on the first answer there is. A
@@ -330,7 +340,10 @@ export class SdsSelect extends SdsFormElement {
     return true;
   }
 
+  #settled = false;
+
   private onKey(event: KeyboardEvent): void {
+    this.#keyed = true;
     if (this.disabled || this.inheritedDisabled) return;
     const now = event.timeStamp;
 

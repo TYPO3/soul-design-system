@@ -25,18 +25,24 @@ export type Side = 'start' | 'end';
     Scroll comes in the capture phase. What scrolls is as often a box on the
     page as the page itself, and `scroll` does not bubble from one. */
 export function place(panel: HTMLElement, anchor: HTMLElement, side: Side, gapFrom: string): () => void {
+  /* Read once: the gap is the stylesheet's, and it does not change while
+     the panel stands open. */
+  const gap = parseFloat(getComputedStyle(panel).getPropertyValue(gapFrom)) || 0;
+  panel.style.positionArea = 'none';
+  let wide = 0;
+  /* How wide it wants to be, asked with the whole viewport in front of it.
+     A panel left where it last stood narrows to the room that was there, and
+     a width read off that places the next one short. At the open and on a
+     resize; a scroll moves the panel and leaves its width as it was. */
+  const measure = (): void => {
+    panel.style.insetInlineEnd = 'auto';
+    panel.style.insetInlineStart = '0px';
+    wide = panel.getBoundingClientRect().width;
+  };
   const put = (): void => {
     const at = anchor.getBoundingClientRect();
     const room = document.documentElement.clientWidth;
-    const gap = parseFloat(getComputedStyle(panel).getPropertyValue(gapFrom)) || 0;
-    panel.style.positionArea = 'none';
     panel.style.insetBlockStart = `${at.bottom + gap}px`;
-    /* How wide it wants to be, asked with the whole viewport in front of it.
-       A panel left where it last stood narrows to the room that was there,
-       and a width read off that places the next one short. */
-    panel.style.insetInlineEnd = 'auto';
-    panel.style.insetInlineStart = '0px';
-    const wide = panel.getBoundingClientRect().width;
     /* The edge the caller asked for, and the anchor's other one where that
        leaves the viewport. That is what `position-try-fallbacks: flip-inline`
        does on the route the stylesheet places. A panel that fits on neither
@@ -46,11 +52,27 @@ export function place(panel: HTMLElement, anchor: HTMLElement, side: Side, gapFr
     const fits = (x: number): boolean => x >= 0 && x + wide <= room;
     panel.style.insetInlineStart = `${!fits(asked) && fits(other) ? other : asked}px`;
   };
+  /* At most one placement a frame, for all the boxes that scroll in it. */
+  let frame = 0;
+  let resized = false;
+  const soon = (): void => {
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      if (resized) measure();
+      resized = false;
+      put();
+    });
+  };
 
   const stop = new AbortController();
   const { signal } = stop;
+  measure();
   put();
-  addEventListener('scroll', put, { capture: true, passive: true, signal });
-  addEventListener('resize', put, { passive: true, signal });
-  return () => stop.abort();
+  addEventListener('scroll', soon, { capture: true, passive: true, signal });
+  addEventListener('resize', () => { resized = true; soon(); }, { passive: true, signal });
+  return () => {
+    stop.abort();
+    cancelAnimationFrame(frame);
+  };
 }

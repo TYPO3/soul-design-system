@@ -448,7 +448,7 @@
   dialog.sds-lightbox{--sds-lightbox-width: min(92vw, 1400px);--sds-lightbox-inset: 4vh;--sds-lightbox-pad: var(--space-4);--sds-lightbox-border: var(--border-hairline);--sds-lightbox-radius: var(--radius-card);--sds-lightbox-edge: var(--border-strong);--sds-lightbox-fill: var(--surface-raised);--sds-lightbox-stage-fill: var(--surface-sunken);--sds-lightbox-ink: var(--text-primary);--sds-lightbox-backdrop: var(--surface-overlay);--sds-lightbox-tools-gap: var(--space-1);--sds-lightbox-scale-width: var(--space-12);--sds-lightbox-scale-size: var(--font-size-small);--sds-lightbox-scale-face: var(--font-mono);--sds-lightbox-scale-weight: var(--weight-regular);--sds-lightbox-scale-ink: var(--text-muted);padding:0;width:var(--sds-lightbox-width);max-width:none;inset-block:var(--sds-lightbox-inset);height:auto;max-height:none;background:var(--sds-lightbox-fill);border:var(--sds-lightbox-border) solid var(--sds-lightbox-edge);border-radius:var(--sds-lightbox-radius);color:var(--sds-lightbox-ink);overflow:hidden}
   dialog.sds-lightbox[open]{display:flex;flex-direction:column}
   dialog.sds-lightbox::backdrop{background:var(--sds-lightbox-backdrop)}
-  html:has(dialog.sds-modal[open],dialog.sds-lightbox[open]){overflow:hidden;scrollbar-gutter:stable}
+  html[data-sds-hold~=modal]{overflow:hidden;scrollbar-gutter:stable}
   .sds-lightbox__art{
     position:relative;
     flex:1;
@@ -1367,6 +1367,8 @@
     --sds-deck-list-width: calc( var(--sds-deck-thumb-width) + var(--sds-deck-list-pad) * 2 + var(--sds-deck-entry-gap) * 2 );
     --sds-deck-list-gap: var(--space-1);
     --sds-deck-entry-gap: var(--space-2);
+    --sds-deck-entry-unseen-width: calc(var(--sds-deck-thumb-width) + var(--sds-deck-entry-gap) * 2);
+    --sds-deck-entry-unseen: calc(var(--sds-deck-thumb-width) * 9 / 16 + var(--sds-deck-entry-gap) * 6);
     --sds-deck-entry-size: var(--font-size-small);
     --sds-deck-entry-ink: var(--text-secondary);
     --sds-deck-entry-current: var(--text-primary);
@@ -1379,6 +1381,7 @@
     --sds-deck-progress-size: var(--border-emphasis);
     --sds-deck-progress-track: var(--border-subtle);
     --sds-deck-progress-fill: var(--text-muted);
+    --sds-deck-through: 0;
     --sds-deck-turn: calc(var(--duration-base) + var(--duration-fast)) var(--ease-out);
     --sds-deck-drag: 0px;
     --sds-deck-open: var(--duration-base) var(--ease-out);
@@ -1407,7 +1410,7 @@
       @starting-style{opacity:0}
     }
   }
-  html:has(dialog.sds-deck[open]){overflow:hidden}
+  html[data-sds-hold~=deck]{overflow:hidden}
   .sds-deck__screen{outline:0;flex:1;min-height:0;display:flex;flex-direction:column;background:var(--sds-deck-fill)}
   .sds-deck .sds-modal__head{
     display:grid;
@@ -1433,7 +1436,15 @@
     flex:none;
     block-size:var(--sds-deck-progress-size);
     background:var(--sds-deck-progress-track);
-    >span{display:block;block-size:100%;background:var(--sds-deck-progress-fill);transition:inline-size var(--sds-deck-turn)}
+    >span{
+      display:block;
+      block-size:100%;
+      background:var(--sds-deck-progress-fill);
+      transform:scaleX(var(--sds-deck-through));
+      transform-origin:left;
+      transition:transform var(--sds-deck-turn);
+      &:dir(rtl){transform-origin:right}
+    }
   }
   .sds-deck__main{position:relative;flex:1;min-height:0;display:flex}
   .sds-deck__stage{
@@ -1483,7 +1494,15 @@
     border-inline-end:var(--sds-deck-rule) solid var(--sds-deck-edge);
     &[hidden]{display:none}
   }
-  .sds-deck__list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:var(--sds-deck-list-gap)}
+  .sds-deck__list{
+    margin:0;
+    padding:0;
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:var(--sds-deck-list-gap);
+    >li{content-visibility:auto;contain-intrinsic-size:auto var(--sds-deck-entry-unseen-width) auto var(--sds-deck-entry-unseen)}
+  }
   .sds-deck__entry{
     position:relative;
     width:calc(var(--sds-deck-thumb-width) + var(--sds-deck-entry-gap) * 2);
@@ -2230,6 +2249,9 @@
   @media(prefers-reduced-motion:reduce){
     .sds-theme__mark{transition:none}
   }
+}
+@layer state{
+  :root[data-switching] :not(.sds-theme__mark){transition:none}
 }
 @layer base{
   sds-dropdown{display:inline-block}

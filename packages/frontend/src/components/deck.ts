@@ -13,6 +13,7 @@ import { html, nothing, type TemplateResult } from 'lit';
 import './icon.ts';
 import type { SdsCommand } from './button.ts';
 import type { SdsSlide } from './slide.ts';
+import { hold } from '../lib/hold.ts';
 import { define, isBlank, SdsElement } from '../lib/element.ts';
 
 export interface DeckProps {
@@ -190,12 +191,17 @@ export class SdsDeck extends SdsElement {
   private own: SdsSlide[] = [];
   private slides: SdsSlide[] = [];
   /** The slides whose picture the list already holds. */
-  private drawn = new Set<number>();
+  /** The picture each entry of the list holds, by the slide it shows. A
+      deck that opens again keeps those whose slide stands in the same place. */
+  private drawn = new Map<number, SdsSlide>();
   private drawing = 0;
+  /** The pushes still under way, each with its last-resort end. */
+  private pushing = new Set<number>();
+  /** A furnish asked, for the next microtask. */
+  private asked = false;
   private loan?: Loan;
   private keys?: AbortController;
   private asks?: AbortController;
-  private grows?: MutationObserver;
   /* What the deck set on each slide, so it can set it again. */
   private readonly given = new WeakMap<Element, Record<string, string>>();
   /** The slide to come back to after a print, if the deck was open. */
@@ -233,17 +239,23 @@ export class SdsDeck extends SdsElement {
     document.addEventListener('sds-slide-open', this.onAsk, { signal: this.asks.signal });
     this.furnish();
     /* An element that upgrades after the deck can put fresh copies of its
-       slides in the page. The deck gives those the same as the first ones. */
-    const root = this.from ? document.getElementById(this.from) : document.body;
-    if (this.own.length || !root) return;
-    this.grows = new MutationObserver((records) => {
-      const added = records.some((record) => [...record.addedNodes].some((node) => node instanceof Element && (node.localName === 'sds-slide' || node.querySelector('sds-slide'))));
-      /* A slide the deck lends to its stage leaves the page and comes back:
-         that is no new order, so an open deck counts nothing. */
-      if (added && !this.open) this.furnish();
-    });
-    this.grows.observe(root, { childList: true, subtree: true });
+       slides in the page. Each slide says so as it joins, and the deck gives
+       it the same as the first ones. */
+    if (!this.own.length) document.addEventListener('sds-slide-join', this.onJoin, { signal: this.asks.signal });
   }
+
+  /* A slide the deck lends to its stage leaves the page and comes back:
+     that is no new order, so an open deck counts nothing. Many slides join
+     in one task, and the deck furnishes once for all of them. */
+  private readonly onJoin = (event: Event): void => {
+    const root = this.from ? document.getElementById(this.from) : document.body;
+    if (this.open || this.asked || !root?.contains(event.target as Node)) return;
+    this.asked = true;
+    queueMicrotask(() => {
+      this.asked = false;
+      if (this.isConnected && !this.open) this.furnish();
+    });
+  };
 
   /* What the deck says to the slides of the page, and the press on each. */
   private furnish(): void {
@@ -281,7 +293,11 @@ export class SdsDeck extends SdsElement {
     this.removeEventListener('sds-command', this.onCommand as EventListener);
     this.keys?.abort();
     this.asks?.abort();
-    this.grows?.disconnect();
+    cancelAnimationFrame(this.drawing);
+    for (const timer of this.pushing) clearTimeout(timer);
+    this.pushing.clear();
+    this.#release?.();
+    this.#release = undefined;
     this.giveBack();
     super.disconnectedCallback();
   }
@@ -321,7 +337,7 @@ export class SdsDeck extends SdsElement {
   show(at = 0): void {
     this.slides = this.collect();
     this.titles = this.slides.map(titleOf);
-    this.drawn.clear();
+    for (const [index, slide] of this.drawn) if (this.slides[index] !== slide) this.drawn.delete(index);
     this.open = true;
     void this.updateComplete.then(() => {
       const el = this.dialog;
@@ -371,9 +387,12 @@ export class SdsDeck extends SdsElement {
     const frame = this.loan?.slide.querySelector(':scope > .sds-slide');
     const way = Math.sign(to - this.at);
     const moves = Boolean(stage && frame && way) && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    /* Every read of the turn first, then the writes: the width the push
+       crosses is the stage's before the loan changes it. */
+    const width = stage?.clientWidth ?? 0;
     const ghost = moves && stage && frame ? this.ghost(frame, stage) : undefined;
     this.lend(to);
-    if (ghost && stage) this.push(stage, ghost, way, from);
+    if (ghost && stage) this.push(stage, ghost, way, from, width);
     void this.updateComplete.then(() => this.follow());
   }
 
@@ -400,30 +419,35 @@ export class SdsDeck extends SdsElement {
   /* Both slides move one stage width, side by side: the old one out, the
      new one in from where the old one goes next. The new one starts with
      no transition, the stylesheet runs the rest. */
-  private push(stage: HTMLElement, ghost: HTMLElement, way: number, from: number): void {
-    const width = stage.clientWidth;
+  private push(stage: HTMLElement, ghost: HTMLElement, way: number, from: number, width: number): void {
     stage.classList.add('is-placing');
     stage.style.setProperty('--sds-deck-drag', `${from + way * width}px`);
     void stage.offsetWidth;
     stage.classList.remove('is-placing');
     stage.style.removeProperty('--sds-deck-drag');
     ghost.style.translate = `${-way * width - from}px 0`;
-    const gone = (): void => ghost.remove();
-    ghost.addEventListener('transitionend', gone, { once: true });
     /* A transition that never runs sends no end. */
-    setTimeout(gone, 1000);
+    const timer = window.setTimeout(() => gone(), 1000);
+    const gone = (): void => {
+      ghost.remove();
+      clearTimeout(timer);
+      this.pushing.delete(timer);
+    };
+    this.pushing.add(timer);
+    ghost.addEventListener('transitionend', gone, { once: true });
   }
 
   /* The picture of one slide for the list, while the slide still stands
      where the page drew it, fitted to its column. So a slide takes its
      picture before its loan, and the stage never sits for one. */
   private draw(index: number): void {
-    if (this.drawn.has(index) || this.loan?.slide === this.slides[index]) return;
-    const frame = this.slides[index]?.querySelector(':scope > .sds-slide');
+    const slide = this.slides[index];
+    if (!slide || this.drawn.get(index) === slide || this.loan?.slide === slide) return;
+    const frame = slide.querySelector(':scope > .sds-slide');
     const box = this.querySelectorAll('.sds-deck__thumb')[index];
     if (!frame || !box) return;
     box.replaceChildren(picture(frame));
-    this.drawn.add(index);
+    this.drawn.set(index, slide);
   }
 
   /* The pictures the list shows, a few in each frame from the current one
@@ -433,7 +457,7 @@ export class SdsDeck extends SdsElement {
     const order = this.slides.map((_, i) => i).sort((a, b) => Math.abs(a - this.at) - Math.abs(b - this.at));
     const next = (): void => {
       if (!this.open || !this.listed) return;
-      const left = order.filter((i) => !this.drawn.has(i));
+      const left = order.filter((i) => this.drawn.get(i) !== this.slides[i]);
       for (const i of left.slice(0, PICTURES)) this.draw(i);
       if (left.length > PICTURES) this.drawing = requestAnimationFrame(next);
     };
@@ -671,7 +695,15 @@ export class SdsDeck extends SdsElement {
     back?.scrollIntoView({ block: 'nearest' });
   };
 
+  /* The page stays still under an open deck. */
+  #release?: () => void;
+
   protected override updated(changed: Map<PropertyKey, unknown>): void {
+    if (this.open && this.isConnected) this.#release ??= hold('deck');
+    else if (this.#release) {
+      this.#release();
+      this.#release = undefined;
+    }
     if (changed.has('listed') && this.listed && this.open) this.drawAll();
     const el = this.dialog;
     if (!el || !this.isConnected) return;
@@ -721,7 +753,7 @@ export class SdsDeck extends SdsElement {
     const total = this.titles.length;
     const count = total ? `${this.at + 1} / ${total}` : '';
     /* How far through, as a share of the track. A measurement, so a style. */
-    const through = total ? `inline-size: ${((this.at + 1) / total) * 100}%` : 'inline-size: 0';
+    const through = `--sds-deck-through: ${total ? (this.at + 1) / total : 0}`;
     return html`${this.poster()}<dialog class="${this.full ? 'sds-deck is-full' : 'sds-deck'}" aria-label="${this.label}" @close="${this.onClose}">
   <div class="sds-deck__screen" tabindex="-1">
   <div class="sds-modal__head">

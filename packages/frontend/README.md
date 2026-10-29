@@ -24,6 +24,10 @@ and the elements upgrade it where there is behaviour. A page whose content
 is a document links nothing extra. `soul.css` sets the bare elements a
 renderer emits too, each in the sheet of its component.
 
+Keep `soul-chunks/` beside `soul.js`. A page fetches the diagram engine
+from it on its first drawing, and the highlighter on its first block to
+colour.
+
 A script in the head loads before the markup. The elements then register
 when the parse ends, so each one takes what stands between its tags.
 

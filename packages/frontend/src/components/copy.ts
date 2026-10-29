@@ -52,10 +52,20 @@ export class SdsCopy extends SdsElement {
     this.copied = false;
   }
 
+  /* The word goes back after a while: one timer, renewed by a new press and
+     gone with the element. */
+  #said = 0;
+
   private async take(): Promise<void> {
     if (!(await toClipboard(this.value))) return;
     this.copied = true;
-    setTimeout(() => { this.copied = false; }, SAID);
+    clearTimeout(this.#said);
+    this.#said = window.setTimeout(() => { this.copied = false; }, SAID);
+  }
+
+  override disconnectedCallback(): void {
+    clearTimeout(this.#said);
+    super.disconnectedCallback();
   }
 
   protected override render(): TemplateResult {

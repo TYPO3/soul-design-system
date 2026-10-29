@@ -8,6 +8,7 @@
    A divider carries the deck's outline. */
 
 import { html, nothing, type TemplateResult } from 'lit';
+import { engine } from '../lib/diagram/load.ts';
 import { define, SdsElement, TEXT, type Region } from '../lib/element.ts';
 import { lockup } from '../lib/lockup.ts';
 import './eyebrow.ts';
@@ -172,6 +173,139 @@ const measureAll = (): void => {
   slides.forEach((slide, i) => slide.take(zooms[i] ?? 0));
 };
 
+/* One observer for every slide: a parent that changes its size asks its
+   slides again, and a box of content that changes asks its own. The size a
+   box takes from its own fit asks nothing: the first report after a fit is
+   that size, and the observer keeps it. */
+const asked = new WeakMap<Element, Set<SdsSlide>>();
+const settled = new WeakMap<Element, string>();
+const sizeOf = (box: { width: number; height: number }): string => `${Math.round(box.width)}x${Math.round(box.height)}`;
+const sizes = typeof ResizeObserver === 'undefined'
+  ? undefined
+  : new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const was = settled.get(entry.target);
+        const now = sizeOf(entry.contentRect);
+        if (was === PENDING) settled.set(entry.target, now);
+        if (was === PENDING || was === now) continue;
+        for (const slide of asked.get(entry.target) ?? []) slide.refit(entry.target);
+      }
+    });
+const PENDING = 'pending';
+const watch = (target: Element, slide: SdsSlide): void => {
+  const slides = asked.get(target) ?? new Set();
+  if (!slides.size) sizes?.observe(target);
+  slides.add(slide);
+  asked.set(target, slides);
+};
+const unwatch = (target: Element, slide: SdsSlide): void => {
+  const slides = asked.get(target);
+  slides?.delete(slide);
+  if (slides && !slides.size) sizes?.unobserve(target);
+};
+/* The window, once for all of them: a fitted slide takes its height. */
+const placed = new Set<SdsSlide>();
+if (typeof window !== 'undefined') window.addEventListener('resize', () => placed.forEach((slide) => slide.refit()));
+
+/* The boxes of every slide that asks fit in one pass, in phases: all read,
+   then all write. One slide after another lays the page out each time. */
+const fitting = new Set<SdsSlide>();
+let fitPass = 0;
+const fitAll = (): void => {
+  fitPass = 0;
+  const slides = [...fitting].filter((slide) => slide.isConnected);
+  fitting.clear();
+  fitBoxes(slides.flatMap((slide) => slide.boxes()));
+  for (const slide of slides) slide.fitted();
+};
+
+/** One box of what a slide holds, with the room its parent gives it. */
+export interface FitBox {
+  fit: HTMLElement;
+  room: DOMRect;
+  text: boolean;
+}
+
+/* The room each box fitted in last. The same room and the same content
+   fit the same, so a box with both measures nothing again. */
+const roomed = new WeakMap<HTMLElement, string>();
+/* How many layouts a pass of text takes at most, for all boxes at once. */
+const ROUNDS = 7;
+
+/* What is taller or wider than the body shrinks until it fits, and nothing
+   grows. A picture keeps its width, so nothing wraps and its shrink is the
+   ratio. Text keeps the room's width and wraps anew. Its height goes near
+   the square of the zoom. So a guess and a few corrections find the largest
+   zoom that fits, for all boxes at once. */
+function fitBoxes(boxes: readonly FitBox[]): void {
+  const open = boxes.filter((one) => roomed.get(one.fit) !== sizeOf(one.room));
+  for (const { fit } of open) {
+    fit.style.removeProperty('zoom');
+    fit.style.removeProperty('width');
+    fit.style.removeProperty('align-self');
+  }
+  const measured = open.map((one) => {
+    const need = one.fit.getBoundingClientRect();
+    const wide = one.fit.scrollWidth > one.fit.clientWidth + 1 ? one.fit.clientWidth / one.fit.scrollWidth : 1;
+    const ratio = one.room.height > 0 && need.height > 0 ? Math.min(one.room.height / need.height, wide) : 1;
+    /* The frame's own zoom stands over the box: a width is in its pixels. */
+    const scale = need.width / parseFloat(getComputedStyle(one.fit).width);
+    return { ...one, need, ratio, scale, zoom: ratio, best: ratio };
+  });
+  const shrunk = measured.filter((one) => one.ratio < 1);
+  const put = (one: (typeof shrunk)[number], zoom: number): void => {
+    if (one.text) one.fit.style.width = `${one.room.width / one.scale / zoom}px`;
+    one.fit.style.zoom = String(zoom);
+  };
+  for (const one of shrunk) {
+    if (!one.text) {
+      one.fit.style.width = `${one.need.width / one.scale}px`;
+      one.fit.style.alignSelf = 'center';
+    }
+    put(one, one.zoom);
+  }
+  /* Each round measures every box still open in one layout. A box keeps the
+     largest zoom that fitted and the smallest that did not, and tries
+     between them once it knows both. */
+  const over = new Map<HTMLElement, number>();
+  let round = shrunk;
+  for (let pass = 0; pass < ROUNDS && round.length; pass += 1) {
+    const heights = round.map((one) => one.fit.getBoundingClientRect().height);
+    const next: typeof shrunk = [];
+    round.forEach((one, at) => {
+      const height = heights[at] ?? 0;
+      const fits = height <= one.room.height + 0.5;
+      if (fits) one.best = Math.max(one.best, one.zoom);
+      else over.set(one.fit, Math.min(over.get(one.fit) ?? 1, one.zoom));
+      /* Close enough, or a picture that fits: done. */
+      if (fits && (!one.text || height >= one.room.height * 0.985 || one.zoom >= 1)) return;
+      if (!one.text) one.zoom *= one.room.height / height;
+      else {
+        const high = over.get(one.fit);
+        one.zoom = high === undefined ? Math.min(1, one.zoom * Math.sqrt(one.room.height / height)) : (one.best + high) / 2;
+        if (high !== undefined && high - one.best < 0.004) {
+          one.zoom = one.best;
+          put(one, one.zoom);
+          return;
+        }
+      }
+      next.push(one);
+    });
+    for (const one of next) put(one, one.zoom);
+    round = next;
+  }
+  /* What the last round put and nobody measured goes back to the best that
+     fitted. */
+  for (const one of round) {
+    if (one.text) one.zoom = one.best;
+    put(one, one.zoom);
+  }
+  for (const one of open) {
+    roomed.set(one.fit, sizeOf(one.room));
+    settled.set(one.fit, PENDING);
+  }
+}
+
 /* What a slide holds fits itself once the slide comes near the window. A
    slide far down the page waits, so a long page opens at once. */
 const near = typeof IntersectionObserver === 'undefined'
@@ -258,8 +392,8 @@ export class SdsSlide extends SdsElement {
   declare zoomable: boolean;
   declare zoom: number;
 
-  private watch?: ResizeObserver;
-  private settling = 0;
+  /* What this slide watches, so it can let go of each. */
+  private watched: Element[] = [];
   /* Near the window, so what it holds fits now and not later. */
   private seen = false;
 
@@ -303,16 +437,22 @@ export class SdsSlide extends SdsElement {
     const text = this.region(TEXT).map((one) => one.node as Node);
     if (text.length) this.taken = text;
     super.connectedCallback();
+    /* A deck counts the slides of its page as they join. It does not watch
+       the page for every node. */
+    this.dispatchEvent(new Event('sds-slide-join', { bubbles: true }));
     /* The room is the parent's width, and under `fit` the window's height.
        Measured off the frame itself it reads back its own answer and never
        moves. And a frame taller than the window is a slide nobody sees whole. */
-    this.watch = new ResizeObserver(() => this.ask());
-    if (this.parentElement) this.watch.observe(this.parentElement);
-    this.watch.observe(document.documentElement);
+    this.watched = this.parentElement ? [this.parentElement] : [];
+    for (const target of this.watched) watch(target, this);
+    placed.add(this);
     near?.observe(this);
     void this.updateComplete.then(() => {
       this.ask();
-      for (const fit of this.querySelectorAll('.sds-slide__fit')) this.watch?.observe(fit);
+      for (const fit of this.querySelectorAll('.sds-slide__fit')) {
+        this.watched.push(fit);
+        watch(fit, this);
+      }
     });
   }
 
@@ -335,8 +475,41 @@ export class SdsSlide extends SdsElement {
     this.zoom = zoom;
     /* No keyboard stop on any slide, near or far: it costs no layout. */
     this.quiet();
-    cancelAnimationFrame(this.settling);
-    this.settling = requestAnimationFrame(() => this.isConnected && (this.seen || this.fit || !near) && this.decide());
+    if (this.seen || this.fit || !near) this.queue();
+  }
+
+  /** Something the slide sits in or holds changed its size. The pass
+      measures a box that changed anew, even in the room it had. */
+  refit(target?: Element): void {
+    if (target instanceof HTMLElement && target.classList.contains('sds-slide__fit')) roomed.delete(target);
+    this.ask();
+  }
+
+  /* What the slide holds, in the next pass of every slide that asks. */
+  private queue(): void {
+    fitting.add(this);
+    if (!fitPass) fitPass = requestAnimationFrame(fitAll);
+  }
+
+  /** The boxes of what the slide holds, each with its room. Reads only. A
+      drawing that takes a new room draws first, and asks again once drawn. */
+  boxes(): FitBox[] {
+    const drawing = this.lendRooms();
+    if (drawing.length) {
+      void Promise.all(drawing).then(() => this.isConnected && this.queue());
+      return [];
+    }
+    return [...this.querySelectorAll<HTMLElement>('.sds-slide__fit')].flatMap((fit) => {
+      const body = fit.parentElement;
+      return body ? [{ fit, room: body.getBoundingClientRect(), text: !fit.closest('.sds-slide__art') }] : [];
+    });
+  }
+
+  /** The pass fitted what the slide holds. */
+  fitted(): void {
+    /* The stylesheet hides what the slide holds until now. */
+    if (!this.hasAttribute('fitted')) this.toggleAttribute('fitted', true);
+    this.quiet();
   }
 
   /** Near the window for the first time: what the slide holds fits now. */
@@ -344,14 +517,16 @@ export class SdsSlide extends SdsElement {
     if (this.seen) return;
     this.seen = true;
     near?.unobserve(this);
-    void this.updateComplete.then(() => this.isConnected && this.decide());
+    void this.updateComplete.then(() => this.isConnected && this.queue());
   }
 
   override disconnectedCallback(): void {
-    this.watch?.disconnect();
+    for (const target of this.watched) unwatch(target, this);
+    this.watched = [];
+    placed.delete(this);
     near?.unobserve(this);
     waiting.delete(this);
-    cancelAnimationFrame(this.settling);
+    fitting.delete(this);
     super.disconnectedCallback();
   }
 
@@ -359,36 +534,14 @@ export class SdsSlide extends SdsElement {
   protected override updated(changed: Map<PropertyKey, unknown>): void {
     if ((changed.has('fit') && changed.get('fit') !== undefined) || (changed.has('shrink') && changed.get('shrink') !== undefined)) {
       this.ask();
-      if (this.fit) requestAnimationFrame(() => this.isConnected && this.decide());
+      if (this.fit) this.queue();
     }
-  }
-
-  /* What stands in the frame, once the frame has its zoom. */
-  private decide(): void {
-    this.settle();
-    this.quiet();
   }
 
   /* No stop for the keyboard inside the body. The pointer the stylesheet
      keeps out. The text stays, for a reader who hears the page. */
   private quiet(): void {
     for (const stop of this.querySelectorAll('.sds-slide__fit :is(' + STOPS + ')')) stop.setAttribute('tabindex', '-1');
-  }
-
-  /* The material is a picture too. What is taller or wider than the body
-     shrinks until it fits, and nothing grows. Its width stays what it was,
-     so nothing wraps anew and the shrink is exact. Measurements, so styles. */
-  private settle(): void {
-    /* A drawing that takes a new room draws first, so the fit measures
-       what the reader sees and moves nothing a second time. */
-    const drawing = this.lendRooms();
-    const fit = (): void => {
-      for (const box of this.querySelectorAll<HTMLElement>('.sds-slide__fit')) this.fitBox(box);
-      /* The stylesheet hides what the slide holds until now. */
-      this.toggleAttribute('fitted', true);
-    };
-    if (drawing.length) void Promise.all(drawing).then(() => this.isConnected && fit());
-    else fit();
   }
 
   /* A figure slide lends a drawing from a text the room its layout leaves,
@@ -409,6 +562,8 @@ export class SdsSlide extends SdsElement {
       if (!(width > 0 && height > 0)) continue;
       lent.push({ one, width: Math.floor((width / scale) * ROOM), height: Math.floor((height / scale) * ROOM) });
     }
+    /* The engine first: a room asks it what each drawing needs. */
+    if (lent.length && !engine.now) return [engine.load()];
     /* A row lends each drawing the room its densest one needs. So one scale
        sets their type and their frames, and the keys line up. */
     const grow = this.layout === 'row' && lent.length > 1
@@ -419,50 +574,6 @@ export class SdsSlide extends SdsElement {
       if (one.lend?.(`${Math.round(width * grow)},${Math.round(height * grow)}`) && one.updateComplete) drawing.push(one.updateComplete);
     }
     return drawing;
-  }
-
-  /* One box of what the slide holds, against the room its parent gives it. */
-  private fitBox(fit: HTMLElement): void {
-    const body = fit.parentElement;
-    if (!body) return;
-    fit.style.removeProperty('zoom');
-    fit.style.removeProperty('width');
-    fit.style.removeProperty('align-self');
-    const room = body.getBoundingClientRect();
-    const need = fit.getBoundingClientRect();
-    if (!(room.height > 0) || !(need.height > 0)) return;
-    const wide = fit.scrollWidth > fit.clientWidth + 1 ? fit.clientWidth / fit.scrollWidth : 1;
-    const ratio = Math.min(room.height / need.height, wide);
-    if (ratio >= 1) return;
-    /* Text reflows. So it keeps the room's width at every scale, and the
-       largest scale where its height fits is the one it takes. */
-    if (!fit.closest('.sds-slide__art')) {
-      /* The frame's own zoom stands over the box: a width is in its pixels. */
-      const scale = need.width / parseFloat(getComputedStyle(fit).width);
-      const width = room.width / scale;
-      let [low, high] = [ratio, 1];
-      for (let pass = 0; pass < 8; pass += 1) {
-        const zoom = (low + high) / 2;
-        fit.style.width = `${width / zoom}px`;
-        fit.style.zoom = String(zoom);
-        if (fit.getBoundingClientRect().height <= room.height) low = zoom;
-        else high = zoom;
-      }
-      fit.style.width = `${width / low}px`;
-      fit.style.zoom = String(low);
-      return;
-    }
-    fit.style.width = getComputedStyle(fit).width;
-    fit.style.alignSelf = 'center';
-    /* Laid out, a zoom rounds to whole pixels. So the element measures the
-       fit again and takes off what still stands over. */
-    let zoom = ratio;
-    for (let pass = 0; pass < 3; pass += 1) {
-      fit.style.zoom = String(zoom);
-      const over = fit.getBoundingClientRect().bottom - body.getBoundingClientRect().bottom;
-      if (over <= 0) return;
-      zoom *= (need.height * zoom - over) / (need.height * zoom);
-    }
   }
 
   /** How far to scale the frame so it fits. The frame's size comes off the

@@ -82,6 +82,26 @@ const measureAll = (): void => {
   });
 };
 
+/* One observer for every grid. A parent that changes its size asks its
+   grids, and one frame later all of them measure in one pass. With a frame
+   for each grid, each pass holds one grid. */
+const parents = new WeakMap<Element, Set<SdsGrid>>();
+const resized = new Set<SdsGrid>();
+let frame = 0;
+const sizes = typeof ResizeObserver === 'undefined'
+  ? undefined
+  : new ResizeObserver((entries) => {
+      for (const entry of entries) for (const grid of parents.get(entry.target) ?? []) resized.add(grid);
+      if (frame) return;
+      /* A frame later, not in the callback: an answer that changes the room
+         in the same frame is an observation the browser reports undelivered. */
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        for (const grid of resized) if (grid.isConnected) grid.ask();
+        resized.clear();
+      });
+    });
+
 export class SdsGrid extends SdsElement {
   static override properties = {
     variant: { type: String },
@@ -100,7 +120,7 @@ export class SdsGrid extends SdsElement {
      Nothing else about the set is content: what an item is, is its own
      business, and the grid never reaches inside one. */
   private taken: Node[] | null = null;
-  private watch?: ResizeObserver;
+  private watched: Element | null = null;
 
   constructor() {
     super();
@@ -115,15 +135,18 @@ export class SdsGrid extends SdsElement {
     /* The room, not the grid: measured off the grid it reads back its own
        answer and settles wherever it started. The host draws nothing, so what
        the row has is what the parent gives it. */
-    /* A frame later, not in the callback: an answer that changes the room
-       in the same frame is an observation the browser reports undelivered. */
-    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.ask()));
-    if (this.parentElement) this.watch.observe(this.parentElement);
+    this.watched = this.parentElement;
+    if (this.watched) {
+      const grids = parents.get(this.watched) ?? new Set();
+      if (!grids.size) sizes?.observe(this.watched);
+      grids.add(this);
+      parents.set(this.watched, grids);
+    }
     void this.updateComplete.then(() => this.ask());
   }
 
-  /* A measurement in the next pass of every grid on the page. */
-  private ask(): void {
+  /** A measurement in the next pass of every grid on the page. */
+  ask(): void {
     waiting.add(this);
     if (pass) return;
     pass = true;
@@ -131,7 +154,11 @@ export class SdsGrid extends SdsElement {
   }
 
   override disconnectedCallback(): void {
-    this.watch?.disconnect();
+    const grids = this.watched ? parents.get(this.watched) : undefined;
+    grids?.delete(this);
+    if (this.watched && grids && !grids.size) sizes?.unobserve(this.watched);
+    this.watched = null;
+    resized.delete(this);
     super.disconnectedCallback();
   }
 

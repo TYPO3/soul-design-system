@@ -58,7 +58,10 @@ export class SdsFormErrors extends SdsElement {
     (this.querySelector('.sds-form-errors') as HTMLElement | null)?.focus();
   }
 
-  protected override updated(): void {
+  protected override updated(changed: Map<PropertyKey, unknown>): void {
+    /* Only when the errors or the request changed: a new heading is no
+       reason to pull the reader back. */
+    if (!changed.has('errors') && !changed.has('announce')) return;
     /* The focus is right after a submit and wrong on load. The element
        cannot tell those apart: the same render creates it in both cases. So
        the page says which happened, and the default is the one that moves
