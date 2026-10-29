@@ -213,8 +213,19 @@ export class SdsNavOutline extends SdsElement {
   /** The entries at one level, each numbered by its place under the number
       of the entry above: `4`, then `4.1`, `4.2`. */
   private list(entries: readonly MenuEntry[], above = ''): TemplateResult {
+    /* A part is a head in the list and no entry. Its entries stand at the
+       level of the others, and the count runs on across it. */
+    let count = 0;
+    const rows = entries.flatMap((entry) =>
+      entry.part
+        ? [
+            html`<li class="sds-outline__part"><p class="sds-label">${entry.label}</p></li>`,
+            ...(entry.items ?? []).map((item) => this.row(item, above ? `${above}.${++count}` : String(++count))),
+          ]
+        : [this.row(entry, above ? `${above}.${++count}` : String(++count))],
+    );
     return html`<ul class="sds-outline__list">
-  ${lines(entries.map((entry, i) => this.row(entry, above ? `${above}.${i + 1}` : String(i + 1))), 2)}
+  ${lines(rows, 2)}
 </ul>`;
   }
 

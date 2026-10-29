@@ -64,6 +64,12 @@ copy.
    * - ``register``, ``entry``
      - a list a reader cites: numbered, addressed, and the work it asks for
      - ``sds-register``
+   * - ``slide``
+     - one frame of a deck, in the text of a paper
+     - ``sds-slide``
+   * - ``codemode``
+     - markup that stands in the page as its author wrote it
+     - what it holds
    * - ``example``
      - a piece of markup and, under it, what it renders as
      - ``sds-code`` in ``.sds-example``
@@ -261,6 +267,14 @@ to its own sentence. The element is ``sds-grid`` in
    width every set gets. A name the element does not define falls back, and
    does not pass through. ``:variant:`` says the same thing as an option.
 
+.. confval:: columns
+   :name: grid-columns
+   :type: number
+
+   This many across, while each item keeps its minimum. A narrower room
+   takes fewer. For a set whose rows are the point: two by two, or three
+   and two.
+
 .. confval:: class
    :name: grid-class
    :type: string
@@ -400,6 +414,14 @@ One card: a title that goes somewhere, and what is behind it.
    A glyph above the label, for a set a reader tells apart before a read.
    The name is an icon of this system; see :doc:`/design-system/icons`.
 
+.. confval:: sign
+   :name: card-sign
+   :type: string
+
+   The state of what the card stands for, measured: ``yes``, ``partly``,
+   ``no`` or ``unknown``. The element draws the sign the drawings use for
+   it, at the end of the line over the title, and says its meaning in words.
+
 .. confval:: src
    :name: card-src
    :type: string
@@ -530,6 +552,22 @@ bounds it.
    figure is a part. A measurement is out of nothing. It is words and not a
    bar, so every figure in a set keeps the same shape and their notes start
    on one line.
+
+.. confval:: bar
+   :name: stat-bar
+   :type: flag
+
+   With ``:of:``, the share as a bar under the figure, so the proportion
+   reads before the numbers. Give it to every figure of a set or to none,
+   so the notes still start on one line.
+
+.. confval:: list
+   :name: stat-list
+   :type: flag
+
+   With ``:of:``, one share of a list. The label and the count stand on one
+   line over the bar, and the body under it. For a set of shares where the
+   proportion is the point and the figure only its read-out.
 
 .. confval:: icon
    :name: stat-icon
@@ -776,6 +814,24 @@ quotes anything. The element is ``sds-quote`` in
 ``sds-byline``, which is why there is no option here for the order of that
 row.
 
+byline
+======
+
+Who wrote the page, what they are to it, and when. A paper has it under its
+title.
+
+.. example:: The author of a paper
+
+   .. byline:: Benjamin Kott
+      :as: responsible for the content
+      :meta: version 1.0
+
+The name is the argument. The options are the ones ``quote`` has: ``:as:``,
+``:meta:``, ``:initials:``, ``:href:`` and ``:class:``. The monogram comes
+from the name, and ``:initials:`` says it where the name does not. The
+element is ``sds-byline`` in :doc:`/frontend/components/content`. The
+Markdown twin writes the three parts on one line.
+
 button
 ======
 
@@ -976,6 +1032,69 @@ window never sees it straight.
    :name: directory-tree-class
 
    Passed to the element, for the surface that has to place one.
+
+diagram
+=======
+
+A drawing, written as the text that describes it. The body is the text of a
+``.diagram`` file as it is, one statement per line, and
+:doc:`/design-system/diagrams/index` names its statements. The directive takes
+the body raw, so the parser of reStructuredText never reads it. It draws
+:ref:`sds-diagram <component-sds-diagram>`, and the finishing step renders
+the drawing before the page ships.
+
+.. example:: A drawing from the text under the directive
+
+   .. diagram::
+
+      tiles
+      title "Needs met and open"
+      description "Two counts of needs."
+      tile "9" "met"
+      tile "23" "open" emphasis
+
+A text the grammar refuses draws the refusal in the place of the drawing.
+The message names the line or the part, so the author sees it on the page
+they wrote. The Markdown twin holds the text in a fenced block. The drawing
+has no caption and no frame of its own: the text of the document around it
+says what it claims.
+
+.. confval:: name
+   :name: diagram-name
+   :type: string
+
+   The prefix of the ids inside the drawing. Two drawings with the same text
+   on one page need two names.
+
+.. confval:: caption
+   :name: diagram-caption
+   :type: string
+
+   The claim of the drawing. With it, the drawing stands in
+   ``sds-figure``, with the caption under it. The frame and the caption are
+   the figure's.
+
+.. confval:: label
+   :name: diagram-label
+   :type: string
+
+   On a slide of the ``row`` layout, the word over the drawing: what it
+   shows, such as the product of a comparison.
+
+.. confval:: file
+   :name: diagram-file
+   :type: string
+
+   A ``.diagram`` file to read the text from, relative to the document,
+   or to the documentation root with a leading ``/``. The directive then
+   has no body. A path that leads nowhere stops the render.
+
+.. confval:: zoomable
+   :name: diagram-zoomable
+   :type: flag
+
+   A press on the drawing opens it at the size of the window, in the
+   page's tokens. For a drawing too dense to read in the column.
 
 accordion
 =========
@@ -1324,6 +1443,318 @@ question and its answer stand that way. A command, a file to edit and the
 line that says it worked are what no attribute carries. The title takes no
 heading level either. The number says where a reader is in an instruction,
 and a page whose outline is its steps has buried its own sections.
+
+badge
+=====
+
+A short state in a line, as a text role: ``:badge:`Closed <ok>```. The
+tone stands in angle brackets after the label: ``ok``, ``warn``, ``error``
+or ``accent``. Without one, the badge is neutral. A word in brackets that is
+no tone stays part of the label.
+
+.. example:: States in a table cell
+
+   :badge:`Closed <ok>` :badge:`Under review <warn>` :badge:`New`
+
+The element is ``sds-badge``. The Markdown twin writes the label in square
+brackets.
+
+anchor
+======
+
+An address in a line, as a text role: ``:anchor:`P2 <step-p2>```. A label
+stands before a block, so a word in a table cell has none. This role gives
+it one. The words stay as they are, and the address in angle brackets is
+what a ``:ref:`` names. Without brackets, the words are the address too.
+
+.. code-block:: text
+
+   * - :anchor:`P2 <step-p2>`
+     - Add nine sections to the page
+
+   The step :ref:`P2 <step-p2>` fails in the extension.
+
+The Markdown twin writes the words.
+
+id
+==
+
+A reference to an id in mono, as a text role: ``:id:`B10 <feat-b10>```.
+It is ``:ref:`` with the link in the mono face. An id is a name the machine
+gave the thing, and mono says so. A ``:ref:`` cannot hold a literal in its
+words, so this role is the route.
+
+.. code-block:: text
+
+   The grid element :id:`B10 <feat-b10>` comes after the MVP.
+
+The Markdown twin writes the link.
+
+part
+====
+
+Where a part of a paper begins. The argument names the part. It stands
+before the first heading of the part, and takes no body.
+
+.. code-block:: text
+
+   .. part:: Problem
+
+   The problem
+   ===========
+
+The name stands over that heading. In ``:layout: paper``, the outline in the
+panel groups the sections under it, up to the next part. See
+:doc:`configuration`.
+
+outline
+=======
+
+The short name the outline of a paper gives the next section. It stands
+before the heading, as ``part`` does, and takes no body.
+
+.. code-block:: text
+
+   .. outline:: Overview
+
+   In short: the whole concept on one page
+   =======================================
+
+A heading says what a section claims. A list of claims reads slowly, so the
+outline can name a section in a word.
+
+decision
+========
+
+The question a concept puts, with the answers it can take. The question is
+the argument. The answers stand between the tags as ``answer``, each with
+what it means.
+
+.. example:: An open question, and the answer the paper recommends
+
+   .. decision:: What is the name of the TCA key?
+      :label: Open
+      :by: The core team
+      :due: 2026-11-30
+
+      .. answer:: primaryFields
+         :recommended:
+
+         Neutral, and close to "primary" in the backend.
+
+      .. answer:: contentFields
+
+         Clear for content elements, wrong for pages.
+
+.. confval:: label
+   :name: decision-label
+   :type: string
+   :default: Decision
+
+   The word over the block: ``Open`` while the question stands, ``Decided``
+   once it fell.
+
+.. confval:: by
+   :name: decision-by
+   :type: string
+
+   Who decides.
+
+.. confval:: due
+   :name: decision-due
+   :type: string
+
+   By when, as written. Once an answer is ``:decided:``, the day it fell.
+
+.. confval:: lead
+   :name: decision-lead
+   :type: string
+
+   A sentence about the question, before the answers. Blocks before the
+   first answer do the same for more than a sentence.
+
+.. confval:: name
+   :name: decision-name
+   :type: string
+
+   The address of the decision, and a target of ``:ref:``, as the
+   ``:name:`` of every directive here is.
+
+.. confval:: class
+   :name: decision-class
+   :type: string
+
+   Carried onto the element, for the reason the grid's is.
+
+**The letters count themselves.** An answer with no ``:key:`` takes the next
+letter. So an answer put in the middle renames the ones after it, and no
+page changes in two places. The element is ``sds-decision`` in
+:ref:`component-sds-decision`.
+
+answer
+======
+
+One answer a decision can take, and what it means. The answer in a few
+words is the argument.
+
+.. confval:: recommended
+   :name: answer-recommended
+   :type: flag
+
+   The answer the paper proposes.
+
+.. confval:: decided
+   :name: answer-decided
+   :type: flag
+
+   The answer the decision took. The block then speaks in the past at its
+   foot.
+
+.. confval:: key
+   :name: answer-key
+   :type: string
+
+   The letter or number the paper cites the answer by. Without it, the
+   decision counts.
+
+.. confval:: class
+   :name: answer-class
+   :type: string
+
+   Carried onto the element.
+
+slide
+=====
+
+One frame of a deck, in the text of a paper. The heading is the argument.
+On the page the slide is a picture at the width of the column. A paper with
+``:deck:`` plays all its slides, in their order, from the press under its
+title. See :doc:`configuration`.
+
+.. example:: A slide that says one thing
+
+   .. slide:: Every question of the concept is decided.
+      :kind: statement
+
+A figure slide holds its picture between the tags: a diagram, an image, or
+markup. With a ``:caption:`` it is a figure of the paper and counts as one.
+A label in front of it is the target of ``:ref:``.
+
+.. code-block:: text
+
+   .. _figure-needs:
+
+   .. slide:: Needs met and open
+      :kind: figure
+      :lead: Nine needs are met, twenty-three are open.
+      :caption: The needs, met and open.
+
+      .. diagram::
+
+         tiles
+         title "Needs met and open"
+         description "Two counts of needs."
+         tile "9" "met"
+         tile "23" "open"
+           emphasis
+
+.. confval:: kind
+   :name: slide-kind
+   :type: string
+   :default: content
+
+   ``cover``, ``section``, ``statement``, ``content``, ``figure`` or
+   ``closing``. A ``section`` slide whose heading is the name of a
+   ``.. part::`` lists the parts of the paper and marks its own.
+
+.. confval:: eyebrow
+   :name: slide-eyebrow
+   :type: string
+
+   The line over the heading.
+
+.. confval:: lead
+   :name: slide-lead
+   :type: string
+
+   The sentence under the heading.
+
+.. confval:: legend
+   :name: slide-legend
+   :type: string
+
+   The key of the drawing, at the right of the heading. Entries stand
+   apart by `` | ``, and each is a key and its words. ``■`` is a filled
+   square, ``□`` an outlined one, ``[ID]`` an id on a plate. Any other key
+   is an id in mono: ``■ MVP | □ First version | ID after the MVP``.
+
+.. confval:: note
+   :name: slide-note
+   :type: string
+
+   What the speaker says. The slide does not show it.
+
+.. confval:: layout
+   :name: slide-layout
+   :type: string
+
+   The room a figure takes: ``wide``, ``full``, ``headed``, ``row`` or
+   ``text-start``. ``full`` shows the picture alone. ``headed`` gives it
+   the frame under a short head and a rule. ``row`` stands the
+   drawings between the tags side by side, each under the ``:label:`` of
+   its ``.. diagram::``.
+
+.. confval:: ground
+   :name: slide-ground
+   :type: string
+
+   The ground of the frame. ``terminal`` is the dark one a cover stands on.
+
+.. confval:: caption
+   :name: slide-caption
+   :type: string
+
+   The caption under the slide. The slide then counts as a figure.
+
+.. confval:: page-only
+   :name: slide-page-only
+   :type: flag
+
+   The slide stands in the page, and the deck does not play it. For a
+   figure that reads as a slide in the text and has no place in the talk.
+
+.. confval:: name
+   :name: slide-name
+   :type: string
+
+   The address of the slide.
+
+.. confval:: class
+   :name: slide-class
+   :type: string
+
+   Carried onto the element.
+
+The element is ``sds-slide`` in :ref:`component-sds-slide`. The Markdown
+twin writes the heading in bold, the lead and what the slide holds.
+
+codemode
+========
+
+Markup that stands in the page as its author wrote it. The body is HTML, and the
+theme passes it through. It takes no argument and no option.
+
+.. example:: An element of the system, written by hand
+
+   .. codemode::
+
+      <sds-note tone="info" heading="Written as markup">
+        The theme passes this block through as it is.
+      </sds-note>
+
+**It is the way out, not the way in.** The gate checks a directive that
+draws the element: its options, its names, its twin. Nothing checks the
+markup here. The Markdown twin prints the block as fenced HTML.
 
 example
 =======

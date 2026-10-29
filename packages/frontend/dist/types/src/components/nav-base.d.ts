@@ -30,6 +30,9 @@ export interface MenuEntry {
     /** A fold that starts open whatever else is true. One holding the current
         entry opens anyway, which is the case that matters and needs no saying. */
     open?: boolean;
+    /** A part of a document: a head over the entries under it, and no entry
+        itself. The outline of a paper is the one list that reads it. */
+    part?: boolean;
     items?: readonly MenuEntry[];
 }
 /** An entry, or the label alone where that is all there is — what a story

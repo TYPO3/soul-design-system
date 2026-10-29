@@ -1,0 +1,38 @@
+# Local, read-only, version-aware: one line leaves the machine.
+flow
+  columns 1,1,0.9
+  gap 120,40
+title "One line leaves the machine"
+description "The MCP client asks the TYPO3 Support App subprocess, which draws its answers from bundled knowledge and from the project's own packages and installation — all inside the developer's machine. One read-only path crosses the boundary to fetch from official documentation and core services; nothing is written back across it."
+
+group machine "your machine"
+  client "MCP-enabled client"
+    at 0,0
+    span 2
+    body "Starts one local PHP subprocess over stdio."
+  app "TYPO3 Support App"
+    at 0,1
+    span 2
+    body "Routes by task, version and scope. Read-only, except feedback you ask for explicitly."
+    ink
+  knowledge `bundled knowledge`
+    at 0,2
+    body "Curated, version-bound."
+  packages `packages & installation`
+    at 1,2
+    body "What this checkout supplies."
+group outside "outside"
+  docs `docs.typo3.org`
+    at 2,1
+    body "Canonical documentation."
+    absent
+  core `core services`
+    at 2,2
+    body "Live registries and APIs."
+    absent
+
+client <-> app "question · answer"
+knowledge -> app
+packages -> app
+outside => app "read-only"
+  via h

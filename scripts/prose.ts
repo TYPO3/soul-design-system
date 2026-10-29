@@ -158,7 +158,7 @@ function inline(text: string): string {
     .trim();
 }
 
-const SKIP_RST = /^(code-block|code|literalinclude|toctree|math|image|directory-tree|contents|configuration-block|specimen|swatch|include|raw)$/;
+const SKIP_RST = /^(code-block|code|literalinclude|toctree|math|image|directory-tree|contents|configuration-block|specimen|swatch|include|raw|diagram)$/;
 const ADORN = /^([=\-~^"'`#*+:._])\1{2,}\s*$/;
 const ITEM = /^(?:[-*+•]|#\.|\d+[.)])\s+|^\* - |^- /;
 

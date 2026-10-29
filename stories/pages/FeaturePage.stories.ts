@@ -30,6 +30,7 @@ import { sdsStat, SOURCE_FACTS } from '../components/Stat.stories.ts';
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
+import { shipped } from '../lib/diagram.ts';
 
 const TRAIL: readonly Crumb[] = [
   { label: 'Overview', href: '#' },
@@ -152,12 +153,7 @@ export function featurePage({ flat = false }: PageMode = {}): TemplateResult {
         the installation source needs a booted installation; network sources
         need outbound reach.
       </p>
-      <sds-figure
-        src="assets/diagrams/answer-sources.svg"
-        alt="The five sources plotted against how much of the machine has to be running: bundled knowledge and the checkout need nothing running, packages need files on disk, the installation needs a booted installation, and network sources need outbound reach."
-        caption="A tool declares its sources, so the reach of an answer is known before the question."
-        zoomable
-      ></sds-figure>
+      <sds-figure caption="A tool declares its sources, so the reach of an answer is known before the question.">${shipped('answer-sources')}</sds-figure>
       <sds-note
         heading="A declaration is resolved, not documented"
         .body="${html`The server checks a tool’s declared sources against the machine it

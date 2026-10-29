@@ -1,0 +1,12 @@
+{#
+    A drawing, written as the text that describes it.
+
+    The text itself, in its own fenced block. It is what the drawing says, in
+    a form a reader of Markdown and a language model both read.
+#}
+{%- autoescape false -%}
+{{ node.option('source')|md_fence('diagram') }}
+
+{% if node.option('caption') %}*{{ node.option('caption')|md_escape }}*
+
+{% endif %}{% endautoescape %}

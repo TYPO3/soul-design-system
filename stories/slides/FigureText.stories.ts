@@ -9,6 +9,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, type TemplateResult } from 'lit';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { place, slide, type DeckMode } from '../lib/deck.ts';
+import { shipped } from '../lib/diagram.ts';
 
 export function figureTextSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
@@ -17,8 +18,6 @@ export function figureTextSlide({ flat = false, bare = false }: DeckMode = {}): 
       layout: 'text-start',
       eyebrow: place(2),
       heading: 'Five sources',
-      src: 'assets/diagrams/slide-sources.svg',
-      alt: 'Five sources against what the machine has to run. Bundled knowledge and the checkout need nothing. Packages need files on disk, the installation a booted site, the network outbound reach.',
       number: '06',
     },
     html`<p>Each source needs a part of the machine before it answers.</p>
@@ -26,7 +25,8 @@ export function figureTextSlide({ flat = false, bare = false }: DeckMode = {}): 
         <li>Bundled knowledge and the checkout need nothing.</li>
         <li>Packages need files on disk.</li>
         <li>The installation needs a booted site.</li>
-      </ul>`,
+      </ul>
+      ${shipped('slide-sources', { slot: 'figure' })}`,
     { flat, bare },
   );
 }

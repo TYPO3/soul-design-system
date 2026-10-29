@@ -262,6 +262,33 @@ const checkOptions: esbuild.BuildOptions = {
   legalComments: 'none',
 };
 
+/* A diagram's text drawn into its SVG file, as a command a consumer runs:
+   `npx soul-diagram`. Built like the check, for the Node a project has. */
+const drawOptions: esbuild.BuildOptions = {
+  entryPoints: [join(ROOT, 'scripts', 'soul-diagram.ts')],
+  outfile: join(OUT, 'soul-diagram-cli.js'),
+  bundle: true,
+  format: 'esm',
+  platform: 'node',
+  target: 'node22',
+  minify: true,
+  legalComments: 'none',
+};
+
+/* The diagram engine, for a project that draws its own figures from data:
+   `@typo3/soul-frontend/diagram`. It has no dependency and touches no DOM,
+   so one file serves a build script and a page. */
+const diagramOptions: esbuild.BuildOptions = {
+  entryPoints: [join(FRONTEND, 'src', 'lib', 'diagram', 'index.ts')],
+  outfile: join(OUT, 'soul-diagram.js'),
+  bundle: true,
+  format: 'esm',
+  platform: 'neutral',
+  target: 'es2022',
+  minify: true,
+  legalComments: 'none',
+};
+
 /* What a page fetches, and the list beside it, with the files that list
    names. A lookup is a promise about paths and it travels with them. The
    illustrations, portraits and screenshots stay out: nothing here names them. The
@@ -305,6 +332,8 @@ if (WATCH) {
        against this directory, then reports it as out of date. */
     esbuild.context(watched(finishOptions, 'dist/soul-finish.js')),
     esbuild.context(watched(checkOptions, 'dist/soul-check.js')),
+    esbuild.context(watched(diagramOptions, 'dist/soul-diagram.js')),
+    esbuild.context(watched(drawOptions, 'dist/soul-diagram-cli.js')),
   ]);
   for (const ctx of contexts) await ctx.watch();
   copyAssets();
@@ -319,6 +348,8 @@ await esbuild.build(inlineOptions);
 await esbuild.build(bootOptions);
 await esbuild.build(finishOptions);
 await esbuild.build(checkOptions);
+await esbuild.build(diagramOptions);
+await esbuild.build(drawOptions);
 copyAssets();
 
 const kb = (p: string): string => `${(readFileSync(join(OUT, p)).length / 1024).toFixed(1)} kB`;
@@ -331,6 +362,8 @@ const BUILT: readonly (readonly [file: string, what: string])[] = [
   ['dist/soul-boot.js', `${kb('soul-boot.js')}, the pre-paint line, not a module`],
   ['dist/soul-finish.js', `${kb('soul-finish.js')}, the step after a render, for Node`],
   ['dist/soul-check.js', `${kb('soul-check.js')}, the rule a consumer runs, for Node`],
+  ['dist/soul-diagram.js', `${kb('soul-diagram.js')}, the diagram engine, spec in and SVG out`],
+  ['dist/soul-diagram-cli.js', `${kb('soul-diagram-cli.js')}, \`npx soul-diagram\`, for Node`],
   ['dist/custom-elements.json', `${kb('custom-elements.json')}, every tag with what it takes`],
   ['dist/index.js', `${(bytes / 1024).toFixed(1)} kB from ${modules} modules, lit external`],
   ['dist/types/', `declarations, ${rewritten} rewritten to .js specifiers`],

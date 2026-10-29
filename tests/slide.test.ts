@@ -21,6 +21,7 @@ import * as numbers from '../stories/slides/Numbers.stories.ts';
 import * as quote from '../stories/slides/Quote.stories.ts';
 import * as figure from '../stories/slides/Figure.stories.ts';
 import * as full from '../stories/slides/FigureFull.stories.ts';
+import * as headed from '../stories/slides/FigureHeaded.stories.ts';
 import * as pair from '../stories/slides/FigurePair.stories.ts';
 import * as row from '../stories/slides/FigureRow.stories.ts';
 import * as text from '../stories/slides/FigureText.stories.ts';
@@ -30,6 +31,7 @@ import { frames, mount, q, qa, sleep, stories, write } from './lib/frame.ts';
 const LAYOUTS = {
   wide: stories(figure).Page,
   full: stories(full).Page,
+  headed: stories(headed).Page,
   'row × 2': stories(pair).Page,
   'row × 3': stories(row).Page,
   'text-start': stories(text).Page,
@@ -126,7 +128,7 @@ test('the drawing takes its room whole, as a picture does', async () => {
 test('a row shows every drawing under its word, and a single layout one', async () => {
   await mount(LAYOUTS['row × 2']);
   expect(qa('.sds-slide__drawing')).toHaveLength(2);
-  expect(qa('.sds-slide__drawing > .sds-label').map((label) => label.textContent)).toEqual(['Status', 'Source']);
+  expect(qa('.sds-slide__drawing > .sds-slide__word').map((label) => label.textContent)).toEqual(['Status', 'Source']);
   await mount(LAYOUTS.wide);
   expect(qa('.sds-slide__drawing')).toHaveLength(1);
 });
@@ -207,11 +209,35 @@ test('a row takes each figure between the tags as a drawing, with its word and i
   await rest();
   const drawings = qa('.sds-slide__drawing');
   expect(drawings).toHaveLength(2);
-  expect(drawings.map((one) => q('.sds-label', one).textContent)).toEqual(['One', 'Two']);
+  expect(drawings.map((one) => q('.sds-slide__word', one).textContent)).toEqual(['One', 'Two']);
   expect(drawings.map((one) => q('.sds-slide__caption', one).textContent)).toEqual(['The first', 'The second']);
   const drawn = q('.sds-slide__drawing svg');
   expect(drawn.getAttribute('preserveAspectRatio')).toBe('xMidYMid meet');
   expect(inFrame(drawn), 'the drawing fills its room').toEqual(inFrame(q('.sds-slide__art')));
+  document.body.replaceChildren();
+});
+
+test('the drawings of a row share one scale: each takes the room the densest needs', async () => {
+  const sketch = (controls: string): string => `sketch
+title "A shell"
+description "A toolbar."
+screen
+  column
+    region
+      flow row
+      ${controls}`;
+  await write(`<sds-slide kind="figure" layout="row" heading="One scale">
+    <figure slot="figure" data-label="Dense"><sds-diagram>${sketch('button "Desktop · Tablet · Mobile · Watch · Television · Projector" emphasis\n      text "save · publish"')}</sds-diagram></figure>
+    <figure slot="figure" data-label="Sparse"><sds-diagram>${sketch('text "save"')}</sds-diagram></figure>
+  </sds-slide>`);
+  await rest();
+  await sleep(200);
+  const [dense, sparse] = qa('.sds-slide__art sds-diagram');
+  const [room = 0] = (sparse?.getAttribute('lent') ?? '').split(',').map(Number);
+  expect(dense?.getAttribute('lent'), 'one room for both').toBe(sparse?.getAttribute('lent'));
+  expect(room, 'the room grew for the dense one').toBeGreaterThan(Math.floor((q('.sds-slide__art').getBoundingClientRect().width / (q('.sds-slide').getBoundingClientRect().width / 960)) * 1.1));
+  const widths = qa('.sds-slide__art svg').map((svg) => svg.getAttribute('viewBox')?.split(' ')[2]);
+  expect(widths[0], 'one scale for both').toBe(widths[1]);
   document.body.replaceChildren();
 });
 

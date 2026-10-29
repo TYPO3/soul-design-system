@@ -1,0 +1,14 @@
+{#
+    One answer a decision can take. The letter, the answer and its mark are
+    properties. What it means is between the tags.
+#}
+<sds-answer
+    key="{{ node.option('key') }}"
+    heading="{{ node.option('heading') }}"
+    {%- if node.option('recommended') %} recommended{% endif %}
+    {%- if node.option('decided') %} decided{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</sds-answer>

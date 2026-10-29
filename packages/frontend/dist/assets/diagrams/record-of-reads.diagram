@@ -1,0 +1,27 @@
+# The record, part 5: one record, three places it shows.
+columns
+title "One record, three places it shows"
+description "The server keeps the last thirty reads of a source. The same record shows in three places: as five marks at the end of the source's row on the status page, as a list of reads on the page of the source, and as one line in the terminal. The page of the source is drawn in the accent, because that is where the record lives in full."
+
+column
+  eyebrow "The row on the status page"
+  item `docs.typo3.org`
+    marks ok,ok,warn,ok,error
+    boxed
+  note "The last five reads, oldest first. A mark is a colour and a name, so the row reads without sight."
+  foot "a glance"
+column
+  eyebrow "The page of the source"
+  emphasis
+  item `09-15 06:00  read  3m 02s` mark=ok boxed
+  item `09-14 06:12  stopped  step 2` mark=error boxed
+  item `09-14 00:00  read  2m 58s` mark=ok boxed
+  item `09-13 18:00  slow  9m 41s` mark=warn boxed
+  foot "the record in full, thirty reads"
+column
+  eyebrow "The terminal"
+  line "$ dev-companion status docs"
+  line "30 reads · 27 read · 2 slow"
+  line "1 stopped · last 06:00 today"
+  note "One line, for the reader who asks from a shell and never opens a page."
+  foot "a sentence"

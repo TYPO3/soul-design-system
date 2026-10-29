@@ -1,0 +1,47 @@
+{#
+    A slide in the text of a paper, and one of its deck.
+
+    The head is properties, because each line fits in one. What the slide
+    shows stands between the tags: in the figure region for a figure slide,
+    as the text of any other. A section slide carries the parts of the paper
+    and marks its own. With a caption, the slide is a figure of the paper.
+    On the page it is a picture of its column, so it says `shrink` itself.
+    A picture alone is the slide's `src`: the slide is its frame.
+#}
+{%- set kind = node.option('kind') -%}
+{#- The picture renders first, so the renderer copies its file and resolves
+    its path. The slide then shows it with no frame of its own. -#}
+{%- set picture = node.option('picture') ? node.children|first : null -%}
+{%- if picture %}{% set copied = renderNode(picture) %}{% endif -%}
+{%- set parts = kind == 'section' ? part_names() : [] -%}
+{%- set current = parts ? (parts|filter(p => p == node.option('heading'))|keys|first) : null -%}
+{%- set slide -%}
+<sds-slide kind="{{ kind }}" heading="{{ node.option('heading') }}" shrink
+    {%- for name in ['eyebrow', 'lead', 'legend', 'note', 'layout', 'ground'] %}{% if node.option(name) %} {{ name }}="{{ node.option(name) }}"{% endif %}{% endfor %}
+    {%- if parts %} sections="{{ parts|json_encode }}"{% if current is not null %} current="{{ current }}"{% endif %}{% endif %}
+    {%- if node.option('anchor') %} id="{{ node.option('anchor') }}"{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
+    {%- if node.option('page-only') %} page-only{% endif %}
+    {%- if picture %} src="{{ picture.value is external_target ? picture.value : asset(picture.value) }}" alt="{{ picture.option('alt')|default('') }}"{% endif %}>
+    {#- A row stands its drawings side by side, each with its label over it. -#}
+    {%- set row = kind == 'figure' and node.option('layout') == 'row' and not picture -%}
+    {%- set region = kind == 'figure' and node.children|length > 0 and not picture and not row -%}
+    {%- if region %}<div slot="figure">{% endif -%}
+    {%- if row -%}
+        {%- for child in node.children -%}
+            <figure slot="figure"{% if child.hasOption('label') and child.option('label') %} data-label="{{ child.option('label') }}"{% endif %}>{{ renderNode(child) }}</figure>
+        {%- endfor -%}
+    {%- elseif not picture -%}
+        {%- for child in node.children -%}
+            {{ renderNode(child) }}
+        {%- endfor -%}
+    {%- endif -%}
+    {%- if region %}</div>{% endif -%}
+</sds-slide>
+{%- endset -%}
+{%- if node.option('caption') -%}
+{%- set number = number_of('figure', node.option('caption')) -%}
+<sds-figure caption="{{ number ? 'Figure ' ~ number ~ ' · ' }}{{ node.option('caption') }}">{{ slide }}</sds-figure>
+{%- else -%}
+{{ slide }}
+{%- endif -%}

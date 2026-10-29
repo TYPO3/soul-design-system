@@ -11,6 +11,7 @@ use Twig\Extension\GlobalsInterface;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use TYPO3\Soul\GuidesTheme\Navigation\Menu;
+use TYPO3\Soul\GuidesTheme\Navigation\Numbers;
 use TYPO3\Soul\GuidesTheme\Navigation\Pager;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Navigation\Sections;
@@ -49,6 +50,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
         private readonly Rail $rail,
         private readonly Pager $pages,
         private readonly Sections $sections,
+        private readonly Numbers $numbers,
     ) {}
 
     /** @return array<string, mixed> */
@@ -99,7 +101,24 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
             new TwigFunction('rail', $this->rail(...), ['needs_context' => true]),
             new TwigFunction('pager', $this->pager(...), ['needs_context' => true]),
             new TwigFunction('sections', $this->sections(...), ['needs_context' => true]),
+            new TwigFunction('outline', $this->sections->outline(...)),
+            new TwigFunction('number_of', $this->numbers->of(...)),
+            new TwigFunction('number_at', $this->numbers->at(...)),
+            new TwigFunction('part_names', $this->partNames(...), ['needs_context' => true]),
         ];
+    }
+
+    /**
+     * The parts of the page in hand, in order: the row a section slide
+     * carries.
+     *
+     * @param array{env?: RenderContext} $context
+     *
+     * @return list<string>
+     */
+    public function partNames(array $context): array
+    {
+        return $this->numbers->parts($this->context($context, 'The parts of a page come off that page')->getCurrentFileName());
     }
 
     /**

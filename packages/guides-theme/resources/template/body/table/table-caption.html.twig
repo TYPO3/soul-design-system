@@ -1,0 +1,5 @@
+{#- The caption of a table, numbered in a counted paper — see `Counting`. -#}
+{% if tableNode.hasOption('caption') %}
+    {%- set number = number_of('table', tableNode.option('caption')) -%}
+    <caption>{{ number ? 'Table ' ~ number ~ ' · ' }}{{ tableNode.option('caption') }}</caption>
+{% endif %}

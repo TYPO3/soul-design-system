@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-/* The specimen cards and the marks, beside the documents that reference them.
+/* The specimen cards, the marks and the quoted sources, beside the documents
+   that reference them.
 
      make embed
      make embed ARGS=--check
@@ -25,6 +26,7 @@ for (const project of PROJECTS) {
     cards += written;
     report.fact(project.name, `${written} card(s) where its documents can reach them`);
   }
+  if (project.quoted) drift.push(...embedMarks(project.source, project.quoted, check, '_sources').map((line) => `${project.name}: ${line}`));
   if (!project.marks) continue;
   marks += Object.keys(project.marks).length;
   drift.push(...embedMarks(project.source, project.marks, check).map((line) => `${project.name}: ${line}`));

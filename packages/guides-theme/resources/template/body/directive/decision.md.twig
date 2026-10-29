@@ -1,0 +1,21 @@
+{#- The question as a line of its own, who decides by when under it, then
+    the answers as a list with their letters. -#}
+{%- autoescape false -%}
+{%- if node.option('anchor') %}<a id="{{ node.option('anchor') }}"></a>
+
+{% endif -%}
+**{{ node.option('label')|default('Decision')|md_escape }}: {{ node.option('question')|md_escape }}**
+
+{% if node.option('by') or node.option('due') -%}
+{{ [node.option('by') ? 'By ' ~ node.option('by'), node.option('due')]|filter(v => v)|join(', ')|md_escape }}
+
+{% endif -%}
+{%- if node.option('lead') -%}
+{{ node.option('lead')|md_escape }}
+
+{% endif -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

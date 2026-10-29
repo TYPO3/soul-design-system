@@ -1,0 +1,7 @@
+{#- A cell, with the role its column takes from `:columns:` — see
+    `ListTableDirective`. -#}
+{%- set role = (tableNode.option('columns') ?? [])[loop.index0] ?? '' -%}
+<td{% if role %} class="{{ role }}"{% endif %}{% if column.colSpan > 1 %} colspan="{{ column.colSpan }}"{% endif %}{% if column.rowSpan > 1 %} rowspan="{{ column.rowSpan }}"{% endif %}>
+    {%- for child in column.children -%}
+        {{- renderNode(child) -}}
+    {%- else %}&nbsp;{% endfor %}</td>

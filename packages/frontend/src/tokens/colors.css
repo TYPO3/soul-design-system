@@ -22,6 +22,10 @@
        because the status red is ink. A wash of it over paper goes grey before
        it goes red. */
     --surface-error-quiet: light-dark(#fcefec, #211715);
+    /* The same wash for a thing that passed and one that half did. A phase
+       of a diagram stands on it when it ends in its result or a warning. */
+    --surface-ok-quiet: light-dark(#eef3ea, #141a12);
+    --surface-warn-quiet: light-dark(#fbf3e4, #1d1810);
     --surface-overlay: light-dark(rgba(28, 26, 23, 0.45), rgba(6, 6, 5, 0.62));
 
     /* Depth, for the surfaces that leave the page — everything that stays on

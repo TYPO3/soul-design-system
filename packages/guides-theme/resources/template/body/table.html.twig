@@ -18,7 +18,10 @@
     `align-*`, `grid-*`. No stylesheet here defines them, so they drew nothing
     before and name nothing now.
 #}
+{#- `:class: compact` on a table is the element's density: tighter rows for
+    a table a reader scans. -#}
 <sds-table scrollable
+    {%- if 'compact' in tableNode.classes %} density="compact"{% endif %}
     {%- if tableNode.hasOption('width') %} width="{{ tableNode.option('width') }}"{% endif %}>
     {%- include "body/table/table-caption.html.twig" -%}
     {%- include "body/table/table-colgroups.html.twig" -%}

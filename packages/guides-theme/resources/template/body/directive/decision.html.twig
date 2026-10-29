@@ -1,0 +1,20 @@
+{#
+    The question a concept puts, with the answers it can take.
+
+    The question and who decides by when are properties, because each fits in
+    one. The answers stand between the tags, each with its blocks, and so do
+    the blocks the paper writes about the question before them.
+#}
+<sds-decision
+    question="{{ node.option('question') }}"
+    {%- set number = number_of('decision', node.option('question')) -%}
+    {%- if node.option('label') %} label="{{ node.option('label') }}"{% elseif number %} label="Decision {{ number }}"{% endif %}
+    {%- if node.option('by') %} by="{{ node.option('by') }}"{% endif %}
+    {%- if node.option('due') %} due="{{ node.option('due') }}"{% endif %}
+    {%- if node.option('lead') %} lead="{{ node.option('lead') }}"{% endif %}
+    {%- if node.option('anchor') %} id="{{ node.option('anchor') }}"{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</sds-decision>

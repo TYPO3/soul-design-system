@@ -6,20 +6,30 @@ use League\Tactician\CommandBus;
 use phpDocumentor\Guides\Code\Highlighter\Highlighter;
 use phpDocumentor\Guides\Event\PreRenderProcess;
 use phpDocumentor\Guides\RestructuredText\Directives\FigureDirective as RendererFigureDirective;
+use phpDocumentor\Guides\RestructuredText\Directives\ListTableDirective as RendererListTableDirective;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
+use phpDocumentor\Guides\RestructuredText\Directives\TableDirective as RendererTableDirective;
 use phpDocumentor\Guides\RestructuredText\Parser\Productions\DirectiveContentRule;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use TYPO3\Soul\GuidesTheme\Assets\Files;
 use TYPO3\Soul\GuidesTheme\Assets\MarkFiles;
 use TYPO3\Soul\GuidesTheme\Assets\NodeFiles;
 use TYPO3\Soul\GuidesTheme\Code\Grammars;
+use TYPO3\Soul\GuidesTheme\Compiler\Addresses;
+use TYPO3\Soul\GuidesTheme\Compiler\Counting;
 use TYPO3\Soul\GuidesTheme\Compiler\OnThisPage;
+use TYPO3\Soul\GuidesTheme\Compiler\Parts;
 use TYPO3\Soul\GuidesTheme\Directives\AccordionDirective;
 use TYPO3\Soul\GuidesTheme\Directives\AccordionItemDirective;
+use TYPO3\Soul\GuidesTheme\Directives\AnswerDirective;
 use TYPO3\Soul\GuidesTheme\Directives\BandDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ButtonBarDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ButtonDirective;
+use TYPO3\Soul\GuidesTheme\Directives\BylineDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardDirective;
+use TYPO3\Soul\GuidesTheme\Directives\CodemodeDirective;
+use TYPO3\Soul\GuidesTheme\Directives\DecisionDirective;
+use TYPO3\Soul\GuidesTheme\Directives\DiagramDirective;
 use TYPO3\Soul\GuidesTheme\Directives\DirectoryTreeDirective;
 use TYPO3\Soul\GuidesTheme\Directives\EntryDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ExampleDirective;
@@ -28,8 +38,12 @@ use TYPO3\Soul\GuidesTheme\Directives\FigureDirective;
 use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HalfDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HeroDirective;
+use TYPO3\Soul\GuidesTheme\Directives\ListTableDirective;
+use TYPO3\Soul\GuidesTheme\Directives\OutlineDirective;
+use TYPO3\Soul\GuidesTheme\Directives\PartDirective;
 use TYPO3\Soul\GuidesTheme\Directives\QuoteDirective;
 use TYPO3\Soul\GuidesTheme\Directives\RegisterDirective;
+use TYPO3\Soul\GuidesTheme\Directives\SlideDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SpecimenDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SplitDirective;
 use TYPO3\Soul\GuidesTheme\Directives\StatDirective;
@@ -37,14 +51,20 @@ use TYPO3\Soul\GuidesTheme\Directives\StepDirective;
 use TYPO3\Soul\GuidesTheme\Directives\StepsDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SurfaceDirective;
 use TYPO3\Soul\GuidesTheme\Directives\SwatchDirective;
+use TYPO3\Soul\GuidesTheme\Directives\TableDirective;
 use TYPO3\Soul\GuidesTheme\Navigation\Menu;
+use TYPO3\Soul\GuidesTheme\Navigation\Numbers;
 use TYPO3\Soul\GuidesTheme\Navigation\Pager;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Navigation\Sections;
 use TYPO3\Soul\GuidesTheme\NodeRenderers\GeneralDirectiveMarkdownRenderer;
 use TYPO3\Soul\GuidesTheme\Parser\LayoutFieldListItemRule;
+use TYPO3\Soul\GuidesTheme\Parser\PaperFieldListItemRule;
 use TYPO3\Soul\GuidesTheme\Renderer\LlmsRenderer;
 use TYPO3\Soul\GuidesTheme\Renderer\MarkdownRenderer;
+use TYPO3\Soul\GuidesTheme\TextRoles\AnchorTextRole;
+use TYPO3\Soul\GuidesTheme\TextRoles\BadgeTextRole;
+use TYPO3\Soul\GuidesTheme\TextRoles\IdTextRole;
 use TYPO3\Soul\GuidesTheme\Twig\AnchorExtension;
 use TYPO3\Soul\GuidesTheme\Twig\DiffExtension;
 use TYPO3\Soul\GuidesTheme\Twig\LinkExtension;
@@ -73,6 +93,16 @@ return static function (ContainerConfigurator $container): void {
            rather than beside it, so one directive has the name. */
         ->set(FigureDirective::class)
         ->decorate(RendererFigureDirective::class)
+        ->args([service('.inner')])
+
+        /* And `list-table`, which the renderer builds without its title. */
+        ->set(ListTableDirective::class)
+        ->decorate(RendererListTableDirective::class)
+        ->args([service('.inner')])
+
+        /* And `table`, the frame of a grid table, which drops it too. */
+        ->set(TableDirective::class)
+        ->decorate(RendererTableDirective::class)
         ->args([service('.inner')])
 
         /* `asset()` copies nothing. These copy the files the templates name.
@@ -144,11 +174,24 @@ return static function (ContainerConfigurator $container): void {
         ->set(DirectoryTreeDirective::class)
         ->tag('phpdoc.guides.directive')
 
+        /* A drawing written as its text, taken raw. The element draws it and
+           the finishing step renders it before the page ships. */
+        ->set(DiagramDirective::class)
+        ->tag('phpdoc.guides.directive')
+
         /* An instruction and its stops, numbered by the set rather than by
            whoever wrote it — see `StepsDirective`. */
         ->set(StepsDirective::class)
         ->tag('phpdoc.guides.directive')
         ->set(StepDirective::class)
+        ->tag('phpdoc.guides.directive')
+
+        /* The question a concept puts and its answers, lettered by the
+           decision rather than by whoever wrote them — see
+           `DecisionDirective`. */
+        ->set(DecisionDirective::class)
+        ->tag('phpdoc.guides.directive')
+        ->set(AnswerDirective::class)
         ->tag('phpdoc.guides.directive')
 
         /* The source and what it renders as, from one body — see
@@ -162,11 +205,61 @@ return static function (ContainerConfigurator $container): void {
         ->set(LayoutFieldListItemRule::class)
         ->tag('phpdoc.guides.parser.rst.fieldlist')
 
+        /* `:badge:`, a short state in a line — see `BadgeTextRole`. */
+        ->set(BadgeTextRole::class)
+        ->tag('phpdoc.guides.parser.rst.text_role')
+
+        /* `:anchor:`, an address in a line — see `AnchorTextRole`. */
+        ->set(AnchorTextRole::class)
+        ->tag('phpdoc.guides.parser.rst.text_role')
+
+        /* `:id:`, a reference set in mono — see `IdTextRole`. */
+        ->set(IdTextRole::class)
+        ->tag('phpdoc.guides.parser.rst.text_role')
+
+        /* `:eyebrow:` and `:foot:`, the lines of a paper's panel. */
+        ->set(PaperFieldListItemRule::class)
+        ->tag('phpdoc.guides.parser.rst.fieldlist')
+
         /* What is on a page, written into every page that has headings to
            list and no contents of its own — see `OnThisPage`. Tagged by hand:
            the rule that tags a transformer by its interface is the renderer's
            own configuration and does not reach a file outside it. */
         ->set(OnThisPage::class)
+        ->tag('phpdoc.guides.compiler.nodeTransformers')
+
+        /* Where a part of a paper begins, on the section it begins — see
+           `Parts`. */
+        ->set(PartDirective::class)
+        ->tag('phpdoc.guides.directive')
+        ->set(Parts::class)
+        ->tag('phpdoc.guides.compiler.nodeTransformers')
+
+        /* `:name:` on a directive of the theme, as a target of `:ref:` — see
+           `Addresses`. */
+        ->set(Addresses::class)
+        ->tag('phpdoc.guides.compiler.nodeTransformers')
+
+        /* A slide in the text of a paper — see `SlideDirective`. */
+        ->set(SlideDirective::class)
+        ->tag('phpdoc.guides.directive')
+
+        /* Markup that stands as its author wrote it — see `CodemodeDirective`. */
+        ->set(CodemodeDirective::class)
+        ->tag('phpdoc.guides.directive')
+
+        /* Who wrote the page — see `BylineDirective`. */
+        ->set(BylineDirective::class)
+            ->tag('phpdoc.guides.directive')
+
+        /* The short name the outline of a paper gives the next section. */
+        ->set(OutlineDirective::class)
+        ->tag('phpdoc.guides.directive')
+
+        /* The numbers of a paper with `:numbered:`, counted while the
+           documents compile and read by the templates — see `Counting`. */
+        ->set(Numbers::class)
+        ->set(Counting::class)
         ->tag('phpdoc.guides.compiler.nodeTransformers')
 
         /* The site as the one entry every navigation gets, worked out where
@@ -245,6 +338,7 @@ return static function (ContainerConfigurator $container): void {
             '%soul.signet%', '%soul.favicons%', '%soul.product%', '%soul.brand%', '%soul.home%',
             '%soul.footer%', '%soul.navigation%', '%soul.pager%', '%soul.markdown%',
             service(Menu::class), service(Rail::class), service(Pager::class), service(Sections::class),
+            service(Numbers::class),
         ])
         ->tag('twig.extension');
 };

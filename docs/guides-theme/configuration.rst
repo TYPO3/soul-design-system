@@ -383,9 +383,9 @@ who it is for, beside the product name and the copyright.
 Per-page settings
 =================
 
-Two fields at the top of a document, before the title. The theme reads
-both. A field the parser does not claim renders as a definition list in the
-body, which is what a misspelt field looks like.
+Fields at the top of a document, before the title. The theme reads them. A
+field the parser does not claim renders as a definition list in the body,
+which is what a misspelt field looks like.
 
 .. code-block:: text
 
@@ -409,3 +409,52 @@ rail. Anything else, and a page with no such field, is the manual shape: a
 column beside the rail, held to the measure. It stands in
 :doc:`directives`, beside the directives that fill a marketing page, because
 on its own it is a page shape with nothing in it.
+
+``:layout: paper`` is a document that goes out on its own: a concept, a
+review, a report. It has no bar and no footer of a site. A panel beside the
+text holds the outline of the document, from its headings. Two more fields
+fill the panel.
+
+.. code-block:: text
+
+   :navigation-title: Primary fields
+   :layout: paper
+   :eyebrow: Concept · TYPO3 core
+   :foot: Draft 3, for the review on 2026-11-04
+
+.. confval:: eyebrow
+   :type: string
+
+   What kind of document it is, and for whom. The line stands over the
+   title in the panel of a paper, and over the title of the page.
+
+.. confval:: numbered
+   :type: string
+
+   ``yes`` counts the paper. Each section under the title takes a number,
+   and a section in it the number above it: 3, then 3.1. The number stands
+   in the heading and in the outline. A figure, a table and a decision with
+   a caption count on their own: ``Figure 2 ·``, ``Table 1 ·``,
+   ``Decision 4``. A reference to a label in front of any of them names the
+   number after its words: "the proposal (section 2)". A reference whose
+   words are ``#`` names the number alone: ``:ref:`# <the-proposal>```
+   reads "section 2".
+
+.. confval:: foot
+   :type: string
+
+   The line under the outline: the state of the paper. Write the field
+   once for each line.
+
+.. confval:: deck
+   :type: string
+
+   The name of the slides of the paper. With it, a press under the title
+   plays every ``.. slide::`` of the page, in order, as a deck. The name
+   stands in the bar of the deck.
+
+The title in the panel is the ``:navigation-title:``, or the page title
+without one. A paper has no "On this page" beside the text, because its
+outline is in the panel. The foot holds the switch of the colour mode, and
+links the Markdown twin of the paper in a new window. ``.. part::`` in :doc:`directives`
+groups the sections of the outline.

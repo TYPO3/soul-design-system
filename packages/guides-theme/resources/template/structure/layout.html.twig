@@ -31,12 +31,17 @@
     the text of it. The target is `structure/document.html.twig`'s `<main>`. -#}
 <a class="sds-skip sds-btn sds-btn--secondary" href="#main-content">Skip to content</a>
 <div class="sds-shell">
+    {#- A paper goes out on its own, with no bar of a site and no footer. -#}
+    {%- if layout|default('default') != 'paper' %}
     {% include "structure/header.html.twig" %}
+    {%- endif %}
 
 {%~ block main %}
 {%~ endblock %}
 
+    {%- if layout|default('default') != 'paper' %}
     {% include "structure/footer.html.twig" %}
+    {%- endif %}
 </div>
 
 </body>

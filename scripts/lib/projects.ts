@@ -21,6 +21,10 @@ export interface Project {
       A signet is crisp only in its own box. So the file a tree names comes
       from the drawing rather than stays beside it by hand. */
   marks?: Readonly<Record<string, string>>;
+  /** The sources its documents quote, as `<file in _sources/>: <asset>`. A
+      renderer reads no file outside the tree it renders, so the file comes
+      to the documents, the same way as a mark. */
+  quoted?: Readonly<Record<string, string>>;
 }
 
 export const PROJECTS: readonly Project[] = [
@@ -37,6 +41,9 @@ export const PROJECTS: readonly Project[] = [
       'signet.svg': 'design-system-signet-m.svg',
       'signet-s.svg': 'design-system-signet-s.svg',
       'signet-l.svg': 'design-system-signet-l.svg',
+    },
+    quoted: {
+      'cache-key.diagram': 'diagrams/cache-key.diagram',
     },
   },
   /* The acceptance test for the theme: every node the renderer can emit, once,

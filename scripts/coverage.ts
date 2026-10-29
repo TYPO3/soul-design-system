@@ -41,9 +41,6 @@ const PENDING = {
    Held to `PENDING`'s discipline from the other side. One of these in the
    render means this classification is wrong, and the check says so. */
 const ELSEWHERE = [
-  /* A document's headings carry no kind-line: what a section is, its heading
-     says. The eyebrow is product-page furniture. */
-  'sds-eyebrow',
   /* A reader reads a page and fills nothing in. The bar's search draws
      `.sds-field`, which is the class layer's name and not this element. */
   'sds-field',
@@ -73,13 +70,6 @@ const ELSEWHERE = [
   /* Something a page opens over itself, which a document does not do. */
   'sds-modal',
   'sds-dialog',
-  /* One frame of a deck. A reader reads a document, and a room watches a
-     deck: the same elements at twice the size, in a frame no page has. */
-  'sds-slide',
-  /* And the way through them. A manual holds no slide to run through. A
-     paper that carries slides is a page built on the system, not a page
-     this renderer writes. */
-  'sds-deck',
   /* A wall of glyphs is an index of an asset set, which a manual page is not.
      A document that wants one is a catalog with prose round it, and that is
      a product surface — see `Pages/Catalog/Catalog`. */
@@ -90,17 +80,11 @@ const ELSEWHERE = [
   /* Numbered pages. The way on from a manual page is `sds-nav-pager` — the tree
      read in order, rather than one list cut into pages. */
   'sds-nav-pagination',
-  /* The outline of a document that goes out on its own, in the panel that is
-     its frame. A manual page has the rail for the site and the contents for
-     itself, and no panel. */
-  'sds-nav-outline',
-  /* The parts of a concept: a plan on the calendar, the question it asks,
-     and what stands against what it proposes. A manual reports what is,
-     and proposes nothing. */
+  /* The parts of a concept: a plan on the calendar, and what stands
+     against what it proposes. A manual reports what is. The question a
+     concept puts is `decision`, which a document can write. */
   'sds-timeline',
   'sds-timeline-stop',
-  'sds-decision',
-  'sds-answer',
   'sds-compare',
 ];
 

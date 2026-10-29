@@ -29,6 +29,7 @@
     --sds-card-foot-gap: var(--space-3);
     --sds-card-icon-gap: var(--space-0-5);
     --sds-card-icon-ink: var(--text-secondary);
+    --sds-card-sign-size: var(--space-6);
     --sds-card-action-gap: var(--space-1-5);
     --sds-card-action-weight: var(--weight-semibold);
     --sds-card-action-ink: var(--text-link);
@@ -142,6 +143,13 @@
   .sds-card__icon {
     color: var(--sds-card-icon-ink);
     margin-bottom: var(--sds-card-icon-gap);
+  }
+  /* The state at the end of the label line, at the size of a glyph. */
+  .sds-card__sign {
+    flex: none;
+    margin-inline-start: auto;
+    inline-size: var(--sds-card-sign-size);
+    block-size: var(--sds-card-sign-size);
   }
   /* Not `--text-link`, and on the line rather than on the anchor in it. The
      title is the card's own voice wherever the link turned out to be. It

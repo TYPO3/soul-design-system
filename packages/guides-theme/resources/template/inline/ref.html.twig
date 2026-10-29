@@ -1,0 +1,25 @@
+{#-
+    A reference. In a counted paper, the number of what it names follows its
+    words, inside the link: "the first patch (section 20)" — see `Counting`.
+    A reference whose words are `#` is the number alone: "section 20".
+-#}
+{%- set number = number_at(node.targetReference) -%}
+{%- set words -%}{% for child in node.children %}{{ renderNode(child) }}{% endfor %}{%- endset -%}
+{%- set alone = number and words|trim == '#' -%}
+{%- if node.url -%}
+    <a href="{{- node.url -}}"
+        {%- for key, value in attributes %} {{- key -}}="{{- value -}}"{% endfor -%}
+        {%- if node.classes %} class="{{ node.classesString }}"{% endif -%}
+    >
+    {%- if alone -%}
+        {{- number -}}
+    {%- else -%}
+        {{- words -}}
+        {%- if number %} ({{ number }}){% endif -%}
+    {%- endif -%}
+    </a>
+{%- else -%}
+    {%- for child in node.children -%}
+        {{- renderNode(child) -}}
+    {%- endfor -%}
+{%- endif -%}

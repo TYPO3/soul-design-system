@@ -48,6 +48,10 @@ mirrors and how the gate tests their history.
      - ``docs/``
      - ``make guides``
      - the rendered site under ``.out/site/``
+   * - diagrams
+     - ``packages/frontend/assets/diagrams/*.diagram``
+     - ``make diagrams``
+     - the drawing beside each spec, and the modules a card draws it from
    * - Guides integration
      - ``packages/guides-theme/``
      - ``make guides`` and ``make split ARGS=guides-theme``
@@ -99,6 +103,13 @@ except inside ``<pre>``. Whitespace is content there, and the block's
 indentation moves every displayed line to the right. Keep code bodies at
 the indentation they show. The specimen helper positions the markup around
 them and leaves those lines alone.
+
+A diagram with a spec beside it is output too. ``make diagrams`` draws
+``<name>.svg`` from ``<name>.diagram`` with the engine in
+``packages/frontend/src/lib/diagram/``, and the gate rejects a drawing that
+no longer matches its spec. The engine measures text with the character
+widths that ``make fonts`` reads out of the shipped faces. A drawing with no
+spec is still source, and an author draws it by hand.
 
 ``docs/`` is the source of the published manual. The theme under
 ``packages/guides-theme/`` maps its reStructuredText and Markdown onto the

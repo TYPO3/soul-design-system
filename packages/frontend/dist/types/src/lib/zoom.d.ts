@@ -7,6 +7,9 @@ export interface ZoomOptions {
     /** What the drawing claims, carried into the viewer's head so opening it is
         not a change of subject. An image has none and falls back to its alt. */
     caption?: string;
+    /** What the viewer shows in place of the file, from an element that
+        draws inline. The press is then a button: there is no file to link. */
+    content?: unknown;
 }
 /** The trigger and the viewer, for the element to place. Two parts and not one
     template: they are siblings in an image and a frame apart in a figure. */

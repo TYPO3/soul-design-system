@@ -37,6 +37,24 @@ const PARTS: MenuEntry[] = [
   { label: 'Decision', href: '#decision' },
 ];
 
+/** The same document in parts: a head over the sections of each. */
+const GROUPED: MenuEntry[] = [
+  { label: 'Start', part: true, items: [
+    { label: 'Purpose', href: '#purpose' },
+    { label: 'Decision', href: '#decision' },
+  ] },
+  { label: 'The problem', part: true, items: [
+    { label: 'Where it stands', href: '#stands', current: true, items: [
+      { label: 'The status page', href: '#status-page' },
+      { label: 'The page of a source', href: '#source-page' },
+    ] },
+    { label: 'Findings', href: '#findings' },
+  ] },
+  { label: 'The proposal', part: true, items: [
+    { label: 'A record, not a history', href: '#record' },
+  ] },
+];
+
 const meta: Meta<OutlineArgs> = {
   title: 'Components/Navigation/Nav outline',
   tags: ['autodocs', '!dev'],
@@ -66,4 +84,18 @@ export const Default: Story = {};
     still has an outline. */
 export const Unnumbered: Story = {
   args: { numbered: false },
+};
+
+/** A document in parts. A part is a head over its sections, and no entry.
+    The count runs on across it, so the sections keep the numbers the page
+    gives them. */
+export const InParts: Story = {
+  name: 'In parts',
+  args: { entries: GROUPED },
+  play: async ({ canvasElement }) => {
+    const heads = [...canvasElement.querySelectorAll('.sds-outline__part .sds-label')].map((e) => e.textContent);
+    if (heads.join('|') !== 'Start|The problem|The proposal') throw new Error(`parts: ${heads.join('|')}`);
+    const numbers = [...canvasElement.querySelectorAll(':scope .sds-outline__fold > .sds-outline__list > li > .sds-outline__item .sds-outline__number')].map((e) => e.textContent);
+    if (numbers.join(' ') !== '1 2 3 4 5') throw new Error(`numbers: ${numbers.join(' ')}`);
+  },
 };

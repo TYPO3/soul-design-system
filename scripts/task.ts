@@ -57,7 +57,7 @@ const TASKS: Record<string, Task> = {
   notes: { cmd: node('scripts/notes.ts'), help: 'what the release page will say, from the commits behind the tag — the log arrives on stdin' },
   fonts: { cmd: node('scripts/fonts.ts'), help: 'regenerate fonts/ from @fontsource' },
   icons: { cmd: node('scripts/icons.ts'), help: 'regenerate assets/icons/ from @typo3/icons' },
-  diagrams: { cmd: node('scripts/diagrams.ts'), help: 'read the drawings’ viewBoxes into src/components/diagrams.generated.ts' },
+  diagrams: { cmd: node('scripts/diagrams.ts'), help: 'draw the drawings that have a spec, and read every viewBox into src/components/diagrams.generated.ts' },
   grammars: { cmd: node('scripts/grammars.ts'), help: 'write the grammars this system wrote itself where the Guides theme loads them' },
 
   // Visual regression

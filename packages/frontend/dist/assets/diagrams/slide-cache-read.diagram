@@ -1,0 +1,9 @@
+# The next call reads the same slot: the second of a row of three slides.
+flow slide=238,216 columns=1 gap=0,72
+title "The next call reads it"
+description "The English call reads the same slot and answers in German. Its path is the one accent."
+
+call `resolve('…', 'en')` ink at=0,0
+slot `answer.empty` value="found (de)" at=0,1
+
+call => slot "answers in de"

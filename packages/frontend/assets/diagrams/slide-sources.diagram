@@ -1,0 +1,27 @@
+# The sources against the machine, in the room of a slide.
+bars
+  slide 519,401
+  bands "nothing running,files on disk,a booted site,network reach"
+title "Five sources against the machine"
+description "Each source is a bar across what the machine has to run: bundled knowledge and the checkout need nothing, packages need files on disk, the installation a booted site, the network outbound reach. Bundled knowledge is the one accent."
+
+row `knowledge`
+  sub "bundled, versioned"
+  segments 4
+  emphasis
+row `checkout`
+  sub "this repository"
+  segments 4
+row `packages`
+  sub "files, never run"
+  segments absent=1 3
+row `installation`
+  sub "the booted site"
+  segments absent=2 2
+row `network`
+  sub "official services"
+  segments absent=3 1
+
+legend
+  ink "available"
+  absent "what it still needs"

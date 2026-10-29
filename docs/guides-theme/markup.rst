@@ -74,8 +74,8 @@ Sphinx's own grouping, not a ladder of severity.
 
    * - Type
      - Tone
-   * - ``note``, ``hint``, ``important``, ``seealso``, ``todo``, and any
-       generic ``.. admonition::``
+   * - ``note``, ``hint``, ``important``, ``seealso``, ``todo``, and a
+       generic ``.. admonition::`` with no type in its ``:class:``
      - ``info``, the tone that does not tint
    * - ``tip``
      - ``ok``
@@ -93,6 +93,11 @@ that turns it into an alarm changes what their page says.
 both become ``warn``, so the tone no longer tells them apart. But the
 glyph's accessible name is the type's word, not the tone's. A reader who
 cannot see the colour still hears which one this was.
+
+**A heading with a tone** is ``.. admonition::`` with the heading as its
+argument and a type in ``:class:``, as in Sphinx. So
+``.. admonition:: The order is the TCA's`` with ``:class: warning`` is a
+warning with that heading.
 
 **No category heading.** Almost none of the types carry a title, and "Note"
 over each one is the category name ``sds-note`` forbids as a heading. Where
@@ -333,6 +338,33 @@ It survives because every element renders before the publish. The finishing
 step leaves the drawn table in the page and, beside it, the rows in a
 ``<template>``. That is the one place the parser keeps a ``<thead>``
 outside a ``<table>``.
+
+The title of a ``list-table`` is its caption. The renderer drops it, and
+the theme puts it back.
+
+``:class: compact`` on a table sets the element's density: tighter rows,
+for a table a reader scans rather than reads.
+
+``:columns:`` on a ``list-table`` gives each column its role, one column
+after the other, with commas between them. ``name`` is the identifier the
+machine owns, ``meta`` anything secondary, and ``note`` a line about the
+row. ``fit`` holds a column to its content. ``end`` stands it at the right
+edge, for a count or a date. ``into`` is the way into the row, and
+``sign`` a column of signs. A column with no role stays empty between its
+commas.
+
+.. code-block:: text
+
+   .. list-table:: Commands
+      :header-rows: 1
+      :columns: name fit, , meta
+
+The roles are the cell classes of ``sds-table``. See
+:ref:`component-sds-table`.
+
+A row that names the rows under it spans all the columns. A list table has
+no span, so that table is a grid table in ``.. table::``. Its title is the
+caption too, and it takes ``:columns:`` the same way.
 
 The ``<table>`` itself is the element's, and so is its density and the box
 it scrolls in. That box has to be *around* the table. ``overflow-x`` on the

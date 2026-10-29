@@ -22,12 +22,17 @@
   "types": "./dist/types/src/index.d.ts",
   "customElements": "dist/custom-elements.json",
   "bin": {
-    "soul-check": "dist/soul-check.js"
+    "soul-check": "dist/soul-check.js",
+    "soul-diagram": "dist/soul-diagram-cli.js"
   },
   "exports": {
     ".": {
       "types": "./dist/types/src/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./diagram": {
+      "types": "./dist/types/src/lib/diagram/index.d.ts",
+      "import": "./dist/soul-diagram.js"
     },
     "./dist/*": "./dist/*",
     "./src/*": "./src/*",

@@ -1,0 +1,9 @@
+# A call writes the slot of its key: the first of a row of three slides.
+flow slide=238,216 columns=1 gap=0,72
+title "A call writes"
+description "The German call writes the slot of its key."
+
+call `resolve('…', 'de')` ink at=0,0
+slot `answer.empty` value="found (de)" at=0,1
+
+call -> slot "writes"

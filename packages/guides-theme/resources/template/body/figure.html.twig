@@ -30,6 +30,8 @@
     itself, which a browser will not do across origins.
 #}
 {%- set caption = node.document ? renderNode(node.document)|striptags|trim : '' -%}
+{%- set number = number_of('figure', node.image.value) -%}
+{%- set caption = caption and number ? 'Figure ' ~ number ~ ' · ' ~ caption : caption -%}
 {%- set source = node.image.value is external_target ? node.image.value : asset(node.image.value) -%}
 {#- A picture draws at the width of the column it stands in, which is not
     the width a diagram exists for. `:zoomable:` gives that back. The frame

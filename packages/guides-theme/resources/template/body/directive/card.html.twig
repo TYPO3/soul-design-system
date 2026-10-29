@@ -42,6 +42,7 @@
     {%- if node.option('label') %} label="{{ node.option('label') }}"{% endif %}
     {%- if node.option('tag') %} tag="{{ node.option('tag') }}"{% endif %}
     {%- if node.option('icon') %} icon="{{ node.option('icon') }}"{% endif %}
+    {%- if node.option('sign') %} sign="{{ node.option('sign') }}"{% endif %}
     {%- if source %} src="{{ source }}" alt="{{ node.option('alt')|default('') }}"{% endif %}
     {%- if node.option('footer') %} footer="{{ node.option('footer') }}"{% endif %}
     {%- if node.option('action') %} action="{{ node.option('action') }}"{% endif %}

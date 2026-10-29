@@ -26,7 +26,7 @@ const meta: Meta = {
       name: 'System overview — a map with no axis',
       subtitle: 'Containment carries the claim: one path crosses the boundary',
       theme: 'both',
-      viewport: '1400x966',
+      viewport: '1400x759',
       bodyClass: 'spec-sunken',
     }),
   },
@@ -39,7 +39,6 @@ export const specimenHtml = (): string =>
   figureCard(
     {
       file: 'system-overview.svg',
-      alt: 'The client, the app subprocess and the local sources sit inside the machine; one read-only path crosses to official services outside.',
     },
     NOTES,
   );

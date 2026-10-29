@@ -1,0 +1,64 @@
+/* sds-diagram — a drawing from the text that describes it. */
+
+@layer base {
+  sds-diagram {
+    display: block;
+    min-width: 0;
+    margin-block: var(--space-components);
+  }
+  sds-diagram .sds-diagram {
+    margin-block: 0;
+  }
+  .sds-diagram {
+    margin-block: var(--space-components);
+  }
+}
+
+@layer components {
+  /* The drawing alone. It brings its own canvas and margin, and a frame or
+     a caption is the figure's around it. It shrinks with its column until
+     its smallest type, 13, stands at 9 pixels. A narrower column scrolls
+     it. The viewer zooms it. */
+  .sds-diagram {
+    --sds-diagram-floor: calc(9 / 13);
+    --sds-diagram-least: calc(var(--sds-diagram-width, 0px) * var(--sds-diagram-floor));
+
+    display: block;
+    overflow-x: auto;
+
+    /* A stroke on the edge of the drawing draws half outside it. */
+    & > svg,
+    & > .sds-zoom > svg {
+      display: block;
+      overflow: visible;
+      inline-size: 100%;
+      min-inline-size: var(--sds-diagram-least);
+      block-size: auto;
+    }
+  }
+  /* On a slide the drawing is part of a picture that grows and shrinks
+     whole. It never scrolls there, and the deck's viewer zooms it. */
+  .sds-slide .sds-diagram {
+    --sds-diagram-floor: 0;
+
+    overflow-x: visible;
+  }
+  /* A text the grammar refuses: the refusal in the place of the drawing,
+     in the words of the line it names. */
+  .sds-diagram__error {
+    --sds-diagram-error-ink: var(--status-error);
+    --sds-diagram-error-pad: var(--space-4);
+    --sds-diagram-error-face: var(--font-mono);
+    --sds-diagram-error-size: var(--aside-size);
+    --sds-diagram-error-border: var(--border-hairline);
+    --sds-diagram-error-radius: var(--radius-card);
+
+    margin: 0;
+    padding: var(--sds-diagram-error-pad);
+    border: var(--sds-diagram-error-border) solid var(--sds-diagram-error-ink);
+    border-radius: var(--sds-diagram-error-radius);
+    color: var(--sds-diagram-error-ink);
+    font-family: var(--sds-diagram-error-face);
+    font-size: var(--sds-diagram-error-size);
+  }
+}

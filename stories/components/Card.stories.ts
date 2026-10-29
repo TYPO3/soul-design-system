@@ -17,7 +17,7 @@ import '../../packages/frontend/src/components/card.ts';
 import '../../packages/frontend/src/components/grid.ts';
 import { type CardProps } from '../../packages/frontend/src/components/card.ts';
 
-export const sdsCard = ({ heading, body, href, src, alt, label, tag, icon, footer, action }: CardProps) =>
+export const sdsCard = ({ heading, body, href, src, alt, label, tag, icon, sign, footer, action }: CardProps) =>
   html`<sds-card
     heading="${heading}"
     .body="${body}"
@@ -27,6 +27,7 @@ export const sdsCard = ({ heading, body, href, src, alt, label, tag, icon, foote
     label="${label ?? ''}"
     tag="${tag ?? ''}"
     icon="${ifDefined(icon)}"
+    sign="${ifDefined(sign)}"
     footer="${footer ?? ''}"
     action="${action ?? ''}"
   ></sds-card>`;
@@ -87,6 +88,7 @@ const meta: Meta<CardProps> = {
       control: 'select',
       options: [undefined, 'actions-book', 'actions-database', 'actions-extension', 'actions-tag'],
     },
+    sign: { control: 'select', options: [undefined, 'yes', 'partly', 'no', 'unknown'] },
     footer: { control: 'text' },
     action: { control: 'text' },
   },
@@ -126,6 +128,20 @@ export const Entry: Story = { args: ENTRY };
 export const Entries: Story = {
   render: () => html`<sds-grid>
     ${[ENTRY, ENTRY_NO_ART, { ...ENTRY_NO_ART, tag: 'guide', label: '18 June 2026', heading: 'Writing a task skill that fails at registration' }].map(sdsCard)}
+  </sds-grid>`,
+};
+
+/** A set measured against one need each. The sign at the end of the label
+    line says how far the test meets each need. It has the shape the drawings
+    use, and words for a reader who hears it. */
+export const States: Story = {
+  render: () => html`<sds-grid>
+    ${[
+      { label: 'P2', sign: 'no', heading: 'Add nine sections to the page', body: 'The record form opens for each new element, outside the page.' },
+      { label: 'P6', sign: 'partly', heading: 'Set headings and the alignment', body: 'Headings work only in the source mode, and the text has no alignment.' },
+      { label: 'P9', sign: 'yes', heading: 'Replace an image', body: 'The image opens in the panel and changes in the page.' },
+      { label: 'P14', sign: 'unknown', heading: 'Undo a move', body: 'No step of the test measured it.' },
+    ].map((card) => sdsCard({ ...card, href: '', sign: card.sign as CardProps['sign'] }))}
   </sds-grid>`,
 };
 

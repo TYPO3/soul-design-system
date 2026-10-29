@@ -1,0 +1,27 @@
+# One request, two lookups of one key: the second stops at the array.
+flow
+  columns 1,1,1,1
+  gap 64,40
+title "The second lookup of a key stops at the array"
+description "Two rows of the same four stops: the call, the array on the service, the catalogue reader, and the file. The first lookup passes through all four and reads the file. The second lookup hits the array and goes no further; the reader and the file stand behind dashed connectors it never follows."
+
+row 0 "First lookup"
+  note "an array on the service, alive for one request"
+row 1 "Second lookup"
+  note "Both lookups answer the same label. The second answers from the array, and the file stays closed."
+
+call1 `resolve()` at=0,0 ink
+array1 `cache[]` at=1,0
+reader1 `CatalogueReader` at=2,0
+file1 `locallang.xlf` at=3,0
+call2 `resolve()` at=0,1 ink
+array2 `cache[]` at=1,1
+reader2 `CatalogueReader` at=2,1
+file2 `locallang.xlf` at=3,1
+
+call1 -> array1 "miss"
+array1 -> reader1 "read"
+reader1 -> file1 "3 ms"
+call2 => array2 "hit"
+array2 --> reader2 "no read"
+reader2 --> file2

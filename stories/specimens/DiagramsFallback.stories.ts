@@ -26,7 +26,7 @@ const meta: Meta = {
       name: 'Fallback — a sequence without a flowchart',
       subtitle: 'Length is coverage, so the shortfall is visible before it is read',
       theme: 'both',
-      viewport: '1400x1034',
+      viewport: '1400x790',
       bodyClass: 'spec-sunken',
     }),
   },
@@ -39,7 +39,6 @@ export const specimenHtml = (): string =>
   figureCard(
     {
       file: 'installation-fallback.svg',
-      alt: 'Three paths to an installation-bound answer; the fallback covers less of the registry and the gap is drawn.',
     },
     NOTES,
   );

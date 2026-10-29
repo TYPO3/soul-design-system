@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-/* Read the referenced artwork into the modules that need it — `make diagrams`,
-   or `ARGS=--check` to ask if they are still in step.
+/* Draw each drawing that has a spec, then read the referenced artwork into
+   the modules that need it — `make diagrams`, or `ARGS=--check`.
 
    A page references artwork rather than links it, so its colours are the
    page's tokens, and the files then owe two things. The viewBox, since `<use>`
@@ -9,14 +9,45 @@
    squashed by a fraction. And the markup, because a card opened from disk
    resolves a reference to nothing. Only the static render path imports that,
    so `soul.js` never pays for it. */
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
+import { type DiagramSpec, diagram, parse } from '../packages/frontend/src/lib/diagram/index.ts';
 import { FRONTEND, ROOT } from './lib/cards.ts';
 import * as report from './lib/report.ts';
 
 const ASSETS = join(FRONTEND, 'assets');
 const DIR = join(ASSETS, 'diagrams');
+const check = process.argv.includes('--check');
+const stale: string[] = [];
+
+/* A drawing with a spec beside it is output: the spec is the source, and
+   the engine in `src/lib/diagram/` draws the file. A spec is a `.diagram`
+   text or a `.json` object, never both. An author still draws a drawing
+   with no spec by hand. */
+const SPEC = /\.(diagram|json)$/;
+const sources = new Map<string, string>();
+const specs = readdirSync(DIR)
+  .filter((f) => SPEC.test(f))
+  .sort()
+  .map((file) => {
+    const name = file.replace(SPEC, '');
+    const source = readFileSync(join(DIR, file), 'utf8');
+    if (file.endsWith('.diagram')) sources.set(name, source);
+    let spec: DiagramSpec;
+    try {
+      spec = file.endsWith('.json') ? (JSON.parse(source) as DiagramSpec) : parse(source);
+    } catch (error) {
+      throw new Error(`assets/diagrams/${file}: ${(error as Error).message}`);
+    }
+    const { svg } = diagram(spec, { name });
+    const out = join(DIR, `${name}.svg`);
+    if (!check) writeFileSync(out, svg);
+    else if (!existsSync(out) || readFileSync(out, 'utf8') !== svg) stale.push(`assets/diagrams/${name}.svg is out of step with its spec`);
+    return name;
+  });
+const twice = specs.filter((name, i) => specs.indexOf(name) !== i);
+if (twice.length) throw new Error(`assets/diagrams/: ${twice.join(', ')} has a .diagram and a .json spec — keep one`);
 
 /** The group `<use>` points at in a drawing. Every one of them names it the
     same. A reference to the root `<svg>` clones the `<title>` and `<desc>`
@@ -56,7 +87,9 @@ const drawings = readdirSync(DIR)
     const viewBox = viewBoxOf(file, text);
     const shapes = GROUP.exec(text)?.[1];
     if (!shapes) throw new Error(`${file}: no <g id="soul-ref"> — the drawing has nothing <use> can reach`);
-    return { name: file.replace(/\.svg$/, ''), viewBox, shapes: shapes.trim() };
+    /* The faces a drawing carries are for a file shown on its own. Inline, the
+       page's faces set it, and a card carries no style block. */
+    return { name: file.replace(/\.svg$/, ''), viewBox, shapes: shapes.replace(/<style>[\s\S]*?<\/style>\s*/, '').trim() };
   });
 
 /* A mark goes into the card whole, as a nested `<svg>` rather than loose
@@ -112,14 +145,16 @@ const MODULES: readonly (readonly [file: string, text: string])[] = [
       `    viewBox. Keyed by file name without the extension. */\n` +
       `export const MARK_SVG: Readonly<Record<string, string>> = {\n` +
       marks.map((m) => `  ${JSON.stringify(m.name)}: ${JSON.stringify(m.svg)},`).join('\n') +
+      `\n};\n\n` +
+      `/** The text of each drawing, keyed by file name without the\n` +
+      `    extension, for an element that draws it in a page's tokens. */\n` +
+      `export const DIAGRAM_SOURCES: Readonly<Record<string, string>> = {\n` +
+      [...sources].map(([n, t]) => `  ${JSON.stringify(n)}: ${JSON.stringify(t)},`).join('\n') +
       `\n};\n`,
   ],
 ];
 
-const check = process.argv.includes('--check');
-const stale: string[] = [];
-
-report.open('diagrams', check ? 'the modules match the drawings' : 'read the drawings into the modules');
+report.open('diagrams', check ? 'the drawings match their specs, and the modules the drawings' : 'draw the specs, and read the drawings into the modules');
 
 for (const [file, text] of MODULES) {
   const out = join(FRONTEND, 'src', 'components', file);
@@ -132,7 +167,7 @@ for (const [file, text] of MODULES) {
 }
 
 if (!check) {
-  for (const d of drawings) report.fact(d.name, d.viewBox);
+  for (const d of drawings) report.fact(d.name, `${d.viewBox}${specs.includes(d.name) ? ' · from its spec' : ''}`);
   for (const m of marks) report.fact(m.name, 'referenced whole');
 }
 report.summary(`${drawings.length} drawings · ${marks.length} marks`, stale);

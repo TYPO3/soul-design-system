@@ -152,6 +152,83 @@ for.
    ``src``. A rewrite replaces a picture the reader can see with a second
    request for the same file.
 
+.. _component-sds-diagram:
+
+sds-diagram
+===========
+
+A drawing from the text that describes it, and only the drawing. The text
+stands between the tags as a ``.diagram`` file holds it, and
+:doc:`/design-system/diagrams/index` names its statements. The element draws it
+inline, so its colours are the page's tokens and it turns with the mode. The
+finishing step renders it before a page ships, so a reader with no script
+gets the drawing.
+
+.. code-block:: html
+
+   <sds-diagram>
+     cells
+     title "A gap map"
+     description "Two groups of needs with their state."
+     group "Edit"
+       F1.1 yes
+       F1.2 partly
+   </sds-diagram>
+
+The indent the whole text shares does not count, so the text can stand
+indented in a page. The drawing takes the width of its column and keeps its
+proportions. It does not shrink so far that its smallest type, 13, is under
+9 pixels. In a narrower column, it keeps that width and scrolls to the side.
+A slide scales its drawing with the whole slide, so there is no limit there. A frame and a caption are the figure's: put the element
+in an :ref:`sds-figure <component-sds-figure>`, which takes it between its
+tags as its picture.
+
+.. code-block:: html
+
+   <sds-figure caption="Each need has its state, so a missing one stands out.">
+     <sds-diagram>…</sds-diagram>
+   </sds-figure>
+
+.. confval:: source
+   :name: sds-diagram-source
+   :type: string
+
+   The text of the drawing, for a script that sets a string. A page writes
+   the text between the tags. A text the grammar refuses draws the refusal
+   in the place of the drawing, with the line or the part it names.
+
+.. confval:: room
+   :name: sds-diagram-room
+   :type: string
+
+   The room of a slide, ``width,height`` in its frame's pixels. The drawing
+   then has no margin of its own, because the slide's margin is its margin.
+
+.. confval:: name
+   :name: sds-diagram-name
+   :type: string
+
+   The prefix of the ids inside the drawing. It comes from the text by
+   default. Two drawings with the same text on one page need two names.
+
+.. confval:: zoomable
+   :name: sds-diagram-zoomable
+   :type: boolean
+   :default: false
+
+   A press on the drawing opens it at the size of the window, in an
+   :ref:`sds-lightbox <component-sds-lightbox>`. The large drawing is inline
+   too, so it keeps the page's tokens in either mode. Its head is the
+   ``title`` of the text. The viewer opens it fitted, and the reader zooms
+   and moves it there. Use it for a drawing too dense for
+   the column. A slide has no zoom: its drawing has the room of the slide.
+
+.. code-block:: html
+
+   <sds-figure caption="The first lookup reads the file, the second stops at the array.">
+     <sds-diagram zoomable>…</sds-diagram>
+   </sds-figure>
+
 .. _component-sds-embed:
 
 sds-embed
@@ -291,11 +368,17 @@ The surface is not the modal's. A modal stops at a reading measure because a
 reader reads what is inside one, and a reader looks at a drawing.
 
 The surface is a stage, not a box around the file: as much of the screen as
-it can take without the edges. The picture fits into it and stands in the
-middle, whichever way round it is. A picture smaller than the stage keeps
-its own size, since a larger draw only blurs it. The page behind it stops
-its scroll while it is open. The platform makes the rest inert, and a wheel
-over the backdrop is not.
+it can take without the edges. The picture opens fitted into it, whole and
+in the middle, whichever way round it is. A photograph smaller than the
+stage keeps its own size, since a larger draw only blurs it. A drawing grows
+to fit.
+
+The head holds the view. ``−`` and ``+`` zoom, the figure between them says
+how large the picture stands, and :guilabel:`Fit` shows it whole again. On
+the stage, a drag moves the picture and the wheel zooms about the pointer.
+The arrow keys move it, ``+`` and ``-`` zoom, ``0`` fits, and a double
+click goes between the fit and the picture's own size. The page behind it
+stops its scroll while it is open.
 
 .. code-block:: html
 
@@ -306,7 +389,8 @@ over the backdrop is not.
 .. confval:: src
    :name: sds-lightbox-src
    :type: string
-   :required: true
+
+   The file on show. Without it, ``content`` is.
 
 .. confval:: alt
    :name: sds-lightbox-alt
@@ -320,6 +404,14 @@ over the backdrop is not.
    What the drawing claims, in the head. The same sentence the figure
    carries, so the open is not a change of subject.
 
+.. confval:: content
+   :name: sds-lightbox-content
+   :type: property
+
+   Markup in place of the file, for a script. It fills the stage, and an
+   inline ``<svg>`` fits into it whole. ``sds-diagram`` with ``zoomable``
+   sets it, so its drawing keeps the page's tokens at full size.
+
 .. confval:: open
    :name: sds-lightbox-open
    :type: boolean
@@ -331,5 +423,5 @@ none of it. It owns its viewer and calls ``show()`` itself.
 
 .. seealso::
 
-   :doc:`/design-system/diagrams` for how to make a drawing a page can
+   :doc:`/design-system/diagrams/index` for how to make a drawing a page can
    reference, and :doc:`/design-system/artwork` for what belongs in one.

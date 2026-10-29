@@ -18,6 +18,7 @@ because navigation is the one thing a page cannot show about itself.
    :maxdepth: 3
 
    nodes
+   paper
    depth/index
 
 .. note::
@@ -83,6 +84,10 @@ The words a manual has to say with precision. Press :kbd:`Ctrl-K`, choose
 specific here. A formula can carry :sup:`superscript` and :sub:`subscript`.
 :dfn:`A term with a definition` gets its mark at its first use.
 
+A state in a line is a badge: :badge:`Closed <ok>`, :badge:`Under review
+<warn>`, :badge:`Blocked <error>`, :badge:`Source <accent>` and
+:badge:`New`.
+
 A formula goes through as the source the author wrote: :math:`E = mc^2` in
 a sentence, and on a line of its own:
 
@@ -132,6 +137,11 @@ decision, and here a reviewer can make it by sight instead of argument.
 
 .. note::
    A note.
+
+.. admonition:: A warning with a heading of its own
+   :class: warning
+
+   A generic admonition takes its tone from a type in its class.
 
 .. tip::
    A tip.
@@ -280,7 +290,9 @@ Tables
    =========  ==============  ====================
 
 .. list-table:: A list table, which is how a wide one is written
+   :class: compact
    :header-rows: 1
+   :columns: name fit, , meta
 
    * - Command
      - What it does
@@ -291,6 +303,25 @@ Tables
    * - ``make guides``
      - renders this project into ``.out/site/``
      - while you write the theme
+   * - :anchor:`P2 <step-p2>`
+     - an address in a cell, which a reference names
+     - :ref:`P2 <step-p2>`, from anywhere on the page, or :id:`P2 <step-p2>`
+       in mono
+
+.. table:: A grid table, whose group rows span the columns
+   :columns: name fit, , meta
+
+   +-------------------+----------------------------------+------------------+
+   | Feature           | What it brings                   | Where            |
+   +===================+==================================+==================+
+   | Edit                                                                    |
+   +-------------------+----------------------------------+------------------+
+   | ``A1``            | text changes with a live preview | in the page      |
+   +-------------------+----------------------------------+------------------+
+   | Compose                                                                 |
+   +-------------------+----------------------------------+------------------+
+   | ``B1``            | elements added at a position     | in the page      |
+   +-------------------+----------------------------------+------------------+
 
 Pictures
 ========
@@ -401,6 +432,43 @@ so a reader reads the notes across the set.
 
       The tool reads every source. It writes nothing back, and it runs
       nothing to answer.
+
+A set of shares draws each share as a bar under its figure.
+
+.. grid:: dense
+
+   .. stat:: 20
+      :of: 21
+      :label: baseline
+      :bar:
+
+      WordPress, Drupal Canvas and Neos share them.
+
+   .. stat:: 2
+      :of: 6
+      :label: differentiators
+      :bar:
+
+      The preview link and the structure view.
+
+A list of shares names each share and its count over the bar.
+
+.. grid::
+
+   .. stat:: 22
+      :of: 29
+      :label: In the MVP
+      :list:
+
+      The panel, the frame and keyboard access.
+
+   .. stat:: 3
+      :of: 29
+      :label: After the MVP
+      :list:
+
+      The patterns.
+
 
 Colours
 =======
@@ -546,6 +614,33 @@ decide the open.
       Without a target the title is a title. The row above it drops, and so
       does the ground under the picture. A card with a hole in it is what a
       set of them lines up against.
+
+Cards that carry a state
+========================
+
+A set measured against one need each says how far the test meets each
+need, in the signs the drawings use. Two stand across, as a pair.
+
+.. grid::
+   :columns: 2
+
+   .. card:: Add nine sections to the page
+      :label: P2
+      :sign: no
+
+      The record form opens for each new element, outside the page.
+
+   .. card:: Set headings and the alignment
+      :label: P6
+      :sign: partly
+
+      Headings work only in the source mode.
+
+   .. card:: Replace an image
+      :label: P9
+      :sign: yes
+
+      The image opens in the panel and changes in the page.
 
 How much room one of a set needs
 ================================
@@ -712,6 +807,41 @@ fragment points into, and the question stands at the line over it.
 
       This one's open leaves the one above it exactly as it was.
 
+Diagrams
+--------
+
+A drawing, written as the text that describes it. The element draws it in
+the grammar of the system, and its colours follow the mode of the page. A
+press opens this one at the size of the window.
+
+.. diagram::
+   :zoomable:
+
+   flow claim=error columns=1,1 gap=120,16
+   title "One slot answers two languages"
+   description "A call in English reads the slot a call in German wrote."
+
+   en `resolve('answer.empty', 'en')` ink at=0,0
+   slot `answer.empty` value="found (de)" at=1,0
+
+   en => slot "answers in de"
+
+The text can live in a file of its own, beside the document.
+
+.. diagram::
+   :file: drawing.diagram
+   :caption: With a caption, the drawing stands in a figure.
+
+A text the grammar refuses draws the refusal in the place of the drawing.
+
+.. diagram::
+
+   flow columns=1
+   title "Two claims"
+   description "Two nodes that both ask for the emphasis."
+   a "One" at=0,0 emphasis
+   b "Two" at=0,1 emphasis
+
 The facts of a thing
 ====================
 
@@ -807,6 +937,56 @@ blocks, which is why the work stands between the tags.
    .. step:: Render the site
 
       Two commands, and the second turns documents into a site.
+
+A question, and the answers it can take
+=======================================
+
+A concept ends on a decision somebody else makes. The letters count
+themselves, and a decided answer turns the foot of the block to the past.
+A ``:name:`` is an address a reference reaches: :ref:`core-or-extension`
+and :ref:`the step that selects the theme <select-the-theme>`.
+
+.. decision:: Does the compact form have tabs?
+   :label: Open
+   :by: The core team
+   :due: 2026-11-30
+   :lead: The declaration is a list. Tabs would need a second structure.
+
+   .. answer:: No: a flat form, one field below the other
+      :recommended:
+
+      The declaration stays a plain list.
+
+   .. answer:: A second showitem with tabs
+
+      Full control, and two structures to keep in sync.
+
+.. decision:: Core or extension?
+   :label: Decided
+   :by: Benjamin Kott
+   :due: 2026-10-27
+   :name: core-or-extension
+
+   .. answer:: Core, with an extension as the reference
+      :decided:
+
+      The extension uses the same declaration now.
+
+   .. answer:: Only in the extension
+
+      Rejected.
+
+Markup as it is written
+=======================
+
+What no directive says goes in as markup. The elements upgrade, and the
+twin shows the markup.
+
+.. codemode::
+
+   <sds-note tone="info" heading="Written as markup">
+     <p>An element between the tags of <code>codemode</code>.</p>
+   </sds-note>
 
 Something shown as it is written
 ================================

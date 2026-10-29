@@ -1,0 +1,14 @@
+# One slot of the array answers two languages: the finding F1.2.
+flow claim=error columns=350,560 gap=170,16
+title "One slot answers two languages"
+description "Two calls for the same key, one in German and one in English, both reach the same slot of the array. The German call writes the slot; the English call reads it and answers in German. The English path is drawn in the error colour."
+
+de `resolve('answer.empty', 'de')` ink at=0,0
+en `resolve('answer.empty', 'en')` ink at=0,2
+group "cache[]"
+  empty `answer.empty` value="Nothing found (de)" at=1,0
+  none `answer.none` value="—" at=1,1
+  tool `label.tool` value="Tool (de)" at=1,2
+
+de -> empty "writes"
+en => empty "answers in de" via=h bend=0.8

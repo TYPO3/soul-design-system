@@ -1,0 +1,17 @@
+{#- The head, each cell with the role of its column. A head stands at the
+    edge a reader reads its column down, so `end` goes with it. -#}
+{% if tableHeaderRows is not empty %}
+    <thead>
+    {% for tableHeaderRow in tableHeaderRows %}
+        <tr>
+            {% for column in tableHeaderRow.columns %}
+                {%- set role = (tableNode.option('columns') ?? [])[loop.index0] ?? '' -%}
+                <th{% if role %} class="{{ role }}"{% endif %}{% if column.colspan > 1 %} colspan="{{ column.colspan }}"{% endif %}>
+                    {%- for child in column.children -%}
+                        {{- renderNode(child) -}}
+                    {% endfor %}</th>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </thead>
+{% endif %}

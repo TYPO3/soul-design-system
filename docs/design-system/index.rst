@@ -22,7 +22,7 @@ cannot drift apart.
    accessibility
    icons
    illustrations
-   diagrams
+   diagrams/index
    artwork
    brand
    forms

@@ -26,6 +26,7 @@
     --sds-deck-count-font: var(--font-mono);
     --sds-deck-count-size: calc(var(--font-size-small) * var(--font-modifier-mono));
     --sds-deck-count-ink: var(--text-muted);
+    --sds-deck-goto-rule: var(--border-hairline);
     /* The list: one column of pictures, each a fifth of the frame. The
        width is the frame's 960 at that fifth, and the list is that picture
        with its entry's and its own padding round it. */
@@ -60,6 +61,9 @@
        finger has it; the element measures it onto the stage. */
     --sds-deck-turn: calc(var(--duration-base) + var(--duration-fast)) var(--ease-out);
     --sds-deck-drag: 0px;
+    /* The deck fades in over the page and out of it, at a control's pace.
+       A fade and no scale: the slides measure their stage as it opens. */
+    --sds-deck-open: var(--duration-base) var(--ease-out);
 
     margin: 0;
     padding: 0;
@@ -73,13 +77,36 @@
     color: var(--sds-deck-ink);
     overflow: hidden;
 
+    opacity: 0;
+    transition:
+      opacity var(--sds-deck-open),
+      overlay var(--sds-deck-open) allow-discrete,
+      display var(--sds-deck-open) allow-discrete;
+
     &[open] {
       display: flex;
       flex-direction: column;
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
     }
 
     &::backdrop {
       background: var(--sds-deck-backdrop);
+      opacity: 0;
+      transition:
+        opacity var(--sds-deck-open),
+        overlay var(--sds-deck-open) allow-discrete,
+        display var(--sds-deck-open) allow-discrete;
+    }
+    &[open]::backdrop {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
     }
   }
   /* The page under the deck stays where it is. No gutter: the deck covers
@@ -135,6 +162,24 @@
     font-weight: normal;
     font-variant-numeric: tabular-nums;
     color: var(--sds-deck-count-ink);
+  }
+
+  /* The count's own number takes a number in, so a reader goes straight to
+     a slide. It reads as the count until it has the focus. */
+  .sds-deck__goto {
+    inline-size: auto;
+    padding: 0;
+    border: none;
+    border-block-end: var(--sds-deck-goto-rule) solid transparent;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: end;
+
+    &:hover,
+    &:focus {
+      border-block-end-color: var(--sds-deck-count-ink);
+    }
   }
 
   .sds-deck__progress {
@@ -389,7 +434,9 @@
     .sds-deck__stage > sds-slide,
     .sds-deck__ghost,
     .sds-deck__progress > span,
-    dialog.sds-deck.is-full .sds-modal__head {
+    dialog.sds-deck.is-full .sds-modal__head,
+    dialog.sds-deck,
+    dialog.sds-deck::backdrop {
       transition: none;
     }
   }

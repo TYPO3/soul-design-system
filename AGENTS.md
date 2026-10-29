@@ -141,6 +141,7 @@ is half-shipped.
 | `packages/frontend/src/styles/_specimen.css` | card chrome only, outside the `styles.css` closure on purpose |
 | `packages/frontend/src/components/*.ts` | the Lit elements and their template functions |
 | `packages/frontend/src/lib/` | the element base, the form base, the field's box and row, the icon inliner, the static renderer, the grammars |
+| `packages/frontend/src/lib/diagram/` | the diagram engine: the layouts, the signs, the text measure |
 | `stories/` | the specimen the cards and screens come from |
 | `packages/frontend/assets/portraits/` | portraits made for a story |
 | `docs/` | the published documentation, and the prompts it prints |
@@ -163,9 +164,13 @@ Generated. Never edit one, never hand-write a new one:
 | `.out/release/notes.md` | `make notes`. What the release page will say, from the commits under the tag. The release job writes it again on the runner |
 | `docs/_cards/`, `packages/guides-theme/acceptance/_cards/` | `make embed`, and `make cards` ends with it. The generated cards beside the documents that embed them, because a renderer carries only what a parsed page points at |
 | `docs/_images/signet*.svg` | `make embed`. Committed, copied from `packages/frontend/assets/`. `marks` in `scripts/lib/projects.ts` says which file is which drawing |
+| `docs/_sources/` | `make embed`. Committed, copied from `packages/frontend/assets/`: the sources a document quotes. `quoted` in `scripts/lib/projects.ts` names them |
 | `packages/frontend/fonts/` | `make fonts`. Committed, because the package publishes it and a mirror ships only what git has |
 | `packages/frontend/assets/icons/`, `packages/frontend/src/components/icons*.generated.ts` | `make icons`. Committed: a mirror replays what git has, so every file a package ships or names is a file git keeps |
 | `packages/frontend/src/components/diagrams*.generated.ts` | `make diagrams`. The drawings' viewBoxes and shapes, read out of `packages/frontend/assets/diagrams/` |
+| `packages/frontend/assets/diagrams/<name>.svg` beside a `<name>.diagram` or `<name>.json` | `make diagrams`. The engine draws the spec. A drawing with no spec beside it is still source |
+| `packages/frontend/src/lib/diagram/metrics.generated.ts` | `make fonts`. Each character's width in the shipped faces and their fallback. The engine wraps and refuses text by it |
+| `packages/frontend/src/lib/diagram/faces.generated.ts` | `make fonts`. A static cut of each face and weight. The engine puts a cut into each drawing that sets it |
 | `packages/guides-theme/resources/highlight/*.generated.json` | `make grammars`. The grammars written under `packages/frontend/src/lib/grammars/`, as the JSON the theme's PHP highlighter loads. One grammar keeps the server and the page the same colour |
 
 **Everything generated that git does not keep is under `.out/`.** One root,
@@ -229,7 +234,7 @@ is how you ask for one:
 | Check | What it holds |
 | --- | --- |
 | `assets` | the generated fonts and icons are there |
-| `diagrams` | the modules match the drawings |
+| `diagrams` | the drawings match their specs, and the modules the drawings |
 | `grammars` | the theme's copies of the written grammars |
 | `marks` | the documents' signets against those drawings |
 | `headers` | `@dsCard`, `@startingPoint`, literal metadata |
@@ -294,6 +299,7 @@ Each file guards what the others cannot see:
 | `dialog` | the question a dialog asks: the pair, the two events, the size cap, and the head every surface draws |
 | `run` | work in progress: which rows are a control, the name of every state, and a fold that survives |
 | `tree` | a directory: a level is how deep it stands open, and the fold works with no script |
+| `diagram` | a diagram from a spec: what the engine refuses, and no text wider in the browser than the engine counted |
 | `copy` | a value carried off: what reaches the clipboard, the button names, and a press that says so in words |
 | `table` | the way into a row: an anchor at its end, one stop per row, a column at its edge. No bar down the side |
 | `toc` | the contents list: which section it marks, the mark in a box too short for it, the wheel it keeps |
@@ -342,7 +348,8 @@ make test ARGS="tests/dialog.test.ts --grep Escape"
 | a `@media` width, in any sheet | `make verify ARGS=breakpoints` |
 | `packages/frontend/src/`, with `packages/frontend/dist/` committed against it | `make verify ARGS=dist` |
 | `scripts/soul-check.ts`, or what `lib/elements.ts` reads out of a component | `make dist`, then `make verify ARGS=dist`; both ship from `dist/` |
-| a drawing in `packages/frontend/assets/diagrams/` | `make verify ARGS=diagrams` |
+| a drawing or a spec in `packages/frontend/assets/diagrams/` | `make diagrams`, then `make verify ARGS=diagrams` |
+| the diagram engine in `packages/frontend/src/lib/diagram/` | `make diagrams`, then `make test ARGS=tests/diagram.test.ts` and `make test ARGS=stories/diagrams` |
 | a grammar in `packages/frontend/src/lib/grammars/` | `make grammars`, then `make verify ARGS=grammars` and `make test ARGS=tests/highlight.spec.ts` |
 | a mark in `packages/frontend/assets/`, or the signet a `guides.xml` names | `make verify ARGS=marks` |
 
@@ -422,10 +429,16 @@ If highlight.js ships the grammar, that is all. If not, write one under
 expression literal. `make grammars` writes the same modes out as the JSON the
 theme's PHP highlighter loads.
 
-**Add or redraw a diagram.** One file in
-`packages/frontend/assets/diagrams/`, shapes in `<g id="soul-ref">`, every
-colour written `var(--token, #light)`, then `make diagrams`. There is no dark
-copy: a page references the drawing, and it reads that page's tokens.
+**Add or redraw a diagram.** Write `<name>.diagram` in
+`packages/frontend/assets/diagrams/`, then `make diagrams`: the engine in
+`packages/frontend/src/lib/diagram/` draws `<name>.svg` from it in the
+grammar, and refuses what the grammar forbids. The stories under
+`stories/diagrams/` show each layout's text, and
+`docs/design-system/diagrams/writing.rst` is the syntax. A page writes the
+same text between the tags of `<sds-diagram>`, not an `<img>` of the file. With no spec, you draw the file
+by hand: shapes in `<g id="soul-ref">`, every colour written
+`var(--token, #light)`. There is no dark copy: a page references the
+drawing, and it reads that page's tokens.
 
 **Take a screenshot for a story.** `make look ARGS='specimens/screens/<name>.html
 1440 light <scroll>'` photographs a screen as a window at that scroll, into

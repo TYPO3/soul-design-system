@@ -27,6 +27,7 @@ import { type MenuEntry } from '../../packages/frontend/src/components/nav-base.
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
+import { shipped } from '../lib/diagram.ts';
 
 const TRAIL: readonly Crumb[] = [
   { label: 'Overview', href: '#' },
@@ -96,12 +97,7 @@ export function articlePage({ flat = false }: PageMode = {}): TemplateResult {
 
       <sds-byline name="Benjamin Kott" as="maintainer" meta="24${NNBSP}July 2026 · 6${NNBSP}min"></sds-byline>
 
-      <sds-figure
-        src="assets/diagrams/installation-fallback.svg"
-        alt="Three paths through the registry: the console command and the booted runtime return every entry, the package-file fallback returns the declared ones and none of the dynamically registered ones."
-        caption="Each square is one entry the registry can return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that."
-        zoomable
-      ></sds-figure>
+      <sds-figure caption="Each square is one entry the registry can return. The fallback returns every declared entry and none of the dynamic ones — and the answer states that.">${shipped('installation-fallback')}</sds-figure>
 
       <h2 class="sds-h3" id="fallback">The fallback</h2>
       <p>

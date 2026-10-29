@@ -15,6 +15,38 @@
     display: block;
     margin-block: var(--space-components);
   }
+  /* A slide that shrinks to its column takes the column's width as its
+     zoom, so it draws at its final size before a script runs. The browser
+     skips a slide out of sight, so a long deck costs a page only what is in
+     view. Until first seen, it holds the height of a frame in a column. */
+  sds-slide[shrink] {
+    --sds-slide-unseen: 506px;
+
+    container-type: inline-size;
+    content-visibility: auto;
+    contain-intrinsic-block-size: auto var(--sds-slide-unseen);
+  }
+  /* A browser that cannot divide a length measures the column in a script.
+     Until it runs, the slide holds its height and shows nothing. */
+  @supports not (zoom: calc(100cqi / 1px)) {
+    @media (scripting: enabled) {
+      sds-slide[shrink]:not(:defined) {
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+
+        > .sds-slide {
+          visibility: hidden;
+        }
+      }
+    }
+  }
+  /* What a slide holds shrinks in a script until it fits. Until then it
+     shows nothing, so no text stands over the head for a moment. */
+  @media (scripting: enabled) {
+    sds-slide:not([fitted]) .sds-slide__fit:not(:has(.sds-diagram > svg)) {
+      visibility: hidden;
+    }
+  }
   /* A fitted slide stands alone on its stage and takes the stage's room. A
      step there pushes the frame past the room it measured. */
   sds-slide[fit] {
@@ -72,6 +104,11 @@
     --sds-slide-eyebrow-edge: transparent;
     --sds-slide-frame-footed: var(--sds-slide-pad-footed);
     --sds-slide-head-gap: var(--space-2);
+    /* The head's lead, and a rule under the head where a layout draws one. */
+    --sds-slide-lead-size: var(--font-size-lead);
+    --sds-slide-lead-measure: var(--measure-lead);
+    --sds-slide-head-under: 0;
+    --sds-slide-head-rule: 0;
     /* The word over a drawing, and the lockup's own gap on a cover. */
     --sds-slide-label-gap: var(--space-2);
     --sds-slide-lockup-gap: var(--space-4);
@@ -135,14 +172,36 @@
     --sds-slide-drawing-rows: none;
     --sds-slide-drawing-pad: 0;
     --sds-slide-drawing-position: center;
+    /* Where markup in the picture's place stands in the height of its room. */
+    --sds-slide-art-place: flex-start;
     /* A picture fits its room whole, unless it runs to the edges. */
     --sds-slide-drawing-fit: contain;
     --sds-slide-drawing-edge: transparent;
     --sds-slide-drawing-fill: transparent;
     --sds-slide-drawing-radius: var(--radius-card);
+    /* The word over a drawing of a row: the name of what it shows, as a
+       title of the drawing. */
+    --sds-slide-word-size: var(--font-size-body);
+    --sds-slide-word-weight: var(--weight-semibold);
+    --sds-slide-word-ink: var(--text-primary);
     --sds-slide-caption-size: var(--font-size-small);
     --sds-slide-caption-leading: var(--leading-snug);
     --sds-slide-caption-ink: var(--text-secondary);
+    /* The key of a drawing at the right of the title. */
+    --sds-slide-legend-size: var(--font-size-small);
+    --sds-slide-legend-ink: var(--text-secondary);
+    --sds-slide-legend-gap: var(--space-4);
+    --sds-slide-key-gap: var(--space-1-5);
+    --sds-slide-key-size: var(--space-3);
+    --sds-slide-key-font: var(--font-mono);
+    --sds-slide-key-weight: var(--weight-semibold);
+    --sds-slide-key-ink: var(--text-primary);
+    --sds-slide-key-mono-ink: var(--text-muted);
+    --sds-slide-key-edge: var(--border-hairline);
+    --sds-slide-key-radius: var(--radius-control);
+    --sds-slide-key-square-radius: var(--radius-none);
+    --sds-slide-key-plate: var(--surface-sunken);
+    --sds-slide-key-plate-edge: var(--border-strong);
 
     position: relative;
     box-sizing: border-box;
@@ -152,6 +211,12 @@
     width: var(--sds-slide-width);
     height: var(--sds-slide-height);
     zoom: var(--sds-slide-zoom);
+
+    @supports (zoom: calc(100cqi / 1px)) {
+      sds-slide[shrink] > & {
+        zoom: min(var(--sds-slide-zoom), calc(100cqi / var(--sds-slide-width)));
+      }
+    }
     padding: var(--sds-slide-frame-pad);
     padding-top: var(--sds-slide-frame-top);
     /* A hairline, like every surface that stays on the page. A slide on a
@@ -183,6 +248,18 @@
        step wherever it stands in the body. */
     > .sds-slide__body {
       --sds-stat-step: display;
+
+      /* A card stands on the paper white, a sheet on the slide's ground. Its
+         title takes the lead step under the slide's, and its id reads at
+         the text's size, not as a label. */
+      .sds-card {
+        --sds-card-fill: var(--surface-raised);
+        --sds-card-title-size: var(--font-size-lead);
+      }
+      .sds-card__body > .sds-row > .sds-label {
+        --sds-label-font-size: calc(var(--font-size-body) * var(--font-modifier-mono));
+        --sds-label-tracking: var(--tracking-body);
+      }
     }
   }
   /* A display slide stands its title in the middle of the height its foot
@@ -250,6 +327,13 @@
     display: flex;
     flex-direction: column;
     gap: var(--sds-slide-head-gap);
+    padding-block-end: var(--sds-slide-head-under);
+    border-block-end: var(--sds-slide-head-rule) solid var(--sds-slide-edge);
+
+    > .sds-lead {
+      max-width: var(--sds-slide-lead-measure);
+      font-size: var(--sds-slide-lead-size);
+    }
 
     > * {
       margin: 0;
@@ -286,6 +370,57 @@
       margin-block-end: 0;
     }
   }
+
+  /* A legend stands at the right of the title, on its line. */
+  .sds-slide__head:has(> .sds-slide__legend) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+
+    > * {
+      grid-column: 1 / -1;
+    }
+    > :is(h1, h2) {
+      grid-column: 1;
+    }
+    > .sds-slide__legend {
+      grid-column: 2;
+      align-self: center;
+    }
+  }
+  .sds-slide__legend {
+    display: flex;
+    gap: var(--sds-slide-legend-gap);
+    font-size: var(--sds-slide-legend-size);
+    color: var(--sds-slide-legend-ink);
+  }
+  .sds-slide__entry {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sds-slide-key-gap);
+  }
+  .sds-slide__key {
+    font-family: var(--sds-slide-key-font);
+    font-weight: var(--sds-slide-key-weight);
+    color: var(--sds-slide-key-mono-ink);
+  }
+  .sds-slide__key--filled,
+  .sds-slide__key--outlined {
+    inline-size: var(--sds-slide-key-size);
+    block-size: var(--sds-slide-key-size);
+    border: var(--sds-slide-key-edge) solid var(--sds-slide-key-ink);
+    border-radius: var(--sds-slide-key-square-radius);
+  }
+  .sds-slide__key--filled {
+    background: var(--sds-slide-key-ink);
+  }
+  .sds-slide__key--plate {
+    padding-inline: var(--sds-slide-key-gap);
+    border: var(--sds-slide-key-edge) solid var(--sds-slide-key-plate-edge);
+    border-radius: var(--sds-slide-key-radius);
+    background: var(--sds-slide-key-plate);
+    color: var(--sds-slide-key-ink);
+  }
+
   /* The body's own height is where it starts. A basis of zero leaves a body
      that does not grow as tall as nothing, and what it holds hangs out of it. */
   .sds-slide__body {
@@ -361,9 +496,12 @@
     border-radius: var(--sds-slide-drawing-radius);
     background: var(--sds-slide-drawing-fill);
 
-    > .sds-label {
+    > .sds-slide__word {
       grid-row: 1;
       margin: 0;
+      font-size: var(--sds-slide-word-size);
+      font-weight: var(--sds-slide-word-weight);
+      color: var(--sds-slide-word-ink);
     }
     sds-image {
       grid-row: 2;
@@ -381,6 +519,46 @@
       min-height: 0;
       display: flex;
       flex-direction: column;
+      justify-content: var(--sds-slide-art-place);
+
+      /* The room the slide lends a drawing is the art's whole box. A step
+         over and under it shrinks the drawing that fills it. A built page
+         holds the drawing without its element. */
+      :is(sds-diagram, .sds-diagram) {
+        margin-block: 0;
+      }
+      /* A built page can hold a second drawing for a deck's stage. Each
+         shows only where its room is the slide's. */
+      .sds-diagram > [data-room="stage"] {
+        display: none;
+      }
+    }
+    sds-slide[fit] & > .sds-slide__art .sds-diagram {
+      > [data-room="page"] {
+        display: none;
+      }
+      > [data-room="stage"] {
+        display: block;
+      }
+    }
+    /* A built drawing fits by its own viewBox. It takes the art's width
+       and no more height than the art has, and its shapes stand centred
+       in that box. So it paints fitted, with no script. */
+    .sds-slide__fit:has(.sds-diagram > svg) {
+      flex: 1 1 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: var(--sds-slide-art-place);
+
+      :is([slot], .sds-diagram, .sds-diagram > svg) {
+        min-height: 0;
+        flex: 0 1 auto;
+      }
+      :is([slot], .sds-diagram) {
+        display: flex;
+        flex-direction: column;
+      }
     }
     .sds-slide__fit:has(> :is(svg, img, sds-image, picture):only-child) {
       flex: 1 1 0;
@@ -435,6 +613,8 @@
      its place and stands on a plate over the drawing. The head stays for a
      reader who hears the slide and for the deck's list, and nobody sees it. */
   .sds-slide--full {
+    /* Nobody sees the head, so the drawing stands in the middle of the room. */
+    --sds-slide-art-place: center;
     --sds-slide-frame-pad: var(--space-4);
     --sds-slide-frame-top: var(--space-4);
     --sds-slide-frame-footed: var(--space-4);
@@ -448,6 +628,25 @@
       overflow: hidden;
       clip-path: inset(50%);
       white-space: nowrap;
+    }
+  }
+
+  /* The drawing takes the frame under a short head: the eyebrow in the
+     accent, the title, a small lead and a rule. On paper the accent is too
+     light for text, so the eyebrow takes the quiet accent ink there. The foot
+     has no lockup, so the drawing runs down to the count's plate. */
+  .sds-slide--headed {
+    --sds-slide-frame-footed: var(--space-6);
+    --sds-slide-count-fill: var(--sds-slide-plate-fill);
+    --sds-slide-count-edge: var(--sds-slide-plate-edge);
+    --sds-slide-head-under: var(--space-4);
+    --sds-slide-head-rule: var(--sds-slide-rule);
+    /* One line across the frame, as the drawing under it runs. */
+    --sds-slide-lead-size: var(--font-size-small);
+    --sds-slide-lead-measure: none;
+
+    > .sds-slide__head .sds-eyebrow {
+      --sds-eyebrow-ink: light-dark(var(--text-accent-quiet), var(--accent));
     }
   }
 

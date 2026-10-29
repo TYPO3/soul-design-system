@@ -15,6 +15,7 @@ import '../../packages/frontend/src/components/grid.ts';
 import '../../packages/frontend/src/components/stat.ts';
 import '../../packages/frontend/src/components/quote.ts';
 import { OUTLINE, place, slide } from '../lib/deck.ts';
+import { shipped } from '../lib/diagram.ts';
 
 /* The element alone, written as the layouts write it: the settings as
    attributes, what it says and shows in its regions. */
@@ -31,7 +32,7 @@ const meta: Meta<SlideProps> = {
     kind: { control: 'select', options: ['cover', 'speaker', 'section', 'statement', 'content', 'closing', 'figure'] },
     src: { control: 'text' },
     portrait: { control: 'text' },
-    layout: { control: 'select', options: ['wide', 'full', 'row', 'text-start'] },
+    layout: { control: 'select', options: ['wide', 'full', 'headed', 'row', 'text-start'] },
     bleed: { control: 'boolean' },
     plain: { control: 'boolean' },
     framed: { control: 'boolean' },
@@ -135,8 +136,7 @@ export const Figure: Story = {
     eyebrow: place(2),
     heading: 'One key for two languages',
     note: 'The German call fills the slot, and the English call answers from it, in German.',
-    src: 'assets/diagrams/slide-lookup.svg',
-    alt: 'A German call writes the slot of a key. An English call for the same key reads it and answers in German.',
+    body: shipped('slide-lookup', { slot: 'figure' }),
     number: '07',
   },
 };
@@ -156,6 +156,23 @@ export const FigureFull: Story = {
   },
 };
 
+/** `headed`: the picture takes the frame under a short head. The eyebrow
+    stands in the quiet accent ink, the lead is small and a rule closes the
+    head. The count stands on its plate, and the foot has no lockup. */
+export const FigureHeaded: Story = {
+  name: 'Figure, headed',
+  args: {
+    kind: 'figure',
+    layout: 'headed',
+    eyebrow: place(1),
+    heading: 'A page of the manual',
+    lead: 'The bar, the column of pages, the page and its contents.',
+    src: 'assets/screenshots/documentation.png',
+    alt: 'A page of the manual at the width of a desk. The bar, the column of pages, the page and its contents.',
+    number: '06',
+  },
+};
+
 /** `row` with `framed`: pictures side by side, each on its plane under its
     word, with its caption. */
 export const FigureRow: Story = {
@@ -167,9 +184,9 @@ export const FigureRow: Story = {
     eyebrow: place(2),
     heading: 'One key for two languages',
     drawings: [
-      { src: 'assets/diagrams/slide-cache-write.svg', alt: 'The German call writes the slot of its key.', label: 'A call writes', caption: 'The first call fills the slot in the language it names.' },
-      { src: 'assets/diagrams/slide-cache-slots.svg', alt: 'Three slots of the array, one for each key.', label: 'The key holds no language', caption: 'One slot for each key, whatever language the next call names.' },
-      { src: 'assets/diagrams/slide-cache-read.svg', alt: 'The English call reads the same slot and answers in German.', label: 'The next call reads it', caption: 'The English call answers in German. The key must name both.' },
+      { content: shipped('slide-cache-write', { zoomable: false }), label: 'A call writes', caption: 'The first call fills the slot in the language it names.' },
+      { content: shipped('slide-cache-slots', { zoomable: false }), label: 'The key holds no language', caption: 'One slot for each key, whatever language the next call names.' },
+      { content: shipped('slide-cache-read', { zoomable: false }), label: 'The next call reads it', caption: 'The English call answers in German. The key must name both.' },
     ],
     number: '10',
   },
@@ -183,9 +200,7 @@ export const FigureTextStart: Story = {
     layout: 'text-start',
     eyebrow: place(2),
     heading: 'Five sources',
-    src: 'assets/diagrams/slide-sources.svg',
-    alt: 'Five sources against what the machine has to run. Bundled knowledge and the checkout need nothing. Packages need files on disk, the installation a booted site, the network outbound reach.',
-    body: html`<p>Each source needs a part of the machine before it answers.</p><ul class="sds-list"><li>Bundled knowledge needs nothing.</li><li>Packages need files on disk.</li><li>The installation needs a booted site.</li></ul>`,
+    body: html`<p>Each source needs a part of the machine before it answers.</p><ul class="sds-list"><li>Bundled knowledge needs nothing.</li><li>Packages need files on disk.</li><li>The installation needs a booted site.</li></ul>${shipped('slide-sources', { slot: 'figure' })}`,
     number: '06',
   },
 };

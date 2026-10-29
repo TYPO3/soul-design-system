@@ -397,6 +397,209 @@ test.describe('what the theme repaired', () => {
     await expect(page).toHaveURL(/index\.html$/);
   });
 
+  /* A generic admonition with a type in its class is that type, with the
+     author's heading. */
+  test('an admonition with a type in its class takes that tone and its heading', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    await expect(page.locator('sds-note[tone="warn"][heading="A warning with a heading of its own"]')).toHaveCount(1);
+  });
+
+  test('a :name: on a directive of the theme is a target of :ref:', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    await expect(page.locator('main a[href="#core-or-extension"]')).toHaveText('Core or extension?');
+    await expect(page.locator('main a[href="#select-the-theme"]', { hasText: 'the step that selects the theme' })).toHaveCount(1);
+  });
+
+  test('a diagram reads its text from a file beside the document', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    await expect(page.locator('.sds-diagram svg title', { hasText: 'Needs read from a file' })).toHaveCount(1);
+    const figure = page.locator('sds-figure', { has: page.locator('.sds-diagram svg title', { hasText: 'Needs read from a file' }) });
+    await expect(figure.locator('figcaption')).toHaveText('With a caption, the drawing stands in a figure.');
+  });
+
+  test('a table with the class compact is the compact density', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    const table = page.locator('sds-table', { has: page.locator('th', { hasText: 'What it does' }) });
+    await expect(table).toHaveAttribute('density', 'compact');
+  });
+
+  /* A state in a line keeps its tone, and a word that is no tone keeps
+     the badge neutral. */
+  test('a badge role draws the badge with its tone', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    await expect(page.locator('sds-badge[label="Closed"][tone="ok"]')).toHaveCount(1);
+    await expect(page.locator('sds-badge[label="Blocked"][tone="error"]')).toHaveCount(1);
+    await expect(page.locator('sds-badge[label="New"]:is(:not([tone]), [tone="default"])')).toHaveCount(1);
+  });
+
+  /* An address in a table cell is a target a reference reaches. */
+  test('an anchor in a cell is a target of a reference', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    await expect(page.locator('td span#step-p2')).toHaveText('P2');
+    await expect(page.locator('td a[href$="#step-p2"]:not(.sds-mono)')).toHaveText('P2');
+    /* `:id:` is the same reference, in mono. */
+    await expect(page.locator('td a.sds-mono[href$="#step-p2"]')).toHaveText('P2');
+  });
+
+  /* A paper names its author under its title. */
+  test('a byline names who wrote the page', async ({ page }) => {
+    await page.goto(`${ACCEPTANCE_URL}/paper.html`, { waitUntil: 'load' });
+    await expect(page.locator('main sds-byline')).toHaveAttribute('name', 'Benjamin Kott');
+    await expect(page.locator('main sds-byline')).toHaveAttribute('as', 'responsible for the content');
+    expect(readFileSync(join(ACCEPTANCE_DIR, 'paper.md'), 'utf8')).toContain('Benjamin Kott · responsible for the content · draft 1');
+  });
+
+  /* A share draws its bar, as long as the part is of the whole. */
+  test('a stat with a bar draws its share', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    /* The share stands on the figure's box, where the set mixes the fill. */
+    const share = page.locator('sds-stat[bar][value="2"][of="6"] .sds-stat');
+    await expect(share).toHaveAttribute('style', /--sds-stat-at: 33\.3/);
+    await expect(share.locator('.sds-stat__bar')).toHaveCount(1);
+    /* A list puts the name and the count over the bar. */
+    const listed = page.locator('sds-stat[list][value="22"][of="29"]');
+    await expect(listed.locator('.sds-stat__head .sds-stat__count')).toHaveText('22\u00a0of\u00a029');
+    await expect(listed.locator('.sds-stat__bar')).toHaveCount(1);
+  });
+
+  /* A list table gives each column its role, the head included. */
+  test('a list table gives each column the role it names', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    const table = page.locator('sds-table:has(caption:text("A list table"))');
+    await expect(table.locator('thead th').first()).toHaveClass('sds-td-name sds-td-fit');
+    await expect(table.locator('tbody tr').first().locator('td').nth(1)).not.toHaveAttribute('class', /sds-td/);
+    await expect(table.locator('tbody tr').first().locator('td').nth(2)).toHaveClass('sds-td-meta');
+    /* A grid table keeps its title and its roles, and spans a group row. */
+    const grid = page.locator('sds-table:has(caption:text("A grid table"))');
+    await expect(grid.locator('tbody td[colspan="3"]').first()).toHaveText('Edit');
+    await expect(grid.locator('thead th').last()).toHaveClass('sds-td-meta');
+  });
+
+  /* A card that carries a state draws the sign of the drawings for it and
+     says its meaning, on the page and in the twin. */
+  test('a card with a sign says its state', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    const sign = page.locator('sds-card[sign="partly"] svg.sds-card__sign');
+    await expect(sign).toHaveAttribute('role', 'img');
+    await expect(sign).toHaveAttribute('aria-label', 'in part');
+    await expect(page.locator('sds-grid:has(sds-card[sign])')).toHaveAttribute('columns', '2');
+    const twin = readFileSync(join(ACCEPTANCE_DIR, 'index.md'), 'utf8');
+    expect(twin).toContain('P6 · **Set headings and the alignment** (in part)');
+  });
+
+  /* A paper goes out on its own. The frame is its panel, and nothing of a
+     site stands around it: no bar, no footer, no second list of its parts. */
+  test('a paper has its outline in a panel and no bar of a site', async ({ page }) => {
+    await page.goto(`${ACCEPTANCE_URL}/paper.html`, { waitUntil: 'load' });
+    await expect(page.locator('sds-nav-main')).toHaveCount(0);
+    await expect(page.locator('footer')).toHaveCount(0);
+    await expect(page.locator('sds-nav-toc')).toHaveCount(0);
+    const panel = page.locator('.sds-paper > aside.sds-paper__panel');
+    await expect(panel.locator('sds-eyebrow')).toHaveAttribute('label', 'Concept · the fixture');
+    await expect(panel.locator('.sds-paper__title')).toHaveText('Paper');
+    await expect(page.locator('main sds-eyebrow + h1')).toHaveCount(1);
+    await expect(panel.locator('.sds-paper__foot > p')).toHaveText(['Draft 1, for the check', 'Two lines, one field each']);
+    const entries = JSON.parse((await panel.locator('sds-nav-outline').getAttribute('entries')) ?? '[]') as { label: string; href: string; items?: unknown[] }[];
+    /* A part groups the sections from the one it begins on, and its name
+       stands over that heading. */
+    expect(entries.map((e) => e.label)).toEqual(['Ask', 'Propose']);
+    expect(entries[0]?.items?.length).toBe(1);
+    expect(entries[1]?.items?.length).toBe(1);
+    for (const { href } of entries) await expect(page.locator(href)).toHaveCount(1);
+    await expect(page.locator('#the-question > sds-eyebrow + h2')).toHaveCount(1);
+    /* The same paper as Markdown and the colour mode, on one row. */
+    await expect(panel.locator('.sds-paper__foot > .sds-row > sds-theme:first-child')).toHaveCount(1);
+    await expect(panel.locator('.sds-paper__foot > .sds-row > sds-button a')).toHaveAttribute('href', 'paper.md');
+    await expect(panel.locator('.sds-paper__foot > .sds-row > sds-button a')).toHaveAttribute('target', '_blank');
+    await expect(page.locator('main.sds-paper__main#main-content sds-decision')).toHaveCount(1);
+
+    /* A counted paper: the number is text in the heading and the outline,
+       a caption counts on its own, and a reference names the number. */
+    await expect(page.locator('#the-question h2 .sds-section__number')).toHaveText('1');
+    await expect(panel.locator('sds-nav-outline')).toHaveAttribute('numbered', '');
+    expect(entries[0]?.items?.[0]).toMatchObject({ label: 'Question' });
+    await expect(page.locator('main caption')).toContainText('Table 1 · What a reader weighs');
+    await expect(page.locator('main a[href="#the-proposal"]').first()).toHaveText('the proposal (section 2)');
+    await expect(page.locator('main a[href="#the-proposal"]').nth(1)).toHaveText('section 2');
+  });
+
+  /* The slides of a paper stand in its text as pictures of the column. The
+     press under the title plays them, and a slide with a caption is a figure. */
+  test('a paper with a deck plays the slides of its text', async ({ page }) => {
+    await page.goto(`${ACCEPTANCE_URL}/paper.html`, { waitUntil: 'load' });
+    const main = page.locator('main.sds-paper__main');
+    await expect(main.locator('sds-slide[kind="cover"][ground="terminal"][shrink]')).toHaveCount(1);
+    await expect(main.locator('sds-slide[kind="section"]')).toHaveAttribute('sections', '["Ask","Propose"]');
+    await expect(main.locator('sds-slide[kind="section"]')).toHaveAttribute('current', '0');
+    await expect(main.locator('sds-figure:has(sds-slide[kind="figure"])')).toHaveAttribute('caption', /^Figure 1 · The needs, met and open/);
+    await expect(main.locator('sds-slide[kind="figure"] .sds-slide__art .sds-diagram')).toHaveCount(4);
+    await expect(main.locator('a[href="#figure-needs"]')).toHaveText('the figure (figure 1)');
+    /* The count follows the order, also for a slide a figure puts back. */
+    const numbers = await main.locator('sds-slide').evaluateAll((all) => all.map((one) => one.getAttribute('number')));
+    expect(numbers).toEqual([null, '02', '03', '04', '05', '06', null, '07']);
+    /* A row stands its drawings side by side, each under its label. */
+    const row = main.locator('sds-slide[layout="row"]');
+    await expect(row.locator('.sds-slide__drawing')).toHaveCount(2);
+    await expect(row.locator('.sds-slide__drawing .sds-slide__word').first()).toHaveText('Before');
+    /* A table in a slide keeps its rows after the slide upgrades. */
+    const tabled = main.locator('sds-slide[heading="A table on a slide"]');
+    await expect(tabled.locator('table tbody tr')).toHaveCount(1);
+    await expect(tabled.locator('table thead th').first()).toHaveText('Role');
+    /* A slide of the page alone has no place in the deck. */
+    await expect(main.locator('sds-slide[page-only]')).toHaveCount(1);
+    /* A picture alone on a figure slide is the slide's own, with no frame of its own. */
+    const pictured = main.locator('sds-slide[heading="A picture on a slide"]');
+    await expect(pictured).toHaveAttribute('src', /placeholder\.svg$/);
+    await expect(pictured.locator('sds-figure')).toHaveCount(0);
+    await expect(pictured.locator('sds-image')).toHaveCount(1);
+    /* Each slide fits its column. */
+    for (const slide of await main.locator('sds-slide').all()) {
+      const [outer, inner] = await Promise.all([slide.boundingBox(), slide.locator('.sds-slide').boundingBox()]);
+      expect(inner?.width ?? Infinity).toBeLessThanOrEqual((outer?.width ?? 0) + 0.5);
+    }
+
+    const panel = page.locator('aside.sds-paper__panel');
+    await expect(panel.locator('sds-deck#paper-deck')).toHaveAttribute('from', 'main-content');
+    await expect(panel.locator('sds-deck#paper-deck')).toHaveAttribute('label', 'The fixture · slides');
+    await panel.locator('sds-button[for="paper-deck"]').click();
+    await expect(page.locator('sds-deck#paper-deck .sds-deck__goto')).toHaveValue('1');
+    await expect(page.locator('sds-deck#paper-deck .sds-deck__count')).toContainText('/ 7');
+    /* A slide on the stage keeps the number of its place in the page. */
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator('sds-deck#paper-deck .sds-deck__stage sds-slide')).toHaveAttribute('number', '03');
+  });
+
+  /* Before its script runs, a slide in a column holds the height it keeps.
+     So the page does not move when the script shrinks it. */
+  test('a slide holds its height before its script runs', async ({ page }) => {
+    let release = (): void => {};
+    const held = new Promise<void>((resolve) => (release = resolve));
+    await page.route('**/soul.js', async (route) => {
+      await held;
+      await route.continue();
+    });
+    await page.goto(`${ACCEPTANCE_URL}/paper.html`, { waitUntil: 'commit' });
+    const heights = (): Promise<number[]> => page.locator('main sds-slide').evaluateAll((all) => all.map((one) => Math.round(one.getBoundingClientRect().height)));
+    await expect.poll(async () => (await heights()).length).toBeGreaterThan(0);
+    expect(await page.evaluate(() => customElements.get('sds-slide'))).toBeUndefined();
+    const before = await heights();
+    release();
+    await page.waitForFunction(() => customElements.get('sds-slide'));
+    await page.waitForTimeout(300);
+    const after = await heights();
+    after.forEach((height, i) => expect(Math.abs(height - (before[i] ?? 0)), `slide ${i}`).toBeLessThanOrEqual(2));
+  });
+
+  /* Markup between the tags of `codemode` stands in the page as written,
+     and the twin prints it as a block of HTML. */
+  test('codemode passes its markup through', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    await expect(page.locator('sds-note[heading="Written as markup"] code')).toHaveText('codemode');
+    const twin = readFileSync(join(ACCEPTANCE_DIR, 'index.md'), 'utf8');
+    expect(twin).toContain('```html\n<sds-note tone="info" heading="Written as markup">');
+  });
+
   test('the end of the site says which site it is the end of', async ({ page }) => {
     /* The bar is long gone by the time a reader is down here. A footer that
        opens with a column of links reads as more navigation. The mark and the
@@ -938,7 +1141,8 @@ test.describe('what the theme repaired', () => {
        dark line art on nothing, which on this system's dark ground is a page
        in contradiction with the picture it shows. Every frame around one
        therefore carries the ground drawn for those colours. */
-    const frames = page.locator('.sds-prose sds-figure .sds-figure__frame');
+    /* A diagram in a figure draws in the page's tokens, so it needs no ground. */
+    const frames = page.locator('.sds-prose sds-figure:not(:has(.sds-diagram)) .sds-figure__frame');
     expect(await frames.count()).toBeGreaterThan(0);
     for (const frame of await frames.all()) {
       await expect(frame).toHaveClass(/sds-figure__frame--exported/);
@@ -1184,12 +1388,12 @@ test.describe('what the theme repaired', () => {
        card's, which has a ground of its own, and the viewer's copy, which has
        one too. */
     await expect(page.locator('.sds-prose img:not(.sds-figure__frame img):not(.sds-lightbox__art img):not(.sds-card__media img)')).toHaveCount(0);
-    const framed = page.locator('.sds-prose sds-figure .sds-figure__frame');
+    const framed = page.locator('.sds-prose sds-figure:not(:has(.sds-diagram)) .sds-figure__frame');
     await expect(framed).toHaveCount(6);
 
     /* And what separates them. The caption is the claim, so the one picture
        that makes none draws without one rather than under an empty line. */
-    await expect(page.locator('.sds-prose .sds-figure__caption')).toHaveCount((await framed.count()) - 1);
+    await expect(page.locator('.sds-prose sds-figure:not(:has(.sds-diagram)) .sds-figure__caption')).toHaveCount((await framed.count()) - 1);
   });
 
   test('a picture opens at full size only where the page asked for it', async ({ page }) => {
@@ -1223,14 +1427,16 @@ test.describe('what the theme repaired', () => {
        alternative is a reference to part of the file with `<use>`. That draws
        nothing at all where the part is absent or the browser has not shipped
        SVG 2's fragmentless form. A hole is not a failure a reader can see. So
-       every picture in the prose is an image, and none is a reference. */
+       every picture in the prose is an image, and none is a reference. A
+       drawing of the engine is the one exception: the build wrote its file
+       and the group the reference names. */
     const pictures = page.locator('.sds-prose sds-figure .sds-figure__frame img.sds-art');
     expect(await pictures.count()).toBeGreaterThan(0);
     /* Scoped to where a picture stands. A glyph inlines into the page and
        reaches its own sprite with `<use>` — the viewer's close is one, inside
        the figure that owns it. That is a different mechanism on a file this
        build wrote. */
-    await expect(page.locator('.sds-figure__frame use, .sds-card__media use, .sds-lightbox__art use')).toHaveCount(0);
+    await expect(page.locator(':is(.sds-figure__frame, .sds-card__media, .sds-lightbox__art) svg:not(.sds-diagram > svg) use')).toHaveCount(0);
 
     /* The one whose file has no group at all included, which is the case
        this used to lose. */
@@ -1886,5 +2092,41 @@ test.describe('the markdown twin', () => {
       }
     }
     expect(wrong).toEqual([]);
+  });
+});
+
+/* The element draws a text live. A built page needs none of that: the finish
+   step puts each drawing in a file and leaves a reference in its place. */
+test.describe('the drawings of a built page', () => {
+  test('a built page holds no diagram element, and every drawing it refers to is a file', () => {
+    for (const dir of [SITE_DIR, ACCEPTANCE_DIR]) {
+      for (const path of pages(dir)) {
+        const html = readFileSync(join(dir, path), 'utf8');
+        /* A drawing a press zooms keeps its element: the viewer is its work. */
+        const live = [...html.matchAll(/<sds-diagram(?![-\w])([^>]*)>/g)].filter((found) => !/\szoomable/.test(found[1] ?? ''));
+        expect(live, `${path} keeps a diagram element`).toHaveLength(0);
+        for (const [, href = ''] of html.matchAll(/<use href="([^"#]*_diagrams\/[^"#]+)#soul-ref"/g)) {
+          const file = resolve(dirname(join(dir, path)), href);
+          expect(existsSync(file), `${path} → ${href}`).toBe(true);
+          expect(readFileSync(file, 'utf8'), `${href} holds the group the page names`).toContain('<g id="soul-ref">');
+        }
+      }
+    }
+  });
+
+  test('a referenced drawing turns with the mode of the page', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    const drawing = page.locator('.sds-diagram', { has: page.locator('svg title', { hasText: 'Needs read from a file' }) });
+    await expect(drawing.locator('use')).toHaveCount(1);
+    await drawing.scrollIntoViewIfNeeded();
+    await page.evaluate(() => {
+      document.documentElement.dataset['theme'] = 'light';
+    });
+    const light = await drawing.screenshot();
+    await page.evaluate(() => {
+      document.documentElement.dataset['theme'] = 'dark';
+    });
+    const dark = await drawing.screenshot();
+    expect(dark.equals(light), 'the shapes read the page tokens').toBe(false);
   });
 });

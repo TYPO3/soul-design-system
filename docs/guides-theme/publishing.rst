@@ -31,6 +31,9 @@ of these the hard way:
   copied **whole**;
 - every element on the page drawn before the browser. Otherwise a reader
   with no script gets an empty box where a card belongs;
+- every diagram as a file in ``_diagrams/``. The page keeps a reference to
+  it, which reads the page's colours, and no element. The step draws a
+  drawing on a slide for the room the slide gives it;
 - ``_search.json``, because the field in the bar fetches an index nothing in
   the render writes.
 

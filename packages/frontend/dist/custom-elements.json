@@ -503,6 +503,22 @@
               "fieldName": "rel"
             },
             {
+              "name": "download",
+              "description": "The name a press saves the file under, rather than opens it. Only with `href`: a link to a file, or to a file a page made itself.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "download"
+            },
+            {
+              "name": "target",
+              "description": "Where the link opens: `_blank` for a window of its own. Only with `href`, as the anchor's own attribute.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "target"
+            },
+            {
               "name": "for",
               "description": "The id of what this button acts on — the label element's spelling for the same relationship, which a reader of the markup already knows.",
               "type": {
@@ -597,6 +613,26 @@
                 "text": "string"
               },
               "attribute": "rel"
+            },
+            {
+              "kind": "field",
+              "name": "download",
+              "privacy": "public",
+              "description": "The name a press saves the file under, rather than opens it. Only with `href`: a link to a file, or to a file a page made itself.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "download"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "privacy": "public",
+              "description": "Where the link opens: `_blank` for a window of its own. Only with `href`, as the anchor's own attribute.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "target"
             },
             {
               "kind": "field",
@@ -902,6 +938,14 @@
               "fieldName": "icon"
             },
             {
+              "name": "sign",
+              "description": "The state of what the card stands for, measured: `yes`, `partly`, `no` or `unknown`. The sign the drawings use for it, at the end of the label line, and its meaning in words for a reader who hears it.",
+              "type": {
+                "text": "'yes' | 'partly' | 'no' | 'unknown'"
+              },
+              "fieldName": "sign"
+            },
+            {
               "name": "footer",
               "description": "One line under a hairline: what the reader gets there, who it is for, what state it is in. A label register, so it does not compete.",
               "type": {
@@ -1001,6 +1045,16 @@
             },
             {
               "kind": "field",
+              "name": "sign",
+              "privacy": "public",
+              "description": "The state of what the card stands for, measured: `yes`, `partly`, `no` or `unknown`. The sign the drawings use for it, at the end of the label line, and its meaning in words for a reader who hears it.",
+              "type": {
+                "text": "'yes' | 'partly' | 'no' | 'unknown'"
+              },
+              "attribute": "sign"
+            },
+            {
+              "kind": "field",
               "name": "footer",
               "privacy": "public",
               "description": "One line under a hairline: what the reader gets there, who it is for, what state it is in. A label register, so it does not compete.",
@@ -1030,6 +1084,7 @@
             "sds-card__media",
             "sds-card__media--exported",
             "sds-card__note",
+            "sds-card__sign",
             "sds-card__text",
             "sds-card__title",
             "sds-label",
@@ -2389,6 +2444,7 @@
             "sds-deck__entry-line",
             "sds-deck__entry-title",
             "sds-deck__ghost",
+            "sds-deck__goto",
             "sds-deck__list",
             "sds-deck__main",
             "sds-deck__nav",
@@ -2427,6 +2483,138 @@
           "declaration": {
             "name": "SdsDeck",
             "module": "src/components/deck.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/diagram.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsDiagram",
+          "tagName": "sds-diagram",
+          "summary": "A drawing from the text that describes it, and only that.",
+          "description": "A drawing from the text that describes it, and only that.\n\nThe text stands between the tags, as a `.diagram` file holds it, or in `source` from a script. The element draws it inline, so the colours are the page's tokens and the drawing turns with the mode. The faces are the page's too. A frame and a caption are the figure's: put the element in an `sds-figure`. Node renders it before a page ships. A text the grammar refuses draws the refusal, with the line it names.",
+          "attributes": [
+            {
+              "name": "source",
+              "description": "The text of the drawing, in the syntax of a `.diagram` file, for a script. A page writes the text between the tags.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "source"
+            },
+            {
+              "name": "name",
+              "description": "The prefix of the ids inside the drawing. Two drawings on one page with the same text need two names.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "name"
+            },
+            {
+              "name": "room",
+              "description": "The room of a slide, `width,height` in its frame's pixels. The text's own `slide=` holds otherwise.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "room"
+            },
+            {
+              "name": "lent",
+              "description": "The room a slide lends the drawing, where the author states none. The slide sets it. It stands in the markup, so a prerendered page starts with the room it drew for and draws nothing anew.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "lent"
+            },
+            {
+              "name": "zoomable",
+              "description": "A press on the drawing opens it at the size of the window, in the page's tokens. For a drawing too dense to read in the column.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "zoomable"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "source",
+              "privacy": "public",
+              "description": "The text of the drawing, in the syntax of a `.diagram` file, for a script. A page writes the text between the tags.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "source"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "description": "The prefix of the ids inside the drawing. Two drawings on one page with the same text need two names.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "room",
+              "privacy": "public",
+              "description": "The room of a slide, `width,height` in its frame's pixels. The text's own `slide=` holds otherwise.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "room"
+            },
+            {
+              "kind": "field",
+              "name": "lent",
+              "privacy": "public",
+              "description": "The room a slide lends the drawing, where the author states none. The slide sets it. It stands in the markup, so a prerendered page starts with the room it drew for and draws nothing anew.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "lent"
+            },
+            {
+              "kind": "field",
+              "name": "zoomable",
+              "privacy": "public",
+              "description": "A press on the drawing opens it at the size of the window, in the page's tokens. For a drawing too dense to read in the column.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "zoomable"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-diagram",
+            "sds-diagram__error"
+          ],
+          "slots": []
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsDiagram",
+          "declaration": {
+            "name": "SdsDiagram",
+            "module": "src/components/diagram.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-diagram",
+          "declaration": {
+            "name": "SdsDiagram",
+            "module": "src/components/diagram.ts"
           }
         }
       ]
@@ -5330,11 +5518,19 @@
             "sds-lightbox",
             "sds-lightbox__art",
             "sds-lightbox__art--exported",
+            "sds-lightbox__canvas",
+            "sds-lightbox__scale",
+            "sds-lightbox__tools",
             "sds-modal__close",
             "sds-modal__head",
             "sds-modal__title"
           ],
-          "slots": []
+          "slots": [
+            {
+              "name": "",
+              "description": "What an attribute cannot carry — prose, a block, a section of a document."
+            }
+          ]
         }
       ],
       "exports": [
@@ -6019,6 +6215,7 @@
             "sds-outline__label",
             "sds-outline__list",
             "sds-outline__number",
+            "sds-outline__part",
             "sds-outline__toggle"
           ],
           "slots": []
@@ -8578,6 +8775,14 @@
               "fieldName": "lead"
             },
             {
+              "name": "legend",
+              "description": "The key of a drawing, at the right of the title: entries apart by ` | `, each a key and its words. `■` is a filled square, `□` an outlined one, `[ID]` an id on a plate, any other key an id in mono.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "legend"
+            },
+            {
               "name": "note",
               "description": "The line under a statement: where the sentence is from.",
               "type": {
@@ -8626,6 +8831,14 @@
               "fieldName": "plain"
             },
             {
+              "name": "page-only",
+              "description": "A slide of the page that no deck plays. It is a figure that stands as a slide in the text, with no place in the talk.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "pageOnly"
+            },
+            {
               "name": "current",
               "description": "",
               "type": {
@@ -8661,7 +8874,7 @@
               "name": "layout",
               "description": "",
               "type": {
-                "text": "'wide' | 'full' | 'row' | 'text-start'"
+                "text": "'wide' | 'full' | 'headed' | 'row' | 'text-start'"
               },
               "fieldName": "layout"
             },
@@ -8767,6 +8980,16 @@
             },
             {
               "kind": "field",
+              "name": "legend",
+              "privacy": "public",
+              "description": "The key of a drawing, at the right of the title: entries apart by ` | `, each a key and its words. `■` is a filled square, `□` an outlined one, `[ID]` an id on a plate, any other key an id in mono.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "legend"
+            },
+            {
+              "kind": "field",
               "name": "note",
               "privacy": "public",
               "description": "The line under a statement: where the sentence is from.",
@@ -8824,6 +9047,16 @@
                 "text": "boolean"
               },
               "attribute": "plain"
+            },
+            {
+              "kind": "field",
+              "name": "pageOnly",
+              "privacy": "public",
+              "description": "A slide of the page that no deck plays. It is a figure that stands as a slide in the text, with no place in the talk.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "page-only"
             },
             {
               "kind": "field",
@@ -8889,7 +9122,7 @@
               "privacy": "public",
               "description": "",
               "type": {
-                "text": "'wide' | 'full' | 'row' | 'text-start'"
+                "text": "'wide' | 'full' | 'headed' | 'row' | 'text-start'"
               },
               "attribute": "layout"
             },
@@ -8967,9 +9200,9 @@
             "sds-btn--icon",
             "sds-btn--secondary",
             "sds-btn--sm",
+            "sds-diagram",
             "sds-display",
             "sds-h2",
-            "sds-label",
             "sds-lead",
             "sds-slide",
             "sds-slide--beside",
@@ -8980,6 +9213,7 @@
             "sds-slide--figure",
             "sds-slide--framed",
             "sds-slide--full",
+            "sds-slide--headed",
             "sds-slide--row",
             "sds-slide--section",
             "sds-slide--speaker",
@@ -8989,10 +9223,16 @@
             "sds-slide__caption",
             "sds-slide__count",
             "sds-slide__drawing",
+            "sds-slide__entry",
             "sds-slide__figure",
             "sds-slide__fit",
             "sds-slide__foot",
             "sds-slide__head",
+            "sds-slide__key",
+            "sds-slide__key--filled",
+            "sds-slide__key--outlined",
+            "sds-slide__key--plate",
+            "sds-slide__legend",
             "sds-slide__lockup",
             "sds-slide__nav",
             "sds-slide__nav-item",
@@ -9001,6 +9241,7 @@
             "sds-slide__portrait",
             "sds-slide__text",
             "sds-slide__void",
+            "sds-slide__word",
             "sds-slide__zoom"
           ],
           "slots": [
@@ -9075,6 +9316,22 @@
               "fieldName": "of"
             },
             {
+              "name": "bar",
+              "description": "With `of`, a bar under the figure: the share it is of the whole, so a reader sees the proportion before the numbers.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "bar"
+            },
+            {
+              "name": "list",
+              "description": "One share of a list of them: the label and the count on one line over the bar, and the note under it. For a set of shares where the proportion is the point and the figure only its read-out. Takes `of`, and draws the bar.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "list"
+            },
+            {
               "name": "icon",
               "description": "A glyph on the figure's own line, before it. Muted and never in a status colour, for the reason a card's is: a figure is a subject, not a result. Beside the number rather than over it — a glyph on a line of its own floats above the one thing the tile is for.",
               "type": {
@@ -9134,6 +9391,26 @@
             },
             {
               "kind": "field",
+              "name": "bar",
+              "privacy": "public",
+              "description": "With `of`, a bar under the figure: the share it is of the whole, so a reader sees the proportion before the numbers.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "bar"
+            },
+            {
+              "kind": "field",
+              "name": "list",
+              "privacy": "public",
+              "description": "One share of a list of them: the label and the count on one line over the bar, and the note under it. For a set of shares where the proportion is the point and the figure only its read-out. Takes `of`, and draws the bar.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "list"
+            },
+            {
+              "kind": "field",
               "name": "icon",
               "privacy": "public",
               "description": "A glyph on the figure's own line, before it. Muted and never in a status colour, for the reason a card's is: a figure is a subject, not a result. Beside the number rather than over it — a glyph on a line of its own floats above the one thing the tile is for.",
@@ -9157,7 +9434,12 @@
           "cssClasses": [
             "sds-label",
             "sds-stat",
+            "sds-stat--list",
+            "sds-stat__bar",
+            "sds-stat__count",
+            "sds-stat__head",
             "sds-stat__icon",
+            "sds-stat__name",
             "sds-stat__note",
             "sds-stat__unit",
             "sds-stat__value"

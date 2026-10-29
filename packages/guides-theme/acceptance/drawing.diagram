@@ -1,0 +1,6 @@
+tiles
+title "Needs read from a file"
+description "Two counts of needs, from a diagram file beside the document."
+tile "9" "met"
+tile "23" "open"
+  emphasis

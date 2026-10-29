@@ -40,6 +40,19 @@
     --sds-stat-note-size: var(--aside-size);
     --sds-stat-note-leading: var(--aside-leading);
     --sds-stat-note-ink: var(--text-secondary);
+    /* The bar of a share: a track, and the part filled from early to late. */
+    --sds-stat-at: 0%;
+    --sds-stat-bar-h: var(--space-2);
+    --sds-stat-bar-radius: var(--radius-pill);
+    --sds-stat-bar-track: var(--surface-inset);
+    --sds-stat-bar-fill: color-mix(in oklch, var(--status-ok) var(--sds-stat-at), var(--text-muted));
+    /* A share of a list: its name and its count on the line over the bar. */
+    --sds-stat-name-size: var(--font-size-body);
+    --sds-stat-name-ink: var(--text-primary);
+    --sds-stat-count-font: var(--font-mono);
+    --sds-stat-count-size: calc(var(--font-size-small) * var(--font-modifier-mono));
+    --sds-stat-count-ink: var(--text-secondary);
+    --sds-stat-head-gap: var(--space-3);
 
     display: flex;
     flex-direction: column;
@@ -73,6 +86,21 @@
     font-weight: var(--sds-stat-value-weight);
     color: var(--sds-stat-value-ink);
   }
+  /* The share under the figure, as long as the part is of the whole. The
+     track rounds the start, and the fill ends flat where the share ends. */
+  .sds-stat__bar {
+    block-size: var(--sds-stat-bar-h);
+    border-radius: var(--sds-stat-bar-radius);
+    background: var(--sds-stat-bar-track);
+    overflow: hidden;
+
+    > span {
+      display: block;
+      block-size: 100%;
+      inline-size: var(--sds-stat-at);
+      background: var(--sds-stat-bar-fill);
+    }
+  }
   /* What qualifies the figure — the unit it is in, or the whole it is out of.
      A step down and a shade back, because a reader reads it after the number
      and never instead of it. The figure keeps its weight. */
@@ -85,6 +113,37 @@
     font-size: var(--sds-stat-note-size);
     line-height: var(--sds-stat-note-leading);
     color: var(--sds-stat-note-ink);
+
+    /* A paragraph a document writes between the tags is the note itself,
+       at the note's size and with no step of its own. */
+    > p {
+      margin-block: 0;
+      font-size: inherit;
+      line-height: inherit;
+      color: inherit;
+    }
+  }
+
+  /* One share of a list. The figure gives up its size to the bar: the name
+     and the count stand on one line over it, and the note under it. */
+  .sds-stat--list {
+    --sds-stat-gap: var(--space-2);
+  }
+  .sds-stat__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sds-stat-head-gap);
+  }
+  .sds-stat__name {
+    font-size: var(--sds-stat-name-size);
+    color: var(--sds-stat-name-ink);
+  }
+  .sds-stat__count {
+    flex: none;
+    font-family: var(--sds-stat-count-font);
+    font-size: var(--sds-stat-count-size);
+    color: var(--sds-stat-count-ink);
   }
 
   /* A tile in a flush wall pads and paints itself. The wall's ground is the

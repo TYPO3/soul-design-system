@@ -18,6 +18,9 @@
 #}
 <section class="sds-section{% if node.classes %} {{ node.classesString }}{% endif %}" id="{{ node.title.id }}">
     {%- for childNode in node.children -%}
+        {#- The part a section begins, named over its heading and after any
+            anchor before it, so the pair stands flush — see `Parts`. -#}
+        {%- if childNode is same as(node.title) and node.option('part') %}<sds-eyebrow label="{{ node.option('part') }}"></sds-eyebrow>{% endif -%}
         {{ renderNode(childNode) }}
     {%- endfor -%}
 </section>

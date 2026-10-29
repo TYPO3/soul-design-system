@@ -13,6 +13,13 @@
   :where(.sds-prose) p {
     max-width: var(--sds-prose-measure);
   }
+  /* A list is text too, and its items often hold no paragraph. A list that
+     holds a block of its own, a code block, a table or a picture, keeps the
+     column for that block. */
+  :where(.sds-prose)
+  :is(ul, ol, dl):not(:has(pre, table, figure, img, svg, sds-code, sds-table, sds-figure, sds-diagram)) {
+    max-width: var(--sds-prose-measure);
+  }
 }
 
 /* In the component's own layer, because what it draws is a renderer's own name

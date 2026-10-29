@@ -16,10 +16,16 @@ const WIDTH = 100;
 
 const HTML = 'http://www.w3.org/1999/xhtml';
 
-const escText = (s: string): string =>
-  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+/* Only what HTML reads as markup: an ampersand, and a `<` that can start
+   a tag. An arrow such as `->` or `<->` is text, and stays as written. */
+const escText = (s: string): string => s.replace(/&/g, '&amp;').replace(/<(?=[A-Za-z/!?])/g, '&lt;');
 
-const escAttr = (s: string): string => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+/* A value with double quotes in it and no single one stands in single
+   quotes, so a reader copies `"` and not `&quot;`. */
+const attr = (name: string, value: string): string =>
+  value.includes('"') && !value.includes("'")
+    ? `${name}='${value.replace(/&/g, '&amp;')}'`
+    : `${name}="${value.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}"`;
 
 /** What no layout of a markup can change: its tags, their attributes and the
     text between them. Read off the parsed tree, so that two spellings of one
@@ -133,7 +139,7 @@ function openTag(el: Element, depth: number): string {
   /* Every attribute keeps its value, `copy=""` included. An empty one as the
      bare name reads better for a flag and lies about the rest. A story passes
      `tag=""` for a card that has no tag, and `tag` is not that. */
-  const attrs = [...el.attributes].map((a) => `${a.name}="${escAttr(a.value)}"`);
+  const attrs = [...el.attributes].map((a) => attr(a.name, a.value));
   const flat = `<${tag}${attrs.map((a) => ` ${a}`).join('')}>`;
   if (attrs.length < 2 || depth * STEP.length + flat.length <= WIDTH) return flat;
 
@@ -216,6 +222,9 @@ export function readable(code: string): string {
 
   const fragment = parse(code);
   if (!fragment.firstElementChild) return code;
+  /* A story's own tool, such as a download of what it drew, is no markup
+     a reader copies. */
+  fragment.querySelectorAll('[data-story-chrome]').forEach((el) => el.remove());
 
   const kids = [...fragment.childNodes];
   const out = lay(kids, kids.map((k) => node(k, 0))).chunks.join('\n');

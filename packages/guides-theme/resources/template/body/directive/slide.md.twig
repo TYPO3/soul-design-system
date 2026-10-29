@@ -1,0 +1,19 @@
+{#- A slide as its heading, its lead and what it shows. A figure slide
+    keeps its caption under it. -#}
+{%- autoescape false -%}
+**{{ node.option('heading')|md_escape }}**
+
+{% if node.option('lead') %}{{ node.option('lead')|md_escape }}
+
+{% endif -%}
+{% if node.option('legend') %}{{ node.option('legend')|replace({' | ': ' · '})|md_escape }}
+
+{% endif -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- if node.option('caption') %}*{{ node.option('caption')|md_escape }}*
+
+{% endif -%}
+{%- endautoescape -%}

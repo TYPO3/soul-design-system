@@ -67,6 +67,21 @@ export function evenColumns(count: number, fits: number): number {
   return 1;
 }
 
+/* Every grid of a page measures in one pass: all read, then all write.
+   One by one, each read after the last write lays the page out again. */
+const waiting = new Set<SdsGrid>();
+let pass = false;
+const measureAll = (): void => {
+  pass = false;
+  const grids = [...waiting].filter((grid) => grid.isConnected);
+  waiting.clear();
+  const answers = grids.map((grid) => grid.decide());
+  grids.forEach((grid, i) => {
+    const answer = answers[i];
+    if (answer !== undefined) grid.settled = answer;
+  });
+};
+
 export class SdsGrid extends SdsElement {
   static override properties = {
     variant: { type: String },
@@ -102,9 +117,17 @@ export class SdsGrid extends SdsElement {
        the row has is what the parent gives it. */
     /* A frame later, not in the callback: an answer that changes the room
        in the same frame is an observation the browser reports undelivered. */
-    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.decide()));
+    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.ask()));
     if (this.parentElement) this.watch.observe(this.parentElement);
-    void this.updateComplete.then(() => this.decide());
+    void this.updateComplete.then(() => this.ask());
+  }
+
+  /* A measurement in the next pass of every grid on the page. */
+  private ask(): void {
+    waiting.add(this);
+    if (pass) return;
+    pass = true;
+    queueMicrotask(measureAll);
   }
 
   override disconnectedCallback(): void {
@@ -117,35 +140,32 @@ export class SdsGrid extends SdsElement {
       The minimum comes off the grid rather than a copy here. The three widths
       differ in exactly that number, and a copy of it in TypeScript is the
       copy that goes stale. */
-  private decide(): void {
+  decide(): number | undefined {
     const grid = this.firstElementChild as HTMLElement | null;
-    if (!grid) return;
+    if (!grid) return undefined;
     /* Two items cannot wrap unevenly and one is a row. Left to the sheet,
        which is the answer that needs no measuring. */
     const count = grid.childElementCount;
-    if (count < 3) {
-      this.settled = 0;
-      return;
-    }
+    if (count < 3) return 0;
 
     const style = getComputedStyle(grid);
     const min = parseFloat(style.getPropertyValue(this.columns ? '--grid-least' : '--grid-min'));
     const gap = parseFloat(style.columnGap) || 0;
     const room = grid.getBoundingClientRect().width;
-    if (!(min > 0) || !(room > 0)) return;
+    if (!(min > 0) || !(room > 0)) return undefined;
 
     const roomFits = Math.max(1, Math.floor((room + gap) / (min + gap)));
     const fits = this.columns ? Math.min(roomFits, this.columns) : roomFits;
     const wanted = evenColumns(count, fits);
     /* Nothing to say where the sheet already lands there. */
-    this.settled = wanted >= fits ? 0 : wanted;
+    return wanted >= fits ? 0 : wanted;
   }
 
   /* After the update, not in it. A state set inside `updated()` starts the
      next cycle before this one has closed, which Lit's dev build names as
      the inefficiency it is. */
   protected override updated(): void {
-    void this.updateComplete.then(() => this.decide());
+    void this.updateComplete.then(() => this.ask());
   }
 
   protected override render(): TemplateResult {

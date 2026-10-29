@@ -3,6 +3,8 @@ import './badge.ts';
 import './icon.ts';
 import { type IconId } from './icon.js';
 import { SdsElement } from '../lib/element.js';
+/** The state of what a card stands for, in the signs of the drawings. */
+export type CardSign = 'yes' | 'partly' | 'no' | 'unknown';
 export interface CardProps {
     /** The name of the entry. The whole card links to it, so this is the line
         a reader chooses by. */
@@ -28,6 +30,10 @@ export interface CardProps {
     tag?: string;
     /** A glyph above the label, where a set tells its cards apart at a glance. */
     icon?: IconId;
+    /** The state of what the card stands for, measured: `yes`, `partly`, `no`
+        or `unknown`. The sign the drawings use for it, at the end of the label
+        line, and its meaning in words for a reader who hears it. */
+    sign?: CardSign;
     /** One line under a hairline: what the reader gets there, who it is for,
         what state it is in. A label register, so it does not compete. */
     footer?: string;
@@ -62,6 +68,9 @@ export declare class SdsCard extends SdsElement {
         icon: {
             type: StringConstructor;
         };
+        sign: {
+            type: StringConstructor;
+        };
         footer: {
             type: StringConstructor;
         };
@@ -77,6 +86,7 @@ export declare class SdsCard extends SdsElement {
     label: string;
     tag: string;
     icon?: IconId;
+    sign?: CardSign;
     footer: string;
     action: string;
     private taken;

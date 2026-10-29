@@ -59,6 +59,7 @@ import './components/nav-pager.ts';
 import './components/code.ts';
 import './components/copy.ts';
 import './components/tree.ts';
+import './components/diagram.ts';
 import './components/diff.ts';
 import './components/quote.ts';
 import './components/slide.ts';
@@ -126,6 +127,7 @@ export { SdsTable, type TableProps, type Cell, type CellValue, type Column, type
 export { SdsCode, type CodeBlockProps, type CodeLine, type CodeKind, type CodeLang, type CodeLangName, } from './components/code.js';
 export { SdsCopy, type CopyProps } from './components/copy.js';
 export { SdsTree, type TreeProps, type TreeEntry } from './components/tree.js';
+export { SdsDiagram, type DiagramProps } from './components/diagram.js';
 export { SdsDiff, type DiffProps, type DiffLine, type DiffKind } from './components/diff.js';
 export { SdsQuote, type QuoteProps } from './components/quote.js';
 export { SdsSlide, type SlideProps, type SlideKind, type SlideGround } from './components/slide.js';
@@ -147,4 +149,4 @@ export { SdsNavPager, type PagerProps } from './components/nav-pager.js';
 /** Every tag this bundle registers. The design agent's adherence config comes
     from the bundle, so this list is what makes a component discoverable
     rather than merely present. */
-export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-dropdown', 'sds-badge', 'sds-eyebrow', 'sds-link', 'sds-nav-breadcrumb', 'sds-field', 'sds-select', 'sds-textarea', 'sds-field-group', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-checkbox-group', 'sds-radio', 'sds-switch', 'sds-range', 'sds-file', 'sds-progress', 'sds-form-errors', 'sds-nav-pills', 'sds-nav-main', 'sds-accordion', 'sds-accordion-item', 'sds-run', 'sds-steps', 'sds-step', 'sds-tabs', 'sds-tab-item', 'sds-nav-rail', 'sds-nav-toc', 'sds-nav-outline', 'sds-timeline-stop', 'sds-timeline', 'sds-answer', 'sds-decision', 'sds-compare', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-dialog', 'sds-table', 'sds-card', 'sds-icon-tile', 'sds-swatch', 'sds-grid', 'sds-search-result', 'sds-search-hits', 'sds-nav-pagination', 'sds-nav-pager', 'sds-code', 'sds-copy', 'sds-tree', 'sds-diff', 'sds-quote', 'sds-slide', 'sds-deck', 'sds-byline', 'sds-note', 'sds-facts', 'sds-entry', 'sds-register', 'sds-confval'];
+export declare const TAGS: readonly ['sds-icon', 'sds-theme', 'sds-button', 'sds-dropdown', 'sds-badge', 'sds-eyebrow', 'sds-link', 'sds-nav-breadcrumb', 'sds-field', 'sds-select', 'sds-textarea', 'sds-field-group', 'sds-search', 'sds-field-error', 'sds-checkbox', 'sds-checkbox-group', 'sds-radio', 'sds-switch', 'sds-range', 'sds-file', 'sds-progress', 'sds-form-errors', 'sds-nav-pills', 'sds-nav-main', 'sds-accordion', 'sds-accordion-item', 'sds-run', 'sds-steps', 'sds-step', 'sds-tabs', 'sds-tab-item', 'sds-nav-rail', 'sds-nav-toc', 'sds-nav-outline', 'sds-timeline-stop', 'sds-timeline', 'sds-answer', 'sds-decision', 'sds-compare', 'sds-footer', 'sds-surface', 'sds-stat', 'sds-figure', 'sds-image', 'sds-embed', 'sds-lightbox', 'sds-overlay', 'sds-modal', 'sds-dialog', 'sds-table', 'sds-card', 'sds-icon-tile', 'sds-swatch', 'sds-grid', 'sds-search-result', 'sds-search-hits', 'sds-nav-pagination', 'sds-nav-pager', 'sds-code', 'sds-copy', 'sds-tree', 'sds-diagram', 'sds-diff', 'sds-quote', 'sds-slide', 'sds-deck', 'sds-byline', 'sds-note', 'sds-facts', 'sds-entry', 'sds-register', 'sds-confval'];

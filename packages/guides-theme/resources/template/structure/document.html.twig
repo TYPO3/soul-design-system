@@ -1,16 +1,21 @@
 {#
     What fills the layout, and which body it fills it with.
 
-    `:layout: marketing` at the top of a document says it is a landing page;
-    anything else is the manual. Decided here because a block cannot choose the
-    template it lives in, and `block('body')` is what lets the same content
-    fill either shape.
+    `:layout: marketing` at the top of a document says it is a landing page.
+    `:layout: paper` says it goes out on its own. Anything else is the
+    manual. Decided here because a block cannot choose the template it
+    lives in, and `block('body')` is what lets the same content fill any shape.
 #}
 {% extends "structure/layout.html.twig" %}
 
 {% set layout = 'default' %}
+{% set paper = {} %}
+{% set feet = [] %}
 {%- for headerNode in node.headerNodes -%}
-    {%- if headerNode.value == 'marketing' %}{% set layout = 'marketing' %}{% endif -%}
+    {%- if headerNode.field is defined and headerNode.field == 'foot' %}{% set feet = feet|merge([headerNode.value]) %}
+    {%- elseif headerNode.field is defined %}{% set paper = paper|merge({(headerNode.field): headerNode.value}) %}
+    {%- elseif headerNode.value in ['marketing', 'paper'] %}{% set layout = headerNode.value %}
+    {%- endif -%}
 {%- endfor -%}
 
 {#- The rail, rendered here rather than where it stands. The body below
@@ -20,7 +25,7 @@
     width. It is the section the reader is in; the whole site is what the bar
     above gets. -#}
 {%- set rail -%}
-    {%- if layout != 'marketing' %}{% include "body/menu/menu.html.twig" %}{% endif -%}
+    {%- if layout == 'default' %}{% include "body/menu/menu.html.twig" %}{% endif -%}
 {%- endset -%}
 
 {% block head %}
@@ -36,7 +41,43 @@
 {% endblock %}
 
 {% block main %}
-    {%- if layout == 'marketing' -%}
+    {%- if layout == 'paper' -%}
+        {#- A document that goes out on its own: the outline of it in the
+            panel, and nothing of a site around it. The head names the paper,
+            and the foot says what state it is in. -#}
+        <div class="sds-paper">
+            <aside class="sds-paper__panel">
+                <div class="sds-paper__head">
+                    {%- if paper.eyebrow is defined %}<sds-eyebrow label="{{ paper.eyebrow }}"></sds-eyebrow>{% endif -%}
+                    <p class="sds-paper__title">{{ node.navigationTitle|default(node.pageTitle) }}</p>
+                    {#- `:deck:` names the deck of the paper's slides, and the
+                        press under the title plays them. -#}
+                    {%- if paper.deck is defined and paper.deck %}
+                    <sds-button variant="secondary" size="sm" for="paper-deck"><sds-icon name="actions-play"></sds-icon>Click through the slides</sds-button>
+                    <sds-deck id="paper-deck" from="main-content" label="{{ paper.deck }}"
+                        {%- if soul.brand %} brand="{{ soul.brand }}"{% endif %}
+                        product="{{ soul.product|default(node.navigationTitle|default(node.pageTitle)) }}"
+                        {%- if paper.numbered is defined and paper.numbered|lower not in ['', 'no', 'false', '0'] %} numbered{% endif %}></sds-deck>
+                    {%- endif %}
+                </div>
+                <sds-nav-outline label="Contents"
+                    {%- if paper.numbered is defined and paper.numbered|lower not in ['', 'no', 'false', '0'] %} numbered{% endif %}
+                    entries="{{ outline(node)|json_encode }}"></sds-nav-outline>
+                {#- The foot says what state the paper is in. Then the switch of
+                    the colour mode. Then the same paper as Markdown, in a window
+                    of its own, for a reader or a model that takes it whole. -#}
+                {%- set twin = soul.markdown and env.hasCurrentFileName ? env.currentFileName|split('/')|last : '' %}
+                <div class="sds-paper__foot">
+                    {%- for line in feet %}<p>{{ line }}</p>{% endfor -%}
+                    <div class="sds-row">
+                        <sds-theme></sds-theme>
+                        {%- if twin %}<sds-button variant="ghost" size="sm" href="{{ twin }}.md" target="_blank" title="This paper as Markdown, in a new window"><sds-icon name="actions-document"></sds-icon>Markdown</sds-button>{% endif -%}
+                    </div>
+                </div>
+            </aside>
+            <main class="sds-paper__main sds-prose" id="main-content">{{ block('body') }}</main>
+        </div>
+    {%- elseif layout == 'marketing' -%}
         <main class="sds-bands" id="main-content">
             {#- The page as its run of bands. `.sds-bands` draws the ground and
                 the hairline between two of them. Each band holds its own

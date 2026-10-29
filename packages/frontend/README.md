@@ -91,7 +91,7 @@ Each of those overrides a global attribute otherwise.
 
 | Element | What it is, and what it takes |
 | --- | --- |
-| [`<sds-button>`](https://typo3.github.io/soul-design-system/frontend/components/controls.html#component-sds-button) | The action that starts work, or the press that is a link. `variant`: `primary`, `secondary`, `ghost`, and `danger` for the press with no undo. `size`: `md`, `sm`, `lg`. `disabled`, `title`. `type` is `button` unless it is the form's submit. `href` and `rel` draw the same control as an `<a>`. `icon-only` makes a glyph the whole control, and `title` its name. `for` and `command` (`show` unless written) address another element. The label goes between the tags |
+| [`<sds-button>`](https://typo3.github.io/soul-design-system/frontend/components/controls.html#component-sds-button) | The action that starts work, or the press that is a link. `variant`: `primary`, `secondary`, `ghost`, and `danger` for the press with no undo. `size`: `md`, `sm`, `lg`. `disabled`, `title`. `type` is `button` unless it is the form's submit. `href` and `rel` draw the same control as an `<a>`. `target` names the window it opens in, and `download` the file a press saves. `icon-only` makes a glyph the whole control, and `title` its name. `for` and `command` (`show` unless written) address another element. The label goes between the tags |
 | [`<sds-dropdown>`](https://typo3.github.io/soul-design-system/frontend/components/controls.html#component-sds-dropdown) | A button, and the short list it opens under itself. `choices` decides what the list is. Entries with `href` are pages in a disclosure. Entries without are commands in a menu. Each entry takes `label`, `icon`, `current`, `disabled`, `external`, and `lang` where it names a language. `label` is what the button says. `name` is the control's name where the label is too short. `align` (`start`, `end`) is the side the panel hangs from. `variant`, `size` and `icon-only` are the button's own. The panel is a popover in the top layer |
 | [`<sds-link>`](https://typo3.github.io/soul-design-system/frontend/components/controls.html#component-sds-link) | A link, and always an `<a>` with an `href`. `label`, `href`. `external` marks and names one that leaves. `icon` is a glyph before it. `bare` drops the underline outside prose |
 | [`<sds-badge>`](https://typo3.github.io/soul-design-system/frontend/components/controls.html#component-sds-badge) | A small, named piece of state. `label`, `tone` (`default`, `accent`, `ok`, `warn`, `error`), `icon` |
@@ -99,13 +99,13 @@ Each of those overrides a global attribute otherwise.
 | [`<sds-icon>`](https://typo3.github.io/soul-design-system/frontend/components/controls.html#component-sds-icon) | One icon from the set, in the document, so `currentColor` reaches it. `name` is the TYPO3 identifier. `size` is `16`, `20`, `24` or a whole multiple, and `em` by default. `label` names it where it stands without words. Without one it hides from assistive technology |
 | [`<sds-theme>`](https://typo3.github.io/soul-design-system/frontend/components/controls.html#component-sds-theme) | The mode the page is in, as one press through three: the machine's setting, light, dark. The system's own icon button, with its sentence in `title`. The document says which mark stands, so it is right before a script runs. `key` is where the choice lives, the same one `soul-boot.js` reads |
 | [`<sds-surface>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-surface) | A plane that holds a statement. `plane`: `plain` for the hairline with no fill, `raised`, `sunken` for machine output. What it says stands between the tags: the `label` and `heading` regions, and the statement as the rest. The attributes of those names are the short form. `icon`. `box-style` sizes the plane where one instance needs it |
-| [`<sds-card>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-card) | A way into something, and the whole frame is the one link. `heading`, `body`, `href`, `src` and `alt`, `label`, `tag`, `icon`, `footer`, `action`. The call to action is words, not a second control |
+| [`<sds-card>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-card) | A way into something, and the whole frame is the one link. `heading`, `body`, `href`, `src` and `alt`, `label`, `tag`, `icon`, `footer`, `action`. `sign` is the state of what it stands for, `yes`, `partly`, `no` or `unknown`, in the signs of the drawings. The call to action is words, not a second control |
 | [`<sds-grid>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-grid) | The wall a reader reads a set in. It reflows by the width its items need, not by a column count. `variant` (`default`, `wide`, `dense`, `flush`) says how much room an item holds. The element evens out the last row once it can measure |
-| [`<sds-stat>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-stat) | A number as a fact. `value`, `unit`, `label`, `of` for the whole it is a part of, `icon`, `note`. On a slide it stands at the display step on its own. The note bounds the figure, and a figure with no bound is a boast |
+| [`<sds-stat>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-stat) | A number as a fact. `value`, `unit`, `label`, `of` for the whole it is a part of, `icon`, `note`. On a slide it stands at the display step on its own. The note bounds the figure, and a figure with no bound is a boast. `bar` draws the share of `of` under the figure. `list` makes it one share of a list: the label and the count on one line over the bar |
 | [`<sds-swatch>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-swatch) | One colour as a fact: the chip, the name, and the resolved value. `value` paints the chip. `name` is what a design writes. `resolved` is what the mode made of it. `kind` (`fill`, `line`) says if the value is a surface or a hairline. A value that is not a colour drops out |
 | [`<sds-icon-tile>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-icon-tile) | One glyph in a wall of them. The drawing fills the box, and the identifier stands under it. `name` is the icon. `caption` where a set writes something else. `href` makes the whole tile the press. `tag` is the one fact a drawing cannot show. It takes no size |
-| [`<sds-slide>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-slide) | One 16:9 frame of a deck, the page at twice the size. What it says stands between the tags, in regions. The head takes `eyebrow`, `heading`, `lead` and `note`, and `text`, `figure` and `portrait` take the rest. A line keeps its markup, and a region wins over the attribute of its name. Every element between the tags keeps its set. `kind` is `cover`, `speaker`, `section`, `statement`, `content`, `closing` or `figure`. A figure's picture stands in the `figure` region, `<sds-image slot="figure">`, and `src` is the short form. A row is one `<figure slot="figure">` for each picture, with a `<figcaption>`. It grows into the room its `layout` leaves: `wide`, `full`, `row` or `text-start`. `framed` stands each drawing on a plane. A drawing in a row is `<figure slot="figure">` with a `<figcaption>`. `bleed` runs it to the edge beside its text. A speaker's portrait stands in the `portrait` region. `ground` is `paper` or `terminal`. `plain` leaves the lockup out, and the count stays where it stands. `eyebrow`, `heading`, `lead` and `note` are also attributes, the short form for plain text. `number`. The lockup as `signet`, `brand`, `product`. The outline as `sections` and `current`. `fit` scales the frame to the room it has, and `shrink` makes it a picture at its column's width. `zoomable` opens it in the deck, and a press anywhere does the same. What it holds shrinks until it fits, and takes no press |
-| [`<sds-deck>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-deck) | Slides one after the other at the window's size. Slides between the tags are a deck of its own. The page shows its cover, a play and a PDF press. With none, it runs through the page's slides, `from` an id. `label`. The lockup once as `brand`, `product`, `signet`, `signet-large`, and `numbered` counts the slides. Every slide says its section as its eyebrow; a slide's own wins. Keys, drag, a list of pictures, the full screen, and the print as PDF. `show(at)`, `go(index)`, `close()`, `fullscreen()`, `print()` |
+| [`<sds-slide>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-slide) | One 16:9 frame of a deck, the page at twice the size. What it says stands between the tags, in regions. The head takes `eyebrow`, `heading`, `lead` and `note`, and `text`, `figure` and `portrait` take the rest. A line keeps its markup, and a region wins over the attribute of its name. Every element between the tags keeps its set. `kind` is `cover`, `speaker`, `section`, `statement`, `content`, `closing` or `figure`. A figure's picture stands in the `figure` region, `<sds-image slot="figure">`, and `src` is the short form. A row is one `<figure slot="figure">` for each picture, with a `<figcaption>`. It grows into the room its `layout` leaves: `wide`, `full`, `headed`, `row` or `text-start`. `headed` is the frame under a short head, with no lockup. `framed` stands each drawing on a plane. A drawing in a row is `<figure slot="figure">` with a `<figcaption>`. `bleed` runs it to the edge beside its text. A speaker's portrait stands in the `portrait` region. `ground` is `paper` or `terminal`. `plain` leaves the lockup out, and the count stays where it stands. `eyebrow`, `heading`, `lead` and `note` are also attributes, the short form for plain text. `number`. The lockup as `signet`, `brand`, `product`. The outline as `sections` and `current`. `fit` scales the frame to the room it has, and `shrink` makes it a picture at its column's width. `zoomable` opens it in the deck, and a press anywhere does the same. What it holds shrinks until it fits, and takes no press `page-only` keeps a slide out of a deck |
+| [`<sds-deck>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-deck) | Slides one after the other at the window's size. Slides between the tags are a deck of its own. The page shows its cover, a play and a PDF press. With none, it runs through the page's slides, `from` an id. `label`. The lockup once as `brand`, `product`, `signet`, `signet-large`, and `numbered` counts the slides. Every slide says its section as its eyebrow; a slide's own wins. Keys, drag, a list of pictures, the full screen, and the print as PDF. `show(at)`, `go(index)`, `close()`, `fullscreen()`, `print()` A number and Enter, or a number in the count, go to that slide |
 | [`<sds-quote>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-quote) | A sentence from somewhere else. `by` is mandatory. `as` is what they are to the subject, `meta` when, `initials` the monogram, `href` where to read it in full. `body`, or the sentence between the tags |
 | [`<sds-byline>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-byline) | Who wrote it, and when. `name`, `as`, `meta`, `initials`, `href`. `unmarked` for the line with no monogram |
 | [`<sds-steps>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-steps), [`<sds-step>`](https://typo3.github.io/soul-design-system/frontend/components/content.html#component-sds-step) | An instruction read from the top, numbered down one rail, for work with an order. The set takes `.steps` where a page holds its stops as data. A stop takes `heading`, `optional`, `anchor`, and the work between the tags. Nothing writes a figure. The set counts, so a stop in the middle renumbers the rest |
@@ -124,13 +124,14 @@ Each of those overrides a global attribute otherwise.
 | [`<sds-confval>`](https://typo3.github.io/soul-design-system/frontend/components/data.html#component-sds-confval) | One configuration value in a reference. `name`, `anchor`, `required`, `type`, `default`, `.facts` for whatever else the source named, `body` |
 | [`<sds-image>`](https://typo3.github.io/soul-design-system/frontend/components/media.html#component-sds-image) | A picture, and nothing around it. `src`, `alt`, `width`, `height`, `class`. `zoomable` makes it a press that opens at full size |
 | [`<sds-figure>`](https://typo3.github.io/soul-design-system/frontend/components/media.html#component-sds-figure) | A picture and the claim it makes. `src`, `alt`, `caption`, `width`, `height`, `zoomable` |
+| [`<sds-diagram>`](https://typo3.github.io/soul-design-system/frontend/components/media.html#component-sds-diagram) | A drawing from the text of a `.diagram` file between its tags, in the page's tokens. Only the drawing: a frame and a caption come from `<sds-figure>` around it. `source` for a script, `room`, `name`. `zoomable` opens it at the size of the window |
 | [`<sds-embed>`](https://typo3.github.io/soul-design-system/frontend/components/media.html#component-sds-embed) | A document from somewhere else, in a frame this page controls. `src`, `label`, `ratio`, `width`, `height`, `caption`, `allow`, `allowfullscreen` |
-| [`<sds-lightbox>`](https://typo3.github.io/soul-design-system/frontend/components/media.html#component-sds-lightbox) | A drawing at its drawn size, on the platform's `<dialog>`, reached with `zoomable` above. `src`, `alt`, `caption`, `open` |
+| [`<sds-lightbox>`](https://typo3.github.io/soul-design-system/frontend/components/media.html#component-sds-lightbox) | A picture on the platform's `<dialog>`, reached with `zoomable` above. It opens fitted, and the reader zooms, moves and fits it again. `src`, `alt`, `caption`, `open`, and `content` for a script: markup in place of the file |
 | [`<sds-nav-main>`](https://typo3.github.io/soul-design-system/frontend/components/navigation.html#component-sds-nav-main) | The bar at the top of a page. It gets the site as one `MenuEntry` and measures what fits. The front doors in the row, a section's pages under it, and one level at a time in the drawer. `.menu`, or `.items` and `active` for a flat set. `home`, `signet`, `brand`, `product`, `search`, `index` for what search reads, `label`, `theme-key`. `.languages` is the same page in other languages, as `sds-dropdown` entries at the end of the row. The button shows the reader's `lang` |
 | [`<sds-nav-rail>`](https://typo3.github.io/soul-design-system/frontend/components/navigation.html#component-sds-nav-rail) | The navigation rail beside a column: one `MenuEntry` with its pages under it, with folds at any depth. `.entry` |
 | [`<sds-nav-pills>`](https://typo3.github.io/soul-design-system/frontend/components/navigation.html#component-sds-nav-pills) | Navigation for the sections of a page. `.items`, `active` |
 | [`<sds-nav-toc>`](https://typo3.github.io/soul-design-system/frontend/components/navigation.html#component-sds-nav-toc) | What is on this page, and where in it the reader is. `.entries` are the sections, nested as deep as the page nests them. `label` is the heading over the list. It finds its own current entry: the last heading past the line a jumped-to one lands on |
-| [`<sds-nav-outline>`](https://typo3.github.io/soul-design-system/frontend/components/navigation.html#component-sds-nav-outline) | The parts of a long document, beside it in the panel of `sds-paper`. The whole tree, `numbered` from each entry's place as text in the row. The mark is on the part the reader is in. On a phone it folds behind one press in the page's head |
+| [`<sds-nav-outline>`](https://typo3.github.io/soul-design-system/frontend/components/navigation.html#component-sds-nav-outline) | The parts of a long document, beside it in the panel of `sds-paper`. The whole tree, `numbered` from each entry's place as text in the row. An entry with `part` is a head over its items, and the count runs on across it. The mark is on the part the reader is in. On a phone it folds behind one press in the page's head |
 | [`<sds-tabs>`](https://typo3.github.io/soul-design-system/frontend/components/navigation.html#component-sds-tabs), [`<sds-tab-item>`](https://typo3.github.io/soul-design-system/frontend/components/navigation.html#component-sds-tab-item) | One set of panels, one of them shown. The set takes `.items`, `active` and `sync`, the word that makes sets follow each other. An item takes `label`, `icon`, `active` and its panel between the tags |
 | [`<sds-nav-breadcrumb>`](https://typo3.github.io/soul-design-system/frontend/components/navigation.html#component-sds-nav-breadcrumb) | Where the page sits, as a trail. `.items`, `label` |
 | [`<sds-accordion>`](https://typo3.github.io/soul-design-system/frontend/components/navigation.html#component-sds-accordion), [`<sds-accordion-item>`](https://typo3.github.io/soul-design-system/frontend/components/navigation.html#component-sds-accordion-item) | Questions with their answers folded behind them, on a real `<details>`, so they fold with no script. The set takes `.entries`, `multiple` and `name`, the group they fold in. An item takes `question`, `open`, `name`, `anchor`, and the blocks between the tags |
@@ -203,6 +204,89 @@ are for the hand, because no element draws them.
 It reads `dist/custom-elements.json` beside itself, so what it holds is
 what this version of the package draws, not a list somebody keeps in step.
 
+## Diagrams from data
+
+```js
+import { diagram, parse } from '@typo3/soul-frontend/diagram';
+
+const spec = parse(readFileSync('cache-key.diagram', 'utf8'));
+const { svg } = diagram(spec, { name: 'cache-key' });
+const slide = diagram(spec, { name: 'cache-key-slide', slide: { width: 1640, height: 560 } });
+```
+
+A spec holds the claim, the texts and the structure. `parse()` reads it
+from text, one statement per line, the way the manual shows each layout.
+JSON with the same fields does the same.
+
+`diagram()` returns the SVG file in the grammar of the system: the drawing
+alone, 1200 wide. The page around it says the claim and the consequence. On a slide it has no
+margin, at the pixels of the slide's room. A `slide` room in the options
+sets it dense: the type at its sizes, the controls, rows and gaps lower.
+Every
+colour is a token with its light value behind it. So the file follows the
+mode of the page that references it, and still draws on its own.
+
+It throws on what the grammar forbids, and names the part. That is a text
+too wide for its box, type under 13 or a radius above 6. It is also a second
+emphasis, a connector label with no room, or a drawing taller than its
+slide. The file carries a cut of each face that it sets. So it reads the same
+as an image, where no face of the page reaches it. Text fits its box in
+the fallback face too.
+
+| Field | |
+| --- | --- |
+| `kind` | the layout: `flow`, `sequence`, `matrix`, `bars`, `units`, `cells`, `chips`, `tiles`, `columns`, `sketch`, `notes`, `compose` |
+| `slide` | `{ width, height }`: the room of the slide the drawing is for |
+| `title` | the claim, and the accessible name of the drawing |
+| `description` | what the drawing shows, for a reader who cannot see it |
+| `claim` | the colour of the emphasis: `accent`, or `error`, `warn`, `ok` for a drawing about a status |
+
+The fields of each layout are in `dist/types/src/lib/diagram/`.
+
+### The text, in short
+
+```text
+flow                              # the layout, then its options
+  columns 1,1,1
+title "A request passes the cache first"
+description "A request reaches the cache. On a miss, the cache asks the store."
+
+request "Request"                 # a node: its id, its title
+  at 0,0
+cache `cache[]`                   # backticks: an identifier, in mono
+  at 1,0
+  new                             # a bare word is a flag
+store "Store" at=2,0 store        # the same, on one line
+
+request -> cache
+cache => store "miss"             # => is the emphasis
+```
+
+| | |
+| --- | --- |
+| Layouts | `flow`, `sequence`, `matrix`, `bars`, `units`, `cells`, `chips`, `tiles`, `columns`, `sketch`, `notes`, `compose` |
+| Lines | One statement on each line. An indented line belongs to the one above it. `#` starts a comment |
+| Necessary | `title "…"`, the claim and the accessible name. `description "…"`, what the drawing shows |
+| Options | `key=value`, or `key value` on a line of its own. A value with a space stands in quotes |
+| Arrows | `->` a step, `-->` absent, `=>` the emphasis, `-x` fails, `<->` a question and its answer |
+| First line | `claim=error`, `warn` or `ok` for a drawing about a status. `slide=width,height` for the room of a slide |
+
+[Writing a diagram](https://typo3.github.io/soul-design-system/design-system/diagrams/writing.html)
+in the manual has the statements of each layout, with a drawing of each.
+It also says what to change when the engine refuses a text.
+
+### A diagram as a file to keep
+
+```sh
+npx soul-diagram figures/                       # an .svg beside each .diagram under it
+npx soul-diagram flow.diagram -o assets/        # into another directory
+npx soul-diagram flow.diagram --stdout > flow.svg
+```
+
+`soul-diagram` writes the same file as `diagram()`, with its faces in it. It
+exits non-zero on the first text the grammar refuses, and names the line.
+So a project keeps the text in its tree and the drawing as a build output.
+
 ## And the classes underneath
 
 Every element renders **light DOM** and emits the classes `soul.css`
@@ -259,6 +343,8 @@ stylesheet is the outcome this system exists to prevent. Say so upstream.
 | `dist/soul-inline.css` | the stylesheet as one file, the faces inside it, for a page that links nothing |
 | `dist/custom-elements.json` | every element as a manifest: what each tag takes, says, holds and draws |
 | `dist/soul-check.js` | `npx soul-check`, the rule above as an exit code |
+| `dist/soul-diagram.js` | `@typo3/soul-frontend/diagram`, a spec in and an SVG out |
+| `dist/soul-diagram-cli.js` | `npx soul-diagram`, the text of a `.diagram` file in and its SVG file out |
 | `fonts/`, `assets/` | the faces, the icon sprites and the drawings a page references |
 
 ## The manual

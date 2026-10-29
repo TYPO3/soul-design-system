@@ -44,7 +44,7 @@ export const head = ({ eyebrow, heading, lead, note }: Pick<SlideProps, 'eyebrow
     window, because a story opens in whatever canvas there is. The static one
     is its own viewport. */
 export const slide = (
-  { kind = 'content', ground, eyebrow, heading, lead, note, number, sections, current, portrait, alt, src, drawings, layout, bleed, framed, plain }: SlideProps,
+  { kind = 'content', ground, eyebrow, heading, lead, legend, note, number, sections, current, portrait, alt, src, drawings, layout, bleed, framed, plain }: SlideProps,
   body?: TemplateResult,
   { flat = false, bare = false }: DeckMode = {},
 ): TemplateResult => {
@@ -71,6 +71,7 @@ export const slide = (
       kind="${said(kind, 'content')}"
       ground="${said(ground, 'paper')}"
       layout="${said(layout, 'wide')}"
+      legend="${said(legend)}"
       ?bleed="${bleed ?? false}"
       ?framed="${framed ?? false}"
       ?plain="${plain ?? false}"

@@ -42,6 +42,45 @@ const BOOKENDS = new Set(['cover', 'closing']);
     their eyebrow. A cover and a divider say something else. */
 const PLACED = new Set(['content', 'figure', 'speaker', 'statement', 'closing']);
 
+/** A slide as the deck reads it: its kind and title, the values its author
+    wrote, and if it brings its own eyebrow. */
+export interface Told {
+  kind: string;
+  heading: string;
+  kept: (name: string) => string | null;
+  eyebrow: boolean;
+}
+
+/** What a deck says once, to each slide in its order. The count, the outline
+    and the place come from the order. A value the author wrote stays. The
+    static renderer says the same, so a slide draws its foot before a script. */
+export function tell(deck: { brand: string; product: string; signet: string; signetLarge: string; numbered: boolean }, slides: readonly Told[]): Record<string, string>[] {
+  const dividers = slides.filter((slide) => slide.kind === 'section');
+  const outline = JSON.stringify(dividers.map((slide) => slide.heading));
+  const two = (n: number): string => String(n).padStart(2, '0');
+  let place = '';
+  return slides.map((slide, i) => {
+    const out: Record<string, string> = {};
+    const give = (name: string, value: string): void => {
+      if (value && slide.kept(name) === null) out[name] = value;
+    };
+    const bookend = BOOKENDS.has(slide.kind);
+    give('brand', deck.brand);
+    give('product', deck.product);
+    give('signet', bookend ? deck.signetLarge || deck.signet : deck.signet);
+    if (deck.numbered && !bookend) give('number', two(i + 1));
+    const at = dividers.indexOf(slide);
+    /* The section a slide stands in, as its eyebrow: the number the outline
+       gives it, and its name. A slide before the first has none. */
+    if (at >= 0) {
+      give('sections', outline);
+      give('current', String(at));
+      place = `${two(Number(slide.kept('current') ?? at) + 1)} · ${slide.heading}`;
+    } else if (PLACED.has(slide.kind) && !slide.eyebrow) give('eyebrow', place);
+    return out;
+  });
+}
+
 /** A slide on the stage, and what it gave up to stand there. */
 interface Loan {
   slide: SdsSlide;
@@ -72,6 +111,9 @@ interface Drag {
 
 /** What a picture of a slide must not keep: a stop for the keyboard, a
     control, a thing that plays. */
+/* How many pictures the list draws in one frame. */
+const PICTURES = 6;
+
 const LIVE = new Set(['a', 'button', 'input', 'select', 'textarea', 'summary', 'details', 'label', 'iframe', 'video', 'audio', 'dialog']);
 
 /** A slide as a picture, for the list and for the slide on its way off the
@@ -147,9 +189,15 @@ export class SdsDeck extends SdsElement {
   /** The slides written between the tags, if any. */
   private own: SdsSlide[] = [];
   private slides: SdsSlide[] = [];
+  /** The slides whose picture the list already holds. */
+  private drawn = new Set<number>();
+  private drawing = 0;
   private loan?: Loan;
   private keys?: AbortController;
   private asks?: AbortController;
+  private grows?: MutationObserver;
+  /* What the deck set on each slide, so it can set it again. */
+  private readonly given = new WeakMap<Element, Record<string, string>>();
   /** The slide to come back to after a print, if the deck was open. */
   private resume = -1;
   private drag?: Drag;
@@ -183,51 +231,57 @@ export class SdsDeck extends SdsElement {
     this.addEventListener('sds-command', this.onCommand as EventListener);
     this.asks = new AbortController();
     document.addEventListener('sds-slide-open', this.onAsk, { signal: this.asks.signal });
+    this.furnish();
+    /* An element that upgrades after the deck can put fresh copies of its
+       slides in the page. The deck gives those the same as the first ones. */
+    const root = this.from ? document.getElementById(this.from) : document.body;
+    if (this.own.length || !root) return;
+    this.grows = new MutationObserver((records) => {
+      const added = records.some((record) => [...record.addedNodes].some((node) => node instanceof Element && (node.localName === 'sds-slide' || node.querySelector('sds-slide'))));
+      /* A slide the deck lends to its stage leaves the page and comes back:
+         that is no new order, so an open deck counts nothing. */
+      if (added && !this.open) this.furnish();
+    });
+    this.grows.observe(root, { childList: true, subtree: true });
+  }
+
+  /* What the deck says to the slides of the page, and the press on each. */
+  private furnish(): void {
     const slides = this.collect();
     this.hand(slides);
-    if (!this.own.length) for (const slide of slides) slide.setAttribute('zoomable', '');
+    if (!this.own.length) for (const slide of slides) if (!slide.hasAttribute('zoomable')) slide.setAttribute('zoomable', '');
   }
 
   /* What the deck says once, given to every slide that does not say it. An
      attribute, because a slide can still wait for its upgrade, and a value
      set on it then outweighs the attribute its author wrote. The count, the
-     outline and the place in it come from the order: nobody keeps them by hand. */
+     outline and the place in it come from the order: nobody keeps them by hand.
+     A value the deck gave, it gives again when the order changes. */
   private hand(slides: readonly SdsSlide[]): void {
-    const kind = (slide: Element): string => slide.getAttribute('kind') || 'content';
-    const give = (slide: Element, name: string, value: string): void => {
-      if (value && !slide.getAttribute(name)) slide.setAttribute(name, value);
-    };
-    const dividers = slides.filter((slide) => kind(slide) === 'section');
-    const outline = JSON.stringify(dividers.map((slide) => slide.getAttribute('heading') ?? ''));
-    let place = '';
-    slides.forEach((slide, i) => {
-      const bookend = BOOKENDS.has(kind(slide));
+    const said = slides.map((slide): Told => ({
+      kind: slide.getAttribute('kind') || 'content',
+      heading: slide.getAttribute('heading') ?? '',
+      kept: (name) => {
+        const value = slide.getAttribute(name);
+        return value && value !== '[]' && value !== this.given.get(slide)?.[name] ? value : null;
+      },
+      eyebrow: Boolean(slide.querySelector(':scope > [slot="eyebrow"], :scope > .sds-slide > .sds-slide__head > sds-eyebrow')),
+    }));
+    tell(this, said).forEach((given, i) => {
+      const slide = slides[i] as SdsSlide;
       /* A slide of a deck stands on a page as a picture of its column. */
       if (!slide.hasAttribute('shrink')) slide.setAttribute('shrink', '');
-      give(slide, 'brand', this.brand);
-      give(slide, 'product', this.product);
-      give(slide, 'signet', bookend ? this.signetLarge || this.signet : this.signet);
-      if (this.numbered && !bookend) give(slide, 'number', String(i + 1).padStart(2, '0'));
-      const said = slide.getAttribute('sections');
-      if (dividers.includes(slide) && (!said || said === '[]')) {
-        slide.setAttribute('sections', outline);
-        slide.setAttribute('current', String(dividers.indexOf(slide)));
-      }
-      /* The section a slide stands in, as its eyebrow: the number the
-         outline gives it, and its name. A slide before the first has none. */
-      if (dividers.includes(slide)) {
-        const at = Number(slide.getAttribute('current') ?? dividers.indexOf(slide)) + 1;
-        place = `${String(at).padStart(2, '0')} · ${slide.getAttribute('heading') ?? ''}`;
-      } else if (PLACED.has(kind(slide)) && !slide.querySelector(':scope > [slot="eyebrow"], :scope > .sds-slide > .sds-slide__head > sds-eyebrow')) {
-        give(slide, 'eyebrow', place);
-      }
+      for (const [name, value] of Object.entries(given)) if (slide.getAttribute(name) !== value) slide.setAttribute(name, value);
+      this.given.set(slide, { ...this.given.get(slide), ...given });
     });
   }
+
 
   override disconnectedCallback(): void {
     this.removeEventListener('sds-command', this.onCommand as EventListener);
     this.keys?.abort();
     this.asks?.abort();
+    this.grows?.disconnect();
     this.giveBack();
     super.disconnectedCallback();
   }
@@ -261,19 +315,25 @@ export class SdsDeck extends SdsElement {
     if (this.own.length) return this.own;
     const root = this.from ? document.getElementById(this.from) : document;
     if (!root) return [];
-    return [...root.querySelectorAll<SdsSlide>('sds-slide')].filter((slide) => !slide.closest('sds-deck'));
+    return [...root.querySelectorAll<SdsSlide>('sds-slide:not([page-only])')].filter((slide) => !slide.closest('sds-deck'));
   }
 
   show(at = 0): void {
     this.slides = this.collect();
     this.titles = this.slides.map(titleOf);
+    this.drawn.clear();
     this.open = true;
     void this.updateComplete.then(() => {
-      this.draw();
       const el = this.dialog;
       if (el && !el.open) el.showModal();
       this.listen();
-      this.go(at);
+      /* The deck starts to fade in first, and the slide comes on the stage
+         a frame later, while the deck is still faint. */
+      requestAnimationFrame(() => {
+        if (!this.open) return;
+        this.go(at);
+        if (this.listed) this.drawAll();
+      });
     });
   }
 
@@ -354,15 +414,30 @@ export class SdsDeck extends SdsElement {
     setTimeout(gone, 1000);
   }
 
-  /* A picture of every slide for the list, before the first loan. Each
-     slide still stands where the page drew it, fitted to its column. */
-  private draw(): void {
-    const boxes = this.querySelectorAll('.sds-deck__thumb');
-    this.slides.forEach((slide, i) => {
-      const frame = slide.querySelector(':scope > .sds-slide');
-      const box = boxes[i];
-      if (frame && box) box.replaceChildren(picture(frame));
-    });
+  /* The picture of one slide for the list, while the slide still stands
+     where the page drew it, fitted to its column. So a slide takes its
+     picture before its loan, and the stage never sits for one. */
+  private draw(index: number): void {
+    if (this.drawn.has(index) || this.loan?.slide === this.slides[index]) return;
+    const frame = this.slides[index]?.querySelector(':scope > .sds-slide');
+    const box = this.querySelectorAll('.sds-deck__thumb')[index];
+    if (!frame || !box) return;
+    box.replaceChildren(picture(frame));
+    this.drawn.add(index);
+  }
+
+  /* The pictures the list shows, a few in each frame from the current one
+     on. A deck opens at once, and a long one never stops the page. */
+  private drawAll(): void {
+    cancelAnimationFrame(this.drawing);
+    const order = this.slides.map((_, i) => i).sort((a, b) => Math.abs(a - this.at) - Math.abs(b - this.at));
+    const next = (): void => {
+      if (!this.open || !this.listed) return;
+      const left = order.filter((i) => !this.drawn.has(i));
+      for (const i of left.slice(0, PICTURES)) this.draw(i);
+      if (left.length > PICTURES) this.drawing = requestAnimationFrame(next);
+    };
+    next();
   }
 
   /* The slide leaves the page for the stage, and a box of its height holds
@@ -373,6 +448,7 @@ export class SdsDeck extends SdsElement {
     const stage = this.querySelector('.sds-deck__stage');
     if (!slide || !stage) return;
     this.giveBack();
+    this.draw(index);
     const hold = document.createElement('div');
     hold.className = 'sds-deck__hold';
     hold.style.height = `${slide.getBoundingClientRect().height}px`;
@@ -425,11 +501,37 @@ export class SdsDeck extends SdsElement {
     );
   }
 
+  /* The number a reader types into the count, or types blind and ends with
+     Enter: the deck goes to that slide. */
+  private readonly onGoto = (event: Event): void => {
+    if (event instanceof KeyboardEvent && event.key !== 'Enter') return;
+    const input = event.target as HTMLInputElement;
+    const number = Number.parseInt(input.value, 10);
+    if (Number.isFinite(number)) this.go(Math.min(Math.max(number, 1), this.slides.length) - 1);
+    input.value = String(this.at + 1);
+    event.preventDefault();
+  };
+
+  private typed = '';
+  private typedAt = 0;
+
   private readonly onKey = (event: KeyboardEvent): void => {
     if (!this.open || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
     /* A key inside the slide is the slide's: a code block scrolls with it. */
     const target = event.target as Element | null;
-    if (target?.closest?.('.sds-deck__stage')) return;
+    if (target?.closest?.('.sds-deck__stage, input')) return;
+    if (/^[0-9]$/.test(event.key)) {
+      this.typed = (event.timeStamp - this.typedAt < 1500 ? this.typed : '') + event.key;
+      this.typedAt = event.timeStamp;
+      event.preventDefault();
+      return;
+    }
+    if (event.key === 'Enter' && this.typed && event.timeStamp - this.typedAt < 1500) {
+      this.go(Math.min(Math.max(Number(this.typed), 1), this.slides.length) - 1);
+      this.typed = '';
+      event.preventDefault();
+      return;
+    }
     const step = STEP[event.key];
     if (event.key === 'Home') this.go(0);
     else if (event.key === 'End') this.go(this.slides.length - 1);
@@ -569,7 +671,8 @@ export class SdsDeck extends SdsElement {
     back?.scrollIntoView({ block: 'nearest' });
   };
 
-  protected override updated(): void {
+  protected override updated(changed: Map<PropertyKey, unknown>): void {
+    if (changed.has('listed') && this.listed && this.open) this.drawAll();
     const el = this.dialog;
     if (!el || !this.isConnected) return;
     if (!this.open && el.open) el.close();
@@ -631,7 +734,9 @@ export class SdsDeck extends SdsElement {
     </div>
     <div class="sds-deck__controls">
       <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" type="button" title="Previous slide (←)" ?disabled="${this.at <= 0}" @click="${() => this.go(this.at - 1)}"><sds-icon name="actions-arrow-left"></sds-icon></button>
-      <p class="sds-deck__count" aria-live="polite">${count}</p>
+      <p class="sds-deck__count" aria-live="polite">${total
+        ? html`<input class="sds-deck__goto" type="text" inputmode="numeric" aria-label="Go to slide, of ${total}" .value="${String(this.at + 1)}" size="${String(total).length}" @keydown="${this.onGoto}" @change="${this.onGoto}" @blur="${(event: Event) => ((event.target as HTMLInputElement).value = String(this.at + 1))}" /><span> / ${total}</span>`
+        : count}</p>
       <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" type="button" title="Next slide (→)" ?disabled="${this.at >= total - 1}" @click="${() => this.go(this.at + 1)}"><sds-icon name="actions-arrow-right"></sds-icon></button>
     </div>
     <div class="sds-deck__end">

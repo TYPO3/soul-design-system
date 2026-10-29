@@ -6,15 +6,15 @@
     the extension. `sds-figure` puts it on the wrapper it references the
     drawing from, because `<use>` does not bring a size across. */
 export const DIAGRAM_VIEWBOX: Readonly<Record<string, string>> = {
-  "answer-sources": "0 0 1200 750",
-  "cache-key": "0 0 1200 560",
-  "installation-fallback": "0 0 1200 786",
-  "lookup-cache": "0 0 1200 620",
-  "record-of-reads": "0 0 1200 560",
-  "slide-cache-read": "0 0 238 216",
-  "slide-cache-slots": "0 0 238 216",
-  "slide-cache-write": "0 0 238 216",
-  "slide-lookup": "0 0 877 354",
-  "slide-sources": "0 0 519 401",
-  "system-overview": "0 0 1200 726",
+  "answer-sources": "0 0 1200 433",
+  "cache-key": "0 0 1200 346",
+  "installation-fallback": "0 0 1200 528",
+  "lookup-cache": "0 0 1200 308",
+  "record-of-reads": "0 0 1200 370",
+  "slide-cache-read": "0 0 238 160",
+  "slide-cache-slots": "0 0 238 210",
+  "slide-cache-write": "0 0 238 160",
+  "slide-lookup": "0 0 877 226",
+  "slide-sources": "0 0 519 330",
+  "system-overview": "0 0 1200 500",
 };

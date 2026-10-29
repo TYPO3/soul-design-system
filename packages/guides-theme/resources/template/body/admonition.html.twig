@@ -26,14 +26,20 @@
     visible angle brackets rather than as emphasis. A title that leans on
     inline markup is a title that does a paragraph's job.
 #}
-{%- set tone = {
+{%- set tones = {
     'tip':        'ok',
     'attention':  'warn',
     'caution':    'warn',
     'warning':    'warn',
     'danger':     'error',
     'error':      'error',
-}[name]|default('info') -%}
+} -%}
+{#- `.. admonition:: A title of its own` with `:class: warning` is a warning
+    with a heading, as Sphinx draws it. The type's name wins, then a class
+    that names a type. -#}
+{%- set given = ((class ?? '')|split(' '))|merge(node.classes ?? []) -%}
+{%- set kind = name in tones|keys ? name : (given|filter(c => c in tones|keys)|first) -%}
+{%- set tone = kind ? tones[kind] : 'info' -%}
 {%- set said = {
     'note':       'Note',
     'tip':        'Tip',
@@ -45,7 +51,7 @@
     'warning':    'Warning',
     'danger':     'Danger',
     'error':      'Error',
-}[name]|default('Note') -%}
+}[kind ?: name]|default('Note') -%}
 {#- Whatever the caller and the source text put on the box, in one attribute.
     Two `class=` on one tag is not two class lists; the browser keeps the
     first and drops the rest. -#}

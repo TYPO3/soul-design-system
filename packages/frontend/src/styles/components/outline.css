@@ -25,6 +25,7 @@
     --sds-outline-indent: var(--space-3);
     --sds-outline-bleed: var(--space-2);
     --sds-outline-label-gap: var(--space-4);
+    --sds-outline-part-gap: var(--space-4);
     --sds-outline-radius: var(--radius-control);
     --sds-outline-leading: var(--leading-heading);
     --sds-outline-ink: var(--text-secondary);
@@ -83,6 +84,16 @@
     }
     > li:last-child {
       margin-bottom: 0;
+    }
+  }
+  /* The head of a part: the label over its entries, a step clear of the
+     part before it. */
+  .sds-outline__part {
+    > .sds-label {
+      margin: 0;
+    }
+    &:not(:first-child) {
+      margin-block-start: var(--sds-outline-part-gap);
     }
   }
   /* A row rather than a line of text, so the current one can take a fill. It
@@ -170,6 +181,12 @@
   .sds-outline__toggle {
     display: none;
   }
+  /* A row bleeds past the list by its padding, and a fold cuts what leaves
+     it. So the fold takes the bleed back as the outline box does. */
+  .sds-outline__fold {
+    margin-inline: calc(-1 * var(--sds-outline-bleed));
+    padding-inline: var(--sds-outline-bleed);
+  }
 
   /* The width where a panel has no room beside the page. The list folds
      behind one press in the panel's head: the glyph of a list, the name,
@@ -183,6 +200,8 @@
     }
     .sds-outline__fold {
       flex-basis: 100%;
+      margin-inline: 0;
+      padding-inline: 0;
     }
     .sds-outline__toggle {
       position: absolute;

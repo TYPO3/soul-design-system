@@ -82,11 +82,14 @@ final class OnThisPage implements NodeTransformer
         return null;
     }
 
-    /** A landing page navigates nothing: it is the way in, not a reference. */
+    /**
+     * A landing page navigates nothing: it is the way in, not a reference. A
+     * paper has its outline in the panel, so a second list is the same list.
+     */
     private function marketing(DocumentNode $document): bool
     {
         foreach ($document->getHeaderNodes() as $header) {
-            if ($header instanceof LayoutNode && $header->getValue() === LayoutNode::MARKETING) {
+            if ($header instanceof LayoutNode && in_array($header->getValue(), [LayoutNode::MARKETING, LayoutNode::PAPER], true)) {
                 return true;
             }
         }

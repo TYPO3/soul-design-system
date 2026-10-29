@@ -416,6 +416,8 @@ window, so the width stands in the stylesheet alone.
    The parts, nested as deep as the document nests them. An entry that
    points at this page is a place the reader can be in. ``current`` on an
    entry is what a card and a static page have instead of a reader.
+   ``part`` makes an entry a head over its ``items`` and no place: a
+   label in the list, with the count running on across it.
 
 .. confval:: label
    :name: sds-nav-outline-label

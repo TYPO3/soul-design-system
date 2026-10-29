@@ -1,7 +1,9 @@
 {#- A reference, and where it points in this format: the twin of the page it
     named. A format's name is the extension every link inside it resolves
-    to. A link with nothing to point at is its own words. -#}
+    to. A link with nothing to point at is its own words. A reference whose
+    words are `#` is the number of what it names. -#}
 {%- autoescape false -%}
 {%- set text -%}{% for child in node.children %}{{ renderNode(child) }}{% endfor %}{%- endset -%}
+{%- if text|trim == '#' and number_at(node.targetReference ?? '') -%}{%- set text = number_at(node.targetReference) -%}{%- endif -%}
 {%- if node.url and text|trim -%}[{{ text|trim }}]({{ node.url }}){%- else -%}{{ text|trim }}{%- endif -%}
 {%- endautoescape -%}

@@ -10,6 +10,7 @@
    `components.css` and a surface that writes plain markup needs it. */
 
 import { html, type TemplateResult } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import './icon.ts';
 import { define, isBlank, SdsElement } from '../lib/element.ts';
 
@@ -48,6 +49,12 @@ export interface ButtonProps {
   /** What that link is to this page — `prev`, `next`, `external`. Only with
       `href`, being the anchor's own attribute. */
   rel?: string;
+  /** The name a press saves the file under, rather than opens it. Only with
+      `href`: a link to a file, or to a file a page made itself. */
+  download?: string;
+  /** Where the link opens: `_blank` for a window of its own. Only with
+      `href`, as the anchor's own attribute. */
+  target?: string;
 }
 
 export function buttonClass({ variant = 'primary', size = 'md', iconOnly = false, disabled = false }: ButtonProps): string {
@@ -76,15 +83,16 @@ export const buttonLabel = (body: unknown): TemplateResult =>
    than as a grey link the browser follows anyway. */
 function linkMarkup(props: ButtonProps, body: unknown): TemplateResult {
   const cls = buttonClass({ ...props, disabled: false });
-  const href = props.href ?? '';
-  if (props.rel) {
-    return props.title
-      ? html`<a class="${cls}" href="${href}" rel="${props.rel}" title="${props.title}">${body}</a>`
-      : html`<a class="${cls}" href="${href}" rel="${props.rel}">${body}</a>`;
-  }
-  return props.title
-    ? html`<a class="${cls}" href="${href}" title="${props.title}">${body}</a>`
-    : html`<a class="${cls}" href="${href}">${body}</a>`;
+  /* An attribute stands only where it says something. */
+  const said = (value?: string): string | undefined => value || undefined;
+  return html`<a
+    class="${cls}"
+    href="${props.href ?? ''}"
+    rel="${ifDefined(said(props.rel))}"
+    target="${ifDefined(said(props.target))}"
+    download="${ifDefined(said(props.download))}"
+    title="${ifDefined(said(props.title))}"
+  >${body}</a>`;
 }
 
 /** The markup a button is, given whatever stands inside it. */
@@ -163,6 +171,8 @@ export class SdsButton extends SdsElement {
     type: { type: String, reflect: true },
     href: { type: String },
     rel: { type: String },
+    download: { type: String },
+    target: { type: String },
     for: { type: String, reflect: true },
     command: { type: String, reflect: true },
     iconOnly: { type: Boolean, attribute: 'icon-only', reflect: true },
@@ -175,6 +185,10 @@ export class SdsButton extends SdsElement {
   /** Where it goes, where the press is a link rather than an action. */
   declare href: string;
   declare rel: string;
+  /** The name a press saves the linked file under. */
+  declare download: string;
+  /** Where the link opens. */
+  declare target: string;
   /** The id of what this button acts on — the label element's spelling for
       the same relationship, which a reader of the markup already knows. */
   declare for: string;
@@ -200,6 +214,8 @@ export class SdsButton extends SdsElement {
     this.type = 'button';
     this.href = '';
     this.rel = '';
+    this.download = '';
+    this.target = '';
     this.for = '';
     this.command = 'show';
     this.iconOnly = false;
@@ -248,7 +264,7 @@ export class SdsButton extends SdsElement {
     return buttonMarkup(
       {
         variant: this.variant, size: this.size, iconOnly, title: this.title,
-        disabled: this.disabled, type: this.type, href: this.href, rel: this.rel,
+        disabled: this.disabled, type: this.type, href: this.href, rel: this.rel, download: this.download, target: this.target,
       },
       this.taken.length ? labelled(this.taken) : (this.content ?? this.taken),
     );

@@ -28,6 +28,7 @@ import { type Column, type Row } from '../../packages/frontend/src/components/ta
 import { siteBar, siteFooter } from '../lib/site.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode, skipLink } from '../lib/page.ts';
+import { shipped } from '../lib/diagram.ts';
 
 /** What the tool can touch, as the three columns a questionnaire asks for.
     The thing, what it can do to it, and what survives the run. Three rows and
@@ -180,12 +181,7 @@ export function securityPage({ flat = false }: PageMode = {}): TemplateResult {
           ></sds-note>
         </div>
         <div class="sds-column">
-          <sds-figure
-            src="assets/diagrams/answer-sources.svg"
-            alt="Five sources feeding the server, with one arrow leaving the machine towards the documentation"
-            caption="Five sources, four of them on your disk. The one that leaves is drawn as the exception it is."
-            zoomable
-          ></sds-figure>
+          <sds-figure caption="Five sources, four of them on your disk. The one that leaves is drawn as the exception it is.">${shipped('answer-sources')}</sds-figure>
         </div>
       </div>
     </section>

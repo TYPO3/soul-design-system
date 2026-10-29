@@ -35,6 +35,12 @@ export interface ButtonProps {
     /** What that link is to this page — `prev`, `next`, `external`. Only with
         `href`, being the anchor's own attribute. */
     rel?: string;
+    /** The name a press saves the file under, rather than opens it. Only with
+        `href`: a link to a file, or to a file a page made itself. */
+    download?: string;
+    /** Where the link opens: `_blank` for a window of its own. Only with
+        `href`, as the anchor's own attribute. */
+    target?: string;
 }
 export declare function buttonClass({ variant, size, iconOnly, disabled }: ButtonProps): string;
 /** The label as the one node it is.
@@ -82,6 +88,12 @@ export declare class SdsButton extends SdsElement {
         rel: {
             type: StringConstructor;
         };
+        download: {
+            type: StringConstructor;
+        };
+        target: {
+            type: StringConstructor;
+        };
         for: {
             type: StringConstructor;
             reflect: boolean;
@@ -103,6 +115,10 @@ export declare class SdsButton extends SdsElement {
     /** Where it goes, where the press is a link rather than an action. */
     href: string;
     rel: string;
+    /** The name a press saves the linked file under. */
+    download: string;
+    /** Where the link opens. */
+    target: string;
     /** The id of what this button acts on — the label element's spelling for
         the same relationship, which a reader of the markup already knows. */
     for: string;

@@ -104,6 +104,15 @@ export const SmallWithIcon: Story = { args: { variant: 'secondary', size: 'sm', 
     property: a button whose whole label is one glyph is one. */
 export const IconOnly: Story = { args: { variant: 'secondary', size: 'sm', label: '', icon: 'actions-close', title: 'Close', disabled: false } };
 
+/** A link that saves its file rather than opens it. `download` names the
+    file, and the press is still a link: a middle click opens it instead. */
+export const Download: Story = {
+  render: () =>
+    html`<sds-button variant="secondary" size="sm" href="assets/diagrams/cache-key.svg" download="cache-key.svg"
+      ><sds-icon name="actions-download"></sds-icon>Download SVG</sds-button
+    >`,
+};
+
 /** The label is markup, which is the reason it is content. A glyph, a word,
     and a version in mono are one label and no string can hold them. The icon
     takes the size of the text it sits in, so this reads right at both sizes

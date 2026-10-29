@@ -38,6 +38,7 @@ import { FINDING_GROUPS } from '../../packages/frontend/src/components/register.
 import { type Column, type Row } from '../../packages/frontend/src/components/table.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode } from '../lib/page.ts';
+import { shipped } from '../lib/diagram.ts';
 
 const mono = (text: string): TemplateResult => html`<span class="sds-mono">${text}</span>`;
 
@@ -238,12 +239,7 @@ const FINDINGS: readonly EntryProps[] = [
       whatever language the next call names. Probe P2 shows it, and the two remaining
       failures in F1.1 are this. Key on the key and the language, or keep one array per
       language.</p>
-      <sds-figure
-        src="assets/diagrams/cache-key.svg"
-        alt="Two calls for the same key, one in German and one in English, both reach the same slot of the array. The German call writes the slot; the English call reads it and answers in German."
-        caption="Both calls reach one slot. The German call fills it, and the English call answers from it, in German."
-        zoomable
-      ></sds-figure>`,
+      <sds-figure caption="Both calls reach one slot. The German call fills it, and the English call answers from it, in German.">${shipped('cache-key')}</sds-figure>`,
   },
   {
     heading: 'A missing key reads the catalogue on every call',
@@ -480,12 +476,7 @@ export function reviewPage({ flat = false }: PageMode = {}): TemplateResult {
             and the file kept an answer, so every call was a read. The other lookups keep theirs
             somewhere, and where they keep it decides what a change to one of them can touch.
           </p>
-          <sds-figure
-            src="assets/diagrams/lookup-cache.svg"
-            alt="Two rows of the same four stops: the call, the array on the service, the catalogue reader, and the file. The first lookup passes through all four and reads the file. The second hits the array and goes no further."
-            caption="The first lookup of a key reads the file; the second stops at the array. Forty labels on a page are three reads, not forty."
-            zoomable
-          ></sds-figure>
+          <sds-figure caption="The first lookup of a key reads the file; the second stops at the array. Forty labels on a page are three reads, not forty.">${shipped('lookup-cache')}</sds-figure>
           <sds-table scrollable .columns="${LOOKUPS_COLUMNS}" .rows="${LOOKUPS}"></sds-table>
         </section>
 

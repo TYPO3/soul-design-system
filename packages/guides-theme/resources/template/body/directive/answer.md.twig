@@ -1,0 +1,14 @@
+{#- One answer: its letter, the answer in bold, its mark, and what it means
+    indented under it. -#}
+{%- autoescape false -%}
+{%- set mark = node.option('decided') ? ' (decided)' : (node.option('recommended') ? ' (recommended)' : '') -%}
+{%- set body -%}
+**{{ node.option('heading')|md_escape }}**{{ mark }}
+
+{% for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endset -%}
+{{ body|trim|md_indent('- ' ~ node.option('key') ~ '. ') }}
+{%- endautoescape -%}

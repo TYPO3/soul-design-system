@@ -124,7 +124,9 @@ export function pageClipped(): string[] {
 
     for (let up = el.parentElement; up && up !== document.body; up = up.parentElement) {
       const style = getComputedStyle(up);
-      const fold = up.tagName === 'DETAILS';
+      /* A fold hides what it holds, never its own summary, which is the
+         press that opens it and stands wherever the fold places it. */
+      const fold = up.tagName === 'DETAILS' && el.closest('summary')?.parentElement !== up;
       const hidesY = fold || /^(hidden|clip)$/.test(style.overflowY);
       const hidesX = fold || /^(hidden|clip)$/.test(style.overflowX);
       if (!hidesX && !hidesY && style.overflowX === 'visible' && style.overflowY === 'visible') continue;

@@ -1,0 +1,27 @@
+# Source declaration = availability: every source has a precondition.
+bars
+  bands "nothing running,files on disk,a booted installation,network reach"
+  axis "Required machine state"
+title "Every source has a precondition"
+description "The five sources a TYPO3 Support App tool can answer from, plotted against how much of the machine has to be running. Bundled knowledge and the server's own checkout answer with nothing running; installed packages need files on disk; the installation source needs a booted installation; network sources need outbound reach."
+
+row `knowledge`
+  sub "Bundled and version-bound."
+  segments 4
+  emphasis
+row `checkout`
+  sub "This server's own repository."
+  segments 4
+row `packages`
+  sub "Files read, never executed."
+  segments absent=1 3
+row `installation`
+  sub "Assembled runtime state."
+  segments absent=2 2
+row `network`
+  sub "Official live services."
+  segments absent=3 1
+
+legend
+  ink "available"
+  absent "the state this source still needs"

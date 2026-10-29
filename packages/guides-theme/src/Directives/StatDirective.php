@@ -8,6 +8,7 @@ use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
 use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
 use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
+use phpDocumentor\Guides\RestructuredText\Directives\OptionType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
 use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\StatNode;
@@ -39,6 +40,8 @@ use TYPO3\Soul\GuidesTheme\Nodes\StatNode;
 #[Attributes\Option(name: 'unit', description: 'The unit of the number.')]
 #[Attributes\Option(name: 'label', description: 'What the number counts.')]
 #[Attributes\Option(name: 'of', description: 'The whole it is a part of.')]
+#[Attributes\Option(name: 'bar', type: OptionType::Boolean, description: 'With :of:, the share as a bar under the figure.')]
+#[Attributes\Option(name: 'list', type: OptionType::Boolean, description: 'With :of:, one share of a list: the label and the count over the bar.')]
 #[Attributes\Option(name: 'icon', description: 'The name of an icon.')]
 #[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class StatDirective extends SubDirective
@@ -52,6 +55,8 @@ final class StatDirective extends SubDirective
             'unit' => $directive->getOption('unit')->getValue(),
             'label' => $directive->getOption('label')->getValue(),
             'of' => $directive->getOption('of')->getValue(),
+            'bar' => $directive->hasOption('bar'),
+            'list' => $directive->hasOption('list'),
             'icon' => $directive->getOption('icon')->getValue(),
             /* An author who wrote `:class:` meant it for their own stylesheet.
                To drop what a theme does not understand is the one thing it

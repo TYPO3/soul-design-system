@@ -75,10 +75,15 @@ use phpDocumentor\Guides\RestructuredText\Nodes\TopicNode;
 use phpDocumentor\Guides\RestructuredText\Nodes\VersionChangeNode;
 use TYPO3\Soul\GuidesTheme\Nodes\AccordionItemNode;
 use TYPO3\Soul\GuidesTheme\Nodes\AccordionNode;
+use TYPO3\Soul\GuidesTheme\Nodes\AnswerNode;
 use TYPO3\Soul\GuidesTheme\Nodes\BandNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ButtonBarNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ButtonNode;
+use TYPO3\Soul\GuidesTheme\Nodes\BylineNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
+use TYPO3\Soul\GuidesTheme\Nodes\CodemodeNode;
+use TYPO3\Soul\GuidesTheme\Nodes\DecisionNode;
+use TYPO3\Soul\GuidesTheme\Nodes\DiagramNode;
 use TYPO3\Soul\GuidesTheme\Nodes\DirectoryTreeNode;
 use TYPO3\Soul\GuidesTheme\Nodes\EntryNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ExampleNode;
@@ -86,8 +91,11 @@ use TYPO3\Soul\GuidesTheme\Nodes\FactsNode;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
+use TYPO3\Soul\GuidesTheme\Nodes\OutlineNode;
+use TYPO3\Soul\GuidesTheme\Nodes\PartNode;
 use TYPO3\Soul\GuidesTheme\Nodes\QuoteNode as SoulQuoteNode;
 use TYPO3\Soul\GuidesTheme\Nodes\RegisterNode;
+use TYPO3\Soul\GuidesTheme\Nodes\SlideNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SplitNode;
 use TYPO3\Soul\GuidesTheme\Nodes\StatNode;
 use TYPO3\Soul\GuidesTheme\Nodes\StepNode;
@@ -192,7 +200,15 @@ return [
     RegisterNode::class => 'body/directive/register.md.twig',
     EntryNode::class => 'body/directive/entry.md.twig',
     DirectoryTreeNode::class => 'body/directive/directory-tree.md.twig',
+    DiagramNode::class => 'body/directive/diagram.md.twig',
     StepsNode::class => 'body/directive/steps.md.twig',
     StepNode::class => 'body/directive/step.md.twig',
+    PartNode::class => 'structure/blank.md.twig',
+    OutlineNode::class => 'structure/blank.md.twig',
+    DecisionNode::class => 'body/directive/decision.md.twig',
+    SlideNode::class => 'body/directive/slide.md.twig',
+    CodemodeNode::class => 'body/directive/codemode.md.twig',
+    BylineNode::class => 'body/directive/byline.md.twig',
+    AnswerNode::class => 'body/directive/answer.md.twig',
     ExampleNode::class => 'body/directive/example.md.twig',
 ];

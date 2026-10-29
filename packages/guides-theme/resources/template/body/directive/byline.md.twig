@@ -1,0 +1,5 @@
+{#- A byline is its words, in the element's order. -#}
+{%- autoescape false -%}
+{{ [node.option('name'), node.option('as'), node.option('meta')]|filter(part => part)|map(part => part|md_escape)|join(' · ') }}
+
+{% endautoescape -%}

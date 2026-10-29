@@ -51,13 +51,14 @@ export declare class SdsGrid extends SdsElement {
     private watch?;
     constructor();
     connectedCallback(): void;
+    private ask;
     disconnectedCallback(): void;
     /** What the sheet draws on its own, and what to draw instead.
   
         The minimum comes off the grid rather than a copy here. The three widths
         differ in exactly that number, and a copy of it in TypeScript is the
         copy that goes stale. */
-    private decide;
+    decide(): number | undefined;
     protected updated(): void;
     protected render(): TemplateResult;
 }

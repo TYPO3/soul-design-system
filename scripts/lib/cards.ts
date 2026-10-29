@@ -236,8 +236,8 @@ export function embedCards(source: string): number {
    document points at, so the file has to sit beside the documents. It is
    generated rather than kept there by hand because a mark outside its own
    box lands between whole pixels, and nothing else can see it. */
-export function embedMarks(source: string, marks: Readonly<Record<string, string>>, check = false): string[] {
-  const out = join(source, '_images');
+export function embedMarks(source: string, marks: Readonly<Record<string, string>>, check = false, dir = '_images'): string[] {
+  const out = join(source, dir);
   if (!check) mkdirSync(out, { recursive: true });
   const stale: string[] = [];
   for (const [name, asset] of Object.entries(marks)) {

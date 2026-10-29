@@ -35,6 +35,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
  */
 #[Attributes\Directive(name: 'grid', valueType: DirectiveValueType::String)]
 #[Attributes\Option(name: 'variant', description: 'The width of an item.')]
+#[Attributes\Option(name: 'columns', description: 'This many across, while each item keeps its minimum.')]
 #[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class GridDirective extends SubDirective
 {
@@ -54,6 +55,7 @@ final class GridDirective extends SubDirective
 
         return (new GridNode($directiveNode->getChildren()))->withOptions([
             'variant' => in_array($asked, self::VARIANTS, true) ? $asked : 'default',
+            'columns' => $directive->getOption('columns')->getValue(),
             'class' => $directive->getOption('class')->getValue(),
         ]);
     }

@@ -13,12 +13,18 @@
    several blocks of it, between the tags. `.sds-card` is the plane it draws
    on, so the frame stands in one place. */
 
-import { html, type TemplateResult } from 'lit';
+import { html, svg, type TemplateResult } from 'lit';
+import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import './badge.ts';
 import './icon.ts';
 import { type IconId } from './icon.ts';
 import { art, exported } from '../lib/art.ts';
+import { SIGN_MEANING, sign as drawSign } from '../lib/diagram/paint.ts';
 import { define, isBlank, SdsElement } from '../lib/element.ts';
+
+/** The state of what a card stands for, in the signs of the drawings. */
+export type CardSign = 'yes' | 'partly' | 'no' | 'unknown';
+const SIGNS: readonly CardSign[] = ['yes', 'partly', 'no', 'unknown'];
 
 export interface CardProps {
   /** The name of the entry. The whole card links to it, so this is the line
@@ -45,6 +51,10 @@ export interface CardProps {
   tag?: string;
   /** A glyph above the label, where a set tells its cards apart at a glance. */
   icon?: IconId;
+  /** The state of what the card stands for, measured: `yes`, `partly`, `no`
+      or `unknown`. The sign the drawings use for it, at the end of the label
+      line, and its meaning in words for a reader who hears it. */
+  sign?: CardSign;
   /** One line under a hairline: what the reader gets there, who it is for,
       what state it is in. A label register, so it does not compete. */
   footer?: string;
@@ -64,6 +74,7 @@ export class SdsCard extends SdsElement {
     label: { type: String },
     tag: { type: String },
     icon: { type: String },
+    sign: { type: String },
     footer: { type: String },
     action: { type: String },
   };
@@ -76,6 +87,7 @@ export class SdsCard extends SdsElement {
   declare label: string;
   declare tag: string;
   declare icon?: IconId;
+  declare sign?: CardSign;
   declare footer: string;
   declare action: string;
 
@@ -118,11 +130,17 @@ export class SdsCard extends SdsElement {
     /* The kind and the label on one line, and the line goes rather than stays
        empty. A card whose first row is blank has a hole where a set of them
        lines up. */
+    /* The sign closes the line. It is the one part of a card in a status
+       colour, because it is a result: the shape says the same in greyscale. */
+    const state = this.sign && SIGNS.includes(this.sign) ? this.sign : undefined;
+    const mark = state
+      ? html`<svg class="sds-card__sign" viewBox="-14 -14 28 28" role="img" aria-label="${SIGN_MEANING[state]}">${svg`${unsafeSVG(drawSign(state, 0, 0))}`}</svg>`
+      : '';
     const label =
-      this.tag || this.label
+      this.tag || this.label || mark
         ? html`<div class="sds-row">
       ${this.tag ? html`<sds-badge label="${this.tag}"></sds-badge>` : ''}
-      ${this.label ? html`<span class="sds-label">${this.label}</span>` : ''}
+      ${this.label ? html`<span class="sds-label">${this.label}</span>` : ''}${mark}
     </div>`
         : '';
 

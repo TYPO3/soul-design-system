@@ -61,6 +61,23 @@ The faces are copied to disk rather than imported from `node_modules`
 because a rendered design resolves `styles.css` and its `@import` closure —
 it cannot reach into a package directory.
 
+## Carried cuts — `packages/frontend/src/lib/diagram/faces.generated.ts`
+
+A drawing from a spec carries a cut of Source Sans 3 and Source Code Pro:
+one static weight each, the characters a drawing sets, under the family
+names `Soul Diagram Sans` and `Soul Diagram Mono`. The cuts come from the
+files under `packages/frontend/fonts/`, under the same SIL Open Font
+License 1.1. `make fonts` writes them, with the dev dependency
+`subset-font`.
+
+## Fallback widths — `packages/frontend/src/lib/diagram/metrics.generated.ts`
+
+`make fonts` measures DejaVu Sans and DejaVu Sans Mono from the dev
+dependency `dejavu-fonts-ttf` (Bitstream Vera licence and its public domain
+changes). Only the width of each character goes into the module, as
+numbers. No glyph and no font file ships. The diagram engine uses the widths
+to keep text inside its box where a page shows the fallback face.
+
 ## The TYPO3 name and marks
 
 The TYPO3 Soul is not used anywhere in this system. `TYPO3` is a registered

@@ -1,0 +1,9 @@
+# The key holds no language: the third of a row of three slides.
+flow slide=238,216 columns=1 gap=0,8
+title "The key holds no language"
+description "Three slots of the array, one for each key, and none for a language."
+
+group "cache[]"
+  empty `answer.empty` value="(de)" at=0,0
+  none `answer.none` value="—" at=0,1
+  tool `label.tool` value="(de)" at=0,2

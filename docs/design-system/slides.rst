@@ -12,8 +12,9 @@ the value it has on a page.
 
 The display step is a slide's title. **What a room reads stands a step
 over the page.** The body of a content slide and the text beside a picture
-take the lead step, 19 over 16. A card on a slide is ``sds-surface`` with
-nothing said to it, at that step as a whole.
+take the lead step, 19 over 16. A card on a slide stands at that step as
+a whole, on the paper white of ``--surface-raised``. Its title takes the
+lead step, and its id the text's size.
 
 So the system has no slide palette and no slide components.
 It has one element that owns the frame, and the layouts below. Those are
@@ -64,9 +65,13 @@ What a slide owns
 
 The accent marks three things on a slide, as it marks three on a page. The
 pipe in the lockup, the prompt in a code block, and the rule under the
-current entry of the outline. Nothing floats. A plane separates with a
-hairline, and the slide itself draws one. So a slide on a page, a deck's
-overview or a story's stage, has an edge where its ground is the page's.
+current entry of the outline. A ``headed`` slide adds its eyebrow. In the
+dark, the eyebrow takes ``--accent`` as ink. On paper, the accent has too
+little contrast for text, so the eyebrow takes ``--text-accent-quiet``.
+
+Nothing floats. A plane separates with a hairline, and the slide itself
+draws one. So a slide on a page, a deck's overview or a story's stage, has
+an edge where its ground is the page's.
 
 Type and space
 ==============
@@ -136,8 +141,11 @@ slide opens the deck at it, as a press on a picture opens the picture.
 What a slide holds always fits it. Content taller than the room shrinks
 until it fits. A picture keeps the width it had. Text keeps the room's
 width and wraps anew, so it takes the largest scale where its height fits.
-Nothing grows.
-A summary that cuts off its own end has stopped being a summary.
+Nothing grows. A summary that cuts off its own end has stopped being a
+summary.
+
+A drawing the build put in a file fits by its own frame, with no script.
+So it shows fitted from the first paint.
 
 The deck
 ========
@@ -172,10 +180,14 @@ margin the lockup keeps, on every slide. The head starts one band under
 it. Where a picture runs under the eyebrow, it stands on a plate.
 
 A reader goes on with the keys, with a drag or a swipe, or from the list
-of every slide as a picture. On the full screen the head steps aside and a
-press turns the slide. A turn pushes the old slide out and the next one
-in. A reader who asks for reduced motion gets the next one at once. The PDF is the browser's print: a page per slide at the
-frame's size, text as text.
+of every slide as a picture. A number typed into the count, or typed and
+ended with Enter, goes straight to that slide. On the full screen the head
+steps aside and a press turns the slide. The PDF is the browser's print: a
+page per slide at the frame's size, text as text.
+
+The deck fades in over the page and out of it. A turn pushes the old slide
+out and the next one in. A reader who asks for reduced motion gets the deck
+and the next slide at once.
 
 The layouts
 ===========
@@ -329,6 +341,15 @@ at the size of every other small line and never shrinks with the picture.
 With ``framed`` each drawing stands on a plane with a hairline, its caption
 inside. That is for a sketch of an interface, which has no edge of its own.
 
+**A drawing's key can stand in the head.** ``legend`` sets it at the
+right of the title, on its line: ``■ MVP | □ First version | ID later``.
+The drawing then leaves its own legend out, and the room under the head
+is the drawing's.
+
+**The drawings of a row share one scale.** Each drawing from a text takes
+the room the densest of the row needs. So a label is one size across the
+row, and the keys under the frames line up.
+
 .. list-table::
    :header-rows: 1
 
@@ -345,13 +366,19 @@ inside. That is for a sketch of an interface, which has no edge of its own.
      - 1.83 : 1
      - A view that needs the whole frame: an interface, an architecture.
        Only the count shows, and the head stays for a reader who hears it
+   * - ``headed``
+     - 877 × 394
+     - 2.2 : 1
+     - A view that needs the frame, under a short head and a rule. The
+       eyebrow takes the accent in the dark, and the quiet accent ink on
+       paper. The foot is the count alone
    * - ``row`` × 2
-     - 422 × 317
-     - 1.33 : 1
+     - 422 × 313
+     - 1.35 : 1
      - Two pictures side by side, each under its word, in ``drawings``.
        The room is each one's
    * - ``row`` × 3
-     - 238 × 244
+     - 238 × 240
      - 1 : 1
      - Three sketches side by side, each on its plane with its caption
        under it. ``framed`` draws the planes
@@ -400,7 +427,7 @@ attribute stays as the short form for a line of plain text.
      - Regions
    * - ``content``
      - ``text``, the one a child without a ``slot`` goes to
-   * - ``figure``, ``wide`` and ``full``
+   * - ``figure``, ``wide``, ``full`` and ``headed``
      - ``figure``
    * - ``figure``, ``row``
      - ``figure``, once for each drawing

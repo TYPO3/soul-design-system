@@ -20,6 +20,9 @@ export interface ZoomOptions {
   /** What the drawing claims, carried into the viewer's head so opening it is
       not a change of subject. An image has none and falls back to its alt. */
   caption?: string;
+  /** What the viewer shows in place of the file, from an element that
+      draws inline. The press is then a button: there is no file to link. */
+  content?: unknown;
 }
 
 /** The trigger and the viewer, for the element to place. Two parts and not one
@@ -53,9 +56,11 @@ function opener(host: Element): (event: Event) => void {
 /** Wrap `picture` in the press that opens it, and name the viewer that host
     owns. `host` is the element that renders both — the viewer stands under it. */
 export function zoom(host: Element, picture: TemplateResult, options: ZoomOptions): ZoomParts {
-  const { src, alt, caption } = options;
+  const { src, alt, caption, content } = options;
   return {
-    trigger: html`<a class="sds-zoom" href="${src}" title="Open the picture at full size" @click="${opener(host)}">${picture}</a>`,
-    viewer: html`<sds-lightbox src="${src}" alt="${alt}" caption="${ifDefined(caption || undefined)}"></sds-lightbox>`,
+    trigger: content === undefined
+      ? html`<a class="sds-zoom" href="${src}" title="Open the picture at full size" @click="${opener(host)}">${picture}</a>`
+      : html`<button type="button" class="sds-zoom" title="Open the picture at full size" @click="${opener(host)}">${picture}</button>`,
+    viewer: html`<sds-lightbox src="${src}" alt="${alt}" caption="${ifDefined(caption || undefined)}" .content="${content}"></sds-lightbox>`,
   };
 }

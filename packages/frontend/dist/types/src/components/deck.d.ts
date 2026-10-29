@@ -20,6 +20,24 @@ export interface DeckProps {
         carry no count. */
     numbered?: boolean;
 }
+/** A slide as the deck reads it: its kind and title, the values its author
+    wrote, and if it brings its own eyebrow. */
+export interface Told {
+    kind: string;
+    heading: string;
+    kept: (name: string) => string | null;
+    eyebrow: boolean;
+}
+/** What a deck says once, to each slide in its order. The count, the outline
+    and the place come from the order. A value the author wrote stays. The
+    static renderer says the same, so a slide draws its foot before a script. */
+export declare function tell(deck: {
+    brand: string;
+    product: string;
+    signet: string;
+    signetLarge: string;
+    numbered: boolean;
+}, slides: readonly Told[]): Record<string, string>[];
 export declare class SdsDeck extends SdsElement {
     static properties: {
         label: {
@@ -80,9 +98,14 @@ export declare class SdsDeck extends SdsElement {
     /** The slides written between the tags, if any. */
     private own;
     private slides;
+    /** The slides whose picture the list already holds. */
+    private drawn;
+    private drawing;
     private loan?;
     private keys?;
     private asks?;
+    private grows?;
+    private readonly given;
     /** The slide to come back to after a print, if the deck was open. */
     private resume;
     private drag?;
@@ -91,6 +114,7 @@ export declare class SdsDeck extends SdsElement {
     constructor();
     private get dialog();
     connectedCallback(): void;
+    private furnish;
     private hand;
     disconnectedCallback(): void;
     protected firstUpdated(): void;
@@ -116,10 +140,14 @@ export declare class SdsDeck extends SdsElement {
     private ghost;
     private push;
     private draw;
+    private drawAll;
     private lend;
     private giveBack;
     private follow;
     private listen;
+    private readonly onGoto;
+    private typed;
+    private typedAt;
     private readonly onKey;
     /** Every slide on a page of its own, and the browser's print. Its dialog
         saves a PDF: text stays text, and a link stays a link. The slides go
@@ -131,7 +159,7 @@ export declare class SdsDeck extends SdsElement {
     private readonly onUp;
     private readonly onStageClick;
     private readonly onClose;
-    protected updated(): void;
+    protected updated(changed: Map<PropertyKey, unknown>): void;
     private poster;
     private pick;
     private list;

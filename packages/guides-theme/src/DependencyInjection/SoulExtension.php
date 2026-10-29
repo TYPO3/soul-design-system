@@ -18,10 +18,15 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use TYPO3\Soul\GuidesTheme\Brands;
 use TYPO3\Soul\GuidesTheme\Nodes\AccordionItemNode;
 use TYPO3\Soul\GuidesTheme\Nodes\AccordionNode;
+use TYPO3\Soul\GuidesTheme\Nodes\AnswerNode;
 use TYPO3\Soul\GuidesTheme\Nodes\BandNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ButtonBarNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ButtonNode;
+use TYPO3\Soul\GuidesTheme\Nodes\BylineNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
+use TYPO3\Soul\GuidesTheme\Nodes\CodemodeNode;
+use TYPO3\Soul\GuidesTheme\Nodes\DecisionNode;
+use TYPO3\Soul\GuidesTheme\Nodes\DiagramNode;
 use TYPO3\Soul\GuidesTheme\Nodes\DirectoryTreeNode;
 use TYPO3\Soul\GuidesTheme\Nodes\EntryNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ExampleNode;
@@ -30,8 +35,12 @@ use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
+use TYPO3\Soul\GuidesTheme\Nodes\OutlineNode;
+use TYPO3\Soul\GuidesTheme\Nodes\PaperFieldNode;
+use TYPO3\Soul\GuidesTheme\Nodes\PartNode;
 use TYPO3\Soul\GuidesTheme\Nodes\QuoteNode;
 use TYPO3\Soul\GuidesTheme\Nodes\RegisterNode;
+use TYPO3\Soul\GuidesTheme\Nodes\SlideNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SplitNode;
 use TYPO3\Soul\GuidesTheme\Nodes\StatNode;
 use TYPO3\Soul\GuidesTheme\Nodes\StepNode;
@@ -274,6 +283,10 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
             'templates' => [
                 ['node' => NavigationTitleNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => LayoutNode::class, 'file' => $blank, 'format' => 'html'],
+                ['node' => PaperFieldNode::class, 'file' => $blank, 'format' => 'html'],
+                /* A part with no section after it names nothing. */
+                ['node' => PartNode::class, 'file' => $blank, 'format' => 'html'],
+                ['node' => OutlineNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => BandNode::class, 'file' => 'body/directive/band.html.twig', 'format' => 'html'],
                 ['node' => GridNode::class, 'file' => 'body/directive/grid.html.twig', 'format' => 'html'],
                 ['node' => SplitNode::class, 'file' => 'body/directive/split.html.twig', 'format' => 'html'],
@@ -292,8 +305,14 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => RegisterNode::class, 'file' => 'body/directive/register.html.twig', 'format' => 'html'],
                 ['node' => EntryNode::class, 'file' => 'body/directive/entry.html.twig', 'format' => 'html'],
                 ['node' => DirectoryTreeNode::class, 'file' => 'body/directive/directory-tree.html.twig', 'format' => 'html'],
+                ['node' => DiagramNode::class, 'file' => 'body/directive/diagram.html.twig', 'format' => 'html'],
                 ['node' => StepsNode::class, 'file' => 'body/directive/steps.html.twig', 'format' => 'html'],
                 ['node' => StepNode::class, 'file' => 'body/directive/step.html.twig', 'format' => 'html'],
+                ['node' => DecisionNode::class, 'file' => 'body/directive/decision.html.twig', 'format' => 'html'],
+                ['node' => SlideNode::class, 'file' => 'body/directive/slide.html.twig', 'format' => 'html'],
+                ['node' => CodemodeNode::class, 'file' => 'body/directive/codemode.html.twig', 'format' => 'html'],
+                ['node' => BylineNode::class, 'file' => 'body/directive/byline.html.twig', 'format' => 'html'],
+                ['node' => AnswerNode::class, 'file' => 'body/directive/answer.html.twig', 'format' => 'html'],
                 ['node' => ExampleNode::class, 'file' => 'body/directive/example.html.twig', 'format' => 'html'],
                 /* And the same documents as Markdown, node for node. The
                    format's name is the file extension the renderer writes and

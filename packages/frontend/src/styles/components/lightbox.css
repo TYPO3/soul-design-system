@@ -26,6 +26,12 @@
     --sds-lightbox-stage-fill: var(--surface-sunken);
     --sds-lightbox-ink: var(--text-primary);
     --sds-lightbox-backdrop: var(--surface-overlay);
+    --sds-lightbox-tools-gap: var(--space-1);
+    --sds-lightbox-scale-width: var(--space-12);
+    --sds-lightbox-scale-size: var(--font-size-small);
+    --sds-lightbox-scale-face: var(--font-mono);
+    --sds-lightbox-scale-weight: var(--weight-regular);
+    --sds-lightbox-scale-ink: var(--text-muted);
 
     padding: 0;
     width: var(--sds-lightbox-width);
@@ -61,11 +67,19 @@
   /* The head is the modal's, so the two do not drift; only what it holds
      differs — the caption of the drawing rather than a question. */
   .sds-lightbox__art {
+    position: relative;
     flex: 1;
     min-height: 0;
     padding: var(--sds-lightbox-pad);
     overflow: hidden;
     background: var(--sds-lightbox-stage-fill);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+
+    &:active {
+      cursor: grabbing;
+    }
   }
   /* A picture with no group to reference keeps its exported colours, so the
      ground under it is the one those colours are for. The one surface in the
@@ -75,13 +89,35 @@
     --sds-lightbox-stage-fill: var(--surface-art);
   }
 
-  /* The picture fits into what the head leaves rather than draws at the width
-     of it. The stage has bounds in both directions. So a drawing that is
-     taller than wide stands whole and in the middle, and never scrolls with
-     its foot cut off. `scale-down` is why a small picture stays small. */
-  .sds-lightbox__art > .sds-art {
-    width: 100%;
-    height: 100%;
-    object-fit: scale-down;
+  /* The drawing at its own size, moved and scaled as one. The element sets
+     the size and the transform. It opens fitted: whole, in the middle. */
+  .sds-lightbox__canvas {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    transform-origin: 0 0;
+
+    > :is(.sds-art, svg, img) {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+    }
+  }
+
+  /* The presses of the view, in the head before the close. */
+  .sds-lightbox__tools {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--sds-lightbox-tools-gap);
+  }
+  .sds-lightbox__scale {
+    min-width: var(--sds-lightbox-scale-width);
+    font-family: var(--sds-lightbox-scale-face);
+    font-size: var(--sds-lightbox-scale-size);
+    font-weight: var(--sds-lightbox-scale-weight);
+    text-align: center;
+    color: var(--sds-lightbox-scale-ink);
   }
 }

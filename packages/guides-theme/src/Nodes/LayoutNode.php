@@ -18,9 +18,12 @@ use phpDocumentor\Guides\Nodes\Metadata\MetadataNode;
  *
  *     :layout: marketing
  *
+ * `paper` is a document that goes out on its own, such as a concept. The
+ * outline of the document stands in a panel beside it, with no bar.
  * Anything else, including nothing, is the manual.
  */
 final class LayoutNode extends MetadataNode
 {
     public const MARKETING = 'marketing';
+    public const PAPER = 'paper';
 }

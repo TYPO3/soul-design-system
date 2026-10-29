@@ -1,37 +1,30 @@
 /* The diagram cards' own scaffolding.
 
-   Most of the diagram specimens are the same card. A drawing named by its file,
-   with two notes under it that say what the drawing had to survive.
+   Most of the diagram specimens are the same card. A drawing named by its
+   file, with two notes under it that say what the drawing had to survive.
 
-   The drawing is a reference rather than a link, which is the part that must
-   not drift. Through an `<img>` it shows in the light of its construction
-   whatever mode the shot is in, and these shots are in both. Written out
-   rather than through `sds-figure`, because what these document is the drawing
-   and not the frame. The plane is the card's ground, so it goes on `<body>`. */
+   The drawing is the element a page uses, `<sds-diagram>`, with the text
+   that the file comes from. So the card shows it in the tokens of either mode, the
+   way a page shows it. The plane is the card's ground, so it goes on
+   `<body>`. */
 
-import { inlineArtRefs } from '../../packages/frontend/src/components/art.static.ts';
-import { DIAGRAM_VIEWBOX } from '../../packages/frontend/src/components/diagrams.generated.ts';
-import { REF } from '../../packages/frontend/src/lib/art.ts';
-import { indent } from './specimen.ts';
+import { html } from 'lit';
+import '../../packages/frontend/src/components/diagram.ts';
+import { DIAGRAM_SOURCES } from '../../packages/frontend/src/components/diagrams.svg.generated.ts';
+import { indent, part } from './specimen.ts';
 
-/** A drawing: its name, and what it draws for a reader who cannot see it. */
+/** A drawing this system ships, by its file. */
 export interface Figure {
   file: string;
-  alt: string;
 }
 
-const drawing = ({ file, alt }: Figure): string => {
+const drawing = ({ file }: Figure): string => {
   const name = file.replace(/\.svg$/, '');
-  const viewBox = DIAGRAM_VIEWBOX[name];
-  if (!viewBox) throw new Error(`${file}: not a drawing this system ships — run \`make diagrams\``);
+  const source = DIAGRAM_SOURCES[name];
+  if (!source) throw new Error(`${file}: no .diagram text in assets/diagrams/ — run \`make diagrams\``);
   return `<div>
   <div class="spec-h">${file}</div>
-  ${inlineArtRefs(
-    /* The name from the one place that writes it. Spelled out here once, it
-       went stale the first time it changed and the card shipped a reference
-       into nothing — which every check reads as a card of the right height. */
-    `<svg viewBox="${viewBox}" role="img" aria-label="${alt}" class="spec-figure spec-figure--framed"><use href="assets/diagrams/${file}#${REF}"></use></svg>`,
-  )}
+  ${part(html`<sds-diagram name="${name}" .source="${source}"></sds-diagram>`)}
 </div>`;
 };
 

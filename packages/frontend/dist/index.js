@@ -13,9 +13,9 @@ var __commonJS = (cb, mod) => function __require() {
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    for (let key2 of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key2) && key2 !== except)
+        __defProp(to, key2, { get: () => from[key2], enumerable: !(desc = __getOwnPropDesc(from, key2)) || desc.enumerable });
   }
   return to;
 };
@@ -69,12 +69,12 @@ var require_core = __commonJS({
     }
     function inherit$1(original, ...objects) {
       const result = /* @__PURE__ */ Object.create(null);
-      for (const key in original) {
-        result[key] = original[key];
+      for (const key2 in original) {
+        result[key2] = original[key2];
       }
       objects.forEach(function(obj) {
-        for (const key in obj) {
-          result[key] = obj[key];
+        for (const key2 in obj) {
+          result[key2] = obj[key2];
         }
       });
       return (
@@ -91,10 +91,10 @@ var require_core = __commonJS({
         return name.replace("language:", "language-");
       }
       if (name.includes(".")) {
-        const pieces = name.split(".");
+        const pieces2 = name.split(".");
         return [
-          `${prefix}${pieces.shift()}`,
-          ...pieces.map((x, i) => `${x}${"_".repeat(i + 1)}`)
+          `${prefix}${pieces2.shift()}`,
+          ...pieces2.map((x, i) => `${x}${"_".repeat(i + 1)}`)
         ].join(" ");
       }
       return `${prefix}${name}`;
@@ -115,8 +115,8 @@ var require_core = __commonJS({
        * Adds texts to the output stream
        *
        * @param {string} text */
-      addText(text) {
-        this.buffer += escapeHTML(text);
+      addText(text2) {
+        this.buffer += escapeHTML(text2);
       }
       /**
        * Adds a node open to the output stream (if needed)
@@ -238,11 +238,11 @@ var require_core = __commonJS({
       /**
        * @param {string} text
        */
-      addText(text) {
-        if (text === "") {
+      addText(text2) {
+        if (text2 === "") {
           return;
         }
-        this.add(text);
+        this.add(text2);
       }
       /** @param {string} scope */
       startScope(scope) {
@@ -580,8 +580,8 @@ var require_core = __commonJS({
       if (!mode.beforeMatch) return;
       if (mode.starts) throw new Error("beforeMatch cannot be used with starts");
       const originalMode = Object.assign({}, mode);
-      Object.keys(mode).forEach((key) => {
-        delete mode[key];
+      Object.keys(mode).forEach((key2) => {
+        delete mode[key2];
       });
       mode.keywords = originalMode.keywords;
       mode.begin = concat(originalMode.beforeMatch, lookahead(originalMode.begin));
@@ -658,9 +658,9 @@ var require_core = __commonJS({
       seenDeprecations[`${version2}/${message}`] = true;
     };
     var MultiClassError = new Error();
-    function remapScopeNames(mode, regexes, { key }) {
+    function remapScopeNames(mode, regexes, { key: key2 }) {
       let offset = 0;
-      const scopeNames = mode[key];
+      const scopeNames = mode[key2];
       const emit = {};
       const positions = {};
       for (let i = 1; i <= regexes.length; i++) {
@@ -668,9 +668,9 @@ var require_core = __commonJS({
         emit[i + offset] = true;
         offset += countMatchGroups(regexes[i - 1]);
       }
-      mode[key] = positions;
-      mode[key]._emit = emit;
-      mode[key]._multi = true;
+      mode[key2] = positions;
+      mode[key2]._emit = emit;
+      mode[key2]._multi = true;
     }
     function beginMultiClass(mode) {
       if (!Array.isArray(mode.begin)) return;
@@ -918,13 +918,13 @@ var require_core = __commonJS({
     }
     var version = "11.11.1";
     var HTMLInjectionError = class extends Error {
-      constructor(reason, html77) {
+      constructor(reason, html78) {
         super(reason);
         this.name = "HTMLInjectionError";
-        this.html = html77;
+        this.html = html78;
       }
     };
-    var escape2 = escapeHTML;
+    var escape3 = escapeHTML;
     var inherit = inherit$1;
     var NO_MATCH = /* @__PURE__ */ Symbol("nomatch");
     var MAX_KEYWORD_HITS = 7;
@@ -1071,11 +1071,11 @@ var require_core = __commonJS({
               continue;
             }
             const klass = language.classNameAliases[scope[i]] || scope[i];
-            const text = match[i];
+            const text2 = match[i];
             if (klass) {
-              emitKeyword(text, klass);
+              emitKeyword(text2, klass);
             } else {
-              modeBuffer = text;
+              modeBuffer = text2;
               processKeywords();
               modeBuffer = "";
             }
@@ -1291,7 +1291,7 @@ var require_core = __commonJS({
           if (err.message && err.message.includes("Illegal")) {
             return {
               language: languageName,
-              value: escape2(codeToHighlight),
+              value: escape3(codeToHighlight),
               illegal: true,
               relevance: 0,
               _illegalBy: {
@@ -1306,7 +1306,7 @@ var require_core = __commonJS({
           } else if (SAFE_MODE) {
             return {
               language: languageName,
-              value: escape2(codeToHighlight),
+              value: escape3(codeToHighlight),
               illegal: false,
               relevance: 0,
               errorRaised: err,
@@ -1320,7 +1320,7 @@ var require_core = __commonJS({
       }
       function justTextHighlightResult(code) {
         const result = {
-          value: escape2(code),
+          value: escape3(code),
           illegal: false,
           relevance: 0,
           _top: PLAINTEXT_LANGUAGE,
@@ -1385,8 +1385,8 @@ var require_core = __commonJS({
           }
         }
         node = element;
-        const text = node.textContent;
-        const result = language ? highlight3(text, { language, ignoreIllegals: true }) : highlightAuto(text);
+        const text2 = node.textContent;
+        const result = language ? highlight3(text2, { language, ignoreIllegals: true }) : highlightAuto(text2);
         element.innerHTML = result.value;
         element.dataset.highlighted = "yes";
         updateClassName(element, language, result.language);
@@ -1402,7 +1402,7 @@ var require_core = __commonJS({
             relevance: result.secondBest.relevance
           };
         }
-        fire("after:highlightElement", { el: element, result, text });
+        fire("after:highlightElement", { el: element, result, text: text2 });
       }
       function configure(userOptions) {
         options = inherit(options, userOptions);
@@ -1550,9 +1550,9 @@ var require_core = __commonJS({
         optional,
         anyNumberOfTimes
       };
-      for (const key in MODES3) {
-        if (typeof MODES3[key] === "object") {
-          deepFreeze(MODES3[key]);
+      for (const key2 in MODES3) {
+        if (typeof MODES3[key2] === "object") {
+          deepFreeze(MODES3[key2]);
         }
       }
       Object.assign(hljs, MODES3);
@@ -1616,17 +1616,17 @@ var SdsElement = class extends LitElement {
   region(name) {
     if (this.regions) {
       if (name !== TEXT) return this.regions[name] ?? [];
-      const named = this.constructor.regions;
-      return Object.entries(this.regions).flatMap(([key, list]) => key === TEXT || !named.includes(key) ? list : []);
+      const named2 = this.constructor.regions;
+      return Object.entries(this.regions).flatMap(([key2, list]) => key2 === TEXT || !named2.includes(key2) ? list : []);
     }
     if (typeof this.querySelector !== "function") return [];
     if (!this.#own) {
-      const named = this.constructor.regions;
+      const named2 = this.constructor.regions;
       this.#own = /* @__PURE__ */ new Map();
       for (const node of this.lifted().filter((one) => !isBlank(one))) {
         const slot = node.nodeType === 1 ? node.getAttribute("slot") : null;
-        const key = slot && named.includes(slot) ? slot : TEXT;
-        this.#own.set(key, [...this.#own.get(key) ?? [], regionOf(node)]);
+        const key2 = slot && named2.includes(slot) ? slot : TEXT;
+        this.#own.set(key2, [...this.#own.get(key2) ?? [], regionOf(node)]);
       }
     }
     return this.#own.get(name) ?? [];
@@ -2164,9 +2164,9 @@ var SdsBadge = class _SdsBadge extends SdsElement {
     this.tone = "default";
   }
   render() {
-    const glyph = this.icon ?? _SdsBadge.TONE_ICON[this.tone];
+    const glyph2 = this.icon ?? _SdsBadge.TONE_ICON[this.tone];
     const cls = this.tone === "default" ? "sds-badge" : `sds-badge sds-badge--${this.tone}`;
-    return glyph ? html2`<span class="${cls}"><sds-icon name="${glyph}"></sds-icon>${this.label}</span>` : html2`<span class="${cls}">${this.label}</span>`;
+    return glyph2 ? html2`<span class="${cls}"><sds-icon name="${glyph2}"></sds-icon>${this.label}</span>` : html2`<span class="${cls}">${this.label}</span>`;
   }
 };
 define("sds-badge", SdsBadge);
@@ -2179,8 +2179,8 @@ var ESCAPE = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
 var attr = (name, value) => value === void 0 || value === "" ? "" : ` ${name}="${String(value).replace(/[&<>"]/g, (c) => ESCAPE[c])}"`;
 var exported = (src) => DRAWING.test(src);
 function art(src, alt, options = {}) {
-  const { cls = "sds-art", width, height } = options;
-  const size = attr("width", width) + attr("height", height);
+  const { cls = "sds-art", width: width2, height } = options;
+  const size = attr("width", width2) + attr("height", height);
   const escaped = alt.replace(/[&<>"]/g, (c) => ESCAPE[c]);
   return html3`${unsafeHTML2(`<img${attr("class", cls)} src="${src}" alt="${escaped}"${size}>`)}`;
 }
@@ -2226,18 +2226,18 @@ var SdsSearchResult = class extends SdsElement {
         Split rather than replaced, so nothing ever lands as markup. What comes
         back is text nodes and elements, and a query with `<` in it is a query
         and not a tag. */
-  marked(text) {
+  marked(text2) {
     const words = this.match.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    if (!words.length || !text) return text;
+    if (!words.length || !text2) return text2;
     const out = [];
-    const hay = text.toLowerCase();
+    const hay = text2.toLowerCase();
     let at = 0;
     for (let next = nearest(hay, words, at); next; next = nearest(hay, words, at)) {
-      if (next.at > at) out.push(text.slice(at, next.at));
-      out.push(html4`<mark class="sds-mark">${text.slice(next.at, next.at + next.length)}</mark>`);
+      if (next.at > at) out.push(text2.slice(at, next.at));
+      out.push(html4`<mark class="sds-mark">${text2.slice(next.at, next.at + next.length)}</mark>`);
       at = next.at + next.length;
     }
-    out.push(text.slice(at));
+    out.push(text2.slice(at));
     return out;
   }
   /* Beside the text rather than over it. A reader reads a hit as a line, and
@@ -2585,7 +2585,7 @@ var GLYPH = {
   light: "actions-brightness-high",
   dark: "actions-moon"
 };
-var themeBoot = (key = "soul-theme") => `var t=localStorage.getItem(${JSON.stringify(key)});if(t){document.documentElement.dataset.theme=t}`;
+var themeBoot = (key2 = "soul-theme") => `var t=localStorage.getItem(${JSON.stringify(key2)});if(t){document.documentElement.dataset.theme=t}`;
 var SdsTheme = class extends SdsElement {
   static {
     this.properties = {
@@ -2668,9 +2668,9 @@ var SdsTheme = class extends SdsElement {
     );
   }
   render() {
-    const mark = (state) => html7`<span
-      class="sds-theme__mark sds-theme__mark--${state}"
-    ><sds-icon name="${GLYPH[state]}"></sds-icon></span>`;
+    const mark = (state2) => html7`<span
+      class="sds-theme__mark sds-theme__mark--${state2}"
+    ><sds-icon name="${GLYPH[state2]}"></sds-icon></span>`;
     const at = STATES.indexOf(this.current ?? "machine");
     const to = STATES[(at + 1) % STATES.length] ?? "machine";
     const said = {
@@ -2691,6 +2691,7 @@ define("sds-theme", SdsTheme);
 
 // packages/frontend/src/components/button.ts
 import { html as html8 } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 function buttonClass({ variant = "primary", size = "md", iconOnly = false, disabled = false }) {
   const cls = ["sds-btn", `sds-btn--${variant}`];
   if (size === "sm" || size === "lg") cls.push(`sds-btn--${size}`);
@@ -2702,11 +2703,15 @@ var LABEL = "sds-btn__label";
 var buttonLabel = (body) => html8`<span class="${LABEL}">${body}</span>`;
 function linkMarkup(props, body) {
   const cls = buttonClass({ ...props, disabled: false });
-  const href = props.href ?? "";
-  if (props.rel) {
-    return props.title ? html8`<a class="${cls}" href="${href}" rel="${props.rel}" title="${props.title}">${body}</a>` : html8`<a class="${cls}" href="${href}" rel="${props.rel}">${body}</a>`;
-  }
-  return props.title ? html8`<a class="${cls}" href="${href}" title="${props.title}">${body}</a>` : html8`<a class="${cls}" href="${href}">${body}</a>`;
+  const said = (value) => value || void 0;
+  return html8`<a
+    class="${cls}"
+    href="${props.href ?? ""}"
+    rel="${ifDefined(said(props.rel))}"
+    target="${ifDefined(said(props.target))}"
+    download="${ifDefined(said(props.download))}"
+    title="${ifDefined(said(props.title))}"
+  >${body}</a>`;
 }
 function buttonMarkup(props, body) {
   const inner = typeof body === "string" && body ? buttonLabel(body) : body;
@@ -2724,16 +2729,16 @@ var isGlyph = (node) => {
 };
 function labelled(nodes) {
   const out = [];
-  let run = [];
+  let run2 = [];
   const close = () => {
-    if (run.some((node) => !isBlank(node))) out.push(buttonLabel(run));
-    run = [];
+    if (run2.some((node) => !isBlank(node))) out.push(buttonLabel(run2));
+    run2 = [];
   };
   for (const node of nodes) {
     if (isGlyph(node) || node.classList?.contains(LABEL)) {
       close();
       out.push(node);
-    } else run.push(node);
+    } else run2.push(node);
   }
   close();
   return out;
@@ -2767,6 +2772,8 @@ var SdsButton = class extends SdsElement {
     this.type = "button";
     this.href = "";
     this.rel = "";
+    this.download = "";
+    this.target = "";
     this.for = "";
     this.command = "show";
     this.iconOnly = false;
@@ -2780,6 +2787,8 @@ var SdsButton = class extends SdsElement {
       type: { type: String, reflect: true },
       href: { type: String },
       rel: { type: String },
+      download: { type: String },
+      target: { type: String },
       for: { type: String, reflect: true },
       command: { type: String, reflect: true },
       iconOnly: { type: Boolean, attribute: "icon-only", reflect: true }
@@ -2808,7 +2817,9 @@ var SdsButton = class extends SdsElement {
         disabled: this.disabled,
         type: this.type,
         href: this.href,
-        rel: this.rel
+        rel: this.rel,
+        download: this.download,
+        target: this.target
       },
       this.taken.length ? labelled(this.taken) : this.content ?? this.taken
     );
@@ -2820,11 +2831,11 @@ define("sds-button", SdsButton);
 import { html as html9, nothing as nothing4 } from "lit";
 
 // packages/frontend/src/lib/template.ts
-function lines(parts, indent = 0) {
+function lines(parts2, indent = 0) {
   const gap = `
 ${" ".repeat(indent)}`;
   const out = [];
-  parts.forEach((part, i) => {
+  parts2.forEach((part, i) => {
     if (i) out.push(gap);
     out.push(part);
   });
@@ -3058,9 +3069,9 @@ var SdsLink = class _SdsLink extends SdsElement {
       const mark = html11`<sds-icon name="${this.icon}" size="24"></sds-icon>`;
       return this.external ? html11`<a class="sds-link sds-link--bare" href="${this.href}" target="_blank" rel="noreferrer" aria-label="${this.label}" title="${this.label}">${mark}</a>` : html11`<a class="sds-link sds-link--bare" href="${this.href}" aria-label="${this.label}" title="${this.label}">${mark}</a>`;
     }
-    const glyph = this.icon ? html11`<sds-icon name="${this.icon}"></sds-icon>` : "";
-    const lead = this.icon && _SdsLink.leads(this.icon) ? glyph : "";
-    const trail = this.icon && !_SdsLink.leads(this.icon) ? glyph : "";
+    const glyph2 = this.icon ? html11`<sds-icon name="${this.icon}"></sds-icon>` : "";
+    const lead = this.icon && _SdsLink.leads(this.icon) ? glyph2 : "";
+    const trail = this.icon && !_SdsLink.leads(this.icon) ? glyph2 : "";
     return this.external ? html11`<a class="sds-link sds-link--external" href="${this.href}" target="_blank" rel="noreferrer">${lead}${this.label} ${trail}<sds-icon name="actions-window-open"></sds-icon></a>` : html11`<a class="sds-link" href="${this.href}">${lead}${this.label}${trail ? html11` ${trail}` : ""}</a>`;
   }
 };
@@ -3113,14 +3124,14 @@ define("sds-field-error", SdsFieldError);
 
 // packages/frontend/src/lib/field-row.ts
 import { html as html14, nothing as nothing5 } from "lit";
-function fieldRow(row, control) {
-  if (!row.caption) return control;
-  const id = row.fieldId || void 0;
+function fieldRow(row2, control) {
+  if (!row2.caption) return control;
+  const id = row2.fieldId || void 0;
   return html14`<div class="sds-field-row">
-  <label class="sds-field-label" for="${id ?? nothing5}">${row.caption}${row.required ? html14` <span class="sds-field-req">required</span>` : nothing5}</label>
+  <label class="sds-field-label" for="${id ?? nothing5}">${row2.caption}${row2.required ? html14` <span class="sds-field-req">required</span>` : nothing5}</label>
   ${control}
-  ${row.hint ? html14`<span class="sds-field-hint">${row.hint}</span>` : nothing5}
-  ${row.error ? html14`<sds-field-error message="${row.error}"></sds-field-error>` : nothing5}
+  ${row2.hint ? html14`<span class="sds-field-hint">${row2.hint}</span>` : nothing5}
+  ${row2.error ? html14`<sds-field-error message="${row2.error}"></sds-field-error>` : nothing5}
 </div>`;
 }
 
@@ -3182,14 +3193,14 @@ var SdsFormElement = class extends SdsElement {
   
         Called after a render and never during one. There is no element to anchor
         to before the first, and in Node there is no `querySelector` at all. */
-  setValidity(message, selector = "input, select, textarea", flag = "customError") {
+  setValidity(message, selector = "input, select, textarea", flag2 = "customError") {
     if (!this.internals) return;
     if (!message) {
       this.internals.setValidity({});
       return;
     }
     const anchor = this.querySelector(selector);
-    this.internals.setValidity({ [flag]: true }, message, anchor ?? void 0);
+    this.internals.setValidity({ [flag2]: true }, message, anchor ?? void 0);
   }
 };
 
@@ -3283,14 +3294,14 @@ var SdsField = class extends SdsFormElement {
   }
   control() {
     const cls = fieldBox(this);
-    const box = `width:${this.minWidth}px; max-width:100%`;
+    const box2 = `width:${this.minWidth}px; max-width:100%`;
     const id = this.fieldId || nothing6;
     const name = this.name || nothing6;
     const invalid = this.invalid || this.error ? "true" : nothing6;
     const disabled = this.disabled || this.inheritedDisabled;
     const caret = this.focused ? html15`<span style="width:2px; height:15px; background:var(--accent);"></span>` : nothing6;
-    const affix = (text) => text ? html15`<span class="sds-field__affix">${text}</span>` : nothing6;
-    return html15`<span class="${cls}" style="${box}">${this.icon ? html15`<sds-icon name="${this.icon}"></sds-icon>` : nothing6}${affix(this.prefix)}<input
+    const affix = (text2) => text2 ? html15`<span class="sds-field__affix">${text2}</span>` : nothing6;
+    return html15`<span class="${cls}" style="${box2}">${this.icon ? html15`<sds-icon name="${this.icon}"></sds-icon>` : nothing6}${affix(this.prefix)}<input
     class="sds-input"
     type="${this.type}"
     id="${id}"
@@ -3415,17 +3426,17 @@ var SdsSelect = class extends SdsFormElement {
   /** Which entries a key can land on. A disabled one reads out, and the keys
       step over it, the way the platform does. */
   get reachable() {
-    return this.entries.flatMap((option, at) => option.disabled ? [] : [at]);
+    return this.entries.flatMap((option2, at) => option2.disabled ? [] : [at]);
   }
   /** What an entry sends. Not `valueOf`, which every object already has. */
-  sends(option) {
-    return option.value ?? option.label;
+  sends(option2) {
+    return option2.value ?? option2.label;
   }
   /** What the closed box says. The chosen entry's *label*, which is not always
       its value. And the prompt while there is no choice. */
   get says() {
     if (!this.filled) return this.value;
-    const chosen = this.entries.find((option) => this.sends(option) === this.value);
+    const chosen = this.entries.find((option2) => this.sends(option2) === this.value);
     return chosen?.label ?? this.value;
   }
   /** If the list is in front of the reader, by either route. The reader
@@ -3459,7 +3470,7 @@ var SdsSelect = class extends SdsFormElement {
       list that opens at the top every time makes a reader find their own
       answer again before they can move off it. */
   aim() {
-    const at = this.entries.findIndex((option) => this.sends(option) === this.value);
+    const at = this.entries.findIndex((option2) => this.sends(option2) === this.value);
     this.active = at >= 0 && !this.entries[at]?.disabled ? at : this.reachable[0] ?? -1;
   }
   /* Open and close move this element's own state first and the popover second.
@@ -3489,9 +3500,9 @@ var SdsSelect = class extends SdsFormElement {
   }
   #typed;
   #typedAt;
-  typeahead(key, now) {
-    if (key.length !== 1 || key === " ") return false;
-    this.#typed = now - this.#typedAt > 1e3 ? key : this.#typed + key;
+  typeahead(key2, now) {
+    if (key2.length !== 1 || key2 === " ") return false;
+    this.#typed = now - this.#typedAt > 1e3 ? key2 : this.#typed + key2;
     this.#typedAt = now;
     const wanted = this.#typed.toLowerCase();
     const rows = this.reachable;
@@ -3556,9 +3567,9 @@ var SdsSelect = class extends SdsFormElement {
     this.hide();
   }
   choose(at) {
-    const option = this.entries[at];
-    if (!option || option.disabled) return;
-    this.value = this.sends(option);
+    const option2 = this.entries[at];
+    if (!option2 || option2.disabled) return;
+    this.value = this.sends(option2);
     this.filled = true;
     this.active = at;
     this.error = "";
@@ -3571,14 +3582,14 @@ var SdsSelect = class extends SdsFormElement {
   native() {
     const prompt = !this.filled && this.value ? html16`<option value="" selected disabled>${this.value}</option>` : nothing7;
     const runs = [];
-    for (const option of this.entries) {
+    for (const option2 of this.entries) {
       const last = runs.at(-1);
-      if (last && last.group === option.group) last.items.push(option);
-      else runs.push({ group: option.group, items: [option] });
+      if (last && last.group === option2.group) last.items.push(option2);
+      else runs.push({ group: option2.group, items: [option2] });
     }
-    const one = (option) => {
-      const value = this.sends(option);
-      return html16`<option value="${value}" ?selected="${value === this.value}" ?disabled="${option.disabled ?? false}">${option.label}</option>`;
+    const one = (option2) => {
+      const value = this.sends(option2);
+      return html16`<option value="${value}" ?selected="${value === this.value}" ?disabled="${option2.disabled ?? false}">${option2.label}</option>`;
     };
     return html16`<select
     class="sds-input sds-select__native"
@@ -3588,11 +3599,11 @@ var SdsSelect = class extends SdsFormElement {
     ?disabled="${this.disabled || this.inheritedDisabled}"
     @change="${(e) => {
       const control = e.target;
-      const at = this.entries.findIndex((option) => this.sends(option) === control.value);
+      const at = this.entries.findIndex((option2) => this.sends(option2) === control.value);
       if (at >= 0) this.choose(at);
     }}"
   >${prompt}${runs.map(
-      (run) => run.group ? html16`<optgroup label="${run.group}">${run.items.map(one)}</optgroup>` : html16`${run.items.map(one)}`
+      (run2) => run2.group ? html16`<optgroup label="${run2.group}">${run2.items.map(one)}</optgroup>` : html16`${run2.items.map(one)}`
     )}</select>`;
   }
   /** The drawn list: headings as groups the keys walk past, answers as options
@@ -3600,36 +3611,36 @@ var SdsSelect = class extends SdsFormElement {
   drawn() {
     const rows = [];
     let group;
-    this.entries.forEach((option, at) => {
-      if (option.group && option.group !== group) {
-        rows.push(html16`<span class="sds-select__group" role="presentation">${option.group}</span>`);
+    this.entries.forEach((option2, at) => {
+      if (option2.group && option2.group !== group) {
+        rows.push(html16`<span class="sds-select__group" role="presentation">${option2.group}</span>`);
       }
-      group = option.group;
-      const chosen = this.filled && this.sends(option) === this.value;
+      group = option2.group;
+      const chosen = this.filled && this.sends(option2) === this.value;
       rows.push(html16`<div
       class="sds-select__option${chosen ? " is-chosen" : ""}${at === this.active ? " is-active" : ""}"
       id="${this.listId}-${at}"
       role="option"
       aria-selected="${chosen ? "true" : "false"}"
-      aria-disabled="${option.disabled ? "true" : nothing7}"
+      aria-disabled="${option2.disabled ? "true" : nothing7}"
       @click="${() => {
-        if (option.disabled) return;
+        if (option2.disabled) return;
         this.choose(at);
         this.hide();
       }}"
       @pointermove="${() => {
-        if (!option.disabled) this.active = at;
+        if (!option2.disabled) this.active = at;
       }}"
-    ><span class="sds-select__tick"><sds-icon name="actions-check"></sds-icon></span>${option.label}</div>`);
+    ><span class="sds-select__tick"><sds-icon name="actions-check"></sds-icon></span>${option2.label}</div>`);
     });
     return rows;
   }
   render() {
     const cls = `${fieldBox(this)} sds-select${this.open ? " is-open" : ""}`;
-    const box = `width:${this.minWidth}px; max-width:100%`;
+    const box2 = `width:${this.minWidth}px; max-width:100%`;
     const disabled = this.disabled || this.inheritedDisabled;
     const id = this.fieldId || nothing7;
-    const control = html16`<span class="${cls}" style="${box}" @keydown="${(e) => this.onKey(e)}">${this.native()}<button
+    const control = html16`<span class="${cls}" style="${box2}" @keydown="${(e) => this.onKey(e)}">${this.native()}<button
     type="button"
     class="sds-select__button"
     id="${id}"
@@ -3731,11 +3742,11 @@ var SdsTextarea = class extends SdsFormElement {
   }
   render() {
     const cls = `${fieldBox(this)} sds-field--multi`;
-    const box = `width:${this.minWidth}px; max-width:100%`;
+    const box2 = `width:${this.minWidth}px; max-width:100%`;
     const disabled = this.disabled || this.inheritedDisabled;
-    const attr2 = (key, value) => value ? ` ${key}="${esc(value)}"` : "";
+    const attr2 = (key2, value) => value ? ` ${key2}="${esc(value)}"` : "";
     const area = `<textarea class="sds-input" rows="${this.rows}"${attr2("id", this.fieldId)}${attr2("name", this.name)}${this.filled ? "" : attr2("placeholder", this.value)}${attr2("aria-label", this.label ?? "")}${attr2("autocomplete", this.autocomplete)}${this.maxlength ? ` maxlength="${this.maxlength}"` : ""}${this.invalid || this.error ? ' aria-invalid="true"' : ""}${this.required ? " required" : ""}${disabled ? " disabled" : ""}${this.readonly ? " readonly" : ""}>${esc(this.#initial ?? "")}</textarea>`;
-    const control = html17`<span class="${cls}" style="${box}" @input="${(e) => this.onInput(e)}">${unsafeHTML3(area)}</span>`;
+    const control = html17`<span class="${cls}" style="${box2}" @input="${(e) => this.onInput(e)}">${unsafeHTML3(area)}</span>`;
     return fieldRow(this, control);
   }
 };
@@ -4010,8 +4021,8 @@ var SdsProgress = class extends SdsElement {
     const cls = ["sds-progress"];
     if (this.size === "small") cls.push("sds-progress--small");
     if (this.pulsing) cls.push("sds-progress--pulsing");
-    const width = `${Math.round(this.at / this.whole * 1e4) / 100}%`;
-    return html21`<div class="${cls.join(" ")}" style="--sds-progress-at:${width}">
+    const width2 = `${Math.round(this.at / this.whole * 1e4) / 100}%`;
+    return html21`<div class="${cls.join(" ")}" style="--sds-progress-at:${width2}">
   ${this.caption || said ? html21`<span class="sds-progress__head">
     <span class="sds-progress__caption">${this.caption}</span>
     ${said ? html21`<span class="sds-progress__value">${said}</span>` : nothing12}
@@ -4444,8 +4455,8 @@ var SdsNav = class extends SdsElement {
       fact, while `active` is a position in a set. Trust in both at once is
       how two items come out marked. */
   at() {
-    const named = this.items.findIndex((item) => asEntry(item).current);
-    return named >= 0 ? named : this.active;
+    const named2 = this.items.findIndex((item) => asEntry(item).current);
+    return named2 >= 0 ? named2 : this.active;
   }
   /** The class an item carries, active included. An entry the current one sits
       under gets the mark too: a section is where the reader is, but not the
@@ -4492,10 +4503,15 @@ import { html as html32 } from "lit";
 
 // packages/frontend/src/lib/zoom.ts
 import { html as html31 } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
+import { ifDefined as ifDefined2 } from "lit/directives/if-defined.js";
 
 // packages/frontend/src/components/lightbox.ts
 import { html as html30 } from "lit";
+var STEP = 1.25;
+var WHEEL = 15e-4;
+var LEAST = 0.1;
+var MOST = 8;
+var PAN = 48;
 var SdsLightbox = class extends SdsElement {
   constructor() {
     super();
@@ -4509,6 +4525,56 @@ var SdsLightbox = class extends SdsElement {
       else if (command === "toggle") this.open ? this.close() : this.show();
       else this.show();
     };
+    /* The view: how large the drawing stands and where. It opens fitted, and
+       stays fitted when the window changes, until the reader zooms or moves. */
+    this.scale = 1;
+    this.x = 0;
+    this.y = 0;
+    this.fitted = true;
+    this.watcher = null;
+    this.drag = null;
+    this.onWheel = (event) => {
+      event.preventDefault();
+      const box2 = this.stage.getBoundingClientRect();
+      this.zoom(Math.exp(-event.deltaY * WHEEL), { x: event.clientX - box2.left, y: event.clientY - box2.top });
+    };
+    this.onDown = (event) => {
+      if (event.button !== 0) return;
+      this.stage.setPointerCapture(event.pointerId);
+      this.drag = { id: event.pointerId, x: event.clientX, y: event.clientY, ox: this.x, oy: this.y };
+    };
+    this.onMove = (event) => {
+      if (!this.drag || event.pointerId !== this.drag.id) return;
+      this.x = this.drag.ox + event.clientX - this.drag.x;
+      this.y = this.drag.oy + event.clientY - this.drag.y;
+      this.fitted = false;
+      this.apply();
+    };
+    this.onUp = (event) => {
+      if (this.drag?.id === event.pointerId) this.drag = null;
+    };
+    this.onKey = (event) => {
+      const keys = {
+        "+": () => this.zoom(STEP),
+        "=": () => this.zoom(STEP),
+        "-": () => this.zoom(1 / STEP),
+        "0": () => this.fit(),
+        ArrowLeft: () => this.move(PAN, 0),
+        ArrowRight: () => this.move(-PAN, 0),
+        ArrowUp: () => this.move(0, PAN),
+        ArrowDown: () => this.move(0, -PAN)
+      };
+      const act = keys[event.key];
+      if (!act) return;
+      event.preventDefault();
+      act();
+    };
+    /** Fitted, the drawing at its own size; otherwise fitted again. */
+    this.onDouble = (event) => {
+      if (!this.fitted) return this.fit();
+      const box2 = this.stage.getBoundingClientRect();
+      this.zoom(1 / this.scale, { x: event.clientX - box2.left, y: event.clientY - box2.top });
+    };
     this.src = "";
     this.alt = "";
     this.caption = "";
@@ -4519,6 +4585,7 @@ var SdsLightbox = class extends SdsElement {
       src: { type: String },
       alt: { type: String },
       caption: { type: String },
+      content: { attribute: false },
       open: { type: Boolean, reflect: true }
     };
   }
@@ -4531,6 +4598,8 @@ var SdsLightbox = class extends SdsElement {
   }
   disconnectedCallback() {
     this.removeEventListener("sds-command", this.onCommand);
+    this.watcher?.disconnect();
+    this.watcher = null;
     super.disconnectedCallback();
   }
   show() {
@@ -4538,11 +4607,90 @@ var SdsLightbox = class extends SdsElement {
     void this.updateComplete.then(() => {
       const el = this.dialog;
       if (el && !el.open) el.showModal();
+      this.watch();
+      void this.ready().then(() => this.fit());
     });
   }
   close() {
     this.dialog?.close();
     this.open = false;
+  }
+  get stage() {
+    return this.querySelector(".sds-lightbox__art");
+  }
+  get canvas() {
+    return this.querySelector(".sds-lightbox__canvas");
+  }
+  /** The drawing's own size: the viewBox of an inline drawing, or the
+      pixels of a file. */
+  natural() {
+    const picture2 = this.canvas?.firstElementChild;
+    if (picture2 instanceof SVGSVGElement) {
+      const box2 = picture2.viewBox.baseVal;
+      const width2 = box2?.width || Number(picture2.getAttribute("width")) || 0;
+      const height = box2?.height || Number(picture2.getAttribute("height")) || 0;
+      return width2 && height ? { width: width2, height, raster: false } : null;
+    }
+    if (picture2 instanceof HTMLImageElement && picture2.naturalWidth) {
+      return { width: picture2.naturalWidth, height: picture2.naturalHeight, raster: !/\.svg(\?|#|$)/.test(picture2.src) };
+    }
+    return null;
+  }
+  /** A file has its size once it has loaded. */
+  async ready() {
+    const picture2 = this.canvas?.firstElementChild;
+    if (picture2 instanceof HTMLImageElement && !picture2.complete) {
+      await new Promise((done) => picture2.addEventListener("load", done, { once: true }));
+    }
+  }
+  watch() {
+    if (this.watcher || !this.stage) return;
+    this.watcher = new ResizeObserver(() => this.fitted && this.fit());
+    this.watcher.observe(this.stage);
+  }
+  apply() {
+    const canvas = this.canvas;
+    const size = this.natural();
+    if (!canvas || !size) return;
+    canvas.style.width = `${size.width}px`;
+    canvas.style.height = `${size.height}px`;
+    canvas.style.transform = `translate(${this.x}px, ${this.y}px) scale(${this.scale})`;
+    const shown = this.querySelector(".sds-lightbox__scale");
+    if (shown) shown.textContent = `${Math.round(this.scale * 100)} %`;
+  }
+  /** The whole drawing in the stage, in the middle. A photograph never
+      grows past its own pixels, a drawing does. */
+  fit() {
+    const stage = this.stage;
+    const size = this.natural();
+    if (!stage || !size) return;
+    const room = parseFloat(getComputedStyle(stage).paddingInlineStart) || 0;
+    const across = Math.max(1, stage.clientWidth - room * 2);
+    const down = Math.max(1, stage.clientHeight - room * 2);
+    const scale = Math.min(across / size.width, down / size.height);
+    this.scale = size.raster ? Math.min(scale, 1) : scale;
+    this.x = (stage.clientWidth - size.width * this.scale) / 2;
+    this.y = (stage.clientHeight - size.height * this.scale) / 2;
+    this.fitted = true;
+    this.apply();
+  }
+  /** Zoom by a factor, about a point of the stage that stays put. */
+  zoom(factor, at) {
+    const stage = this.stage;
+    if (!stage || !this.natural()) return;
+    const point = at ?? { x: stage.clientWidth / 2, y: stage.clientHeight / 2 };
+    const scale = Math.min(MOST, Math.max(LEAST, this.scale * factor));
+    this.x = point.x - (point.x - this.x) * (scale / this.scale);
+    this.y = point.y - (point.y - this.y) * (scale / this.scale);
+    this.scale = scale;
+    this.fitted = false;
+    this.apply();
+  }
+  move(dx, dy) {
+    this.x += dx;
+    this.y += dy;
+    this.fitted = false;
+    this.apply();
   }
   updated() {
     const el = this.dialog;
@@ -4564,10 +4712,27 @@ var SdsLightbox = class extends SdsElement {
     >
   <div class="sds-modal__head">
     <span class="sds-modal__title">${this.caption || this.alt}</span>
-    <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
+    <div class="sds-lightbox__tools">
+      <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Zoom out" @click="${() => this.zoom(1 / STEP)}"><sds-icon name="actions-minus"></sds-icon></button>
+      <output class="sds-lightbox__scale" aria-live="polite">100 %</output>
+      <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" title="Zoom in" @click="${() => this.zoom(STEP)}"><sds-icon name="actions-plus"></sds-icon></button>
+      <button class="sds-btn sds-btn--ghost sds-btn--sm" title="Fit the whole drawing" @click="${() => this.fit()}">Fit</button>
+      <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close" @click="${() => this.close()}"><sds-icon name="actions-close"></sds-icon></button>
+    </div>
   </div>
-  <div class="sds-lightbox__art${exported(this.src) ? " sds-lightbox__art--exported" : ""}">
-    ${art(this.src, this.alt)}
+  <div
+    class="sds-lightbox__art${exported(this.src) ? " sds-lightbox__art--exported" : ""}"
+    tabindex="0"
+    aria-label="The drawing. Drag or use the arrow keys to move it, the wheel or plus and minus to zoom, 0 to fit."
+    @wheel="${this.onWheel}"
+    @pointerdown="${this.onDown}"
+    @pointermove="${this.onMove}"
+    @pointerup="${this.onUp}"
+    @pointercancel="${this.onUp}"
+    @keydown="${this.onKey}"
+    @dblclick="${this.onDouble}"
+  >
+    <div class="sds-lightbox__canvas">${this.content ?? art(this.src, this.alt)}</div>
   </div>
 </dialog>`;
   }
@@ -4589,10 +4754,10 @@ function opener(host) {
   return open;
 }
 function zoom(host, picture2, options) {
-  const { src, alt, caption } = options;
+  const { src, alt, caption, content } = options;
   return {
-    trigger: html31`<a class="sds-zoom" href="${src}" title="Open the picture at full size" @click="${opener(host)}">${picture2}</a>`,
-    viewer: html31`<sds-lightbox src="${src}" alt="${alt}" caption="${ifDefined(caption || void 0)}"></sds-lightbox>`
+    trigger: content === void 0 ? html31`<a class="sds-zoom" href="${src}" title="Open the picture at full size" @click="${opener(host)}">${picture2}</a>` : html31`<button type="button" class="sds-zoom" title="Open the picture at full size" @click="${opener(host)}">${picture2}</button>`,
+    viewer: html31`<sds-lightbox src="${src}" alt="${alt}" caption="${ifDefined2(caption || void 0)}" .content="${content}"></sds-lightbox>`
   };
 }
 
@@ -4630,10 +4795,10 @@ var SdsImage = class extends SdsElement {
     super.connectedCallback();
   }
   render() {
-    const width = this.width || void 0;
+    const width2 = this.width || void 0;
     const height = this.height || void 0;
-    const cls = this.cls || (width || height ? "" : "sds-art");
-    const picture2 = art(this.src, this.alt, { cls, width, height });
+    const cls = this.cls || (width2 || height ? "" : "sds-art");
+    const picture2 = art(this.src, this.alt, { cls, width: width2, height });
     if (!this.zoomable) return picture2;
     const { trigger, viewer } = zoom(this, picture2, { src: this.src, alt: this.alt });
     return html32`${trigger}
@@ -4662,7 +4827,7 @@ define("sds-overlay", SdsOverlay);
 var WALL = 8;
 var GRACE = 200;
 var seq4 = 0;
-function boxes(row) {
+function boxes(row2) {
   const out = [];
   const walk = (parent) => {
     for (const child of parent.children) {
@@ -4677,7 +4842,7 @@ function boxes(row) {
       out.push(el);
     }
   };
-  walk(row);
+  walk(row2);
   return out;
 }
 var widthOf = (el) => el.getBoundingClientRect().width;
@@ -4822,10 +4987,10 @@ var SdsNavMain = class extends SdsNav {
          closed section is one line until it opens. */
       scope.querySelectorAll(".sds-rail__group > summary, .sds-rail__item, .sds-pill, .sds-bar__link")
     ) : scope.querySelectorAll(".sds-bar__panel .sds-bar__link");
-    return [...rows].filter((row) => {
-      if (!row.getClientRects().length) return false;
-      const shut = row.closest("details:not([open])");
-      return !shut || row.matches("summary");
+    return [...rows].filter((row2) => {
+      if (!row2.getClientRects().length) return false;
+      const shut = row2.closest("details:not([open])");
+      return !shut || row2.matches("summary");
     });
   }
   /** Down a list of pages and back up it. The arrow that opens a panel steps
@@ -4837,12 +5002,12 @@ var SdsNavMain = class extends SdsNav {
     const from = event.target;
     if (!from || !this.contains(from)) return;
     const markers = [...this.querySelectorAll(".sds-bar__fold > summary")];
-    const marker = from.closest("summary");
-    if (marker && markers.includes(marker) && event.key === "ArrowDown") {
-      const at2 = markers.indexOf(marker);
+    const marker2 = from.closest("summary");
+    if (marker2 && markers.includes(marker2) && event.key === "ArrowDown") {
+      const at2 = markers.indexOf(marker2);
       event.preventDefault();
       this.opened = at2;
-      void this.updateComplete.then(() => this.list(marker)[0]?.focus());
+      void this.updateComplete.then(() => this.list(marker2)[0]?.focus());
       return;
     }
     const rows = this.list(from);
@@ -4865,9 +5030,9 @@ var SdsNavMain = class extends SdsNav {
       rather than from a width. The order is what the bar can best do without:
       the field first, the sections last. */
   decide() {
-    const row = this.querySelector(".sds-bar");
-    if (!row) return;
-    const style = getComputedStyle(row);
+    const row2 = this.querySelector(".sds-bar");
+    if (!row2) return;
+    const style = getComputedStyle(row2);
     const gap = parseFloat(style.columnGap) || 0;
     const end = this.querySelector(".sds-bar__end");
     const endGap = end ? parseFloat(getComputedStyle(end).columnGap) || 0 : 0;
@@ -4876,7 +5041,7 @@ var SdsNavMain = class extends SdsNav {
       const items = boxes(nav);
       if (!items.length) return;
       const itemGap = parseFloat(getComputedStyle(nav).columnGap) || 0;
-      this.needNav = items.reduce((sum, el) => sum + widthOf(el), 0) + itemGap * (items.length - 1);
+      this.needNav = items.reduce((sum2, el) => sum2 + widthOf(el), 0) + itemGap * (items.length - 1);
     }
     const host = this.querySelector("sds-search");
     const field = this.querySelector(".sds-search");
@@ -4885,13 +5050,13 @@ var SdsNavMain = class extends SdsNav {
       return;
     }
     if (field && !this.foldSearch && !this.needSearch) this.needSearch = widthOf(field);
-    const standing = boxes(row);
-    let used = standing.reduce((sum, el) => sum + widthOf(el), 0) + gap * (standing.length - 1);
+    const standing = boxes(row2);
+    let used = standing.reduce((sum2, el) => sum2 + widthOf(el), 0) + gap * (standing.length - 1);
     if (nav && !this.foldNav) used -= widthOf(nav) + gap;
     if (field && !this.foldSearch) used -= widthOf(field) + endGap;
     const toggle = this.querySelector(".sds-bar__toggle");
     if (toggle) used -= widthOf(toggle) + endGap;
-    const room = row.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - used;
+    const room = row2.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - used;
     const button = parseFloat(getComputedStyle(this).getPropertyValue("--control-height")) || 0;
     const wantsSearch = this.search || Boolean(this.index);
     const forNav = this.needNav ? this.needNav + gap : 0;
@@ -4932,8 +5097,8 @@ var SdsNavMain = class extends SdsNav {
       none named, every section is one. */
   doors() {
     const sections = [...this.menu.items ?? []];
-    const named = sections.filter((entry) => entry.front);
-    return named.length ? named : sections;
+    const named2 = sections.filter((entry) => entry.front);
+    return named2.length ? named2 : sections;
   }
   /** One front door: the link, and the fold that opens its pages under the row.
         The link stays a link — pressing a section's name goes to that section,
@@ -5037,7 +5202,7 @@ var SdsNavMain = class extends SdsNav {
     ${/* The section's own page, first and unfolded. */
     ""}
     ${inside.href ? this.step(inside, true) : ""}` : ""}
-    ${lines(rows.map((row) => this.step(row)), 4)}
+    ${lines(rows.map((row2) => this.step(row2)), 4)}
   </nav>`;
   }
   /** One row of a level: where it goes, and, where it holds pages, the way
@@ -5088,9 +5253,9 @@ var SdsNavMain = class extends SdsNav {
   }
   /** The sections: a row in the bar, a column in the drawer. */
   nav_() {
-    const { parts } = this.sections();
+    const { parts: parts2 } = this.sections();
     return html35`<nav class="sds-bar__nav" aria-label="Sections">
-    ${lines(parts, 4)}
+    ${lines(parts2, 4)}
   </nav>`;
   }
   toggle_() {
@@ -5147,10 +5312,10 @@ var SdsNavMain = class extends SdsNav {
   }
   updated() {
     if (!this.watched) {
-      const row = this.querySelector(".sds-bar");
-      if (row && this.watch) {
+      const row2 = this.querySelector(".sds-bar");
+      if (row2 && this.watch) {
         this.watched = true;
-        this.watch.observe(row);
+        this.watch.observe(row2);
       }
     }
     this.travel();
@@ -5345,8 +5510,8 @@ var SdsRun = class extends SdsElement {
   }
   /** The name of a state here. The page's word where it has one, and the
       English of the marks where it has not. */
-  said(state) {
-    return this.stateWords[state] ?? MARKS[state].said;
+  said(state2) {
+    return this.stateWords[state2] ?? MARKS[state2].said;
   }
   /** The stops in the order they arrive, under the group each one named.
       A run with no groups is one list, which is the sequence. */
@@ -5422,9 +5587,9 @@ var SdsRun = class extends SdsElement {
   }
 };
 function lines2(output) {
-  return output.split("\n").map((line) => {
-    const tone = TONES.find(({ mark }) => line.startsWith(mark))?.tone ?? "";
-    return html38`<span class="sds-run__line${tone ? ` sds-run__line--${tone}` : ""}">${line}</span>`;
+  return output.split("\n").map((line2) => {
+    const tone = TONES.find(({ mark }) => line2.startsWith(mark))?.tone ?? "";
+    return html38`<span class="sds-run__line${tone ? ` sds-run__line--${tone}` : ""}">${line2}</span>`;
   });
 }
 define("sds-run", SdsRun);
@@ -5699,15 +5864,15 @@ var SdsTabs = class _SdsTabs extends SdsNav {
     });
   }
   render() {
-    const named = (item) => ({
+    const named2 = (item) => ({
       label: typeof item === "string" ? item : item?.label ?? "",
       icon: typeof item === "string" ? void 0 : item?.icon
     });
     const tabs = this.panels.length ? this.panels.map((panel, i) => ({
-      ...named(this.items[i]),
+      ...named2(this.items[i]),
       tabId: panel.tabId,
       panelId: panel.panelId
-    })) : this.items.map(named);
+    })) : this.items.map(named2);
     const held = this.panels.length ? this.panels : this.content;
     return html42`${tabsBarMarkup(tabs, this.active, (i) => this.choose(i), (e) => this.onKey(e))}${held}`;
   }
@@ -5747,14 +5912,14 @@ var SdsNavRail = class extends SdsElement {
       the outline does, and by the same measure. The rail measures because
       the box is the page's and a fold that opens is the rail's own height. */
   keep() {
-    const box = this.box();
-    box?.classList.toggle("is-scrollable", box.scrollHeight - box.clientHeight > 1);
+    const box2 = this.box();
+    box2?.classList.toggle("is-scrollable", box2.scrollHeight - box2.clientHeight > 1);
   }
   firstUpdated() {
     this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.keep()));
     this.watch.observe(this);
-    const box = this.box();
-    if (box) this.watch.observe(box);
+    const box2 = this.box();
+    if (box2) this.watch.observe(box2);
   }
   disconnectedCallback() {
     this.watch?.disconnect();
@@ -5891,8 +6056,8 @@ var SdsNavToc = class extends SdsElement {
       render, and then it says nothing rather than nothing is on the page. */
   drawn() {
     const out = /* @__PURE__ */ new Set();
-    for (const row of this.querySelectorAll(".sds-toc__item")) {
-      if (row.getClientRects().length) out.add(row.getAttribute("href") ?? "");
+    for (const row2 of this.querySelectorAll(".sds-toc__item")) {
+      if (row2.getClientRects().length) out.add(row2.getAttribute("href") ?? "");
     }
     return out;
   }
@@ -5918,8 +6083,8 @@ var SdsNavToc = class extends SdsElement {
       reader reads, and the top of the window is not on it. */
   scroller(node) {
     for (let up = node.parentElement; up; up = up.parentElement) {
-      const flow = getComputedStyle(up).overflowY;
-      if (/auto|scroll|overlay/.test(flow) && up.scrollHeight > up.clientHeight + 1) return up;
+      const flow3 = getComputedStyle(up).overflowY;
+      if (/auto|scroll|overlay/.test(flow3) && up.scrollHeight > up.clientHeight + 1) return up;
     }
     return document.scrollingElement ?? document.documentElement;
   }
@@ -5928,19 +6093,19 @@ var SdsNavToc = class extends SdsElement {
       `scroll-padding-top`, which answers the bar for every target at once.
       Measured against that line, the entry a press marks is the entry the
       scroll marks. */
-  line(box) {
-    const page = box === (document.scrollingElement ?? document.documentElement);
-    const pad = parseFloat(getComputedStyle(page ? document.documentElement : box).scrollPaddingTop);
-    const top = page ? 0 : box.getBoundingClientRect().top;
+  line(box2) {
+    const page = box2 === (document.scrollingElement ?? document.documentElement);
+    const pad = parseFloat(getComputedStyle(page ? document.documentElement : box2).scrollPaddingTop);
+    const top = page ? 0 : box2.getBoundingClientRect().top;
     return top + (Number.isFinite(pad) ? pad : 0) + 1;
   }
   /** As far down as the reader can get. The last heading can stand below the
       line and never reach it. The list then marks the section above while the
       reader looks at the last one. Nothing to scroll is no foot to arrive at,
       with every section in view at once. */
-  ended(box) {
-    const rest = box.scrollHeight - box.clientHeight;
-    return rest > 2 && rest - box.scrollTop < 2;
+  ended(box2) {
+    const rest = box2.scrollHeight - box2.clientHeight;
+    return rest > 2 && rest - box2.scrollTop < 2;
   }
   /** Which section the reader is in: the last heading that has passed the
       line, and none while none has. A page opens above its first heading, and
@@ -5950,14 +6115,14 @@ var SdsNavToc = class extends SdsElement {
     const marks = this.marks();
     const first = marks[0];
     if (!first) return;
-    const box = this.scroller(first.node);
-    const line = this.line(box);
+    const box2 = this.scroller(first.node);
+    const line2 = this.line(box2);
     let at = "";
     for (const mark of marks) {
-      if (mark.node.getBoundingClientRect().top > line) break;
+      if (mark.node.getBoundingClientRect().top > line2) break;
       at = mark.href;
     }
-    this.at = this.ended(box) ? marks[marks.length - 1].href : at;
+    this.at = this.ended(box2) ? marks[marks.length - 1].href : at;
   }
   /** The entry the reader is in. The page wins once the element has read it.
       The data is what a card, a story and a server-rendered page have instead. */
@@ -5992,15 +6157,15 @@ var SdsNavToc = class extends SdsElement {
       the page along with it. */
   follow() {
     const here = this.querySelector(".sds-toc__item.is-active");
-    const box = here?.closest(".sds-toc");
-    if (!here || !box || box.scrollHeight - box.clientHeight < 2) return;
-    const pad = getComputedStyle(box);
-    const edge = box.getBoundingClientRect();
-    const row = here.getBoundingClientRect();
-    const above = row.top - (edge.top + (parseFloat(pad.paddingTop) || 0));
-    const below = row.bottom - (edge.bottom - (parseFloat(pad.paddingBottom) || 0));
-    if (above < 0) box.scrollTop += above;
-    else if (below > 0) box.scrollTop += below;
+    const box2 = here?.closest(".sds-toc");
+    if (!here || !box2 || box2.scrollHeight - box2.clientHeight < 2) return;
+    const pad = getComputedStyle(box2);
+    const edge = box2.getBoundingClientRect();
+    const row2 = here.getBoundingClientRect();
+    const above = row2.top - (edge.top + (parseFloat(pad.paddingTop) || 0));
+    const below = row2.bottom - (edge.bottom - (parseFloat(pad.paddingBottom) || 0));
+    if (above < 0) box2.scrollTop += above;
+    else if (below > 0) box2.scrollTop += below;
   }
   /** A box with more rows than it shows keeps the wheel, by a class the
       sheet reads. Let through, the scroll runs on into the page at the edge,
@@ -6008,8 +6173,8 @@ var SdsNavToc = class extends SdsElement {
       Only while it overflows: on a box with nothing to scroll, containment
       swallows the wheel and the page stops. So the element measures it. */
   keep() {
-    const box = this.querySelector(".sds-toc");
-    box?.classList.toggle("is-scrollable", box.scrollHeight - box.clientHeight > 1);
+    const box2 = this.querySelector(".sds-toc");
+    box2?.classList.toggle("is-scrollable", box2.scrollHeight - box2.clientHeight > 1);
   }
   updated(changed) {
     if (changed.has("at") || changed.has("entries")) this.follow();
@@ -6063,20 +6228,20 @@ var SdsNavOutline = class extends SdsElement {
     return Boolean(this.querySelector(".sds-outline__toggle")?.getClientRects().length);
   }
   fit(first = false) {
-    const fold = this.fold();
-    if (!fold) return;
+    const fold2 = this.fold();
+    if (!fold2) return;
     const narrow = this.folds();
     if (!first && narrow === this.narrow) return;
     this.narrow = narrow;
-    fold.open = !narrow;
+    fold2.open = !narrow;
   }
   /** A press on a row where the list folds: the reader chose a place, and
       the list has done its work. It shuts, and the page under it shows the
       place. */
   chose(event) {
-    const row = event.target.closest(".sds-outline__item");
-    const fold = this.fold();
-    if (row && fold && this.folds()) fold.open = false;
+    const row2 = event.target.closest(".sds-outline__item");
+    const fold2 = this.fold();
+    if (row2 && fold2 && this.folds()) fold2.open = false;
   }
   firstUpdated() {
     this.fit(true);
@@ -6109,8 +6274,8 @@ var SdsNavOutline = class extends SdsElement {
       Empty before the first render. */
   drawn() {
     const out = /* @__PURE__ */ new Set();
-    for (const row of this.querySelectorAll(".sds-outline__item")) {
-      if (row.getClientRects().length) out.add(row.getAttribute("href") ?? "");
+    for (const row2 of this.querySelectorAll(".sds-outline__item")) {
+      if (row2.getClientRects().length) out.add(row2.getAttribute("href") ?? "");
     }
     return out;
   }
@@ -6133,25 +6298,25 @@ var SdsNavOutline = class extends SdsElement {
       page where none does. */
   scroller(node) {
     for (let up = node.parentElement; up; up = up.parentElement) {
-      const flow = getComputedStyle(up).overflowY;
-      if (/auto|scroll|overlay/.test(flow) && up.scrollHeight > up.clientHeight + 1) return up;
+      const flow3 = getComputedStyle(up).overflowY;
+      if (/auto|scroll|overlay/.test(flow3) && up.scrollHeight > up.clientHeight + 1) return up;
     }
     return document.scrollingElement ?? document.documentElement;
   }
   /** Where a heading comes to rest after a jump: the top of the scroller,
       plus `scroll-padding-top`. Measured against that line, the entry a
       press marks is the entry the scroll marks. */
-  line(box) {
-    const page = box === (document.scrollingElement ?? document.documentElement);
-    const pad = parseFloat(getComputedStyle(page ? document.documentElement : box).scrollPaddingTop);
-    const top = page ? 0 : box.getBoundingClientRect().top;
+  line(box2) {
+    const page = box2 === (document.scrollingElement ?? document.documentElement);
+    const pad = parseFloat(getComputedStyle(page ? document.documentElement : box2).scrollPaddingTop);
+    const top = page ? 0 : box2.getBoundingClientRect().top;
     return top + (Number.isFinite(pad) ? pad : 0) + 1;
   }
   /** As far down as the reader can get. The last heading can stand below the
       line and never reach it. */
-  ended(box) {
-    const rest = box.scrollHeight - box.clientHeight;
-    return rest > 2 && rest - box.scrollTop < 2;
+  ended(box2) {
+    const rest = box2.scrollHeight - box2.clientHeight;
+    return rest > 2 && rest - box2.scrollTop < 2;
   }
   /** Which part the reader is in: the last heading that has passed the line,
       and none while none has. A document opens above its first heading. */
@@ -6160,14 +6325,14 @@ var SdsNavOutline = class extends SdsElement {
     const marks = this.marks();
     const first = marks[0];
     if (!first) return;
-    const box = this.scroller(first.node);
-    const line = this.line(box);
+    const box2 = this.scroller(first.node);
+    const line2 = this.line(box2);
     let at = "";
     for (const mark of marks) {
-      if (mark.node.getBoundingClientRect().top > line) break;
+      if (mark.node.getBoundingClientRect().top > line2) break;
       at = mark.href;
     }
-    this.at = this.ended(box) ? marks[marks.length - 1].href : at;
+    this.at = this.ended(box2) ? marks[marks.length - 1].href : at;
   }
   /** The entry the reader is in. The page wins once the element has read it.
       The data is what a card, a story and a server-rendered page have instead. */
@@ -6177,8 +6342,15 @@ var SdsNavOutline = class extends SdsElement {
   /** The entries at one level, each numbered by its place under the number
       of the entry above: `4`, then `4.1`, `4.2`. */
   list(entries, above = "") {
+    let count = 0;
+    const rows = entries.flatMap(
+      (entry) => entry.part ? [
+        html45`<li class="sds-outline__part"><p class="sds-label">${entry.label}</p></li>`,
+        ...(entry.items ?? []).map((item) => this.row(item, above ? `${above}.${++count}` : String(++count)))
+      ] : [this.row(entry, above ? `${above}.${++count}` : String(++count))]
+    );
     return html45`<ul class="sds-outline__list">
-  ${lines(entries.map((entry, i) => this.row(entry, above ? `${above}.${i + 1}` : String(i + 1))), 2)}
+  ${lines(rows, 2)}
 </ul>`;
   }
   /** One row. `aria-current="location"` and not `page`: every entry here is
@@ -6208,15 +6380,15 @@ var SdsNavOutline = class extends SdsElement {
       `scrollIntoView`: that walks up every scroller and takes the page along. */
   follow() {
     const here = this.querySelector(".sds-outline__item.is-active");
-    const box = here?.closest(".sds-outline");
-    if (!here || !box || box.scrollHeight - box.clientHeight < 2) return;
-    const pad = getComputedStyle(box);
-    const edge = box.getBoundingClientRect();
-    const row = here.getBoundingClientRect();
-    const above = row.top - (edge.top + (parseFloat(pad.paddingTop) || 0));
-    const below = row.bottom - (edge.bottom - (parseFloat(pad.paddingBottom) || 0));
-    if (above < 0) box.scrollTop += above;
-    else if (below > 0) box.scrollTop += below;
+    const box2 = here?.closest(".sds-outline");
+    if (!here || !box2 || box2.scrollHeight - box2.clientHeight < 2) return;
+    const pad = getComputedStyle(box2);
+    const edge = box2.getBoundingClientRect();
+    const row2 = here.getBoundingClientRect();
+    const above = row2.top - (edge.top + (parseFloat(pad.paddingTop) || 0));
+    const below = row2.bottom - (edge.bottom - (parseFloat(pad.paddingBottom) || 0));
+    if (above < 0) box2.scrollTop += above;
+    else if (below > 0) box2.scrollTop += below;
   }
   /** A box with more rows than it shows keeps the wheel, by a class the
       sheet reads. Let through, the scroll runs on into the page at the edge,
@@ -6224,8 +6396,8 @@ var SdsNavOutline = class extends SdsElement {
       Only while it overflows: on a box with nothing to scroll, containment
       swallows the wheel and the page stops. So the element measures it. */
   keep() {
-    const box = this.querySelector(".sds-outline");
-    box?.classList.toggle("is-scrollable", box.scrollHeight - box.clientHeight > 1);
+    const box2 = this.querySelector(".sds-outline");
+    box2?.classList.toggle("is-scrollable", box2.scrollHeight - box2.clientHeight > 1);
   }
   updated(changed) {
     if (changed.has("at") || changed.has("entries")) this.follow();
@@ -6297,14 +6469,14 @@ var SdsTimelineStop = class extends SdsElement {
       `role` because the box the plan draws is one generic away from this
       one, as with a step. */
   render() {
-    const state = MARKS2[this.state] ? this.state : "ahead";
-    const mark = MARKS2[state];
+    const state2 = MARKS2[this.state] ? this.state : "ahead";
+    const mark = MARKS2[state2];
     const body = this.body ?? this.content;
     const under = this.under ?? this.stops.map((stop) => stopTemplate(stop));
-    return html46`<div role="listitem" class="sds-timeline__stop sds-timeline__stop--${state}" aria-current="${state === "now" ? "step" : nothing28}">
+    return html46`<div role="listitem" class="sds-timeline__stop sds-timeline__stop--${state2}" aria-current="${state2 === "now" ? "step" : nothing28}">
     <span class="sds-timeline__mark"><sds-icon name="${mark.icon}" label="${mark.said}"></sds-icon></span>
     <p class="sds-timeline__when">${this.when}</p>
-    <p class="sds-timeline__title">${this.heading}${state === "now" ? html46`<span class="sds-label">Now</span>` : nothing28}</p>
+    <p class="sds-timeline__title">${this.heading}${state2 === "now" ? html46`<span class="sds-label">Now</span>` : nothing28}</p>
     ${body ? html46`<div class="sds-timeline__body">${body}</div>` : nothing28}
     ${under.length ? html46`<div class="sds-timeline__list" role="list">
       ${lines(under, 6)}
@@ -6320,10 +6492,10 @@ import { unsafeHTML as unsafeHTML4 } from "lit/directives/unsafe-html.js";
 
 // packages/frontend/src/lib/authored.ts
 var FACT = /\s([\w-]+)(?:="([^"]*)")?/g;
-var unescape = (text) => text.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+var unescape = (text2) => text2.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 function facts(tag) {
   const out = {};
-  for (const [, key, value] of tag.matchAll(FACT)) out[key] = unescape(value ?? "");
+  for (const [, key2, value] of tag.matchAll(FACT)) out[key2] = unescape(value ?? "");
   return out;
 }
 
@@ -6399,12 +6571,12 @@ var SdsTimeline = class extends SdsElement {
       top.items.push(stop);
       open.push(stop);
     }
-    const read = (stops) => stops.map(({ body, items, ...stop }) => ({
+    const read2 = (stops) => stops.map(({ body, items, ...stop }) => ({
       ...stop,
       body: body.trim() ? html47`${unsafeHTML4(body.trim())}` : void 0,
-      items: read(items)
+      items: read2(items)
     }));
-    return read(root.items);
+    return read2(root.items);
   }
   get read() {
     if (this.taken) return this.taken;
@@ -6414,11 +6586,11 @@ var SdsTimeline = class extends SdsElement {
   /** Every stop in the order a reader reads, each with the lines it holds. */
   place(stops, from = 0) {
     let next = from;
-    const placed = stops.map((read) => {
+    const placed = stops.map((read2) => {
       const start = next++;
-      const under = this.place(read.items, next);
+      const under = this.place(read2.items, next);
       next = under.next;
-      return { read, start, end: next - 1, items: under.placed };
+      return { read: read2, start, end: next - 1, items: under.placed };
     });
     return { placed, next };
   }
@@ -6444,10 +6616,10 @@ var SdsTimeline = class extends SdsElement {
   /** Each stop with its state, down the tree. An element gets it written
       on as an attribute and renders itself from there. */
   settle(one, at) {
-    const state = this.state(one, at);
-    const { read } = one;
-    read.el?.setAttribute("state", state);
-    return { when: read.when, heading: read.heading, now: read.now, state, body: read.body, stops: one.items.map((under) => this.settle(under, at)) };
+    const state2 = this.state(one, at);
+    const { read: read2 } = one;
+    read2.el?.setAttribute("state", state2);
+    return { when: read2.when, heading: read2.heading, now: read2.now, state: state2, body: read2.body, stops: one.items.map((under) => this.settle(under, at)) };
   }
   /** The stops as a list in ARIA, for the reason `sds-steps` gives. An
       element between the list and its items is a generic the platform no
@@ -6456,7 +6628,7 @@ var SdsTimeline = class extends SdsElement {
     const { placed } = this.place(this.read);
     const at = this.at(placed);
     const settled = placed.map((one) => this.settle(one, at));
-    const stops = this.taken ? this.taken.map((read) => read.el) : settled.map((stop) => stopTemplate(stop));
+    const stops = this.taken ? this.taken.map((read2) => read2.el) : settled.map((stop) => stopTemplate(stop));
     return html47`<div class="sds-timeline" role="list">
   ${lines(stops, 2)}
 </div>`;
@@ -6830,7 +7002,7 @@ var SdsSurface = class extends SdsElement {
 define("sds-surface", SdsSurface);
 
 // packages/frontend/src/components/stat.ts
-import { html as html54 } from "lit";
+import { html as html54, nothing as nothing32 } from "lit";
 var NNBSP2 = "\u202F";
 var NBSP2 = "\xA0";
 var SdsStat = class extends SdsElement {
@@ -6844,6 +7016,8 @@ var SdsStat = class extends SdsElement {
     this.unit = "";
     this.label = "";
     this.of = "";
+    this.bar = false;
+    this.list = false;
     this.note = "";
   }
   static {
@@ -6852,6 +7026,8 @@ var SdsStat = class extends SdsElement {
       unit: { type: String },
       label: { type: String },
       of: { type: String },
+      bar: { type: Boolean, reflect: true },
+      list: { type: Boolean, reflect: true },
       icon: { type: String },
       note: { type: String }
     };
@@ -6861,10 +7037,27 @@ var SdsStat = class extends SdsElement {
     if (written.length) this.taken = written;
     super.connectedCallback();
   }
+  /* The share, as a length. A measurement, so a style: no class names one.
+     It stands on the figure's box, where the set mixes the fill from it. */
+  at() {
+    const part = Number.parseFloat(this.value);
+    const whole = Number.parseFloat(this.of);
+    if (!(this.bar || this.list) || !(whole > 0) || !Number.isFinite(part)) return void 0;
+    return `--sds-stat-at: ${Math.min(Math.max(part / whole, 0), 1) * 100}%`;
+  }
+  share() {
+    return this.at() ? html54`<div class="sds-stat__bar" aria-hidden="true"><span></span></div>` : "";
+  }
   render() {
     const bound = this.taken ?? this.content ?? (this.note || void 0);
-    return html54`<div class="sds-stat">
-  <div class="sds-stat__value">${this.icon ? html54`<span class="sds-stat__icon"><sds-icon name="${this.icon}" size="24"></sds-icon></span>` : ""}${this.value}${this.unit ? html54`<span class="sds-stat__unit">${NNBSP2}${this.unit}</span>` : ""}${this.of ? html54`<span class="sds-stat__unit">${NBSP2}of${NBSP2}${this.of}</span>` : ""}</div>
+    if (this.list) {
+      return html54`<div class="sds-stat sds-stat--list" style="${this.at() ?? nothing32}">
+  <div class="sds-stat__head"><span class="sds-stat__name">${this.label}</span><span class="sds-stat__count">${this.value}${this.of ? `${NBSP2}of${NBSP2}${this.of}` : ""}${this.unit ? `${NNBSP2}${this.unit}` : ""}</span></div>${this.share()}
+  ${bound ? html54`<div class="sds-stat__note">${bound}</div>` : ""}
+</div>`;
+    }
+    return html54`<div class="sds-stat" style="${this.at() ?? nothing32}">
+  <div class="sds-stat__value">${this.icon ? html54`<span class="sds-stat__icon"><sds-icon name="${this.icon}" size="24"></sds-icon></span>` : ""}${this.value}${this.unit ? html54`<span class="sds-stat__unit">${NNBSP2}${this.unit}</span>` : ""}${this.of ? html54`<span class="sds-stat__unit">${NBSP2}of${NBSP2}${this.of}</span>` : ""}</div>${this.share()}
   <div class="sds-label">${this.label}</div>
   ${bound ? html54`<div class="sds-stat__note">${bound}</div>` : ""}
 </div>`;
@@ -6873,7 +7066,7 @@ var SdsStat = class extends SdsElement {
 define("sds-stat", SdsStat);
 
 // packages/frontend/src/components/embed.ts
-import { html as html55, nothing as nothing32 } from "lit";
+import { html as html55, nothing as nothing33 } from "lit";
 var isCaption2 = (node) => node.nodeType === 1 && node.matches(".sds-embed__caption");
 var isNothing2 = (node) => node.nodeType === 8 || node.nodeType === 3 && !(node.textContent ?? "").trim();
 var SdsEmbed = class extends SdsElement {
@@ -6958,16 +7151,16 @@ var SdsEmbed = class extends SdsElement {
       on the page, and one that loads on scroll is blank in every screenshot. */
   get framed() {
     if (this.taken ?? this.content) return this.taken ?? this.content;
-    if (!this.src) return nothing32;
-    const size = this.fixed ? `width:${this.width}px;height:${this.height}px` : nothing32;
-    return html55`<iframe src="${this.src}" title="${this.label || nothing32}" style="${size}" allow="${this.allow || nothing32}" ?allowfullscreen="${this.allowfullscreen}"></iframe>`;
+    if (!this.src) return nothing33;
+    const size = this.fixed ? `width:${this.width}px;height:${this.height}px` : nothing33;
+    return html55`<iframe src="${this.src}" title="${this.label || nothing33}" style="${size}" allow="${this.allow || nothing33}" ?allowfullscreen="${this.allowfullscreen}"></iframe>`;
   }
   render() {
-    const shape = this.fixed ? "sds-embed__frame--fixed" : "sds-embed__frame--fluid";
-    const style = this.fixed ? nothing32 : `aspect-ratio:${this.ratio || "16 / 9"}`;
+    const shape2 = this.fixed ? "sds-embed__frame--fixed" : "sds-embed__frame--fluid";
+    const style = this.fixed ? nothing33 : `aspect-ratio:${this.ratio || "16 / 9"}`;
     const caption = this.captioned ? html55`${this.captioned}` : this.caption ? html55`<div class="sds-embed__caption">${this.caption}</div>` : void 0;
     return html55`<div class="sds-embed">
-  <div class="sds-embed__frame ${shape}" style="${style}" tabindex="${this.fixed ? "0" : nothing32}">${this.framed}</div>
+  <div class="sds-embed__frame ${shape2}" style="${style}" tabindex="${this.fixed ? "0" : nothing33}">${this.framed}</div>
   ${caption}
 </div>`;
   }
@@ -6998,8 +7191,8 @@ var SdsModal = class extends SdsElement {
     this.width = 0;
   }
   render() {
-    const width = this.width > 0 ? ` width:${this.width}px` : "";
-    return html56`<div class="${modalClass(this.size)}" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);${width}">
+    const width2 = this.width > 0 ? ` width:${this.width}px` : "";
+    return html56`<div class="${modalClass(this.size)}" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);${width2}">
   <div class="sds-modal__head">
     <span class="sds-modal__title">${this.heading}</span>
     <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon sds-modal__close" title="Close"><sds-icon name="actions-close"></sds-icon></button>
@@ -7142,17 +7335,17 @@ var SdsDialog = class extends SdsElement {
   </div>`;
     }
     const tone = this.tone === "danger" ? "danger" : "primary";
-    const glyph = this.confirmIcon ? html57`<sds-icon name="${this.confirmIcon}"></sds-icon>` : "";
+    const glyph2 = this.confirmIcon ? html57`<sds-icon name="${this.confirmIcon}"></sds-icon>` : "";
     return html57`<form method="dialog" class="sds-modal__foot">
     <button class="${buttonClass({ variant: "ghost" })}" type="submit" value="cancel">${buttonLabel(this.cancelLabel)}</button>
-    <button class="${buttonClass({ variant: tone })}" type="submit" value="${CONFIRM}">${glyph}${buttonLabel(this.confirmLabel)}</button>
+    <button class="${buttonClass({ variant: tone })}" type="submit" value="${CONFIRM}">${glyph2}${buttonLabel(this.confirmLabel)}</button>
   </form>`;
   }
 };
 define("sds-dialog", SdsDialog);
 
 // packages/frontend/src/components/table.ts
-import { html as html58, nothing as nothing33 } from "lit";
+import { html as html58, nothing as nothing34 } from "lit";
 var SdsTable = class extends SdsElement {
   constructor() {
     super();
@@ -7167,7 +7360,7 @@ var SdsTable = class extends SdsElement {
     /* The one of the three that is a plain object of this system's own. A
        string is not an object at all. A template carries Lit's marker and its
        values, not a value. */
-    this.stacked = (cell) => typeof cell === "object" && cell !== null && "value" in cell;
+    this.stacked = (cell2) => typeof cell2 === "object" && cell2 !== null && "value" in cell2;
     this.density = "medium";
     this.scrollable = false;
     this.width = "";
@@ -7199,10 +7392,10 @@ var SdsTable = class extends SdsElement {
      its parts written bare where a template kept them. Read off the text
      region, so Node takes the same as a browser. */
   written() {
-    const text = this.region(TEXT);
-    if (!text.length) return null;
-    const [one] = text;
-    return text.length === 1 && one?.tag === "table" ? one.inner : text.map((part) => part.node);
+    const text2 = this.region(TEXT);
+    if (!text2.length) return null;
+    const [one] = text2;
+    return text2.length === 1 && one?.tag === "table" ? one.inner : text2.map((part) => part.node);
   }
   /** What a column puts on both its head and its cells: what kind of cell it
       is, and its edge. One string, because the head and the cells have to
@@ -7216,34 +7409,34 @@ var SdsTable = class extends SdsElement {
     ].filter(Boolean).join(" ");
   }
   cell(value, cls) {
-    const inner = this.stacked(value) ? html58`${value.value}${value.note ? html58`<span class="sds-td-note">${value.note}</span>` : nothing33}` : value;
+    const inner = this.stacked(value) ? html58`${value.value}${value.note ? html58`<span class="sds-td-note">${value.note}</span>` : nothing34}` : value;
     return cls ? html58`<td class="${cls}">${inner}</td>` : html58`<td>${inner}</td>`;
   }
-  bodyRow(row) {
-    const cells = lines(row.cells.map((v, i) => this.cell(v, this.marks(this.columns[i]))), 6);
-    return html58`<tr class="${row.selected ? "is-selected" : nothing33}" style="${row.style ?? nothing33}">
-      ${cells}
+  bodyRow(row2) {
+    const cells3 = lines(row2.cells.map((v, i) => this.cell(v, this.marks(this.columns[i]))), 6);
+    return html58`<tr class="${row2.selected ? "is-selected" : nothing34}" style="${row2.style ?? nothing34}">
+      ${cells3}
     </tr>`;
   }
   /* One bar per declared column. Where the table has none, its rows arrive
      as markup, and a single bar is the whole of the shape it knows. */
   waitingRow() {
-    const cells = Math.max(this.columns.length, 1);
-    const bars = Array.from({ length: cells }, (_, i) => {
+    const cells3 = Math.max(this.columns.length, 1);
+    const bars3 = Array.from({ length: cells3 }, (_, i) => {
       const mark = this.marks(this.columns[i]);
       return mark ? html58`<td class="${mark}"><span class="sds-skeleton"></span></td>` : html58`<td><span class="sds-skeleton"></span></td>`;
     });
     return html58`<tr>
-      ${lines(bars, 6)}
+      ${lines(bars3, 6)}
     </tr>`;
   }
   render() {
     const cls = `sds-table sds-table--${this.density}${this.loading ? " sds-table--loading" : ""}` + (this.captionSide === "top" ? " sds-table--caption-top" : "");
-    const style = this.width ? `width: ${this.width}` : nothing33;
+    const style = this.width ? `width: ${this.width}` : nothing34;
     const caption = this.caption ? html58`<caption>${this.caption}</caption>\n  ` : "";
     const given = this.loading ? null : this.taken ?? this.written() ?? this.content;
     const body = this.loading ? Array.from({ length: Math.max(this.loadingRows, 1) }, () => this.waitingRow()) : this.rows.map((r) => this.bodyRow(r));
-    const table = given ? html58`<table class="${cls}" style="${style}">${caption}${given}</table>` : html58`<table class="${cls}" style="${style}" aria-busy="${this.loading ? "true" : nothing33}">
+    const table2 = given ? html58`<table class="${cls}" style="${style}">${caption}${given}</table>` : html58`<table class="${cls}" style="${style}" aria-busy="${this.loading ? "true" : nothing34}">
   ${caption}<thead><tr>
     ${lines(this.columns.map((c) => {
       const mark = this.marks(c, true);
@@ -7254,13 +7447,346 @@ var SdsTable = class extends SdsElement {
     ${lines(body, 4)}
   </tbody>
 </table>`;
-    return this.scrollable ? html58`<div class="sds-table-scroll">${table}</div>` : table;
+    return this.scrollable ? html58`<div class="sds-table-scroll">${table2}</div>` : table2;
   }
 };
 define("sds-table", SdsTable);
 
 // packages/frontend/src/components/card.ts
-import { html as html59 } from "lit";
+import { html as html59, svg } from "lit";
+import { unsafeSVG } from "lit/directives/unsafe-svg.js";
+
+// packages/frontend/src/lib/diagram/metrics.generated.ts
+var CHARS = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\xA0\xA1\xA2\xA3\xA4\xA5\xA6\xA7\xA8\xA9\xAA\xAB\xAC\xAD\xAE\xAF\xB0\xB1\xB2\xB3\xB4\xB5\xB6\xB7\xB8\xB9\xBA\xBB\xBC\xBD\xBE\xBF\xC0\xC1\xC2\xC3\xC4\xC5\xC6\xC7\xC8\xC9\xCA\xCB\xCC\xCD\xCE\xCF\xD0\xD1\xD2\xD3\xD4\xD5\xD6\xD7\xD8\xD9\xDA\xDB\xDC\xDD\xDE\xDF\xE0\xE1\xE2\xE3\xE4\xE5\xE6\xE7\xE8\xE9\xEA\xEB\xEC\xED\xEE\xEF\xF0\xF1\xF2\xF3\xF4\xF5\xF6\xF7\xF8\xF9\xFA\xFB\xFC\xFD\xFE\xFF\u0100\u0101\u0102\u0103\u0104\u0105\u0106\u0107\u0108\u0109\u010A\u010B\u010C\u010D\u010E\u010F\u0110\u0111\u0112\u0113\u0114\u0115\u0116\u0117\u0118\u0119\u011A\u011B\u011C\u011D\u011E\u011F\u0120\u0121\u0122\u0123\u0124\u0125\u0126\u0127\u0128\u0129\u012A\u012B\u012C\u012D\u012E\u012F\u0130\u0131\u0132\u0133\u0134\u0135\u0136\u0137\u0138\u0139\u013A\u013B\u013C\u013D\u013E\u013F\u0140\u0141\u0142\u0143\u0144\u0145\u0146\u0147\u0148\u0149\u014A\u014B\u014C\u014D\u014E\u014F\u0150\u0151\u0152\u0153\u0154\u0155\u0156\u0157\u0158\u0159\u015A\u015B\u015C\u015D\u015E\u015F\u0160\u0161\u0162\u0163\u0164\u0165\u0166\u0167\u0168\u0169\u016A\u016B\u016C\u016D\u016E\u016F\u0170\u0171\u0172\u0173\u0174\u0175\u0176\u0177\u0178\u0179\u017A\u017B\u017C\u017D\u017E\u017F\u2010\u2011\u2012\u2013\u2014\u2015\u2016\u2017\u2018\u2019\u201A\u201B\u201C\u201D\u201E\u201F\u2020\u2021\u2022\u2023\u2024\u2025\u2026\u2027\u2030\u2031\u2032\u2033\u2034\u2035\u2036\u2037\u2038\u2039\u203A\u2190\u2191\u2192\u2193\u2194\u2195\u2196\u2197\u2198\u2199\u21D2\u21D3\u21D4\u2212\u2260\u2261\u2262\u2263\u2264\u2265\u2460\u2461\u2462\u2463\u2464\u2465\u2466\u2467\u2468\u2469\u246A\u246B\u246C\u246D\u246E\u246F\u2470\u2471\u2472\u2473\u2713\u2714\u2715\u2716\u2717";
+var WIDTHS = {
+  "sans-400": [200, 289, 426, 497, 497, 824, 609, 249, 303, 303, 418, 497, 249, 311, 249, 350, 497, 497, 497, 497, 497, 497, 497, 497, 497, 497, 249, 249, 497, 497, 497, 425, 847, 543, 588, 571, 615, 527, 494, 617, 652, 263, 479, 579, 486, 727, 647, 664, 566, 664, 569, 534, 536, 645, 515, 786, 513, 476, 539, 303, 350, 303, 497, 500, 542, 504, 553, 456, 555, 496, 292, 504, 544, 246, 247, 495, 255, 829, 547, 542, 555, 555, 347, 419, 338, 544, 467, 719, 446, 467, 425, 303, 241, 303, 497, 200, 289, 497, 497, 497, 497, 241, 497, 542, 744, 345, 429, 497, 0, 423, 542, 331, 497, 367, 367, 542, 562, 560, 249, 542, 367, 365, 429, 781, 808, 796, 425, 543, 543, 544, 543, 543, 544, 822, 571, 527, 527, 527, 527, 263, 263, 263, 263, 639, 647, 664, 664, 664, 664, 664, 497, 664, 645, 645, 645, 645, 476, 583, 576, 504, 504, 504, 504, 504, 504, 778, 456, 496, 496, 496, 496, 246, 246, 246, 246, 544, 547, 542, 542, 542, 542, 542, 497, 542, 544, 544, 544, 544, 467, 555, 467, 544, 504, 544, 504, 544, 504, 571, 456, 571, 456, 571, 456, 571, 456, 615, 573, 635, 562, 527, 496, 527, 496, 527, 496, 527, 496, 527, 496, 617, 504, 617, 504, 617, 504, 617, 504, 652, 544, 692, 557, 263, 246, 263, 246, 263, 246, 263, 246, 263, 247, 526, 493, 480, 247, 579, 495, 495, 486, 255, 486, 255, 486, 265, 486, 362, 500, 298, 647, 547, 647, 547, 647, 547, 769, 635, 547, 664, 542, 664, 542, 664, 542, 847, 839, 569, 347, 569, 347, 569, 347, 534, 419, 534, 419, 534, 419, 534, 419, 536, 338, 536, 338, 536, 338, 645, 544, 645, 544, 645, 544, 645, 544, 645, 544, 645, 544, 786, 718, 476, 467, 476, 539, 425, 539, 425, 539, 425, 271, 334, 334, 556, 480, 800, 1e3, 577, 500, 249, 249, 249, 334, 426, 426, 426, 400, 454, 500, 304, 400, 500, 1e3, 948, 278, 1e3, 1e3, 249, 426, 575, 274, 469, 680, 376, 271, 271, 1e3, 619, 1e3, 619, 1e3, 500, 1e3, 1e3, 1e3, 1e3, 1e3, 603, 1e3, 497, 549, 564, 500, 600, 549, 549, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 846, 762, 761, 571],
+  "sans-600": [200, 315, 482, 513, 513, 841, 639, 275, 324, 324, 438, 513, 275, 322, 275, 344, 513, 513, 513, 513, 513, 513, 513, 513, 513, 513, 275, 275, 513, 513, 513, 444, 875, 558, 597, 576, 625, 538, 510, 628, 663, 282, 494, 597, 502, 745, 657, 674, 582, 674, 592, 545, 546, 655, 536, 800, 541, 501, 540, 324, 344, 324, 513, 500, 549, 516, 563, 462, 564, 507, 317, 520, 558, 262, 263, 522, 271, 843, 560, 549, 564, 564, 373, 431, 361, 556, 495, 748, 481, 495, 443, 324, 255, 324, 513, 200, 315, 513, 513, 513, 513, 255, 513, 549, 747, 352, 455, 513, 0, 443, 549, 348, 513, 372, 372, 549, 578, 599, 275, 549, 372, 369, 455, 795, 827, 807, 444, 558, 558, 558, 558, 558, 558, 834, 576, 538, 538, 538, 538, 282, 282, 282, 282, 651, 656, 674, 674, 674, 674, 674, 513, 674, 655, 655, 655, 655, 501, 600, 604, 516, 516, 516, 516, 516, 516, 780, 462, 507, 507, 507, 507, 262, 262, 262, 262, 552, 560, 549, 549, 549, 549, 549, 513, 549, 556, 556, 556, 556, 495, 564, 495, 558, 516, 558, 516, 558, 516, 576, 462, 576, 462, 576, 462, 576, 462, 625, 594, 645, 564, 538, 507, 538, 507, 538, 507, 538, 507, 538, 507, 628, 520, 628, 520, 628, 520, 628, 520, 663, 558, 703, 566, 282, 262, 282, 262, 282, 262, 282, 262, 282, 262, 565, 524, 494, 263, 597, 522, 522, 502, 271, 502, 271, 502, 292, 502, 408, 522, 329, 656, 560, 656, 560, 656, 560, 810, 651, 560, 674, 549, 674, 549, 674, 549, 859, 830, 592, 373, 592, 373, 592, 373, 545, 431, 545, 431, 545, 431, 545, 431, 546, 361, 546, 361, 546, 361, 655, 556, 655, 556, 655, 556, 655, 556, 655, 556, 655, 556, 800, 748, 501, 495, 501, 540, 443, 540, 443, 540, 443, 292, 334, 334, 556, 480, 800, 1e3, 577, 500, 275, 275, 275, 334, 482, 482, 482, 400, 482, 500, 325, 400, 500, 1e3, 964, 278, 1e3, 1e3, 275, 482, 575, 274, 469, 680, 376, 282, 282, 1e3, 618, 1e3, 618, 1e3, 500, 1e3, 1e3, 1e3, 1e3, 1e3, 603, 1e3, 513, 549, 570, 500, 600, 549, 549, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 846, 762, 761, 571],
+  "mono-400": [600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 0, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 334, 334, 556, 600, 600, 1e3, 577, 500, 600, 600, 600, 334, 600, 600, 600, 400, 600, 500, 600, 400, 500, 1e3, 600, 278, 1e3, 1e3, 600, 600, 575, 274, 469, 680, 376, 600, 600, 1e3, 600, 1e3, 600, 1e3, 500, 1e3, 1e3, 1e3, 1e3, 1e3, 603, 1e3, 600, 549, 564, 500, 600, 549, 549, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 846, 762, 761, 571],
+  "mono-600": [600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 0, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 334, 334, 556, 600, 600, 1e3, 577, 500, 600, 600, 600, 334, 600, 600, 600, 400, 600, 500, 600, 400, 500, 1e3, 600, 278, 1e3, 1e3, 600, 600, 575, 274, 469, 680, 376, 600, 600, 1e3, 600, 1e3, 600, 1e3, 500, 1e3, 1e3, 1e3, 1e3, 1e3, 603, 1e3, 600, 549, 570, 500, 600, 549, 549, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 846, 762, 761, 571],
+  "fallback-sans-400": [318, 401, 460, 838, 636, 950, 780, 275, 390, 390, 500, 838, 318, 361, 318, 337, 636, 636, 636, 636, 636, 636, 636, 636, 636, 636, 337, 337, 838, 838, 838, 531, 1e3, 684, 686, 698, 770, 632, 575, 775, 752, 295, 295, 656, 557, 863, 748, 787, 603, 787, 695, 635, 611, 732, 684, 989, 685, 611, 685, 390, 337, 390, 838, 500, 500, 613, 635, 550, 635, 615, 352, 635, 634, 278, 278, 579, 278, 974, 634, 612, 635, 635, 411, 521, 392, 634, 592, 818, 592, 592, 525, 636, 337, 636, 838, 318, 401, 636, 636, 636, 636, 337, 500, 500, 1e3, 471, 612, 838, 0, 1e3, 500, 500, 838, 401, 401, 500, 636, 636, 318, 500, 401, 471, 612, 969, 969, 969, 531, 684, 684, 684, 684, 684, 684, 974, 698, 632, 632, 632, 632, 295, 295, 295, 295, 775, 748, 787, 787, 787, 787, 787, 838, 787, 732, 732, 732, 732, 611, 605, 630, 613, 613, 613, 613, 613, 613, 982, 550, 615, 615, 615, 615, 278, 278, 278, 278, 612, 634, 612, 612, 612, 612, 612, 838, 612, 634, 634, 634, 634, 592, 635, 592, 684, 613, 684, 613, 684, 613, 698, 550, 698, 550, 698, 550, 698, 550, 770, 635, 775, 635, 632, 615, 632, 615, 632, 615, 632, 615, 632, 615, 775, 635, 775, 635, 775, 635, 775, 635, 752, 634, 916, 695, 295, 278, 295, 278, 295, 278, 295, 278, 295, 278, 590, 556, 295, 278, 656, 579, 579, 557, 278, 557, 278, 557, 375, 557, 342, 562, 284, 748, 634, 748, 634, 748, 634, 813, 748, 634, 787, 612, 787, 612, 787, 612, 1070, 1023, 695, 411, 695, 411, 695, 411, 635, 521, 635, 521, 635, 521, 635, 521, 611, 392, 611, 392, 611, 392, 732, 634, 732, 634, 732, 634, 732, 634, 732, 634, 732, 634, 989, 818, 611, 592, 611, 685, 525, 685, 525, 685, 525, 352, 361, 361, 636, 500, 1e3, 1e3, 500, 500, 318, 318, 318, 318, 518, 518, 518, 518, 500, 500, 590, 590, 334, 667, 1e3, 318, 1342, 1735, 227, 374, 520, 227, 374, 520, 339, 400, 400, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 896, 896, 896, 896, 896, 896, 896, 896, 896, 896, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 838, 838, 838, 838, 838],
+  "fallback-sans-600": [348, 456, 521, 838, 696, 1002, 872, 306, 457, 457, 523, 838, 380, 415, 380, 365, 696, 696, 696, 696, 696, 696, 696, 696, 696, 696, 400, 400, 838, 838, 838, 580, 1e3, 774, 762, 734, 830, 683, 683, 821, 837, 372, 372, 775, 637, 995, 837, 850, 733, 850, 770, 720, 682, 812, 774, 1103, 771, 724, 725, 457, 365, 457, 838, 500, 500, 675, 716, 593, 716, 678, 435, 716, 712, 343, 343, 665, 343, 1042, 712, 687, 716, 716, 493, 595, 478, 712, 652, 924, 645, 652, 582, 712, 365, 712, 838, 348, 456, 696, 696, 636, 696, 365, 500, 500, 1e3, 564, 646, 838, 0, 1e3, 500, 500, 838, 438, 438, 500, 736, 636, 380, 500, 438, 564, 646, 1035, 1035, 1035, 580, 774, 774, 774, 774, 774, 774, 1085, 734, 683, 683, 683, 683, 372, 372, 372, 372, 838, 837, 850, 850, 850, 850, 850, 838, 850, 812, 812, 812, 812, 724, 738, 719, 675, 675, 675, 675, 675, 675, 1048, 593, 678, 678, 678, 678, 343, 343, 343, 343, 687, 712, 687, 687, 687, 687, 687, 838, 687, 712, 712, 712, 712, 652, 716, 652, 774, 675, 774, 675, 774, 675, 734, 593, 734, 593, 734, 593, 734, 593, 830, 716, 838, 716, 683, 678, 683, 678, 683, 678, 683, 678, 683, 678, 821, 716, 821, 716, 821, 716, 821, 716, 837, 712, 974, 790, 372, 343, 372, 343, 372, 343, 372, 343, 372, 343, 744, 686, 372, 343, 775, 665, 665, 637, 343, 637, 343, 637, 479, 637, 557, 642, 371, 837, 712, 837, 712, 837, 712, 983, 837, 712, 850, 687, 850, 687, 850, 687, 1167, 1094, 770, 493, 770, 493, 770, 493, 720, 595, 720, 595, 720, 595, 720, 595, 682, 478, 682, 478, 682, 478, 812, 712, 812, 712, 812, 712, 812, 712, 812, 712, 812, 712, 1103, 924, 724, 652, 724, 725, 582, 725, 582, 725, 582, 435, 415, 415, 696, 500, 1e3, 1e3, 500, 500, 380, 380, 380, 380, 657, 657, 657, 657, 500, 500, 639, 639, 333, 667, 1e3, 348, 1440, 1887, 264, 447, 630, 264, 447, 630, 733, 412, 412, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 838, 847, 847, 847, 847, 847, 847, 847, 847, 847, 847, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 838, 838, 838, 838, 838],
+  "fallback-mono-400": [602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 0, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 500, 1e3, 602, 278, 602, 602, 602, 602, 602, 602, 602, 602, 376, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 602, 602, 602, 602, 602],
+  "fallback-mono-600": [602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 0, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 500, 1e3, 602, 278, 602, 602, 602, 602, 602, 602, 602, 602, 376, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 602, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 1e3, 602, 602, 602, 602, 602]
+};
+
+// packages/frontend/src/lib/diagram/text.ts
+var INDEX = new Map([...CHARS].map((c, i) => [c, i]));
+var table = (key2) => {
+  const widths = WIDTHS[key2];
+  if (!widths) throw new Error(`no measurement for ${key2} \u2014 run \`make fonts\``);
+  return widths;
+};
+var keyOf = (face, weight) => `${face}-${weight >= 600 ? 600 : 400}`;
+var sum = (s, size, widths, spacing, round) => {
+  let total = 0;
+  for (const c of s) {
+    const i = INDEX.get(c);
+    const advance = (i === void 0 ? 1e3 : widths[i] ?? 1e3) * size / 1e3;
+    total += (round ? Math.round(advance) : advance) + spacing;
+  }
+  return total;
+};
+var measure = (s, size, face = "sans", weight = 400, spacing = 0) => {
+  const key2 = keyOf(face, weight);
+  const shipped = table(key2);
+  const fallback = table(`fallback-${key2}`);
+  return Math.max(sum(s, size, shipped, spacing, false), sum(s, size, shipped, spacing, true), sum(s, size, fallback, spacing, false));
+};
+var measureSet = (s, size, face = "sans", weight = 400) => sum(s, size, table(keyOf(face, weight)), 0, false);
+var pieces = (word, fits) => (fits(word) ? [word] : word.split(/(?<=[-/._])|(?<=[a-z])(?=[A-Z])/)).map((text2, i) => ({ text: text2, joined: i > 0 }));
+var AFTER_ICON = /(?<![\uE000-\uF8FF]) (?!·)/;
+var lines3 = (s, max, fits) => {
+  const out = [];
+  for (const paragraph of s.split("\n")) {
+    let current = "";
+    for (const piece of paragraph.split(AFTER_ICON).flatMap((w) => pieces(w, (t) => fits(t, max)))) {
+      const next = current + (current && !piece.joined ? " " : "") + piece.text;
+      if (current && !fits(next, max)) {
+        out.push(current);
+        current = piece.text;
+      } else {
+        current = next;
+      }
+    }
+    out.push(current);
+  }
+  return out;
+};
+var byParts = (s, max, fits) => {
+  const all = s.split(/(?<= ·) /);
+  if (all.length < 2 || !all.every((p) => fits(p, max))) return void 0;
+  const out = [];
+  for (const p of all) {
+    const last = out[out.length - 1];
+    if (last !== void 0 && fits(`${last} ${p}`, max)) out[out.length - 1] = `${last} ${p}`;
+    else out.push(p);
+  }
+  return out;
+};
+var narrowest = (s, setting) => Math.max(0, ...s.split(/(?<![\uE000-\uF8FF])\s+(?!·)/).flatMap((word) => word.split(/(?<=[-/._])|(?<=[a-z])(?=[A-Z])/)).map((piece) => measure(piece, setting.size, setting.face, setting.weight, setting.spacing)));
+var wrap = (s, max, setting, what) => {
+  const width2 = (t) => measure(t, setting.size, setting.face, setting.weight, setting.spacing);
+  const fits = (t, room) => width2(t) <= room + 0.5;
+  let out = lines3(s, max, fits);
+  const parted = out.length > 1 && !s.includes("\n") ? byParts(s, max, fits) : void 0;
+  if (parted && parted.length <= out.length) return parted;
+  const widow = out.length > 1 && width2(out[out.length - 1] ?? "") < max / 3;
+  if (widow && Number.isFinite(max)) {
+    let [low, high] = [max / out.length, max];
+    while (high - low > 1) {
+      const mid = (low + high) / 2;
+      const tried = lines3(s, mid, fits);
+      if (tried.length === out.length && tried.every((l) => fits(l, mid))) high = mid;
+      else low = mid;
+    }
+    out = lines3(s, high, fits);
+  }
+  for (const l of out) {
+    if (!fits(l, max)) throw new Error(`${what}: "${l}" is ${Math.ceil(width2(l))} wide, and its box is ${Math.floor(max)}`);
+  }
+  return out;
+};
+var fit = (s, max, setting, what) => {
+  const lines5 = wrap(s.replace(/\n/g, " "), Number.POSITIVE_INFINITY, setting, what);
+  const one = lines5.join(" ");
+  const w = measure(one, setting.size, setting.face, setting.weight, setting.spacing);
+  if (w - max > 0.5 + 1e-6) throw new Error(`${what}: "${one}" is ${Math.ceil(w)} wide, and its room is ${Math.floor(max)}`);
+  return one;
+};
+
+// packages/frontend/src/lib/diagram/paint.ts
+var INK = "var(--text-primary, #1C1A17)";
+var SECONDARY = "var(--text-secondary, #4A453D)";
+var MUTED = "var(--text-muted, #726C63)";
+var CANVAS = "var(--surface-canvas, #FBFAF7)";
+var RAISED = "var(--surface-raised, #FFFFFF)";
+var SUNKEN = "var(--surface-sunken, #F3F1EC)";
+var INSET = "var(--surface-inset, #EFEBE3)";
+var SUBTLE = "var(--border-subtle, #E3DFD6)";
+var STRONG = "var(--border-strong, #C9C3B7)";
+var ACCENT = "var(--accent, #FF8700)";
+var OK = "var(--status-ok, #4F7A3A)";
+var WARN = "var(--status-warn, #986200)";
+var ERROR = "var(--status-error, #A33328)";
+var QUIET = {
+  ok: "var(--surface-ok-quiet, #EEF3EA)",
+  warn: "var(--surface-warn-quiet, #FBF3E4)",
+  error: "var(--surface-error-quiet, #FCEFEC)"
+};
+var CLAIM = { accent: ACCENT, error: ERROR, warn: WARN, ok: OK };
+var TONE = { ink: INK, muted: MUTED, ok: OK, warn: WARN, error: ERROR };
+var FAMILY = {
+  sans: "&#39;Soul Diagram Sans&#39;,&#39;Source Sans 3&#39;,system-ui,sans-serif",
+  mono: "&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace"
+};
+var SIZE = { title: 36, lead: 17, node: 16, body: 14, label: 13 };
+var FLOOR = 13;
+var fmt = (n) => String(Math.round(n * 10) / 10);
+var escape = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+var GLYPHS = ["clock", "people", "person", "lock", "dot", "ring", "plus", "up", "down", "text", "image", "media", "list", "blocked", "site", "page", "yes", "no", "partly"];
+var GLYPH_BASE = 57344;
+var GLYPH_CHAR = /[-]/;
+var glyphChar = (name) => {
+  const i = GLYPHS.indexOf(name);
+  return i < 0 ? void 0 : String.fromCharCode(GLYPH_BASE + i);
+};
+var glyph = (name, cx, cy, s, ink) => {
+  const u = s / 14;
+  const p = (d, fill = "none") => `<path d="${d}" fill="${fill}" stroke="${fill === "none" ? ink : "none"}" stroke-width="${fmt(1.3 * u)}" stroke-linecap="round" stroke-linejoin="round"></path>`;
+  const n = (v) => fmt(v);
+  const ring = (r) => `<circle cx="${n(cx)}" cy="${n(cy)}" r="${n(r * u)}" fill="none" stroke="${ink}" stroke-width="${fmt(1.3 * u)}"></circle>`;
+  const bars3 = (x0, rows) => rows.map((w, i) => rect(x0, cy - 3 * u + i * 3 * u, w * u, 1.6 * u, { fill: ink })).join("");
+  switch (name) {
+    /* A status keeps its own colour, as in a matrix: the colour is the meaning. */
+    case "yes":
+    case "no":
+    case "partly":
+      return `<g transform="translate(${n(cx)} ${n(cy)}) scale(${fmt(u * 0.8)})">${sign(name, 0, 0)}</g>`;
+    case "clock":
+      return ring(5.5) + p(`M${n(cx)} ${n(cy - 3.2 * u)} V${n(cy)} H${n(cx + 2.6 * u)}`);
+    case "person":
+      return `<circle cx="${n(cx)}" cy="${n(cy - 2.6 * u)}" r="${n(2.7 * u)}" fill="${ink}"></circle>` + p(`M${n(cx - 5 * u)} ${n(cy + 6 * u)} a${n(5 * u)} ${n(5 * u)} 0 0 1 ${n(10 * u)} 0Z`, ink);
+    case "people":
+      return [-2.8, 2.8].map((d) => `<circle cx="${n(cx + d * u)}" cy="${n(cy - 2.6 * u)}" r="${n(2.2 * u)}" fill="${ink}"></circle>` + p(`M${n(cx + (d - 3.6) * u)} ${n(cy + 5.5 * u)} a${n(3.6 * u)} ${n(4 * u)} 0 0 1 ${n(7.2 * u)} 0Z`, ink)).join("");
+    case "lock":
+      return rect(cx - 4.5 * u, cy - 1 * u, 9 * u, 7 * u, { fill: ink, radius: 1 }) + p(`M${n(cx - 2.8 * u)} ${n(cy - 1 * u)} v${n(-2.2 * u)} a${n(2.8 * u)} ${n(2.8 * u)} 0 0 1 ${n(5.6 * u)} 0 v${n(2.2 * u)}`);
+    case "dot":
+      return circle(cx, cy, 3.5 * u, ink);
+    case "ring":
+      return ring(3.5);
+    case "plus":
+      return ring(6) + p(`M${n(cx - 3 * u)} ${n(cy)} H${n(cx + 3 * u)} M${n(cx)} ${n(cy - 3 * u)} V${n(cy + 3 * u)}`);
+    case "up":
+    case "down": {
+      const d = name === "up" ? -1 : 1;
+      return ring(6) + p(`M${n(cx)} ${n(cy - d * 3.2 * u)} V${n(cy + d * 3.2 * u)} M${n(cx - 2.6 * u)} ${n(cy + d * 0.8 * u)} L${n(cx)} ${n(cy + d * 3.4 * u)} L${n(cx + 2.6 * u)} ${n(cy + d * 0.8 * u)}`);
+    }
+    case "text":
+      return bars3(cx - 5.5 * u, [11, 11, 7]);
+    case "image":
+      return rect(cx - 5.5 * u, cy - 4.5 * u, 11 * u, 9 * u, { stroke: ink, width: 1.2 * u, radius: 1 }) + p(`M${n(cx - 4 * u)} ${n(cy + 3 * u)} L${n(cx - 1 * u)} ${n(cy - 0.5 * u)} L${n(cx + 1.5 * u)} ${n(cy + 1.5 * u)} L${n(cx + 4 * u)} ${n(cy - 1.5 * u)}`);
+    case "media":
+      return rect(cx - 5.5 * u, cy - 4 * u, 5 * u, 8 * u, { fill: ink, radius: 1 }) + bars3(cx + 1 * u, [4.5, 4.5, 3]);
+    case "list":
+      return [0, 1, 2].map((i) => circle(cx - 4.5 * u, cy - 3 * u + i * 3 * u + 0.8 * u, 1 * u, ink)).join("") + bars3(cx - 2 * u, [7.5, 7.5, 5.5]);
+    case "blocked":
+      return ring(5.5) + p(`M${n(cx - 3.9 * u)} ${n(cy + 3.9 * u)} L${n(cx + 3.9 * u)} ${n(cy - 3.9 * u)}`);
+    case "site":
+      return ring(5.5) + p(`M${n(cx - 5.5 * u)} ${n(cy)} H${n(cx + 5.5 * u)} M${n(cx)} ${n(cy - 5.5 * u)} a${n(2.6 * u)} ${n(5.5 * u)} 0 0 0 0 ${n(11 * u)} a${n(2.6 * u)} ${n(5.5 * u)} 0 0 0 0 ${n(-11 * u)}`);
+    case "page":
+      return p(`M${n(cx - 4 * u)} ${n(cy - 5.5 * u)} H${n(cx + 1.5 * u)} L${n(cx + 4 * u)} ${n(cy - 3 * u)} V${n(cy + 5.5 * u)} H${n(cx - 4 * u)}Z`);
+  }
+};
+var withGlyphs = (x, y, content, style) => {
+  const { size } = style;
+  const face = style.face ?? "sans";
+  const weight = style.weight ?? 400;
+  const parts2 = content.split(/([-])/).filter(Boolean);
+  const widthOf2 = (s) => GLYPH_CHAR.test(s) ? size : measureSet(s, size, face, weight);
+  const whole = parts2.reduce((sum2, s) => sum2 + widthOf2(s), 0);
+  let cx = style.anchor === "middle" ? x - whole / 2 : style.anchor === "end" ? x - whole : x;
+  const out = [];
+  for (const s of parts2) {
+    if (GLYPH_CHAR.test(s)) {
+      const name = GLYPHS[s.charCodeAt(0) - GLYPH_BASE];
+      if (name) out.push(glyph(name, cx + size / 2, y - size * 0.33, size, style.fill ?? INK));
+    } else if (s.trim()) {
+      const lead = s.length - s.trimStart().length;
+      out.push(text(cx + measureSet(s.slice(0, lead), size, face, weight), y, s.trim(), { ...style, anchor: "start" }));
+    }
+    cx += widthOf2(s);
+  }
+  return out.join("");
+};
+var text = (x, y, content, style) => {
+  if (style.size < FLOOR) throw new Error(`"${content}": type at ${style.size} is under the floor of ${FLOOR}`);
+  if (GLYPH_CHAR.test(content)) return withGlyphs(x, y, content, style);
+  const attrs = [
+    `x="${fmt(x)}"`,
+    `y="${fmt(y)}"`,
+    `fill="${style.fill ?? INK}"`,
+    `font-family="${FAMILY[style.face ?? "sans"]}"`,
+    `font-size="${style.size}"`,
+    style.weight && style.weight !== 400 ? `font-weight="${style.weight}"` : "",
+    style.anchor && style.anchor !== "start" ? `text-anchor="${style.anchor}"` : "",
+    style.spacing ? `letter-spacing="${style.spacing}"` : "",
+    style.halo ? `stroke="${CANVAS}" stroke-width="5" stroke-linejoin="round" paint-order="stroke"` : ""
+  ].filter(Boolean);
+  return `<text ${attrs.join(" ")}>${escape(content)}</text>`;
+};
+var rect = (x, y, w, h, style = {}) => {
+  if ((style.radius ?? 0) > 6) throw new Error(`a radius of ${style.radius} is above the limit of 6`);
+  const attrs = [
+    `x="${fmt(x)}"`,
+    `y="${fmt(y)}"`,
+    `width="${fmt(w)}"`,
+    `height="${fmt(h)}"`,
+    style.radius ? `rx="${style.radius}"` : "",
+    `fill="${style.fill ?? "none"}"`,
+    style.stroke ? `stroke="${style.stroke}" stroke-width="${style.width ?? 1}"` : "",
+    style.dashed ? 'stroke-dasharray="5 4"' : ""
+  ].filter(Boolean);
+  return `<rect ${attrs.join(" ")}></rect>`;
+};
+var line = (x1, y1, x2, y2, stroke = SUBTLE, width2 = 1, dashed = false) => `<line x1="${fmt(x1)}" y1="${fmt(y1)}" x2="${fmt(x2)}" y2="${fmt(y2)}" stroke="${stroke}" stroke-width="${width2}"${dashed ? ' stroke-dasharray="5 4"' : ""}></line>`;
+var connector = (points, stroke = MUTED, width2 = 1.5, dashed = false, head = true, tail = false) => {
+  const d = points.map(([x, y], i) => `${i ? "L" : "M"}${fmt(x)} ${fmt(y)}`).join(" ");
+  const path = `<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${width2}"${dashed ? ' stroke-dasharray="5 4"' : ""}></path>`;
+  const [end, before] = [points.at(-1), points.at(-2)];
+  const [start, after] = [points[0], points[1]];
+  return path + (head && end && before ? arrowhead(end, before, stroke) : "") + (tail && start && after ? arrowhead(start, after, stroke) : "");
+};
+var arrowhead = ([x, y], [fx, fy], fill = MUTED) => {
+  const dx = Math.sign(x - fx);
+  const dy = Math.sign(y - fy);
+  const [bx, by] = [x - dx * 9, y - dy * 9];
+  const [px, py] = [dy * 4, dx * 4];
+  return `<path d="M${fmt(bx + px)} ${fmt(by + py)} L${fmt(x)} ${fmt(y)} L${fmt(bx - px)} ${fmt(by - py)}Z" fill="${fill}"></path>`;
+};
+var circle = (cx, cy, r, fill, stroke) => `<circle cx="${fmt(cx)}" cy="${fmt(cy)}" r="${r}" fill="${fill}"${stroke ? ` stroke="${stroke}" stroke-width="1.5"` : ""}></circle>`;
+var SIGN_MEANING = {
+  yes: "yes, available",
+  partly: "in part",
+  no: "no, missing",
+  unknown: "not known",
+  dot: "present",
+  ring: "planned",
+  page: "in the page",
+  panel: "in a panel next to the page",
+  both: "both",
+  form: "in a form or dialog",
+  bar: "in the bar over the page",
+  nav: "in the navigation beside the page",
+  docheader: "in the head of a module",
+  any: "in the editing interface, filled for each case"
+};
+var screen = (cx, cy, page, panel) => rect(cx - 11, cy - 8, 22, 16, { stroke: INK, width: 1.5, radius: 2 }) + (page ? rect(cx - 7, cy - 4, panel ? 8 : 14, 8, { fill: INK }) : "") + (panel ? rect(cx + 3, cy - 8, 8, 16, { fill: INK, radius: 2 }) : "");
+var check = (cx, cy, stroke) => `<path d="M${fmt(cx - 6)} ${fmt(cy)} L${fmt(cx - 2)} ${fmt(cy + 4)} L${fmt(cx + 6)} ${fmt(cy - 5)}" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>`;
+var sign = (kind, cx, cy) => {
+  switch (kind) {
+    case "yes":
+      return check(cx, cy, OK);
+    case "partly": {
+      const arc = (side) => `<path d="M${fmt(cx + side * 9)} ${fmt(cy - 8)} A9 9 0 0 ${side > 0 ? 1 : 0} ${fmt(cx + side * 9)} ${fmt(cy + 8)}" fill="none" stroke="${WARN}" stroke-width="1.5" stroke-linecap="round"></path>`;
+      return arc(-1) + check(cx, cy, WARN) + arc(1);
+    }
+    case "no":
+      return `<line x1="${fmt(cx - 6)}" y1="${fmt(cy)}" x2="${fmt(cx + 6)}" y2="${fmt(cy)}" stroke="${ERROR}" stroke-width="2" stroke-linecap="round"></line>`;
+    case "unknown":
+      return text(cx, cy + 6, "?", { size: 18, fill: MUTED, face: "mono", weight: 600, anchor: "middle" });
+    case "dot":
+      return circle(cx, cy, 5, INK);
+    case "ring":
+      return circle(cx, cy, 4.5, "none", INK);
+    case "page":
+      return screen(cx, cy, true, false);
+    case "panel":
+      return screen(cx, cy, false, true);
+    case "both":
+      return screen(cx, cy, true, true);
+    case "nav":
+      return rect(cx - 11, cy - 8, 22, 16, { stroke: INK, width: 1.5, radius: 2 }) + rect(cx - 11, cy - 8, 8, 16, { fill: INK, radius: 2 });
+    case "docheader":
+      return rect(cx - 11, cy - 8, 22, 16, { stroke: INK, width: 1.5, radius: 2 }) + rect(cx - 11, cy - 8, 22, 4, { fill: INK, radius: 2 }) + rect(cx - 8, cy - 2, 16, 3, { fill: INK });
+    /* No place of its own: the parts of a screen, each in a quiet fill. */
+    case "any":
+      return rect(cx - 11, cy - 8, 22, 16, { fill: RAISED, stroke: MUTED, radius: 2 }) + [[-10, -7, 20, 3], [-10, -3, 5, 10], [-4, -3, 9, 10], [6, -3, 4, 10]].map(([dx = 0, dy = 0, w = 0, h = 0]) => rect(cx + dx, cy + dy, w, h, { fill: STRONG, radius: 1 })).join("");
+    case "bar":
+      return rect(cx - 11, cy - 8, 22, 16, { stroke: INK, width: 1.5, radius: 2 }) + rect(cx - 11, cy - 8, 22, 4, { fill: INK, radius: 2 });
+    case "form":
+      return rect(cx - 7, cy - 9, 14, 18, { stroke: INK, width: 1.5, radius: 2 }) + [-4, 0, 4].map((d) => `<line x1="${fmt(cx - 3.5)}" y1="${fmt(cy + d)}" x2="${fmt(cx + 3.5)}" y2="${fmt(cy + d)}" stroke="${INK}" stroke-width="1.2"></line>`).join("");
+  }
+};
+var PLACE = { width: 44, height: 28 };
+var placeSign = (kind, x, y) => {
+  const { width: w, height: h } = PLACE;
+  const parts2 = [
+    [["docheader"], 2, 2, w - 4, 4],
+    [["nav"], 2, 7.5, 10, h - 9.5],
+    [["bar"], 13.5, 7.5, w - 15.5, 3.5],
+    [["page", "both", "form"], 13.5, 12.5, 18, h - 14.5],
+    [["panel", "both"], 33, 12.5, w - 35, h - 14.5]
+  ];
+  return rect(x, y, w, h, { fill: RAISED, stroke: MUTED, radius: 3 }) + parts2.map(([on, dx, dy, pw, ph]) => rect(x + dx, y + dy, pw, ph, { fill: on.includes(kind) ? INK : SUBTLE, radius: 1 })).join("") + (kind === "form" ? [16, 20, 24].map((d) => line(x + 16, y + d, x + 29, y + d, CANVAS, 1.2)).join("") : "");
+};
+var hatch = (x, y, w, h, stroke = STRONG) => {
+  const d = [];
+  for (let k = 8; k < w + h; k += 8) {
+    const [x0, y0] = k <= w ? [x + k, y] : [x + w, y + k - w];
+    const [x1, y1] = k <= h ? [x, y + k] : [x + k - h, y + h];
+    d.push(`M${fmt(x0)} ${fmt(y0)} L${fmt(x1)} ${fmt(y1)}`);
+  }
+  return `<path d="${d.join(" ")}" fill="none" stroke="${stroke}" stroke-width="1"></path>`;
+};
+var marker = (cx, cy, label) => circle(cx, cy, 11, INK) + text(cx, cy + 4.5, label, { size: 13, fill: CANVAS, weight: 600, anchor: "middle" });
+var pointer = (x, y) => `<path d="M${fmt(x)} ${fmt(y)} l0 15 l4 -3.5 l3 6.5 l2.5 -1.2 l-3 -6.3 l5.5 -0.5 Z" fill="${INK}" stroke="${CANVAS}" stroke-width="1" stroke-linejoin="round"></path>`;
+var cross = (cx, cy) => `<path d="M${fmt(cx - 6)} ${fmt(cy - 6)} L${fmt(cx + 6)} ${fmt(cy + 6)} M${fmt(cx + 6)} ${fmt(cy - 6)} L${fmt(cx - 6)} ${fmt(cy + 6)}" stroke="${ERROR}" stroke-width="2" stroke-linecap="round"></path>`;
+var person = (x, cy, stroke = INK) => `<circle cx="${fmt(x + 6)}" cy="${fmt(cy - 4)}" r="3.5" fill="none" stroke="${stroke}" stroke-width="1.5"></circle><path d="M${fmt(x)} ${fmt(cy + 7)} a6 6 0 0 1 12 0" fill="none" stroke="${stroke}" stroke-width="1.5"></path>`;
+var store = (x, cy, stroke = INK) => `<ellipse cx="${fmt(x + 6)}" cy="${fmt(cy - 5)}" rx="6" ry="2.5" fill="none" stroke="${stroke}" stroke-width="1.5"></ellipse><path d="M${fmt(x)} ${fmt(cy - 5)} V${fmt(cy + 5)} a6 2.5 0 0 0 12 0 V${fmt(cy - 5)} M${fmt(x)} ${fmt(cy)} a6 2.5 0 0 0 12 0" fill="none" stroke="${stroke}" stroke-width="1.5"></path>`;
+var shapeSign = (shape2, x, cy, stroke = INK) => shape2 === "person" ? person(x, cy, stroke) : shape2 === "store" ? store(x, cy, stroke) : "";
+
+// packages/frontend/src/components/card.ts
+var SIGNS = ["yes", "partly", "no", "unknown"];
 var SdsCard = class extends SdsElement {
   constructor() {
     super();
@@ -7288,6 +7814,7 @@ var SdsCard = class extends SdsElement {
       label: { type: String },
       tag: { type: String },
       icon: { type: String },
+      sign: { type: String },
       footer: { type: String },
       action: { type: String }
     };
@@ -7302,15 +7829,17 @@ var SdsCard = class extends SdsElement {
     ${art(this.src, this.alt)}
   </div>` : "";
     const icon = this.icon ? html59`<div class="sds-card__icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>` : "";
-    const label = this.tag || this.label ? html59`<div class="sds-row">
+    const state2 = this.sign && SIGNS.includes(this.sign) ? this.sign : void 0;
+    const mark = state2 ? html59`<svg class="sds-card__sign" viewBox="-14 -14 28 28" role="img" aria-label="${SIGN_MEANING[state2]}">${svg`${unsafeSVG(sign(state2, 0, 0))}`}</svg>` : "";
+    const label = this.tag || this.label || mark ? html59`<div class="sds-row">
       ${this.tag ? html59`<sds-badge label="${this.tag}"></sds-badge>` : ""}
-      ${this.label ? html59`<span class="sds-label">${this.label}</span>` : ""}
+      ${this.label ? html59`<span class="sds-label">${this.label}</span>` : ""}${mark}
     </div>` : "";
     const written = this.taken ?? this.content;
     const blocks = written ?? (typeof this.body === "string" ? void 0 : this.body);
-    const text = blocks ? html59`<div class="sds-card__text">${blocks}</div>` : html59`<p class="sds-card__text">${this.body}</p>`;
-    const named = this.href ? html59`<a href="${this.href}">${this.heading}</a>` : html59`${this.heading}`;
-    const title = this.heading ? html59`<h3 class="sds-card__title">${named}</h3>` : "";
+    const text2 = blocks ? html59`<div class="sds-card__text">${blocks}</div>` : html59`<p class="sds-card__text">${this.body}</p>`;
+    const named2 = this.href ? html59`<a href="${this.href}">${this.heading}</a>` : html59`${this.heading}`;
+    const title = this.heading ? html59`<h3 class="sds-card__title">${named2}</h3>` : "";
     const action = this.action && this.href ? html59`<span class="sds-card__action">${this.action}<sds-icon name="actions-arrow-right" size="16"></sds-icon></span>` : "";
     const foot = this.footer || action ? html59`<div class="sds-card__foot">
     ${this.footer ? html59`<span class="sds-card__note">${this.footer}</span>` : ""}
@@ -7322,7 +7851,7 @@ var SdsCard = class extends SdsElement {
     ${icon}
     ${label}
     ${title}
-    ${text}
+    ${text2}
   </div>
   ${foot}
 </article>`;
@@ -7331,7 +7860,7 @@ var SdsCard = class extends SdsElement {
 define("sds-card", SdsCard);
 
 // packages/frontend/src/components/icon-tile.ts
-import { html as html60, nothing as nothing34 } from "lit";
+import { html as html60, nothing as nothing35 } from "lit";
 var DRAWN = 32;
 var SdsIconTile = class extends SdsElement {
   static {
@@ -7349,12 +7878,12 @@ var SdsIconTile = class extends SdsElement {
     this.tag = "";
   }
   render() {
-    const glyph = this.name ? html60`<sds-icon name="${this.name}" size="${DRAWN}"></sds-icon>` : nothing34;
+    const glyph2 = this.name ? html60`<sds-icon name="${this.name}" size="${DRAWN}"></sds-icon>` : nothing35;
     const inside = html60`<span class="sds-icon-tile__art">
-    ${glyph}
+    ${glyph2}
   </span>
   <span class="sds-icon-tile__name">${this.caption || this.name}</span>
-  ${this.tag ? html60`<span class="sds-icon-tile__tag">${this.tag}</span>` : nothing34}`;
+  ${this.tag ? html60`<span class="sds-icon-tile__tag">${this.tag}</span>` : nothing35}`;
     return this.href ? html60`<a class="sds-icon-tile" href="${this.href}">
   ${inside}
 </a>` : html60`<div class="sds-icon-tile">
@@ -7365,7 +7894,7 @@ var SdsIconTile = class extends SdsElement {
 define("sds-icon-tile", SdsIconTile);
 
 // packages/frontend/src/components/swatch.ts
-import { html as html61, nothing as nothing35 } from "lit";
+import { html as html61, nothing as nothing36 } from "lit";
 var COLOUR = /^(#[0-9a-f]{3,8}|(rgb|hsl|hwb|lab|lch|oklab|oklch|color|color-mix|light-dark)\([^;{}]*\)|var\(--[\w-]+(,\s*[^;{}]*)?\)|[a-z]+)$/i;
 var SdsSwatch = class extends SdsElement {
   static {
@@ -7390,7 +7919,7 @@ var SdsSwatch = class extends SdsElement {
   <span class="sds-swatch__chip" style="${style}" aria-hidden="true"></span>
   <span class="sds-swatch__body">
     <span class="sds-swatch__name">${this.name}</span>
-    ${this.resolved ? html61`<span class="sds-swatch__value">${this.resolved}</span>` : nothing35}
+    ${this.resolved ? html61`<span class="sds-swatch__value">${this.resolved}</span>` : nothing36}
   </span>
 </div>`;
   }
@@ -7398,7 +7927,7 @@ var SdsSwatch = class extends SdsElement {
 define("sds-swatch", SdsSwatch);
 
 // packages/frontend/src/components/grid.ts
-import { html as html62, nothing as nothing36 } from "lit";
+import { html as html62, nothing as nothing37 } from "lit";
 var VARIANT = {
   default: "",
   wide: "sds-grid--wide",
@@ -7411,12 +7940,24 @@ var CEILING = {
   4: "sds-grid--4"
 };
 function evenColumns(count, fits) {
-  for (let columns = Math.min(fits, count); columns > 1; columns--) {
-    const rest = count % columns;
-    if (rest === 0 || rest >= columns - 1) return columns;
+  for (let columns3 = Math.min(fits, count); columns3 > 1; columns3--) {
+    const rest = count % columns3;
+    if (rest === 0 || rest >= columns3 - 1) return columns3;
   }
   return 1;
 }
+var waiting = /* @__PURE__ */ new Set();
+var pass = false;
+var measureAll = () => {
+  pass = false;
+  const grids = [...waiting].filter((grid2) => grid2.isConnected);
+  waiting.clear();
+  const answers = grids.map((grid2) => grid2.decide());
+  grids.forEach((grid2, i) => {
+    const answer = answers[i];
+    if (answer !== void 0) grid2.settled = answer;
+  });
+};
 var SdsGrid = class extends SdsElement {
   constructor() {
     super();
@@ -7441,9 +7982,16 @@ var SdsGrid = class extends SdsElement {
     const written = this.lifted();
     if (written.length) this.taken = written;
     super.connectedCallback();
-    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.decide()));
+    this.watch = new ResizeObserver(() => requestAnimationFrame(() => this.isConnected && this.ask()));
     if (this.parentElement) this.watch.observe(this.parentElement);
-    void this.updateComplete.then(() => this.decide());
+    void this.updateComplete.then(() => this.ask());
+  }
+  /* A measurement in the next pass of every grid on the page. */
+  ask() {
+    waiting.add(this);
+    if (pass) return;
+    pass = true;
+    queueMicrotask(measureAll);
   }
   disconnectedCallback() {
     this.watch?.disconnect();
@@ -7455,32 +8003,29 @@ var SdsGrid = class extends SdsElement {
         differ in exactly that number, and a copy of it in TypeScript is the
         copy that goes stale. */
   decide() {
-    const grid = this.firstElementChild;
-    if (!grid) return;
-    const count = grid.childElementCount;
-    if (count < 3) {
-      this.settled = 0;
-      return;
-    }
-    const style = getComputedStyle(grid);
+    const grid2 = this.firstElementChild;
+    if (!grid2) return void 0;
+    const count = grid2.childElementCount;
+    if (count < 3) return 0;
+    const style = getComputedStyle(grid2);
     const min = parseFloat(style.getPropertyValue(this.columns ? "--grid-least" : "--grid-min"));
     const gap = parseFloat(style.columnGap) || 0;
-    const room = grid.getBoundingClientRect().width;
-    if (!(min > 0) || !(room > 0)) return;
+    const room = grid2.getBoundingClientRect().width;
+    if (!(min > 0) || !(room > 0)) return void 0;
     const roomFits = Math.max(1, Math.floor((room + gap) / (min + gap)));
     const fits = this.columns ? Math.min(roomFits, this.columns) : roomFits;
     const wanted = evenColumns(count, fits);
-    this.settled = wanted >= fits ? 0 : wanted;
+    return wanted >= fits ? 0 : wanted;
   }
   /* After the update, not in it. A state set inside `updated()` starts the
      next cycle before this one has closed, which Lit's dev build names as
      the inefficiency it is. */
   updated() {
-    void this.updateComplete.then(() => this.decide());
+    void this.updateComplete.then(() => this.ask());
   }
   render() {
     const cls = ["sds-grid", VARIANT[this.variant] ?? "", this.columns ? CEILING[this.columns] ?? "" : ""].filter(Boolean).join(" ");
-    const settled = this.settled > 0 ? `grid-template-columns:repeat(${this.settled},minmax(0,1fr))` : nothing36;
+    const settled = this.settled > 0 ? `grid-template-columns:repeat(${this.settled},minmax(0,1fr))` : nothing37;
     return html62`<div class="${cls}" style="${settled}">${this.taken ?? this.content}</div>`;
   }
 };
@@ -7550,8 +8095,8 @@ var SdsNavPagination = class extends SdsElement {
   step(label, to, icon) {
     const off = to < 1 || to > this.pages;
     const cls = `sds-pagination__step${off ? " is-disabled" : ""}`;
-    const glyph = html63`<sds-icon name="${icon}"></sds-icon>`;
-    const inner = icon === "actions-chevron-start" ? html63`${glyph}${label}` : html63`${label}${glyph}`;
+    const glyph2 = html63`<sds-icon name="${icon}"></sds-icon>`;
+    const inner = icon === "actions-chevron-start" ? html63`${glyph2}${label}` : html63`${label}${glyph2}`;
     return off ? html63`<span class="${cls}" aria-disabled="true">${inner}</span>` : html63`<a class="${cls}" href="${pageHref(this.href, to)}" rel="${icon === "actions-chevron-start" ? "prev" : "next"}" @click="${(event) => this.ask(event, to)}">${inner}</a>`;
   }
   render() {
@@ -13726,32 +14271,32 @@ function highlight(lang, source) {
 
 // packages/frontend/src/lib/clipboard.ts
 var SAID = 1600;
-async function toClipboard(text) {
+async function toClipboard(text2) {
   if (typeof navigator !== "undefined" && navigator.clipboard) {
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(text2);
       return true;
     } catch {
     }
   }
-  return selected(text);
+  return selected(text2);
 }
-function selected(text) {
+function selected(text2) {
   if (typeof document === "undefined") return false;
-  const box = document.createElement("textarea");
-  box.value = text;
-  box.setAttribute("readonly", "");
-  box.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;padding:0;border:0;opacity:0";
-  document.body.append(box);
+  const box2 = document.createElement("textarea");
+  box2.value = text2;
+  box2.setAttribute("readonly", "");
+  box2.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;padding:0;border:0;opacity:0";
+  document.body.append(box2);
   const was = document.activeElement;
-  box.select();
+  box2.select();
   let done = false;
   try {
     done = document.execCommand("copy");
   } catch {
     done = false;
   }
-  box.remove();
+  box2.remove();
   if (was instanceof HTMLElement) was.focus();
   return done;
 }
@@ -13760,21 +14305,21 @@ function selected(text) {
 function perLine(markup) {
   const out = [];
   const open = [];
-  let line = "";
+  let line2 = "";
   for (const [token] of markup.matchAll(/<span[^>]*>|<\/span>|\n|[^<\n]+|</g)) {
     if (token === "\n") {
-      out.push(line + "</span>".repeat(open.length));
-      line = open.join("");
+      out.push(line2 + "</span>".repeat(open.length));
+      line2 = open.join("");
       continue;
     }
     if (token === "</span>") open.pop();
     else if (token.startsWith("<span")) open.push(token);
-    line += token;
+    line2 += token;
   }
-  out.push(line + "</span>".repeat(open.length));
+  out.push(line2 + "</span>".repeat(open.length));
   return out;
 }
-var escape = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+var escape2 = (text2) => text2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 var isCaption3 = (node) => node.nodeType === 1 && node.matches(".sds-code__caption");
 var SdsCode = class extends SdsElement {
   constructor() {
@@ -13830,7 +14375,7 @@ var SdsCode = class extends SdsElement {
       and the word on the button. The `$` goes, for the reason it is a span
       of its own. It is the prompt, and in a shell it is an error. */
   get text() {
-    const said = this.taken ? this.written : this.source || this.body.map(({ text, code }) => code ? `${text} ${code}` : text).join("\n");
+    const said = this.taken ? this.written : this.source || this.body.map(({ text: text2, code }) => code ? `${text2} ${code}` : text2).join("\n");
     return said.replace(/^\n+/, "").replace(/\n+$/, "");
   }
   /** The text between the tags, without the comments, which are not the
@@ -13860,19 +14405,19 @@ var SdsCode = class extends SdsElement {
      then handed back in. That made the component's own output something any
      caller can half-write. A line is data now, and only this file turns it
      into spans. */
-  line({ kind, text, code }) {
+  line({ kind, text: text2, code }) {
     const tail = code ? html65` <span class="sds-code__cmd">${code}</span>` : void 0;
     switch (kind) {
       case "shell":
-        return html65`<span class="sds-code__prompt">$</span> <span class="sds-code__cmd">${text}</span>${tail}`;
+        return html65`<span class="sds-code__prompt">$</span> <span class="sds-code__cmd">${text2}</span>${tail}`;
       case "comment":
-        return html65`<span class="sds-code__comment">${text}</span>${tail}`;
+        return html65`<span class="sds-code__comment">${text2}</span>${tail}`;
       case "ok":
-        return html65`<span class="sds-code__ok">✓</span> ${text}${tail}`;
+        return html65`<span class="sds-code__ok">✓</span> ${text2}${tail}`;
       case "remark":
-        return html65`<span class="sds-code__remark"><span class="sds-code__remark-text">${text}</span></span>`;
+        return html65`<span class="sds-code__remark"><span class="sds-code__remark-text">${text2}</span></span>`;
       default:
-        return html65`${text}${tail}`;
+        return html65`${text2}${tail}`;
     }
   }
   /* If the block arrived with its colour. A build that highlights on its own
@@ -13909,8 +14454,8 @@ var SdsCode = class extends SdsElement {
   /** The row a cited line is, held inside the block. A line the block does
       not have lands at the nearer edge, so a wrong number is a thing a
       reader sees, and not nothing. */
-  rowOf(line, rows) {
-    return Math.min(Math.max(line - this.first, 0), rows - 1);
+  rowOf(line2, rows) {
+    return Math.min(Math.max(line2 - this.first, 0), rows - 1);
   }
   /* The block as numbered lines. Built as markup, because the colour is
      markup and every line has to become a block with its number in front.
@@ -13919,10 +14464,10 @@ var SdsCode = class extends SdsElement {
      element as a property. */
   get lined() {
     const coloured = this.lang ? highlight(this.lang, this.text) : null;
-    const rows = perLine(coloured ?? escape(this.text));
-    const cited = new Set(this.remarks.map(({ line }) => this.rowOf(line, rows.length)));
+    const rows = perLine(coloured ?? escape2(this.text));
+    const cited = new Set(this.remarks.map(({ line: line2 }) => this.rowOf(line2, rows.length)));
     const digits = String(this.first + rows.length - 1).length;
-    const markup = rows.map((row, at) => `<span class="sds-code__row${cited.has(at) ? " sds-code__row--cited" : ""}"><span class="sds-code__no">${this.first + at}</span>${row}</span>`).join("");
+    const markup = rows.map((row2, at) => `<span class="sds-code__row${cited.has(at) ? " sds-code__row--cited" : ""}"><span class="sds-code__no">${this.first + at}</span>${row2}</span>`).join("");
     return html65`<code class="${this.lang ? `language-${this.lang}` : ""}" style="--sds-code-no-width:${digits}ch">${unsafeHTML5(markup)}</code>`;
   }
   /* The remarks under the block, each with the number of its line. Prose,
@@ -13931,9 +14476,9 @@ var SdsCode = class extends SdsElement {
   get remarked() {
     if (!this.remarks.length) return void 0;
     const rows = this.text.split("\n").length;
-    return html65`<dl class="sds-code__remarks">${this.remarks.map(({ line, text }) => html65`
-    <dt>${this.first + this.rowOf(line, rows)}</dt>
-    <dd>${text}</dd>`)}
+    return html65`<dl class="sds-code__remarks">${this.remarks.map(({ line: line2, text: text2 }) => html65`
+    <dt>${this.first + this.rowOf(line2, rows)}</dt>
+    <dd>${text2}</dd>`)}
   </dl>`;
   }
   render() {
@@ -13953,7 +14498,7 @@ var SdsCode = class extends SdsElement {
 define("sds-code", SdsCode);
 
 // packages/frontend/src/components/copy.ts
-import { html as html66, nothing as nothing37 } from "lit";
+import { html as html66, nothing as nothing38 } from "lit";
 var SdsCopy = class extends SdsElement {
   static {
     this.properties = {
@@ -13988,7 +14533,7 @@ var SdsCopy = class extends SdsElement {
     ><sds-icon name="${this.copied ? "actions-check" : "actions-duplicate"}"></sds-icon></button>`;
     const cut = this.ellipsis === "start" || this.ellipsis === "end" ? ` sds-copy--ellipsis-${this.ellipsis}` : "";
     return html66`<span class="sds-copy${cut}">
-  <span class="sds-copy__value" title="${cut ? this.value : nothing37}"><bdi>${this.value}</bdi></span>
+  <span class="sds-copy__value" title="${cut ? this.value : nothing38}"><bdi>${this.value}</bdi></span>
   ${button}
   <span class="sds-said-only" role="status">${this.copied ? said.replace(/^Copy/, "Copied") : ""}</span>
 </span>`;
@@ -13997,7 +14542,7 @@ var SdsCopy = class extends SdsElement {
 define("sds-copy", SdsCopy);
 
 // packages/frontend/src/components/tree.ts
-import { html as html67, nothing as nothing38 } from "lit";
+import { html as html67, nothing as nothing39 } from "lit";
 var SdsTree = class extends SdsElement {
   static {
     this.properties = {
@@ -14014,13 +14559,13 @@ var SdsTree = class extends SdsElement {
   }
   /* The glyph for what a row is, where a caller asked for them. */
   glyph(branch2) {
-    if (!this.icons) return nothing38;
+    if (!this.icons) return nothing39;
     return html67`<sds-icon class="sds-tree__glyph" name="${branch2 ? "actions-folder" : "actions-file"}"></sds-icon>`;
   }
   /* The name and whatever stands beside it — one row, with a fold or without,
      so a leaf's name begins where a directory's does. */
   said(entry, branch2) {
-    return html67`<span class="sds-tree__mark">${branch2 ? html67`<sds-icon name="actions-chevron-down"></sds-icon>` : nothing38}</span>${this.glyph(branch2)}<span class="sds-tree__name">${entry.label}</span>${entry.note ? html67`<span class="sds-tree__note">${entry.note}</span>` : nothing38}`;
+    return html67`<span class="sds-tree__mark">${branch2 ? html67`<sds-icon name="actions-chevron-down"></sds-icon>` : nothing39}</span>${this.glyph(branch2)}<span class="sds-tree__name">${entry.label}</span>${entry.note ? html67`<span class="sds-tree__note">${entry.note}</span>` : nothing39}`;
   }
   row(entry, depth) {
     const under = entry.items ?? [];
@@ -14049,8 +14594,4075 @@ var SdsTree = class extends SdsElement {
 };
 define("sds-tree", SdsTree);
 
+// packages/frontend/src/components/diagram.ts
+import { html as html68, nothing as nothing40 } from "lit";
+import { unsafeHTML as unsafeHTML6 } from "lit/directives/unsafe-html.js";
+
+// packages/frontend/src/lib/diagram/bars.ts
+var ROW = 34;
+var BAR = 16;
+var VALUE = 96;
+var bars = (spec, room, ctx) => {
+  const bands = spec.bands ?? [];
+  const max = spec.max ?? (bands.length || ctx.fail("a scale needs max=, or bands="));
+  const valued = !bands.length || spec.rows.some((r) => r.value !== void 0);
+  const widest = Math.max(
+    ...spec.rows.map((r) => measure(r.label, SIZE.body, r.code ? "mono" : "sans", 600)),
+    ...spec.rows.map((r) => r.sub ? measure(r.sub, SIZE.label, r.code ? "sans" : "mono") : 0),
+    spec.axis ? measure(spec.axis, SIZE.label, "sans", 600) : 0
+  );
+  const labelW = Math.min(widest + 32, room.width * 0.35);
+  const x0 = room.x + labelW;
+  const scale = (room.width - labelW - (valued ? VALUE : 0)) / max;
+  const out = [];
+  let y = room.y;
+  if (bands.length) {
+    if (spec.axis) out.push(text(room.x, y + 14, fit(spec.axis, labelW - 16, { size: SIZE.label, weight: 600 }, `${ctx.name}: the axis`), { size: SIZE.label, weight: 600, fill: SECONDARY }));
+    const heads = bands.map((b) => wrap(b, scale - 16, { size: SIZE.label, face: "mono" }, `${ctx.name}: band ${b}`));
+    const lines5 = Math.max(...heads.map((h) => h.length));
+    heads.forEach((h, i) => {
+      h.forEach((l, j) => out.push(text(x0 + i * scale + 8, y + 14 + (lines5 - h.length + j) * 17, l, { size: SIZE.label, face: "mono", fill: MUTED })));
+    });
+    y += 32 + (lines5 - 1) * 17;
+  }
+  const top = y;
+  let group;
+  spec.rows.forEach((row2, index) => {
+    const what = `${ctx.name}: bar ${row2.label}`;
+    if (row2.group && row2.group !== group) {
+      group = row2.group;
+      out.push(text(room.x, y + 22, row2.group.toUpperCase(), { size: SIZE.label, face: "mono", weight: 600, spacing: 0.8, fill: MUTED }));
+      y += 32;
+    }
+    const face = row2.code ? "mono" : "sans";
+    const subFace = row2.code ? "sans" : "mono";
+    const label = wrap(row2.label, labelW - 16, { size: SIZE.body, weight: 600, face }, what);
+    const sub = row2.sub ? fit(row2.sub, labelW - 16, { size: SIZE.label, face: subFace }, what) : "";
+    const h = Math.max(ROW, label.length * 18 + (sub ? 17 : 0) + 14);
+    let ty = y + (h - (label.length * 18 + (sub ? 17 : 0))) / 2 + 13;
+    for (const t of label) {
+      out.push(text(room.x, ty, t, { size: SIZE.body, weight: 600, face }));
+      ty += 18;
+    }
+    if (sub) out.push(text(room.x, ty - 1, sub, { size: SIZE.label, face: subFace, fill: SECONDARY }));
+    const by = y + (h - BAR) / 2;
+    const inked = row2.segments.some((s) => !s.absent && (s.tone ?? "ink") === "ink");
+    const claim = row2.emphasis ? ctx.emphasis("bar", `bar ${row2.label}`) : void 0;
+    let x = x0;
+    let run2 = [];
+    let runStart = x0;
+    const close = () => {
+      if (!run2.length) return;
+      const clip = `${ctx.name}-bar-${index}-${runStart.toFixed(0)}`;
+      out.push(`<clipPath id="${clip}">${rect(runStart, by, x - runStart, BAR, { radius: 4 })}</clipPath>`);
+      out.push(`<g clip-path="url(#${clip})">${run2.join("")}</g>`);
+      run2 = [];
+    };
+    for (const s of row2.segments) {
+      if (s.value < 0) ctx.fail(`${what}: a segment of ${s.value}`);
+      const w = s.value * scale;
+      if (s.absent) {
+        close();
+        out.push(rect(x, by, w - 4, BAR, { stroke: STRONG, width: 1.5, radius: 4, dashed: true }));
+        x += w;
+        runStart = x;
+        continue;
+      }
+      const tone = s.tone ?? "ink";
+      run2.push(rect(x, by, w, BAR, { fill: claim && tone === "ink" ? claim : TONE[tone] }));
+      x += w;
+    }
+    close();
+    const total = row2.segments.reduce((sum2, s) => sum2 + s.value, 0);
+    const filled = row2.segments.reduce((sum2, s) => sum2 + (s.absent ? 0 : s.value), 0);
+    const end = Math.max(total, row2.target ?? 0);
+    if (end > max) ctx.fail(`${what}: ${end} runs past the end of the scale, ${max}`);
+    if (row2.target !== void 0 && row2.target > total) out.push(shortfall(x0 + total * scale, x0 + row2.target * scale, by, total === 0));
+    if (claim && !inked) out.push(rect(x0 - 6, by - 6, end * scale + 12, BAR + 12, { stroke: claim, width: 2, radius: 6 }));
+    if (valued) {
+      const value = row2.value ?? `${fmt(filled)}${spec.unit ? ` ${spec.unit}` : ""}`;
+      out.push(text(x0 + end * scale + 12, by + 12.5, fit(value, VALUE - 12, { size: SIZE.label, face: "mono" }, what), { size: SIZE.label, face: "mono", fill: SECONDARY }));
+    }
+    y += h;
+  });
+  for (let i = 1; i < bands.length; i++) out.unshift(line(x0 + i * scale, top - 4, x0 + i * scale, y, SUBTLE));
+  if (spec.ticks?.length) {
+    y += 6;
+    out.push(line(x0, y, x0 + max * scale, y, SUBTLE));
+    for (const t of spec.ticks) {
+      const tx = x0 + t * scale;
+      out.push(line(tx, y, tx, y + 5, SUBTLE));
+      out.push(text(tx, y + 22, String(t), { size: SIZE.label, face: "mono", fill: MUTED, anchor: "middle" }));
+    }
+    y += 26;
+  }
+  if (spec.legend?.length && ctx.legend) {
+    y += 30;
+    let x = room.x;
+    for (const entry of spec.legend) {
+      const w = 22 + measure(entry.label, SIZE.label) + 28;
+      if (x + w > room.x + room.width + 28) {
+        x = room.x;
+        y += 24;
+      }
+      out.push(
+        entry.tone === "absent" ? rect(x, y - 11, 12, 12, { stroke: STRONG, width: 1.5, radius: 2, dashed: true }) : rect(x, y - 11, 12, 12, { fill: TONE[entry.tone], radius: 2 })
+      );
+      out.push(text(x + 20, y, entry.label, { size: SIZE.label, fill: SECONDARY }));
+      x += w;
+    }
+    y += 6;
+  }
+  return { svg: out.join("\n"), height: y - room.y };
+};
+var shortfall = (from, to, y, whole) => {
+  const r = Math.min(4, (to - from) / 2);
+  const right = `H${fmt(to - r)} A${r} ${r} 0 0 1 ${fmt(to)} ${fmt(y + r)} V${fmt(y + BAR - r)} A${r} ${r} 0 0 1 ${fmt(to - r)} ${fmt(y + BAR)}`;
+  const d = whole ? `M${fmt(from + r)} ${fmt(y)} ${right} H${fmt(from + r)} A${r} ${r} 0 0 1 ${fmt(from)} ${fmt(y + BAR - r)} V${fmt(y + r)} A${r} ${r} 0 0 1 ${fmt(from + r)} ${fmt(y)}Z` : `M${fmt(from)} ${fmt(y)} ${right} H${fmt(from)}`;
+  return `<path d="${d}" fill="none" stroke="${MUTED}" stroke-width="1.5" stroke-dasharray="5 4"></path>`;
+};
+
+// packages/frontend/src/lib/diagram/widgets.ts
+var BAR2 = 6;
+var RUN = /\*\*__(.+?)__\*\*|~~(.+?)~~|__(.+?)__|\*\*(.+?)\*\*/g;
+var KINDS = ["both", "strike", "under", "bold"];
+var plain = (s) => s.replace(RUN, (...m) => m.slice(1, 5).find((x) => x !== void 0) ?? "");
+var runsOf = (s) => {
+  const out = [];
+  let shift = 0;
+  for (const m of s.matchAll(RUN)) {
+    const at = [1, 2, 3, 4].find((k) => m[k] !== void 0) ?? 4;
+    const inner = m[at] ?? "";
+    const from = (m.index ?? 0) - shift;
+    out.push({ from, to: from + inner.length, kind: KINDS[at - 1] ?? "bold" });
+    shift += m[0].length - inner.length;
+  }
+  return out;
+};
+var isBold = (r) => r.kind === "bold" || r.kind === "both";
+var setLine = (l, start, runs, x, y, size, face, weight, fill) => {
+  const bold = (i) => runs.some((r) => isBold(r) && start + i >= r.from && start + i < r.to);
+  const at = [0];
+  for (let i = 0; i < l.length; i++) at.push((at[i] ?? 0) + measureSet(l[i] ?? "", size, face, bold(i) ? 600 : weight));
+  const out = [];
+  let from = 0;
+  for (let i = 1; i <= l.length; i++) {
+    if (i < l.length && bold(i) === bold(from)) continue;
+    const piece = l.slice(from, i);
+    const lead = piece.length - piece.trimStart().length;
+    if (piece.trim()) out.push(text(x + (at[from + lead] ?? 0), y, piece.trim(), { size, face, weight: bold(from) ? 600 : weight, fill }));
+    from = i;
+  }
+  for (const r of runs) {
+    const [a, b] = [Math.max(r.from - start, 0), Math.min(r.to - start, l.length)];
+    if (r.kind === "bold" || a >= b) continue;
+    const yy = r.kind === "strike" ? y - size * 0.32 : y + 3;
+    out.push(line(x + (at[a] ?? 0), yy, x + (at[b] ?? 0), yy, fill, 1.2));
+  }
+  return out.join("");
+};
+var setWidth = (l, start, runs, size, face, weight) => [...l].reduce((sum2, c, i) => sum2 + measureSet(c, size, face, runs.some((r) => isBold(r) && start + i >= r.from && start + i < r.to) ? 600 : weight), 0);
+var placeLines = (whole, lines5) => {
+  let at = 0;
+  return lines5.map((l) => {
+    const start = whole.indexOf(l, at);
+    at = start + l.length;
+    return [l, start];
+  });
+};
+var run = (s, x, y, size, face, weight, fill) => text(x, y, s, { size, face, weight, fill });
+var chipW = (s) => measure(s, SIZE.label, "mono", 600) + 14;
+var chipAt = (s, x, y) => rect(x, y, chipW(s), 20, { fill: SUNKEN, stroke: STRONG, radius: 4 }) + run(s, x + 7, y + 14.5, SIZE.label, "mono", 600, INK);
+var ids = (s) => s.split(",").map((x) => x.trim()).filter(Boolean);
+var chipsW = (s) => ids(s).reduce((sum2, id, i) => sum2 + chipW(id) + (i ? 4 : 0), 0);
+var chipsAt = (s, x, y) => {
+  let cx = x;
+  return ids(s).map((id) => {
+    const out = chipAt(id, cx, y);
+    cx += chipW(id) + 4;
+    return out;
+  }).join("");
+};
+var itemW = (id, label) => measure(id, SIZE.label, "mono", 600) + 8 + measure(label, SIZE.body, "sans", 600) + 20;
+var DOT = 18;
+var dotsW = (of) => (of - 1) * DOT + 10;
+var pillW = (s) => measure(s, SIZE.label, "sans", 600) + 16;
+var tagW = (s) => measure(s, SIZE.label, "sans", 600) + 14;
+var keycapW = (s) => Math.max(22, measure(s, SIZE.label, "mono", 600) + 12);
+var toolW = (s) => s === "|" ? 6 : measure(s, SIZE.label, "sans", 600) + 10;
+var toolbarW = (items) => items.reduce((sum2, t) => sum2 + toolW(t) + 2, 6);
+var tabsW = (items) => items.reduce((sum2, t) => sum2 + measure(t, SIZE.body, "sans", 600) + 16, 0);
+var OWN_CHIPS = /* @__PURE__ */ new Set(["label", "step", "devices", "frame", "chip", "arrow", "progress"]);
+var chipOf = (w) => "chip" in w && !OWN_CHIPS.has(w.w) ? w.chip : void 0;
+var naturalWidth = (w) => {
+  const chip2 = chipOf(w);
+  const own = (() => {
+    switch (w.w) {
+      case "text":
+        return measure(plain(w.text), w.large ? 20 : w.code || w.small ? SIZE.label : SIZE.body, w.code ? "mono" : "sans", w.strong || w.large || /\*\*/.test(w.text) ? 600 : 400);
+      case "span":
+        return Math.max(44, measure(w.text, SIZE.label) + 8);
+      case "button":
+        if (w.round) return w.small ? 22 : 28;
+        if (w.square) return 44;
+        return w.small ? measure(w.text, SIZE.label, "sans", w.strong || w.ink ? 600 : 400) + 16 : measure(w.text, SIZE.body, "sans", w.strong || w.ink ? 600 : 400) + 24;
+      case "tabs":
+        return w.switch ? 0 : tabsW(w.items);
+      case "chip":
+        return w.label ? itemW(w.text, w.label) : chipsW(w.text);
+      case "dots":
+        return w.text ? 0 : dotsW(w.of);
+      case "pill":
+        return pillW(w.text);
+      case "tag":
+        return tagW(w.text);
+      case "tools":
+        return (w.count ?? 3) * 22 + 10;
+      case "keycap":
+        return keycapW(w.text);
+      case "toolbar":
+        return toolbarW(w.items);
+      case "toggle":
+        return measure(w.text, SIZE.label) + 36;
+      default:
+        return 0;
+    }
+  })();
+  return own && chip2 ? own + chipsW(chip2) + 8 : own;
+};
+var rowWidth = (w) => {
+  switch (w.w) {
+    case "text":
+      return naturalWidth(w) + (w.chip ? chipsW(w.chip) + 8 : 0);
+    case "hint":
+      return measure(w.text, SIZE.label, "sans", w.emphasis ? 600 : 400) + (w.right ? measure(w.right, SIZE.label) + 10 : 0) + (w.chip ? chipsW(w.chip) + 8 : 0);
+    case "label":
+      return measure(w.text, SIZE.label) + (w.chip ? chipsW(w.chip) + 10 : 0);
+    case "step":
+      return measure(`\u2193 ${w.text}`, SIZE.label) + 4 + (w.chip ? chipsW(w.chip) + 10 : 0);
+    default:
+      return naturalWidth(w);
+  }
+};
+var parts = (s) => s.split(/(?<= ·) /);
+var leastWidth = (w, ctx) => {
+  const chip2 = chipOf(w);
+  if (chip2) return leastWidth({ ...w, chip: void 0 }, ctx) + chipsW(chip2) + 8;
+  const k = (page, slide) => ctx.pick(page, slide);
+  const own = (c, gap) => c ? chipsW(c) + gap : 0;
+  switch (w.w) {
+    case "text":
+      return narrowest(plain(w.text), { size: w.large ? 20 : w.code || w.small ? SIZE.label : SIZE.body, face: w.code ? "mono" : "sans", weight: w.strong || w.large || /\*\*/.test(w.text) ? 600 : 400 });
+    case "field": {
+      const source = [w.text ?? w.placeholder ?? "", ...w.more ?? []].join(" ");
+      const shown = plain(source);
+      const bold = source !== shown && /\*\*/.test(source);
+      const tag = w.tag ? measure(w.tag, SIZE.label, "sans", 600) + 34 : 0;
+      const setting = w.large ? { size: 20, weight: 600 } : w.code ? { size: SIZE.label, face: "mono" } : { size: SIZE.body, weight: bold || w.dim ? 600 : 400 };
+      if (w.slim) return Math.max(...parts(shown).map((p) => measure(p, setting.size, setting.face, setting.weight))) + 24 + (w.cursor ? 4 : 0) + (tag ? tag + 6 : 0) + (w.right ? measure(w.right, SIZE.label) + 10 : 0);
+      return narrowest(shown, setting) + 24 + (w.cursor ? 4 : 0);
+    }
+    case "toggle":
+      return naturalWidth(w);
+    case "entry":
+      return 54 + Math.max(measure(w.text, SIZE.body, "sans", 600), w.body ? narrowest(plain(w.body), { size: SIZE.label, weight: /\*\*/.test(w.body) ? 600 : 400 }) : 0);
+    case "drop":
+      return w.text ? tagW(w.text) + 24 : 0;
+    case "thumb":
+      return w.text ? measure(w.text, SIZE.label, "sans", w.selected ? 600 : 400) : 0;
+    case "map":
+      return w.text ? measure(w.text, SIZE.label) + 80 : 0;
+    case "tabs":
+      return w.switch ? w.items.length * (Math.max(0, ...w.items.map((t) => measure(t, w.small ? SIZE.label : SIZE.body, "sans", 600))) + (w.small ? 7.5 : 15.5)) + 0.5 : tabsW(w.items) - 16;
+    case "hint":
+      return narrowest(w.text, { size: SIZE.label, weight: w.emphasis ? 600 : 400 }) + (w.right ? measure(w.right, SIZE.label) + 10 : 0);
+    case "label":
+      return measure(w.text, SIZE.label) + own(w.chip, 10);
+    case "step":
+      return measure(w.text, SIZE.label) + 16 + own(w.chip, 10);
+    case "code": {
+      const lines5 = [...w.text ? [w.text] : [], ...w.lines ?? []];
+      const bare = (l) => l.replace(/^(\s*)\*\*(.*)\*\*$/, "$1$2");
+      return Math.max(0, ...lines5.map((l) => measure(bare(l).trim(), SIZE.label, "mono", bare(l) === l ? 400 : 600) + measure(l.slice(0, l.length - l.trimStart().length), SIZE.label, "mono"))) + 24;
+    }
+    case "page":
+      return measure(w.text, SIZE.node, "sans", 600) + 44;
+    case "lock":
+      return measure(w.text, SIZE.label) + 48;
+    case "devices":
+      return 116 + measure(w.text, SIZE.label, "sans", 600) + own(w.chip, 10);
+    case "arrow":
+      return w.text ? measure(w.text, SIZE.label) + (w.push ? 40 : 28) : 0;
+    case "dots":
+      return Math.max(dotsW(w.of), w.text ? measure(w.text, SIZE.node, "sans", 600) + measure(`${w.value} of ${w.of}`, SIZE.body) + 12 : 0);
+    case "frame": {
+      if (w.width !== void 0 && w.width < 1 && !w.over) return leastWidth({ ...w, width: void 0 }, ctx) / Math.max(0.2, w.width);
+      const pad = w.bare ? 0 : k(10, 8);
+      const items = w.items.map((wd) => wd.w === "frame" && wd.over ? leastWidth(wd, ctx) / Math.min(1, wd.width ?? 0.7) : leastWidth(wd, ctx) + ("marker" in wd && wd.marker && !wd.corner && !naturalWidth(wd) ? 18 : 0));
+      const title = w.title ? narrowest(w.title, { size: SIZE.label, weight: 600 }) + (w.close ? 18 : 0) + own(w.chip, 8) : 0;
+      return Math.max(title, ...items) + 2 * pad;
+    }
+    case "list":
+      return Math.max(
+        0,
+        ...w.rows.map((r) => {
+          const lead = (w.steps ? 34 : 8) + (r.indent ?? 0) * INDENT + (w.handle ? 14 : 0);
+          const trail = 6 + own(r.chip, 8) + (r.mark ? 18 : 0) + (r.marker ? 26 : 0) + (r.button ? rowButtonW(r.button) + 8 : 0);
+          const setting = { size: r.head ? SIZE.label : SIZE.body, weight: (r.selected || r.strong) && !r.head ? 600 : 400 };
+          const shares = w.columns ?? [];
+          const total = shares.reduce((a, b) => a + b, 0);
+          const label = w.columns ? Math.max(0, ...r.text.split(/\s*\|\s*/).map((c, j) => (measure(plain(c.trim()), setting.size, "sans", runsOf(c).some(isBold) ? 600 : setting.weight) + 8) * total / (shares[j] ?? 1))) : narrowest(plain(r.text), { ...setting, weight: runsOf(r.text).some(isBold) ? 600 : setting.weight });
+          return lead + trail + (r.right ? Math.max(measure(r.right, SIZE.label) + 10 + label, measure(r.right, SIZE.label) + 24) : label);
+        })
+      );
+    case "row": {
+      const flexible = w.items.filter((wd) => wd.weight || wd.w === "text" || !rowWidth(wd));
+      const fixed = w.items.filter((wd) => !flexible.includes(wd)).reduce((sum2, wd) => sum2 + rowWidth(wd), 0);
+      const leasts = flexible.reduce((sum2, wd) => sum2 + Math.max(24, leastWidth(wd, ctx)), 0);
+      const marks = w.items.filter((wd) => "marker" in wd && wd.marker).length * 28;
+      return fixed + leasts + marks + (w.items.length - 1) * ROW_GAP + (w.bar ? 2 * BAR_PAD[0] : 0);
+    }
+    default:
+      return naturalWidth(w);
+  }
+};
+var ROW_GAP = 8;
+var BAR_PAD = [4, 3];
+var BLOCKS = /* @__PURE__ */ new Set(["list", "frame", "image", "tree"]);
+var isBlock = (wd) => BLOCKS.has(wd.w) || wd.w === "code" && Boolean(wd.lines?.length);
+var row = (items, x, y, width2, ctx, what) => {
+  const bare = items.map((wd) => "marker" in wd && wd.marker ? { ...wd, marker: void 0 } : wd);
+  const marks = items.map((wd) => "marker" in wd && wd.marker ? 28 : 0);
+  const sum2 = (ws) => ws.reduce((total, ww, i) => total + ww + (marks[i] ?? 0), 0) + (items.length - 1) * ROW_GAP;
+  const widths = bare.map((wd) => wd.weight ? 0 : rowWidth(wd));
+  const texts = bare.map((wd, i) => i).filter((i) => bare[i]?.w === "text").sort((a, b) => (widths[b] ?? 0) - (widths[a] ?? 0));
+  for (const i of texts) {
+    const flexible2 = widths.filter((ww) => ww === 0).length;
+    if (sum2(widths) + 24 * flexible2 <= width2) break;
+    widths[i] = 0;
+  }
+  const used = sum2(widths);
+  const weights = bare.map((wd, i) => widths[i] === 0 ? wd.weight ?? 1 : 0);
+  const flexible = weights.filter(Boolean).length;
+  const leasts = bare.map((wd, i) => weights[i] ? Math.max(24, leastWidth(wd, ctx)) : 0);
+  const held = /* @__PURE__ */ new Set();
+  let share = 0;
+  for (; ; ) {
+    const open = weights.map((k, i) => k && !held.has(i) ? i : -1).filter((i) => i >= 0);
+    const total = open.reduce((a, i) => a + (weights[i] ?? 0), 0);
+    share = total ? (width2 - used - [...held].reduce((a, i) => a + (leasts[i] ?? 0), 0)) / total : 0;
+    const short = open.filter((i) => share * (weights[i] ?? 0) < (leasts[i] ?? 0) - 0.5);
+    if (!short.length || short.length === open.length) break;
+    for (const i of short) held.add(i);
+  }
+  const sized = widths.map((ww, i) => ww || (held.has(i) ? leasts[i] ?? 0 : share * (weights[i] ?? 1)));
+  const least = Math.min(Infinity, ...sized.filter((ww, i) => weights[i]));
+  if (flexible && least < 23.5) ctx.fail(`${what}: the controls of a row need ${Math.ceil(used + 24 * flexible)} of width, and the row has ${Math.floor(width2)}`);
+  if (used > width2 + 0.5) ctx.fail(`${what}: the controls of a row are ${Math.ceil(used)} wide, and the row is ${Math.floor(width2)}`);
+  const free = flexible ? 0 : width2 - used;
+  const heights = bare.map((wd, i) => widget(wd, 0, 0, sized[i] ?? 0, ctx, what).height);
+  const height = Math.max(0, ...heights);
+  if (bare.filter((wd) => wd.w === "frame").length > 1) {
+    bare.forEach((wd, i) => {
+      if (wd.w === "frame") bare[i] = { ...wd, least: height };
+    });
+  }
+  const out = [];
+  const beside = bare.some(isBlock);
+  let cx = x;
+  let pushed = false;
+  bare.forEach((wd, i) => {
+    if (wd.push && !pushed) {
+      cx += free;
+      pushed = true;
+    }
+    const ww = sized[i] ?? 0;
+    const h = heights[i] ?? 0;
+    const block = isBlock(wd) || wd.w === "text" && beside;
+    out.push(widget(wd, cx, block ? y : y + (height - h) / 2, ww, ctx, what).svg);
+    cx += ww;
+    const m = items[i];
+    if (m && "marker" in m && m.marker) {
+      out.push(marker(cx + 14, y + height / 2, m.marker));
+      cx += 28;
+    }
+    cx += ROW_GAP;
+  });
+  return { svg: out.join(""), width: width2, height };
+};
+var stack = (items, x, y, width2, ctx, what, gap = 10) => {
+  const out = [];
+  const over = [];
+  let cy = y;
+  let bottom = y;
+  for (const wd of items) {
+    if (wd.w === "frame" && wd.over) {
+      const fw = width2 * Math.min(1, wd.width ?? 0.7);
+      const placed2 = widget({ ...wd, width: void 0 }, x + width2 - fw, cy, fw, ctx, `${what}, a frame`);
+      over.push(placed2.svg);
+      bottom = Math.max(bottom, cy + placed2.height);
+      continue;
+    }
+    const marked = "marker" in wd && wd.marker && !wd.corner ? 18 : 0;
+    const ww = naturalWidth(wd) && wd.w !== "text" ? Math.min(naturalWidth(wd), width2) : width2 - marked;
+    const placed = widget(wd, x, cy, ww, ctx, `${what}, a ${wd.w}`);
+    out.push(placed.svg);
+    bottom = Math.max(bottom, cy + placed.height);
+    cy += placed.height + gap;
+  }
+  return { svg: [...out, ...over].join(""), width: width2, height: items.length ? bottom - y : 0 };
+};
+var box = (x, y, w, h, state2, hidden, ring) => {
+  const empty = state2 && state2 !== "present";
+  return rect(x, y, w, h, {
+    fill: empty ? "none" : SUNKEN,
+    stroke: typeof ring === "string" ? ring : ring ? INK : state2 === "degraded" ? WARN : empty ? MUTED : STRONG,
+    width: ring ? 2 : empty ? 1.5 : 1,
+    radius: 4,
+    dashed: Boolean(empty)
+  }) + (hidden ? hatch(x + 1, y + 1, w - 2, h - 2) : "");
+};
+var LIST_ROW = 24;
+var rowButtonW = (s) => measure(s, SIZE.label, "sans", 600) + 14;
+var STEP_ROW = 30;
+var STEP_GAP = 10;
+var INDENT = 16;
+var widget = (w, x, y, width2, ctx, what) => {
+  const placed = draw(w, x, y, width2, ctx, what);
+  if (w.id) ctx.places.set(w.id, { x, y, width: w.w === "button" || w.w === "tag" || w.w === "pill" ? placed.width : width2, height: placed.height });
+  if (!w.pointer) return placed;
+  return { ...placed, svg: placed.svg + pointer(x + Math.min(width2, placed.width) - 30, y + placed.height / 2 - 2) };
+};
+var draw = (w, x, y, width2, ctx, what) => {
+  const chip2 = chipOf(w);
+  if (chip2) {
+    const cw = chipsW(chip2);
+    const base = draw({ ...w, chip: void 0 }, x, y, width2 - cw - 8, ctx, what);
+    const top = y + Math.max(0, (Math.min(base.height, 28) - 20) / 2);
+    return { svg: base.svg + chipsAt(chip2, x + width2 - cw, top), width: width2, height: Math.max(base.height, 20) };
+  }
+  const out = [];
+  let height = 0;
+  const k = (page, slide) => ctx.pick(page, slide);
+  const mark = (h) => {
+    if ("marker" in w && w.marker) out.push(w.corner ? marker(x + width2 - 4, y + 4, w.marker) : marker(x + width2, y + h / 2, w.marker));
+  };
+  switch (w.w) {
+    case "text": {
+      const size = w.large ? 20 : w.code || w.small ? SIZE.label : SIZE.body;
+      const face = w.code ? "mono" : "sans";
+      const weight = w.strong || w.large ? 600 : 400;
+      const whole = plain(w.text);
+      const runs = runsOf(w.text);
+      const bold = runs.some(isBold);
+      const lines5 = wrap(whole, width2, { size, face, weight: bold ? 600 : weight }, what);
+      const fill = w.tone === "error" ? ERROR : w.tone === "muted" ? MUTED : w.strong || w.large ? INK : SECONDARY;
+      const lead = w.large ? k(26, 24) : w.small ? k(18, 16) : k(19, 17);
+      placeLines(whole, lines5).forEach(([l, start], i) => out.push(setLine(l, start, runs, x, y + (w.large ? 20 : 14) + i * lead, size, face, weight, fill)));
+      height = lines5.length * lead + k(2, 1);
+      break;
+    }
+    case "label":
+    case "hint": {
+      const right = w.w === "label" ? w.chip : w.right;
+      const rightW = right ? (w.w === "label" ? chipsW(right) : measure(right, SIZE.label)) + 10 : 0;
+      const o = k(0, -2);
+      const claim = w.w === "hint" && w.emphasis ? ctx.emphasis("place", `hint ${w.text}`) : void 0;
+      const setting = { size: SIZE.label, weight: claim ? 600 : 400 };
+      const lines5 = w.w === "hint" ? wrap(w.text, width2 - rightW, setting, what) : [fit(w.text, width2 - rightW, setting, what)];
+      const lead = k(18, 16);
+      lines5.forEach((l, i) => out.push(run(l, x, y + 15 + o + i * lead, SIZE.label, "sans", setting.weight, claim ?? (w.w === "hint" ? MUTED : SECONDARY))));
+      if (right && w.w === "label") out.push(chipsAt(right, x + width2 - chipsW(right), y + 1 + o));
+      if (right && w.w === "hint") out.push(text(x + width2, y + 15 + o, right, { size: SIZE.label, fill: MUTED, anchor: "end" }));
+      height = 22 + 2 * o + (lines5.length - 1) * lead;
+      break;
+    }
+    case "step": {
+      const chip3 = w.chip ? chipsW(w.chip) + 10 : 0;
+      const o = k(0, -2);
+      out.push(run(`\u2193 ${fit(w.text, width2 - chip3 - 16, { size: SIZE.label }, what)}`, x + 4, y + 15 + o, SIZE.label, "sans", 400, SECONDARY));
+      if (w.chip) out.push(chipsAt(w.chip, x + width2 - chipsW(w.chip), y + 1 + o));
+      height = 22 + 2 * o;
+      break;
+    }
+    case "field": {
+      const ring = w.emphasis ? ctx.emphasis("place", `field ${w.text ?? w.placeholder ?? ""}`) : w.focus || w.strong || w.ring;
+      const frame = (h, tw) => w.bare ? "" : w.dim ? rect(x, y, width2, h, { fill: SUBTLE, radius: 4 }) : w.inplace ? rect(x, y, Math.min(width2, tw + 24), h, { stroke: INK, width: 1.2, radius: 2, dashed: true }) : box(x, y, width2, h, w.state, w.hidden, ring) + (w.ring ? rect(x - 3, y - 3, width2 + 6, h + 6, { stroke: INK, width: 1.5, radius: 6 }) : "");
+      const ink = w.text && !w.state && !w.dim ? INK : MUTED;
+      if (w.slim) {
+        const shown2 = plain(w.text ?? w.placeholder ?? "");
+        const tag2 = w.tag ? measure(w.tag, SIZE.label, "sans", 600) + 34 : 0;
+        const right = w.right ? measure(w.right, SIZE.label) + 10 : 0;
+        const [fs, ff] = w.code ? [SIZE.label, "mono"] : [SIZE.body, "sans"];
+        const room = width2 - 24 - (w.cursor ? 4 : 0) - (tag2 ? tag2 + 6 : 0) - right;
+        const setting = { size: fs, face: ff, weight: w.dim ? 600 : 400 };
+        const fits = (t, max) => measure(t, fs, ff, setting.weight) <= max + 0.5;
+        const split = fits(shown2, room) ? [shown2] : byParts(shown2, room, fits) ?? [shown2];
+        const one = split.length > 1 ? "" : fit(shown2, room, setting, what);
+        for (const l of split) if (split.length > 1) fit(l, room, setting, what);
+        const o = k(0, -2);
+        const more = (split.length - 1) * k(20, 18);
+        out.push(frame(28 + 2 * o + more, Math.max(...split.map((l) => measure(l, fs, ff))) + (w.cursor ? 4 : 0)));
+        if (split.length > 1) split.forEach((l, i) => out.push(text(x + 12, y + 19 + o + i * k(20, 18), l, { ...setting, fill: ink })));
+        if (w.tag) {
+          out.push(rect(x + width2 - tag2 - 5, y + 5 + o, tag2, 18, { fill: INK, radius: 4 }));
+          out.push(run(`${w.tag} \u283F \u22EF`, x + width2 - tag2 + 3, y + 18 + o, SIZE.label, "sans", 600, CANVAS));
+        }
+        if (one) out.push(setLine(one, 0, runsOf(w.text ?? ""), x + 12, y + 19 + o, fs, ff, w.dim ? 600 : 400, ink));
+        if (w.right) out.push(text(x + width2 - 12 - tag2, y + 19 + o, w.right, { size: SIZE.label, fill: MUTED, anchor: "end" }));
+        if (w.cursor) {
+          const cx = x + 12 + (one ? setWidth(one, 0, runsOf(w.text ?? ""), fs, ff, w.dim ? 600 : 400) + 3 : 0);
+          out.push(line(cx, y + 7 + o, cx, y + 21 + o, INK, 1.5));
+        }
+        if (w.dot) out.push(circle(x + width2 - 10 - tag2, y + 14 + o, 3.5, INK));
+        height = 28 + 2 * o + more;
+        break;
+      }
+      const size = w.large ? 20 : w.code ? SIZE.label : SIZE.body;
+      const face = w.code ? "mono" : "sans";
+      const weight = w.large ? 600 : 400;
+      const source = [w.text ?? w.placeholder ?? "", ...w.more ?? []].join("\n");
+      const shown = plain(source);
+      const runs = runsOf(source);
+      const tag = w.tag ? measure(w.tag, SIZE.label, "sans", 600) + 34 : 0;
+      const lines5 = shown ? wrap(shown, width2 - 24 - (w.cursor ? 4 : 0), { size, face, weight: runs.some(isBold) ? 600 : weight }, what) : [];
+      const [pad, lead, bar] = k([12, 8, 12], [7, 5, 10]);
+      const tagged = k(26, 24);
+      const top = w.tag ? tagged : pad;
+      height = top + lines5.length * (size + lead) + (w.lines ?? 0) * bar + pad;
+      out.push(frame(height, Math.max(0, ...lines5.map((l) => measure(l, size, face, weight))) + (w.cursor ? 4 : 0)));
+      if (w.tag) {
+        out.push(rect(x + width2 - tag - 6, y + tagged - 20, tag, 18, { fill: INK, radius: 4 }));
+        out.push(run(`${w.tag} \u283F \u22EF`, x + width2 - tag + 2, y + tagged - 7, SIZE.label, "sans", 600, CANVAS));
+      }
+      let ty = y + top;
+      placeLines(shown, lines5).forEach(([l, start], i) => {
+        out.push(setLine(l, start, runs, x + 12, ty + size, size, face, weight, ink));
+        if (w.cursor && i === lines5.length - 1) {
+          const cx = x + 12 + setWidth(l, start, runs, size, face, weight) + 3;
+          out.push(line(cx, ty + 4, cx, ty + size + 4, INK, 1.5));
+        }
+        ty += size + lead;
+      });
+      if (!lines5.length && w.cursor) out.push(line(x + 12, y + pad - 2, x + 12, y + height - pad + 2, INK, 1.5));
+      if (w.dot) out.push(circle(x + width2 - 10, w.tag ? y + height - 10 : y + 10, 3.5, INK));
+      for (let i = 0; i < (w.lines ?? 0); i++) out.push(rect(x + 12, ty + 4 + i * bar, (width2 - 24) * (i % 2 ? 0.45 : 0.68), BAR2, { fill: STRONG, radius: 2 }));
+      break;
+    }
+    case "button": {
+      const bw = Math.min(width2, naturalWidth(w));
+      const weight = w.strong || w.ink ? 600 : 400;
+      const [bh, size, inset] = w.small ? [k(22, 20), SIZE.label, 8] : [k(28, 24), SIZE.body, 12];
+      const claim = w.emphasis ? ctx.emphasis("place", `button ${w.text}`) : void 0;
+      if (w.square) {
+        out.push(rect(x, y, 44, 44, { fill: w.ink ? INK : RAISED, stroke: claim ?? INK, width: 2, radius: 4 }));
+        const big = [...w.text].length <= 2 ? 20 : size;
+        out.push(text(x + 22, y + 22 + big / 2 - 2, fit(w.text, 40, { size: big, weight: 600 }, what), { size: big, weight: 600, fill: w.ink ? CANVAS : claim ?? INK, anchor: "middle" }));
+        if (w.marker) out.push(marker(x + 58, y + 22, w.marker));
+        return { svg: out.join(""), width: 44 + (w.marker ? 28 : 0), height: 44 };
+      }
+      if (w.round) {
+        out.push(circle(x + bh / 2, y + bh / 2, bh / 2 - 1, w.ink ? INK : RAISED, claim ?? INK));
+        out.push(text(x + bh / 2, y + bh / 2 + size / 2 - 2, fit(w.text, bh, { size, weight }, what), { size, weight, fill: w.ink ? CANVAS : claim ?? INK, anchor: "middle" }));
+        if (w.marker) out.push(marker(x + bh + 14, y + bh / 2, w.marker));
+        return { svg: out.join(""), width: bh + (w.marker ? 28 : 0), height: bh };
+      }
+      out.push(rect(x, y, bw, bh, { fill: w.ink ? INK : RAISED, stroke: claim ?? (w.strong || w.ink ? INK : STRONG), width: w.strong || claim ? 2 : 1, radius: 4 }));
+      out.push(run(fit(w.text, bw - 2 * inset, { size, weight }, what), x + inset, y + bh / 2 + size / 2 - 2 + (w.small ? 0.5 : 0), size, "sans", weight, w.ink ? CANVAS : claim ?? INK));
+      height = bh;
+      if (w.marker) out.push(marker(x + bw + 14, y + bh / 2, w.marker));
+      return { svg: out.join(""), width: bw + (w.marker ? 28 : 0), height };
+    }
+    case "tabs": {
+      if (w.switch) {
+        const sw = width2 / w.items.length;
+        const sh = k(28, 24);
+        out.push(rect(x, y, width2, sh, { fill: RAISED, stroke: STRONG, radius: 4 }));
+        w.items.forEach((t, i) => {
+          const on = i === (w.active ?? 0);
+          if (on) out.push(rect(x + i * sw + 2, y + 2, sw - 4, sh - 4, { fill: SUNKEN, stroke: INK, width: 1.5, radius: 3 }));
+          const size = w.small ? SIZE.label : SIZE.body;
+          const shown = fit(t, sw - (w.small ? 8 : 16), { size, weight: 600 }, `${what}, a switch`);
+          out.push(text(x + i * sw + sw / 2, y + sh / 2 + (w.small ? 4.5 : 5), shown, { size, weight: on ? 600 : 400, fill: on ? INK : SECONDARY, anchor: "middle" }));
+        });
+        height = sh;
+        break;
+      }
+      const need = tabsW(w.items) - 16;
+      if (need > width2 + 0.5) ctx.fail(`${what}: the tabs "${w.items.join(", ")}" are ${Math.ceil(need)} wide, and their room is ${Math.floor(width2)}`);
+      let tx = x;
+      w.items.forEach((t, i) => {
+        const tw = measure(t, SIZE.body, "sans", 600);
+        const active = i === (w.active ?? 0);
+        out.push(run(t, tx, y + k(17, 15), SIZE.body, "sans", active ? 600 : 400, active ? INK : MUTED));
+        if (active) out.push(line(tx, y + k(25, 21), tx + tw, y + k(25, 21), INK, 2));
+        tx += tw + 16;
+      });
+      height = k(28, 24);
+      if (w.marker) out.push(marker(tx + 4, y + 12, w.marker));
+      return { svg: out.join(""), width: tx - x + (w.marker ? 24 : 0), height };
+    }
+    case "chip":
+      if (w.label) {
+        const need = itemW(w.text, w.label);
+        if (need > width2 + 0.5) ctx.fail(`${what}: the item ${w.text} is ${Math.ceil(need)} wide, and its room is ${Math.floor(width2)}`);
+        const stroke = w.emphasis ? ctx.emphasis("place", `item ${w.text}`) : w.strong ? INK : STRONG;
+        const filled = w.emphasis && w.fill;
+        const ch = k(28, 24);
+        const o = (ch - 28) / 2;
+        out.push(rect(x, y, width2, ch, { fill: filled ? stroke : RAISED, stroke, width: w.emphasis || w.strong ? 2 : 1, radius: 4 }));
+        out.push(run(w.text, x + 10, y + 18.5 + o, SIZE.label, "mono", 600, filled ? CANVAS : SECONDARY));
+        out.push(run(w.label, x + 18 + measure(w.text, SIZE.label, "mono", 600), y + 19 + o, SIZE.body, "sans", 600, filled ? CANVAS : INK));
+        if (w.marker) out.push(marker(x + width2 + 14, y + ch / 2, w.marker));
+        return { svg: out.join(""), width: width2 + (w.marker ? 28 : 0), height: ch };
+      }
+      out.push(chipsAt(w.text, x, y));
+      if (w.marker) out.push(marker(x + chipsW(w.text) + 14, y + 10, w.marker));
+      return { svg: out.join(""), width: chipsW(w.text) + (w.marker ? 28 : 0), height: 20 };
+    case "dots": {
+      if (w.value > w.of) ctx.fail(`${what}: ${w.value} of ${w.of} dots is more than the whole`);
+      if (dotsW(w.of) > width2 + 0.5) ctx.fail(`${what}: ${w.of} dots are ${dotsW(w.of)} wide, and their room is ${Math.floor(width2)}`);
+      let top = y;
+      if (w.text) {
+        const count = `${w.value} of ${w.of}`;
+        const cw = measure(count, SIZE.body);
+        out.push(run(fit(w.text, width2 - cw - 12, { size: SIZE.node, weight: 600 }, what), x, y + 16, SIZE.node, "sans", 600, INK));
+        out.push(text(x + width2, y + 16, count, { size: SIZE.body, fill: SECONDARY, anchor: "end" }));
+        top += k(28, 22);
+      }
+      const step = w.text && w.of > 1 ? Math.min(26, Math.max(DOT, (width2 - 10) / (w.of - 1))) : DOT;
+      for (let i = 0; i < w.of; i++) {
+        const cx = x + 5 + i * step;
+        out.push(i < w.value ? circle(cx, top + 7, 5, INK) : circle(cx, top + 7, 4.5, "none", MUTED));
+      }
+      height = top + 14 - y + (w.text ? k(10, 4) : 0);
+      mark(height);
+      break;
+    }
+    case "code": {
+      if (w.lines?.length) {
+        const [lead, edge] = k([19, 8], [17, 5]);
+        height = (w.text ? w.lines.length + 1 : w.lines.length) * lead + 2 * edge;
+        out.push(rect(x, y, width2, height, { fill: SUNKEN, stroke: w.strong ? INK : SUBTLE, width: w.strong ? 2 : 1, radius: 4 }));
+        [...w.text ? [w.text] : [], ...w.lines].forEach((marked, i) => {
+          const bold = /^\s*\*\*.*\*\*$/.test(marked);
+          const l = bold ? marked.replace(/\*\*(.*)\*\*$/, "$1") : marked;
+          fit(l.trim(), width2 - 24 - measure(l.slice(0, l.length - l.trimStart().length), SIZE.label, "mono"), { size: SIZE.label, face: "mono", weight: bold ? 600 : 400 }, what);
+          for (const m of l.matchAll(/\S+(?: \S+)*/g)) {
+            out.push(run(m[0], x + 12 + measure(l.slice(0, m.index), SIZE.label, "mono"), y + edge + 14 + i * lead, SIZE.label, "mono", bold ? 600 : 400, INK));
+          }
+        });
+        break;
+      }
+      height = k(30, 24);
+      out.push(rect(x, y, width2, height, { fill: RAISED, stroke: w.strong ? INK : STRONG, width: w.strong ? 2 : 1, radius: 4 }));
+      out.push(run(fit(w.text ?? "", width2 - 24, { size: SIZE.label, face: "mono" }, what), x + 12, y + height / 2 + 5, SIZE.label, "mono", 400, INK));
+      break;
+    }
+    case "page": {
+      const [top, th] = k([18, 30], [10, 26]);
+      height = k(80, 60);
+      out.push(rect(x, y, width2, height, { fill: SUNKEN, radius: 4 }));
+      const tw = measure(w.text, SIZE.node, "sans", 600) + 20;
+      if (tw > width2 - 24) ctx.fail(`${what}: "${w.text}" is wider than its page`);
+      out.push(rect(x + 12, y + top, tw, th, { fill: RAISED, radius: 2 }));
+      out.push(run(w.text, x + 22, y + top + th / 2 + 6, SIZE.node, "sans", 600, INK));
+      out.push(line(x, y + height - 26, x + width2, y + height - 32, STRONG, 1.5));
+      if (w.dot) out.push(circle(x + width2 - 16, y + 14, 6, RAISED));
+      break;
+    }
+    case "lock": {
+      height = k(44, 34);
+      const o = (height - 44) / 2;
+      out.push(rect(x, y, width2, height, { fill: SUNKEN, stroke: w.strong ? INK : SUBTLE, width: w.strong ? 2 : 1, radius: 4 }));
+      out.push(rect(x + 14, y + 20 + o, 12, 10, { fill: INK, radius: 2 }));
+      out.push(`<path d="M${fmt(x + 16)} ${fmt(y + 20 + o)} v-3 a4 4 0 0 1 8 0 v3" fill="none" stroke="${INK}" stroke-width="1.5"></path>`);
+      out.push(run(fit(w.text, width2 - 48, { size: SIZE.label }, what), x + 36, y + 27 + o, SIZE.label, "sans", 400, SECONDARY));
+      break;
+    }
+    case "image": {
+      height = k(72, 52);
+      const iw = w.lines === 0 ? width2 : Math.min(width2 * 0.45, 150);
+      out.push(rect(x, y, iw, height, { fill: SUNKEN, radius: 2 }));
+      if (w.text) out.push(text(x + iw / 2, y + height / 2 + 4.5, fit(w.text, iw - 12, { size: SIZE.label }, what), { size: SIZE.label, fill: MUTED, anchor: "middle" }));
+      for (let i = 0; i < (w.lines ?? 2); i++) out.push(rect(x + iw + 12, y + k(10, 8) + i * k(12, 10), (width2 - iw - 12) * (i % 2 ? 0.7 : 1), BAR2, { fill: STRONG, radius: 2 }));
+      if (w.corner && w.marker) return { svg: out.join("") + marker(x + iw - 4, y + 4, w.marker), width: width2, height };
+      break;
+    }
+    case "tree": {
+      const n = w.lines ?? 5;
+      const pitch = k(20, 16);
+      for (let i = 0; i < n; i++) {
+        const indent = i % 3 === 0 ? 0 : 14;
+        out.push(rect(x + indent, y + i * pitch + pitch / 2 - 6, 8, 8, { fill: MUTED, radius: 2 }));
+        out.push(rect(x + indent + 14, y + i * pitch + pitch / 2 - 5, Math.max(20, width2 * 0.55 - indent), BAR2, { fill: STRONG, radius: 2 }));
+      }
+      height = n * pitch;
+      break;
+    }
+    case "tools": {
+      const n = w.count ?? 3;
+      const tw = n * 22 + 10;
+      out.push(rect(x, y, tw, 24, { fill: RAISED, stroke: INK, radius: 4 }));
+      for (let i = 0; i < n; i++) out.push(rect(x + 8 + i * 22, y + 7, 14, 10, { fill: MUTED, radius: 2 }));
+      if (w.marker) out.push(marker(x + tw + 14, y + 12, w.marker));
+      return { svg: out.join(""), width: tw + (w.marker ? 28 : 0), height: 24 };
+    }
+    case "lines": {
+      const n = w.lines ?? 2;
+      const pitch = k(12, 10);
+      for (let i = 0; i < n; i++) out.push(rect(x, y + 4 + i * pitch, width2 * (i % 2 ? 0.6 : 0.85), BAR2, { fill: STRONG, radius: 2 }));
+      height = n * pitch + 2;
+      break;
+    }
+    case "devices": {
+      height = k(32, 28);
+      const o = (height - 32) / 2;
+      out.push(rect(x, y, width2, height, { fill: RAISED, stroke: STRONG, radius: 4 }));
+      const kinds = ["phone", "tablet", "desktop"];
+      let dx = x + 12;
+      for (const k2 of kinds) {
+        const [gw, gh] = k2 === "phone" ? [8, 14] : k2 === "tablet" ? [12, 16] : [22, 14];
+        const on = k2 === (w.active ?? "desktop");
+        if (on) out.push(rect(dx - 5, y + 4 + o, gw + 10, 24, { stroke: INK, width: 1.5, radius: 4 }));
+        out.push(rect(dx, y + 16 + o - gh / 2, gw, gh, { stroke: INK, width: 1.2, radius: 2 }));
+        dx += gw + 18;
+      }
+      const chip3 = w.chip ? chipsW(w.chip) + 10 : 0;
+      out.push(run(fit(w.text, x + width2 - dx - chip3 - 8, { size: SIZE.label, weight: 600 }, what), dx + 2, y + 21 + o, SIZE.label, "sans", 600, INK));
+      if (w.chip) out.push(chipsAt(w.chip, x + width2 - chipsW(w.chip) - 8, y + 6 + o));
+      break;
+    }
+    case "site": {
+      const share = Math.min(1, w.width ?? 1);
+      const sw = width2 * share;
+      const sx = x + (width2 - sw) / 2;
+      const narrow = share < 1;
+      const cards = w.cards ?? 3;
+      const top = narrow ? 8 : 0;
+      const inner = sw - 24;
+      const heading = w.heading ? fit(w.heading, inner - (w.selected ? 16 : 0), { size: SIZE.node, weight: 600 }, what) : "";
+      const grid2 = narrow ? 1 : cards;
+      const cardH = narrow ? 26 : 30;
+      const rows = narrow ? Math.min(cards, 2) : 1;
+      const body = 28 + 12 + 52 + (heading ? 40 : 0) + rows * (cardH + 8) + (narrow ? 0 : 22) + 8;
+      height = body + 2 * top;
+      if (narrow) out.push(rect(x, y, width2, height, { fill: SUNKEN, radius: 4 }));
+      out.push(rect(sx, y + top, sw, body, { fill: RAISED, stroke: INK, width: 1.5, radius: narrow ? 6 : 4 }));
+      out.push(rect(sx + 1, y + top + 1, sw - 2, 24, { fill: SUNKEN }));
+      out.push(run(fit(w.name, narrow ? inner - 20 : inner * 0.55, { size: SIZE.label, weight: 600 }, what), sx + 10, y + top + 17, SIZE.label, "sans", 600, SECONDARY));
+      const nav = narrow ? "\u2630" : w.nav ?? "";
+      if (nav) out.push(text(sx + sw - 10, y + top + 17, fit(nav, inner * 0.45, { size: SIZE.label }, what), { size: SIZE.label, fill: MUTED, anchor: "end" }));
+      let cy = y + top + 36;
+      out.push(rect(sx + 12, cy, inner, 46, { fill: SUNKEN, radius: 2 }));
+      cy += 56;
+      if (heading) {
+        if (w.selected) out.push(rect(sx + 8, cy, Math.min(inner + 8, measure(heading, SIZE.node, "sans", 600) + 24), 30, { stroke: INK, width: 1.5, radius: 2 }));
+        out.push(run(heading, sx + (w.selected ? 16 : 12), cy + 21, SIZE.node, "sans", 600, INK));
+        if (w.cursor) {
+          const cx = sx + (w.selected ? 16 : 12) + measureSet(heading, SIZE.node, "sans", 600) - 8;
+          out.push(line(cx, cy + 6, cx, cy + 25, INK, 1.5));
+        }
+        cy += 40;
+      }
+      const cw = (inner - (grid2 - 1) * 8) / grid2;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < grid2; c++) {
+          out.push(rect(sx + 12 + c * (cw + 8), cy, cw, cardH, { fill: SUNKEN, radius: 2 }));
+          if (!narrow) out.push(rect(sx + 12 + c * (cw + 8), cy + cardH + 8, cw, 4, { fill: SUBTLE, radius: 2 }) + rect(sx + 12 + c * (cw + 8), cy + cardH + 16, cw * 0.6, 4, { fill: SUBTLE, radius: 2 }));
+        }
+        cy += cardH + 8;
+      }
+      break;
+    }
+    case "pill":
+    case "tag": {
+      const pw = w.w === "pill" ? pillW(w.text) : tagW(w.text);
+      if (pw > width2 + 0.5) ctx.fail(`${what}: the ${w.w} "${w.text}" is ${Math.ceil(pw)} wide, and its room is ${Math.floor(width2)}`);
+      const filled = w.w === "tag" || w.ink;
+      out.push(rect(x, y, pw, 20, { fill: filled ? INK : RAISED, stroke: filled ? void 0 : INK, width: 1.2, radius: w.w === "pill" ? 6 : 4 }));
+      out.push(text(x + pw / 2, y + 14.5, w.text, { size: SIZE.label, weight: 600, fill: filled ? CANVAS : INK, anchor: "middle" }));
+      if (w.marker) out.push(marker(x + pw + 14, y + 10, w.marker));
+      return { svg: out.join(""), width: pw + (w.marker ? 28 : 0), height: 20 };
+    }
+    case "arrow": {
+      const say = w.text ? fit(w.text, width2 - (w.push ? 40 : 28), { size: SIZE.label }, what) : "";
+      const ax = w.push ? x + width2 - 12 : say ? x + 12 : x + width2 / 2;
+      height = k(28, 22);
+      out.push(connector([[ax, y + 2], [ax, y + height - 2]]));
+      if (say) out.push(text(w.push ? ax - 14 : ax + 14, y + height / 2 + 5, say, { size: SIZE.label, fill: MUTED, anchor: w.push ? "end" : "start" }));
+      break;
+    }
+    case "progress": {
+      const share = Math.max(0, Math.min(1, w.value));
+      out.push(rect(x, y + 2, width2, 4, { fill: SUBTLE, radius: 2 }));
+      out.push(rect(x, y + 2, width2 * share, 4, { fill: INK, radius: 2 }));
+      height = 8;
+      break;
+    }
+    case "keycap": {
+      const kw = keycapW(w.text);
+      out.push(rect(x, y, kw, 22, { fill: RAISED, stroke: INK, width: 1.2, radius: 3 }));
+      out.push(text(x + kw / 2, y + 15.5, w.text, { size: SIZE.label, face: "mono", weight: 600, anchor: "middle" }));
+      height = 22;
+      if (w.marker) out.push(marker(x + kw + 14, y + 11, w.marker));
+      return { svg: out.join(""), width: kw + (w.marker ? 28 : 0), height };
+    }
+    case "toolbar": {
+      const tw = toolbarW(w.items);
+      if (tw > width2 + 0.5) ctx.fail(`${what}: the toolbar "${w.items.join(" ")}" is ${Math.ceil(tw)} wide, and its room is ${Math.floor(width2)}`);
+      const bh = k(28, 24);
+      const o = (bh - 28) / 2;
+      out.push(rect(x, y, tw, bh, { fill: w.ink ? INK : RAISED, stroke: w.strong || w.ink ? INK : STRONG, width: w.strong ? 2 : 1, radius: 4 }));
+      let tx = x + 4;
+      let n = 0;
+      for (const t of w.items) {
+        if (t === "|") {
+          out.push(line(tx + 3, y + 7 + o, tx + 3, y + 21 + o, w.ink ? MUTED : STRONG));
+        } else {
+          const on = (w.active ?? []).includes(n++);
+          if (on) out.push(rect(tx, y + 3 + o / 2, toolW(t), bh - 6 - o, w.ink ? { fill: CANVAS, radius: 3 } : { fill: SUNKEN, stroke: INK, width: 1.2, radius: 3 }));
+          out.push(text(tx + 5, y + 18.5 + o, t, { size: SIZE.label, weight: on || w.ink ? 600 : 400, fill: w.ink && !on ? CANVAS : INK }));
+        }
+        tx += toolW(t) + 2;
+      }
+      height = bh;
+      if (w.marker) out.push(marker(x + tw + 14, y + bh / 2, w.marker));
+      return { svg: out.join(""), width: tw + (w.marker ? 28 : 0), height };
+    }
+    case "row": {
+      if (!w.bar) return row(w.items, x, y, width2, ctx, what);
+      const [px, py] = BAR_PAD;
+      const last = w.items.at(-1);
+      const id = last?.w === "chip" && last.push && w.items.length > 1 ? last : void 0;
+      const idW = id ? chipsW(id.text) + px : 0;
+      const inner = row(id ? w.items.slice(0, -1) : w.items, x + px, y + py, width2 - 2 * px - idW, ctx, what);
+      const h = inner.height + 2 * py;
+      const tagH = id ? widget(id, 0, 0, idW - px, ctx, what).height : 0;
+      const placed = id ? widget(id, x + width2 - idW + px, y + (h - tagH) / 2, idW - px, ctx, what).svg : "";
+      return { svg: rect(x, y, width2 - idW, h, { fill: RAISED, stroke: STRONG, radius: 4 }) + inner.svg + placed, width: width2, height: h };
+    }
+    case "frame": {
+      if (w.width !== void 0 && w.width < 1 && !w.over) {
+        const fw = width2 * Math.max(0.2, w.width);
+        const inner = draw({ ...w, width: void 0 }, x + (width2 - fw) / 2, y, fw, ctx, what);
+        return { svg: inner.svg, width: width2, height: inner.height };
+      }
+      if (w.bare) {
+        const body2 = stack(w.items, x, y, width2, ctx, `${what}, a stack`, k(8, 5));
+        return { svg: body2.svg, width: width2, height: body2.height };
+      }
+      const pad = w.device ? k(12, 10) : k(10, 8);
+      const grip = w.sheet || w.device ? k(10, 8) : 0;
+      const [edge, lead] = k([12 + grip, 18], [8 + grip, 17]);
+      const tone = w.tone ? TONE[w.tone] : void 0;
+      const close = w.close ? 18 : 0;
+      const chips3 = w.chip ? chipsW(w.chip) + 8 : 0;
+      const title = w.title ? wrap(w.title, width2 - 2 * pad - close - chips3, { size: SIZE.label, weight: 600 }, `${what}, the frame's title`) : [];
+      const head = w.title || w.close || w.chip ? edge + Math.max(1, title.length) * lead : 0;
+      const top = head ? head + k(6, 4) : pad + grip;
+      const body = stack(w.items, x + pad, y + top, width2 - 2 * pad, ctx, `${what}, the frame ${w.title ?? ""}`.trim(), k(8, 5));
+      height = Math.max(w.least ?? 0, w.items.length ? top + body.height + pad : head);
+      const state2 = w.state && w.state !== "present" ? w.state : void 0;
+      out.push(
+        rect(x, y, width2, height, {
+          fill: w.ink ? INK : state2 ? "none" : w.tone ? QUIET[w.tone] : w.fill ? INSET : RAISED,
+          stroke: w.ink || w.device ? INK : tone ?? (w.strong ? INK : state2 === "degraded" ? WARN : state2 ? MUTED : STRONG),
+          width: w.strong || w.device ? 2 : tone || state2 ? 1.5 : 1,
+          radius: w.device ? 6 : 4,
+          dashed: Boolean(state2)
+        })
+      );
+      if (w.hidden) out.push(hatch(x + 1, y + 1, width2 - 2, height - 2));
+      if (grip) out.push(rect(x + width2 / 2 - (w.device ? 12 : 16), y + grip / 2, w.device ? 24 : 32, 4, { fill: w.device ? STRONG : MUTED, radius: 2 }));
+      if (w.dot) out.push(circle(x + width2 - pad, y + (head ? edge + 3 : pad), 3.5, INK));
+      if (head && (w.strong || w.close || w.chip) && !w.tone && !w.ink && w.items.length) out.push(line(x + 1, y + head, x + width2 - 1, y + head, SUBTLE));
+      title.forEach((l, i) => out.push(text(x + pad, y + edge + 8 + i * lead, l, { size: SIZE.label, weight: 600, fill: w.ink ? CANVAS : INK })));
+      if (w.chip) out.push(chipsAt(w.chip, x + width2 - pad - close - chips3 + 8, y + edge - 7));
+      if (w.close) out.push(text(x + width2 - pad, y + edge + 8, "\u2715", { size: SIZE.label, fill: MUTED, anchor: "end" }));
+      out.push(w.ink ? [INK, SECONDARY, MUTED].reduce((svg2, c) => svg2.split(`fill="${c}"`).join(`fill="${CANVAS}"`), body.svg) : body.svg);
+      break;
+    }
+    case "list": {
+      const listRow2 = k(LIST_ROW, 20);
+      const rowH = w.steps ? k(STEP_ROW, 26) : listRow2;
+      const gap = w.steps ? k(STEP_GAP, 9) : w.rendered ? k(6, 4) : k(2, 1);
+      const lead = k(17, 16);
+      const extra = w.rendered ? k(12, 10) : 0;
+      const laid = w.rows.map((r) => {
+        const lx = (w.steps ? 34 : 8) + (r.indent ?? 0) * INDENT + (w.handle ? 14 : 0);
+        let rx = width2 - 6 - (r.chip ? chipsW(r.chip) + 8 : 0) - (r.mark ? 18 : 0) - (r.marker ? 26 : 0) - (r.button ? rowButtonW(r.button) + 8 : 0);
+        const right = r.right ? fit(r.right, rx - lx - 24, { size: SIZE.label }, `${what}, the row ${r.text}`) : "";
+        if (right) rx -= measure(right, SIZE.label) + 10;
+        const weight = (r.selected || r.strong) && !r.head ? 600 : 400;
+        const size = r.head ? SIZE.label : SIZE.body;
+        const lines5 = w.columns ? [r.text] : wrap(plain(r.text), rx - lx, { size, weight: runsOf(r.text).some(isBold) ? 600 : weight }, `${what}, the row ${r.text}`);
+        return { lx, rx, right, weight, size, lines: lines5, h: rowH + extra + (lines5.length - 1) * lead };
+      });
+      const joins = [];
+      let ry = y;
+      w.rows.forEach((r, i) => {
+        const { lines: lines5, h, right, weight, size, rx: textEnd } = laid[i] ?? { lines: [], h: rowH, right: "", weight: 400, size: SIZE.body, rx: width2 };
+        const mid = ry + rowH / 2;
+        const state2 = r.state;
+        if (r.id) ctx.places.set(r.id, { x, y: ry, width: width2, height: h });
+        if (w.steps) {
+          const ring = r.selected || r.strong;
+          out.push(rect(x, ry, width2, h, { fill: RAISED, stroke: r.emphasis ? ctx.emphasis("place", `step ${r.text}`) : ring ? INK : STRONG, width: ring || r.emphasis ? 2 : 1, radius: 4, dashed: Boolean(state2) }));
+          if (i < w.rows.length - 1) joins.push(line(x + 18, mid + 9, x + 18, ry + h + gap + rowH / 2 - 9, INK, 1.5));
+          out.push(circle(x + 18, mid, 9, INK) + text(x + 18, mid + 4.5, String(i + 1), { size: SIZE.label, weight: 600, fill: CANVAS, anchor: "middle" }));
+        } else if (r.boxed && !r.selected && !state2 && !r.emphasis) out.push(rect(x, ry, width2, h, { fill: SUNKEN, radius: 4 }));
+        else if (r.emphasis || r.selected || state2 || w.rendered) {
+          out.push(
+            rect(x, ry, width2, h, {
+              fill: r.selected && !state2 ? INSET : w.rendered && !state2 ? RAISED : "none",
+              stroke: r.emphasis ? ctx.emphasis("place", `row ${r.text}`) : state2 === "degraded" ? WARN : state2 ? MUTED : r.selected ? INK : SUBTLE,
+              width: r.emphasis || r.selected ? 2 : state2 ? 1.5 : 1,
+              radius: 4,
+              dashed: Boolean(state2)
+            })
+          );
+        }
+        let lx = x + (w.steps ? 34 : 8) + (r.indent ?? 0) * INDENT;
+        if (w.handle) {
+          out.push(text(lx, mid + 5, "\u283F", { size: SIZE.label, fill: MUTED }));
+          lx += 14;
+        }
+        if (w.rendered) out.push(rect(lx, mid + rowH / 2 + 1 + (lines5.length - 1) * lead, (x + textEnd - lx) * 0.8, 4, { fill: state2 ? SUBTLE : STRONG, radius: 2 }));
+        let rx = x + width2 - 6;
+        if (r.marker) {
+          out.push(marker(rx - 11, mid, r.marker));
+          rx -= 30;
+        }
+        if (r.chip) {
+          rx -= chipsW(r.chip);
+          out.push(chipsAt(r.chip, rx, ry + (rowH - 20) / 2));
+          rx -= 8;
+        }
+        if (r.mark) {
+          out.push(rect(rx - 10, mid - 5, 10, 10, { fill: TONE[r.mark], radius: 2 }));
+          rx -= 18;
+        }
+        if (r.button) {
+          const bw = rowButtonW(r.button);
+          out.push(rect(rx - bw, mid - 9, bw, 18, { fill: RAISED, stroke: INK, width: 1.5, radius: 4 }) + text(rx - bw / 2, mid + 4.5, r.button, { size: SIZE.label, weight: 600, anchor: "middle" }));
+          rx -= bw + 8;
+        }
+        if (right) out.push(text(rx, mid + 5, right, { size: SIZE.label, fill: MUTED, anchor: "end" }));
+        const fill = r.head || r.muted || state2 ? MUTED : INK;
+        if (w.columns) {
+          const cells3 = r.text.split(/\s*\|\s*/);
+          const shares = w.columns;
+          const total = shares.reduce((a, b) => a + b, 0);
+          const room = x + textEnd - lx;
+          if (cells3.length !== shares.length) ctx.fail(`${what}: the row "${r.text}" has ${cells3.length} cells, and the list has ${shares.length} columns`);
+          let cx = lx;
+          cells3.forEach((c, j) => {
+            const cw = room * (shares[j] ?? 1) / total;
+            const shown = fit(plain(c.trim()), cw - 8, { size, weight: runsOf(c).some(isBold) ? 600 : weight }, `${what}, the row ${r.text}`);
+            if (shown) out.push(setLine(shown, 0, runsOf(c.trim()), cx, mid + 5, size, "sans", weight, fill));
+            cx += cw;
+          });
+        } else {
+          const runs = runsOf(r.text);
+          placeLines(plain(r.text), lines5).forEach(([l, start], j) => out.push(setLine(l, start, runs, lx, mid + 5 + j * lead, size, "sans", weight, fill)));
+        }
+        ry += h + gap;
+      });
+      out.push(...joins);
+      height = ry - gap - y;
+      break;
+    }
+    case "thumb": {
+      const ph = k(40, 34);
+      const label = w.text ? fit(w.text, width2, { size: SIZE.label, weight: w.selected ? 600 : 400 }, what) : "";
+      const empty = w.state && w.state !== "present";
+      if (w.show !== "person") out.push(rect(x, y, width2, ph, { fill: empty ? "none" : w.split || w.show === "page" || w.show === "lines" ? RAISED : SUNKEN, stroke: w.selected ? INK : empty ? MUTED : STRONG, width: w.selected ? 2 : empty ? 1.5 : 1, radius: 4, dashed: Boolean(empty) }));
+      const [ix, iy, iw, ih] = [x + 6, y + 6, width2 - 12, ph - 12];
+      if (w.split) {
+        const total = w.split.reduce((a, b) => a + b, 0);
+        let sx = ix;
+        for (const part of w.split) {
+          const sw = (iw - (w.split.length - 1) * 3) * part / total;
+          out.push(rect(sx, iy, sw, ih, { fill: SUNKEN, stroke: INK, width: 1.2, radius: 2 }));
+          sx += sw + 3;
+        }
+      } else if (!empty) {
+        const show = w.show ?? "picture";
+        if (show === "person") {
+          out.push(circle(x + width2 / 2, y + ph / 2, ph / 2 - 2, SUBTLE));
+        } else if (show === "picture" || show === "teaser") {
+          const pw = show === "teaser" ? iw * 0.4 : iw;
+          const [px, py] = show === "teaser" ? [ix, iy] : [x, y];
+          const [qw, qh] = show === "teaser" ? [pw, ih] : [width2, ph];
+          if (show === "teaser") out.push(rect(px, py, qw, qh, { fill: SUNKEN, radius: 2 }));
+          out.push(`<path d="M${fmt(px + 6)} ${fmt(py + qh - 6)} L${fmt(px + qw * 0.35)} ${fmt(py + qh * 0.45)} L${fmt(px + qw * 0.55)} ${fmt(py + qh * 0.7)} L${fmt(px + qw * 0.72)} ${fmt(py + qh * 0.5)} L${fmt(px + qw - 6)} ${fmt(py + qh - 6)}" fill="none" stroke="${MUTED}" stroke-width="1.2"></path>`);
+          if (show === "picture") out.push(circle(px + qw - 14, py + 11, 4, RAISED, STRONG));
+          if (show === "teaser") {
+            out.push(rect(ix + pw + 6, iy + 2, (iw - pw - 6) * 0.8, 5, { fill: INK, radius: 1 }));
+            out.push(rect(ix + pw + 6, iy + 11, (iw - pw - 6) * 0.6, 4, { fill: STRONG, radius: 1 }));
+            out.push(rect(ix + pw + 6, iy + ih - 7, (iw - pw - 6) * 0.4, 7, { fill: INK, radius: 1 }));
+          }
+        } else {
+          [0.85, 0.6, 0.75].slice(0, show === "page" ? 2 : 3).forEach((share, i) => out.push(rect(ix, iy + i * 7, iw * share, 4, { fill: STRONG, radius: 1 })));
+          if (show === "page") out.push(rect(ix + iw * 0.2, iy + ih - 9, iw * 0.6, 9, { stroke: INK, width: 1.2, radius: 2 }));
+        }
+      }
+      const centred = w.split || w.show === "person";
+      if (label) out.push(text(centred ? x + width2 / 2 : x, y + ph + 15, label, { size: SIZE.label, weight: w.selected ? 600 : 400, fill: empty ? MUTED : INK, anchor: centred ? "middle" : "start" }));
+      height = ph + (label ? 20 : 0);
+      break;
+    }
+    case "crop": {
+      height = k(96, 80);
+      out.push(rect(x, y, width2, height, { fill: SUNKEN, radius: 4 }));
+      const [fx, fy, fw, fh] = [x + width2 * 0.08, y + 10, width2 * 0.7, height - 20];
+      out.push(rect(fx, fy, fw, fh, { fill: RAISED, stroke: INK, width: 1.5 }));
+      for (const [hx, hy] of [[fx, fy], [fx + fw, fy], [fx, fy + fh], [fx + fw, fy + fh]]) out.push(rect(hx - 3.5, hy - 3.5, 7, 7, { fill: RAISED, stroke: INK, width: 1.2 }));
+      out.push(circle(fx + fw * 0.8, fy + fh * 0.3, 8, RAISED, INK));
+      break;
+    }
+    case "map": {
+      height = k(80, 64);
+      out.push(rect(x, y, width2, height, { fill: SUNKEN, radius: 4 }));
+      out.push(`<path d="M${fmt(x + 10)} ${fmt(y + height - 12)} L${fmt(x + width2 * 0.4)} ${fmt(y + 12)}" fill="none" stroke="${STRONG}" stroke-width="1.5"></path>`);
+      out.push(`<path d="M${fmt(x + width2 * 0.2)} ${fmt(y + height - 6)} L${fmt(x + width2 - 10)} ${fmt(y + height * 0.55)}" fill="none" stroke="${STRONG}" stroke-width="1.5"></path>`);
+      const [px, py] = [x + width2 * 0.5, y + height * 0.4];
+      out.push(circle(px, py, 6, INK));
+      if (w.text) out.push(text(px + 12, py + 4.5, fit(w.text, x + width2 - px - 18, { size: SIZE.label }, what), { size: SIZE.label, fill: SECONDARY }));
+      break;
+    }
+    case "toggle": {
+      const o = k(0, -1);
+      out.push(rect(x, y + 3 + o, 28, 14, { fill: w.on ? INK : RAISED, stroke: w.on ? INK : STRONG, radius: 6 }));
+      out.push(circle(w.on ? x + 21 : x + 7, y + 10 + o, 4.5, w.on ? CANVAS : STRONG));
+      out.push(text(x + 36, y + 14.5 + o, fit(w.text, width2 - 36, { size: SIZE.label }, what), { size: SIZE.label, fill: INK }));
+      height = 20 + 2 * o;
+      break;
+    }
+    case "drop": {
+      height = w.text ? 22 : k(14, 10);
+      const ly = y + height / 2;
+      out.push(line(x + 4, ly, x + width2 - 4, ly, INK, 2) + circle(x + 4, ly, 3.5, INK) + circle(x + width2 - 4, ly, 3.5, INK));
+      if (w.text) {
+        const tw = tagW(w.text);
+        out.push(rect(x + 12, y + 1, tw, 20, { fill: INK, radius: 4 }) + text(x + 12 + tw / 2, y + 15.5, fit(w.text, width2 - 24, { size: SIZE.label, weight: 600 }, what), { size: SIZE.label, weight: 600, fill: CANVAS, anchor: "middle" }));
+      }
+      break;
+    }
+    case "entry": {
+      const empty = w.state && w.state !== "present";
+      const tile = k(30, 26);
+      const tx = x + 8 + tile + 10;
+      const body = w.body ? wrap(plain(w.body), x + width2 - 8 - tx, { size: SIZE.label, weight: /\*\*/.test(w.body) ? 600 : 400 }, what) : [];
+      const lead = k(16, 15);
+      height = Math.max(tile + 12, k(26, 23) + body.length * lead + k(8, 6));
+      out.push(rect(x, y, width2, height, { fill: w.selected ? SUNKEN : empty ? "none" : RAISED, stroke: w.selected ? INK : empty ? MUTED : STRONG, width: w.selected ? 2 : empty ? 1.5 : 1, radius: 4, dashed: Boolean(empty) }));
+      out.push(rect(x + 8, y + 6, tile, tile, { fill: SUNKEN, stroke: STRONG, radius: 3 }));
+      if (w.sign) out.push(text(x + 8 + tile / 2, y + 6 + tile / 2 + 5.5, glyphChar(w.sign) ?? "", { size: 16, fill: empty ? MUTED : INK, anchor: "middle" }));
+      out.push(run(fit(w.text, x + width2 - 8 - tx, { size: SIZE.body, weight: 600 }, what), tx, y + k(19, 17), SIZE.body, "sans", 600, empty ? MUTED : INK));
+      const runs = runsOf(w.body ?? "");
+      placeLines(plain(w.body ?? ""), body).forEach(([l, start], i) => out.push(setLine(l, start, runs, tx, y + k(19, 17) + (i + 1) * lead, SIZE.label, "sans", 400, empty ? MUTED : SECONDARY)));
+      break;
+    }
+    case "span": {
+      const say = fit(w.text, width2, { size: SIZE.label }, what);
+      out.push(line(x, y + 6, x + width2, y + 6, MUTED, 1.2) + line(x, y + 1, x, y + 11, MUTED, 1.2) + line(x + width2, y + 1, x + width2, y + 11, MUTED, 1.2));
+      out.push(text(x + width2 / 2, y + 26, say, { size: SIZE.label, fill: SECONDARY, anchor: "middle" }));
+      height = 30;
+      break;
+    }
+    case "keyboard": {
+      const [rows, cols, gap] = [3, 7, 5];
+      const kh = k(22, 18);
+      const kw = (width2 - (cols - 1) * gap) / cols;
+      for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) out.push(rect(x + c * (kw + gap), y + r * (kh + gap), kw, kh, { fill: RAISED, stroke: SUBTLE, radius: 3 }));
+      height = rows * kh + (rows - 1) * gap;
+      break;
+    }
+    case "insert": {
+      height = k(24, 20);
+      const [cx, cy] = [x + width2 / 2, y + height / 2];
+      out.push(line(x, cy, cx - 12, cy, MUTED, 1.2, true) + line(cx + 12, cy, x + width2, cy, MUTED, 1.2, true));
+      out.push(circle(cx, cy, 8, w.strong ? INK : RAISED, INK));
+      out.push(line(cx - 4, cy, cx + 4, cy, w.strong ? CANVAS : INK, 1.6) + line(cx, cy - 4, cx, cy + 4, w.strong ? CANVAS : INK, 1.6));
+      break;
+    }
+    case "rule":
+      out.push(line(x, y + k(8, 5), x + width2, y + k(8, 5), SUBTLE));
+      return { svg: out.join(""), width: width2, height: k(16, 10) };
+  }
+  mark(height);
+  return { svg: out.join(""), width: width2, height };
+};
+
+// packages/frontend/src/lib/diagram/columns.ts
+var MARK = 10;
+var METRICS = {
+  page: { pad: 18, gap: 24, line: 19, eyebrow: 18, title: 22, sub: 18, body: 20, item: [14, 10, 8, 2], block: 10, rule: [18, 10], foot: 30, legend: [30, 28] },
+  slide: { pad: 12, gap: 16, line: 17, eyebrow: 16, title: 20, sub: 16, body: 18, item: [8, 6, 4, 0], block: 6, rule: [12, 6], foot: 22, legend: [22, 24] }
+};
+var CHAIN_GAP = 32;
+var VALUE_LINE = 44;
+var VALUE_SIZES = [SIZE.title, 32, 28, 24];
+var columns = (spec, space, ctx) => {
+  const n = spec.columns.length;
+  const M = ctx.pick(METRICS.page, METRICS.slide);
+  const { line: LINE2 } = M;
+  const PAD2 = spec.bare ? 0 : M.pad;
+  const key2 = spec.bare ? { size: SIZE.body, face: "sans", weight: 400 } : { size: SIZE.label, face: "mono", weight: 600 };
+  const [boxedPad, plainPad, boxedGap, plainGap] = M.item;
+  const gap = spec.chain ? CHAIN_GAP : M.gap;
+  const leasts = spec.columns.map(
+    (c) => Math.max(
+      narrowest(c.title ?? "", { size: SIZE.node, weight: 600 }) + 1,
+      narrowest(c.body ?? "", { size: SIZE.body }) + 1,
+      ...(c.items ?? []).map((i) => narrowest(i.text, { size: i.code ? SIZE.label : SIZE.body, face: i.code ? "mono" : "sans" }) + 1),
+      ...(c.widgets ?? []).map((wd) => (wd.w === "frame" && wd.over ? leastWidth(wd, ctx) / Math.min(1, wd.width ?? 0.7) : leastWidth(wd, ctx) + ("marker" in wd && wd.marker && !wd.corner && !(naturalWidth(wd) && wd.w !== "text") ? 18 : 0)) - 0.5)
+    ) + 2 * PAD2
+  );
+  const named2 = spec.rows ?? [];
+  const nameW = named2.length ? Math.max(...named2.map((r) => measure(r, SIZE.body))) + 16 : 0;
+  const even = (space.width - nameW - (n - 1) * gap) / n;
+  const ws = leasts.map(() => Math.max(even, ...leasts));
+  const xs = ws.map((_, i) => ws.slice(0, i).reduce((a, b) => a + b + gap, 0));
+  const across = ws.reduce((a, b) => a + b, 0) + (n - 1) * gap;
+  if (across > 2 * space.width) ctx.fail("the text asks for more than twice the room");
+  const lift = spec.columns.some((c) => c.badge) ? 10 : 0;
+  const room = { ...space, x: space.x + nameW, y: space.y + lift, width: across };
+  const laid = spec.columns.map((c, ci) => {
+    const inner = (ws[ci] ?? 0) - 2 * PAD2;
+    const what = `${ctx.name}: column ${c.title ?? c.eyebrow ?? ci + 1}`;
+    const blocks = [];
+    const eyebrow = c.eyebrow ? wrap(c.eyebrow.toUpperCase(), inner, { size: SIZE.label, face: "mono", weight: 600, spacing: 0.8 }, what) : [];
+    const aside = (c.id ? measure(c.id, SIZE.label, "mono", 600) + 12 : 0) + (c.place ? PLACE.width + 8 : 0);
+    const letterW = c.letter ? measure(c.letter, SIZE.lead, "sans", 600) + 8 : 0;
+    const title = c.title ? wrap(c.title, inner - aside - letterW, { size: SIZE.node, weight: 600 }, what) : [];
+    const subSetting = { size: SIZE.label, face: "mono" };
+    const beside = c.sub ? wrap(c.sub, inner - (c.place ? PLACE.width + 8 : 0), subSetting, what) : [];
+    const wide = c.sub && c.place && beside.length > 1 ? wrap(c.sub, inner, subSetting, what) : beside;
+    const sub = wide.length < beside.length ? wide : beside;
+    const drop = sub === beside ? 0 : Math.max(0, PLACE.height - 3 - title.length * M.title);
+    const body = c.body ? wrap(c.body, inner, { size: SIZE.body }, what) : [];
+    const valueSize = c.value ? VALUE_SIZES.find((size) => measure(c.value ?? "", size, "sans", 600) <= inner - aside) ?? SIZE.lead : SIZE.title;
+    const value = c.value ? fit(c.value, inner - aside, { size: valueSize, weight: 600 }, what) : "";
+    const follows = Boolean(c.items?.length || c.terminal?.length || c.note);
+    const ruled2 = title.length + body.length > 0 && !c.widgets?.length && follows;
+    const headH2 = Math.max(c.place ? PLACE.height + 8 : 0, eyebrow.length * M.eyebrow + (value ? VALUE_LINE : 0) + title.length * M.title + drop + sub.length * M.sub + (body.length ? 4 + body.length * M.body : 0));
+    const items = c.items ?? [];
+    const idW = Math.max(0, ...items.map((i) => i.id ? measure(i.id, key2.size, key2.face, key2.weight) + (spec.bare ? 20 : 10) : 0));
+    for (const item of items) {
+      const boxed = Boolean(item.boxed || item.emphasis || item.strong || (item.state ?? "present") !== "present");
+      const lead = (item.sign ? 30 : 0) + (item.mark ? MARK + 10 : 0) + (item.id ? idW : 0) + (boxed ? 10 : 0);
+      const trail = item.marks?.length ? item.marks.length * (MARK + 4) + 10 : 0;
+      const face = item.code ? "mono" : "sans";
+      const size = item.code ? SIZE.label : SIZE.body;
+      const lines5 = named2.length ? [""] : wrap(item.text, inner - lead - trail - (boxed ? 10 : 0), { size, face }, `${what}, item ${item.id ?? item.text}`);
+      const height = lines5.length * LINE2 + (boxed ? boxedPad : plainPad);
+      blocks.push({
+        height: height + (boxed ? boxedGap : plainGap),
+        draw: (x, y) => {
+          const out2 = [];
+          const state2 = item.state ?? "present";
+          const colour = item.emphasis ? ctx.emphasis("item", `item ${item.id ?? item.text}`) : state2 === "degraded" ? WARN : MUTED;
+          if (boxed) {
+            out2.push(
+              rect(x, y, inner, height, {
+                fill: item.emphasis && item.fill ? colour : item.boxed && state2 === "present" ? RAISED : "none",
+                stroke: item.emphasis || state2 !== "present" ? colour : item.strong ? INK : SUBTLE,
+                width: item.emphasis || item.strong ? 2 : state2 === "present" ? 1 : 1.5,
+                radius: 4,
+                dashed: state2 !== "present"
+              })
+            );
+          }
+          let tx = x + (boxed ? 10 : 0);
+          const cy = y + height / 2;
+          if (item.sign) {
+            out2.push(sign(item.sign, named2.length ? x + inner / 2 : tx + 10, cy));
+            tx += 30;
+          }
+          if (item.mark) {
+            out2.push(rect(tx, cy - MARK / 2, MARK, MARK, { fill: TONE[item.mark], radius: 2 }));
+            tx += MARK + 10;
+          }
+          if (item.id) {
+            out2.push(text(tx, y + (boxed ? boxedPad : plainPad) / 2 + 14, item.id, { ...key2, fill: item.emphasis && item.fill ? CANVAS : spec.bare ? MUTED : SECONDARY }));
+            tx += idW;
+          }
+          lines5.forEach(
+            (l, j) => out2.push(text(tx, y + (boxed ? boxedPad : plainPad) / 2 + 14 + j * LINE2, l, { size, face, fill: item.emphasis && item.fill ? CANVAS : state2 === "absent" ? MUTED : INK }))
+          );
+          (item.marks ?? []).forEach((m, j, all) => {
+            const mx = x + inner - (boxed ? 10 : 0) - (all.length - j) * (MARK + 4) + 4;
+            out2.push(rect(mx, cy - MARK / 2, MARK, MARK, { fill: TONE[m], radius: 2 }));
+          });
+          return out2;
+        }
+      });
+    }
+    if (c.terminal?.length) {
+      const lines5 = c.terminal.map((l) => fit(l, inner - 24, { size: SIZE.label, face: "mono" }, `${what}, the terminal`));
+      const edge = ctx.pick(10, 6);
+      const height = lines5.length * LINE2 + 2 * edge;
+      blocks.push({
+        height: height + M.block + 2,
+        draw: (x, y) => [
+          rect(x, y, inner, height, { fill: INK, radius: 4 }),
+          ...lines5.map((l, j) => text(x + 12, y + edge + 14 + j * LINE2, l, { size: SIZE.label, face: "mono", fill: CANVAS }))
+        ]
+      });
+    }
+    const widgets = c.widgets ?? [];
+    const overAt = widgets.findIndex((wd) => wd.w === "frame" && wd.over);
+    let afterRule = false;
+    for (const wd of overAt < 0 ? widgets : widgets.slice(0, overAt)) {
+      afterRule ||= wd.w === "rule";
+      const marked = "marker" in wd && wd.marker && !wd.corner ? 18 : 0;
+      const ww = naturalWidth(wd) && wd.w !== "text" ? Math.min(naturalWidth(wd), inner) : inner - marked;
+      const probe = widget(wd, 0, 0, ww, ctx, `${what}, a ${wd.w}`);
+      blocks.push({ height: probe.height + M.block, draw: (x, y) => [widget(wd, x, y, ww, ctx, `${what}, a ${wd.w}`).svg], foot: afterRule });
+    }
+    if (overAt >= 0) {
+      const rest = widgets.slice(overAt);
+      const probe = stack(rest, 0, 0, inner, ctx, what, M.block);
+      blocks.push({ height: probe.height + M.block, draw: (x, y) => [stack(rest, x, y, inner, ctx, what, M.block).svg] });
+    }
+    if (c.note) {
+      const lines5 = wrap(c.note, inner, { size: SIZE.label }, `${what}, the note`);
+      blocks.push({
+        height: lines5.length * M.sub + M.block - 2,
+        draw: (x, y) => lines5.map((l, j) => text(x, y + 13 + j * M.sub, l, { size: SIZE.label, fill: SECONDARY }))
+      });
+    }
+    const foot = c.foot ? fit(c.foot, inner, { size: SIZE.label, face: "mono" }, `${what}, the foot`) : "";
+    const blocksH2 = blocks.reduce((sum2, b) => sum2 + b.height, 0);
+    const footBlocksH = blocks.reduce((sum2, b) => sum2 + (b.foot ? b.height : 0), 0);
+    return { c, eyebrow, value, valueSize, title, sub, drop, body, ruled: ruled2, headH: headH2, blocks, blocksH: blocksH2, footBlocksH, foot };
+  });
+  const headH = Math.max(...laid.map((l) => l.headH));
+  const ruled = laid.some((l) => l.ruled);
+  const top = PAD2 + (headH > 0 ? headH + (ruled ? M.rule[0] ?? 0 : M.rule[1] ?? 0) : 0);
+  const footH = laid.some((l) => l.foot) ? M.foot : 0;
+  const footed = !spec.rise && !named2.length && laid.some((l) => l.footBlocksH > 0);
+  const blocksH = footed ? Math.max(...laid.map((l) => l.blocksH - l.footBlocksH)) + Math.max(...laid.map((l) => l.footBlocksH)) : Math.max(...laid.map((l) => l.blocksH));
+  const h = top + blocksH + footH + PAD2 - 8;
+  const footTop = Math.max(...laid.map((l) => l.blocksH - l.footBlocksH));
+  const rise = spec.rise ? ctx.pick(20, 16) : 0;
+  const out = [];
+  laid.forEach((l, i) => {
+    const x = room.x + (xs[i] ?? 0);
+    const w = ws[i] ?? 0;
+    const y0 = room.y + rise * (n - 1 - i);
+    const hh = h + rise * i;
+    if (spec.chain && i > 0) out.push(connector([[x - gap + 4, y0 + h / 2], [x - 2, y0 + h / 2]]));
+    const state2 = l.c.state ?? "present";
+    const stroke = l.c.emphasis ? ctx.emphasis("column", `column ${l.c.title ?? l.c.eyebrow ?? i + 1}`) : state2 === "degraded" ? WARN : state2 === "absent" ? MUTED : l.c.strong ? INK : SUBTLE;
+    if (!spec.bare) out.push(
+      rect(x, y0, w, hh, {
+        fill: state2 === "present" ? RAISED : "none",
+        stroke,
+        width: l.c.emphasis || l.c.strong ? 2 : state2 === "present" ? 1 : 1.5,
+        radius: 6,
+        dashed: state2 !== "present"
+      })
+    );
+    let y = y0 + PAD2;
+    for (const t of l.eyebrow) {
+      out.push(text(x + PAD2, y + 13, t, { size: SIZE.label, face: "mono", weight: 600, spacing: 0.8, fill: l.c.emphasis && (spec.chain || spec.rise) ? stroke : MUTED }));
+      y += M.eyebrow;
+    }
+    if (l.value) {
+      out.push(text(x + PAD2, y + 36, l.value, { size: l.valueSize, weight: 600, spacing: -0.5 }));
+      y += VALUE_LINE;
+    }
+    if (l.c.badge) {
+      const label = fit(l.c.badge, w - 2 * PAD2 - 14, { size: SIZE.label, weight: 600 }, `${ctx.name}: the badge of column ${l.c.title ?? i + 1}`);
+      out.push(badge(label, x + w - PAD2 + 8 - badgeW(label), y0 - 10));
+    }
+    if (l.c.id) out.push(text(x + w - PAD2 - (l.c.place ? PLACE.width + 8 : 0), y + 17, l.c.id, { size: SIZE.label, face: "mono", weight: 600, fill: MUTED, anchor: "end" }));
+    if (l.c.place) out.push(placeSign(l.c.place, x + w - PAD2 - PLACE.width, y));
+    const letterW = l.c.letter ? measure(l.c.letter, SIZE.lead, "sans", 600) + 8 : 0;
+    if (l.c.letter) out.push(text(x + PAD2, y + 18, l.c.letter, { size: SIZE.lead, weight: 600, fill: ACCENT }));
+    const [hx, anchor] = spec.centred ? [x + w / 2, "middle"] : [x + PAD2, "start"];
+    for (const t of l.title) {
+      out.push(text(spec.centred ? hx : hx + letterW, y + 17, t, { size: SIZE.node, weight: 600, anchor }));
+      y += M.title;
+    }
+    y += l.drop;
+    for (const t of l.sub) {
+      out.push(text(x + PAD2, y + 14, t, { size: SIZE.label, face: "mono", fill: SECONDARY }));
+      y += M.sub;
+    }
+    if (l.body.length) y += 4;
+    for (const t of l.body) {
+      out.push(text(hx, y + 15, t, { size: SIZE.body, fill: SECONDARY, anchor }));
+      y += M.body;
+    }
+    if (ruled && !spec.centred) out.push(line(x + PAD2, y0 + PAD2 + headH + (M.rule[0] ?? 0) / 2 + 1, x + w - PAD2, y0 + PAD2 + headH + (M.rule[0] ?? 0) / 2 + 1, SUBTLE));
+    y = spec.rise || named2.length ? y0 + hh - PAD2 + 8 - footH - l.blocksH : y0 + top;
+    for (const b of l.blocks) {
+      if (footed && b.foot && !l.blocks[l.blocks.indexOf(b) - 1]?.foot) y = Math.max(y, y0 + top + footTop);
+      out.push(...b.draw(x + PAD2, y));
+      y += b.height;
+    }
+    if (l.foot) out.push(text(x + PAD2, y0 + hh - PAD2 - 2, l.foot, { size: SIZE.label, face: "mono", fill: MUTED }));
+  });
+  for (const j of spec.columns.flatMap((c) => c.joins ?? [])) {
+    const [a, b] = [ctx.places.get(j.from), ctx.places.get(j.to)];
+    if (!a || !b) ctx.fail(`a join names ${a ? j.to : j.from}, and no control has that id`);
+    const [top2, foot] = [Math.max(a.y, b.y), Math.min(a.y + a.height, b.y + b.height)];
+    if (!j.right && top2 < foot && (b.x >= a.x + a.width || a.x >= b.x + b.width)) {
+      const yy = (top2 + foot) / 2;
+      const [ax2, bx2] = b.x >= a.x + a.width ? [a.x + a.width, b.x] : [a.x, b.x + b.width];
+      const stroke2 = j.dashed ? MUTED : INK;
+      out.push(j.arrow ? connector([[ax2, yy], [bx2, yy]], stroke2, 1.5, j.dashed) : line(ax2, yy, bx2, yy, stroke2, 1.5, j.dashed));
+      continue;
+    }
+    const down = b.y >= a.y + a.height / 2;
+    const [from, to] = [Math.max(a.x, b.x), Math.min(a.x + a.width, b.x + b.width)];
+    const ax = j.right ? to - 14 : from < to ? (from + to) / 2 : a.x + a.width / 2;
+    const bx = j.right || from < to ? ax : b.x + b.width / 2;
+    const [ay, by] = down ? [a.y + a.height, b.y] : [a.y, b.y + b.height];
+    const stroke = j.dashed ? MUTED : INK;
+    out.push(j.arrow ? connector([[ax, ay], [bx, by]], stroke, 1.5, j.dashed) : line(ax, ay, bx, by, stroke, 1.5, j.dashed));
+  }
+  const last = laid.at(-1);
+  if (named2.length && last) {
+    let ny = room.y + h + rise * (n - 1) - PAD2 + 8 - footH - last.blocksH;
+    last.blocks.forEach((b, j) => {
+      const name = named2[j];
+      if (name) out.push(text(space.x, ny + (b.height - plainGap) / 2 + 5, name, { size: SIZE.body, fill: SECONDARY }));
+      ny += b.height;
+    });
+  }
+  let bottom = room.y + h + rise * (n - 1);
+  if (spec.legend?.length && ctx.legend) {
+    bottom += M.legend[0] ?? 0;
+    let x = space.x;
+    for (const entry of spec.legend) {
+      const lead = entry.chip ? measure(entry.chip, SIZE.label, "mono", 600) + 14 : entry.badge ? badgeW(entry.badge) : entry.pill ? badgeW(entry.pill) + 2 : entry.sign ? PLACES.has(entry.sign) ? PLACE.width * 0.75 : 22 : 0;
+      if (x > space.x && x + lead + 10 + measure(entry.label, SIZE.body) > room.x + room.width) {
+        x = space.x;
+        bottom += M.legend[1] ?? 0;
+      }
+      let lw = 0;
+      if (entry.chip) {
+        const cw = measure(entry.chip, SIZE.label, "mono", 600) + 14;
+        out.push(rect(x, bottom - 15, cw, 20, { fill: SUNKEN, stroke: STRONG, radius: 4 }) + text(x + 7, bottom, entry.chip, { size: SIZE.label, face: "mono", weight: 600 }));
+        lw = cw;
+      } else if (entry.badge || entry.pill) {
+        const label = entry.badge ?? entry.pill ?? "";
+        out.push(entry.badge ? badge(label, x, bottom - 15) : rect(x, bottom - 15, badgeW(label) + 2, 20, { fill: RAISED, stroke: INK, width: 1.2, radius: 6 }) + text(x + badgeW(label) / 2 + 1, bottom, label, { size: SIZE.label, weight: 600, anchor: "middle" }));
+        lw = badgeW(label) + (entry.pill ? 2 : 0);
+      } else if (entry.sign && PLACES.has(entry.sign)) {
+        out.push(`<g transform="translate(${x} ${bottom - 18}) scale(0.75)">${placeSign(entry.sign, 0, 0)}</g>`);
+        lw = PLACE.width * 0.75;
+      } else if (entry.sign) {
+        out.push(sign(entry.sign, x + 11, bottom - 5));
+        lw = 22;
+      }
+      out.push(text(x + lw + 10, bottom, entry.label, { size: SIZE.body, fill: SECONDARY }));
+      x += lw + 10 + measure(entry.label, SIZE.body) + 32;
+    }
+    bottom += 6;
+  }
+  const took = room.width + nameW;
+  return took > space.width + 0.5 ? { svg: out.join("\n"), height: bottom - space.y, width: Math.ceil(took) } : { svg: out.join("\n"), height: bottom - space.y };
+};
+var PLACES = /* @__PURE__ */ new Set(["page", "panel", "both", "form", "bar", "nav", "docheader", "any"]);
+var badgeW = (s) => measure(s, SIZE.label, "sans", 600) + 14;
+var badge = (s, x, y) => rect(x, y, badgeW(s), 20, { fill: INK, radius: 4 }) + text(x + badgeW(s) / 2, y + 14.5, s, { size: SIZE.label, weight: 600, fill: CANVAS, anchor: "middle" });
+
+// packages/frontend/src/lib/diagram/context.ts
+var Context = class {
+  constructor(name, claim = "accent", dense = false) {
+    /** The share of its stated height a screen of a sketch takes. A slide
+        lowers it where the drawing is too tall for the room. */
+    this.squeeze = 1;
+    this.spent = "";
+    this.kind = "";
+    /** A part of a composed drawing whose legend a later part repeats draws none. */
+    this.legend = true;
+    /** The box of each control with an id, where the drawing last set it: the ends of a join. */
+    this.places = /* @__PURE__ */ new Map();
+    this.name = name;
+    this.claim = CLAIM[claim];
+    this.dense = dense;
+  }
+  /** The page's metric, or the slide's where the drawing is dense. */
+  pick(page, slide) {
+    return this.dense ? slide : page;
+  }
+  /** The claim colour, for the one part the drawing is about, or for
+      peers of one kind that make the same claim. A part of another kind
+      that asks for it is an error, because two claims are two drawings. */
+  emphasis(kind, what) {
+    if (this.spent && this.kind !== kind) throw new Error(`${this.name}: ${what} is a second emphasis after ${this.spent} \u2014 one claim: one part, or peers of one kind`);
+    if (!this.spent) [this.spent, this.kind] = [what, kind];
+    return this.claim;
+  }
+  /** One way to draw. A refusal takes back the claim it spent, so the next
+      way starts where this one did. */
+  attempt(way) {
+    const [spent, kind] = [this.spent, this.kind];
+    try {
+      return way();
+    } catch (error) {
+      [this.spent, this.kind] = [spent, kind];
+      throw error;
+    }
+  }
+  fail(message) {
+    throw new Error(`${this.name}: ${message}`);
+  }
+};
+
+// packages/frontend/src/lib/diagram/card.ts
+var PAD_X = 16;
+var padX = (spec) => spec.plain ? 0 : PAD_X;
+var titleSetting = (spec) => ({ size: spec.plain ? SIZE.body : SIZE.node, weight: spec.plain ? 400 : 600, face: spec.code ? "mono" : "sans" });
+var LINES = { page: { pad: 14, title: 22, body: 20 }, slide: { pad: 9, title: 20, body: 18 } };
+var MARK_LINE = 20;
+var RISE = 3;
+var SPLIT = 12;
+var GLYPH2 = 20;
+var ITEM = { gap: 6, across: 24, lead: 10 };
+var signed = (s) => /^[\ue000-\ue0ff] /.test(s);
+var itemSetting = (item) => ({ size: SIZE.body, weight: item.body ? 600 : 400 });
+var measureCard = (spec, width2, what, dense = false) => {
+  const lines5 = dense ? LINES.slide : LINES.page;
+  const inner = width2 - 2 * padX(spec);
+  const glyph2 = spec.shape && spec.shape !== "node" ? GLYPH2 : 0;
+  const value = spec.value ? measure(spec.value, SIZE.body) + 12 : 0;
+  if (value > inner / 2) throw new Error(`${what}: the value "${spec.value}" takes more than half the card`);
+  const tag = spec.tag ? measure(spec.tag, SIZE.label, "mono", 600) + 8 : 0;
+  const title = spec.title ? wrap(spec.title, inner - glyph2 - value - tag, titleSetting(spec), what) : [];
+  const body = spec.body ? wrap(spec.body, inner, { size: SIZE.body }, what) : [];
+  const across = Math.max(1, spec.across ?? 1);
+  const itemWidth = (inner - (across - 1) * ITEM.across) / across;
+  const entries = (spec.items ?? []).map((item) => {
+    const value2 = item.value ? measure(item.value, SIZE.body) + 12 : 0;
+    const hang = signed(item.title) ? SIZE.body + measure(" ", SIZE.body) : 0;
+    const words = wrap(hang ? item.title.slice(2) : item.title, itemWidth - value2 - hang, itemSetting(item), what);
+    const title2 = hang ? words.map((l, i) => i ? l : `${item.title.slice(0, 2)}${l}`) : words;
+    return { item, hang, title: title2, body: item.body ? wrap(item.body, itemWidth, { size: SIZE.body }, what) : [] };
+  });
+  const per = Math.ceil(entries.length / across);
+  const items = Array.from({ length: entries.length ? across : 0 }, (_, c) => entries.slice(c * per, (c + 1) * per));
+  const list = Math.max(0, ...items.map((col) => col.reduce((a, e) => a + (e.title.length + e.body.length) * lines5.body, 0) + (col.length - 1) * ITEM.gap));
+  const above = title.length || body.length ? ITEM.lead : 0;
+  const height = lines5.pad * 2 + (spec.mark ? MARK_LINE : 0) + (spec.eyebrow ? MARK_LINE : 0) + title.length * lines5.title + body.length * lines5.body - 6 + (spec.plain && body.length ? SPLIT : 0) + (list ? above + list : 0);
+  return { spec, width: width2, height, title, body, items, itemWidth, lines: lines5 };
+};
+var leastCard = (spec) => {
+  const glyph2 = spec.shape && spec.shape !== "node" ? GLYPH2 : 0;
+  const value = spec.value ? measure(spec.value, SIZE.body) + 12 : 0;
+  const tag = spec.tag ? measure(spec.tag, SIZE.label, "mono", 600) + 8 : 0;
+  const title = narrowest(spec.title, titleSetting(spec)) + glyph2 + value + tag;
+  const across = Math.max(1, spec.across ?? 1);
+  const item = Math.max(0, ...(spec.items ?? []).map((i) => Math.max(narrowest(i.title, itemSetting(i)) + (i.value ? measure(i.value, SIZE.body) + 12 : 0), narrowest(i.body ?? "", { size: SIZE.body }))));
+  return 2 * padX(spec) + Math.max(title, narrowest(spec.body ?? "", { size: SIZE.body }), 2 * value, across * item + (across - 1) * ITEM.across);
+};
+var drawCard = (m, x, y, height, ctx, what) => {
+  const { spec } = m;
+  const state2 = spec.state ?? "present";
+  const changed = spec.mark === "changed" && state2 === "present" && !spec.ink;
+  const stroke = spec.emphasis ? ctx.emphasis("node", what) : state2 === "degraded" || changed ? WARN : state2 === "absent" || spec.dashed ? MUTED : spec.strong ? INK : SUBTLE;
+  const filled = spec.emphasis && spec.fill;
+  const out = [
+    spec.plain ? "" : rect(x, y, m.width, height, {
+      fill: filled ? stroke : spec.ink ? INK : state2 === "present" ? RAISED : "none",
+      stroke: spec.ink && !spec.emphasis ? void 0 : stroke,
+      width: spec.emphasis || spec.strong ? 2 : changed || state2 !== "present" || spec.dashed ? 1.5 : 1,
+      radius: 6,
+      dashed: state2 !== "present" || Boolean(spec.dashed)
+    })
+  ];
+  const quiet = state2 === "absent";
+  const [ink, soft] = spec.ink || filled ? [CANVAS, CANVAS] : [quiet ? MUTED : INK, quiet ? MUTED : SECONDARY];
+  let ty = y + (height - m.height) / 2 + m.lines.pad - RISE;
+  if (spec.mark) {
+    const label = spec.mark === "new" ? "NEW" : "CHANGED";
+    out.push(text(x + PAD_X, ty + 12, label, { size: SIZE.label, face: "mono", weight: 600, spacing: 1.2, fill: spec.mark === "new" ? INK : WARN }));
+    ty += MARK_LINE;
+  }
+  if (spec.eyebrow) {
+    out.push(text(x + padX(spec), ty + 12, spec.eyebrow.toUpperCase(), { size: SIZE.label, face: "mono", weight: 600, spacing: 0.8, fill: quiet ? MUTED : soft }));
+    ty += MARK_LINE;
+  }
+  const glyph2 = spec.shape && spec.shape !== "node" ? GLYPH2 : 0;
+  if (glyph2) out.push(shapeSign(spec.shape, x + PAD_X, ty + 11, ink));
+  const tag = spec.tag ? measure(spec.tag, SIZE.label, "mono", 600) + 8 : 0;
+  if (spec.tag) out.push(text(x + padX(spec) + glyph2, ty + 16, spec.tag, { size: SIZE.label, face: "mono", weight: 600, fill: quiet ? MUTED : soft }));
+  m.title.forEach((l, i) => {
+    out.push(
+      text(x + padX(spec) + glyph2 + tag, ty + 16 + i * m.lines.title, l, { ...titleSetting(spec), fill: ink })
+    );
+  });
+  if (spec.value) {
+    out.push(text(x + m.width - PAD_X, ty + 16, spec.value, { size: SIZE.body, fill: soft, anchor: "end" }));
+  }
+  ty += m.title.length * m.lines.title + (spec.plain && m.body.length ? SPLIT : 0);
+  m.body.forEach((l, i) => {
+    out.push(text(x + padX(spec), ty + 14 + i * m.lines.body, l, { size: SIZE.body, fill: soft }));
+  });
+  ty += m.body.length * m.lines.body + (m.title.length || m.body.length ? ITEM.lead : 0);
+  m.items.forEach((col, c) => {
+    const ix = x + padX(spec) + c * (m.itemWidth + ITEM.across);
+    let iy = ty;
+    for (const e of col) {
+      e.title.forEach((l, i) => out.push(text(ix + (i ? e.hang : 0), iy + 14 + i * m.lines.body, l, { ...itemSetting(e.item), fill: ink })));
+      if (e.item.value) out.push(text(ix + m.itemWidth, iy + 14, e.item.value, { size: SIZE.body, fill: soft, anchor: "end" }));
+      iy += e.title.length * m.lines.body;
+      e.body.forEach((l, i) => out.push(text(ix, iy + 14 + i * m.lines.body, l, { size: SIZE.body, fill: soft })));
+      iy += e.body.length * m.lines.body + ITEM.gap;
+    }
+  });
+  return out.join("\n");
+};
+
+// packages/frontend/src/lib/diagram/flow.ts
+var PAGE_GROUP = { pad: 16, head: 30, note: 30 };
+var PLAIN_CLEAR = 10;
+var folds = (spec, width2) => {
+  const nodes = [...spec.nodes].sort((a, b) => a.at[0] - b.at[0]);
+  const place3 = (id) => nodes.findIndex((n) => n.id === id);
+  const chain = nodes.length >= 3 && !spec.groups?.length && !spec.rows?.length && nodes.every((n, i) => n.at[1] === 0 && (n.span ?? 1) === 1 && (n.rows ?? 1) === 1 && n.at[0] === i) && (spec.edges ?? []).every((e) => place3(e.from) >= 0 && place3(e.to) === place3(e.from) + 1);
+  if (!chain) return [spec];
+  const gap = spec.gap?.[0] ?? 64;
+  const out = [];
+  for (let rows = 1; rows <= 3; rows++) {
+    const across = Math.ceil(nodes.length / rows);
+    if (rows > 1 && across === Math.ceil(nodes.length / (rows - 1))) continue;
+    const w = rows === 1 ? 0 : (width2 - (across - 1) * gap) / across;
+    let lines5 = 0;
+    let tidy2 = true;
+    try {
+      for (const n of nodes) {
+        const m = measureCard(n, rows === 1 ? (width2 - (nodes.length - 1) * gap) / nodes.length : w, "a fold");
+        lines5 += m.title.length + m.body.length;
+        if (m.title.length > 2 || m.body.length > 3) tidy2 = false;
+      }
+    } catch {
+      continue;
+    }
+    const turns = (e) => place3(e.to) % across === 0;
+    const folded = rows === 1 ? spec : {
+      ...spec,
+      columns: Array(across).fill(1),
+      nodes: nodes.map((n) => ({ ...n, at: [n.at[0] % across, Math.floor(n.at[0] / across)] })),
+      edges: (spec.edges ?? []).map((e) => turns(e) ? { ...e, via: "v" } : e)
+    };
+    out.push({ spec: folded, lines: lines5, tidy: tidy2 });
+  }
+  const tidy = out.filter((o) => o.tidy);
+  const rest = out.filter((o) => !o.tidy).sort((a, b) => a.lines - b.lines);
+  return out.length ? [...tidy, ...rest].map((o) => o.spec) : [spec];
+};
+var flow = (spec, space, ctx) => {
+  try {
+    return ctx.attempt(() => place2(spec, space, ctx, false));
+  } catch (first) {
+    try {
+      return ctx.attempt(() => place2(spec, space, ctx, true));
+    } catch {
+      throw first;
+    }
+  }
+};
+var place2 = (spec, space, ctx, grow) => {
+  const [stated, gapY] = spec.gap ?? [64, ctx.pick(48, 32)];
+  const [GROUP_PAD, GROUP_HEAD, NOTE] = ctx.pick([PAGE_GROUP.pad, PAGE_GROUP.head, PAGE_GROUP.note], [12, 24, 22]);
+  const groups = spec.groups ?? [];
+  const keyOf2 = (g) => g.id ?? `group:${g.label}`;
+  const inside = (g) => groups.filter((c) => c.within === keyOf2(g));
+  const depth = (g) => 1 + Math.max(0, ...inside(g).map(depth));
+  for (const g of groups) if (g.within && !groups.some((o) => keyOf2(o) === g.within)) ctx.fail(`boundary ${g.label} stands inside ${g.within}, and there is no such boundary`);
+  const inset = groups.length ? GROUP_PAD * Math.max(...groups.map(depth)) : 0;
+  const labels = (spec.rows ?? []).map((r) => r.label ?? "");
+  const labelW = labels.some(Boolean) ? Math.max(...labels.map((l) => measure(l, SIZE.body, "sans", 600))) + 32 : 0;
+  const where = new Map(spec.nodes.map((n) => [n.id, n]));
+  const reach = (g) => [...g.nodes.flatMap((id) => {
+    const n = where.get(id);
+    return n ? [n.at[0], n.at[0] + (n.span ?? 1) - 1] : [];
+  }), ...inside(g).flatMap(reach)];
+  const parted = groups.some((g) => {
+    const cols = reach(g);
+    return cols.length > 0 && (Math.min(...cols) > 0 || Math.max(...cols) < spec.columns.length - 1);
+  });
+  if (parted && stated < 2 * GROUP_PAD + 8) ctx.fail(`a gap of ${stated} between columns leaves no room for a boundary`);
+  const column = new Map(spec.nodes.map((n) => [n.id, n.at[0]]));
+  const crossed = (spec.edges ?? []).filter((e) => e.label && column.get(e.from) !== column.get(e.to));
+  const gapX = !grow ? stated : Math.max(stated, ...crossed.map((e) => measure(e.label ?? "", SIZE.label, "mono") + 8 + (groups.length ? 2 * GROUP_PAD + 16 : 0)));
+  const total = spec.columns.reduce((a, b) => a + b, 0);
+  const between = (spec.columns.length - 1) * gapX;
+  const given = space.width - labelW - 2 * inset - between;
+  let widths = spec.columns.map((w) => given * w / total);
+  if (grow) {
+    const need = spec.columns.map((_, c) => Math.max(spec.letters?.[c] ? measure(spec.heads?.[c] ?? "", SIZE.node, "sans", 600) + measure(spec.letters[c] ?? "", SIZE.node, "sans", 600) + 8 : measure((spec.heads?.[c] ?? "").toUpperCase(), SIZE.label, "mono", 600, 0.8), ...spec.nodes.filter((n) => n.at[0] === c && (n.span ?? 1) === 1).map(leastCard)));
+    for (const g of groups) {
+      const cs = g.nodes.flatMap((id) => spec.nodes.filter((n) => n.id === id).map((n) => n.at[0]));
+      const [first, last] = [Math.min(...cs), Math.max(...cs)];
+      const weight = spec.columns.slice(first, last + 1).reduce((a, b) => a + b, 0);
+      const head = measure(g.label, SIZE.label, "mono") - (last - first) * gapX;
+      for (let c = first; c <= last; c++) need[c] = Math.max(need[c] ?? 0, head * (spec.columns[c] ?? 0) / weight);
+    }
+    const at = (k) => widths.map((w, c) => Math.max(need[c] ?? 0, w * k));
+    let [low, high] = [0, 1];
+    for (let i = 0; i < 30; i++) {
+      const k = (low + high) / 2;
+      if (at(k).reduce((a, w) => a + w, 0) > given) high = k;
+      else low = k;
+    }
+    widths = at(low);
+    const across = (first, last, need2) => {
+      const has = widths.slice(first, last + 1).reduce((a, w) => a + w, 0) + (last - first) * gapX;
+      if (has >= need2) return;
+      for (let c = first; c <= last; c++) widths[c] = (widths[c] ?? 0) * (1 + (need2 - has) / (has - (last - first) * gapX));
+    };
+    for (const n of spec.nodes) {
+      if ((n.span ?? 1) > 1) across(n.at[0], n.at[0] + (n.span ?? 1) - 1, leastCard(n));
+    }
+    for (const g of groups) {
+      const cs = g.nodes.flatMap((id) => spec.nodes.filter((n) => n.id === id).map((n) => n.at[0]));
+      across(Math.min(...cs), Math.max(...cs), measure(g.label, SIZE.label, "mono"));
+    }
+  }
+  const free = widths.reduce((a, w) => a + w, 0);
+  if (free + between > 2 * (given + between)) ctx.fail("the text asks for more than twice the room");
+  const room = { x: space.x + labelW + inset, y: space.y, width: free + between };
+  const colX = [];
+  const colW = [];
+  let cx = room.x;
+  for (const width2 of widths) {
+    colX.push(cx);
+    colW.push(width2);
+    cx += width2 + gapX;
+  }
+  const columnEdge = (c) => {
+    const x = colX[c];
+    const w = colW[c];
+    if (x === void 0 || w === void 0) return ctx.fail(`column ${c} is outside the ${spec.columns.length} the drawing has`);
+    return x + w;
+  };
+  const measured = spec.nodes.map((n) => {
+    const [c, r] = n.at;
+    const x = colX[c] ?? ctx.fail(`node ${n.id} stands in column ${c}, outside the grid`);
+    const w = columnEdge(c + (n.span ?? 1) - 1) - x;
+    return { n, x, r, m: measureCard(n, w, `${ctx.name}: node ${n.id}`, ctx.dense) };
+  });
+  const rows = Math.max(...spec.nodes.map((n) => n.at[1] + (n.rows ?? 1) - 1)) + 1;
+  const tall = (m) => m.n.rows ?? 1;
+  const rowH = Array.from({ length: rows }, (_, r) => Math.max(0, ...measured.filter((m) => m.r === r && tall(m) === 1).map((m) => m.m.height)));
+  if (spec.even) rowH.fill(Math.max(0, ...rowH));
+  for (const m of measured.filter((x) => tall(x) > 1)) {
+    const last = m.r + tall(m) - 1;
+    const has = rowH.slice(m.r, last + 1).reduce((a, b) => a + b, 0) + (tall(m) - 1) * gapY;
+    if (has < m.m.height) rowH[last] = (rowH[last] ?? 0) + m.m.height - has;
+  }
+  const ids2 = new Map(measured.map((m) => [m.n.id, m]));
+  const extraAbove = Array(rows).fill(0);
+  const extraBelow = Array(rows).fill(0);
+  const rowsOf = (g) => g.nodes.map((id) => (ids2.get(id) ?? ctx.fail(`boundary ${g.label} names no node ${id}`)).r);
+  const above = (g) => 1 + Math.max(0, ...inside(g).filter((c) => Math.min(...rowsOf(c)) === Math.min(...rowsOf(g))).map(above));
+  const below = (g) => 1 + Math.max(0, ...inside(g).filter((c) => Math.max(...rowsOf(c)) === Math.max(...rowsOf(g))).map(below));
+  for (const g of groups) {
+    const rs = rowsOf(g);
+    const top = Math.min(...rs);
+    const bottom2 = Math.max(...rs);
+    extraAbove[top] = Math.max(extraAbove[top] ?? 0, above(g) * ((g.label ? GROUP_HEAD : 0) + GROUP_PAD));
+    extraBelow[bottom2] = Math.max(extraBelow[bottom2] ?? 0, below(g) * GROUP_PAD);
+  }
+  (spec.rows ?? []).forEach((r, i) => {
+    if (r.note && i < rows) extraBelow[i] = (extraBelow[i] ?? 0) + NOTE;
+  });
+  const lift = spec.eyebrows?.some(Boolean) ? 18 : 0;
+  const headH = spec.heads?.some(Boolean) ? ctx.pick(30, 26) + lift : 0;
+  const rowY = [];
+  let y = room.y + headH;
+  for (let r = 0; r < rows; r++) {
+    y += extraAbove[r] ?? 0;
+    rowY.push(y);
+    y += (rowH[r] ?? 0) + (extraBelow[r] ?? 0) + gapY;
+  }
+  const bottom = y - gapY;
+  const boxes2 = /* @__PURE__ */ new Map();
+  const heightOf = (n, r) => {
+    const last = r + (n.rows ?? 1) - 1;
+    return (rowY[last] ?? 0) + (rowH[last] ?? 0) - (rowY[r] ?? 0);
+  };
+  for (const { n, x, r, m } of measured) {
+    if (boxes2.has(n.id)) ctx.fail(`two nodes have the id ${n.id}`);
+    boxes2.set(n.id, { x, y: rowY[r] ?? 0, w: m.width, h: heightOf(n, r), row: r });
+  }
+  const out = [];
+  (spec.heads ?? []).forEach((h, c) => {
+    if (!h) return;
+    if (colX[c] === void 0) ctx.fail(`column ${c} has a head, and the drawing has ${spec.columns.length} columns`);
+    const letter = spec.letters?.[c];
+    const what = `${ctx.name}: the head of column ${c}`;
+    const eyebrow = spec.eyebrows?.[c];
+    if (eyebrow) {
+      const capitals = { size: SIZE.label, face: "mono", weight: 600, spacing: 0.8 };
+      out.push(text(colX[c] ?? 0, room.y + 13, fit(eyebrow.toUpperCase(), columnEdge(c) - (colX[c] ?? 0), capitals, what), { ...capitals, fill: MUTED }));
+      out.push(text(colX[c] ?? 0, room.y + 16 + lift, fit(h, columnEdge(c) - (colX[c] ?? 0), { size: SIZE.node, weight: 600 }, what), { size: SIZE.node, weight: 600 }));
+      return;
+    }
+    if (letter) {
+      const lw = measure(letter, SIZE.node, "sans", 600) + 8;
+      out.push(text(colX[c] ?? 0, room.y + 16, letter, { size: SIZE.node, weight: 600, fill: ACCENT }));
+      out.push(text((colX[c] ?? 0) + lw, room.y + 16, fit(h, columnEdge(c) - (colX[c] ?? 0) - lw, { size: SIZE.node, weight: 600 }, what), { size: SIZE.node, weight: 600 }));
+      return;
+    }
+    const shown = fit(h.toUpperCase(), columnEdge(c) - (colX[c] ?? 0), { size: SIZE.label, face: "mono", weight: 600, spacing: 0.8 }, what);
+    const claim = spec.claims?.includes(c) ? ctx.emphasis("boundary", `the head ${h}`) : void 0;
+    out.push(text(colX[c] ?? 0, room.y + 14, shown, { size: SIZE.label, face: "mono", weight: 600, spacing: 0.8, fill: claim ?? MUTED }));
+  });
+  for (const g of [...groups].sort((a, b) => depth(a) - depth(b))) {
+    const nested = inside(g).flatMap((c) => c.nodes);
+    const members = [...g.nodes.filter((id) => !nested.includes(id)), ...inside(g).map(keyOf2)].map((id) => boxes2.get(id));
+    const x0 = Math.min(...members.map((b) => b.x)) - GROUP_PAD;
+    const x1 = Math.max(...members.map((b) => b.x + b.w)) + GROUP_PAD;
+    const y0 = Math.min(...members.map((b) => b.y)) - GROUP_PAD - (g.label ? GROUP_HEAD : 0);
+    const y1 = Math.max(...members.map((b) => b.y + b.h)) + GROUP_PAD;
+    const state2 = g.state ?? "present";
+    out.push(
+      rect(x0, y0, x1 - x0, y1 - y0, {
+        stroke: g.emphasis ? ctx.emphasis("boundary", `boundary ${g.label}`) : state2 === "degraded" ? WARN : STRONG,
+        width: g.emphasis ? 2 : 1.5,
+        radius: 6,
+        dashed: state2 !== "present"
+      })
+    );
+    const head = fit(g.label, x1 - x0 - 2 * GROUP_PAD, { size: SIZE.label, face: "mono" }, `${ctx.name}: boundary ${g.label}`);
+    if (head) out.push(text(x0 + GROUP_PAD, y0 + GROUP_HEAD - 4, head, { size: SIZE.label, face: "mono", fill: MUTED }));
+    const key2 = g.id ?? `group:${g.label}`;
+    if (boxes2.has(key2)) ctx.fail(`a boundary and a node have the same name, ${key2}`);
+    boxes2.set(key2, { x: x0, y: y0, w: x1 - x0, h: y1 - y0, row: -1 });
+  }
+  (spec.rows ?? []).forEach((r, i) => {
+    const ry = rowY[i];
+    if (ry === void 0) return ctx.fail(`row ${i} has a label, and the grid has ${rows} rows`);
+    if (r.label) out.push(text(space.x, ry + (rowH[i] ?? 0) / 2 + 5, r.label, { size: SIZE.body, weight: 600, fill: SECONDARY }));
+    if (r.note) {
+      const note = fit(r.note, room.width, { size: SIZE.label }, `${ctx.name}: the note of row ${i}`);
+      out.push(text(room.x, ry + (rowH[i] ?? 0) + NOTE - 6, note, { size: SIZE.label, fill: SECONDARY }));
+    }
+  });
+  const edgeLabels = [];
+  const groupKeys = new Set(groups.map((g) => g.id ?? `group:${g.label}`));
+  const nodeBoxes = [...boxes2.entries()].filter(([id]) => !groupKeys.has(id)).map(([, b]) => b);
+  const groupBoxes = [...boxes2.entries()].filter(([id]) => groupKeys.has(id)).map(([, b]) => b);
+  const plain2 = new Set(spec.nodes.filter((n) => n.plain).map((n) => n.id));
+  const clear = (id, box2) => plain2.has(id) ? { ...box2, x: box2.x - PLAIN_CLEAR, w: box2.w + 2 * PLAIN_CLEAR } : box2;
+  const routed = (spec.edges ?? []).map((e) => {
+    const what = `edge ${e.from} \u2192 ${e.to}`;
+    const a = clear(e.from, boxes2.get(e.from) ?? ctx.fail(`${what} starts at nothing`));
+    const b = clear(e.to, boxes2.get(e.to) ?? ctx.fail(`${what} ends at nothing`));
+    return { e, what, a, b, points: route(a, b, e.via, (e.bend ?? 0.5) * gapX, (e.bend ?? 0.5) * gapY) };
+  });
+  if (spec.fan) fan(routed, gapX);
+  apart(routed);
+  for (const { e, what, a, b, points } of routed) {
+    const colour = e.emphasis ? ctx.emphasis("connector", what) : e.fails ? ERROR : e.state === "degraded" ? WARN : MUTED;
+    const across = spec.curve && spec.fan && (b.x >= a.x + a.w || b.x + b.w <= a.x);
+    if (across) out.push(curved(a, b, colour, e.emphasis || e.fails ? 2 : 1.5, (e.state ?? "present") !== "present"));
+    else out.push(connector(points, colour, e.emphasis || e.fails ? 2 : 1.5, (e.state ?? "present") !== "present", true, e.both));
+    if (e.label) edgeLabels.push(edgeLabel(e.label, points, colour, nodeBoxes, groupBoxes, ctx, what));
+  }
+  for (const { n, x, r, m } of measured) out.push(drawCard(m, x, rowY[r] ?? 0, heightOf(n, r), ctx, `node ${n.id}`));
+  out.push(...edgeLabels);
+  const took = room.width + labelW + 2 * inset;
+  return took > space.width + 0.5 ? { svg: out.join("\n"), height: bottom - room.y, width: Math.ceil(took) } : { svg: out.join("\n"), height: bottom - room.y };
+};
+var centre = (b) => [b.x + b.w / 2, b.y + b.h / 2];
+var curved = (a, b, stroke, width2, dashed) => {
+  const right = b.x >= a.x + a.w;
+  const [x0, y0] = [right ? a.x + a.w : a.x, a.y + a.h / 2];
+  const [x1, y1] = [right ? b.x : b.x + b.w, b.y + b.h / 2];
+  const pull = (x1 - x0) / 2;
+  const end = right ? x1 - 9 : x1 + 9;
+  return `<path d="M${fmt(x0)} ${fmt(y0)} C${fmt(x0 + pull)} ${fmt(y0)} ${fmt(x1 - pull)} ${fmt(y1)} ${fmt(end)} ${fmt(y1)} L${fmt(x1)} ${fmt(y1)}" fill="none" stroke="${stroke}" stroke-width="${width2}"${dashed ? ' stroke-dasharray="5 4"' : ""}></path>${arrowhead([x1, y1], [end, y1], stroke)}`;
+};
+var fan = (routed, gapX) => {
+  const sides = /* @__PURE__ */ new Map();
+  for (const { e, a, points } of routed) {
+    const [start, next] = points;
+    if (points.length !== 4 && points.length !== 2 || !start || !next || start[1] !== next[1] || e.bend !== void 0) continue;
+    const key2 = `${e.from}:${next[0] > start[0] ? "r" : "l"}`;
+    const side = sides.get(key2) ?? { a, all: [] };
+    side.all.push(points);
+    sides.set(key2, side);
+  }
+  const placed = [];
+  [...sides.entries()].forEach(([key2, { a, all }], order) => {
+    const right = key2.endsWith("r");
+    all.sort((p, q) => (p.at(-1)?.[1] ?? 0) - (q.at(-1)?.[1] ?? 0));
+    const ys = all.map((_, i) => a.y + a.h * (i + 1) / (all.length + 1));
+    const up = all.map((p, i) => (p.at(-1)?.[1] ?? 0) < (ys[i] ?? 0));
+    const rising = up.filter(Boolean).length;
+    all.forEach((points, i) => {
+      const end = points.at(-1);
+      const y = Math.abs(end[1] - (ys[i] ?? 0)) < 8 && end[1] > a.y && end[1] < a.y + a.h ? end[1] : ys[i] ?? 0;
+      const rank2 = up[i] ? i / Math.max(1, rising) : (all.length - 1 - i) / Math.max(1, all.length - rising);
+      placed.push({ points, y, rank: rank2, right, x0: points[0][0], order });
+    });
+  });
+  const gaps = /* @__PURE__ */ new Map();
+  for (const p of placed) {
+    const key2 = `${Math.round(p.x0)}:${p.right}`;
+    gaps.set(key2, [...gaps.get(key2) ?? [], p]);
+  }
+  for (const group of gaps.values()) {
+    const bending = group.filter((p) => Math.abs(p.points.at(-1)[1] - p.y) >= 1);
+    bending.sort((p, q) => p.rank - q.rank || p.order - q.order);
+    for (const p of group) {
+      const end = p.points.at(-1);
+      const slot = bending.indexOf(p);
+      if (slot < 0) {
+        p.points.splice(0, p.points.length, [p.x0, end[1]], end);
+        continue;
+      }
+      const share = 0.15 + 0.7 * slot / Math.max(1, bending.length - 1);
+      const bx = p.right ? p.x0 + gapX * share : p.x0 - gapX * share;
+      p.points.splice(0, p.points.length, [p.x0, p.y], [bx, p.y], [bx, end[1]], end);
+    }
+  }
+};
+var apart = (routed) => {
+  const ends = (i) => routed.filter((_, j) => j !== i).flatMap((r) => [r.points[0], r.points.at(-1)]).filter((p) => !!p);
+  routed.forEach(({ b, points }, i) => {
+    const last = points.at(-1);
+    if (points.length !== 4 || !last || !ends(i).some(([x, y]) => Math.abs(x - last[0]) < 2 && Math.abs(y - last[1]) < 2)) return;
+    const [, , turn] = points;
+    const across = turn[1] === last[1];
+    if (across) {
+      const shift = Math.min(b.h / 4, 14) * (points[0][1] > last[1] ? 1 : -1);
+      points[2] = [turn[0], turn[1] + shift];
+      points[3] = [last[0], last[1] + shift];
+    } else {
+      const shift = Math.min(b.w / 4, 14) * (points[0][0] > last[0] ? 1 : -1);
+      points[2] = [turn[0] + shift, turn[1]];
+      points[3] = [last[0] + shift, last[1]];
+    }
+  });
+};
+var route = (a, b, via, outX, outY) => {
+  const [ax, ay] = centre(a);
+  const [bx, by] = centre(b);
+  const overlapY = Math.max(a.y, b.y) < Math.min(a.y + a.h, b.y + b.h);
+  const overlapX = Math.max(a.x, b.x) < Math.min(a.x + a.w, b.x + b.w);
+  if (via === "h" || via !== "v" && (overlapY || !overlapX)) {
+    const right = bx > ax;
+    const x0 = right ? a.x + a.w : a.x;
+    const x1 = right ? b.x : b.x + b.w;
+    if (overlapY) {
+      const yy = (Math.max(a.y, b.y) + Math.min(a.y + a.h, b.y + b.h)) / 2;
+      return [[x0, yy], [x1, yy]];
+    }
+    const mx = right ? x0 + outX : x0 - outX;
+    return [[x0, ay], [mx, ay], [mx, by], [x1, by]];
+  }
+  const down = by > ay;
+  const y0 = down ? a.y + a.h : a.y;
+  const y1 = down ? b.y : b.y + b.h;
+  if (overlapX) {
+    const xx = (Math.max(a.x, b.x) + Math.min(a.x + a.w, b.x + b.w)) / 2;
+    return [[xx, y0], [xx, y1]];
+  }
+  const my = down ? y0 + outY : y0 - outY;
+  return [[ax, y0], [ax, my], [bx, my], [bx, y1]];
+};
+var edgeLabel = (label, points, colour, boxes2, groups, ctx, what) => {
+  const w = measure(label, SIZE.label, "mono");
+  const segments = points.slice(1).map((q, i) => [points[i], q]);
+  const stretches = segments.filter(([[, py], [, qy]]) => py === qy).flatMap(([[px, py], [qx]]) => {
+    const [a, b] = [Math.min(px, qx), Math.max(px, qx)];
+    const cuts = groups.flatMap((g) => py > g.y && py < g.y + g.h ? [g.x, g.x + g.w] : []).filter((x) => x > a && x < b);
+    const edges = [a, ...cuts.sort((m, n) => m - n), b];
+    return edges.slice(1).map((end, i) => ({ from: (edges[i] ?? a) + (i ? 8 : 0), to: end - (i < edges.length - 2 ? 8 : 0), y: py }));
+  });
+  const across = stretches.find((s) => s.to - s.from >= w + 8);
+  const clear = (x, y) => !boxes2.some((b) => x + w > b.x && x < b.x + b.w && y > b.y && y - 13 < b.y + b.h) && !groups.some((g) => g.x > x && g.x < x + w || g.x + g.w > x && g.x + g.w < x + w);
+  const under = stretches[0] && clear(stretches[0].from + 8, stretches[0].y + 20) ? stretches[0] : void 0;
+  let lx;
+  let ly;
+  if (across) {
+    lx = (across.from + across.to) / 2 - w / 2;
+    ly = across.y - 8;
+  } else if (under) {
+    lx = under.from + 8;
+    ly = under.y + 20;
+  } else {
+    const down = segments.filter(([[px2], [qx]]) => px2 === qx);
+    const longest = down.sort(([a, b], [c, d]) => Math.abs(d[1] - c[1]) - Math.abs(b[1] - a[1]))[0];
+    if (!longest) return ctx.fail(`${what}: the label "${label}" has no room on its connector \u2014 widen the gap or shorten the label`);
+    const [[px, py], [, qy]] = longest;
+    lx = px + 8;
+    ly = (py + qy) / 2 + 4;
+  }
+  const hit = boxes2.find((b) => lx + w > b.x && lx < b.x + b.w && ly > b.y && ly - 13 < b.y + b.h);
+  if (hit) ctx.fail(`${what}: the label "${label}" runs into a node \u2014 widen the gap or shorten the label`);
+  return rect(lx - 3, ly - 13, w + 6, 18, { fill: CANVAS }) + text(lx, ly, label, { size: SIZE.label, face: "mono", fill: colour });
+};
+
+// packages/frontend/src/lib/diagram/matrix.ts
+var ORDER = ["page", "panel", "both", "form", "bar", "nav", "docheader", "any", "yes", "partly", "no", "unknown", "dot", "ring"];
+var chipW2 = (id) => measure(id, SIZE.label, "mono", 600) + 14;
+var stepW = (step) => measure(step, SIZE.label) + 18;
+var HEAD_LINE = 17;
+var JOIN = 20;
+var PATH_LINE = 28;
+var matrix = (spec, space, ctx) => {
+  const beside = spec.rowGroups === "beside";
+  const [ROW2, GROUP_ROW, PAD2, LEGEND_GAP, LEGEND_WORD, HEAD_PAD2, GROUP_GAP] = ctx.pick([34, 34, 16, 28, 32, 9, 24], [24, 24, 6, 14, 28, 5, 16]);
+  const groupSetting = { size: SIZE.label, face: "sans", weight: 600, spacing: 0.8 };
+  const groupW = beside ? Math.max(0, ...spec.rows.map((r) => r.group ? measure(r.group.toUpperCase(), SIZE.label, "sans", 600, 0.8) : 0)) + GROUP_GAP : 0;
+  const split = (label) => spec.ids ? [label.split(" ")[0] ?? "", label.split(" ").slice(1).join(" ")] : ["", label];
+  const idW = spec.ids ? Math.max(...spec.rows.map((r) => measure(split(r.label)[0], SIZE.label, "mono", 600))) + 12 : 0;
+  const labelWeight = spec.ids ? 400 : 600;
+  const widest = Math.max(...spec.rows.map((r) => idW + measure(split(r.label)[1], SIZE.body, "sans", labelWeight)));
+  const labelW = spec.labelWidth ?? Math.min(widest + GROUP_GAP, space.width * 0.4 - groupW);
+  const weights = spec.columns.map((c) => c.weight ?? 1);
+  const total = weights.reduce((a, b) => a + b, 0);
+  const steps = spec.columns.map((_, i) => Math.max(0, ...spec.rows.map((r) => {
+    const c = r.cells[i];
+    return typeof c === "object" && c.path ? Math.max(...c.path.map(stepW)) + 10 : 0;
+  })));
+  const least = Math.max(0, ...spec.columns.map((c, i) => Math.max(narrowest(c.label, { size: SIZE.label, weight: 600 }) + HEAD_PAD2, steps[i] ?? 0) / (weights[i] ?? 1)));
+  const unit = Math.max((space.width - groupW - labelW) / total, least);
+  const widths = weights.map((k) => unit * k);
+  const room = { ...space, width: groupW + labelW + unit * total };
+  const labelX = room.x + groupW;
+  const colX = (i) => labelX + labelW + widths.slice(0, i).reduce((a, b) => a + b, 0);
+  const out = [];
+  let y = room.y;
+  const grouped2 = spec.columns.some((c) => c.group);
+  if (grouped2) {
+    let start = 0;
+    spec.columns.forEach((c, i) => {
+      const next = spec.columns[i + 1];
+      if (next && next.group === c.group) return;
+      if (c.group) {
+        const a = colX(start) + 6;
+        const b = colX(i + 1) - 6;
+        const label = fit(c.group.toUpperCase(), b - a, { size: SIZE.label, face: "mono", weight: 600, spacing: 0.8 }, `${ctx.name}: column group`);
+        out.push(text((a + b) / 2, y + 14, label, { size: SIZE.label, face: "mono", weight: 600, spacing: 0.8, fill: MUTED, anchor: "middle" }));
+        out.push(line(a, y + 24, b, y + 24, SUBTLE));
+      }
+      start = i + 1;
+    });
+    y += 34;
+  }
+  const used = /* @__PURE__ */ new Set();
+  const capitals = { size: SIZE.label, face: "mono", weight: 600, spacing: 0.8 };
+  const lettered = spec.columns.some((c) => c.letter);
+  const named2 = lettered || spec.blocks;
+  const headSetting = { size: SIZE.label, weight: 600 };
+  const heads = spec.columns.map(
+    (c, i) => spec.left ? [fit(c.label.toUpperCase(), (widths[i] ?? 0) - 8, capitals, `${ctx.name}: column ${c.label}`)] : wrap(c.label, (widths[i] ?? 0) - 4, headSetting, `${ctx.name}: column ${c.label}`)
+  );
+  const exampled = spec.columns.some((c) => c.sub);
+  const headH = (Math.max(...heads.map((h) => h.length)) + (exampled ? 1 : 0)) * HEAD_LINE + (lettered ? 22 : 0) + 10;
+  const top = y;
+  if (spec.head) out.push(text(labelX, y + headH - 10, fit(spec.head.toUpperCase(), labelW - 8, capitals, `${ctx.name}: the head of the rows`), { ...capitals, fill: MUTED }));
+  heads.forEach((lines5, i) => {
+    if (spec.left) {
+      const end = spec.columns[i]?.end;
+      out.push(text(end ? colX(i) + (widths[i] ?? 0) - 5 : colX(i) + 5, y + headH - 10, lines5[0] ?? "", { ...capitals, fill: MUTED, anchor: end ? "end" : "start" }));
+      return;
+    }
+    const column = spec.columns[i];
+    const marked2 = column?.sign;
+    const cx = colX(i) + (widths[i] ?? 0) / 2 + (marked2 ? 14 : 0);
+    const base = y + headH - 10 - (exampled ? HEAD_LINE : 0);
+    lines5.forEach((t, j) => {
+      out.push(text(cx, base - (lines5.length - 1 - j) * HEAD_LINE, t, { ...headSetting, fill: named2 ? INK : SECONDARY, anchor: "middle" }));
+    });
+    if (column?.letter) out.push(text(cx, base - lines5.length * HEAD_LINE - 4, column.letter, { size: SIZE.node, weight: 600, anchor: "middle" }));
+    if (column?.sub) out.push(text(cx, base + HEAD_LINE, fit(column.sub, (widths[i] ?? 0) - 8, { size: SIZE.label }, `${ctx.name}: column ${column.label}`), { size: SIZE.label, fill: MUTED, anchor: "middle" }));
+    if (marked2) {
+      out.push(sign(marked2, cx - Math.max(...lines5.map((t) => measure(t, headSetting.size, "sans", 600))) / 2 - 16, y + headH - 15));
+    }
+  });
+  y += headH;
+  out.push(line(room.x, y, room.x + room.width, y, SUBTLE));
+  let group;
+  const emphasised = (key2) => [spec.emphasis?.[key2] ?? []].flat();
+  const rowSpans = [];
+  for (const row2 of spec.rows) {
+    if (row2.cells.length !== spec.columns.length) {
+      ctx.fail(`row ${row2.label} has ${row2.cells.length} cells for ${spec.columns.length} columns`);
+    }
+    let groupLabel = "";
+    if (row2.group && row2.group !== group) {
+      if (beside) {
+        if (group !== void 0) out.push(line(room.x, y, room.x + room.width, y, SUBTLE));
+        groupLabel = fit(row2.group.toUpperCase(), groupW - 16, groupSetting, `${ctx.name}: row group`);
+      } else {
+        if (group !== void 0 && !spec.rules) out.push(line(room.x, y, room.x + room.width, y, SUBTLE));
+        out.push(text(room.x, y + GROUP_ROW - 10, row2.group.toUpperCase(), { ...groupSetting, fill: MUTED }));
+        y += GROUP_ROW;
+      }
+      group = row2.group;
+    }
+    const [rowId, name] = split(row2.label);
+    const label = wrap(name, labelW - 16 - idW, { size: SIZE.body, weight: labelWeight }, `${ctx.name}: row ${row2.label}`);
+    const rowX = labelX;
+    const sub = row2.sub ? fit(row2.sub, labelW - 16, { size: SIZE.label, face: "mono" }, `${ctx.name}: row ${row2.label}`) : "";
+    const cells3 = row2.cells.map((cell2, ci) => {
+      const colW = widths[ci] ?? 0;
+      const c = typeof cell2 === "string" ? cell2 ? { sign: cell2 } : {} : cell2;
+      const face = c.code ? "mono" : "sans";
+      const size = spec.figures ? SIZE.title : SIZE.label;
+      const weight = spec.figures ? 600 : 400;
+      const room2 = c.sign ? colW - 40 : colW - 10;
+      const what = `${ctx.name}: a cell of ${row2.label}`;
+      const lines5 = !c.text ? [] : spec.figures ? [fit(c.text, room2, { size, face, weight }, what)] : wrap(c.text, room2, { size, face, weight }, what);
+      const chipLines = [];
+      for (const id of c.chips ?? []) {
+        const current = chipLines.at(-1);
+        const width2 = (ids2) => ids2.reduce((sum2, x, i) => sum2 + chipW2(x) + (i ? 4 : 0), 0);
+        if (chipW2(id) > colW - 10) ctx.fail(`${what}: the chip ${id} is ${Math.ceil(chipW2(id))} wide, and its cell is ${Math.floor(colW - 10)}`);
+        if (current && width2([...current, id]) <= colW - 10) current.push(id);
+        else chipLines.push([id]);
+      }
+      const pathLines = [];
+      for (const step of c.path ?? []) {
+        const current = pathLines.at(-1);
+        const width2 = (all) => all.reduce((sum2, x, i) => sum2 + stepW(x) + (i ? JOIN : 0), 0);
+        if (current && width2([...current, step]) <= colW - 10) current.push(step);
+        else pathLines.push([step]);
+      }
+      return { c, face, size, weight, lines: lines5, chipLines, pathLines };
+    });
+    const tallest = Math.max(0, ...cells3.map((x) => (x.lines.length > 1 ? x.lines.length * 17 : 0) + x.chipLines.length * 24 + x.pathLines.length * PATH_LINE + PAD2));
+    const h = Math.max(spec.figures ? 56 : ROW2, label.length * 18 + (sub ? 17 : 0) + PAD2, tallest);
+    let ty = y + (h - (label.length * 18 + (sub ? 17 : 0))) / 2 + 13;
+    if (groupLabel) out.push(text(room.x, ty, groupLabel, { ...groupSetting, fill: MUTED }));
+    if (rowId) out.push(text(rowX, ty, rowId, { size: SIZE.label, face: "mono", weight: 600, fill: MUTED }));
+    for (const t of label) {
+      out.push(text(rowX + idW, ty, t, { size: SIZE.body, weight: labelWeight }));
+      ty += 18;
+    }
+    if (sub) out.push(text(rowX, ty - 1, sub, { size: SIZE.label, face: "mono", fill: SECONDARY }));
+    const cy = y + h / 2;
+    cells3.forEach(({ c, face, size, weight, lines: lines5, chipLines, pathLines }, i) => {
+      const colW = widths[i] ?? 0;
+      const cx = colX(i) + colW / 2;
+      let py = cy - (pathLines.length * PATH_LINE - 6) / 2;
+      pathLines.forEach((all, j) => {
+        let px = colX(i) + 5;
+        all.forEach((step, k) => {
+          if (k) out.push(text(px - JOIN / 2, py + 15, "\u203A", { size: SIZE.label, fill: MUTED, anchor: "middle" }));
+          out.push(rect(px, py, stepW(step), 22, { fill: "none", stroke: STRONG, radius: 6 }) + text(px + 9, py + 15, step, { size: SIZE.label, fill: INK }));
+          px += stepW(step) + JOIN;
+        });
+        if (j < pathLines.length - 1) out.push(text(px - JOIN / 2, py + 15, "\u203A", { size: SIZE.label, fill: MUTED, anchor: "middle" }));
+        py += PATH_LINE;
+      });
+      if (c.sign) {
+        used.add(c.sign);
+        out.push(sign(c.sign, c.text ? cx - colW / 2 + 18 : cx, cy));
+      }
+      if (c.note !== void 0) {
+        if (!spec.notesOutside && !spec.notes?.[c.note - 1]) ctx.fail(`a cell of ${row2.label} points at note ${c.note}, and there is none`);
+        out.push(text((c.sign ? cx : cx + 8) + 13, cy - 5, String(c.note), { size: SIZE.label, face: "mono", weight: 600, fill: WARN }));
+      }
+      const block = (lines5.length > 1 ? lines5.length * 17 : lines5.length ? 17 : 0) + chipLines.length * 24 - (chipLines.length ? 4 : 0);
+      let ty2 = lines5.length > 1 || chipLines.length ? cy - block / 2 + 12.5 : cy + (spec.figures ? 12 : 4.5);
+      if (spec.blocks && c.text && !c.sign) {
+        const outlined = /^\(.*\)$/.test(c.text);
+        const shown = fit(outlined ? c.text.slice(1, -1) : c.text, colW - 16, { size, face: "mono", weight: 600 }, `${ctx.name}: a cell of ${row2.label}`);
+        out.push(rect(colX(i) + 4, cy - 10, colW - 8, 20, outlined ? { fill: "none", stroke: INK, width: 1.2, radius: 3 } : { fill: SUNKEN, radius: 3 }));
+        out.push(text(cx, cy + 4.5, shown, { size, face: "mono", weight: 600, fill: INK, anchor: "middle" }));
+        lines5.length = 0;
+      }
+      for (const t of lines5) {
+        const end = spec.left && spec.columns[i]?.end && !c.sign;
+        out.push(text(c.sign ? cx - colW / 2 + 32 : end ? colX(i) + colW - 5 : spec.left ? colX(i) + 5 : cx, ty2, t, { size, face, weight, fill: INK, anchor: end ? "end" : c.sign || spec.left ? "start" : "middle" }));
+        ty2 += 17;
+      }
+      let chipY = lines5.length ? ty2 - 12.5 + 4 : cy - block / 2;
+      for (const ids2 of chipLines) {
+        const width2 = ids2.reduce((sum2, x, k) => sum2 + chipW2(x) + (k ? 4 : 0), 0);
+        let chipX = cx - width2 / 2;
+        for (const id of ids2) {
+          out.push(rect(chipX, chipY, chipW2(id), 20, { fill: SUNKEN, stroke: STRONG, radius: 4 }) + text(chipX + 7, chipY + 14.5, id, { size: SIZE.label, face: "mono", weight: 600 }));
+          chipX += chipW2(id) + 4;
+        }
+        chipY += 24;
+      }
+    });
+    if (emphasised("row").includes(row2.label)) rowSpans.push({ label: row2.label, y0: y, y1: y + h });
+    y += h;
+    if (spec.rules && !beside && row2 !== spec.rows.at(-1)) out.push(line(room.x, y, room.x + room.width, y, SUBTLE));
+  }
+  out.push(line(room.x, y, room.x + room.width, y, SUBTLE));
+  spec.columns.forEach((c, i) => {
+    if (c.split && i > 0) out.push(line(colX(i), top - 4, colX(i), y, SUBTLE));
+  });
+  for (const label of emphasised("row")) if (!rowSpans.some((r) => r.label === label)) ctx.fail(`the emphasis names no row ${label}`);
+  rowSpans.forEach((r, i) => {
+    const before = rowSpans[i - 1];
+    if (before && before.y1 === r.y0) return;
+    let end = i;
+    while (rowSpans[end + 1]?.y0 === rowSpans[end]?.y1) end++;
+    const colour = ctx.emphasis("row", `row ${r.label}`);
+    out.push(rect(room.x - 8, r.y0 + 2, room.width + 16, (rowSpans[end]?.y1 ?? r.y1) - r.y0 - 4, { stroke: colour, width: 2, radius: 4 }));
+  });
+  const marked = emphasised("column").map((label) => {
+    const i = spec.columns.findIndex((c) => c.label === label);
+    return i < 0 ? ctx.fail(`the emphasis names no column ${label}`) : i;
+  });
+  for (const i of marked) {
+    if (marked.includes(i - 1)) continue;
+    let end = i;
+    while (marked.includes(end + 1)) end++;
+    const colour = ctx.emphasis("column", `column ${spec.columns[i]?.label}`);
+    out.push(rect(colX(i) + 2, top - 4, colX(end + 1) - colX(i) - 4, y - top + 8, { stroke: colour, width: 2, radius: 4 }));
+  }
+  if (used.size && ctx.legend) {
+    y += 34;
+    let x = room.x;
+    for (const s of ORDER) {
+      if (!used.has(s)) continue;
+      const word = spec.legend?.[s] ?? SIGN_MEANING[s];
+      const w = LEGEND_WORD + measure(word, SIZE.label) + LEGEND_GAP;
+      if (x + w > room.x + room.width + LEGEND_GAP) {
+        x = room.x;
+        y += 24;
+      }
+      out.push(sign(s, x + 11, y - 4));
+      out.push(text(x + LEGEND_WORD, y, word, { size: SIZE.label, fill: SECONDARY }));
+      x += w;
+    }
+    if (spec.legendNote) {
+      const note = fit(spec.legendNote, room.x + room.width - x, { size: SIZE.label }, `${ctx.name}: the note of the legend`);
+      out.push(text(x, y, note, { size: SIZE.label, fill: SECONDARY }));
+    }
+    y += 6;
+  }
+  (spec.notesOutside ? [] : spec.notes ?? []).forEach((note, i) => {
+    const lines5 = wrap(note, room.width - 24, { size: SIZE.label }, `${ctx.name}: note ${i + 1}`);
+    y += 10;
+    out.push(text(room.x, y + 13, String(i + 1), { size: SIZE.label, face: "mono", weight: 600, fill: WARN }));
+    lines5.forEach((l, j) => out.push(text(room.x + 20, y + 13 + j * 18, l, { size: SIZE.label, fill: SECONDARY })));
+    y += lines5.length * 18;
+  });
+  return room.width > space.width + 0.5 ? { svg: out.join("\n"), height: y - room.y, width: Math.ceil(room.width) } : { svg: out.join("\n"), height: y - room.y };
+};
+
+// packages/frontend/src/lib/diagram/sequence.ts
+var GUTTER = 162;
+var BAND_PAD = 12;
+var HEAD_PAD = 12;
+var LINE = 19;
+var HOST_PAD = 12;
+var sequence = (spec, room, ctx) => {
+  const titled = spec.phases.some((p) => p.title);
+  const x0 = room.x + (titled ? GUTTER : 0);
+  const span = (room.x + room.width - x0) / spec.lanes.length;
+  const laneX = new Map(spec.lanes.map((l, i) => [l.id, x0 + span * i + span / 2]));
+  const at = (id, what) => laneX.get(id) ?? ctx.fail(`${what} names no lane ${id}`);
+  const out = [];
+  const rows = [];
+  const hosted = (spec.hosts ?? []).length > 0;
+  const headY = room.y + (hosted ? 34 : 0);
+  const headW = span - (hosted ? 40 : 16);
+  const heads = spec.lanes.map((l) => {
+    const glyph2 = l.shape && l.shape !== "node" ? 20 : 0;
+    const title = wrap(l.label, headW - 24 - glyph2, { size: SIZE.node, weight: 600 }, `${ctx.name}: lane ${l.id}`);
+    const sub = l.sub ? fit(l.sub, headW - 24, { size: SIZE.label, face: "mono" }, `${ctx.name}: lane ${l.id}`) : "";
+    return { l, title, sub, glyph: glyph2 };
+  });
+  const headH = Math.max(...heads.map((h) => HEAD_PAD * 2 + h.title.length * 21 + (h.sub ? 18 : 0)));
+  for (const h of heads) {
+    const cx = at(h.l.id, "a lane");
+    out.push(rect(cx - headW / 2, headY, headW, headH, { fill: RAISED, stroke: SUBTLE, radius: 6 }));
+    const block = h.title.length * 21 + (h.sub ? 18 : 0);
+    let ty = headY + (headH - block) / 2 + 15;
+    const widest = Math.max(...h.title.map((t) => measure(t, SIZE.node, "sans", 600)));
+    if (h.glyph) out.push(shapeSign(h.l.shape, cx - widest / 2 - h.glyph / 2 - 6, ty - 4));
+    for (const t of h.title) {
+      out.push(text(cx + h.glyph / 2, ty, t, { size: SIZE.node, weight: 600, anchor: "middle" }));
+      ty += 21;
+    }
+    if (h.sub) out.push(text(cx, ty - 2, h.sub, { size: SIZE.label, face: "mono", fill: SECONDARY, anchor: "middle" }));
+  }
+  const lifeTop = headY + headH;
+  let y = lifeTop + (hosted ? HOST_PAD : 0) + 16;
+  let number = 0;
+  const bands = [];
+  for (const phase of spec.phases) {
+    const y0 = y;
+    y += 12;
+    const title = phase.title ? wrap(phase.title.toUpperCase(), GUTTER - 20, { size: SIZE.label, face: "mono", weight: 600, spacing: 0.6 }, `${ctx.name}: a phase`) : [];
+    for (const step of phase.steps) {
+      if ("note" in step) {
+        const [first, last] = step.over ?? [spec.lanes[0]?.id ?? "", spec.lanes.at(-1)?.id ?? ""];
+        const a = Math.min(at(first, "a note"), at(last, "a note")) - span / 2 + 16;
+        const b = Math.max(at(first, "a note"), at(last, "a note")) + span / 2 - 16;
+        const lines6 = wrap(step.note, b - a - 24, { size: SIZE.body }, `${ctx.name}: a note`);
+        const h = lines6.length * LINE + 14;
+        rows.push(rect(a, y, b - a, h, { fill: RAISED, stroke: STRONG, radius: 4 }));
+        lines6.forEach((t, i) => rows.push(text((a + b) / 2, y + 21 + i * LINE, t, { size: SIZE.body, anchor: "middle" })));
+        y += h + 12;
+        continue;
+      }
+      number++;
+      const what = `${ctx.name}: step ${number}`;
+      const xa = at(step.from, `step ${number}`);
+      const xb = at(step.to, `step ${number}`);
+      const colour = step.emphasis ? ctx.emphasis("step", `step ${number}`) : step.fails ? ERROR : step.state === "degraded" ? WARN : MUTED;
+      const weight = step.emphasis || step.fails ? 2 : 1.5;
+      const dashed = (step.state ?? "present") !== "present";
+      if (xa === xb) {
+        const lines6 = wrap(step.text, Math.min(span - 52, room.x + room.width - xa - 44), { size: SIZE.body }, what);
+        const ly = y + 8;
+        rows.push(connector([[xa + 12, ly], [xa + 36, ly], [xa + 36, ly + 18], [xa + 2, ly + 18]], colour, weight, dashed));
+        lines6.forEach((t, i) => rows.push(text(xa + 44, ly + 13 + i * LINE, t, { size: SIZE.body, fill: step.fails ? ERROR : INK, halo: true })));
+        rows.push(marker(xa, ly, String(number)));
+        y += Math.max(36, lines6.length * LINE + 16);
+        continue;
+      }
+      const right2 = xb > xa;
+      const lines5 = wrap(step.text, Math.abs(xb - xa) - 44, { size: SIZE.body }, what);
+      const ay = y + lines5.length * LINE + 6;
+      lines5.forEach(
+        (t, i) => rows.push(text((xa + xb) / 2, y + 14 + i * LINE, t, { size: SIZE.body, fill: step.fails ? ERROR : INK, anchor: "middle", halo: true }))
+      );
+      const dir = right2 ? 1 : -1;
+      const end = step.fails ? xb - dir * 6 : xb - dir;
+      rows.push(line(xa + dir * 11, ay, end, ay, colour, weight, dashed));
+      rows.push(step.fails ? cross(xb, ay) : arrowhead([end, ay], [xa, ay], colour));
+      rows.push(marker(xa, ay, String(number)));
+      y += lines5.length * LINE + 22;
+    }
+    y = Math.max(y, y0 + 12 + title.length * 17 + 8);
+    bands.push({ y0, y1: y, title, tone: phase.tone });
+    y += 4;
+  }
+  const lifeBottom = y;
+  const right = Math.max(...spec.lanes.map((l) => at(l.id, "a lane"))) + headW / 2 + (hosted ? HOST_PAD : 0);
+  for (const band2 of bands) {
+    out.push(rect(room.x, band2.y0, right - room.x, band2.y1 - band2.y0, { fill: band2.tone ? QUIET[band2.tone] : SUNKEN, radius: 6 }));
+    const colour = band2.tone ? TONE[band2.tone] : MUTED;
+    band2.title.forEach(
+      (t, i) => out.push(text(room.x + BAND_PAD, band2.y0 + 26 + i * 17, t, { size: SIZE.label, face: "mono", weight: 600, spacing: 0.6, fill: colour }))
+    );
+  }
+  for (const l of spec.lanes) {
+    const x = at(l.id, "a lane");
+    out.push(line(x, lifeTop, x, lifeBottom, STRONG));
+  }
+  for (const host of spec.hosts ?? []) {
+    const xs = host.lanes.map((id) => at(id, `host ${host.label}`));
+    const a = Math.min(...xs) - headW / 2 - HOST_PAD;
+    const b = Math.max(...xs) + headW / 2 + HOST_PAD;
+    out.push(rect(a, room.y, b - a, headY + headH + HOST_PAD - room.y, { stroke: STRONG, width: 1.5, radius: 6 }));
+    out.push(text(a + 12, room.y + 22, fit(host.label, b - a - 24, { size: SIZE.label, face: "mono" }, `${ctx.name}: host`), { size: SIZE.label, face: "mono", fill: MUTED }));
+  }
+  out.push(...rows);
+  return { svg: out.join("\n"), height: lifeBottom - room.y };
+};
+
+// packages/frontend/src/lib/diagram/sketch.ts
+var GAP = 32;
+var INSET2 = 6;
+var LENGTHS = [0.92, 0.7, 0.84, 0.55];
+var sketch = (spec, room, ctx) => {
+  const height = Math.round(spec.height * ctx.squeeze);
+  const total = spec.screens.reduce((sum2, s) => sum2 + (s.weight ?? 1), 0);
+  const gap = ctx.pick(GAP, 24);
+  const [titleLine, captionLine, under] = ctx.pick([22, 20, 8], [20, 18, 6]);
+  const free = room.width - (spec.screens.length - 1) * gap;
+  const out = [];
+  const lift = spec.heads ? ctx.pick(26, 22) : 0;
+  const top = room.y + lift;
+  let x = room.x;
+  let bottom = top + height;
+  for (const screen2 of spec.screens) {
+    const w = free * (screen2.weight ?? 1) / total;
+    if (spec.heads && screen2.title) {
+      const caps = { size: SIZE.label, face: "mono", weight: 600, spacing: 0.8 };
+      out.push(text(x, room.y + 13, fit(screen2.title.toUpperCase(), w, caps, `${ctx.name}: a screen`), { ...caps, fill: screen2.root.emphasis ? ctx.claim : MUTED }));
+    }
+    const edge = screen2.device ? 12 : INSET2;
+    if (screen2.device) out.push(rect(x, top, w, height, { fill: RAISED, stroke: INK, width: 2, radius: 6 }) + rect(x + w / 2 - 16, top + height - 8, 32, 3, { fill: INK, radius: 1 }));
+    else out.push(rect(x, top, w, height, { fill: RAISED, stroke: STRONG, width: 1.5, radius: 6 }));
+    region(screen2.root, x + edge, top + edge, w - 2 * edge, height - 2 * edge, out, ctx);
+    let y = top + height + under;
+    if (screen2.band) y = band(screen2.band, x, y + under / 2, w, out, ctx) + under;
+    if (screen2.title && !spec.heads) {
+      for (const l of wrap(screen2.title, w, { size: SIZE.node, weight: 600 }, `${ctx.name}: a screen`)) {
+        y += titleLine;
+        out.push(text(x, y, l, { size: SIZE.node, weight: 600 }));
+      }
+    }
+    if (screen2.caption) {
+      for (const l of wrap(screen2.caption, w, { size: SIZE.body }, `${ctx.name}: a screen`)) {
+        y += captionLine;
+        out.push(text(x, y, l, { size: SIZE.body, fill: SECONDARY }));
+      }
+    }
+    bottom = Math.max(bottom, y + 6);
+    x += w + gap;
+  }
+  return { svg: out.join("\n"), height: bottom - room.y };
+};
+var region = (r, x, y, w, h, out, ctx) => {
+  const what = `region ${r.label ?? r.marker ?? ""}`.trim();
+  if (w < 8 || h < 8) ctx.fail(`${what} has no room: ${Math.round(w)} \xD7 ${Math.round(h)}`);
+  const leaf = !r.children?.length;
+  const state2 = r.state ?? "present";
+  const surface = r.surface ?? (leaf ? "sunken" : "none");
+  const stroke = r.emphasis ? ctx.emphasis("place", what) : state2 === "degraded" ? WARN : state2 === "absent" ? MUTED : r.strong ? INK : surface === "none" ? void 0 : SUBTLE;
+  const boxed = Boolean(stroke) || surface !== "none";
+  if (boxed) {
+    out.push(
+      rect(x, y, w, h, {
+        fill: state2 !== "present" || surface === "none" ? "none" : surface === "raised" ? RAISED : SUNKEN,
+        stroke,
+        width: r.emphasis || r.strong ? 2 : state2 === "present" ? 1 : 1.5,
+        radius: 4,
+        dashed: state2 !== "present"
+      })
+    );
+  }
+  if (r.hidden) out.push(hatch(x + 1, y + 1, w - 2, h - 2));
+  const bar = h <= 40;
+  const head = bar ? y + h / 2 : y + 15;
+  let top = y + 8;
+  if (r.label) {
+    const space = w - 16 - (r.marker ? 26 : 0);
+    const face = r.head ? { size: SIZE.body, face: "sans", weight: 600 } : r.plain ? { size: SIZE.label, face: "sans" } : { size: SIZE.label, face: "mono" };
+    out.push(text(x + 8, head + 4.5, fit(r.label, space, face, what), { ...face, fill: r.head ? INK : MUTED }));
+    top = y + ctx.pick(28, 24);
+  }
+  if (r.marker) out.push(marker(x + w - 15, head, r.marker));
+  if (leaf) {
+    for (let i = 0; i < (r.icons ?? 0); i++) out.push(rect(x + w / 2 - 5, top + i * 16, 10, 10, { stroke: INK, width: 1.2, radius: 2 }));
+    for (let i = 0; i < (r.lines ?? 0); i++) {
+      const ly = top + i * 12;
+      if (ly + 6 > y + h - 6) {
+        const need = Math.ceil(top - y + ((r.lines ?? 0) - 1) * 12 + 12);
+        ctx.fail(`${what}: ${r.lines} lines need a height of ${need}, and it has ${Math.round(h)}`);
+      }
+      out.push(rect(x + 8, ly, (w - 16) * (LENGTHS[i % LENGTHS.length] ?? 1), 6, { fill: STRONG, radius: 2 }));
+    }
+    if (r.widgets?.length) controls(r, x, r.lines ? top + r.lines * 12 + 4 : top, w, y + h, out, ctx, what);
+    return;
+  }
+  const children = r.children ?? [];
+  const across = r.split === "row";
+  const pad = boxed ? INSET2 : 0;
+  const ix = x + pad;
+  const iy = r.label ? top - 4 : y + pad;
+  const iw = w - 2 * pad;
+  const ih = y + h - pad - iy;
+  const length = across ? iw : ih;
+  const fixed = children.reduce((sum2, c) => sum2 + (c.size ?? 0), 0);
+  const flexible = children.filter((c) => c.size === void 0).length;
+  const share = flexible ? (length - fixed - (children.length - 1) * INSET2) / flexible : 0;
+  if (flexible && share < 8) ctx.fail(`${what}: its children need ${Math.ceil((8 - share) * flexible)} more ${across ? "width" : "height"} than it has`);
+  let at = across ? ix : iy;
+  for (const c of children) {
+    const l = c.size ?? share;
+    if (across) region(c, at, iy, l, ih, out, ctx);
+    else region(c, ix, at, iw, l, out, ctx);
+    at += l + INSET2;
+  }
+};
+var band = (r, x, y, w, out, ctx) => {
+  const what = `band ${r.label ?? ""}`.trim();
+  const widgets = r.widgets ?? [];
+  const pad = ctx.pick(12, 8);
+  const labelW = r.label ? measure(r.label, SIZE.label, "mono") + 24 : 0;
+  const placed = grid(widgets, r.across ?? widgets.length, x + pad + labelW, y + pad, w - 2 * pad - labelW, ctx, what);
+  const h = Math.max(placed.height, 20) + 2 * pad;
+  out.push(rect(x, y, w, h, { stroke: MUTED, width: 1.5, radius: 4, dashed: true }));
+  if (r.label) out.push(text(x + pad + 4, y + h / 2 + 4.5, r.label, { size: SIZE.label, face: "mono", fill: MUTED }));
+  out.push(placed.svg);
+  return y + h;
+};
+var grid = (widgets, across, x, y, w, ctx, what) => {
+  if (!Number.isInteger(across) || across < 1) ctx.fail(`${what}: across=${across} is not a count of columns`);
+  const gap = 8;
+  const cw = (w - (across - 1) * gap) / across;
+  const out = [];
+  let cy = y;
+  for (let i = 0; i < widgets.length; i += across) {
+    let rowH = 0;
+    widgets.slice(i, i + across).forEach((wd, j) => {
+      const placed = widget(wd, x + j * (cw + gap), cy, cw, ctx, what);
+      out.push(placed.svg);
+      rowH = Math.max(rowH, placed.height);
+    });
+    cy += rowH + gap;
+  }
+  return { svg: out.join(""), height: widgets.length ? cy - gap - y : 0 };
+};
+var controls = (r, x, top, w, bottom, out, ctx, what) => {
+  const widgets = r.widgets ?? [];
+  const pad = w < 40 ? 4 : 10;
+  if (r.across) {
+    const placed = grid(widgets, r.across, x + pad, top, w - 2 * pad, ctx, what);
+    out.push(placed.svg);
+    const short2 = Math.ceil(top + placed.height - (bottom - 8));
+    if (short2 > 0) ctx.fail(`${what}: its controls are ${Math.round(placed.height)} high, ${short2} more than its room. Give the region ${short2} more size, or the sketch ${short2} more height`);
+    return;
+  }
+  if (r.flow === "row") {
+    const label = r.label ? fit(r.label, w, { size: SIZE.label, face: "mono" }, what) : "";
+    const start = x + pad + (label ? 0 : 0);
+    const fixed = widgets.reduce((sum2, wd) => sum2 + naturalWidth(wd) + ("marker" in wd && wd.marker ? 28 : 0), 0);
+    const flexible = widgets.filter((wd) => naturalWidth(wd) === 0).length;
+    const used = fixed + (widgets.length - 1) * 10;
+    const share = flexible ? (w - 2 * pad - used) / flexible : 0;
+    if (flexible ? share < 24 : used > w - 2 * pad + 0.5) ctx.fail(`${what}: its controls are ${Math.ceil(used + (flexible ? 24 * flexible : 0))} wide, and its room is ${Math.floor(w - 2 * pad)}`);
+    let cx = r.label ? x + w - pad - fixed - share * flexible - (widgets.length - 1) * 10 : start;
+    const mid = r.label ? top - 28 + (bottom - top + 28) / 2 : top + (bottom - top) / 2;
+    for (const wd of widgets) {
+      const ww = naturalWidth(wd) || share;
+      const own = ["button", "tabs", "chip", "tools", "keycap", "toolbar"].includes(wd.w);
+      const marked = !own && "marker" in wd && wd.marker ? wd.marker : "";
+      const placed = widget(marked ? { ...wd, marker: void 0 } : wd, cx, mid - ctx.pick(14, 12), ww, ctx, what);
+      out.push(placed.svg);
+      if (marked) out.push(marker(cx + ww + 14, mid, marked));
+      cx += Math.max(placed.width, ww) + (marked ? 28 : 0) + 10;
+    }
+    return;
+  }
+  const step = ctx.pick(10, 6);
+  let cy = top + 4;
+  for (const wd of widgets) {
+    const marked = "marker" in wd && wd.marker && !wd.corner ? 18 : 0;
+    const ww = naturalWidth(wd) && wd.w !== "text" ? Math.min(naturalWidth(wd), w - 2 * pad) : w - 2 * pad - marked;
+    const placed = widget(wd, x + pad, cy, ww, ctx, what);
+    out.push(placed.svg);
+    cy += placed.height + step;
+  }
+  const short = Math.ceil(cy - step - (bottom - 4));
+  if (short > 0) ctx.fail(`${what}: its controls are ${Math.round(cy - top)} high, ${short} more than its room. Give the region ${short} more size, or the sketch ${short} more height`);
+};
+
+// packages/frontend/src/lib/diagram/tiles.ts
+var PAD = 20;
+var GAP2 = 24;
+var tiles = (spec, room, ctx) => {
+  const perRow = spec.columns ?? Math.min(spec.tiles.length, 4);
+  const w = (room.width - (perRow - 1) * GAP2) / perRow;
+  const inner = w - 2 * PAD;
+  const laid = spec.tiles.map((t) => {
+    const what = `${ctx.name}: tile ${t.label}`;
+    const value = fit(t.value, inner - (t.sign ? 36 : 0), { size: SIZE.title, weight: 600 }, what);
+    const valueW = measure(value, SIZE.title, "sans", 600);
+    const unit = t.unit ? fit(t.unit, inner - valueW - 8, { size: SIZE.lead }, what) : "";
+    const label = wrap(t.label, spec.aside ? inner - valueW - 12 : inner, { size: SIZE.node, weight: 600 }, what);
+    const body = t.body ? wrap(t.body, inner, { size: SIZE.body }, what) : [];
+    const head = spec.aside ? Math.max(40, label.length * 22 + (t.unit ? 20 : 0)) + 16 : 40 + 12 + label.length * 22;
+    const h = PAD + head + (body.length ? 6 + body.length * 20 : 0) + PAD - 6;
+    return { t, value, valueW, unit, label, body, h };
+  });
+  const out = [];
+  let y = room.y;
+  for (let start = 0; start < laid.length; start += perRow) {
+    const row2 = laid.slice(start, start + perRow);
+    const h = Math.max(...row2.map((r) => r.h));
+    row2.forEach((r, i) => {
+      const x = room.x + i * (w + GAP2);
+      const state2 = r.t.state ?? "present";
+      const stroke = r.t.emphasis ? ctx.emphasis("tile", `tile ${r.t.label}`) : state2 === "degraded" ? WARN : state2 === "absent" ? MUTED : SUBTLE;
+      out.push(
+        rect(x, y, w, h, {
+          fill: state2 === "present" ? RAISED : "none",
+          stroke,
+          width: r.t.emphasis ? 2 : state2 === "present" ? 1 : 1.5,
+          radius: 6,
+          dashed: state2 !== "present"
+        })
+      );
+      const quiet = state2 === "absent";
+      if (spec.aside) {
+        const top = Math.max(40, r.label.length * 22 + (r.t.unit ? 20 : 0));
+        out.push(text(x + w - PAD, y + PAD + 32, r.value, { size: SIZE.title, weight: 600, spacing: -0.5, anchor: "end", fill: quiet ? MUTED : void 0 }));
+        r.label.forEach((l, j) => out.push(text(x + PAD, y + PAD + 16 + j * 22, l, { size: SIZE.node, weight: 600, fill: quiet ? MUTED : void 0 })));
+        if (r.unit) out.push(text(x + PAD, y + PAD + 16 + r.label.length * 22, r.unit, { size: SIZE.body, fill: SECONDARY }));
+        out.push(line(x + PAD, y + PAD + top + 8, x + w - PAD, y + PAD + top + 8, SUBTLE));
+        r.body.forEach((l, j) => out.push(text(x + PAD, y + PAD + top + 16 + 6 + 14 + j * 20, l, { size: SIZE.body, fill: SECONDARY })));
+        return;
+      }
+      let ty = y + PAD + 32;
+      if (r.t.sign) out.push(sign(r.t.sign, x + PAD + 10, ty - 12));
+      const vx = x + PAD + (r.t.sign ? 36 : 0);
+      const value = text(vx, ty, r.value, { size: SIZE.title, weight: 600, spacing: -0.5, fill: quiet ? MUTED : void 0 });
+      out.push(r.unit ? value.replace("</text>", `<tspan dx="8" font-size="${SIZE.lead}" font-weight="400" letter-spacing="0" fill="${SECONDARY}">${escape(r.unit)}</tspan></text>`) : value);
+      ty += 8;
+      for (const l of r.label) {
+        ty += 22;
+        out.push(text(x + PAD, ty, l, { size: SIZE.node, weight: 600, fill: quiet ? MUTED : void 0 }));
+      }
+      if (r.body.length) ty += 6;
+      for (const l of r.body) {
+        ty += 20;
+        out.push(text(x + PAD, ty, l, { size: SIZE.body, fill: SECONDARY }));
+      }
+    });
+    y += h + GAP2;
+  }
+  return { svg: out.join("\n"), height: y - GAP2 - room.y };
+};
+
+// packages/frontend/src/lib/diagram/units.ts
+var SQUARE = 15;
+var STEP2 = 21;
+var ROW_GAP2 = 48;
+var units = (spec, room, ctx) => {
+  const lines5 = spec.lines ?? 4;
+  const widest = Math.max(
+    ...spec.rows.map((r) => measure(r.label, SIZE.body, "sans", 600)),
+    ...spec.rows.flatMap((r) => (r.sub ?? []).map((s) => measure(s, SIZE.label, "mono"))),
+    spec.head ? measure(spec.head, SIZE.label, "mono") : 0
+  );
+  const labelW = Math.min(widest + 40, room.width * 0.4);
+  const x0 = room.x + labelW;
+  const out = [];
+  let y = room.y;
+  if (spec.head || spec.key) {
+    if (spec.head) out.push(text(room.x, y + 13, spec.head, { size: SIZE.label, face: "mono", fill: MUTED }));
+    if (spec.key) out.push(text(x0, y + 13, fit(spec.key, room.width - labelW, { size: SIZE.label, face: "mono" }, `${ctx.name}: the key`), { size: SIZE.label, face: "mono", fill: MUTED }));
+    y += 40;
+  }
+  for (const row2 of spec.rows) {
+    const what = `${ctx.name}: row ${row2.label}`;
+    const total = row2.parts.reduce((sum2, p) => sum2 + p.count, 0);
+    const columns3 = Math.ceil(total / lines5);
+    if (x0 + columns3 * STEP2 - (STEP2 - SQUARE) > room.x + room.width + 0.5) ctx.fail(`${what}: ${total} squares in ${lines5} lines run past the edge`);
+    const label = wrap(row2.label, labelW - 24, { size: SIZE.body, weight: 600 }, what);
+    let ty = y + 13;
+    for (const l of label) {
+      out.push(text(room.x, ty, l, { size: SIZE.body, weight: 600 }));
+      ty += 19;
+    }
+    for (const s of row2.sub ?? []) {
+      out.push(text(room.x, ty + 2, fit(s, labelW - 24, { size: SIZE.label, face: "mono" }, what), { size: SIZE.label, face: "mono", fill: SECONDARY }));
+      ty += 19;
+    }
+    const colour = row2.emphasis ? ctx.emphasis("row", `row ${row2.label}`) : INK;
+    let i = 0;
+    let missingFrom;
+    let missingState;
+    for (const part of row2.parts) {
+      const state2 = part.state ?? "present";
+      if (state2 !== "present") [missingFrom, missingState] = [Math.floor(i / lines5), state2];
+      for (let n = 0; n < part.count; n++, i++) {
+        const sx = x0 + Math.floor(i / lines5) * STEP2;
+        const sy = y + i % lines5 * STEP2;
+        out.push(
+          state2 === "present" ? rect(sx, sy, SQUARE, SQUARE, { fill: colour, radius: 2 }) : rect(sx, sy, SQUARE, SQUARE, { stroke: state2 === "degraded" ? WARN : MUTED, radius: 2, dashed: true })
+        );
+      }
+    }
+    let bottom = Math.max(ty - 13, y + lines5 * STEP2);
+    if (row2.missing && missingFrom !== void 0) {
+      const mx = x0 + missingFrom * STEP2;
+      out.push(text(mx, y + lines5 * STEP2 + 16, fit(row2.missing, room.x + room.width - mx, { size: SIZE.label }, what), { size: SIZE.label, fill: missingState === "degraded" ? WARN : MUTED }));
+      bottom = Math.max(bottom, y + lines5 * STEP2 + 20);
+    }
+    y = bottom + ROW_GAP2;
+  }
+  return { svg: out.join("\n"), height: y - ROW_GAP2 - room.y };
+};
+
+// packages/frontend/src/lib/diagram/cells.ts
+var CELL_H = 64;
+var HEAD = 52;
+var cells = (spec, room, ctx) => {
+  const [pad, GAP4, GROUP_GAP] = ctx.pick([20, 6, 40], [10, 4, 20]);
+  const cellW = Math.max(...spec.groups.flatMap((g) => g.cells.map((c) => measure(c.id, SIZE.node, "mono", 600))), 30) + pad;
+  const out = [];
+  const used = /* @__PURE__ */ new Set();
+  let x = room.x;
+  let y = room.y;
+  if (spec.boxed) {
+    y = boxedGroups(spec, room, ctx, used, out);
+  }
+  for (const g of spec.boxed ? [] : spec.groups) {
+    const what = `${ctx.name}: group ${g.title}`;
+    const w = Math.max(
+      g.cells.length * (cellW + GAP4) - GAP4,
+      measure(g.title, SIZE.node, "sans", 600),
+      g.sub ? measure(g.sub, SIZE.body, "sans", g.tone ? 600 : 400) : 0
+    );
+    if (w > room.width) ctx.fail(`${what} is wider than the drawing: ${g.cells.length} cells`);
+    if (x > room.x && x + w > room.x + room.width) {
+      x = room.x;
+      y += HEAD + CELL_H + 32;
+    }
+    out.push(text(x, y + 16, fit(g.title, w, { size: SIZE.node, weight: 600 }, what), { size: SIZE.node, weight: 600 }));
+    if (g.sub) out.push(text(x, y + 38, g.sub, g.tone ? { size: SIZE.body, weight: 600, fill: TONE[g.tone] } : { size: SIZE.body, fill: SECONDARY }));
+    g.cells.forEach((c, i) => {
+      const cx = x + i * (cellW + GAP4);
+      const state2 = c.state ?? "present";
+      const stroke = c.emphasis ? ctx.emphasis("cell", `cell ${c.id}`) : state2 === "degraded" ? WARN : state2 === "absent" ? MUTED : SUBTLE;
+      out.push(
+        rect(cx, y + HEAD, cellW, CELL_H, {
+          fill: state2 === "present" ? RAISED : "none",
+          stroke,
+          width: c.emphasis ? 2 : state2 === "present" ? 1 : 1.5,
+          radius: 4,
+          dashed: state2 !== "present"
+        })
+      );
+      out.push(text(cx + cellW / 2, y + HEAD + 24, c.id, { size: SIZE.node, face: "mono", weight: 600, anchor: "middle", fill: state2 === "absent" ? MUTED : void 0 }));
+      if (c.sign) {
+        used.add(c.sign);
+        out.push(sign(c.sign, cx + cellW / 2, y + HEAD + 45));
+      }
+    });
+    x += w + GROUP_GAP;
+  }
+  if (!spec.boxed) y += HEAD + CELL_H;
+  if (used.size && ctx.legend) {
+    y += 34;
+    let lx = room.x;
+    for (const s of ["yes", "partly", "no", "unknown", "dot", "ring", "page", "panel", "both", "form", "bar", "nav"]) {
+      if (!used.has(s)) continue;
+      const word = spec.legend?.[s] ?? SIGN_MEANING[s];
+      const lw = 32 + measure(word, SIZE.body, "sans", 600) + 32;
+      if (lx + lw > room.x + room.width + 32) {
+        lx = room.x;
+        y += 26;
+      }
+      out.push(sign(s, lx + 11, y - 5));
+      out.push(text(lx + 32, y, word, { size: SIZE.body, weight: 600 }));
+      lx += lw;
+    }
+    y += 6;
+  }
+  return { svg: out.join("\n"), height: y - room.y };
+};
+var boxedGroups = (spec, room, ctx, used, out) => {
+  const [pad, gap, step] = ctx.pick([12, 12, 32], [10, 10, 34]);
+  const need = spec.groups.map(
+    (g) => Math.max(g.cells.length * step, measure(g.title, SIZE.node, "sans", 600), g.sub ? measure(g.sub, SIZE.body, "sans", g.tone ? 600 : 400) : 0) + 2 * pad
+  );
+  const sum2 = need.reduce((a, b) => a + b, 0) + (spec.groups.length - 1) * gap;
+  if (sum2 > room.width) ctx.fail(`the boxed groups are ${Math.ceil(sum2)} wide, and the drawing is ${Math.floor(room.width)}`);
+  const extra = (room.width - sum2) / spec.groups.length;
+  const h = ctx.pick(112, 104);
+  let x = room.x;
+  spec.groups.forEach((g, i) => {
+    const w = (need[i] ?? 0) + extra;
+    out.push(rect(x, room.y, w, h, { fill: RAISED, stroke: SUBTLE, radius: 6 }));
+    out.push(text(x + pad, room.y + pad + 14, g.title, { size: SIZE.node, weight: 600 }));
+    g.cells.forEach((c, j) => {
+      const cx = x + pad + j * step + step / 2;
+      const stroke = c.emphasis ? ctx.emphasis("cell", `cell ${c.id}`) : void 0;
+      out.push(text(cx, room.y + pad + 40, c.id, { size: SIZE.label, face: "mono", weight: 600, anchor: "middle", fill: stroke ?? ((c.state ?? "present") === "absent" ? MUTED : SECONDARY) }));
+      if (c.sign) {
+        used.add(c.sign);
+        out.push(sign(c.sign, cx, room.y + pad + 58));
+      }
+    });
+    if (g.sub) out.push(text(x + pad, room.y + h - pad, g.sub, g.tone ? { size: SIZE.body, weight: 600, fill: TONE[g.tone] } : { size: SIZE.body, fill: SECONDARY }));
+    x += w + gap;
+  });
+  return room.y + h;
+};
+
+// packages/frontend/src/lib/diagram/chips.ts
+var H = 30;
+var GAP3 = 8;
+var TIGHT_GAP = 4;
+var RING_H = 18;
+var width = (c) => Math.max(measure(c.id, SIZE.label, "mono", 600) + 20, 44);
+var chip = (c, x, y, w, ctx) => {
+  const kind = c.kind ?? "filled";
+  const stroke = c.emphasis ? ctx.emphasis("chip", `chip ${c.id}`) : kind === "outline" ? INK : void 0;
+  const out = [
+    kind === "plain" && !c.emphasis ? "" : rect(x, y, w, H, { fill: kind === "filled" ? INK : "none", stroke, width: stroke ? 2 : 1, radius: 4 }),
+    text(x + w / 2, y + 20, c.id, { size: SIZE.label, face: "mono", weight: 600, anchor: "middle", fill: kind === "filled" ? CANVAS : kind === "plain" ? MUTED : INK })
+  ];
+  if (c.ring) out.push(circle(x + w / 2, y + H + 11, 5.5, "none", INK) + circle(x + w / 2, y + H + 11, 2.5, INK));
+  return out.join("");
+};
+var chips = (spec, room, ctx) => {
+  const out = [];
+  let y = room.y;
+  if (spec.direction === "columns") {
+    const n = spec.groups.length;
+    const colW = room.width / n;
+    const across = spec.across ?? 2;
+    const cw = (colW - 20 - (across - 1) * GAP3) / across;
+    let bottom = y;
+    spec.groups.forEach((g, i) => {
+      const x = room.x + i * colW + 10;
+      let cy = y;
+      for (const l of wrap(g.label, colW - 20, { size: SIZE.node, weight: 600 }, `${ctx.name}: column ${g.label}`)) {
+        out.push(text(x, cy + 16, l, { size: SIZE.node, weight: 600 }));
+        cy += 22;
+      }
+      for (const l of g.sub ?? []) {
+        out.push(text(x, cy + 14, fit(l, colW - 20, { size: SIZE.body }, `${ctx.name}: column ${g.label}`), { size: SIZE.body, fill: SECONDARY }));
+        cy += 19;
+      }
+      cy += 16;
+      for (const task of g.tasks ?? []) {
+        const lines5 = wrap(task, colW - 44, { size: SIZE.body }, `${ctx.name}: a task of ${g.label}`);
+        const h = lines5.length * 18 + 14;
+        out.push(rect(x, cy, colW - 20, h, { fill: SUNKEN, radius: 4 }));
+        lines5.forEach((l, j) => out.push(text(x + 12, cy + 20 + j * 18, l, { size: SIZE.body })));
+        cy += h + GAP3;
+      }
+      g.chips.forEach((c, j) => {
+        if (width(c) > cw + 0.5) ctx.fail(`chip ${c.id} is wider than its place in ${g.label}`);
+        const row2 = Math.floor(j / across);
+        const rowH = H + GAP3 + (g.chips.slice(row2 * across, row2 * across + across).some((k) => k.ring) ? RING_H : 0);
+        if (j % across === 0 && j) cy += rowH;
+        out.push(chip(c, x + j % across * (cw + GAP3), cy, cw, ctx));
+      });
+      if (g.chips.length) cy += H + (g.chips.slice(-across).some((k) => k.ring) ? RING_H : 0);
+      bottom = Math.max(bottom, cy);
+    });
+    for (let i = 1; i < n; i++) out.push(line(room.x + i * colW, y, room.x + i * colW, bottom + 8, SUBTLE));
+    y = bottom + 8;
+  } else {
+    const labelW = Math.max(
+      ...spec.groups.map((g) => measure(g.label, SIZE.node, "sans", 600)),
+      ...spec.groups.flatMap((g) => (g.sub ?? []).map((s) => measure(s, SIZE.body)))
+    ) + 32;
+    const all = spec.groups.flatMap((g) => g.chips);
+    const tightest = Math.max(0, ...all.map((c) => measure(c.id, SIZE.label, "mono", 600) + ((c.kind ?? "filled") === "plain" ? 2 : 10)));
+    const longest = Math.max(1, ...spec.groups.map((g) => g.chips.length));
+    const free = room.width - labelW;
+    const even = Math.max(...all.map(width), 0);
+    const fits = (w, gap2) => longest * w + (longest - 1) * gap2 <= free + 0.5;
+    const gap = fits(even, GAP3) ? GAP3 : TIGHT_GAP;
+    const uniform = fits(even, gap) ? even : Math.max(tightest, (free - (longest - 1) * gap) / longest);
+    for (const g of spec.groups) {
+      const what = `${ctx.name}: row ${g.label}`;
+      out.push(text(room.x, y + 18, fit(g.label, labelW - 24, { size: SIZE.node, weight: 600 }, what), { size: SIZE.node, weight: 600 }));
+      (g.sub ?? []).forEach((s, i) => out.push(text(room.x, y + 38 + i * 19, s, { size: SIZE.body, fill: SECONDARY })));
+      let x = room.x + labelW;
+      let line0 = y;
+      let ringed = false;
+      for (const c of g.chips) {
+        const w = uniform;
+        if (x + w > room.x + room.width + 0.5) {
+          line0 += H + GAP3 + (ringed ? RING_H : 0);
+          x = room.x + labelW;
+          ringed = false;
+        }
+        out.push(chip(c, x, line0, w, ctx));
+        ringed ||= Boolean(c.ring);
+        x += w + gap;
+      }
+      y = Math.max(line0 + H + (ringed ? RING_H : 0), y + 22 + (g.sub?.length ?? 0) * 19) + 28;
+    }
+    y -= 12;
+  }
+  if (spec.legend?.length && ctx.legend) {
+    y += 20;
+    let x = room.x;
+    for (const entry of spec.legend) {
+      const sample = entry.kind === "ring" ? { id: "", kind: "plain", ring: true } : { id: "ID", kind: entry.kind };
+      const w = entry.kind === "ring" ? 12 : width(sample);
+      const lw = w + 10 + measure(entry.label, SIZE.body) + 28;
+      if (x + lw > room.x + room.width + 28) {
+        x = room.x;
+        y += 32;
+      }
+      if (entry.kind === "ring") out.push(circle(x + 6, y + 15, 5.5, "none", INK) + circle(x + 6, y + 15, 2.5, INK));
+      else out.push(chip(sample, x, y, w, ctx));
+      out.push(text(x + w + 10, y + 20, entry.label, { size: SIZE.body, fill: SECONDARY }));
+      x += lw;
+    }
+    y += H;
+  }
+  return { svg: out.join("\n"), height: y - room.y };
+};
+
+// packages/frontend/src/lib/diagram/notes.ts
+var notes = (spec, room, ctx) => {
+  const out = [];
+  let y = room.y;
+  for (const n of spec.notes) {
+    const what = `${ctx.name}: note ${n.marker}`;
+    const title = wrap(n.title, room.width - 36, { size: SIZE.node, weight: 600 }, what);
+    const body = n.body ? wrap(n.body, room.width - 36, { size: SIZE.body }, what) : [];
+    out.push(marker(room.x + 11, y + 11, n.marker));
+    title.forEach((l, i) => out.push(text(room.x + 36, y + 16 + i * 21, l, { size: SIZE.node, weight: 600 })));
+    body.forEach((l, i) => out.push(text(room.x + 36, y + 16 + title.length * 21 + i * 19, l, { size: SIZE.body, fill: SECONDARY })));
+    y += title.length * 21 + body.length * 19 + 12;
+  }
+  return { svg: out.join("\n"), height: y - 12 - room.y };
+};
+
+// packages/frontend/src/lib/diagram/draw.ts
+var WIDTH = 1200;
+var MARGIN = 60;
+var BODY = WIDTH - 2 * MARGIN;
+var layout = (spec, room, ctx) => {
+  switch (spec.kind) {
+    case "flow":
+      return flow(spec, room, ctx);
+    case "sequence":
+      return sequence(spec, room, ctx);
+    case "matrix":
+      return matrix(spec, room, ctx);
+    case "tiles":
+      return tiles(spec, room, ctx);
+    case "columns":
+      return columns(spec, room, ctx);
+    case "bars":
+      return bars(spec, room, ctx);
+    case "sketch":
+      return sketch(spec, room, ctx);
+    case "units":
+      return units(spec, room, ctx);
+    case "chips":
+      return chips(spec, room, ctx);
+    case "cells":
+      return cells(spec, room, ctx);
+    case "notes":
+      return notes(spec, room, ctx);
+    case "compose":
+      return compose(spec, room, ctx);
+  }
+};
+var PART_LABEL = 30;
+var compose = (spec, room, ctx) => {
+  const across = (spec.direction ?? "row") === "row";
+  const gap = spec.gap ?? (across ? ctx.pick(48, 32) : ctx.pick(36, 20));
+  const total = spec.parts.reduce((sum2, p) => sum2 + (p.weight ?? 1), 0);
+  const free = room.width - (spec.parts.length - 1) * gap;
+  const out = [];
+  let x = room.x;
+  let y = room.y;
+  let bottom = room.y;
+  const legendOf = (p) => {
+    if (!("legend" in p) || !p.legend) return "";
+    const entries = Array.isArray(p.legend) ? p.legend.map((e) => `${"sign" in e ? e.sign ?? "" : "tone" in e ? e.tone : "kind" in e ? e.kind : ""}=${e.label}`) : Object.entries(p.legend).map(([k, v]) => `${k}=${String(v)}`);
+    return entries.sort().join("|");
+  };
+  for (const [i, part] of spec.parts.entries()) {
+    const w = across ? free * (part.weight ?? 1) / total : room.width;
+    let top = y;
+    if (part.label) {
+      out.push(text(x, top + 13, fit(part.label.toUpperCase(), w, { size: SIZE.label, face: "mono", weight: 600, spacing: 0.8 }, `${ctx.name}: a part`), { size: SIZE.label, face: "mono", weight: 600, spacing: 0.8, fill: MUTED }));
+      top += ctx.pick(PART_LABEL, 22);
+    }
+    ctx.legend = !legendOf(part.spec) || !spec.parts.slice(i + 1).some((p) => legendOf(p.spec) === legendOf(part.spec));
+    const drawn = layout(part.spec, { x, y: top, width: w }, ctx);
+    ctx.legend = true;
+    if (spec.chain && across && i > 0) {
+      const ay = top + ctx.pick(28, 24);
+      out.push(connector([[x - gap + 6, ay], [x - 6, ay]]));
+    }
+    if (drawn.width) ctx.fail(`a part needs ${drawn.width} across, and its room is ${Math.floor(w)}`);
+    out.push(drawn.svg);
+    bottom = Math.max(bottom, top + drawn.height);
+    if (across) x += w + gap;
+    else y = top + drawn.height + gap;
+  }
+  return { svg: out.join("\n"), height: (across ? bottom : y - gap) - room.y };
+};
+var draw2 = (spec, options) => {
+  const { name } = options;
+  const slide = options.slide ?? spec.slide;
+  const ctx = new Context(options.name, spec.claim, Boolean(options.slide));
+  let body;
+  let width2;
+  let height;
+  let fill;
+  if (slide) {
+    const ways = spec.kind === "flow" ? folds(spec, slide.width) : [spec];
+    const squeezes = ctx.dense && JSON.stringify(spec).includes('"sketch"') ? [1, 0.95, 0.9, 0.85, 0.8, 0.7] : [1];
+    let drawn;
+    let first;
+    for (const way of ways.flatMap((w) => squeezes.map((s) => [w, s]))) {
+      try {
+        ctx.squeeze = way[1];
+        drawn = ctx.attempt(() => {
+          const tried = layout(way[0], { x: 0, y: 0, width: slide.width }, ctx);
+          if (tried.width) ctx.fail(`the drawing needs ${tried.width} across, and the slide's room is ${slide.width}`);
+          if (tried.height > slide.height + 0.5) ctx.fail(`the drawing is ${Math.ceil(tried.height)} high, and the slide's room is ${slide.height}`);
+          return tried;
+        });
+        break;
+      } catch (error) {
+        first ??= error;
+      }
+    }
+    if (!drawn) throw first;
+    ({ width: width2 } = slide);
+    height = Math.ceil(drawn.height);
+    fill = drawn.height / slide.height;
+    body = drawn.svg;
+  } else {
+    const drawn = layout(spec, { x: MARGIN, y: MARGIN, width: BODY }, ctx);
+    width2 = Math.max(WIDTH, (drawn.width ?? 0) + 2 * MARGIN);
+    height = Math.ceil(drawn.height + 2 * MARGIN);
+    body = [rect(0, 0, width2, height, { fill: CANVAS }), drawn.svg].join("\n");
+  }
+  const svg2 = `<svg xmlns="http://www.w3.org/2000/svg" width="${width2}" height="${height}" viewBox="0 0 ${width2} ${height}" role="img" aria-labelledby="${name}-title ${name}-desc">
+<title id="${name}-title">${escape(spec.title)}</title>
+<desc id="${name}-desc">${escape(spec.description)}</desc>
+<g id="soul-ref">
+${body}
+</g>
+</svg>
+`;
+  return fill === void 0 ? { svg: svg2, width: width2, height } : { svg: svg2, width: width2, height, fill };
+};
+
+// packages/frontend/src/lib/diagram/parse.ts
+var ARROWS = ["<->", "-->", "->", "=>", "-x"];
+var fail = (line2, message) => {
+  throw new Error(`line ${line2.number}: ${message}`);
+};
+var quoted = (source, at, quote, number) => {
+  let value = "";
+  let i = at + 1;
+  while (i < source.length && source[i] !== quote) {
+    if (source[i] === "\\" && quote === '"' && source[i + 1] === "n") {
+      value += "\n";
+      i += 2;
+      continue;
+    }
+    if (source[i] === "\\" && quote === '"' && i + 1 < source.length) i++;
+    value += source[i];
+    i++;
+  }
+  if (i >= source.length) fail({ number }, `a ${quote === '"' ? "text" : "name"} with no closing ${quote}`);
+  if (quote === '"') value = value.replace(/\{([a-z]+)\}/g, (all, name) => glyphChar(name) ?? all);
+  return [value, i + 1];
+};
+var tokenize = (source, number) => {
+  const tokens = [];
+  let i = 0;
+  while (i < source.length) {
+    const c = source[i] ?? "";
+    if (c === " " || c === "	") {
+      i++;
+    } else if (c === "#") {
+      break;
+    } else if (c === '"' || c === "`") {
+      const [value, next] = quoted(source, i, c, number);
+      tokens.push({ kind: "text", value, code: c === "`" });
+      i = next;
+    } else if (c === ":") {
+      tokens.push({ kind: "colon" });
+      i++;
+    } else {
+      const arrow = ARROWS.find((a) => source.startsWith(a, i));
+      if (arrow) {
+        tokens.push({ kind: "arrow", value: arrow });
+        i += arrow.length;
+        continue;
+      }
+      let word = "";
+      while (i < source.length && !/[\s"`#:]/.test(source[i] ?? "") && source[i] !== "=" && !(word && ARROWS.some((a) => source.startsWith(a, i)))) {
+        word += source[i++];
+      }
+      if (source[i] === "=") {
+        i++;
+        const q = source[i];
+        if (q === '"' || q === "`") {
+          const [value, next] = quoted(source, i, q, number);
+          tokens.push({ kind: "option", key: word, value, code: q === "`" });
+          i = next;
+        } else {
+          let value = "";
+          while (i < source.length && !/[\s#:]/.test(source[i] ?? "")) value += source[i++];
+          tokens.push({ kind: "option", key: word, value, code: false });
+        }
+      } else if (word) {
+        tokens.push({ kind: "word", value: word });
+      } else {
+        fail({ number }, `"${c}" stands where no statement expects it`);
+      }
+    }
+  }
+  return tokens;
+};
+var tree = (text2) => {
+  const root = { number: 0, indent: -1, tokens: [], children: [] };
+  const stack2 = [root];
+  text2.split("\n").forEach((source, i) => {
+    const tokens = tokenize(source, i + 1);
+    if (!tokens.length) return;
+    const indent = source.length - source.trimStart().length;
+    while ((stack2.at(-1)?.indent ?? -1) >= indent) stack2.pop();
+    const line2 = { number: i + 1, indent, tokens, children: [] };
+    stack2.at(-1)?.children.push(line2);
+    stack2.push(line2);
+  });
+  for (const line2 of root.children) fold(line2);
+  return root.children;
+};
+var OPTIONS = /* @__PURE__ */ new Set([
+  "active",
+  "at",
+  "badge",
+  "letter",
+  "bend",
+  "body",
+  "caption",
+  "cards",
+  "count",
+  "eyebrow",
+  "flow",
+  "foot",
+  "heading",
+  "id",
+  "mark",
+  "marker",
+  "marks",
+  "missing",
+  "nav",
+  "over",
+  "place",
+  "placeholder",
+  "right",
+  "sign",
+  "size",
+  "span",
+  "sub",
+  "surface",
+  "tag",
+  "rows",
+  "target",
+  "tone",
+  "unit",
+  "value",
+  "via",
+  "weight",
+  "width",
+  "icons",
+  "show",
+  // the options of a layout's first line
+  "across",
+  "axis",
+  "bands",
+  "claim",
+  "columns",
+  "direction",
+  "gap",
+  "head",
+  "height",
+  "key",
+  "label-width",
+  "max",
+  "notes",
+  "row-groups",
+  "slide",
+  "ticks"
+]);
+var FLAGS = /* @__PURE__ */ new Set([
+  "absent",
+  "boxed",
+  "chain",
+  "close",
+  "figures",
+  "fill",
+  "rise",
+  "curve",
+  "changed",
+  "cursor",
+  "degraded",
+  "emphasis",
+  "fan",
+  "focus",
+  "handle",
+  "hidden",
+  "ink",
+  "large",
+  "muted",
+  "new",
+  "person",
+  "push",
+  "selected",
+  "slim",
+  "small",
+  "split",
+  "steps",
+  "store",
+  "strong",
+  "switch",
+  "arrow",
+  "bare",
+  "plain",
+  "left",
+  "heads",
+  "blocks",
+  "corner",
+  "dashed",
+  "device",
+  "dim",
+  "head",
+  "inplace",
+  "on",
+  "over",
+  "pointer",
+  "rendered",
+  "ring",
+  "round",
+  "dot",
+  "sheet",
+  "even",
+  "aside",
+  "end",
+  "square",
+  "ids",
+  "rules",
+  "bar",
+  "centred"
+]);
+var PARTS = /* @__PURE__ */ new Set(["cells", "chips", "parts", "segments"]);
+var fold = (line2) => {
+  const kept = [];
+  for (const child of line2.children) {
+    fold(child);
+    const [head, value, ...rest] = child.tokens;
+    const word = head?.kind === "word" ? head.value : "";
+    const colon = line2.tokens.findIndex((t) => t.kind === "colon");
+    const before = (t) => {
+      if (colon < 0) line2.tokens.push(t);
+      else line2.tokens.splice(colon, 0, t);
+    };
+    const layoutOfPart = line2.tokens[0]?.kind === "word" && line2.tokens[0].value === "part" && Object.hasOwn(LAYOUTS, word);
+    const parent = line2.tokens[0]?.kind === "word" ? line2.tokens[0].value : "";
+    const control = ["column", "frame", "row", "region", "band"].includes(parent) && isWidget(word);
+    if (child.children.length || layoutOfPart || control) {
+      kept.push(child);
+    } else if (FLAGS.has(word) && !value) {
+      before({ kind: "word", value: word });
+    } else if ((OPTIONS.has(word) || line2.tokens[0]?.kind === "word" && line2.tokens[0].value === "legend") && value && !rest.length && (value.kind === "text" || value.kind === "word")) {
+      before({ kind: "option", key: word, value: value.value, code: value.kind === "text" && value.code });
+    } else if (PARTS.has(word)) {
+      if (colon < 0) line2.tokens.push({ kind: "colon" });
+      line2.tokens.push(...child.tokens.slice(1).filter((t) => t.kind !== "colon"));
+    } else {
+      kept.push(child);
+    }
+  }
+  line2.children = kept;
+};
+var ungroup = (lines5) => lines5.flatMap((line2) => {
+  const s = read(line2);
+  if (s.head !== "group" || !line2.children.length) return [line2];
+  const tag = { kind: "option", key: "group", value: textOf(s), code: false };
+  return line2.children.map((child) => {
+    const colon = child.tokens.findIndex((t) => t.kind === "colon");
+    const tokens = [...child.tokens];
+    tokens.splice(colon < 0 ? tokens.length : colon, 0, tag);
+    return { ...child, tokens };
+  });
+});
+var read = (line2) => {
+  const [first, ...rest] = line2.tokens;
+  const statement = {
+    line: line2,
+    head: first?.kind === "word" ? first.value : "",
+    texts: [],
+    options: /* @__PURE__ */ new Map(),
+    flags: /* @__PURE__ */ new Set(),
+    words: [],
+    after: []
+  };
+  const tokens = first?.kind === "word" ? rest : line2.tokens;
+  const colon = tokens.findIndex((t) => t.kind === "colon");
+  const before = colon < 0 ? tokens : tokens.slice(0, colon);
+  statement.after = colon < 0 ? [] : tokens.slice(colon + 1);
+  for (const t of before) {
+    if (t.kind === "text") statement.texts.push({ value: t.value, code: t.code });
+    else if (t.kind === "option") statement.options.set(t.key, { value: t.value, code: t.code });
+    else if (t.kind === "arrow") statement.arrow = t.value;
+    else if (t.kind === "word") statement.words.push(t.value);
+  }
+  for (const w of statement.words) statement.flags.add(w);
+  return statement;
+};
+var option = (s, key2) => s.options.get(key2)?.value;
+var numberOf = (s, key2) => {
+  const raw = option(s, key2);
+  if (raw === void 0) return void 0;
+  const n = Number(raw);
+  if (!Number.isFinite(n)) fail(s.line, `${key2}=${raw} is not a number`);
+  return n;
+};
+var numbers = (s, key2) => {
+  const raw = option(s, key2);
+  if (raw === void 0) return void 0;
+  return raw.split(",").map((part) => {
+    const n = Number(part);
+    if (!Number.isFinite(n)) fail(s.line, `${key2}=${raw} is not a list of numbers`);
+    return n;
+  });
+};
+var textOf = (s, index = 0) => {
+  const t = s.texts[index];
+  if (!t) return fail(s.line, `${s.head || "this statement"} needs a text in double quotes`);
+  return t.value;
+};
+var oneOf = (s, key2, allowed) => {
+  const raw = option(s, key2);
+  if (raw === void 0) return void 0;
+  if (!allowed.includes(raw)) fail(s.line, `${key2}=${raw}: write one of ${allowed.join(", ")}`);
+  return raw;
+};
+var state = (s) => s.flags.has("absent") ? "absent" : s.flags.has("degraded") ? "degraded" : void 0;
+var shape = (s) => s.flags.has("person") ? "person" : s.flags.has("store") ? "store" : void 0;
+var SIGNS2 = ["yes", "partly", "no", "unknown", "dot", "ring", "page", "panel", "both", "form", "bar", "nav", "docheader", "any"];
+var isSign = (w) => SIGNS2.includes(w);
+var TONES2 = ["ink", "muted", "ok", "warn", "error"];
+var clean = (o) => Object.fromEntries(Object.entries(o).filter(([, v]) => v !== void 0 && v !== false));
+var flow2 = (lines5) => {
+  const nodes = [];
+  const edges = [];
+  const groups = [];
+  const node = (s) => {
+    const id = s.head;
+    const items = s.line.children.map(read).filter((c) => c.head === "item").map((c) => clean({ title: textOf(c), body: option(c, "body"), value: option(c, "value") }));
+    const title = s.texts[0] ?? (items.length ? { value: "", code: false } : fail(s.line, `node ${id} needs its title in double quotes or backticks`));
+    const at = numbers(s, "at");
+    if (!at || at.length !== 2) fail(s.line, `node ${id} needs at=column,row`);
+    const mark = s.flags.has("new") ? "new" : s.flags.has("changed") ? "changed" : void 0;
+    nodes.push(
+      clean({
+        id,
+        at,
+        span: numberOf(s, "span"),
+        rows: numberOf(s, "rows"),
+        title: title.value,
+        code: title.code || void 0,
+        body: option(s, "body"),
+        value: option(s, "value"),
+        items: items.length ? items : void 0,
+        across: numberOf(s, "across"),
+        mark,
+        shape: shape(s),
+        state: state(s),
+        emphasis: s.flags.has("emphasis") || void 0,
+        fill: flag(s, "fill"),
+        ink: s.flags.has("ink") || void 0,
+        strong: flag(s, "strong"),
+        plain: flag(s, "plain"),
+        dashed: flag(s, "dashed"),
+        eyebrow: option(s, "eyebrow"),
+        tag: option(s, "tag")
+      })
+    );
+    return id;
+  };
+  const group = (line2, within) => {
+    const s = read(line2);
+    const id = s.words.find((w) => !["absent", "degraded"].includes(w));
+    const label = textOf(s);
+    const members = line2.children.flatMap((child) => read(child).head === "group" ? group(child, id ?? `group:${label}`) : [node(read(child))]);
+    groups.push(clean({ id, label, nodes: members, state: state(s), within, emphasis: flag(s, "emphasis") }));
+    return members;
+  };
+  const rows = [];
+  const heads = [];
+  const letters = [];
+  const claims = [];
+  const eyebrows = [];
+  for (const line2 of lines5) {
+    const s = read(line2);
+    if (s.head === "group") {
+      group(line2);
+    } else if (s.head === "column" && !s.arrow) {
+      const index = Number(s.words[0]);
+      if (!Number.isInteger(index) || index < 0) fail(line2, 'a column head is `column <number> "head"`, from 0');
+      while (heads.length <= index) heads.push("");
+      heads[index] = textOf(s);
+      if (s.flags.has("emphasis")) claims.push(index);
+      const letter = option(s, "letter");
+      if (letter) {
+        while (letters.length <= index) letters.push("");
+        letters[index] = letter;
+      }
+      const eyebrow = option(s, "eyebrow");
+      if (eyebrow) {
+        while (eyebrows.length <= index) eyebrows.push("");
+        eyebrows[index] = eyebrow;
+      }
+    } else if (s.head === "row" && !s.arrow) {
+      const index = Number(s.words[0]);
+      if (!Number.isInteger(index) || index < 0) fail(line2, 'a row label is `row <number> "label"`, from 0');
+      while (rows.length <= index) rows.push({});
+      rows[index] = clean({ label: s.texts[0]?.value, note: option(s, "note") ?? line2.children.filter((c) => read(c).head === "note").map((c) => textOf(read(c)))[0] });
+    } else if (s.arrow) {
+      const [to] = s.words.filter((w) => !["absent", "degraded", "emphasis"].includes(w));
+      if (!to) fail(line2, "a connector needs the id it goes to");
+      edges.push(
+        clean({
+          from: s.head,
+          to,
+          label: s.texts[0]?.value,
+          via: oneOf(s, "via", ["h", "v"]),
+          bend: numberOf(s, "bend"),
+          state: s.arrow === "-->" ? "absent" : state(s),
+          fails: s.arrow === "-x" || void 0,
+          both: s.arrow === "<->" || void 0,
+          emphasis: s.arrow === "=>" || s.flags.has("emphasis") || void 0
+        })
+      );
+    } else {
+      node(s);
+    }
+  }
+  return clean({ nodes, edges, groups: groups.length ? groups : void 0, rows: rows.length ? rows : void 0, heads: heads.length ? heads : void 0, letters: letters.length ? letters : void 0, claims: claims.length ? claims : void 0, eyebrows: eyebrows.length ? eyebrows : void 0 });
+};
+var sequence2 = (lines5) => {
+  const lanes = [];
+  const hosts = [];
+  const phases = [];
+  const steps = (children) => children.map((line2) => {
+    const s = read(line2);
+    if (s.head === "note") {
+      const over = option(s, "over")?.split(",");
+      if (over && over.length !== 2) fail(line2, "over=first,last names two lanes");
+      return clean({ note: textOf(s), over });
+    }
+    if (!s.arrow) fail(line2, 'a step is `from -> to "text"`, or a note');
+    const [to] = s.words.filter((w) => !["absent", "degraded", "emphasis"].includes(w));
+    if (!to) fail(line2, "a step needs the lane it goes to");
+    return clean({
+      from: s.head,
+      to,
+      text: textOf(s),
+      state: s.arrow === "-->" ? "absent" : state(s),
+      fails: s.arrow === "-x" || void 0,
+      emphasis: s.arrow === "=>" || s.flags.has("emphasis") || void 0
+    });
+  });
+  for (const line2 of lines5) {
+    const s = read(line2);
+    if (s.head === "lane") {
+      const [id] = s.words;
+      if (!id) fail(line2, "a lane needs an id");
+      lanes.push(clean({ id, label: textOf(s), sub: option(s, "sub"), shape: shape(s) }));
+    } else if (s.head === "host") {
+      hosts.push({ label: textOf(s), lanes: s.words });
+    } else if (s.head === "phase") {
+      phases.push(clean({ title: s.texts[0]?.value, tone: oneOf(s, "tone", ["error", "warn", "ok"]), steps: steps(line2.children) }));
+    } else {
+      fail(line2, `"${s.head}" is not a statement of a sequence: write lane, host or phase`);
+    }
+  }
+  return clean({ lanes, hosts: hosts.length ? hosts : void 0, phases });
+};
+var cell = (t, line2) => {
+  if (t.kind === "word") {
+    if (t.value === "-") return "";
+    if (isSign(t.value)) return t.value;
+    const noted = /^(\w+)\^(\d+)$/.exec(t.value);
+    if (noted && isSign(noted[1] ?? "")) return { sign: noted[1], note: Number(noted[2]) };
+    return fail(line2, `"${t.value}" is not a cell: write ${SIGNS2.join(", ")}, - or a text, and sign^1 for a note`);
+  }
+  if (t.kind === "text") return clean({ text: t.value, code: t.code || void 0 });
+  if (t.kind === "option") {
+    if (t.key === "chip") return { chips: t.value.split(",").map((x) => x.trim()).filter(Boolean) };
+    if (t.key === "path") return { path: t.value.split("\u203A").map((x) => x.trim()).filter(Boolean) };
+    if (!isSign(t.key)) fail(line2, `"${t.key}" is not a sign: write a sign=text, chip=A1,A2 or path="a \u203A b"`);
+    return clean({ sign: t.key, text: t.value, code: t.code || void 0 });
+  }
+  return fail(line2, "a cell is a sign, - or a text");
+};
+var matrix2 = (all) => {
+  const lines5 = ungroup(all);
+  const columns3 = [];
+  const rows = [];
+  const emphasis = { row: [], column: [] };
+  let legend;
+  let legendNote;
+  const notes3 = [];
+  for (const line2 of lines5) {
+    const s = read(line2);
+    if (s.head === "column") columns3.push(clean({ label: textOf(s), letter: option(s, "letter"), sub: option(s, "sub"), group: option(s, "group"), split: s.flags.has("split") || void 0, sign: oneOf(s, "sign", SIGNS2), weight: numberOf(s, "weight"), end: flag(s, "end") }));
+    else if (s.head === "note") notes3.push(textOf(s));
+    else if (s.head === "row") {
+      if (!s.after.length) fail(line2, "a row lists its cells after a colon, or on a `cells \u2026` line under it");
+      rows.push(clean({ label: textOf(s), sub: option(s, "sub"), group: option(s, "group"), cells: s.after.map((t) => cell(t, line2)) }));
+    } else if (s.head === "emphasis") {
+      for (const key2 of ["row", "column"]) {
+        const value = option(s, key2);
+        if (value !== void 0) emphasis[key2].push(value);
+      }
+    } else if (s.head === "legend") {
+      legend = Object.fromEntries([...s.options].filter(([k]) => k !== "note").map(([k, v]) => [k, v.value]));
+      legendNote = option(s, "note");
+    } else fail(line2, `"${s.head}" is not a statement of a matrix: write column, row, note, emphasis or legend`);
+  }
+  const one = (all2) => all2.length > 1 ? all2 : all2[0];
+  const marked = clean({ row: one(emphasis.row), column: one(emphasis.column) });
+  return clean({ columns: columns3, rows, emphasis: Object.keys(marked).length ? marked : void 0, legend, legendNote, notes: notes3.length ? notes3 : void 0 });
+};
+var bars2 = (all) => {
+  const lines5 = ungroup(all);
+  const rows = [];
+  let legend;
+  for (const line2 of lines5) {
+    const s = read(line2);
+    if (s.head === "row") {
+      const segments = s.after.map((t) => {
+        if (t.kind === "option") {
+          if (t.key === "absent") return { value: Number(t.value), absent: true };
+          const tone = TONES2.includes(t.key) ? t.key : fail(line2, `"${t.key}" is not a tone: write ${TONES2.join(", ")} or absent`);
+          return { value: Number(t.value), tone };
+        }
+        if (t.kind === "word" && Number.isFinite(Number(t.value))) return { value: Number(t.value) };
+        return fail(line2, "a segment is a number, or tone=number");
+      });
+      rows.push(
+        clean({
+          label: textOf(s),
+          code: s.texts[0]?.code || void 0,
+          sub: option(s, "sub"),
+          group: option(s, "group"),
+          segments,
+          target: numberOf(s, "target"),
+          value: option(s, "value"),
+          emphasis: s.flags.has("emphasis") || void 0
+        })
+      );
+    } else if (s.head === "legend") {
+      legend = [...s.options].map(([tone, v]) => ({ tone, label: v.value }));
+    } else {
+      fail(line2, `"${s.head}" is not a statement of bars: write row or legend`);
+    }
+  }
+  return clean({ rows, legend });
+};
+var tiles2 = (lines5) => ({
+  tiles: lines5.map((line2) => {
+    const s = read(line2);
+    if (s.head !== "tile") fail(line2, "tiles hold tile statements");
+    return clean({
+      value: textOf(s, 0),
+      label: textOf(s, 1),
+      unit: option(s, "unit"),
+      body: option(s, "body"),
+      sign: oneOf(s, "sign", SIGNS2),
+      state: state(s),
+      emphasis: s.flags.has("emphasis") || void 0
+    });
+  })
+});
+var WIDGETS = [
+  "text",
+  "field",
+  "button",
+  "tabs",
+  "chip",
+  "hint",
+  "label",
+  "step",
+  "code",
+  "page",
+  "lock",
+  "image",
+  "tree",
+  "tools",
+  "lines",
+  "devices",
+  "site",
+  "rule",
+  "keycap",
+  "toolbar",
+  "frame",
+  "list",
+  "pill",
+  "tag",
+  "arrow",
+  "progress",
+  "dots",
+  "thumb",
+  "crop",
+  "map",
+  "toggle",
+  "drop",
+  "insert",
+  "entry",
+  "keyboard",
+  "span"
+];
+var isWidget = (head) => WIDGETS.includes(head);
+var isControlRow = (line2) => read(line2).head === "row" && line2.children.length > 0 && line2.children.every((c) => isWidget(read(c).head));
+var isControl = (line2) => isWidget(read(line2).head) || isControlRow(line2);
+var flag = (s, name) => s.flags.has(name) || void 0;
+var controlOf = (line2) => {
+  if (!isControl(line2)) fail(line2, `"${read(line2).head}" is not a control: write row or one of ${WIDGETS.join(", ")}`);
+  const s = read(line2);
+  return clean({ ...widgetOf(s), push: flag(s, "push"), weight: numberOf(s, "weight"), id: option(s, "id"), corner: flag(s, "corner"), pointer: flag(s, "pointer") });
+};
+var listRow = (line2) => {
+  const s = read(line2);
+  if (s.head !== "row") fail(line2, 'a list holds `row "Label"` statements');
+  const raw = textOf(s);
+  const label = raw.trimStart();
+  return clean({
+    text: label,
+    indent: numberOf(s, "indent") ?? (Math.floor((raw.length - label.length) / 2) || void 0),
+    selected: flag(s, "selected"),
+    boxed: flag(s, "boxed"),
+    muted: flag(s, "muted"),
+    strong: flag(s, "strong"),
+    state: state(s),
+    emphasis: flag(s, "emphasis"),
+    right: option(s, "right"),
+    button: option(s, "button"),
+    mark: oneOf(s, "mark", TONES2),
+    chip: option(s, "chip"),
+    head: flag(s, "head"),
+    marker: option(s, "marker"),
+    id: option(s, "id")
+  });
+};
+var lines4 = (s, what) => {
+  const out = s.line.children.map((c) => {
+    const l = read(c);
+    if (l.head !== "line") fail(c, `${what} holds \`line "\u2026"\` statements`);
+    return textOf(l);
+  });
+  return out.length ? out : void 0;
+};
+var widgetOf = (s) => {
+  const marker2 = option(s, "marker");
+  const chip2 = option(s, "chip");
+  const strong = flag(s, "strong");
+  const t = s.texts[0];
+  switch (s.head) {
+    case "text":
+      return clean({ w: "text", text: textOf(s), code: t?.code || void 0, strong, large: flag(s, "large"), small: flag(s, "small"), tone: oneOf(s, "tone", ["ink", "muted", "error"]), marker: marker2, chip: chip2 });
+    case "field":
+      return clean({
+        w: "field",
+        text: t?.value,
+        code: t?.code || void 0,
+        placeholder: option(s, "placeholder"),
+        cursor: s.flags.has("cursor") || void 0,
+        tag: option(s, "tag"),
+        lines: numberOf(s, "lines"),
+        focus: s.flags.has("focus") || void 0,
+        emphasis: flag(s, "emphasis"),
+        large: s.flags.has("large") || void 0,
+        slim: flag(s, "slim"),
+        strong,
+        state: state(s),
+        hidden: flag(s, "hidden"),
+        ring: flag(s, "ring"),
+        dim: flag(s, "dim"),
+        inplace: flag(s, "inplace"),
+        right: option(s, "right"),
+        more: lines4(s, "a field"),
+        dot: flag(s, "dot"),
+        bare: flag(s, "bare"),
+        marker: marker2,
+        chip: chip2
+      });
+    case "button":
+      return clean({ w: "button", text: textOf(s), strong, ink: flag(s, "ink"), small: flag(s, "small"), round: flag(s, "round"), square: flag(s, "square"), emphasis: flag(s, "emphasis"), marker: marker2, chip: chip2 });
+    case "tabs":
+      return clean({ w: "tabs", items: textOf(s).split(",").map((x) => x.trim()), active: numberOf(s, "active"), switch: flag(s, "switch"), small: flag(s, "small"), marker: marker2, chip: chip2 });
+    case "toolbar":
+      return clean({ w: "toolbar", items: textOf(s).split(",").map((x) => x.trim()), active: numbers(s, "active"), strong, ink: flag(s, "ink"), marker: marker2, chip: chip2 });
+    case "pill":
+      return clean({ w: "pill", text: textOf(s), ink: flag(s, "ink"), marker: marker2, chip: chip2 });
+    case "tag":
+      return clean({ w: "tag", text: textOf(s), marker: marker2, chip: chip2 });
+    case "arrow":
+      return clean({ w: "arrow", text: t?.value, marker: marker2 });
+    case "progress": {
+      const value = numberOf(s, "value") ?? fail(s.line, "a progress bar needs value= from 0 to 1");
+      if (value < 0 || value > 1) fail(s.line, `value=${value}: a progress bar takes a share from 0 to 1`);
+      return clean({ w: "progress", value, marker: marker2 });
+    }
+    case "chip":
+      return clean({ w: "chip", text: textOf(s), label: s.texts[1]?.value, emphasis: flag(s, "emphasis"), fill: flag(s, "fill"), strong, marker: marker2 });
+    case "dots": {
+      const of = numberOf(s, "of") ?? fail(s.line, "dots need of= for the whole, and value= for the filled ones");
+      const value = numberOf(s, "value") ?? fail(s.line, "dots need value= for the filled ones");
+      if (!Number.isInteger(of) || !Number.isInteger(value) || of < 1 || value < 0 || value > of) fail(s.line, `value=${value} of=${of}: write whole counts, the value no more than the whole`);
+      return clean({ w: "dots", value, of, text: t?.value, marker: marker2 });
+    }
+    case "keycap":
+      return clean({ w: s.head, text: textOf(s), marker: marker2 });
+    case "hint":
+      return clean({ w: "hint", text: textOf(s), right: option(s, "right"), emphasis: flag(s, "emphasis"), marker: marker2, chip: chip2 });
+    case "label":
+    case "step":
+      return clean({ w: s.head, text: textOf(s), chip: chip2, marker: marker2 });
+    case "code": {
+      const block = lines4(s, "a code block");
+      if (!block && !t) fail(s.line, 'code needs a text, or `line "\u2026"` lines under it');
+      return clean({ w: "code", text: t?.value, lines: block, strong, marker: marker2, chip: chip2 });
+    }
+    case "thumb":
+      return clean({
+        w: "thumb",
+        text: t?.value,
+        show: oneOf(s, "show", ["picture", "lines", "teaser", "page", "person"]),
+        split: numbers(s, "split"),
+        selected: flag(s, "selected"),
+        state: state(s),
+        marker: marker2
+      });
+    case "crop":
+      return clean({ w: "crop", marker: marker2 });
+    case "map":
+      return clean({ w: "map", text: t?.value, marker: marker2 });
+    case "toggle":
+      return clean({ w: "toggle", text: textOf(s), on: flag(s, "on"), marker: marker2 });
+    case "drop":
+      return clean({ w: "drop", text: t?.value, marker: marker2 });
+    case "insert":
+      return clean({ w: "insert", strong, marker: marker2, chip: chip2 });
+    case "keyboard":
+      return clean({ w: "keyboard", marker: marker2 });
+    case "span":
+      return clean({ w: "span", text: textOf(s), marker: marker2 });
+    case "entry":
+      return clean({ w: "entry", text: textOf(s), body: option(s, "body"), sign: oneOf(s, "sign", GLYPHS), selected: flag(s, "selected"), state: state(s), marker: marker2, chip: chip2 });
+    case "lock":
+      return clean({ w: s.head, text: textOf(s), strong, marker: marker2, chip: chip2 });
+    case "page":
+      return clean({ w: s.head, text: textOf(s), dot: flag(s, "dot"), marker: marker2 });
+    case "image":
+      return clean({ w: "image", text: t?.value, lines: numberOf(s, "lines"), marker: marker2 });
+    case "tree":
+    case "lines":
+      return clean({ w: s.head, lines: numberOf(s, "lines"), marker: marker2 });
+    case "tools":
+      return clean({ w: "tools", count: numberOf(s, "count"), marker: marker2 });
+    case "devices":
+      return clean({ w: "devices", text: textOf(s), active: oneOf(s, "active", ["phone", "tablet", "desktop"]), chip: chip2, marker: marker2 });
+    case "site":
+      return clean({
+        w: "site",
+        name: textOf(s),
+        nav: option(s, "nav"),
+        heading: option(s, "heading"),
+        cards: numberOf(s, "cards"),
+        width: numberOf(s, "width"),
+        selected: s.flags.has("selected") || void 0,
+        cursor: s.flags.has("cursor") || void 0,
+        marker: marker2
+      });
+    case "row":
+      return clean({ w: "row", items: s.line.children.map(controlOf), bar: flag(s, "bar") });
+    case "frame":
+      return clean({
+        w: "frame",
+        title: t?.value,
+        close: flag(s, "close"),
+        tone: oneOf(s, "tone", ["ok", "warn", "error"]),
+        strong,
+        state: state(s),
+        hidden: flag(s, "hidden"),
+        width: numberOf(s, "width"),
+        ink: flag(s, "ink"),
+        over: flag(s, "over"),
+        bare: flag(s, "bare"),
+        fill: flag(s, "fill"),
+        sheet: flag(s, "sheet"),
+        device: flag(s, "device"),
+        dot: flag(s, "dot"),
+        chip: chip2,
+        marker: marker2,
+        items: s.line.children.map(controlOf)
+      });
+    case "list":
+      if (!s.line.children.length) fail(s.line, 'a list needs its `row "Label"` lines under it');
+      return clean({ w: "list", handle: flag(s, "handle"), steps: flag(s, "steps"), columns: numbers(s, "columns"), rendered: flag(s, "rendered"), marker: marker2, rows: s.line.children.map(listRow) });
+    default:
+      return { w: "rule" };
+  }
+};
+var columns2 = (all) => {
+  const legend = all.filter((l) => read(l).head === "key").map((l) => {
+    const k = read(l);
+    return clean({ label: textOf(k), chip: option(k, "chip"), badge: option(k, "badge"), pill: option(k, "pill"), sign: oneOf(k, "sign", SIGNS2) });
+  });
+  const lines5 = all.filter((l) => read(l).head !== "key");
+  return clean({ legend: legend.length ? legend : void 0, ...columnsOf(lines5) });
+};
+var columnsOf = (lines5) => ({
+  columns: lines5.map((line2) => {
+    const s = read(line2);
+    if (s.head !== "column") fail(line2, "columns hold column statements");
+    const items = [];
+    const terminal = [];
+    const widgets = [];
+    const notes3 = [];
+    const joins = [];
+    for (const child of line2.children) {
+      const i = read(child);
+      if (i.head === "join") {
+        const [from, to] = i.words;
+        if (!from || !to) fail(child, "a join names two ids: `join a b`");
+        joins.push(clean({ from, to, dashed: flag(i, "dashed"), arrow: flag(i, "arrow"), right: flag(i, "right") }));
+        continue;
+      }
+      if (isControl(child)) {
+        widgets.push(controlOf(child));
+        continue;
+      }
+      if (i.head === "line") {
+        terminal.push(textOf(i));
+        continue;
+      }
+      if (i.head === "note" && !i.options.size) {
+        notes3.push(textOf(i));
+        continue;
+      }
+      if (i.head !== "item") fail(child, `a column holds item, line, join and control statements: row, ${WIDGETS.join(", ")}`);
+      const marks = option(i, "marks")?.split(",");
+      for (const m of marks ?? []) if (!TONES2.includes(m)) fail(child, `"${m}" is not a tone: write ${TONES2.join(", ")}`);
+      items.push(
+        clean({
+          text: textOf(i),
+          code: i.texts[0]?.code || void 0,
+          id: option(i, "id"),
+          sign: oneOf(i, "sign", SIGNS2),
+          mark: oneOf(i, "mark", TONES2),
+          marks,
+          boxed: i.flags.has("boxed") || void 0,
+          strong: flag(i, "strong"),
+          state: state(i),
+          emphasis: i.flags.has("emphasis") || void 0,
+          fill: flag(i, "fill")
+        })
+      );
+    }
+    return clean({
+      eyebrow: option(s, "eyebrow"),
+      letter: option(s, "letter"),
+      value: option(s, "value"),
+      title: s.texts[0]?.value,
+      sub: option(s, "sub"),
+      id: option(s, "id"),
+      place: oneOf(s, "place", SIGNS2),
+      badge: option(s, "badge"),
+      widgets: widgets.length ? widgets : void 0,
+      joins: joins.length ? joins : void 0,
+      body: option(s, "body"),
+      items: items.length ? items : void 0,
+      terminal: terminal.length ? terminal : void 0,
+      note: option(s, "note") ?? (notes3.length ? notes3.join(" ") : void 0),
+      foot: option(s, "foot"),
+      strong: flag(s, "strong"),
+      state: state(s),
+      emphasis: s.flags.has("emphasis") || void 0
+    });
+  })
+});
+var region2 = (line2) => {
+  const s = read(line2);
+  if (!["row", "column", "region"].includes(s.head)) fail(line2, `"${s.head}" is not a region: write row, column or region`);
+  const regions = line2.children.filter((c) => !isControl(c));
+  const widgets = line2.children.filter(isControl).map(controlOf);
+  const children = regions.map(region2);
+  return clean({
+    label: s.texts[0]?.value,
+    split: s.head === "region" ? void 0 : s.head,
+    size: numberOf(s, "size"),
+    surface: oneOf(s, "surface", ["raised", "sunken", "none"]),
+    lines: numberOf(s, "lines"),
+    marker: option(s, "marker"),
+    state: state(s),
+    emphasis: s.flags.has("emphasis") || void 0,
+    strong: flag(s, "strong"),
+    hidden: flag(s, "hidden"),
+    head: flag(s, "head"),
+    plain: flag(s, "plain"),
+    flow: oneOf(s, "flow", ["row", "column"]),
+    across: numberOf(s, "across"),
+    icons: numberOf(s, "icons"),
+    widgets: widgets.length ? widgets : void 0,
+    children: children.length ? children : void 0
+  });
+};
+var sketch2 = (lines5) => ({
+  screens: lines5.map((line2) => {
+    const s = read(line2);
+    if (s.head !== "screen") fail(line2, "a sketch holds screen statements");
+    const bands = line2.children.filter((c) => read(c).head === "band");
+    const [root, ...more] = line2.children.filter((c) => !bands.includes(c));
+    if (!root || more.length) fail(line2, "a screen holds exactly one region, and a band under it");
+    if (bands.length > 1) fail(bands[1], "a screen holds one band");
+    const b = bands[0];
+    const band2 = b ? clean({ label: read(b).texts[0]?.value, across: numberOf(read(b), "across"), widgets: b.children.map(controlOf) }) : void 0;
+    return clean({ title: s.texts[0]?.value, caption: option(s, "caption"), weight: numberOf(s, "weight"), device: flag(s, "device"), root: region2(root), band: band2 });
+  })
+});
+var units2 = (lines5) => ({
+  rows: lines5.map((line2) => {
+    const s = read(line2);
+    if (s.head !== "row") fail(line2, "units hold row statements");
+    if (!s.after.length) fail(line2, "a row lists its parts after a colon, or on a `parts \u2026` line under it");
+    const parts2 = s.after.map((t) => {
+      if (t.kind === "word" && Number.isInteger(Number(t.value))) return { count: Number(t.value) };
+      if (t.kind === "option" && (t.key === "absent" || t.key === "degraded") && Number.isInteger(Number(t.value))) return { count: Number(t.value), state: t.key };
+      return fail(line2, "a part is a count, or absent=count or degraded=count");
+    });
+    const below = line2.children.filter((c) => read(c).head === "note").map((c) => textOf(read(c)));
+    const sub = [option(s, "sub"), option(s, "note"), ...below].filter((v) => Boolean(v));
+    return clean({ label: textOf(s), sub: sub.length ? sub : void 0, parts: parts2, missing: option(s, "missing"), emphasis: s.flags.has("emphasis") || void 0 });
+  })
+});
+var chipOf2 = (t, line2) => {
+  if (t.kind !== "word") return fail(line2, "a chip is a bare identifier: A1, (A1) or ~A1");
+  const m = /^(~?)(\(?)([^()*!~]+)\)?([*!]*)$/.exec(t.value);
+  if (!m) return fail(line2, `"${t.value}" is not a chip: write A1, (A1) or ~A1, with * or ! after it`);
+  return clean({
+    id: m[3],
+    kind: m[1] ? "plain" : m[2] ? "outline" : void 0,
+    ring: m[4]?.includes("*") || void 0,
+    emphasis: m[4]?.includes("!") || void 0
+  });
+};
+var subOf = (s) => option(s, "sub")?.split("|").map((x) => x.trim());
+var chips2 = (lines5) => {
+  const groups = [];
+  let legend;
+  for (const line2 of lines5) {
+    const s = read(line2);
+    if (s.head === "legend") {
+      legend = [...s.options].map(
+        ([kind, v]) => ["filled", "outline", "plain", "ring"].includes(kind) ? { kind, label: v.value } : fail(line2, `"${kind}" is not a chip: write filled, outline, plain or ring`)
+      );
+    } else if (s.head === "row" || s.head === "column") {
+      const tasks = line2.children.filter((c) => read(c).head === "task").map((c) => textOf(read(c)));
+      const more = line2.children.filter((c) => read(c).head === "chips").flatMap((c) => read(c).after);
+      groups.push(clean({ label: textOf(s), sub: subOf(s), tasks: tasks.length ? tasks : void 0, chips: [...s.after, ...more].map((t) => chipOf2(t, line2)) }));
+    } else {
+      fail(line2, `"${s.head}" is not a statement of chips: write row, column or legend`);
+    }
+  }
+  return clean({ groups, legend });
+};
+var cells2 = (lines5) => {
+  const groups = [];
+  let legend;
+  for (const line2 of lines5) {
+    const s = read(line2);
+    if (s.head === "legend") legend = Object.fromEntries([...s.options].map(([k, v]) => [k, v.value]));
+    else if (s.head === "group") {
+      const inline = s.after.map((t) => {
+        if (t.kind === "option" && isSign(t.value)) return { id: t.key, sign: t.value };
+        if (t.kind === "word") return { id: t.value };
+        return fail(line2, "a cell is an id, or id=sign");
+      });
+      const below = line2.children.map((child) => {
+        const [id, mark, ...rest] = child.tokens;
+        if (id?.kind !== "word" || rest.length || mark && (mark.kind !== "word" || !isSign(mark.value))) {
+          return fail(child, `a cell is its id and its sign: write F1.1 partly, with a sign of ${SIGNS2.join(", ")}`);
+        }
+        return clean({ id: id.value, sign: mark?.kind === "word" ? mark.value : void 0 });
+      });
+      const list = [...inline, ...below];
+      groups.push(clean({ title: textOf(s), sub: option(s, "sub"), tone: oneOf(s, "tone", ["ok", "warn", "error"]), cells: list }));
+    } else fail(line2, `"${s.head}" is not a statement of cells: write group or legend`);
+  }
+  return clean({ groups, legend });
+};
+var notes2 = (lines5) => ({
+  notes: lines5.map((line2) => {
+    const s = read(line2);
+    if (s.head !== "note" || !s.words[0]) fail(line2, 'a note is `note <marker> "Title" body="\u2026"`');
+    return clean({ marker: s.words[0], title: textOf(s), body: option(s, "body") });
+  })
+});
+var compose2 = (lines5) => ({
+  parts: lines5.map((line2) => {
+    const s = read(line2);
+    if (s.head !== "part") fail(line2, "a composed drawing holds part statements");
+    const labels = line2.children.filter((c) => read(c).head === "label" && !c.children.length);
+    const [first, ...rest] = line2.children.filter((c) => !labels.includes(c));
+    if (!first) return fail(line2, "a part needs its layout on the line under it");
+    const label = option(s, "label") ?? (labels[0] ? textOf(read(labels[0])) : void 0);
+    return clean({ weight: numberOf(s, "weight"), label, spec: layoutOf(first, [...first.children, ...rest]) });
+  })
+});
+var LAYOUTS = { flow: flow2, sequence: sequence2, matrix: matrix2, bars: bars2, tiles: tiles2, columns: columns2, sketch: sketch2, units: units2, chips: chips2, cells: cells2, notes: notes2, compose: compose2 };
+function layoutOf(first, body) {
+  const head = read(first);
+  const layout2 = LAYOUTS[head.head] ?? fail(first, `"${head.head}" is not a layout: write ${Object.keys(LAYOUTS).join(", ")}`);
+  const options = clean({
+    columns: numbers(head, "columns"),
+    gap: numbers(head, "gap"),
+    max: numberOf(head, "max"),
+    unit: option(head, "unit"),
+    ticks: numbers(head, "ticks"),
+    bands: option(head, "bands")?.split(",").map((b) => b.trim()),
+    axis: option(head, "axis"),
+    lines: numberOf(head, "lines"),
+    head: option(head, "head"),
+    key: option(head, "key"),
+    height: numberOf(head, "height"),
+    labelWidth: numberOf(head, "label-width"),
+    rowGroups: oneOf(head, "row-groups", ["over", "beside"]),
+    notesOutside: oneOf(head, "notes", ["outside"]) === "outside" || void 0,
+    direction: head.head === "compose" ? oneOf(head, "direction", ["row", "column"]) : oneOf(head, "direction", ["rows", "columns"]),
+    across: numberOf(head, "across"),
+    figures: head.flags.has("figures") || void 0,
+    left: head.head === "matrix" ? head.flags.has("left") || void 0 : void 0,
+    blocks: head.head === "matrix" ? head.flags.has("blocks") || void 0 : void 0,
+    chain: head.flags.has("chain") || void 0,
+    rise: head.flags.has("rise") || void 0,
+    heads: head.head === "sketch" ? head.flags.has("heads") || void 0 : void 0,
+    boxed: head.head === "cells" ? head.flags.has("boxed") || void 0 : void 0,
+    bare: head.head === "columns" ? head.flags.has("bare") || void 0 : void 0,
+    centred: head.head === "columns" ? head.flags.has("centred") || void 0 : void 0,
+    aside: head.head === "tiles" ? head.flags.has("aside") || void 0 : void 0,
+    ids: head.head === "matrix" ? head.flags.has("ids") || void 0 : void 0,
+    rules: head.head === "matrix" ? head.flags.has("rules") || void 0 : void 0,
+    rows: head.head === "columns" ? option(head, "rows")?.split(",").map((r) => r.trim()) : void 0,
+    fan: head.flags.has("fan") || void 0,
+    curve: head.flags.has("curve") || void 0,
+    even: head.head === "flow" ? head.flags.has("even") || void 0 : void 0
+  });
+  if (head.head === "tiles" && options.columns) Object.assign(options, { columns: options.columns[0] });
+  if (head.head === "compose" && options.gap) Object.assign(options, { gap: options.gap[0] });
+  return { kind: head.head, ...options, ...layout2(body) };
+}
+var parse = (text2) => {
+  const [first, ...rest] = tree(text2);
+  if (!first) throw new Error("line 1: the text is empty \u2014 start with the layout, for example `flow`");
+  const head = read(first);
+  let title;
+  let description;
+  const body = [...first.children];
+  for (const line2 of rest) {
+    const s = read(line2);
+    if (s.head === "title") title = textOf(s);
+    else if (s.head === "description") description = textOf(s);
+    else body.push(line2);
+  }
+  if (!LAYOUTS[head.head]) fail(first, `"${head.head}" is not a layout: write ${Object.keys(LAYOUTS).join(", ")}`);
+  if (!title) fail(first, 'a diagram needs a `title "\u2026"` line: it is the accessible name of the file');
+  if (!description) fail(first, 'a diagram needs a `description "\u2026"` line: it is what a reader who cannot see the drawing gets');
+  const spec = layoutOf(first, body);
+  const claim = oneOf(head, "claim", ["accent", "error", "warn", "ok"]);
+  const room = numbers(head, "slide");
+  if (room && room.length !== 2) fail(first, "slide=width,height names the room of a slide");
+  return clean({ ...spec, title, description, claim, slide: room ? { width: room[0], height: room[1] } : void 0 });
+};
+
+// packages/frontend/src/components/diagram.ts
+var named = (source) => {
+  let hash = 5381;
+  for (let i = 0; i < source.length; i++) hash = (hash << 5) + hash + source.charCodeAt(i) >>> 0;
+  return `diagram-${hash.toString(36)}`;
+};
+var dedent = (text2) => {
+  const lines5 = text2.replace(/\t/g, "  ").split("\n");
+  const indents = lines5.filter((l) => l.trim()).map((l) => l.length - l.trimStart().length);
+  const cut = indents.length ? Math.min(...indents) : 0;
+  return lines5.map((l) => l.slice(cut)).join("\n").trim();
+};
+var unescape2 = (text2) => text2.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&");
+var slideRoom = (room) => {
+  const [width2 = 0, height = 0] = room.split(",").map(Number);
+  return width2 > 0 && height > 0 ? { width: width2, height } : void 0;
+};
+var SdsDiagram = class extends SdsElement {
+  constructor() {
+    super();
+    /* The text between the tags, taken before Lit renders over it. */
+    this.written = "";
+    this.source = "";
+    this.name = "";
+    this.room = "";
+    this.zoomable = false;
+  }
+  static {
+    this.properties = {
+      source: { type: String },
+      name: { type: String },
+      room: { type: String },
+      lent: { type: String, reflect: true },
+      zoomable: { type: Boolean, reflect: true }
+    };
+  }
+  /** Lend the drawing a room, `width,height`. A text too dense for it draws
+      as on a page instead, and the slide shrinks it as a picture. A room a
+      pixel or two off the one it has is the same room, measured again. */
+  lend(room) {
+    const [w = 0, h = 0] = room.split(",").map(Number);
+    const [was, had] = (this.lent ?? "").split(",").map(Number);
+    if (was !== void 0 && had !== void 0 && Math.abs(w - was) <= 2 && Math.abs(h - had) <= 2) return false;
+    this.lent = room;
+    return true;
+  }
+  /** The room the text needs in the one a slide offers: that room, or the
+      same shape larger. A row lends each of its drawings the largest, so
+      they share one scale. Reads only. */
+  reach(room) {
+    try {
+      const source = this.text;
+      const grown = this.fits(parse(source), this.name || named(source), room);
+      return grown ? `${grown.width},${grown.height}` : room;
+    } catch {
+      return room;
+    }
+  }
+  connectedCallback() {
+    const text2 = this.lifted().filter((node) => node.nodeType !== 8).map((node) => node.textContent ?? "").join("");
+    if (text2.trim()) this.written = text2;
+    super.connectedCallback();
+  }
+  /** The text to draw: `source`, else what stands between the tags, else
+      the same under a prerender, where Node hands it over as markup. */
+  get text() {
+    if (this.source) return this.source;
+    const raw = this.written || unescape2((this.authored ?? "").replace(/<[^>]*>/g, ""));
+    return dedent(raw);
+  }
+  render() {
+    const source = this.text;
+    const name = this.name || named(source);
+    try {
+      const spec = parse(source);
+      const slide = slideRoom(this.room) ?? (this.lent && !spec.slide ? this.fits(spec, name, this.lent) : void 0);
+      const { svg: svg2, width: width2 } = draw2(spec, slide ? { name, slide } : { name });
+      const drawn = slide || spec.slide ? nothing40 : `--sds-diagram-width: ${width2}px`;
+      if (!this.zoomable) return html68`<div class="sds-diagram" style="${drawn}" tabindex="${drawn === nothing40 ? nothing40 : "0"}">${unsafeHTML6(svg2)}</div>`;
+      const large = draw2(spec, slide ? { name: `${name}-large`, slide } : { name: `${name}-large` });
+      const { trigger, viewer } = zoom(this, html68`${unsafeHTML6(svg2)}`, { src: "", alt: spec.title, caption: spec.title, content: html68`${unsafeHTML6(large.svg)}` });
+      return html68`<div class="sds-diagram" style="${drawn}">${trigger}${viewer}</div>`;
+    } catch (error) {
+      const message = error.message.replace(`${name}: `, "");
+      return html68`<p class="sds-diagram__error" role="alert">${message}</p>`;
+    }
+  }
+  /* The lent room, or the same shape up to twice as large, where the
+     engine draws the text in it. The slide shrinks a larger one whole. */
+  fits(spec, name, lent) {
+    const room = slideRoom(lent);
+    if (!room) return void 0;
+    for (const scale of [1, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.5, 1.6, 1.7, 1.8, 2]) {
+      const tried = { width: Math.round(room.width * scale), height: Math.round(room.height * scale) };
+      try {
+        draw2(spec, { name, slide: tried });
+        return tried;
+      } catch {
+      }
+    }
+    return void 0;
+  }
+};
+define("sds-diagram", SdsDiagram);
+
 // packages/frontend/src/components/diff.ts
-import { html as html68 } from "lit";
+import { html as html69 } from "lit";
 var SdsDiff = class extends SdsElement {
   static {
     this.properties = {
@@ -14067,13 +18679,13 @@ var SdsDiff = class extends SdsElement {
   /* Diff rows carry no newline between them. Each `sds-diff__line` is a
      block, so a newline inside the `<pre>` adds an empty line between every
      pair of rows. */
-  line({ kind, text }) {
-    if (kind === "context") return html68`<span class="sds-diff__line">   ${text}</span>`;
+  line({ kind, text: text2 }) {
+    if (kind === "context") return html69`<span class="sds-diff__line">   ${text2}</span>`;
     const mark = kind === "add" ? "+" : "-";
-    return html68`<span class="sds-diff__line sds-diff__line--${kind}"><span class="sds-diff__mark">${mark}</span>  ${text}</span>`;
+    return html69`<span class="sds-diff__line sds-diff__line--${kind}"><span class="sds-diff__mark">${mark}</span>  ${text2}</span>`;
   }
   render() {
-    return html68`<div class="sds-code">
+    return html69`<div class="sds-code">
   <div class="sds-code__head" style="justify-content:flex-start"><sds-icon name="${this.icon ?? "actions-code-compare"}"></sds-icon><span class="sds-code__path">${this.path}</span></div>
   <pre class="sds-diff">${this.body.map((l) => this.line(l))}</pre>
 </div>`;
@@ -14082,10 +18694,10 @@ var SdsDiff = class extends SdsElement {
 define("sds-diff", SdsDiff);
 
 // packages/frontend/src/components/quote.ts
-import { html as html70 } from "lit";
+import { html as html71 } from "lit";
 
 // packages/frontend/src/components/byline.ts
-import { html as html69 } from "lit";
+import { html as html70 } from "lit";
 var SdsByline = class extends SdsElement {
   static {
     this.properties = {
@@ -14116,12 +18728,12 @@ var SdsByline = class extends SdsElement {
     return (first + last).toUpperCase();
   }
   render() {
-    const who = this.href ? html69`<a class="sds-link" href="${this.href}">${this.name}</a>` : html69`${this.name}`;
-    return html69`<div class="sds-byline">
-  ${this.unmarked ? "" : html69`<span class="sds-byline__mark" aria-hidden="true">${this.mark}</span>`}
+    const who = this.href ? html70`<a class="sds-link" href="${this.href}">${this.name}</a>` : html70`${this.name}`;
+    return html70`<div class="sds-byline">
+  ${this.unmarked ? "" : html70`<span class="sds-byline__mark" aria-hidden="true">${this.mark}</span>`}
   <div class="sds-byline__who">
-    <span class="sds-byline__name">${who}${this.as ? html69` <span class="sds-byline__role">· ${this.as}</span>` : ""}</span>
-    ${this.meta ? html69`<span class="sds-label">${this.meta}</span>` : ""}
+    <span class="sds-byline__name">${who}${this.as ? html70` <span class="sds-byline__role">· ${this.as}</span>` : ""}</span>
+    ${this.meta ? html70`<span class="sds-label">${this.meta}</span>` : ""}
   </div>
 </div>`;
   }
@@ -14160,7 +18772,7 @@ var SdsQuote = class extends SdsElement {
     super.connectedCallback();
   }
   render() {
-    return html70`<figure class="sds-quote">
+    return html71`<figure class="sds-quote">
   <blockquote class="sds-quote__body">${this.taken ?? this.content ?? this.body}</blockquote>
   <figcaption class="sds-quote__by"><sds-byline
     name="${this.by}"
@@ -14176,7 +18788,7 @@ var SdsQuote = class extends SdsElement {
 define("sds-quote", SdsQuote);
 
 // packages/frontend/src/components/slide.ts
-import { html as html71, nothing as nothing39 } from "lit";
+import { html as html72, nothing as nothing41 } from "lit";
 var KIND = {
   cover: "sds-slide--cover",
   section: "sds-slide--section",
@@ -14189,15 +18801,43 @@ var KIND = {
 var LAYOUT = {
   wide: "",
   full: "sds-slide--full",
+  headed: "sds-slide--headed",
   row: "sds-slide--row",
   "text-start": "sds-slide--beside"
 };
 var GROUND = { paper: "light", terminal: "dark" };
 var STOPS = 'a[href], button, input, select, textarea, summary, iframe, [tabindex]:not([tabindex="-1"])';
+var ROOM = 1.1;
+var SIZED = typeof CSS !== "undefined" && CSS.supports("zoom", "calc(100cqi / 1px)");
+var waiting2 = /* @__PURE__ */ new Set();
+var pass2 = 0;
+var measureAll2 = () => {
+  pass2 = 0;
+  const slides = [...waiting2].filter((slide) => slide.isConnected);
+  waiting2.clear();
+  const zooms = slides.map((slide) => slide.room());
+  slides.forEach((slide, i) => slide.take(zooms[i] ?? 0));
+};
+var near = typeof IntersectionObserver === "undefined" ? void 0 : new IntersectionObserver((entries) => {
+  for (const entry of entries) if (entry.isIntersecting) entry.target.arrive();
+}, { rootMargin: "100% 0px" });
+var KEYS = {
+  "\u25A0": { name: "filled", drawn: "sds-slide__key sds-slide__key--filled" },
+  "\u25A1": { name: "outlined", drawn: "sds-slide__key sds-slide__key--outlined" }
+};
+var key = (entry) => {
+  const [mark = "", ...words] = entry.trim().split(" ");
+  const plate = /^\[(.+)\]$/.exec(mark)?.[1];
+  const square = KEYS[mark];
+  const drawn = square ? html72`<span class="${square.drawn}" role="img" aria-label="${square.name}"></span>` : html72`<span class="sds-slide__key${plate ? " sds-slide__key--plate" : ""}">${plate ?? mark}</span>`;
+  return html72`<span class="sds-slide__entry">${drawn} ${words.join(" ")}</span>`;
+};
 var SdsSlide = class extends SdsElement {
   constructor() {
     super();
     this.settling = 0;
+    /* Near the window, so what it holds fits now and not later. */
+    this.seen = false;
     /* The body, where it stood between the tags. A deck's slide holds the
        system's elements, which is markup or it is nothing. */
     this.taken = null;
@@ -14214,6 +18854,7 @@ var SdsSlide = class extends SdsElement {
     this.kind = "content";
     this.ground = "paper";
     this.eyebrow = "";
+    this.legend = "";
     this.heading = "";
     this.lead = "";
     this.note = "";
@@ -14222,6 +18863,7 @@ var SdsSlide = class extends SdsElement {
     this.brand = "";
     this.product = "";
     this.plain = false;
+    this.pageOnly = false;
     this.sections = [];
     this.current = 0;
     this.portrait = "";
@@ -14247,12 +18889,14 @@ var SdsSlide = class extends SdsElement {
       eyebrow: { type: String },
       heading: { type: String },
       lead: { type: String },
+      legend: { type: String },
       note: { type: String },
       number: { type: String },
       signet: { type: String },
       brand: { type: String },
       product: { type: String },
       plain: { type: Boolean, reflect: true },
+      pageOnly: { type: Boolean, reflect: true, attribute: "page-only" },
       sections: { type: Array },
       current: { type: Number },
       portrait: { type: String },
@@ -14271,32 +18915,59 @@ var SdsSlide = class extends SdsElement {
     };
   }
   connectedCallback() {
-    const text = this.region(TEXT).map((one) => one.node);
-    if (text.length) this.taken = text;
+    const text2 = this.region(TEXT).map((one) => one.node);
+    if (text2.length) this.taken = text2;
     super.connectedCallback();
-    this.watch = new ResizeObserver(() => {
-      cancelAnimationFrame(this.settling);
-      this.settling = requestAnimationFrame(() => this.isConnected && this.decide());
-    });
+    this.watch = new ResizeObserver(() => this.ask());
     if (this.parentElement) this.watch.observe(this.parentElement);
     this.watch.observe(document.documentElement);
+    near?.observe(this);
     void this.updateComplete.then(() => {
-      this.decide();
-      for (const fit of this.querySelectorAll(".sds-slide__fit")) this.watch?.observe(fit);
+      this.ask();
+      for (const fit2 of this.querySelectorAll(".sds-slide__fit")) this.watch?.observe(fit2);
     });
+  }
+  /* A measurement in the next pass of every slide on the page. */
+  ask() {
+    waiting2.add(this);
+    if (pass2) return;
+    pass2 = 1;
+    queueMicrotask(measureAll2);
+  }
+  /** The zoom the frame takes in its room. Reads only. */
+  room() {
+    return this.measure();
+  }
+  /** The zoom from the pass, and then what the slide holds. */
+  take(zoom2) {
+    this.zoom = zoom2;
+    this.quiet();
+    cancelAnimationFrame(this.settling);
+    this.settling = requestAnimationFrame(() => this.isConnected && (this.seen || this.fit || !near) && this.decide());
+  }
+  /** Near the window for the first time: what the slide holds fits now. */
+  arrive() {
+    if (this.seen) return;
+    this.seen = true;
+    near?.unobserve(this);
+    void this.updateComplete.then(() => this.isConnected && this.decide());
   }
   disconnectedCallback() {
     this.watch?.disconnect();
+    near?.unobserve(this);
+    waiting2.delete(this);
     cancelAnimationFrame(this.settling);
     super.disconnectedCallback();
   }
   /* A deck lends the slide its stage and sets `fit` for the loan. */
   updated(changed) {
-    if (changed.has("fit") && changed.get("fit") !== void 0 || changed.has("shrink") && changed.get("shrink") !== void 0) requestAnimationFrame(() => this.isConnected && this.decide());
+    if (changed.has("fit") && changed.get("fit") !== void 0 || changed.has("shrink") && changed.get("shrink") !== void 0) {
+      this.ask();
+      if (this.fit) requestAnimationFrame(() => this.isConnected && this.decide());
+    }
   }
-  /* The frame first, then what stands in it. */
+  /* What stands in the frame, once the frame has its zoom. */
   decide() {
-    this.measure();
     this.settle();
     this.quiet();
   }
@@ -14309,42 +18980,73 @@ var SdsSlide = class extends SdsElement {
      shrinks until it fits, and nothing grows. Its width stays what it was,
      so nothing wraps anew and the shrink is exact. Measurements, so styles. */
   settle() {
-    for (const fit of this.querySelectorAll(".sds-slide__fit")) this.fitBox(fit);
+    const drawing = this.lendRooms();
+    const fit2 = () => {
+      for (const box2 of this.querySelectorAll(".sds-slide__fit")) this.fitBox(box2);
+      this.toggleAttribute("fitted", true);
+    };
+    if (drawing.length) void Promise.all(drawing).then(() => this.isConnected && fit2());
+    else fit2();
+  }
+  /* A figure slide lends a drawing from a text the room its layout leaves,
+     a tenth larger than the frame's own pixels. A reader sees a slide from
+     further away than a page. So the type stands near the slide's scale,
+     not at 3/4 as in a column. */
+  lendRooms() {
+    const frame = this.firstElementChild;
+    if (!frame || this.kind !== "figure") return [];
+    const scale = frame.getBoundingClientRect().width / parseFloat(getComputedStyle(frame).getPropertyValue("--sds-slide-width"));
+    if (!(scale > 0)) return [];
+    const lent = [];
+    for (const art2 of this.querySelectorAll(".sds-slide__art")) {
+      const drawings = art2.querySelectorAll("sds-diagram:not([room])");
+      const [one] = drawings;
+      if (drawings.length !== 1 || !one) continue;
+      const { width: width2, height } = art2.getBoundingClientRect();
+      if (!(width2 > 0 && height > 0)) continue;
+      lent.push({ one, width: Math.floor(width2 / scale * ROOM), height: Math.floor(height / scale * ROOM) });
+    }
+    const grow = this.layout === "row" && lent.length > 1 ? Math.max(...lent.map(({ one, width: width2, height }) => Number((one.reach?.(`${width2},${height}`) ?? "").split(",")[0]) / width2 || 1)) : 1;
+    const drawing = [];
+    for (const { one, width: width2, height } of lent) {
+      if (one.lend?.(`${Math.round(width2 * grow)},${Math.round(height * grow)}`) && one.updateComplete) drawing.push(one.updateComplete);
+    }
+    return drawing;
   }
   /* One box of what the slide holds, against the room its parent gives it. */
-  fitBox(fit) {
-    const body = fit.parentElement;
+  fitBox(fit2) {
+    const body = fit2.parentElement;
     if (!body) return;
-    fit.style.removeProperty("zoom");
-    fit.style.removeProperty("width");
-    fit.style.removeProperty("align-self");
+    fit2.style.removeProperty("zoom");
+    fit2.style.removeProperty("width");
+    fit2.style.removeProperty("align-self");
     const room = body.getBoundingClientRect();
-    const need = fit.getBoundingClientRect();
+    const need = fit2.getBoundingClientRect();
     if (!(room.height > 0) || !(need.height > 0)) return;
-    const wide = fit.scrollWidth > fit.clientWidth + 1 ? fit.clientWidth / fit.scrollWidth : 1;
+    const wide = fit2.scrollWidth > fit2.clientWidth + 1 ? fit2.clientWidth / fit2.scrollWidth : 1;
     const ratio = Math.min(room.height / need.height, wide);
     if (ratio >= 1) return;
-    if (!fit.closest(".sds-slide__art")) {
-      const scale = need.width / parseFloat(getComputedStyle(fit).width);
-      const width = room.width / scale;
+    if (!fit2.closest(".sds-slide__art")) {
+      const scale = need.width / parseFloat(getComputedStyle(fit2).width);
+      const width2 = room.width / scale;
       let [low, high] = [ratio, 1];
-      for (let pass = 0; pass < 8; pass += 1) {
+      for (let pass3 = 0; pass3 < 8; pass3 += 1) {
         const zoom3 = (low + high) / 2;
-        fit.style.width = `${width / zoom3}px`;
-        fit.style.zoom = String(zoom3);
-        if (fit.getBoundingClientRect().height <= room.height) low = zoom3;
+        fit2.style.width = `${width2 / zoom3}px`;
+        fit2.style.zoom = String(zoom3);
+        if (fit2.getBoundingClientRect().height <= room.height) low = zoom3;
         else high = zoom3;
       }
-      fit.style.width = `${width / low}px`;
-      fit.style.zoom = String(low);
+      fit2.style.width = `${width2 / low}px`;
+      fit2.style.zoom = String(low);
       return;
     }
-    fit.style.width = getComputedStyle(fit).width;
-    fit.style.alignSelf = "center";
+    fit2.style.width = getComputedStyle(fit2).width;
+    fit2.style.alignSelf = "center";
     let zoom2 = ratio;
-    for (let pass = 0; pass < 3; pass += 1) {
-      fit.style.zoom = String(zoom2);
-      const over = fit.getBoundingClientRect().bottom - body.getBoundingClientRect().bottom;
+    for (let pass3 = 0; pass3 < 3; pass3 += 1) {
+      fit2.style.zoom = String(zoom2);
+      const over = fit2.getBoundingClientRect().bottom - body.getBoundingClientRect().bottom;
       if (over <= 0) return;
       zoom2 *= (need.height * zoom2 - over) / (need.height * zoom2);
     }
@@ -14353,32 +19055,29 @@ var SdsSlide = class extends SdsElement {
       stylesheet, never a copy here. `--sds-slide-width` and its height are
       the set's, and a copy in TypeScript is the copy that goes stale. */
   measure() {
-    const box = this.firstElementChild;
-    if (!box) return;
-    const style = getComputedStyle(box);
-    const width = parseFloat(style.getPropertyValue("--sds-slide-width"));
+    if (!this.fit && (!this.shrink || SIZED)) return 0;
+    const box2 = this.firstElementChild;
+    if (!box2) return this.zoom;
+    const style = getComputedStyle(box2);
+    const width2 = parseFloat(style.getPropertyValue("--sds-slide-width"));
     const height = parseFloat(style.getPropertyValue("--sds-slide-height"));
     const stated = parseFloat(style.getPropertyValue("--sds-slide-zoom"));
     const parent = this.parentElement;
-    if (!parent) return;
-    const rect = parent.getBoundingClientRect();
+    if (!parent) return this.zoom;
+    const rect2 = parent.getBoundingClientRect();
     const around = getComputedStyle(parent);
-    const room = rect.width - parseFloat(around.paddingLeft) - parseFloat(around.paddingRight);
+    const edges = parseFloat(around.borderLeftWidth) + parseFloat(around.borderRightWidth);
+    const room = rect2.width - edges - parseFloat(around.paddingLeft) - parseFloat(around.paddingRight);
     if (!this.fit) {
-      if (!this.shrink) {
-        this.zoom = 0;
-        return;
-      }
-      if (!(width > 0) || !(room > 0)) return;
-      this.zoom = room / width < stated ? room / width : 0;
-      return;
+      if (!(width2 > 0) || !(room > 0)) return this.zoom;
+      return room / width2 < stated ? room / width2 : 0;
     }
     const pads = parseFloat(around.paddingTop) + parseFloat(around.paddingBottom);
-    const inner = rect.height - pads;
-    const below = window.innerHeight - Math.max(0, rect.top + parseFloat(around.paddingTop)) - parseFloat(around.paddingBottom);
+    const inner = rect2.height - pads;
+    const below = window.innerHeight - Math.max(0, rect2.top + parseFloat(around.paddingTop)) - parseFloat(around.paddingBottom);
     const tall = below > 0 ? Math.min(below, inner) : inner;
-    if (!(width > 0) || !(height > 0) || !(room > 0)) return;
-    this.zoom = tall > 0 ? Math.min(room / width, tall / height) : room / width;
+    if (!(width2 > 0) || !(height > 0) || !(room > 0)) return this.zoom;
+    return tall > 0 ? Math.min(room / width2, tall / height) : room / width2;
   }
   /* The title's step follows the kind. The display step stands alone on a
      slide that says one thing. A content slide's title shares the frame
@@ -14393,19 +19092,20 @@ var SdsSlide = class extends SdsElement {
     const heading = this.line("heading", this.heading);
     const lead = this.line("lead", this.lead);
     const note = this.line("note", this.note);
-    if (!eyebrow && !heading && !lead) return nothing39;
+    if (!eyebrow && !heading && !lead) return nothing41;
     const display = this.kind !== "content" && this.kind !== "figure";
-    return html71`<div class="sds-slide__head">
-    ${eyebrow ? html71`<sds-eyebrow label="${eyebrow}"></sds-eyebrow>` : nothing39}
-    ${heading ? display ? html71`<h1 class="sds-display">${heading}</h1>` : html71`<h2 class="sds-h2">${heading}</h2>` : nothing39}
-    ${lead ? html71`<p class="sds-lead">${lead}</p>` : nothing39}
-    ${note ? html71`<p class="sds-slide__note">${note}</p>` : nothing39}
+    return html72`<div class="sds-slide__head">
+    ${eyebrow ? html72`<sds-eyebrow label="${eyebrow}"></sds-eyebrow>` : nothing41}
+    ${heading ? display ? html72`<h1 class="sds-display">${heading}</h1>` : html72`<h2 class="sds-h2">${heading}</h2>` : nothing41}
+    ${this.legend ? html72`<p class="sds-slide__legend">${this.legend.split(" | ").map((entry) => key(entry))}</p>` : nothing41}
+    ${lead ? html72`<p class="sds-lead">${lead}</p>` : nothing41}
+    ${note ? html72`<p class="sds-slide__note">${note}</p>` : nothing41}
   </div>`;
   }
   outline() {
-    if (this.kind !== "section" || !this.sections.length) return nothing39;
-    return html71`<ol class="sds-slide__nav">${this.sections.map(
-      (label, i) => html71`<li class="sds-slide__nav-item${i === this.current ? " is-active" : ""}">${label}</li>`
+    if (this.kind !== "section" || !this.sections.length) return nothing41;
+    return html72`<ol class="sds-slide__nav">${this.sections.map(
+      (label, i) => html72`<li class="sds-slide__nav-item${i === this.current ? " is-active" : ""}">${label}</li>`
     )}</ol>`;
   }
   /* One lockup, drawn where the kind puts it. The foot is the row every slide
@@ -14413,14 +19113,14 @@ var SdsSlide = class extends SdsElement {
   foot() {
     const drawn = lockup({ signet: this.signet, brand: this.brand, product: this.product });
     if (this.kind === "cover" || this.kind === "closing") {
-      return drawn && !this.plain ? html71`<div class="sds-slide__lockup">${drawn}</div>` : nothing39;
+      return drawn && !this.plain ? html72`<div class="sds-slide__lockup">${drawn}</div>` : nothing41;
     }
-    if (!drawn && !this.number) return nothing39;
-    const plain = this.plain || this.kind === "figure" && this.layout === "full";
-    const mark = drawn && plain ? html71`<span class="sds-slide__void" aria-hidden="true">${drawn}</span>` : drawn;
-    return html71`<div class="sds-slide__foot">
-    ${mark || html71`<span></span>`}
-    ${this.number ? html71`<p class="sds-slide__count">${this.number}</p>` : nothing39}
+    if (!drawn && !this.number) return nothing41;
+    const plain2 = this.plain || this.kind === "figure" && (this.layout === "full" || this.layout === "headed");
+    const mark = drawn && plain2 ? html72`<span class="sds-slide__void" aria-hidden="true">${drawn}</span>` : drawn;
+    return html72`<div class="sds-slide__foot">
+    ${mark || html72`<span></span>`}
+    ${this.number ? html72`<p class="sds-slide__count">${this.number}</p>` : nothing41}
   </div>`;
   }
   beside() {
@@ -14438,61 +19138,86 @@ var SdsSlide = class extends SdsElement {
   fromSlot(one) {
     const figure = one.tag === "figure";
     const caption = figure ? one.children.find((child) => child.tag === "figcaption") : void 0;
-    const parts = figure ? one.children.filter((child) => child !== caption) : [one];
-    const lone = parts.length === 1 ? parts[0]?.node : void 0;
+    const parts2 = figure ? one.children.filter((child) => child !== caption) : [one];
+    const lone = parts2.length === 1 ? parts2[0]?.node : void 0;
     if (typeof Element !== "undefined" && lone instanceof Element && lone.localName === "svg" && !lone.hasAttribute("preserveAspectRatio")) {
       lone.setAttribute("preserveAspectRatio", this.layout === "row" ? "xMidYMid meet" : "xMinYMin meet");
     }
-    return { label: one.attrs["data-label"] ?? "", caption: caption?.text ?? "", content: html71`${parts.map((part) => part.node)}` };
+    return { label: one.attrs["data-label"] ?? "", caption: caption?.text ?? "", content: html72`${parts2.map((part) => part.node)}` };
   }
   /* The room's content: the file as a picture, or markup in a box the
      element can shrink. A drawing alone in the box fills it instead. */
   art(one) {
-    if (one.src) return html71`<sds-image src="${one.src}" alt="${one.alt ?? ""}"></sds-image>`;
-    return html71`<div class="sds-slide__art"><div class="sds-slide__fit">${one.content ?? nothing39}</div></div>`;
+    if (one.src) return html72`<sds-image src="${one.src}" alt="${one.alt ?? ""}"></sds-image>`;
+    return html72`<div class="sds-slide__art"><div class="sds-slide__fit">${one.content ?? nothing41}</div></div>`;
   }
   /* A figure slide's drawings, in the room its layout leaves. */
   drawing() {
     const shown = this.kind === "figure" ? this.shown() : [];
-    if (!shown.length) return nothing39;
-    return html71`<div class="sds-slide__figure">${shown.map((one) => html71`<div class="sds-slide__drawing">
-    ${one.label ? html71`<p class="sds-label">${one.label}</p>` : nothing39}
+    if (!shown.length) return nothing41;
+    return html72`<div class="sds-slide__figure">${shown.map((one) => html72`<div class="sds-slide__drawing">
+    ${one.label ? html72`<p class="sds-slide__word">${one.label}</p>` : nothing41}
     ${this.art(one)}
-    ${one.caption ? html71`<p class="sds-slide__caption">${one.caption}</p>` : nothing39}
+    ${one.caption ? html72`<p class="sds-slide__caption">${one.caption}</p>` : nothing41}
   </div>`)}</div>`;
   }
   /* The right column of a speaker slide: the portrait, edge to edge. */
   portraitColumn() {
     const own = this.region("portrait");
-    if (own.length) return html71`<div class="sds-slide__portrait">${own.map((one) => one.node)}</div>`;
-    return html71`<div class="sds-slide__portrait">${this.portrait ? html71`<sds-image src="${this.portrait}" alt="${this.alt}"></sds-image>` : nothing39}</div>`;
+    if (own.length) return html72`<div class="sds-slide__portrait">${own.map((one) => one.node)}</div>`;
+    return html72`<div class="sds-slide__portrait">${this.portrait ? html72`<sds-image src="${this.portrait}" alt="${this.alt}"></sds-image>` : nothing41}</div>`;
   }
   render() {
     const body = this.taken ?? this.content ?? this.body;
-    const zoom2 = this.zoom > 0 ? `zoom:${this.zoom}` : nothing39;
-    const text = html71`${this.head()}
-  ${body ? html71`<div class="sds-slide__body"><div class="sds-slide__fit">${body}</div></div>` : nothing39}`;
-    const page = this.beside() ? html71`<div class="sds-slide__text">${text}</div>${this.drawing()}
-  ${this.foot()}` : html71`${text}${this.drawing()}
-  ${this.outline()}${this.kind === "speaker" ? nothing39 : html71`
+    const zoom2 = this.zoom > 0 ? `zoom:${this.zoom}` : nothing41;
+    const text2 = html72`${this.head()}
+  ${body ? html72`<div class="sds-slide__body"><div class="sds-slide__fit">${body}</div></div>` : nothing41}`;
+    const page = this.beside() ? html72`<div class="sds-slide__text">${text2}</div>${this.drawing()}
+  ${this.foot()}` : html72`${text2}${this.drawing()}
+  ${this.outline()}${this.kind === "speaker" ? nothing41 : html72`
   ${this.foot()}`}`;
-    const layout = this.kind === "figure" ? [LAYOUT[this.layout] ?? "", this.beside() && this.bleed ? "sds-slide--bleed" : "", this.framed ? "sds-slide--framed" : ""].filter(Boolean).join(" ") : "";
-    return html71`<div class="sds-slide${KIND[this.kind] ? ` ${KIND[this.kind]}` : ""}${layout ? ` ${layout}` : ""}" data-theme="${GROUND[this.ground] ?? GROUND.paper}" style="${zoom2}" @click="${this.onFrame}">
-  ${this.kind === "speaker" ? html71`<div class="sds-slide__page">${page}</div>${this.portraitColumn()}
+    const layout2 = this.kind === "figure" ? [LAYOUT[this.layout] ?? "", this.beside() && this.bleed ? "sds-slide--bleed" : "", this.framed ? "sds-slide--framed" : ""].filter(Boolean).join(" ") : "";
+    return html72`<div class="sds-slide${KIND[this.kind] ? ` ${KIND[this.kind]}` : ""}${layout2 ? ` ${layout2}` : ""}" data-theme="${GROUND[this.ground] ?? GROUND.paper}" style="${zoom2}" @click="${this.onFrame}">
+  ${this.kind === "speaker" ? html72`<div class="sds-slide__page">${page}</div>${this.portraitColumn()}
   ${this.foot()}` : page}
-</div>${this.zoomable ? html71`<button class="sds-btn sds-btn--secondary sds-btn--sm sds-btn--icon sds-slide__zoom" type="button" title="Open the slide" data-theme="${GROUND[this.ground] ?? GROUND.paper}" @click="${this.open}"><sds-icon name="actions-fullscreen"></sds-icon></button>` : nothing39}`;
+</div>${this.zoomable ? html72`<button class="sds-btn sds-btn--secondary sds-btn--sm sds-btn--icon sds-slide__zoom" type="button" title="Open the slide" data-theme="${GROUND[this.ground] ?? GROUND.paper}" @click="${this.open}"><sds-icon name="actions-fullscreen"></sds-icon></button>` : nothing41}`;
   }
 };
 define("sds-slide", SdsSlide);
 
 // packages/frontend/src/components/deck.ts
-import { html as html72, nothing as nothing40 } from "lit";
+import { html as html73, nothing as nothing42 } from "lit";
 var BOOKENDS = /* @__PURE__ */ new Set(["cover", "closing"]);
 var PLACED = /* @__PURE__ */ new Set(["content", "figure", "speaker", "statement", "closing"]);
-var STEP = { ArrowRight: 1, ArrowDown: 1, PageDown: 1, ArrowLeft: -1, ArrowUp: -1, PageUp: -1 };
+function tell(deck, slides) {
+  const dividers = slides.filter((slide) => slide.kind === "section");
+  const outline = JSON.stringify(dividers.map((slide) => slide.heading));
+  const two = (n) => String(n).padStart(2, "0");
+  let place3 = "";
+  return slides.map((slide, i) => {
+    const out = {};
+    const give = (name, value) => {
+      if (value && slide.kept(name) === null) out[name] = value;
+    };
+    const bookend = BOOKENDS.has(slide.kind);
+    give("brand", deck.brand);
+    give("product", deck.product);
+    give("signet", bookend ? deck.signetLarge || deck.signet : deck.signet);
+    if (deck.numbered && !bookend) give("number", two(i + 1));
+    const at = dividers.indexOf(slide);
+    if (at >= 0) {
+      give("sections", outline);
+      give("current", String(at));
+      place3 = `${two(Number(slide.kept("current") ?? at) + 1)} \xB7 ${slide.heading}`;
+    } else if (PLACED.has(slide.kind) && !slide.eyebrow) give("eyebrow", place3);
+    return out;
+  });
+}
+var STEP3 = { ArrowRight: 1, ArrowDown: 1, PageDown: 1, ArrowLeft: -1, ArrowUp: -1, PageUp: -1 };
 var OWN = "a, button, input, select, textarea, summary, label, [contenteditable], pre, .sds-code";
 var TURN = 0.15;
 var REACH = 120;
+var PICTURES = 6;
 var LIVE = /* @__PURE__ */ new Set(["a", "button", "input", "select", "textarea", "summary", "details", "label", "iframe", "video", "audio", "dialog"]);
 function picture(frame, { sized = false } = {}) {
   const copy = frame.cloneNode(true);
@@ -14508,11 +19233,11 @@ function picture(frame, { sized = false } = {}) {
       continue;
     }
     if (!LIVE.has(el.localName)) continue;
-    const plain = document.createElement("span");
-    for (const { name, value } of [...el.attributes]) plain.setAttribute(name, value);
-    plain.style.display = getComputedStyle(from[i]).display;
-    plain.append(...el.childNodes);
-    el.replaceWith(plain);
+    const plain2 = document.createElement("span");
+    for (const { name, value } of [...el.attributes]) plain2.setAttribute(name, value);
+    plain2.style.display = getComputedStyle(from[i]).display;
+    plain2.append(...el.childNodes);
+    el.replaceWith(plain2);
   }
   return copy;
 }
@@ -14527,6 +19252,11 @@ var SdsDeck = class extends SdsElement {
     /** The slides written between the tags, if any. */
     this.own = [];
     this.slides = [];
+    /** The slides whose picture the list already holds. */
+    this.drawn = /* @__PURE__ */ new Set();
+    this.drawing = 0;
+    /* What the deck set on each slide, so it can set it again. */
+    this.given = /* @__PURE__ */ new WeakMap();
     /** The slide to come back to after a print, if the deck was open. */
     this.resume = -1;
     /** A drag just ended, so the click the pointer sends after it is no press. */
@@ -14543,11 +19273,35 @@ var SdsDeck = class extends SdsElement {
       const at = this.collect().indexOf(event.target);
       if (at >= 0) this.show(at);
     };
+    /* The number a reader types into the count, or types blind and ends with
+       Enter: the deck goes to that slide. */
+    this.onGoto = (event) => {
+      if (event instanceof KeyboardEvent && event.key !== "Enter") return;
+      const input = event.target;
+      const number = Number.parseInt(input.value, 10);
+      if (Number.isFinite(number)) this.go(Math.min(Math.max(number, 1), this.slides.length) - 1);
+      input.value = String(this.at + 1);
+      event.preventDefault();
+    };
+    this.typed = "";
+    this.typedAt = 0;
     this.onKey = (event) => {
       if (!this.open || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
       const target = event.target;
-      if (target?.closest?.(".sds-deck__stage")) return;
-      const step = STEP[event.key];
+      if (target?.closest?.(".sds-deck__stage, input")) return;
+      if (/^[0-9]$/.test(event.key)) {
+        this.typed = (event.timeStamp - this.typedAt < 1500 ? this.typed : "") + event.key;
+        this.typedAt = event.timeStamp;
+        event.preventDefault();
+        return;
+      }
+      if (event.key === "Enter" && this.typed && event.timeStamp - this.typedAt < 1500) {
+        this.go(Math.min(Math.max(Number(this.typed), 1), this.slides.length) - 1);
+        this.typed = "";
+        event.preventDefault();
+        return;
+      }
+      const step = STEP3[event.key];
       if (event.key === "Home") this.go(0);
       else if (event.key === "End") this.go(this.slides.length - 1);
       else if (event.key === "f" || event.key === "F") this.fullscreen();
@@ -14657,46 +19411,50 @@ var SdsDeck = class extends SdsElement {
     this.addEventListener("sds-command", this.onCommand);
     this.asks = new AbortController();
     document.addEventListener("sds-slide-open", this.onAsk, { signal: this.asks.signal });
+    this.furnish();
+    const root = this.from ? document.getElementById(this.from) : document.body;
+    if (this.own.length || !root) return;
+    this.grows = new MutationObserver((records) => {
+      const added = records.some((record) => [...record.addedNodes].some((node) => node instanceof Element && (node.localName === "sds-slide" || node.querySelector("sds-slide"))));
+      if (added && !this.open) this.furnish();
+    });
+    this.grows.observe(root, { childList: true, subtree: true });
+  }
+  /* What the deck says to the slides of the page, and the press on each. */
+  furnish() {
     const slides = this.collect();
     this.hand(slides);
-    if (!this.own.length) for (const slide of slides) slide.setAttribute("zoomable", "");
+    if (!this.own.length) {
+      for (const slide of slides) if (!slide.hasAttribute("zoomable")) slide.setAttribute("zoomable", "");
+    }
   }
   /* What the deck says once, given to every slide that does not say it. An
      attribute, because a slide can still wait for its upgrade, and a value
      set on it then outweighs the attribute its author wrote. The count, the
-     outline and the place in it come from the order: nobody keeps them by hand. */
+     outline and the place in it come from the order: nobody keeps them by hand.
+     A value the deck gave, it gives again when the order changes. */
   hand(slides) {
-    const kind = (slide) => slide.getAttribute("kind") || "content";
-    const give = (slide, name, value) => {
-      if (value && !slide.getAttribute(name)) slide.setAttribute(name, value);
-    };
-    const dividers = slides.filter((slide) => kind(slide) === "section");
-    const outline = JSON.stringify(dividers.map((slide) => slide.getAttribute("heading") ?? ""));
-    let place2 = "";
-    slides.forEach((slide, i) => {
-      const bookend = BOOKENDS.has(kind(slide));
+    const said = slides.map((slide) => ({
+      kind: slide.getAttribute("kind") || "content",
+      heading: slide.getAttribute("heading") ?? "",
+      kept: (name) => {
+        const value = slide.getAttribute(name);
+        return value && value !== "[]" && value !== this.given.get(slide)?.[name] ? value : null;
+      },
+      eyebrow: Boolean(slide.querySelector(':scope > [slot="eyebrow"], :scope > .sds-slide > .sds-slide__head > sds-eyebrow'))
+    }));
+    tell(this, said).forEach((given, i) => {
+      const slide = slides[i];
       if (!slide.hasAttribute("shrink")) slide.setAttribute("shrink", "");
-      give(slide, "brand", this.brand);
-      give(slide, "product", this.product);
-      give(slide, "signet", bookend ? this.signetLarge || this.signet : this.signet);
-      if (this.numbered && !bookend) give(slide, "number", String(i + 1).padStart(2, "0"));
-      const said = slide.getAttribute("sections");
-      if (dividers.includes(slide) && (!said || said === "[]")) {
-        slide.setAttribute("sections", outline);
-        slide.setAttribute("current", String(dividers.indexOf(slide)));
-      }
-      if (dividers.includes(slide)) {
-        const at = Number(slide.getAttribute("current") ?? dividers.indexOf(slide)) + 1;
-        place2 = `${String(at).padStart(2, "0")} \xB7 ${slide.getAttribute("heading") ?? ""}`;
-      } else if (PLACED.has(kind(slide)) && !slide.querySelector(':scope > [slot="eyebrow"], :scope > .sds-slide > .sds-slide__head > sds-eyebrow')) {
-        give(slide, "eyebrow", place2);
-      }
+      for (const [name, value] of Object.entries(given)) if (slide.getAttribute(name) !== value) slide.setAttribute(name, value);
+      this.given.set(slide, { ...this.given.get(slide), ...given });
     });
   }
   disconnectedCallback() {
     this.removeEventListener("sds-command", this.onCommand);
     this.keys?.abort();
     this.asks?.abort();
+    this.grows?.disconnect();
     this.giveBack();
     super.disconnectedCallback();
   }
@@ -14714,18 +19472,22 @@ var SdsDeck = class extends SdsElement {
     if (this.own.length) return this.own;
     const root = this.from ? document.getElementById(this.from) : document;
     if (!root) return [];
-    return [...root.querySelectorAll("sds-slide")].filter((slide) => !slide.closest("sds-deck"));
+    return [...root.querySelectorAll("sds-slide:not([page-only])")].filter((slide) => !slide.closest("sds-deck"));
   }
   show(at = 0) {
     this.slides = this.collect();
     this.titles = this.slides.map(titleOf);
+    this.drawn.clear();
     this.open = true;
     void this.updateComplete.then(() => {
-      this.draw();
       const el = this.dialog;
       if (el && !el.open) el.showModal();
       this.listen();
-      this.go(at);
+      requestAnimationFrame(() => {
+        if (!this.open) return;
+        this.go(at);
+        if (this.listed) this.drawAll();
+      });
     });
   }
   close() {
@@ -14767,16 +19529,16 @@ var SdsDeck = class extends SdsElement {
      ends here: the next one starts from where the slides are. */
   ghost(frame, stage) {
     for (const old of stage.querySelectorAll(".sds-deck__ghost")) old.remove();
-    const box = frame.getBoundingClientRect();
+    const box2 = frame.getBoundingClientRect();
     const room = stage.getBoundingClientRect();
     const ghost = document.createElement("div");
     ghost.className = "sds-deck__ghost";
     ghost.setAttribute("aria-hidden", "true");
     ghost.inert = true;
-    ghost.style.insetInlineStart = `${box.left - room.left}px`;
-    ghost.style.insetBlockStart = `${box.top - room.top}px`;
-    ghost.style.inlineSize = `${box.width}px`;
-    ghost.style.blockSize = `${box.height}px`;
+    ghost.style.insetInlineStart = `${box2.left - room.left}px`;
+    ghost.style.insetBlockStart = `${box2.top - room.top}px`;
+    ghost.style.inlineSize = `${box2.width}px`;
+    ghost.style.blockSize = `${box2.height}px`;
     ghost.append(picture(frame, { sized: true }));
     stage.append(ghost);
     return ghost;
@@ -14785,26 +19547,40 @@ var SdsDeck = class extends SdsElement {
      new one in from where the old one goes next. The new one starts with
      no transition, the stylesheet runs the rest. */
   push(stage, ghost, way, from) {
-    const width = stage.clientWidth;
+    const width2 = stage.clientWidth;
     stage.classList.add("is-placing");
-    stage.style.setProperty("--sds-deck-drag", `${from + way * width}px`);
+    stage.style.setProperty("--sds-deck-drag", `${from + way * width2}px`);
     void stage.offsetWidth;
     stage.classList.remove("is-placing");
     stage.style.removeProperty("--sds-deck-drag");
-    ghost.style.translate = `${-way * width - from}px 0`;
+    ghost.style.translate = `${-way * width2 - from}px 0`;
     const gone = () => ghost.remove();
     ghost.addEventListener("transitionend", gone, { once: true });
     setTimeout(gone, 1e3);
   }
-  /* A picture of every slide for the list, before the first loan. Each
-     slide still stands where the page drew it, fitted to its column. */
-  draw() {
-    const boxes2 = this.querySelectorAll(".sds-deck__thumb");
-    this.slides.forEach((slide, i) => {
-      const frame = slide.querySelector(":scope > .sds-slide");
-      const box = boxes2[i];
-      if (frame && box) box.replaceChildren(picture(frame));
-    });
+  /* The picture of one slide for the list, while the slide still stands
+     where the page drew it, fitted to its column. So a slide takes its
+     picture before its loan, and the stage never sits for one. */
+  draw(index) {
+    if (this.drawn.has(index) || this.loan?.slide === this.slides[index]) return;
+    const frame = this.slides[index]?.querySelector(":scope > .sds-slide");
+    const box2 = this.querySelectorAll(".sds-deck__thumb")[index];
+    if (!frame || !box2) return;
+    box2.replaceChildren(picture(frame));
+    this.drawn.add(index);
+  }
+  /* The pictures the list shows, a few in each frame from the current one
+     on. A deck opens at once, and a long one never stops the page. */
+  drawAll() {
+    cancelAnimationFrame(this.drawing);
+    const order = this.slides.map((_, i) => i).sort((a, b) => Math.abs(a - this.at) - Math.abs(b - this.at));
+    const next = () => {
+      if (!this.open || !this.listed) return;
+      const left = order.filter((i) => !this.drawn.has(i));
+      for (const i of left.slice(0, PICTURES)) this.draw(i);
+      if (left.length > PICTURES) this.drawing = requestAnimationFrame(next);
+    };
+    next();
   }
   /* The slide leaves the page for the stage, and a box of its height holds
      its place. So the page under the backdrop does not move, and the reader
@@ -14814,6 +19590,7 @@ var SdsDeck = class extends SdsElement {
     const stage = this.querySelector(".sds-deck__stage");
     if (!slide || !stage) return;
     this.giveBack();
+    this.draw(index);
     const hold = document.createElement("div");
     hold.className = "sds-deck__hold";
     hold.style.height = `${slide.getBoundingClientRect().height}px`;
@@ -14837,11 +19614,11 @@ var SdsDeck = class extends SdsElement {
      `scrollIntoView`, which also moves the page under the backdrop. */
   follow() {
     const list = this.querySelector(".sds-deck__nav");
-    const row = list?.querySelector(".sds-deck__entry.is-active");
-    if (!list || !row || list.hidden) return;
-    if (row.offsetTop < list.scrollTop) list.scrollTop = row.offsetTop;
-    else if (row.offsetTop + row.offsetHeight > list.scrollTop + list.clientHeight) {
-      list.scrollTop = row.offsetTop + row.offsetHeight - list.clientHeight;
+    const row2 = list?.querySelector(".sds-deck__entry.is-active");
+    if (!list || !row2 || list.hidden) return;
+    if (row2.offsetTop < list.scrollTop) list.scrollTop = row2.offsetTop;
+    else if (row2.offsetTop + row2.offsetHeight > list.scrollTop + list.clientHeight) {
+      list.scrollTop = row2.offsetTop + row2.offsetHeight - list.clientHeight;
     }
   }
   /* On the document, not the dialog: a press that disables the last button
@@ -14906,7 +19683,8 @@ var SdsDeck = class extends SdsElement {
   get stage() {
     return this.querySelector(".sds-deck__stage");
   }
-  updated() {
+  updated(changed) {
+    if (changed.has("listed") && this.listed && this.open) this.drawAll();
     const el = this.dialog;
     if (!el || !this.isConnected) return;
     if (!this.open && el.open) el.close();
@@ -14915,8 +19693,8 @@ var SdsDeck = class extends SdsElement {
      deck takes the cover's width out of sight, because a slide fits itself
      to the room it has. */
   poster() {
-    if (!this.own.length) return nothing40;
-    return html72`<div class="sds-deck__poster">
+    if (!this.own.length) return nothing42;
+    return html73`<div class="sds-deck__poster">
   <div class="sds-deck__cover" @click="${() => this.show(0)}"></div>
   <div class="sds-deck__presses">
     <button class="sds-btn sds-btn--secondary sds-btn--icon" type="button" title="Save as PDF" @click="${() => this.print()}"><sds-icon name="actions-file-pdf"></sds-icon></button>
@@ -14933,9 +19711,9 @@ var SdsDeck = class extends SdsElement {
     if (nav && getComputedStyle(nav).position === "absolute") this.listed = false;
   }
   list() {
-    return html72`<nav class="sds-deck__nav" aria-label="All slides" ?hidden="${!this.listed}">
-  <ol class="sds-deck__list">${this.titles.map((title, i) => html72`<li>
-    <button class="${i === this.at ? "sds-deck__entry is-active" : "sds-deck__entry"}" type="button" aria-current="${i === this.at ? "true" : nothing40}" @click="${() => this.pick(i)}">
+    return html73`<nav class="sds-deck__nav" aria-label="All slides" ?hidden="${!this.listed}">
+  <ol class="sds-deck__list">${this.titles.map((title, i) => html73`<li>
+    <button class="${i === this.at ? "sds-deck__entry is-active" : "sds-deck__entry"}" type="button" aria-current="${i === this.at ? "true" : nothing42}" @click="${() => this.pick(i)}">
       <span class="sds-deck__thumb" aria-hidden="true" inert></span>
       <span class="sds-deck__entry-line">
         <span class="sds-deck__entry-count">${String(i + 1).padStart(2, "0")}</span>
@@ -14949,7 +19727,7 @@ var SdsDeck = class extends SdsElement {
     const total = this.titles.length;
     const count = total ? `${this.at + 1} / ${total}` : "";
     const through = total ? `inline-size: ${(this.at + 1) / total * 100}%` : "inline-size: 0";
-    return html72`${this.poster()}<dialog class="${this.full ? "sds-deck is-full" : "sds-deck"}" aria-label="${this.label}" @close="${this.onClose}">
+    return html73`${this.poster()}<dialog class="${this.full ? "sds-deck is-full" : "sds-deck"}" aria-label="${this.label}" @close="${this.onClose}">
   <div class="sds-deck__screen" tabindex="-1">
   <div class="sds-modal__head">
     <div class="sds-deck__start">
@@ -14961,7 +19739,7 @@ var SdsDeck = class extends SdsElement {
     </div>
     <div class="sds-deck__controls">
       <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" type="button" title="Previous slide (←)" ?disabled="${this.at <= 0}" @click="${() => this.go(this.at - 1)}"><sds-icon name="actions-arrow-left"></sds-icon></button>
-      <p class="sds-deck__count" aria-live="polite">${count}</p>
+      <p class="sds-deck__count" aria-live="polite">${total ? html73`<input class="sds-deck__goto" type="text" inputmode="numeric" aria-label="Go to slide, of ${total}" .value="${String(this.at + 1)}" size="${String(total).length}" @keydown="${this.onGoto}" @change="${this.onGoto}" @blur="${(event) => event.target.value = String(this.at + 1)}" /><span> / ${total}</span>` : count}</p>
       <button class="sds-btn sds-btn--ghost sds-btn--sm sds-btn--icon" type="button" title="Next slide (→)" ?disabled="${this.at >= total - 1}" @click="${() => this.go(this.at + 1)}"><sds-icon name="actions-arrow-right"></sds-icon></button>
     </div>
     <div class="sds-deck__end">
@@ -14990,7 +19768,7 @@ var SdsDeck = class extends SdsElement {
 define("sds-deck", SdsDeck);
 
 // packages/frontend/src/components/facts.ts
-import { html as html73, nothing as nothing41 } from "lit";
+import { html as html74, nothing as nothing43 } from "lit";
 var SdsFacts = class extends SdsElement {
   constructor() {
     super();
@@ -15011,10 +19789,10 @@ var SdsFacts = class extends SdsElement {
   }
   render() {
     const pairs = this.entries.map(
-      ({ term, value, note }) => html73`<dt>${term}</dt>
-  <dd>${value}${note ? html73`<span class="sds-facts__note">${note}</span>` : nothing41}</dd>`
+      ({ term, value, note }) => html74`<dt>${term}</dt>
+  <dd>${value}${note ? html74`<span class="sds-facts__note">${note}</span>` : nothing43}</dd>`
     );
-    return html73`<dl class="sds-facts">
+    return html74`<dl class="sds-facts">
   ${this.taken ?? this.content ?? pairs}
 </dl>`;
   }
@@ -15022,7 +19800,7 @@ var SdsFacts = class extends SdsElement {
 define("sds-facts", SdsFacts);
 
 // packages/frontend/src/components/entry.ts
-import { html as html74, nothing as nothing42 } from "lit";
+import { html as html75, nothing as nothing44 } from "lit";
 var SdsEntry = class extends SdsElement {
   constructor() {
     super();
@@ -15062,23 +19840,23 @@ var SdsEntry = class extends SdsElement {
     super.connectedCallback();
   }
   render() {
-    return html74`<article class="sds-entry" id="${this.anchor || nothing42}">
+    return html75`<article class="sds-entry" id="${this.anchor || nothing44}">
   <span class="sds-entry__number">${this.number ? `${this.prefix}${this.number}` : ""}</span>
   <h3 class="sds-entry__title">${this.heading}</h3>
-  ${this.label || this.origin ? html74`<div class="sds-entry__meta">
-    ${this.label ? html74`<sds-badge label="${this.label}" tone="${this.tone}"></sds-badge>` : nothing42}
-    ${this.origin ? html74`<span class="sds-entry__origin">${this.origin}</span>` : nothing42}
-  </div>` : nothing42}
+  ${this.label || this.origin ? html75`<div class="sds-entry__meta">
+    ${this.label ? html75`<sds-badge label="${this.label}" tone="${this.tone}"></sds-badge>` : nothing44}
+    ${this.origin ? html75`<span class="sds-entry__origin">${this.origin}</span>` : nothing44}
+  </div>` : nothing44}
   <div class="sds-entry__body">${this.taken ?? this.content ?? this.body}</div>
-  ${this.todo ? html74`<p class="sds-entry__todo"><span class="sds-entry__number">${this.number ? `${this.todoPrefix}${this.number}` : ""}</span>${this.todo}</p>` : nothing42}
+  ${this.todo ? html75`<p class="sds-entry__todo"><span class="sds-entry__number">${this.number ? `${this.todoPrefix}${this.number}` : ""}</span>${this.todo}</p>` : nothing44}
 </article>`;
   }
 };
 define("sds-entry", SdsEntry);
 
 // packages/frontend/src/components/register.ts
-import { html as html75, nothing as nothing43 } from "lit";
-import { unsafeHTML as unsafeHTML6 } from "lit/directives/unsafe-html.js";
+import { html as html76, nothing as nothing45 } from "lit";
+import { unsafeHTML as unsafeHTML7 } from "lit/directives/unsafe-html.js";
 var FINDING_GROUPS = [
   { key: "blocks", heading: "Blocks submission", label: "blocks", tone: "error" },
   { key: "back", heading: "Sent back", label: "sent back", tone: "warn" },
@@ -15137,7 +19915,7 @@ var SdsRegister = class extends SdsElement {
       todo: el.getAttribute("todo") ?? "",
       anchor: el.getAttribute("anchor") ?? "",
       render: (placed, group) => {
-        for (const [key, value] of Object.entries(this.facts(placed, group))) el.setAttribute(key, value);
+        for (const [key2, value] of Object.entries(this.facts(placed, group))) el.setAttribute(key2, value);
         return el;
       }
     }));
@@ -15152,7 +19930,7 @@ var SdsRegister = class extends SdsElement {
       anchor: e.anchor ?? "",
       render: (placed, group) => {
         const f = this.facts(placed, group);
-        return html75`<sds-entry number="${f["number"]}" prefix="${f["prefix"]}" todo-prefix="${f["todo-prefix"]}" label="${f["label"]}" tone="${f["tone"]}" heading="${e.heading}" group="${e.group ?? ""}" origin="${e.origin ?? ""}" anchor="${f["anchor"]}" todo="${e.todo ?? ""}" .body="${e.body ?? ""}"></sds-entry>`;
+        return html76`<sds-entry number="${f["number"]}" prefix="${f["prefix"]}" todo-prefix="${f["todo-prefix"]}" label="${f["label"]}" tone="${f["tone"]}" heading="${e.heading}" group="${e.group ?? ""}" origin="${e.origin ?? ""}" anchor="${f["anchor"]}" todo="${e.todo ?? ""}" .body="${e.body ?? ""}"></sds-entry>`;
       }
     }));
   }
@@ -15170,7 +19948,7 @@ var SdsRegister = class extends SdsElement {
         anchor: facts2["anchor"] ?? "",
         render: (placed, group) => {
           const f = this.facts(placed, group);
-          return html75`<sds-entry number="${f["number"]}" prefix="${f["prefix"]}" todo-prefix="${f["todo-prefix"]}" label="${f["label"]}" tone="${f["tone"]}" heading="${facts2["heading"] ?? ""}" group="${facts2["group"] ?? ""}" origin="${facts2["origin"] ?? ""}" anchor="${f["anchor"]}" todo="${facts2["todo"] ?? ""}" .content="${html75`${unsafeHTML6(inner)}`}"></sds-entry>`;
+          return html76`<sds-entry number="${f["number"]}" prefix="${f["prefix"]}" todo-prefix="${f["todo-prefix"]}" label="${f["label"]}" tone="${f["tone"]}" heading="${facts2["heading"] ?? ""}" group="${facts2["group"] ?? ""}" origin="${facts2["origin"] ?? ""}" anchor="${f["anchor"]}" todo="${facts2["todo"] ?? ""}" .content="${html76`${unsafeHTML7(inner)}`}"></sds-entry>`;
         }
       };
     });
@@ -15184,22 +19962,22 @@ var SdsRegister = class extends SdsElement {
       and its own; an entry whose group the register does not name stands
       last, in the order written. Ungrouped, the entries count up. */
   get placed() {
-    const read = this.read;
-    const place2 = (entries, group, at) => entries.map((e, i) => {
+    const read2 = this.read;
+    const place3 = (entries, group, at) => entries.map((e, i) => {
       const number = group ? `${at}.${i + 1}` : `${i + 1}`;
       const anchor = e.anchor || this.anchorFor(number);
       const placed = { number, anchor, heading: e.heading, group, origin: e.origin, todo: e.todo };
       return { ...placed, out: e.render(placed, group) };
     });
-    if (!this.groups.length) return place2(read, null, 0);
+    if (!this.groups.length) return place3(read2, null, 0);
     const known = new Set(this.groups.map((g) => g.key));
     return [
-      ...this.groups.flatMap((group, i) => place2(read.filter((e) => e.group === group.key), group, i + 1)),
-      ...place2(read.filter((e) => !known.has(e.group)), null, 0)
+      ...this.groups.flatMap((group, i) => place3(read2.filter((e) => e.group === group.key), group, i + 1)),
+      ...place3(read2.filter((e) => !known.has(e.group)), null, 0)
     ];
   }
   badge(group) {
-    return group?.label ? html75`<sds-badge label="${group.label}" tone="${group.tone ?? "default"}"></sds-badge>` : "";
+    return group?.label ? html76`<sds-badge label="${group.label}" tone="${group.tone ?? "default"}"></sds-badge>` : "";
   }
   get columns() {
     return [
@@ -15210,13 +19988,13 @@ var SdsRegister = class extends SdsElement {
     ];
   }
   row(entry) {
-    const cells = [
+    const cells3 = [
       `${this.prefix}${entry.number}`,
-      html75`<a href="#${entry.anchor}">${entry.heading}</a>`
+      html76`<a href="#${entry.anchor}">${entry.heading}</a>`
     ];
-    if (this.groups.length) cells.push(this.badge(entry.group));
-    cells.push(entry.origin || "\u2014");
-    return { cells };
+    if (this.groups.length) cells3.push(this.badge(entry.group));
+    cells3.push(entry.origin || "\u2014");
+    return { cells: cells3 };
   }
   get todoColumns() {
     return [
@@ -15228,30 +20006,30 @@ var SdsRegister = class extends SdsElement {
   /** The work an entry asks for, numbered as the entry is, with the prefix
       that tells the two apart. The number is the way back to the entry. */
   todoRow(entry) {
-    const cells = [
-      html75`<a href="#${entry.anchor}">${this.todoPrefix}${entry.number}</a>`,
+    const cells3 = [
+      html76`<a href="#${entry.anchor}">${this.todoPrefix}${entry.number}</a>`,
       entry.todo
     ];
-    if (this.groups.length) cells.push(this.badge(entry.group));
-    return { cells };
+    if (this.groups.length) cells3.push(this.badge(entry.group));
+    return { cells: cells3 };
   }
   render() {
     const placed = this.placed;
     const todos = placed.filter((e) => e.todo);
     const groups = this.groups.length ? [...this.groups, null] : [null];
-    return html75`<div class="sds-register">
+    return html76`<div class="sds-register">
   <sds-table density="compact" scrollable .columns="${this.columns}" .rows="${placed.map((e) => this.row(e))}"></sds-table>
-  ${todos.length ? html75`<section class="sds-section" id="${this.name}-todo">
+  ${todos.length ? html76`<section class="sds-section" id="${this.name}-todo">
     <h3>To do</h3>
     <sds-table density="compact" scrollable .columns="${this.todoColumns}" .rows="${todos.map((e) => this.todoRow(e))}"></sds-table>
-  </section>` : nothing43}
+  </section>` : nothing45}
   ${groups.map((group) => {
       const own = placed.filter((e) => e.group === group);
-      if (!own.length) return nothing43;
-      return group ? html75`<section class="sds-section" id="${this.name}-${group.key}">
+      if (!own.length) return nothing45;
+      return group ? html76`<section class="sds-section" id="${this.name}-${group.key}">
     <h3>${group.heading}</h3>
     ${own.map((e) => e.out)}
-  </section>` : html75`<div class="sds-register__entries">${own.map((e) => e.out)}</div>`;
+  </section>` : html76`<div class="sds-register__entries">${own.map((e) => e.out)}</div>`;
     })}
 </div>`;
   }
@@ -15259,7 +20037,7 @@ var SdsRegister = class extends SdsElement {
 define("sds-register", SdsRegister);
 
 // packages/frontend/src/components/confval.ts
-import { html as html76, nothing as nothing44 } from "lit";
+import { html as html77, nothing as nothing46 } from "lit";
 var SdsConfval = class extends SdsElement {
   constructor() {
     super();
@@ -15300,22 +20078,22 @@ var SdsConfval = class extends SdsElement {
     ];
   }
   fact({ label, value }) {
-    return html76`<dt class="sds-label">${label}</dt>
+    return html77`<dt class="sds-label">${label}</dt>
       <dd class="sds-mono">${value}</dd>`;
   }
   render() {
     const facts2 = this.stated;
-    const mark = this.anchor ? html76`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing44;
-    return html76`<dl class="sds-confval">
-  <dt class="sds-confval__term" id="${this.anchor || nothing44}">
+    const mark = this.anchor ? html77`<a class="sds-confval__mark" href="#${this.anchor}" aria-label="Link to ${this.name}">#</a>` : nothing46;
+    return html77`<dl class="sds-confval">
+  <dt class="sds-confval__term" id="${this.anchor || nothing46}">
     <code class="sds-confval__name">${this.name}</code>
-    ${this.required ? html76`<sds-badge label="required"></sds-badge>` : nothing44}
+    ${this.required ? html77`<sds-badge label="required"></sds-badge>` : nothing46}
     ${mark}
   </dt>
   <dd class="sds-confval__detail">
-    ${facts2.length ? html76`<dl class="sds-confval__facts">
+    ${facts2.length ? html77`<dl class="sds-confval__facts">
       ${lines(facts2.map((f) => this.fact(f)), 6)}
-    </dl>` : nothing44}
+    </dl>` : nothing46}
     <div class="sds-confval__body">${this.taken ?? this.content ?? this.body}</div>
   </dd>
 </dl>`;
@@ -15386,6 +20164,7 @@ var TAGS4 = [
   "sds-code",
   "sds-copy",
   "sds-tree",
+  "sds-diagram",
   "sds-diff",
   "sds-quote",
   "sds-slide",
@@ -15414,6 +20193,7 @@ export {
   SdsCopy,
   SdsDecision,
   SdsDeck,
+  SdsDiagram,
   SdsDialog,
   SdsDiff,
   SdsDropdown,

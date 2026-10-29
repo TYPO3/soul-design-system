@@ -3,3 +3,6 @@ export declare const DIAGRAM_SHAPES: Readonly<Record<string, string>>;
     system, because the wrapper around a mark states a size and no
     viewBox. Keyed by file name without the extension. */
 export declare const MARK_SVG: Readonly<Record<string, string>>;
+/** The text of each drawing, keyed by file name without the
+    extension, for an element that draws it in a page's tokens. */
+export declare const DIAGRAM_SOURCES: Readonly<Record<string, string>>;

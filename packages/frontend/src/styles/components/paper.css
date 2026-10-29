@@ -25,6 +25,7 @@
     --sds-paper-foot-ink: var(--text-muted);
     --sds-paper-foot-gap: var(--space-3);
     --sds-paper-foot-row-gap: var(--space-1);
+    --sds-paper-press-inset: var(--control-pad-x-sm);
     --sds-paper-main-pad-y: var(--space-12) var(--space-10);
 
     flex: 1;
@@ -110,6 +111,16 @@
     font-size: var(--sds-paper-foot-size);
     color: var(--sds-paper-foot-ink);
 
+    /* The foot's own row gap is the only step in it. A row of presses
+       carries the flow's step otherwise, above and below. */
+    > * {
+      margin-block: 0;
+    }
+    /* A row of small presses stands flush with the lines above it: the
+       first press gives its own inset back. */
+    > .sds-row {
+      margin-inline-start: calc(-1 * var(--sds-paper-press-inset));
+    }
     /* The size stated on the line itself. A bare paragraph carries the body
        size, and the foot is a step under the list, not over it. */
     p {

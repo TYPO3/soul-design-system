@@ -8,7 +8,7 @@
     That is what keeps a set of four from a wrap as three and one.
 #}
 {%- set given = node.option('class') ? ' class="' ~ node.option('class') ~ '"' : '' -%}
-<sds-grid variant="{{ node.option('variant')|default('default') }}"{{ given|raw }}>
+<sds-grid variant="{{ node.option('variant')|default('default') }}"{% if node.option('columns') %} columns="{{ node.option('columns') }}"{% endif %}{{ given|raw }}>
     {%- for child in node.children -%}
         {{ renderNode(child) }}
     {%- endfor -%}

@@ -27,6 +27,7 @@ import { numbersSlide } from '../slides/Numbers.stories.ts';
 import { quoteSlide } from '../slides/Quote.stories.ts';
 import { figureSlide } from '../slides/Figure.stories.ts';
 import { figureFullSlide } from '../slides/FigureFull.stories.ts';
+import { figureHeadedSlide } from '../slides/FigureHeaded.stories.ts';
 import { figurePairSlide } from '../slides/FigurePair.stories.ts';
 import { figureRowSlide } from '../slides/FigureRow.stories.ts';
 import { figureTextSlide } from '../slides/FigureText.stories.ts';
@@ -37,7 +38,7 @@ import { closingSlide } from '../slides/Closing.stories.ts';
 /* The layouts in the order a deck runs, as the sidebar has them. The flat
    form: a slide in a column is a picture, and `fit` is for a stage. Bare:
    no slide names the product or counts itself. The deck says both once. */
-const LAYOUTS = [coverSlide, speakerSlide, speakersSlide, sectionSlide, statementSlide, cardsSlide, columnsSlide, flowSlide, codeSlide, tableSlide, matrixSlide, numbersSlide, quoteSlide, figureSlide, figureFullSlide, figurePairSlide, figureRowSlide, figureSlotsSlide, figureTextSlide, figureBleedSlide, closingSlide];
+const LAYOUTS = [coverSlide, speakerSlide, speakersSlide, sectionSlide, statementSlide, cardsSlide, columnsSlide, flowSlide, codeSlide, tableSlide, matrixSlide, numbersSlide, quoteSlide, figureSlide, figureFullSlide, figureHeadedSlide, figurePairSlide, figureRowSlide, figureSlotsSlide, figureTextSlide, figureBleedSlide, closingSlide];
 
 const meta: Meta<DeckProps> = {
   title: 'Components/Content/Deck',

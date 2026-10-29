@@ -11,6 +11,7 @@
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 
+import { drawings } from './drawings.ts';
 import { prerender } from './prerender.ts';
 
 /* What a page links, and what those files ask for beside themselves. The
@@ -49,7 +50,7 @@ export function draw(root: string): number {
   let drawn = 0;
   for (const file of pages(root)) {
     const page = readFileSync(file, 'utf8');
-    const done = prerender(page);
+    const done = drawings(prerender(page), file, root);
     if (done === page) continue;
     writeFileSync(file, done);
     drawn++;

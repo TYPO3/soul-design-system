@@ -10,6 +10,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import type { TemplateResult } from 'lit';
 import { dsScreen, part } from '../lib/specimen.ts';
 import { place, slide, type DeckMode } from '../lib/deck.ts';
+import { shipped } from '../lib/diagram.ts';
 
 export function figureSlide({ flat = false, bare = false }: DeckMode = {}): TemplateResult {
   return slide(
@@ -17,11 +18,9 @@ export function figureSlide({ flat = false, bare = false }: DeckMode = {}): Temp
       kind: 'figure',
       eyebrow: place(2),
       heading: 'One key for two languages',
-      src: 'assets/diagrams/slide-lookup.svg',
-      alt: 'A German call writes the slot of a key. An English call for the same key reads it and answers in German.',
       number: '07',
     },
-    undefined,
+    shipped('slide-lookup', { slot: 'figure' }),
     { flat, bare },
   );
 }

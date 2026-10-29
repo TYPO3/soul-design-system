@@ -51,6 +51,7 @@
     --sds-table-name-ink: var(--text-primary);
     --sds-table-meta-ink: var(--text-muted);
     --sds-table-note-gap: var(--space-0-5);
+    --sds-table-paragraph-gap: var(--space-1);
     /* The caption stands under the last row, where a figure's stands, and
        the gap is on the side that faces the rows. `top` turns both over. */
     --sds-table-caption-side: bottom;
@@ -130,6 +131,16 @@
          does not fill. That reads as a row that failed to line up rather than
          as one fact beside another. */
       vertical-align: middle;
+
+      /* A cell of several paragraphs, as a document writes a line break in
+         one. They set in the cell's size, a small step apart. */
+      > p {
+        margin-block: 0;
+        font-size: inherit;
+      }
+      > p + p {
+        margin-block-start: var(--sds-table-paragraph-gap);
+      }
     }
 
     th:last-child,

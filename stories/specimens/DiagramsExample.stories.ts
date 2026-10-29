@@ -13,7 +13,7 @@ import { figureCard } from '../lib/figure.ts';
 
 const NOTES = [
   '<b>One file, both modes.</b> Every colour is an attribute written as <span class="spec-cap">var(--token, #light)</span>, so the drawing takes the mode of the page it is referenced into and still renders on its own — in a README or a tab — as the light file it falls back to. What it cannot be is an <span class="spec-cap">&lt;img&gt;</span>: that renders in a document of its own, where no token is declared.',
-  '<b>What changed against the existing set:</b> the five hues are gone, the drop shadow is gone, the 28px outer radius is gone, and every identifier moved to mono. The claim, the five names and the closing line are unchanged.',
+  '<b>What changed against the existing set:</b> the five hues are gone, the drop shadow is gone, the 28px outer radius is gone, and every identifier moved to mono. The claim and the five names are unchanged. The title and the closing line moved to the page around the drawing.',
 ];
 
 const meta: Meta = {
@@ -26,7 +26,7 @@ const meta: Meta = {
       name: 'Worked example',
       subtitle: 'answer-sources.svg, redrawn to the rules — one file, in both modes',
       theme: 'both',
-      viewport: '1400x1014',
+      viewport: '1400x683',
       bodyClass: 'spec-sunken',
     }),
   },
@@ -37,7 +37,7 @@ type Story = StoryObj;
 
 export const specimenHtml = (): string =>
   figureCard(
-    { file: 'answer-sources.svg', alt: 'Five answer sources plotted against the machine state each one requires.' },
+    { file: 'answer-sources.svg' },
     NOTES,
   );
 

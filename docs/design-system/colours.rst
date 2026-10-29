@@ -75,6 +75,10 @@ canvas. A **card** is a hairline and 6px with no fill of its own.
        frame and ``--status-error`` on the glyph alone. A pair of its own,
        because the status red is ink. A wash of it over paper goes grey
        before it goes red
+   * - ``--surface-ok-quiet``, ``--surface-warn-quiet``
+     - the plane under a result, and under a warning
+     - the band of a phase in a diagram that ends in its result or in a
+       warning. The same kind of pair as the one for a failure
    * - ``--surface-overlay``
      - the wash under a floating surface
      - a dialog is open, and the page behind it is out of use. What only
@@ -155,7 +159,8 @@ Accent
 
 ``--accent`` is ``#FF8700``, and it marks exactly three things. The active
 navigation item, the shell prompt in a code block, and the pipe in the
-wordmark. No second accent.
+wordmark. No second accent. On a slide, the eyebrow over a drawing is a
+fourth. :doc:`slides` says where.
 
 ``--accent-glow`` is one of the system's two gradients. Light falls across
 the top of a linked card's hairline under the pointer or keyboard focus, then

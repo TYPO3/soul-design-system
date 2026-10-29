@@ -1,0 +1,23 @@
+{#
+    A drawing, written as the text that describes it.
+
+    The text goes between the tags, as an author writes it on a page. The
+    element parses and draws it, and the finishing step renders that before
+    the page ships. A template that draws the picture itself holds a second
+    copy of the grammar. A caption is the document's, around the drawing.
+#}
+{#- With a caption, the drawing stands in a figure: the frame and the
+    caption are the figure's, never the drawing's. -#}
+{%- set drawing -%}
+<sds-diagram
+    {%- if node.option('name') %} name="{{ node.option('name') }}"{% endif %}
+    {%- if node.option('zoomable') %} zoomable{% endif %}>
+{{ node.option('source') }}
+</sds-diagram>
+{%- endset -%}
+{%- if node.option('caption') -%}
+{%- set number = number_of('figure', node.option('caption')) -%}
+<sds-figure caption="{{ number ? 'Figure ' ~ number ~ ' · ' }}{{ node.option('caption') }}">{{ drawing }}</sds-figure>
+{%- else -%}
+{{ drawing }}
+{%- endif -%}

@@ -19,12 +19,14 @@ import { grid } from '../lib/page.ts';
 import { place, slide } from '../lib/deck.ts';
 import { dsCard, DIVIDER, part, spec, specCap } from '../lib/specimen.ts';
 
-export const sdsStat = ({ value, unit, label, of, icon, note }: StatProps) =>
+export const sdsStat = ({ value, unit, label, of, bar, list, icon, note }: StatProps) =>
   html`<sds-stat
     value="${value}"
     unit="${unit ?? ''}"
     label="${label}"
     of="${of ?? ''}"
+    ?bar="${Boolean(bar)}"
+    ?list="${Boolean(list)}"
     icon="${icon ?? ''}"
     .note="${note ?? ''}"
   ></sds-stat>`;
@@ -80,7 +82,7 @@ const meta: Meta<StatProps> = {
       path: 'components/data/stat.card.html',
       name: 'Figures read as a set',
       subtitle: 'A count, a share, a measurement and a zero — and the wall they stand in',
-      viewport: '700x670',
+      viewport: '700x890',
     }),
   },
 };
@@ -115,6 +117,43 @@ export const Share: Story = {
     icon: 'actions-globe',
     note: 'One is slow and one is unreachable from the checker. Both only read, and neither has to answer.',
   },
+};
+
+/** A set of shares, each with its bar: the proportions read before the
+    numbers. Every figure of the set carries one, so the notes start
+    together. */
+export const Shares: Story = {
+  render: () =>
+    grid(
+      [
+        { value: '20', of: '21', label: 'baseline', note: 'WordPress, Drupal Canvas and Neos share them.' },
+        { value: '11', of: '19', label: 'common features', note: 'In more than one reference, at least in part.' },
+        { value: '2', of: '6', label: 'differentiators', note: 'The preview link and the structure view.' },
+      ].map((one) => sdsStat({ ...one, bar: true })),
+      { variant: 'dense' },
+    ),
+};
+
+/** A list of shares, where the proportion is the point. Each name and its
+    count stand on one line over the bar, and the note under it. The bar fills
+    from muted to the status green as the share grows, so the largest share
+    reads first. */
+const LIST: readonly StatProps[] = [
+  { value: '4', of: '29', label: 'Fixes in the extension', note: 'The hidden page and the panel buttons.' },
+  { value: '22', of: '29', label: 'In the MVP', note: 'The panel, the frame and keyboard access.' },
+  { value: '3', of: '29', label: 'After the MVP', note: 'The patterns.' },
+];
+
+export const List: Story = {
+  render: () => grid(LIST.map((one) => sdsStat({ ...one, list: true }))),
+};
+
+/** The same list on a slide. The figure gives up its display step to the
+    bar, so the list reads as one row of shares. */
+export const ListOnASlide: Story = {
+  name: 'List on a slide',
+  parameters: { layout: 'fullscreen' },
+  render: () => html`<div class="sb-stage">${slide({ eyebrow: place(1), heading: 'Where the to-dos go', number: '09' }, grid(LIST.map((one) => sdsStat({ ...one, list: true }))))}</div>`,
 };
 
 /** One of each kind, which is what a set is in practice. A count, a share of
@@ -171,6 +210,8 @@ export const specimenHtml = (): string =>
     specCap('THE SET · A COUNT, A SHARE OF A STATED WHOLE, A MEASUREMENT, A ZERO THAT IS THE CLAIM'),
     part(grid(MIXED.map(sdsStat), { flat: true, variant: 'flush' })),
     specCap('THE SAME FIGURES AS ONE WALL · THE FRAME BELONGS TO THE WALL, NOT TO THE FIGURE', DIVIDER),
+    part(grid(LIST.map((one) => sdsStat({ ...one, list: true })), { flat: true })),
+    specCap('A LIST OF SHARES · THE NAME AND THE COUNT OVER THE BAR, THE NOTE UNDER IT', DIVIDER),
   ]);
 
 export const Specimen: Story = {

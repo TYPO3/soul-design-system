@@ -54,7 +54,8 @@ Two lines, and neither changes the drawing.
      - ``fill="var(--text-primary, #8A8378)"``, ``stroke="var(--accent,
        #FF8700)"``: the token first, the hex behind it
    * - Nothing else colours it
-     - no ``<style>`` block, and no ``fill`` or ``color`` on the root
+     - no rule in a ``<style>`` block, and no ``fill`` or ``color`` on the
+       root. A drawing from a spec carries its faces in one, and only faces
 
 A file written that way is ready for the day a page can reach into it, and it
 loses nothing until then. **The hex is what an ``<img>`` renders.** It is
@@ -65,7 +66,7 @@ adjustment does not redraw a brand mark.
 
 The drawings this system ships name a root as well, ``<g id="soul-ref">``.
 That is the card generator's handle: ``make diagrams`` reads the shapes out
-from under it for the specimen cards. See :doc:`diagrams`.
+from under it for the specimen cards. See :doc:`diagrams/index`.
 
 .. warning::
 
@@ -116,7 +117,7 @@ The tokens to use
    * - ``--border-subtle``, ``--border-strong``
      - a hairline the drawing draws itself
 
-:doc:`diagrams` has the rest of what a diagram can use, and its numbers.
+:doc:`diagrams/index` has the rest of what a diagram can use, and its numbers.
 
 A signet of your own
 ====================

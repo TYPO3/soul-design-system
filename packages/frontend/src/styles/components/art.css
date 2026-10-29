@@ -26,5 +26,17 @@
   .sds-zoom {
     display: block;
     cursor: zoom-in;
+
+    /* An element that draws inline has no file to link, so its press is a
+       button, and a button draws nothing of its own here. */
+    &:is(button) {
+      inline-size: 100%;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      text-align: start;
+    }
   }
 }

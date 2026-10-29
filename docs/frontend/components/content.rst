@@ -189,6 +189,16 @@ removes the travel and keeps the visual response.
    :name: sds-card-icon
    :type: icon id
 
+.. confval:: sign
+   :name: sds-card-sign
+   :type: yes | partly | no | unknown
+
+   The state of what the card stands for, measured. The drawings use the
+   same sign for the same state. It stands at the end of the line over the
+   title, and its meaning reaches a reader who hears it. It is the only part of a
+   card in a status colour, because it is a result. Its shape says the same
+   in greyscale.
+
 .. confval:: footer
    :name: sds-card-footer
    :type: string
@@ -344,6 +354,14 @@ says stands between the tags, each line of the head in its region.
    On every other kind it stands in the foot at the page's size. Without a
    product there is no lockup.
 
+.. confval:: page-only
+   :name: sds-slide-page-only
+   :type: boolean
+
+   The slide stands in the page, and a deck over the page leaves it out.
+   For a figure that reads as a slide in the text and has no place in the
+   talk.
+
 .. confval:: plain
    :name: sds-slide-plain
    :type: boolean
@@ -408,7 +426,7 @@ says stands between the tags, each line of the head in its region.
 
 .. confval:: layout
    :name: sds-slide-layout
-   :type: "wide" | "full" | "row" | "text-start"
+   :type: "wide" | "full" | "headed" | "row" | "text-start"
    :default: "wide"
 
    Where a figure slide puts its picture. ``wide`` keeps it inside the
@@ -417,6 +435,10 @@ says stands between the tags, each line of the head in its region.
    the slide. ``row`` sets the ``drawings`` side by side.
    ``text-start`` stands it beside a column of text at the start, which is
    the body.
+
+   ``headed`` gives it the frame under a short head and a rule. The
+   eyebrow takes the quiet accent ink, and the lead the small step. The
+   foot is the count on its plate, with no lockup.
 
 .. confval:: framed
    :name: sds-slide-framed
@@ -449,13 +471,16 @@ says stands between the tags, each line of the head in its region.
    :type: boolean
 
    If the frame is a picture in a column. It shrinks to a column narrower
-   than it, and never grows past the size the stylesheet states. A
-   measurement, so a page with no script draws the stated size. A deck sets
-   it on every slide it runs through.
+   than it, and never grows past the size the stylesheet states. The
+   stylesheet divides the column's width by the frame's, so the slide has
+   its size before a script runs. A browser that cannot divide a length
+   measures in the script and shows the slide when it has the size. A deck
+   sets it on every slide it runs through.
 
    What the body holds fits the body, always. Content taller or wider than
    the room shrinks until it fits, at the width it had, so nothing wraps
-   anew. Nothing grows. A slide never cuts off what it holds.
+   anew. Nothing grows. A slide never cuts off what it holds. The fit is a
+   measurement, so the body shows nothing until the script has fitted it.
 
 .. confval:: zoomable
    :name: sds-slide-zoomable
@@ -556,6 +581,10 @@ the deck there. A button names the deck by id to open it from the start:
    numbers it: ``02 · What it consists of``. A slide before the first
    divider gets none.
 
+   The static renderer gives the same values to the slides' tags. So a
+   slide draws its foot and its count before a script runs, and nothing
+   moves when the deck arrives.
+
 .. confval:: open
    :name: sds-deck-open
    :type: boolean
@@ -564,7 +593,10 @@ the deck there. A button names the deck by id to open it from the start:
    ``fullscreen()`` and ``print()`` are the calls behind the presses.
 
 The keys are the arrows, Page Up and Page Down, Home and End, and ``F`` for
-the full screen. Escape leaves the full screen first, then the deck. A
+the full screen. A number and Enter go to that slide, and so does a number
+typed into the count.
+
+Escape leaves the full screen first, then the deck. A
 finger or a pointer drags the slide: past a part of the stage it turns, and
 short of that it goes back. On the full screen the head steps aside, and a
 press on the slide turns it. A turn pushes the old slide out, and the next
@@ -608,7 +640,7 @@ not the stat's.** A figure anywhere else stays bare, so a set of numbers on
 a page is not a row of boxes.
 
 .. specimen:: components/data/stat.card.html
-   :viewport: 700x670
+   :viewport: 700x890
    :title: Figures read as a set
 
 .. confval:: value
@@ -645,6 +677,22 @@ a page is not a row of boxes.
    measurement is out of nothing. It is words and not a bar. A reader reads
    a set of figures across its notes, and a drawing under one of them pushes
    that line out of step.
+
+.. confval:: bar
+   :name: sds-stat-bar
+   :type: boolean
+
+   With ``of``, the share as a bar under the figure, so the proportion
+   reads before the numbers. Every figure of a set carries it or none does,
+   so the notes stay in step.
+
+.. confval:: list
+   :name: sds-stat-list
+   :type: boolean
+
+   With ``of``, one share of a list. The label and the count stand on one
+   line over the bar, and the note under it. The bar fills from muted to
+   the status green as the share grows.
 
 .. confval:: icon
    :name: sds-stat-icon

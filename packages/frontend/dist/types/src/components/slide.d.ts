@@ -18,10 +18,11 @@ export type SlideKind = 'cover' | 'section' | 'statement' | 'content' | 'closing
 export type SlideGround = 'paper' | 'terminal';
 /** Where a figure slide puts its drawing. `wide` keeps it inside the
     margin, under the head. `full` gives it the frame and shows only the
-    count: the head stays for a reader who hears it. `row` sets
+    count: the head stays for a reader who hears it. `headed` gives it the
+    frame under a short head, and the count on its plate. `row` sets
     two or three drawings side by side. `text-start` stands it
     beside a column of text, which stands on the side the name says. */
-export type SlideLayout = 'wide' | 'full' | 'row' | 'text-start';
+export type SlideLayout = 'wide' | 'full' | 'headed' | 'row' | 'text-start';
 /** One drawing of a figure slide. The label is the word over it, where
     some stand side by side and a reader needs to know which is which. The
     caption is what it shows, in a line or two under it. */
@@ -54,6 +55,10 @@ export interface SlideProps {
     lead?: string;
     /** The line under a statement: where the sentence is from. */
     note?: string;
+    /** The key of a drawing, at the right of the title: entries apart by
+        ` | `, each a key and its words. `■` is a filled square, `□` an
+        outlined one, `[ID]` an id on a plate, any other key an id in mono. */
+    legend?: string;
     /** The slide's count, in the foot. A string, because a deck numbers its
         slides the way it likes: `03`, `3 / 12`. */
     number?: string;
@@ -93,6 +98,9 @@ export interface SlideProps {
     /** If the slide carries a press that opens it at the window's size. A deck
         sets it on every slide it runs through. */
     zoomable?: boolean;
+    /** A slide of the page that no deck plays. It is a figure that stands as
+        a slide in the text, with no place in the talk. */
+    pageOnly?: boolean;
     /** If the frame scales to the room it has: a stage. The room is the width
         and the height its parent gives it, and the window below its top. */
     fit?: boolean;
@@ -122,6 +130,9 @@ export declare class SdsSlide extends SdsElement {
         lead: {
             type: StringConstructor;
         };
+        legend: {
+            type: StringConstructor;
+        };
         note: {
             type: StringConstructor;
         };
@@ -140,6 +151,11 @@ export declare class SdsSlide extends SdsElement {
         plain: {
             type: BooleanConstructor;
             reflect: boolean;
+        };
+        pageOnly: {
+            type: BooleanConstructor;
+            reflect: boolean;
+            attribute: string;
         };
         sections: {
             type: ArrayConstructor;
@@ -197,12 +213,14 @@ export declare class SdsSlide extends SdsElement {
     eyebrow: string;
     heading: string;
     lead: string;
+    legend: string;
     note: string;
     number: string;
     signet: string;
     brand: string;
     product: string;
     plain: boolean;
+    pageOnly: boolean;
     sections: readonly string[];
     current: number;
     portrait: string;
@@ -219,14 +237,23 @@ export declare class SdsSlide extends SdsElement {
     zoom: number;
     private watch?;
     private settling;
+    private seen;
     private taken;
     constructor();
     connectedCallback(): void;
+    private ask;
+    /** The zoom the frame takes in its room. Reads only. */
+    room(): number;
+    /** The zoom from the pass, and then what the slide holds. */
+    take(zoom: number): void;
+    /** Near the window for the first time: what the slide holds fits now. */
+    arrive(): void;
     disconnectedCallback(): void;
     protected updated(changed: Map<PropertyKey, unknown>): void;
     private decide;
     private quiet;
     private settle;
+    private lendRooms;
     private fitBox;
     /** How far to scale the frame so it fits. The frame's size comes off the
         stylesheet, never a copy here. `--sds-slide-width` and its height are

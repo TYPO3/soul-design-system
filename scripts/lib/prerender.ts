@@ -15,6 +15,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { renderUpgradable } from '../../packages/frontend/src/lib/render.ts';
 import { CONTENT, TEXT, type Region } from '../../packages/frontend/src/lib/element.ts';
 import { TAGS } from '../../packages/frontend/src/index.ts';
+import { tell, type Told } from '../../packages/frontend/src/components/deck.ts';
 
 /* One of this system's elements, with its attributes and whatever stands
    between its tags. Built from `TAGS` rather than `sds-[a-z-]+`. A tag this
@@ -33,7 +34,7 @@ const element = (tags: readonly string[]): RegExp =>
     its own name inside it. A stop of a plan holds stops, so the first close
     after an open is not always its own. `null` for one that never closes,
     which then stays as found. */
-function closeOf(source: string, tag: string, from: number): { inner: string; end: number } | null {
+export function closeOf(source: string, tag: string, from: number): { inner: string; end: number } | null {
   const step = new RegExp(`<${tag}(?![-\\w])(?:"[^"]*"|'[^']*'|[^>"'])*>|</${tag}>`, 'g');
   step.lastIndex = from;
   let depth = 1;
@@ -182,13 +183,36 @@ function textOf(markup: string, resolve: (at: number) => string): string {
   return out;
 }
 
+/* The written content as a template holds it. An element of ours inside it
+   keeps its own content in a template of its own, as the page has it. A
+   parser keeps the rows of a table only at the start of a template. The
+   element draws itself on upgrade from what that template holds. */
+function keep(markup: string, pattern: RegExp): string {
+  let out = '';
+  let rest = markup;
+  for (;;) {
+    const found = pattern.exec(rest);
+    if (!found) return out + rest;
+    const [whole, tag = '', attrs = ''] = found;
+    const open = found.index + whole.length;
+    const closed = closeOf(rest, tag, open);
+    if (!closed) {
+      out += rest.slice(0, open);
+      rest = rest.slice(open);
+      continue;
+    }
+    out += `${rest.slice(0, found.index)}<${tag}${attrs}><template ${CONTENT}>${keep(closed.inner.trim(), pattern)}</template></${tag}>`;
+    rest = rest.slice(closed.end);
+  }
+}
+
 /** What one element becomes, with content that is already complete.
     `authored` is the same content as the author wrote it, before anything
     in it rendered. An element that reads its children rather than places
     them renders them itself from that. `unsafeHTML` is a child binding and
     a property binding is not one. So the content goes over as a one-hole
     template, which is exactly what a story gives it. */
-function one(tag: string, attrs: string, written: string, authored: string, props: Props, resolve: (at: number) => string = () => ''): string {
+function one(tag: string, attrs: string, written: string, authored: string, props: Props, resolve: (at: number) => string = () => '', kept: string = authored): string {
   const marked = MARK.exec(attrs);
   /* The text region goes over as the content, and every region with a name
      beside it. Content with no slot in it arrives as it always did. */
@@ -217,9 +241,10 @@ function one(tag: string, attrs: string, written: string, authored: string, prop
      written content before anything else. Written even when empty, which is
      the whole of the marker. An empty answer and no answer are different.
      Without it the element lifts the frame it drew last time and draws a
-     second one around it. */
-  const kept = `<template ${CONTENT}>${written}</template>`;
-  return `<${tag}${attrs}>${kept}${inside}</${tag}>`;
+     second one around it. It holds the content as the author wrote it: a
+     child of ours draws itself on upgrade. A drawing kept here stands in
+     the page once more for every element around it. */
+  return `<${tag}${attrs}><template ${CONTENT}>${kept}</template>${inside}</${tag}>`;
 }
 
 /**
@@ -227,6 +252,69 @@ function one(tag: string, attrs: string, written: string, authored: string, prop
  *
  * Returns the page unchanged where it holds none.
  */
+const RUN = '((?:"[^"]*"|\'[^\']*\'|[^>"\'])*)';
+const SKIP = '(?:"[^"]*"|\'[^\']*\'|[^>"\'])*?';
+const attrsOf = (run: string): Map<string, string> =>
+  new Map([...run.matchAll(ATTR)].map((m) => [m[1] ?? '', unescape(m[2] ?? m[3] ?? m[4] ?? '')]));
+const quote = (value: string): string => value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+
+/* A deck tells its slides their count, their mark and their place when it
+   upgrades. The same words go on each slide's tag here. So a slide draws its
+   foot before a script runs, and nothing moves when the deck arrives. */
+function told(page: string): string {
+  const decks = [...page.matchAll(new RegExp(`<sds-deck(?![-\\w])${RUN}>`, 'g'))].flatMap((found) => {
+    const open = found.index + found[0].length;
+    const closed = closeOf(page, 'sds-deck', open);
+    return closed ? [{ attrs: attrsOf(found[1] ?? ''), start: found.index, open, inner: closed.inner, end: closed.end }] : [];
+  });
+  const edits = new Map<number, { end: number; tag: string }>();
+  for (const deck of decks) {
+    const own = deck.inner.includes('<sds-slide');
+    let [from, to] = [deck.open, deck.open + deck.inner.length];
+    if (!own) {
+      [from, to] = [0, page.length];
+      const id = deck.attrs.get('from');
+      const root = id ? new RegExp(`<([a-zA-Z][\\w-]*)${SKIP}\\sid="${id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"${SKIP}>`).exec(page) : null;
+      const closed = root ? closeOf(page, root[1] ?? '', root.index + root[0].length) : null;
+      if (root && closed) [from, to] = [root.index, closed.end];
+    }
+    const slides = [...page.slice(from, to).matchAll(new RegExp(`<sds-slide(?![-\\w])${RUN}>`, 'g'))]
+      .map((found) => ({ at: from + found.index, run: found[1] ?? '', length: found[0].length }))
+      .filter((slide) => !attrsOf(slide.run).has('page-only') && (own || !decks.some((d) => d.start < slide.at && slide.at < d.end)));
+    const said = slides.map((slide): Told => {
+      const attrs = attrsOf(slide.run);
+      const inner = closeOf(page, 'sds-slide', slide.at + slide.length)?.inner ?? '';
+      return {
+        kind: attrs.get('kind') || 'content',
+        heading: attrs.get('heading') ?? '',
+        kept: (name) => {
+          const value = attrs.get(name);
+          return value && value !== '[]' ? value : null;
+        },
+        eyebrow: inner.includes('slot="eyebrow"'),
+      };
+    });
+    const given = tell({ brand: deck.attrs.get('brand') ?? '', product: deck.attrs.get('product') ?? '', signet: deck.attrs.get('signet') ?? '', signetLarge: deck.attrs.get('signet-large') ?? '', numbered: deck.attrs.has('numbered') }, said);
+    slides.forEach((slide, i) => {
+      const add: Record<string, string> = { shrink: '', ...(own ? {} : { zoomable: '' }), ...given[i] };
+      const attrs = attrsOf(slide.run);
+      let run = slide.run;
+      for (const [name, value] of Object.entries(add)) {
+        if (name in (given[i] ?? {}) ? false : attrs.has(name)) continue;
+        run = run.replace(new RegExp(`\\s${name}(?:="[^"]*")?(?=[\\s/>]|$)`), '');
+        run += value ? ` ${name}="${quote(value)}"` : ` ${name}`;
+      }
+      if (run !== slide.run) edits.set(slide.at, { end: slide.at + slide.length, tag: `<sds-slide${run}>` });
+    });
+  }
+  let out = page;
+  for (const at of [...edits.keys()].sort((x, y) => y - x)) {
+    const edit = edits.get(at);
+    if (edit) out = out.slice(0, at) + edit.tag + out.slice(edit.end);
+  }
+  return out;
+}
+
 export function prerender(page: string, tags: readonly string[] = TAGS, props: Props = []): string {
   const pattern = element(tags);
 
@@ -262,12 +350,12 @@ export function prerender(page: string, tags: readonly string[] = TAGS, props: P
         rest = rest.slice(open);
         continue;
       }
-      done += rest.slice(0, found.index) + aside(one(tag, attrs, walk(closed.inner).trim(), closed.inner.trim(), props, (at) => put[at] ?? ''));
+      done += rest.slice(0, found.index) + aside(one(tag, attrs, walk(closed.inner).trim(), closed.inner.trim(), props, (at) => put[at] ?? '', keep(closed.inner.trim(), pattern)));
       rest = rest.slice(closed.end);
     }
   };
 
-  return back(walk(page));
+  return back(walk(told(page)));
 }
 
 /* The elements whose children stand one to a line in an example. The rest

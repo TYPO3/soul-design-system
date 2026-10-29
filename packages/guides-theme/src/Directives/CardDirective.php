@@ -51,6 +51,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
 #[Attributes\Option(name: 'label', description: 'The label above the title.')]
 #[Attributes\Option(name: 'tag', description: 'The tag above the title.')]
 #[Attributes\Option(name: 'icon', description: 'The name of an icon.')]
+#[Attributes\Option(name: 'sign', description: 'The state of what the card stands for: yes, partly, no or unknown.')]
 #[Attributes\Option(name: 'src', description: 'The path of a picture.')]
 #[Attributes\Option(name: 'alt', description: 'The text of the picture.')]
 #[Attributes\Option(name: 'footer', description: 'The line under the body.')]
@@ -70,6 +71,7 @@ final class CardDirective extends SubDirective
             'label' => $directive->getOption('label')->getValue(),
             'tag' => $directive->getOption('tag')->getValue(),
             'icon' => $directive->getOption('icon')->getValue(),
+            'sign' => $directive->getOption('sign')->getValue(),
             'src' => $directive->getOption('src')->getValue(),
             'alt' => $directive->getOption('alt')->getValue(),
             'footer' => $directive->getOption('footer')->getValue(),

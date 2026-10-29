@@ -16,7 +16,7 @@ and `make diagrams` reads the shapes back out for the specimen cards.
   shadow, gradient or texture.
 - **Margin:** 60 units every side. Nothing enters it, labels included.
 - **Type:** Source Sans 3, with identifiers, paths and flags in Source Code
-  Pro. Title 36 · lead 17 · node title 16 · node body 14 · label 13. **13 is
+  Pro. Node title 16 · node body 14 · label 13. **13 is
   the floor.** A diagram that needs smaller type carries too much.
 - **Stroke:** 1 node outline, 1.5 connector or boundary, 2 for the one
   accented connector.
@@ -50,13 +50,10 @@ sequence, containment, a span across a scale. Boxes joined by arrows are the
 last resort, not the starting vocabulary. If the drawing would still work as a
 bulleted list, change the structure rather than adding detail to it.
 
-Frame: an eyebrow in Source Code Pro at 13, uppercase and letter-spaced, in
-var(--accent, #FF8700); the title under it at 36 bold in
-var(--text-primary, #1C1A17); one lead line at 17 in
-var(--text-secondary, #4A453D); a 1-unit rule in
-var(--border-subtle, #E3DFD6) across the full width. At the foot, a 1-unit
-rule in var(--border-strong, #C9C3B7), the consequence at 16 semibold, and one
-line under it at 14.
+Frame: none. No eyebrow, no title, no lead and no closing line in the
+drawing. The page around it states the claim in its heading and the
+consequence in the caption under the drawing. The root still names a
+<title> with the claim.
 
 Type: 'Source Sans 3' with a system-ui fallback for prose, 'Source Code Pro'
 with a monospace fallback for identifiers, paths and flags. Node title 16
@@ -105,7 +102,7 @@ work", has nothing to draw. A claim, "bundled knowledge is the only source
 that spans the whole axis", decides the structure by itself. It names the
 thing under comparison and the scale of the comparison.
 
-The title states the claim and the closing line states its consequence. Two
+The heading states the claim and the caption states its consequence. Two
 claims are two diagrams. A drawing that carries both ends up as boxes joined
 by arrows, the shape of a claim that has stopped being one.
 

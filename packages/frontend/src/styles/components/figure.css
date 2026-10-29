@@ -83,6 +83,12 @@
      and a corner. The fill is the ground under an image that does not fill it,
      and the clip keeps a full-bleed one inside the corner. */
   .sds-figure__frame {
+    /* What stands in the frame fills it: a drawing an element draws keeps no
+       margin of its own there. */
+    & > * {
+      margin-block: 0;
+    }
+
     border: var(--sds-figure-border) solid var(--sds-figure-edge);
     border-radius: var(--sds-figure-radius);
     background: var(--sds-figure-fill);

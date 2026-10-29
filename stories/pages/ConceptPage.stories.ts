@@ -58,6 +58,7 @@ import { PLAN, sdsTimeline, sdsTimelineFlat } from '../components/Timeline.stori
 import { DECK, head } from '../lib/deck.ts';
 import { dsScreen, NNBSP, part } from '../lib/specimen.ts';
 import { grid, type PageMode } from '../lib/page.ts';
+import { shipped } from '../lib/diagram.ts';
 
 const mono = (text: string): TemplateResult => html`<span class="sds-mono">${text}</span>`;
 
@@ -732,12 +733,7 @@ export function conceptPage({ flat = false, slides = false }: PageMode & { slide
               Three places, from a glance to a sentence. The page of the source carries the
               record in full, because that is where the question starts (F2.1).
             </p>
-            <sds-figure
-              src="assets/diagrams/record-of-reads.svg"
-              alt="Three boxes side by side. The row on the status page: the source name and five small coloured marks. The page of the source, drawn in the accent: four rows, each a mark, a date, a verdict and a duration. The terminal: a dark box with one command and its two-line answer. Under them, one sentence: a record of the server’s own reads, not a history of a service."
-              caption="One record, three places it shows. The page of the source carries all thirty reads; the row carries five as marks; the terminal counts them."
-              zoomable
-            ></sds-figure>
+            <sds-figure caption="One record, three places it shows. The page of the source carries all thirty reads; the row carries five as marks; the terminal counts them.">${shipped('record-of-reads')}</sds-figure>
             <p>
               On the page of the source the record stands under the read in flight and above the
               overview, where "Earlier reads" stands today. The two folds the page keeps become

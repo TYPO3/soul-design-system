@@ -42,7 +42,11 @@ const shape = (frame: Element): string => [frame, ...frame.querySelectorAll('[cl
   })
   .join('\n');
 
-const count = (): string => q('.sds-deck__count').textContent?.trim() ?? '';
+/* The count as a reader sees it: the number in its field, then the whole. */
+const count = (): string => {
+  const shown = q('.sds-deck__count');
+  return `${shown.querySelector('input')?.value ?? ''}${shown.textContent ?? ''}`.replace(/\s+/g, ' ').trim();
+};
 const staged = (): SdsSlide => q<SdsSlide>('.sds-deck__stage sds-slide');
 
 async function walk(total: number): Promise<void> {
@@ -110,6 +114,26 @@ test('a slide’s press opens the deck at that slide', async () => {
   expect(count()).toBe(`3 / ${slides.length}`);
   expect(staged()).toBe(third);
   expect(staged().querySelector('.sds-slide__zoom'), 'no press on the stage').toBeNull();
+});
+
+test('a number typed into the count, or typed blind with Enter, goes to that slide', async () => {
+  await mount(WithSlides);
+  const total = qa('main sds-slide').length;
+  q('sds-button[for="concept-deck"]').click();
+  await rest();
+  const field = q<HTMLInputElement>('.sds-deck__goto');
+  field.focus();
+  field.select();
+  await userEvent.keyboard('3{Enter}');
+  await rest();
+  expect(count()).toBe(`3 / ${total}`);
+  field.blur();
+  await userEvent.keyboard('2{Enter}');
+  await rest();
+  expect(count()).toBe(`2 / ${total}`);
+  await userEvent.keyboard('99{Enter}');
+  await rest();
+  expect(count(), 'a number past the end stops at the last slide').toBe(`${total} / ${total}`);
 });
 
 test('on the full screen the list opens over the stage, and a choice closes it', async () => {

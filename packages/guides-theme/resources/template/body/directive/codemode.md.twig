@@ -1,0 +1,5 @@
+{#- The markup itself, in a fenced block: a twin has no element to draw it. -#}
+{%- autoescape false -%}
+{{ node.option('source')|md_fence('html') }}
+
+{% endautoescape %}

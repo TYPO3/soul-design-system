@@ -1,0 +1,7 @@
+{#- Who wrote the page — see `BylineDirective`. The element draws the order:
+    who, what they are to it, and when. -#}
+{%- set given = node.option('href') -%}
+{%- set href = given ? (given is external_target ? given : renderLink(given)) : '' -%}
+<sds-byline name="{{ node.option('name') }}"
+    {%- for name in ['as', 'meta', 'initials', 'class'] %}{% if node.option(name) %} {{ name }}="{{ node.option(name) }}"{% endif %}{% endfor %}
+    {%- if href %} href="{{ href }}"{% endif %}></sds-byline>

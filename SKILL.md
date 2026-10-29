@@ -281,8 +281,9 @@ heading and summary beside it already name the subject.
 
 ## Diagrams
 
-**One claim per diagram.** The title states it, the closing line states its
-consequence. Two claims are two diagrams.
+**One claim per diagram.** The heading of the page states it, and the
+caption under the drawing states its consequence. The drawing carries
+neither. Two claims are two diagrams.
 
 **If the drawing still works as a bulleted list, it is not a diagram.**
 Position, length or alignment carries the meaning. Boxes and arrows are the
@@ -298,16 +299,64 @@ Orange marks the one thing the diagram is about, exactly one element per
 drawing. When the drawing is about degradation or failure, status colour
 replaces the accent and orange stays out.
 
-### Drawing one — the numbers
+### Writing one — the text comes first
 
-Every value below is what the shipped drawings use. A deviation is a decision
-to name.
+A diagram is a text that the engine draws. Write the text, not the SVG. The
+engine holds every number below, and refuses a text that breaks one, with
+the line it names. `docs/design-system/diagrams/writing.rst` is the whole
+syntax, with a drawing of each layout.
+
+```html
+<sds-figure caption="The consequence, in one sentence.">
+  <sds-diagram zoomable>
+    flow
+      columns 1,1,1
+    title "The claim"
+    description "What the drawing shows, for a reader who cannot see it."
+
+    request "Request"
+      at 0,0
+    cache `cache[]`
+      at 1,0
+    store "Store"
+      at 2,0
+      store
+
+    request -> cache
+    cache => store "miss"
+  </sds-diagram>
+</sds-figure>
+```
+
+- **The layout** is the first line: `flow`, `sequence`, `matrix`, `bars`,
+  `units`, `cells`, `chips`, `tiles`, `columns`, `sketch`, `notes`,
+  `compose`. Choose it from the shape of the claim.
+- **`title` and `description`** are necessary. One statement on each line;
+  an indented line belongs to the one above it.
+- **Arrows**: `->` a step, `-->` absent, `=>` the emphasis, `-x` fails,
+  `<->` a question and its answer.
+- **In a page**, the text goes between the tags of `<sds-diagram>`.
+  `sds-figure` brings the frame and the caption, and `zoomable` opens the
+  drawing large. Never an `<img>` of a drawing that a text can make.
+- **On a slide**, `<sds-diagram slot="figure">`, with `slide=width,height`
+  on the first line of the text.
+- **In a Guides document**, the text is the body of `.. diagram::`.
+- **As a file to keep**, `npx soul-diagram <file or dir>` writes the SVG,
+  faces and all. In this tree, `<name>.diagram` in
+  `packages/frontend/assets/diagrams/` and `make diagrams`. A diagram story
+  in Storybook saves its text as the same file.
+
+### Drawing one by hand — the numbers
+
+A drawing that no layout makes comes from a hand, to the same numbers. Every
+value below is what the engine and the shipped drawings use. A deviation is
+a decision to name.
 
 | | |
 | --- | --- |
 | Canvas | `viewBox="0 0 1200 H"`, always 1200 wide. A plain `<rect width="1200" height="H">` at `--surface-canvas`, **no radius**. |
 | Margin | 60 units on every side. Nothing enters it, dashed outlines and labels included. |
-| Type | Source Sans 3; every identifier, path and flag in Source Code Pro. Title 36 · lead 17 · node title 16 · node body 14 · label, axis and caption 13. **13 is the floor.** |
+| Type | Source Sans 3; every identifier, path and flag in Source Code Pro. The value of a tile 36 · node title 16 · node body 14 · label, axis and caption 13. **13 is the floor.** No title or lead inside the drawing: the page says them. |
 | Stroke | 1 for a node outline, 1.5 for a connector or a boundary, 2 for the one accented connector. Nothing heavier. |
 | Radius | 6 for a node or a boundary, 4 for a bar, 2 for a unit square. Never over 6. |
 | Node | `--surface-raised`, 1px `--border-subtle`, 6px. Peers are identical: names tell them apart, never hue. |
@@ -519,7 +568,7 @@ navigate. Its head is its own, in the panel beside it.
 | the change | `sds-diff` with its `path` |
 | a finding at the code | `sds-code` with `source`, `start` and `remarks`. The sentences stand under the block, each with the line it cites; never a comment in the code's own voice |
 | a trace, a command, a test | `sds-code` with `code-lang` and a `caption`. `start` where the text cites a line, and the numbers draw |
-| the mechanism, the fault | `sds-figure` with a drawing under the diagram rule. One claim, the accent on the one thing it is about; status colour where it is about a fault |
+| the mechanism, the fault | `sds-figure` around `<sds-diagram>` with the text of the drawing. One claim, the accent on the one thing it is about; `claim=error` or `warn` where it is about a fault |
 | what stays out of the way | `sds-accordion`, one `question` per entry |
 
 A concept paper is the document that asks for a decision, and it is long:
@@ -542,7 +591,7 @@ with a review use the same elements. What it has of its own:
 | who wrote it | `sds-byline` with `name`, `as` and `meta`, under the lead |
 | the cost | a table of work packages, the order as `sds-steps`, the risks as `sds-note` with `tone="warn"` |
 | the dates | `sds-timeline`, one `sds-timeline-stop` per stop between its tags with `when` and `heading`, one of them `now`. A stop inside a stop is the package of a sprint |
-| the decision | `sds-decision` with `question`, `lead`, `by` and `due`. One `sds-answer` per answer between its tags: `key`, `heading`, `recommended` on the one the paper recommends. What it means between the tags |
+| the decision | `sds-decision` with `question`, `lead`, `by` and `due`. One `sds-answer` per answer between its tags: `key`, `heading`, `recommended` on the one the paper recommends. What it means between the tags. In a Guides document, `.. decision::` with one `.. answer::` per answer, the same options |
 | what stands, and the proposal | `sds-compare`: two pictures in one row, each with its claim, under `before-label` and `after-label` |
 
 ## Where things are

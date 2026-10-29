@@ -101,6 +101,22 @@ mono, a count, or a glyph, and none of those fits in a string.
    What that link is to this page: ``prev``, ``next``, ``external``. Only
    with ``href``, as the anchor's own attribute.
 
+.. confval:: target
+   :name: sds-button-target
+   :type: string
+
+   Where the link opens: ``_blank`` for a window of its own. Only with
+   ``href``, as the anchor's own attribute.
+
+.. confval:: download
+   :name: sds-button-download
+   :type: string
+
+   The file name a press saves the link under. The browser does not open
+   the file. Only with ``href``: a file of the site, or a ``data:`` address
+   that a page makes itself. A diagram story
+   uses it to save its drawing as an SVG file.
+
 .. confval:: for
    :name: sds-button-for
    :type: string

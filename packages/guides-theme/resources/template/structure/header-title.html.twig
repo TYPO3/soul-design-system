@@ -10,7 +10,11 @@
     Not on the page title: a link to the top of a page is the address the
     reader is already holding.
 #}
+{#- The number of a counted paper is text in the heading, so a reader who
+    hears it hears the number too — see `Counting`. -#}
+{%- set number = node.id ? number_of('section', node.id) : '' -%}
 <h{{ node.level }}{% if node.classes %} class="{{ node.classesString }}"{% endif %}>
+    {%- if number %}<span class="sds-section__number">{{ number }}</span> {% endif -%}
     {{- renderNode(node.value) -}}
     {%- if node.level > 1 and node.id %}<a class="sds-permalink" href="#{{ node.id }}" aria-label="Permalink to {{ node.toString }}">#</a>{% endif -%}
 </h{{ node.level }}>

@@ -186,7 +186,7 @@ const CHECKS: readonly Check[] = [
      nothing else notices. */
   {
     name: 'diagrams',
-    label: 'the modules match the drawings',
+    label: 'the drawings match their specs, and the modules the drawings',
     run: () => ({ ...child('scripts/diagrams.ts', '--check'), fix: 'make diagrams' }),
   },
 
