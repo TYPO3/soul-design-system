@@ -143,6 +143,30 @@ test.describe('the render', () => {
   });
 });
 
+test('a site carries the files of the drop-in that its pages name, and the sprites whole', () => {
+  /* A page fetches the fixtures, the example drawings and each single icon
+     by name. A site that copies all of them ships megabytes no page asks for. */
+  for (const dir of [SITE_DIR, ACCEPTANCE_DIR]) {
+    const assets = join(dir, 'styles', 'assets');
+    expect(existsSync(join(assets, 'icons', 'sprites')), 'the sprites the script reaches').toBe(true);
+    const said = [...function* walk(d: string): Generator<string> {
+      for (const e of readdirSync(d, { withFileTypes: true })) {
+        if (e.isDirectory()) yield* walk(join(d, e.name));
+        else if (e.name.endsWith('.html')) yield readFileSync(join(d, e.name), 'utf8');
+      }
+    }(dir)].join('\n') + readFileSync(join(dir, 'styles', 'soul.css'), 'utf8');
+    for (const named of ['placeholders', 'diagrams', join('icons', 'svgs')]) {
+      const at = join(assets, named);
+      if (!existsSync(at)) continue;
+      for (const file of readdirSync(at, { recursive: true }) as string[]) {
+        if (statSync(join(at, file)).isDirectory()) continue;
+        const name = relative(assets, join(at, file)).split(sep).join('/');
+        expect(said.includes(name), `${name} is in the site, and no page names it`).toBe(true);
+      }
+    }
+  }
+});
+
 test.describe('the mark in the tab', () => {
   test('is on a page below the root, and points at a file that is there', async ({ page }) => {
     /* The one path no reader ever clicks. A browser fetches a tab icon quietly.

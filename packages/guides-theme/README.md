@@ -237,7 +237,9 @@ templates write none of that markup. `soul-finish.js` draws every element
 before the publish, so a reader with no JavaScript gets the whole of it.
 It writes each diagram into `_diagrams/` at the output root, and the page
 keeps a reference that reads its colours. It draws a drawing on a slide
-for the room the slide gives it, so the browser draws none.
+for the room the slide gives it, so the browser draws none. It copies the
+drop-in into `styles/` and leaves out each fixture, example drawing and
+single icon file that no page names.
 
 ## What is in the package
 

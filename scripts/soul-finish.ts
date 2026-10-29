@@ -57,7 +57,7 @@ if (drop && !existsSync(join(drop, 'soul.css'))) {
   process.exit(1);
 }
 
-const { drawn, indexed, broken } = finish(root, {
+const { drawn, pruned, indexed, broken } = finish(root, {
   drop,
   styles: flag('styles'),
   search: argv.includes('--no-search') ? false : flag('search'),
@@ -71,7 +71,7 @@ const problems = broken.length
   ]
   : [];
 report.summary(
-  `${drawn} page(s) carry their elements already rendered${indexed === null ? '' : ` \u00b7 ${indexed} indexed for search`}`
+  `${drawn} page(s) carry their elements already rendered${pruned ? ` \u00b7 ${pruned} file(s) no page names left out` : ''}${indexed === null ? '' : ` \u00b7 ${indexed} indexed for search`}`
     + (broken.length ? ` \u00b7 ${broken.length} reference(s) do not resolve inside ${root}` : ''),
   problems,
 );

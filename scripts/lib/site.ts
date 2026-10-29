@@ -8,7 +8,7 @@
    same ones run in a project that has only Composer, out of
    `dist/soul-finish.js`. One implementation, so the same code builds the site
    published here and the site somebody else builds. */
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 
 import { drawings } from './drawings.ts';
@@ -40,6 +40,34 @@ export function dropIn(from: string, into: string): string[] {
     copied.push(name);
   }
   return copied;
+}
+
+/* A page fetches these files of the drop-in only by their names. They are
+   the fixtures of a card's slot, the example drawings, and each icon on its
+   own. The script reaches only the sprites. */
+const NAMED = ['assets/placeholders', 'assets/diagrams', 'assets/icons/svgs', 'assets/icons/icons.json'];
+
+/** The named files no page and no stylesheet names, out of the site, so a
+    site carries what it shows. Returns how many files went. */
+export function prune(root: string, styles: string): number {
+  const base = join(root, styles);
+  const said = [...pages(root)].map((file) => readFileSync(file, 'utf8'));
+  for (const name of ['soul.css', 'soul.js']) if (existsSync(join(base, name))) said.push(readFileSync(join(base, name), 'utf8'));
+  const text = said.join('\n');
+  let gone = 0;
+  const visit = (path: string): void => {
+    if (!existsSync(path)) return;
+    if (statSync(path).isDirectory()) {
+      for (const entry of readdirSync(path)) visit(join(path, entry));
+      if (readdirSync(path).length === 0) rmSync(path, { recursive: true });
+      return;
+    }
+    if (text.includes(relative(join(base, 'assets'), path).split(sep).join('/'))) return;
+    rmSync(path);
+    gone++;
+  };
+  for (const name of NAMED) visit(join(base, name));
+  return gone;
 }
 
 /* Every element in the site, rendered before the browser gets there. That is
@@ -136,6 +164,8 @@ export function escapes(root: string): string[] {
 export interface Finished {
   /** Pages that carry their elements already rendered. */
   drawn: number;
+  /** Files of the drop-in that no page names, left out of the site. */
+  pruned: number;
   /** Pages in the search index, or `null` where there is none. */
   indexed: number | null;
   /** References that do not resolve inside the site. */
@@ -150,6 +180,7 @@ export function finish(root: string, options: { drop?: string; styles?: string; 
   const { drop, styles = 'styles', search = '_search.json' } = options;
   if (drop) dropIn(drop, join(root, styles));
   const drawn = draw(root);
+  const pruned = drop ? prune(root, styles) : 0;
   const indexed = search === false ? null : index(root, search);
-  return { drawn, indexed, broken: escapes(root) };
+  return { drawn, pruned, indexed, broken: escapes(root) };
 }
