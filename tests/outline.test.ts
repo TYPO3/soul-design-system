@@ -121,7 +121,7 @@ describe('beside the page', () => {
     const missed: unknown[] = [];
     for (let y = 0; y <= height; y += 250) {
       window.scrollTo(0, y);
-      await sleep(60);
+      await frames();
       const at = marked();
       if (at && !at.inView) missed.push({ y, href: at.href });
     }

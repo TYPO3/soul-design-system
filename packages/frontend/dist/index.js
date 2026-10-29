@@ -16957,8 +16957,6 @@ var SdsNavToc = class extends SdsElement {
   constructor() {
     super();
     this.reading = () => this.isConnected ? this.read() : void 0;
-    /* The marked entry moved, so the next reading brings it into view. */
-    this.following = false;
     this.label = HEADING;
     this.entries = [];
     this.at = "";
@@ -17058,8 +17056,6 @@ var SdsNavToc = class extends SdsElement {
       a mark there answers a question nobody asked. */
   read() {
     const writes = [this.keep()];
-    if (this.following) writes.push(this.follow());
-    this.following = false;
     const marks = this.marks();
     const first = marks[0];
     let at;
@@ -17134,7 +17130,7 @@ var SdsNavToc = class extends SdsElement {
     return () => box2?.classList.toggle("is-scrollable", scrollable);
   }
   updated(changed) {
-    if (changed.has("at") || changed.has("entries")) this.following = true;
+    if (changed.has("at") || changed.has("entries")) this.follow()?.();
     this.soon();
   }
   render() {
@@ -17160,8 +17156,6 @@ var SdsNavOutline = class extends SdsElement {
     /* The first reading puts the fold in its state, whatever it stood in. */
     this.unfitted = true;
     this.reading = () => this.isConnected ? this.read() : void 0;
-    /* The marked entry moved, so the next reading brings it into view. */
-    this.following = false;
     this.label = HEADING2;
     this.entries = [];
     this.numbered = false;
@@ -17284,8 +17278,6 @@ var SdsNavOutline = class extends SdsElement {
       and none while none has. A document opens above its first heading. */
   read() {
     const writes = [this.keep(), this.fit()];
-    if (this.following) writes.push(this.follow());
-    this.following = false;
     const marks = this.marks();
     const first = marks[0];
     let at;
@@ -17373,7 +17365,7 @@ var SdsNavOutline = class extends SdsElement {
     return () => box2?.classList.toggle("is-scrollable", scrollable);
   }
   updated(changed) {
-    if (changed.has("at") || changed.has("entries")) this.following = true;
+    if (changed.has("at") || changed.has("entries")) this.follow()?.();
     this.soon();
   }
   render() {

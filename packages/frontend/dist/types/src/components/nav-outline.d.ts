@@ -77,7 +77,6 @@ export declare class SdsNavOutline extends SdsElement {
     /** Which part the reader is in: the last heading that has passed the line,
         and none while none has. A document opens above its first heading. */
     private read;
-    private following;
     /** The entry the reader is in. The page wins once the element has read it.
         The data is what a card, a story and a server-rendered page have instead. */
     private isCurrent;

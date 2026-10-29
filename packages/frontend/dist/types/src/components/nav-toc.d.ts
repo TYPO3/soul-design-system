@@ -64,7 +64,6 @@ export declare class SdsNavToc extends SdsElement {
         line, and none while none has. A page opens above its first heading, and
         a mark there answers a question nobody asked. */
     private read;
-    private following;
     /** The entry the reader is in. The page wins once the element has read it.
         The data is what a card, a story and a server-rendered page have instead. */
     private isCurrent;

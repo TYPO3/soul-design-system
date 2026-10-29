@@ -200,8 +200,6 @@ export class SdsNavOutline extends SdsElement {
     /* Every read of the frame first, then every write: a write between two
        reads lays the page out again. */
     const writes: ((() => void) | undefined)[] = [this.keep(), this.fit()];
-    if (this.following) writes.push(this.follow());
-    this.following = false;
     const marks = this.marks();
     const first = marks[0];
     let at: string | undefined;
@@ -221,8 +219,6 @@ export class SdsNavOutline extends SdsElement {
     };
   }
 
-  /* The marked entry moved, so the next reading brings it into view. */
-  private following = false;
 
   /** The entry the reader is in. The page wins once the element has read it.
       The data is what a card, a story and a server-rendered page have instead. */
@@ -303,8 +299,9 @@ export class SdsNavOutline extends SdsElement {
   }
 
   protected override updated(changed: PropertyValues): void {
-    /* Measured in the next reading, with the rest of the frame. */
-    if (changed.has('at') || changed.has('entries')) this.following = true;
+    /* The list follows its mark in the frame the mark moved in. A frame
+       later, the reader sees the mark off the list's edge for a moment. */
+    if (changed.has('at') || changed.has('entries')) this.follow()?.();
     this.soon();
   }
 

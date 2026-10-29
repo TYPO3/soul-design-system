@@ -96,7 +96,7 @@ test('the marked entry stays where the reader can see it, all the way down', asy
   const missed: unknown[] = [];
   for (let y = 0; y <= height; y += 250) {
     window.scrollTo(0, y);
-    await sleep(40);
+    await frames();
     const at = marked();
     if (at && !at.inView) missed.push({ y, href: at.href });
   }
