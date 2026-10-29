@@ -60,6 +60,6 @@
     lists and whole code blocks, and `sds-note` takes them between its tags for
     exactly this caller. -#}
 <sds-note tone="{{ tone }}" label="{{ said }}"
-    {%- if title and isTitled %} heading="{{ renderNode(title)|striptags|trim }}"{% endif %}
+    {%- if title and isTitled %} heading="{{ renderNode(title)|plain }}"{% endif %}
     {%- if marks %} class="{{ marks }}"{% endif -%}
 >{% if title and not isTitled %}<p>{{ renderNode(title) }}</p>{% endif %}{{ renderNode(node) }}</sds-note>

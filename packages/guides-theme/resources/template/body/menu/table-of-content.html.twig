@@ -9,7 +9,7 @@
     the entries point at: documents rather than sections, so their children
     are `children`.
 #}
-<nav class="sds-toc" aria-label="{{ node.caption ? renderNode(node.caption)|striptags|trim : 'Contents' }}">
+<nav class="sds-toc" aria-label="{{ node.caption ? renderNode(node.caption)|plain : 'Contents' }}">
     {%- if node.caption %}
         <p class="sds-label">{{ renderNode(node.caption) }}</p>
     {%- endif %}

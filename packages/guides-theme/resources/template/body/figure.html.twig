@@ -29,7 +29,7 @@
     A file somewhere else is a link whatever it is: a reference reads the file
     itself, which a browser will not do across origins.
 #}
-{%- set caption = node.document ? renderNode(node.document)|striptags|trim : '' -%}
+{%- set caption = node.document ? renderNode(node.document)|plain : '' -%}
 {%- set number = number_of('figure', node.image.value) -%}
 {%- set caption = caption and number ? 'Figure ' ~ number ~ ' · ' ~ caption : caption -%}
 {%- set source = node.image.value is external_target ? node.image.value : asset(node.image.value) -%}

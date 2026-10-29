@@ -12,7 +12,7 @@
     what rests, and is a second element for that reason. Narrower, the box is
     not there at all and the list is a block where the author wrote it.
 #}
-{%- set label = node.caption ? renderNode(node.caption)|striptags|trim : 'On this page' -%}
+{%- set label = node.caption ? renderNode(node.caption)|plain : 'On this page' -%}
 <div class="sds-aside">
     <sds-nav-toc label="{{ label }}" entries="{{ sections(node)|json_encode }}"></sds-nav-toc>
 </div>

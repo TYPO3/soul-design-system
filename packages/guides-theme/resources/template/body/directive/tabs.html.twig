@@ -17,7 +17,7 @@
 #}
 {%- set labels = [] -%}
 {%- for tab in node.tabs -%}
-    {%- set labels = labels|merge([renderNode(tab.content)|striptags|trim]) -%}
+    {%- set labels = labels|merge([renderNode(tab.content)|plain]) -%}
 {%- endfor -%}
 <sds-tabs items="{{ labels|json_encode }}">
     {%- for tab in node.tabs %}

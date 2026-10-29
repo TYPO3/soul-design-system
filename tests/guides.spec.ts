@@ -341,6 +341,15 @@ test.describe('what the theme repaired', () => {
     expect(own).toEqual(['0px', '0px', 'none', 'rgba(0, 0, 0, 0)']);
   });
 
+  test('a caption arrives as the author wrote it, quote and ampersand included', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    /* The render escapes the caption, and Twig escapes it again into the
+       attribute. Escaped twice, a reader sees `&#039;` in the head. */
+    const code = page.locator('sds-code[code-lang="bash"]', { hasText: 'preview:token' });
+    await expect(code).toHaveAttribute('caption', 'The editor\'s preview & its "token"');
+    await expect(code.locator('.sds-code__caption')).toHaveText('The editor\'s preview & its "token"');
+  });
+
   test('a table is the component drawing markup a document wrote', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

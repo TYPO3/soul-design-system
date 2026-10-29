@@ -33,7 +33,7 @@
         `sds-diff__line` is the element's name for its own node — a template
         that writes one has made it public API. -#}
     <sds-diff body="{{ node.value|diff_rows|json_encode }}"
-        {%- if node.caption %} path="{{ renderNode(node.caption)|striptags|trim }}"{% endif -%}
+        {%- if node.caption %} path="{{ renderNode(node.caption)|plain }}"{% endif -%}
         {%- if node.classes %} class="{{ node.classesString }}"{% endif -%}
     ></sds-diff>
 {%- else -%}
@@ -55,7 +55,7 @@
         it. The element copies what it finds to the clipboard, so a newline
         lands at the top of every pasted block. -#}
     <sds-code code-lang="{{ node.language|default('text') }}" copy
-        {%- if node.caption %} caption="{{ renderNode(node.caption)|striptags|trim }}"{% endif -%}
+        {%- if node.caption %} caption="{{ renderNode(node.caption)|plain }}"{% endif -%}
         {%- if node.classes %} class="{{ node.classesString }}"{% endif -%}
         ><code class="language-{{ node.language|default('text') }}{{ node.startingLineNumber ? ' line-numbers' }}"
         {%- if node.startingLineNumber %} data-start="{{ node.startingLineNumber }}"{% endif -%}

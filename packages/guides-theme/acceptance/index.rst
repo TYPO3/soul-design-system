@@ -207,6 +207,11 @@ Code
      - "14.3"
    domains: [labels, xlf]
 
+.. code-block:: bash
+   :caption: The editor's preview & its "token"
+
+   vendor/bin/typo3 preview:token
+
 A literal block introduced by a double colon::
 
    vendor/bin/typo3 cache:flush
