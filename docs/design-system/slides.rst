@@ -367,8 +367,8 @@ row, and the keys under the frames line up.
      - A view that needs the whole frame: an interface, an architecture.
        Only the count shows, and the head stays for a reader who hears it
    * - ``headed``
-     - 877 × 394
-     - 2.2 : 1
+     - 877 × 354
+     - 2.5 : 1
      - A view that needs the frame, under a short head and a rule. The
        eyebrow takes the accent in the dark, and the quiet accent ink on
        paper. The foot is the count alone

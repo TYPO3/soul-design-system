@@ -634,9 +634,9 @@
   /* The drawing takes the frame under a short head: the eyebrow in the
      accent, the title, a small lead and a rule. On paper the accent is too
      light for text, so the eyebrow takes the quiet accent ink there. The foot
-     has no lockup, so the drawing runs down to the count's plate. */
+     has no lockup, so the drawing ends a step over the count's plate. */
   .sds-slide--headed {
-    --sds-slide-frame-footed: var(--space-6);
+    --sds-slide-frame-footed: calc(var(--sds-slide-foot) + var(--space-8));
     --sds-slide-count-fill: var(--sds-slide-plate-fill);
     --sds-slide-count-edge: var(--sds-slide-plate-edge);
     --sds-slide-head-under: var(--space-4);

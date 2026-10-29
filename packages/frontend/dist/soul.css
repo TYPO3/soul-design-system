@@ -1291,7 +1291,7 @@
     >.sds-slide__head{position:absolute;inline-size:1px;block-size:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
   }
   .sds-slide--headed{
-    --sds-slide-frame-footed: var(--space-6);
+    --sds-slide-frame-footed: calc(var(--sds-slide-foot) + var(--space-8));
     --sds-slide-count-fill: var(--sds-slide-plate-fill);
     --sds-slide-count-edge: var(--sds-slide-plate-edge);
     --sds-slide-head-under: var(--space-4);

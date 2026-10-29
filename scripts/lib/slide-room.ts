@@ -20,7 +20,7 @@ const FRAME = {
      slide with its count and without. */
   footed: 458.9,
   bare: 498.9,
-  headed: 515,
+  headed: 475,
   headedBare: 497.3,
   inset: 2.1,
   width: 875.7,
