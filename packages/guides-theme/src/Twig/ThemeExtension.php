@@ -35,6 +35,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
      * @param array<int, array<string, string|null>> $favicons
      * @param array<string, mixed> $footer
      * @param array<int, array<string, mixed>> $navigation
+     * @param array{base: string, version: string, integrity: array<string, string>}|null $cdn
      */
     public function __construct(
         private readonly ?string $signet,
@@ -46,6 +47,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
         private readonly array $navigation,
         private readonly bool $pager,
         private readonly bool $markdown,
+        private readonly ?array $cdn,
         private readonly Menu $menu,
         private readonly Rail $rail,
         private readonly Pager $pages,
@@ -67,6 +69,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
                 'navigation' => $this->navigation,
                 'pager' => $this->pager,
                 'markdown' => $this->markdown,
+                'cdn' => $this->cdn,
             ],
         ];
     }

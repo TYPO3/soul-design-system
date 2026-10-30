@@ -7,6 +7,7 @@
    it down. `packages/guides-theme/acceptance/` is the subject, rendered by the server this
    suite starts, because a stale render hides the regression this looks for. */
 
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 
@@ -2161,5 +2162,82 @@ test.describe('the drawings of a built page', () => {
     });
     const dark = await drawing.screenshot();
     expect(dark.equals(light), 'the shapes read the page tokens').toBe(false);
+  });
+});
+
+/* The theme's `<cdn>` setting: the pages load the drop-in from jsDelivr, and
+   the site carries only its own files. The suite routes the CDN to this
+   tree's drop-in and the site to its render, so it needs no network. The
+   icons are the hard part: a sprite on another origin is no `<use>` target. */
+test.describe('the drop-in on a CDN', () => {
+  const OUT = '.out/acceptance-cdn';
+  const DROP = '.out/theme/resources/dist';
+  const SITE = 'http://soul-site.test';
+  const TYPES: Record<string, string> = {
+    '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.json': 'application/json',
+  };
+  const typeOf = (path: string): string => TYPES[path.slice(path.lastIndexOf('.'))] ?? 'application/octet-stream';
+
+  async function open(page: Page): Promise<{ version: string; failed: string[] }> {
+    const version = readFileSync(join(DROP, 'version'), 'utf8').trim();
+    const failed: string[] = [];
+    page.on('console', (message) => { if (message.type() === 'error') failed.push(message.text()); });
+    await page.route(`${SITE}/**`, async (route) => {
+      const path = join(OUT, new URL(route.request().url()).pathname);
+      if (!existsSync(path) || statSync(path).isDirectory()) return route.fulfill({ status: 404, body: '' });
+      return route.fulfill({ body: readFileSync(path), contentType: typeOf(path) });
+    });
+    await page.route('https://cdn.jsdelivr.net/**', async (route) => {
+      const prefix = `/npm/@typo3/soul-frontend@${version}/dist/`;
+      const at = new URL(route.request().url()).pathname;
+      const path = join(DROP, at.slice(prefix.length));
+      if (!at.startsWith(prefix) || !existsSync(path)) {
+        failed.push(`the CDN has no ${at}`);
+        return route.fulfill({ status: 404, body: '' });
+      }
+      return route.fulfill({ body: readFileSync(path), contentType: typeOf(path), headers: { 'access-control-allow-origin': '*' } });
+    });
+    await page.goto(`${SITE}/index.html`, { waitUntil: 'networkidle' });
+    return { version, failed };
+  }
+
+  test('the site carries none of the drop-in, and the page links the exact release with its hashes', async ({ page }) => {
+    const carried = existsSync(join(OUT, 'styles')) ? pages(join(OUT, 'styles')).concat(readdirSync(join(OUT, 'styles'))) : [];
+    expect(carried, 'no stylesheet, script, face or sprite in the site').toEqual([]);
+
+    const { version } = await open(page);
+    expect(version).toMatch(/^\d+\.\d+\.\d+/);
+    const linked = await page.evaluate(() => [...document.querySelectorAll('link[rel="stylesheet"], script[src]')]
+      .map((el) => ({ url: el.getAttribute('href') ?? el.getAttribute('src') ?? '', integrity: el.getAttribute('integrity') ?? '' })));
+    const base = `https://cdn.jsdelivr.net/npm/@typo3/soul-frontend@${version}/dist/`;
+    for (const file of ['soul-boot.js', 'soul.css', 'soul.js']) {
+      const tag = linked.find((one) => one.url === `${base}${file}`);
+      expect(tag, `${file} from the CDN at ${version}`).toBeDefined();
+      const hash = createHash('sha384').update(readFileSync(join(DROP, file))).digest('base64');
+      expect(tag?.integrity, `${file} carries the hash of the file the render took`).toBe(`sha384-${hash}`);
+    }
+  });
+
+  test('the page works from the CDN, and a live icon draws out of a sprite on another origin', async ({ page }) => {
+    const { failed } = await open(page);
+    const seen = await page.evaluate(async () => {
+      await customElements.whenDefined('sds-button');
+      const icons = [...document.querySelectorAll('sds-icon')];
+      await Promise.all(icons.map((icon) => (icon as HTMLElement & { updateComplete?: Promise<unknown> }).updateComplete));
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      const uses = [...document.querySelectorAll('sds-icon use')].map((use) => use.getAttribute('href') ?? '');
+      const symbols = uses.map((href) => Boolean(href.startsWith('#') && document.getElementById(href.slice(1))));
+      /* A glyph in a closed panel has no box, and says nothing either way. */
+      const drawn = icons.filter((icon) => icon.checkVisibility()).map((icon) => icon.querySelector('svg')?.getBoundingClientRect().width ?? 0);
+      return { count: icons.length, uses, symbols, drawn, font: getComputedStyle(document.body).fontFamily };
+    });
+    expect(failed, 'no request the CDN cannot answer, and no error').toEqual([]);
+    expect(seen.count, 'the fixture has icons').toBeGreaterThan(0);
+    expect(seen.uses.length, 'the icons drew live, as references').toBe(seen.count);
+    for (const href of seen.uses) expect(href, 'a reference into the document, not across origins').toMatch(/^#sds-icon-/);
+    expect(seen.symbols.every(Boolean), 'every referenced symbol is in the document').toBe(true);
+    expect(seen.drawn.length, 'the fixture shows icons').toBeGreaterThan(0);
+    expect(Math.min(...seen.drawn), 'every icon in view has a size').toBeGreaterThan(0);
+    expect(seen.font).toContain('Source Sans 3');
   });
 });

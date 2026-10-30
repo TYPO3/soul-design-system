@@ -130,6 +130,18 @@ for (const project of rendering) {
   if (finished !== 0) process.exit(1);
 }
 
+/* A small fixture with the drop-in on a CDN: the theme's `<cdn>` setting,
+   rendered where the suite can open it. */
+const CDN_OUT = join(GENERATED, 'acceptance-cdn');
+const CDN_SOURCE = join(ROOT, 'packages', 'guides-theme', 'acceptance-cdn');
+if (rendering.some((project) => project.name === 'acceptance')) {
+  rmSync(CDN_OUT, { recursive: true, force: true });
+  const code = run(GUIDES, [CDN_SOURCE, `--output=${CDN_OUT}`, '-c', CDN_SOURCE, '--no-progress', '--fail-on-error']);
+  if (code !== 0) process.exit(code);
+  if (run(process.execPath, [FINISH, CDN_OUT, '--no-search']) !== 0) process.exit(1);
+  report.fact(`${relative(ROOT, CDN_OUT)}/`, 'the fixture with the drop-in on a CDN');
+}
+
 for (const project of rendering) report.fact(`${relative(ROOT, project.out)}/`, project.what);
 report.detail(report.dim('open http://localhost:4173/ (the port `make start` reports), or photograph a page:'));
 report.detail(report.dim("make look ARGS='.out/site/index.html 900'"));

@@ -29,17 +29,33 @@ export function* pages(dir: string): Generator<string> {
   }
 }
 
-/** The drop-in, into the output, in one piece. Returns what the copy took. */
-export function dropIn(from: string, into: string): string[] {
+/** The drop-in, into the output, in one piece. Returns what the copy took.
+    A site on a CDN takes only the assets its pages name by path. The script
+    fetches the sprites from the CDN. */
+export function dropIn(from: string, into: string, cdn = false): string[] {
   const copied: string[] = [];
   mkdirSync(into, { recursive: true });
-  for (const name of DROP_IN) {
+  for (const name of cdn ? ['assets'] : DROP_IN) {
     const source = join(from, name);
     if (!existsSync(source)) continue;
-    cpSync(source, join(into, name), { recursive: true });
+    cpSync(source, join(into, name), { recursive: true, filter: (path) => !cdn || !path.startsWith(join(source, 'icons', 'sprites')) });
     copied.push(name);
   }
   return copied;
+}
+
+/** True if the pages load the drop-in from a CDN, as the theme's `<cdn>`
+    setting writes them: a stylesheet on another origin, none beside them. */
+export function fromCdn(root: string): boolean {
+  let remote = false;
+  for (const file of pages(root)) {
+    const head = readFileSync(file, 'utf8').split('</head>')[0] ?? '';
+    for (const m of head.matchAll(/href="([^"]*\/)?soul\.css"/g)) {
+      if (!(m[1] ?? '').startsWith('https://')) return false;
+      remote = true;
+    }
+  }
+  return remote;
 }
 
 /* A page fetches these files of the drop-in only by their names. They are
@@ -49,10 +65,13 @@ const NAMED = ['assets/placeholders', 'assets/diagrams', 'assets/icons/svgs', 'a
 
 /** The named files no page and no stylesheet names, out of the site, so a
     site carries what it shows. Returns how many files went. */
-export function prune(root: string, styles: string): number {
+export function prune(root: string, styles: string, drop?: string, cdn = false): number {
   const base = join(root, styles);
   const said = [...pages(root)].map((file) => readFileSync(file, 'utf8'));
-  for (const name of ['soul.css', 'soul.js']) if (existsSync(join(base, name))) said.push(readFileSync(join(base, name), 'utf8'));
+  for (const name of ['soul.css', 'soul.js']) {
+    const at = [join(base, name), ...(drop ? [join(drop, name)] : [])].find((path) => existsSync(path));
+    if (at) said.push(readFileSync(at, 'utf8'));
+  }
   const text = said.join('\n');
   let gone = 0;
   const visit = (path: string): void => {
@@ -66,7 +85,8 @@ export function prune(root: string, styles: string): number {
     rmSync(path);
     gone++;
   };
-  for (const name of NAMED) visit(join(base, name));
+  /* A site on a CDN keeps no file of the drop-in that no page names. */
+  for (const name of cdn ? ['assets'] : NAMED) visit(join(base, name));
   return gone;
 }
 
@@ -178,9 +198,10 @@ export interface Finished {
     is one of the things that can break a reference. */
 export function finish(root: string, options: { drop?: string; styles?: string; search?: string | false } = {}): Finished {
   const { drop, styles = 'styles', search = '_search.json' } = options;
-  if (drop) dropIn(drop, join(root, styles));
+  const cdn = fromCdn(root);
+  if (drop) dropIn(drop, join(root, styles), cdn);
   const drawn = draw(root);
-  const pruned = drop ? prune(root, styles) : 0;
+  const pruned = drop ? prune(root, styles, drop, cdn) : 0;
   const indexed = search === false ? null : index(root, search);
   return { drawn, pruned, indexed, broken: escapes(root) };
 }

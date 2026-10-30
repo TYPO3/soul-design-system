@@ -110,6 +110,13 @@ export const PACKAGES: readonly Package[] = [
           if (NOT_IN_THE_DROP_IN.includes(entry)) continue;
           cpSync(join(drop, entry), join(out, entry), { recursive: true });
         }
+        /* The release the drop-in is, for a site that loads it from a CDN:
+           the address names the exact version the theme rendered against. */
+        const manifest = join(drop, '..', 'package.json');
+        if (existsSync(manifest)) {
+          const { version } = JSON.parse(readFileSync(manifest, 'utf8')) as { version?: string };
+          if (version) writeFileSync(join(out, 'version'), `${version}\n`);
+        }
         const assets = found(tree, ASSETS_AT, 'icons');
         for (const path of assets ? FROM_ASSETS : []) {
           const from = join(assets as string, path);

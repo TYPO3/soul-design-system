@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use TYPO3\Soul\GuidesTheme\Brands;
+use TYPO3\Soul\GuidesTheme\Cdn;
 use TYPO3\Soul\GuidesTheme\Nodes\AccordionItemNode;
 use TYPO3\Soul\GuidesTheme\Nodes\AccordionNode;
 use TYPO3\Soul\GuidesTheme\Nodes\AnswerNode;
@@ -160,6 +161,17 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                    reads front to back is a reference where that path is a
                    row of noise under every page. A manual says true. */
                 ->booleanNode('pager')->defaultFalse()->end()
+                /* Where the pages load Soul from. Unset, the site carries the
+                   stylesheet, the script, the faces and the sprites itself.
+
+                       <cdn>jsdelivr</cdn>
+
+                   loads them from jsDelivr at the exact release this theme
+                   is, with an integrity hash on every file the page links.
+                   An address in its place names a mirror; `{version}` in it
+                   stands for that release. Off by default: a reader's browser
+                   then asks a third party for every page. */
+                ->scalarNode('cdn')->defaultNull()->end()
                 /* The footer, because a marketing page has one and a manual
                    does not get to invent it. Its columns are the toctree and
                    no configuration touches them. What stands here is what
@@ -355,6 +367,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
         $container->setParameter('soul.pager', $config['pager']);
         /* The head names the twin, and can only name one that exists. */
         $container->setParameter('soul.markdown', $config['markdown']);
+        $container->setParameter('soul.cdn', Cdn::of($config['cdn'], dirname(__DIR__, 2) . '/resources/dist'));
 
         $loader = new PhpFileLoader($container, new FileLocator(dirname(__DIR__, 2) . '/resources/config'));
         $loader->load('soul.php');

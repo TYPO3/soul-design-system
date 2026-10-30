@@ -336,7 +336,7 @@ return static function (ContainerConfigurator $container): void {
         ->set(ThemeExtension::class)
         ->args([
             '%soul.signet%', '%soul.favicons%', '%soul.product%', '%soul.brand%', '%soul.home%',
-            '%soul.footer%', '%soul.navigation%', '%soul.pager%', '%soul.markdown%',
+            '%soul.footer%', '%soul.navigation%', '%soul.pager%', '%soul.markdown%', '%soul.cdn%',
             service(Menu::class), service(Rail::class), service(Pager::class), service(Sections::class),
             service(Numbers::class),
         ])

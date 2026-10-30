@@ -332,6 +332,44 @@ The twin
    is none of what it came for. Off is for a project that does not want its
    documents published twice.
 
+The drop-in on a CDN
+--------------------
+
+.. confval:: cdn
+   :type: string
+   :default: (none)
+
+   Where the pages load the system from. Unset, the site carries it: the
+   stylesheet, the script, the faces and the icon sprites go beside the
+   pages, and nothing leaves the server.
+
+   .. code-block:: xml
+
+      <cdn>jsdelivr</cdn>
+
+   loads the same files from jsDelivr instead. The address names the exact
+   release of the theme, never a range. The render took those files, and a
+   script of another release draws markup that does not match it. Each
+   file a page links carries an ``integrity`` hash of the file the render
+   took, so a browser runs only those bytes. The files they load in turn,
+   the faces, the chunks and the sprites, carry no hash, because no tag
+   names them.
+
+   An ``https://`` address in place of ``jsdelivr`` names a mirror. In it,
+   ``{version}`` stands for the release.
+
+   The site then carries only its own files: the pages, the drawings, the
+   images, the index and the twins. The finish step sees that the pages load
+   the system from elsewhere and copies none of it. An icon fetches its
+   sprite from the CDN and keeps the shapes in the page. A browser draws no
+   ``<use>`` into a file on another origin.
+
+   Off by default. With it, every reader's browser asks jsDelivr for each
+   page it opens, and jsDelivr sees the reader's address. A project that
+   turns it on says so to its readers. If the CDN does not answer, the
+   prerendered page stays readable, with no style it did not draw itself and
+   no control that responds.
+
 The footer
 ----------
 

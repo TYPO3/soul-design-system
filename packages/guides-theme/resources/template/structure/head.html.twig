@@ -36,13 +36,16 @@
 <link rel="alternate" type="text/markdown" href="{{ twin }}.md" />
 <link rel="canonical" href="{{ twin }}.html" />
 {%- endif %}
-<script src="{{ root }}styles/soul-boot.js"></script>
+{#- The drop-in beside the site, or the same release on a CDN. A file from
+    elsewhere runs only with the hash this render took of it. -#}
+{%- set from = soul.cdn ? soul.cdn.base : root ~ 'styles/' %}
+<script src="{{ from }}soul-boot.js"{% if soul.cdn %} integrity="{{ soul.cdn.integrity['soul-boot.js'] }}" crossorigin="anonymous"{% endif %}></script>
 {#- The variable faces a page opens in. The preload starts them before the
     stylesheet parses; `font-display: optional` keeps a late response out of
     the fallback's place after paint. Each file covers every used weight. -#}
 <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="{{ root }}styles/fonts/source-sans-3-latin-wght-normal.woff2" />
+      href="{{ from }}fonts/source-sans-3-latin-wght-normal.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="{{ root }}styles/fonts/source-code-pro-latin-wght-normal.woff2" />
-<link rel="stylesheet" href="{{ root }}styles/soul.css" />
-<script type="module" src="{{ root }}styles/soul.js" defer></script>
+      href="{{ from }}fonts/source-code-pro-latin-wght-normal.woff2" />
+<link rel="stylesheet" href="{{ from }}soul.css"{% if soul.cdn %} integrity="{{ soul.cdn.integrity['soul.css'] }}" crossorigin="anonymous"{% endif %} />
+<script type="module" src="{{ from }}soul.js"{% if soul.cdn %} integrity="{{ soul.cdn.integrity['soul.js'] }}" crossorigin="anonymous"{% endif %} defer></script>

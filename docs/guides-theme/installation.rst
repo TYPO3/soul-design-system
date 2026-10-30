@@ -190,7 +190,8 @@ step, a reader with no script gets an empty box where a card belongs.
 card fills a slot with, the example drawings and each icon as a file of its
 own. A page fetches each of them only by its name. So the step keeps a file
 only where a page or the stylesheet names it. The fonts, the icon sprites,
-the stylesheet and the script stay whole.
+the stylesheet and the script stay whole. Where the pages load the system
+from a CDN, the :confval:`cdn` setting, the step copies none of it.
 
 **It writes the search index.** The bar fetches ``_search.json`` from the
 site root, and nothing else writes it. The renderer has no search of its

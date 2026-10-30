@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    A small fixture with the drop-in on jsDelivr. `make guides` renders it
+    into a site of its own. The suite then opens it with the CDN routed to
+    this tree's drop-in, so it runs with no network.
+-->
+<guides xmlns="https://www.phpdoc.org/guides"
+        input-format="rst"
+        links_are_relative="true"
+        theme="soul"
+        default_code_language="text">
+    <project title="Soul — Guides fixture on a CDN" version="0.1.0-dev"/>
+    <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
+        <product>Acceptance</product>
+        <cdn>jsdelivr</cdn>
+    </extension>
+</guides>

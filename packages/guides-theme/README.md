@@ -70,6 +70,7 @@ project's own title.
 | `<home>` | What the bar links back to, where that is not the project's index |
 | `<pager>` | `true` puts the pages either side of this one at the end of the column, in the toctree's flat order. Off by default. In a reference nobody reads front to back, that path is a row of noise |
 | `<markdown>` | `false` stops the Markdown twin. On by default; see below |
+| `<cdn>` | `jsdelivr` loads the stylesheet, the script, the faces and the icons from jsDelivr. The address names the exact release of this theme, and each linked file carries an integrity hash. An `https://` address names a mirror instead, with `{version}` for the release. The site then carries only its own files. Off by default, because a reader's browser then asks a third party for every page |
 | `<navigation><link href label external/></navigation>` | The few places the bar carries. With none, it is the top level of the toctree. A `label` is only for a link the tree has no page for |
 | `<footer><group title><link href label external/></group></footer>` | A column of the footer that points somewhere the tree does not. The other columns are the toctree itself and take no configuration |
 | `<footer><social href label/></footer>` | An account somewhere else. There is no glyph to set. The URL names the service, and the mark comes out of it |
