@@ -86,6 +86,46 @@ export const inlineIcons = (svgs: Partial<Record<string, string>>): void => {
   glyphs = { ...glyphs, ...svgs };
 };
 
+/* A sprite on another origin is no `<use>` target: the browser refuses it
+   whatever the server permits. So the element fetches each category once, as
+   CORS lets it, and keeps the symbols in the document. A `<use>` into the
+   document then draws, and draws late when the symbols arrive late. */
+const SVG = 'http://www.w3.org/2000/svg';
+const adopted = new Map<string, Promise<void>>();
+
+function elsewhere(url: string): boolean {
+  if (typeof location === 'undefined' || typeof document === 'undefined') return false;
+  try {
+    return new URL(url, location.href).origin !== location.origin;
+  } catch {
+    return false;
+  }
+}
+
+function adopt(sprite: string): void {
+  if (adopted.has(sprite)) return;
+  adopted.set(sprite, fetch(sprite)
+    .then((response) => (response.ok ? response.text() : ''))
+    .then((text) => {
+      let held: Element | null = document.getElementById('sds-icon-sprites');
+      if (!held) {
+        const made = document.createElementNS(SVG, 'svg');
+        made.id = 'sds-icon-sprites';
+        made.setAttribute('aria-hidden', 'true');
+        made.setAttribute('style', 'position:absolute;width:0;height:0;overflow:hidden');
+        (document.body ?? document.documentElement).append(made);
+        held = made;
+      }
+      const into = held;
+      const parsed = new DOMParser().parseFromString(text, 'image/svg+xml');
+      for (const symbol of parsed.querySelectorAll('symbol')) {
+        symbol.id = `sds-icon-${symbol.id}`;
+        into.append(document.importNode(symbol, true));
+      }
+    })
+    .catch(() => undefined));
+}
+
 /** Which sprite carries this glyph. An identifier opens with its own category;
     `scripts/icons.ts` checks that before it writes the list. The longest
     match wins, so two categories with one start cannot take each other's. */
@@ -146,9 +186,12 @@ export class SdsIcon extends SdsElement {
     /* The shapes out of the carried glyph, or a reference into the sprite.
        Inline SVG parses as foreign content, where a self-closing shape closes. */
     const carried = glyphs[this.name];
+    const sprite = spriteFor(this.name);
+    const far = !carried && elsewhere(sprite);
+    if (far) adopt(sprite);
     const inner = carried
       ? carried.replace(/^\s*<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '')
-      : `<use href="${spriteFor(this.name)}#${this.name}"></use>`;
+      : far ? `<use href="#sds-icon-${this.name}"></use>` : `<use href="${sprite}#${this.name}"></use>`;
     return once(
       `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized}` +
         ` class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}">${inner}</svg>`,

@@ -12815,6 +12815,36 @@ var glyphs = {};
 var inlineIcons = (svgs) => {
   glyphs = { ...glyphs, ...svgs };
 };
+var SVG = "http://www.w3.org/2000/svg";
+var adopted = /* @__PURE__ */ new Map();
+function elsewhere(url) {
+  if (typeof location === "undefined" || typeof document === "undefined") return false;
+  try {
+    return new URL(url, location.href).origin !== location.origin;
+  } catch {
+    return false;
+  }
+}
+function adopt(sprite) {
+  if (adopted.has(sprite)) return;
+  adopted.set(sprite, fetch(sprite).then((response) => response.ok ? response.text() : "").then((text2) => {
+    let held2 = document.getElementById("sds-icon-sprites");
+    if (!held2) {
+      const made = document.createElementNS(SVG, "svg");
+      made.id = "sds-icon-sprites";
+      made.setAttribute("aria-hidden", "true");
+      made.setAttribute("style", "position:absolute;width:0;height:0;overflow:hidden");
+      (document.body ?? document.documentElement).append(made);
+      held2 = made;
+    }
+    const into = held2;
+    const parsed2 = new DOMParser().parseFromString(text2, "image/svg+xml");
+    for (const symbol of parsed2.querySelectorAll("symbol")) {
+      symbol.id = `sds-icon-${symbol.id}`;
+      into.append(document.importNode(symbol, true));
+    }
+  }).catch(() => void 0));
+}
 function spriteFor(id) {
   const category = ICON_CATEGORIES.find((c) => id.startsWith(`${c}-`));
   return `${spriteDir}${category ?? ICON_CATEGORIES[0]}.svg`;
@@ -12843,7 +12873,10 @@ var SdsIcon = class extends SdsElement {
     const cls = this.getAttribute("class") || "sds-icon";
     const sized = this.size === "em" ? "" : ` style="width:${this.size}px;height:${this.size}px"`;
     const carried = glyphs[this.name];
-    const inner = carried ? carried.replace(/^\s*<svg[^>]*>/, "").replace(/<\/svg>\s*$/, "") : `<use href="${spriteFor(this.name)}#${this.name}"></use>`;
+    const sprite = spriteFor(this.name);
+    const far = !carried && elsewhere(sprite);
+    if (far) adopt(sprite);
+    const inner = carried ? carried.replace(/^\s*<svg[^>]*>/, "").replace(/<\/svg>\s*$/, "") : far ? `<use href="#sds-icon-${this.name}"></use>` : `<use href="${sprite}#${this.name}"></use>`;
     return once(
       `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized} class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}">${inner}</svg>`
     );
