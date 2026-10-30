@@ -86,7 +86,8 @@ export const PACKAGES: readonly Package[] = [
   {
     name: 'guides-theme',
     remote: 'git@github.com:TYPO3/soul-guides-theme.git',
-    concerns: [...THEME_AT, ...DROP_AT, ...ASSETS_AT],
+    /* The frontend's manifest too: it names the release a CDN serves. */
+    concerns: [...THEME_AT, ...DROP_AT, ...ASSETS_AT, 'packages/frontend/package.json'],
     manifest: 'composer.json',
     at: (tree) => found(tree, THEME_AT, 'composer.json'),
 
@@ -135,6 +136,7 @@ export const PACKAGES: readonly Package[] = [
         'resources/dist/soul.css', 'resources/dist/soul.js',
         'resources/dist/soul-chunks/diagram.js', 'resources/dist/soul-chunks/highlight.js',
         'resources/dist/soul-boot.js',
+        'resources/dist/version',
         'resources/dist/soul-finish.js',
       ].filter((path) => !existsSync(join(pkg, path)));
 
