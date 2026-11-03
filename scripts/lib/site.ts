@@ -181,6 +181,20 @@ export function escapes(root: string): string[] {
   return bad;
 }
 
+/* A refusal stands on the page where the author reads it. A build reads no
+   page, so this reads them all. A path with a leading underscore is no document. */
+export function refusals(root: string): string[] {
+  const found: string[] = [];
+  for (const file of pages(root)) {
+    if (relative(root, file).split(sep).some((part) => part.startsWith('_'))) continue;
+    for (const m of readFileSync(file, 'utf8').matchAll(/<p class="sds-diagram__error"[^>]*>([^<]*)<\/p>/g)) {
+      const message = (m[1] ?? '').replace(/&(#0?39|amp|lt|gt|quot|nbsp);/g, (whole, name: string) => CHARACTERS[name] ?? whole);
+      found.push(`${relative(root, file)}: ${message}`);
+    }
+  }
+  return found;
+}
+
 export interface Finished {
   /** Pages that carry their elements already rendered. */
   drawn: number;
@@ -190,6 +204,8 @@ export interface Finished {
   indexed: number | null;
   /** References that do not resolve inside the site. */
   broken: string[];
+  /** Diagrams the grammar refuses: the page and the message. */
+  refused: string[];
 }
 
 /** The steps between a render and a site, in the one order that works. The
@@ -203,5 +219,5 @@ export function finish(root: string, options: { drop?: string; styles?: string; 
   const drawn = draw(root);
   const pruned = drop ? prune(root, styles, drop, cdn) : 0;
   const indexed = search === false ? null : index(root, search);
-  return { drawn, pruned, indexed, broken: escapes(root) };
+  return { drawn, pruned, indexed, broken: escapes(root), refused: refusals(root) };
 }

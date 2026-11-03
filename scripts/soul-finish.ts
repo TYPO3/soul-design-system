@@ -57,22 +57,26 @@ if (drop && !existsSync(join(drop, 'soul.css'))) {
   process.exit(1);
 }
 
-const { drawn, pruned, indexed, broken } = finish(root, {
+const { drawn, pruned, indexed, broken, refused } = finish(root, {
   drop,
   styles: flag('styles'),
   search: argv.includes('--no-search') ? false : flag('search'),
 });
 
-const problems = broken.length
-  ? [
-    ...broken.slice(0, 12),
-    ...(broken.length > 12 ? [`… and ${broken.length - 12} more`] : []),
-    'a site ships on its own. A reference out of it is a page with no stylesheet on the server, and no error anywhere',
-  ]
-  : [];
+const problems = [
+  ...(broken.length
+    ? [
+      ...broken.slice(0, 12),
+      ...(broken.length > 12 ? [`… and ${broken.length - 12} more`] : []),
+      'a site ships on its own. A reference out of it is a page with no stylesheet on the server, and no error anywhere',
+    ]
+    : []),
+  ...refused.map((found) => `the grammar refuses a diagram on ${found}`),
+];
 report.summary(
   `${drawn} page(s) carry their elements already rendered${pruned ? ` \u00b7 ${pruned} file(s) no page names left out` : ''}${indexed === null ? '' : ` \u00b7 ${indexed} indexed for search`}`
-    + (broken.length ? ` \u00b7 ${broken.length} reference(s) do not resolve inside ${root}` : ''),
+    + (broken.length ? ` \u00b7 ${broken.length} reference(s) do not resolve inside ${root}` : '')
+    + (refused.length ? ` \u00b7 ${refused.length} diagram(s) refused` : ''),
   problems,
 );
 process.exit(problems.length ? 1 : 0);

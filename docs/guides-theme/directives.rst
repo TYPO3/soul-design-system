@@ -1055,7 +1055,8 @@ the drawing before the page ships.
 
 A text the grammar refuses draws the refusal in the place of the drawing.
 The message names the line or the part, so the author sees it on the page
-they wrote. The Markdown twin holds the text in a fenced block. The drawing
+they wrote. The finishing step then fails, so the page does not ship. The
+Markdown twin holds the text in a fenced block. The drawing
 has no caption and no frame of its own: the text of the document around it
 says what it claims.
 

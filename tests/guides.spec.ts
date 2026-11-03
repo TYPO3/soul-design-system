@@ -8,7 +8,9 @@
    suite starts, because a stale render hides the regression this looks for. */
 
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { type SpawnSyncReturns, spawnSync } from 'node:child_process';
+import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 
 import { test, expect, type Locator, type Page } from '@playwright/test';
@@ -2132,6 +2134,26 @@ test.describe('the markdown twin', () => {
 /* The element draws a text live. A built page needs none of that: the finish
    step puts each drawing in a file and leaves a reference in its place. */
 test.describe('the drawings of a built page', () => {
+  /* Over a site of its own, because the two sites here hold no refused text. */
+  for (const zoomable of ['', ' zoomable']) {
+    test(`the finish step fails on a refused${zoomable} diagram, and names the page`, () => {
+      const root = mkdtempSync(join(tmpdir(), 'finish-'));
+      const finish = (body: string): SpawnSyncReturns<string> => {
+        writeFileSync(join(root, 'page.html'), `<!doctype html><title>A page</title><body><sds-diagram${zoomable}>${body}</sds-diagram>`);
+        return spawnSync('node', ['scripts/soul-finish.ts', root, '--no-drop-in', '--no-search'], { encoding: 'utf8' });
+      };
+      const valid = 'flow columns=1,1\ntitle "A claim"\ndescription "Two nodes."\na "One" at=0,0\nb "Two" at=1,0';
+      try {
+        const refused = finish(`${valid}\na -> nothing`);
+        expect(refused.status).toBe(1);
+        expect(refused.stdout).toContain('the grammar refuses a diagram on page.html');
+        expect(finish(valid).status).toBe(0);
+      } finally {
+        rmSync(root, { recursive: true });
+      }
+    });
+  }
+
   test('a built page holds no diagram element, and every drawing it refers to is a file', () => {
     for (const dir of [SITE_DIR, ACCEPTANCE_DIR]) {
       for (const path of pages(dir)) {

@@ -37,8 +37,8 @@ node vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
 The first command writes documents. The second turns them into a site. It
 copies the drop-in to the site root and draws every element on every page
 before the browser, so the pages read with no script. It writes the search
-index the bar fetches, and refuses to finish on a reference that leaves the
-output. It is one bundled file and needs nothing installed.
+index the bar fetches. It refuses to finish on a reference that leaves the
+output, and on a diagram that the grammar refuses. It is one bundled file and needs nothing installed.
 
 `guides.xml` beside the documents selects the theme and registers it:
 

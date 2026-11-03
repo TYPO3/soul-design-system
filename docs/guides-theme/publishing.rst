@@ -96,11 +96,14 @@ bundled file for the Node that is on every CI image already.
    The index the bar fetches. ``--no-search`` writes none. The field then
    opens, finds nothing and says so, on every page of a site.
 
-It exits non-zero on the one failure that is otherwise silent: a reference
-that does not resolve **inside** the output. The publish takes that
-directory alone. A link that worked in the build because the build ran in a
-checkout resolves to nothing on the server. It arrives as a page with no
-stylesheet, not as an error anybody reads.
+It exits non-zero on the two failures that are otherwise silent. The first is
+a diagram that the grammar refuses. The refusal stands on the page, and a build
+reads no page.
+
+The second is a reference that does not resolve **inside** the output. The
+publish takes that directory alone. A link that worked in the build because the
+build ran in a checkout resolves to nothing on the server. It arrives as a page
+with no stylesheet, not as an error anybody reads.
 
 .. note::
 
