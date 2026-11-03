@@ -33,10 +33,11 @@ The numbers
    :header-rows: 0
 
    * - Canvas
-     - ``viewBox="0 0 1200 H"``, always 1200 wide, height to fit. No radius,
-       shadow, gradient or texture
+     - ``viewBox="0 0 1200 H"``, height to fit. ``canvas=`` in a text names
+       another size. No radius, shadow, gradient or texture
    * - Margin
-     - 60 units every side. Nothing enters it, labels included
+     - 60 units every side, 24 with ``canvas=``, and ``margin=`` names another.
+       Nothing enters it, labels included
    * - Type
      - Source Sans 3; identifiers, paths and flags in Source Code Pro. The
        value of a tile 36 · node title 16 · node body 14 · label 13. **13 is

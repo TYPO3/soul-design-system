@@ -10,7 +10,8 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import { shipped } from '../lib/diagram.ts';
+import { COLUMN } from '../diagrams/Flow.stories.ts';
+import { diagramElement, shipped } from '../lib/diagram.ts';
 import '../../packages/frontend/src/components/figure.ts';
 import { type FigureProps } from '../../packages/frontend/src/components/figure.ts';
 
@@ -76,6 +77,13 @@ export const Zoomable: Story = { args: { ...SOURCES, zoomable: true } };
     The viewer does the same for its stage. */
 export const Drawn: Story = {
   render: () => html`<sds-figure caption="Both calls reach one slot, and the frame is the one ground under them.">${shipped('cache-key')}</sds-figure>`,
+};
+
+/** A drawing for the width of its column, in the frame. Its free space stands
+    on every side, so no part touches the frame. */
+export const DrawnForAColumn: Story = {
+  name: 'Drawn for a column',
+  render: () => html`<sds-figure caption="The type stands at its size, and the frame keeps its distance.">${diagramElement({ source: COLUMN })}</sds-figure>`,
 };
 
 /** The picture a renderer wrote, kept. A renderer writes HTML and knows only

@@ -57,6 +57,33 @@ in the column.
      </sds-diagram>
    </sds-figure>
 
+The size of a drawing
+---------------------
+
+A drawing is 1200 wide, and a column scales it. In a column of 940 pixels, type
+of 13 stands at about 10. Write ``canvas=`` on the first line of the text to
+draw it for the width of the column. The type then stands at its size.
+
+.. code-block:: text
+
+   flow canvas=940
+   title "A request passes the cache first"
+   …
+
+- ``canvas=940`` is the target width, and the height follows from the content.
+- ``canvas=940,480`` states the height too. The content stands in the centre,
+  and the engine refuses a drawing taller than that.
+- ``margin=16`` sets the free space on every side. It is 60 by default, and 24
+  with ``canvas=``. So no part touches the frame of a figure.
+
+The element takes the same as attributes, ``canvas`` and ``margin``, and the
+directive as ``:canvas:`` and ``:margin:``. They stand over the text, so one text
+draws for each place it stands in.
+
+A text too wide for its canvas follows the rules of its layout. A flow grows,
+and a sequence refuses. ``canvas=`` and ``margin=`` are for a page, and
+``slide=`` for the room of a slide. The engine refuses a text that writes both.
+
 On a slide
 ----------
 

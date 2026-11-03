@@ -16,6 +16,8 @@ const escape = (s: string): string => s.replace(/&/g, '&amp;').replace(/<(?=[A-Z
 /** The options of the element, as the controls of every story of a drawing. */
 export const diagramArgTypes = {
   source: { control: 'text' },
+  canvas: { control: 'text' },
+  margin: { control: 'text' },
   room: { control: 'text' },
   name: { control: 'text' },
   zoomable: { control: 'boolean' },
@@ -23,8 +25,8 @@ export const diagramArgTypes = {
 
 /** The element alone, from a story's arguments. A slide's room sets the
     width the drawing stands at, because a slide draws at its own pixels. */
-export const diagramElement = ({ source = '', room, name, zoomable }: DiagramProps): TemplateResult => {
-  const attrs = [room ? ` room="${room}"` : '', name ? ` name="${name}"` : '', zoomable ? ' zoomable' : ''].join('');
+export const diagramElement = ({ source = '', room, name, zoomable, canvas, margin }: DiagramProps): TemplateResult => {
+  const attrs = [room ? ` room="${room}"` : '', name ? ` name="${name}"` : '', canvas ? ` canvas="${canvas}"` : '', margin ? ` margin="${margin}"` : '', zoomable ? ' zoomable' : ''].join('');
   const element = html`${unsafeHTML(`<sds-diagram${attrs}>\n${escape(source.trim())}\n</sds-diagram>`)}`;
   const width = Number((room ?? '').split(',')[0]);
   return width > 0 ? html`<div style="width:${width}px">${element}</div>` : element;

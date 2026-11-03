@@ -837,6 +837,18 @@ The text can live in a file of its own, beside the document.
    :file: drawing.diagram
    :caption: With a caption, the drawing stands in a figure.
 
+The directive sets the size and the free space from outside the text.
+
+.. diagram::
+   :canvas: 640
+   :margin: 16
+
+   flow columns=1,1
+   title "A drawing for a column of 640"
+   description "Two nodes, with a size that the directive names."
+   a "One" at=0,0
+   b "Two" at=1,0
+
 A text the grammar refuses draws the refusal in the place of the drawing.
 
 .. diagram::

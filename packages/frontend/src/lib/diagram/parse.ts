@@ -125,7 +125,7 @@ const OPTIONS = new Set([
   'marks', 'missing', 'nav', 'over', 'place', 'placeholder', 'right', 'sign', 'size', 'span', 'sub', 'surface', 'tag',
   'rows', 'target', 'tone', 'unit', 'value', 'via', 'weight', 'width', 'icons', 'show',
   // the options of a layout's first line
-  'across', 'axis', 'bands', 'claim', 'columns', 'direction', 'gap', 'head', 'height', 'key', 'label-width', 'max', 'notes', 'row-groups', 'slide', 'ticks',
+  'across', 'axis', 'bands', 'canvas', 'claim', 'columns', 'direction', 'gap', 'head', 'height', 'key', 'label-width', 'margin', 'max', 'notes', 'row-groups', 'slide', 'ticks',
 ]);
 const FLAGS = new Set([
   'absent', 'boxed', 'chain', 'close', 'figures', 'fill', 'rise', 'curve', 'changed', 'cursor', 'degraded', 'emphasis', 'fan', 'focus', 'handle', 'hidden', 'ink', 'large', 'muted', 'new',
@@ -1021,5 +1021,10 @@ export const parse = (text: string): DiagramSpec => {
   const claim = oneOf(head, 'claim', ['accent', 'error', 'warn', 'ok'] as const);
   const room = numbers(head, 'slide');
   if (room && room.length !== 2) fail(first, 'slide=width,height names the room of a slide');
-  return clean({ ...spec, title, description, claim, slide: room ? { width: room[0], height: room[1] } : undefined }) as unknown as DiagramSpec;
+  const size = numbers(head, 'canvas');
+  if (size && size.length > 2) fail(first, 'canvas=width or canvas=width,height names the size of a page drawing');
+  const margin = numberOf(head, 'margin');
+  if (room && (size || margin !== undefined)) fail(first, 'canvas= and margin= are for a page drawing, and slide= is the room of a slide: write one');
+  const canvas = size ? { width: size[0], height: size[1] } : undefined;
+  return clean({ ...spec, title, description, claim, canvas, margin, slide: room ? { width: room[0], height: room[1] } : undefined }) as unknown as DiagramSpec;
 };

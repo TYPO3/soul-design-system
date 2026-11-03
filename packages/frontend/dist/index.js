@@ -8320,6 +8320,7 @@ var init_parse = __esm({
       "across",
       "axis",
       "bands",
+      "canvas",
       "claim",
       "columns",
       "direction",
@@ -8328,6 +8329,7 @@ var init_parse = __esm({
       "height",
       "key",
       "label-width",
+      "margin",
       "max",
       "notes",
       "row-groups",
@@ -9184,7 +9186,12 @@ var init_parse = __esm({
       const claim = oneOf(head, "claim", ["accent", "error", "warn", "ok"]);
       const room = numbers(head, "slide");
       if (room && room.length !== 2) fail(first, "slide=width,height names the room of a slide");
-      return clean({ ...spec, title, description, claim, slide: room ? { width: room[0], height: room[1] } : void 0 });
+      const size = numbers(head, "canvas");
+      if (size && size.length > 2) fail(first, "canvas=width or canvas=width,height names the size of a page drawing");
+      const margin = numberOf(head, "margin");
+      if (room && (size || margin !== void 0)) fail(first, "canvas= and margin= are for a page drawing, and slide= is the room of a slide: write one");
+      const canvas = size ? { width: size[0], height: size[1] } : void 0;
+      return clean({ ...spec, title, description, claim, canvas, margin, slide: room ? { width: room[0], height: room[1] } : void 0 });
     };
   }
 });
@@ -9560,12 +9567,12 @@ var init_widgets = __esm({
         if (!short.length || short.length === open.length) break;
         for (const i of short) held2.add(i);
       }
-      const sized = widths.map((ww, i) => ww || (held2.has(i) ? leasts[i] ?? 0 : share * (weights[i] ?? 1)));
-      const least = Math.min(Infinity, ...sized.filter((ww, i) => weights[i]));
+      const sized2 = widths.map((ww, i) => ww || (held2.has(i) ? leasts[i] ?? 0 : share * (weights[i] ?? 1)));
+      const least = Math.min(Infinity, ...sized2.filter((ww, i) => weights[i]));
       if (flexible && least < 23.5) ctx.fail(`${what}: the controls of a row need ${Math.ceil(used + 24 * flexible)} of width, and the row has ${Math.floor(width2)}`);
       if (used > width2 + 0.5) ctx.fail(`${what}: the controls of a row are ${Math.ceil(used)} wide, and the row is ${Math.floor(width2)}`);
       const free = flexible ? 0 : width2 - used;
-      const heights = bare.map((wd, i) => widget(wd, 0, 0, sized[i] ?? 0, ctx, what).height);
+      const heights = bare.map((wd, i) => widget(wd, 0, 0, sized2[i] ?? 0, ctx, what).height);
       const height = Math.max(0, ...heights);
       if (bare.filter((wd) => wd.w === "frame").length > 1) {
         bare.forEach((wd, i) => {
@@ -9581,7 +9588,7 @@ var init_widgets = __esm({
           cx += free;
           pushed = true;
         }
-        const ww = sized[i] ?? 0;
+        const ww = sized2[i] ?? 0;
         const h = heights[i] ?? 0;
         const block = isBlock(wd) || wd.w === "text" && beside;
         out.push(widget(wd, cx, block ? y : y + (height - h) / 2, ww, ctx, what).svg);
@@ -12120,7 +12127,7 @@ var init_notes = __esm({
 });
 
 // packages/frontend/src/lib/diagram/draw.ts
-var WIDTH, MARGIN, BODY, layout, PART_LABEL, compose2, draw2;
+var WIDTH, MARGIN, COLUMN_MARGIN, layout, PART_LABEL, compose2, draw2;
 var init_draw = __esm({
   "packages/frontend/src/lib/diagram/draw.ts"() {
     "use strict";
@@ -12140,7 +12147,7 @@ var init_draw = __esm({
     init_notes();
     WIDTH = 1200;
     MARGIN = 60;
-    BODY = WIDTH - 2 * MARGIN;
+    COLUMN_MARGIN = 24;
     layout = (spec, room, ctx) => {
       switch (spec.kind) {
         case "flow":
@@ -12239,10 +12246,17 @@ var init_draw = __esm({
         fill = drawn2.height / slide.height;
         body = drawn2.svg;
       } else {
-        const drawn2 = layout(spec, { x: MARGIN, y: MARGIN, width: BODY }, ctx);
-        width2 = Math.max(WIDTH, (drawn2.width ?? 0) + 2 * MARGIN);
-        height = Math.ceil(drawn2.height + 2 * MARGIN);
-        body = [rect(0, 0, width2, height, { fill: CANVAS }), drawn2.svg].join("\n");
+        const canvas = spec.canvas?.width ?? WIDTH;
+        const margin = spec.margin ?? (spec.canvas ? COLUMN_MARGIN : MARGIN);
+        if (margin < 0) ctx.fail(`a margin of ${margin} is no free space`);
+        const drawn2 = layout(spec, { x: margin, y: margin, width: canvas - 2 * margin }, ctx);
+        width2 = Math.max(canvas, (drawn2.width ?? 0) + 2 * margin);
+        const needs = Math.ceil(drawn2.height + 2 * margin);
+        const stated = spec.canvas?.height;
+        if (stated !== void 0 && needs > stated) ctx.fail(`the drawing needs ${needs} high, and its canvas is ${stated}`);
+        height = stated ?? needs;
+        const content = height > needs ? `<g transform="translate(0 ${(height - needs) / 2})">${drawn2.svg}</g>` : drawn2.svg;
+        body = [rect(0, 0, width2, height, { fill: CANVAS }), content].join("\n");
       }
       const svg2 = `<svg xmlns="http://www.w3.org/2000/svg" width="${width2}" height="${height}" viewBox="0 0 ${width2} ${height}" role="img" aria-labelledby="${name}-title ${name}-desc">
 <title id="${name}-title">${escape(spec.title)}</title>
@@ -12871,14 +12885,14 @@ var SdsIcon = class extends SdsElement {
     }
     const a11y = this.label ? `role="img" aria-label="${this.label}"` : 'aria-hidden="true"';
     const cls = this.getAttribute("class") || "sds-icon";
-    const sized = this.size === "em" ? "" : ` style="width:${this.size}px;height:${this.size}px"`;
+    const sized2 = this.size === "em" ? "" : ` style="width:${this.size}px;height:${this.size}px"`;
     const carried = glyphs[this.name];
     const sprite = spriteFor(this.name);
     const far = !carried && elsewhere(sprite);
     if (far) adopt(sprite);
     const inner = carried ? carried.replace(/^\s*<svg[^>]*>/, "").replace(/<\/svg>\s*$/, "") : far ? `<use href="#sds-icon-${this.name}"></use>` : `<use href="${sprite}#${this.name}"></use>`;
     return once(
-      `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized} class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}">${inner}</svg>`
+      `<svg width="${INTRINSIC}" height="${INTRINSIC}"${sized2} class="${cls}" ${a11y} viewBox="0 0 16 16" data-icon="${this.name}">${inner}</svg>`
     );
   }
 };
@@ -19271,6 +19285,20 @@ import { unsafeHTML as unsafeHTML5 } from "lit/directives/unsafe-html.js";
 // packages/frontend/src/lib/diagram/load.ts
 var engine = later(() => Promise.resolve().then(() => (init_engine(), engine_exports)));
 
+// packages/frontend/src/lib/diagram/sized.ts
+var sized = (spec, canvas = "", margin = "") => {
+  if (spec.slide || !canvas && !margin) return spec;
+  const [width2, height] = canvas.split(",").map(Number);
+  if (canvas && !(Number(width2) > 0 && (height === void 0 || height > 0))) throw new Error(`canvas="${canvas}": write a width, or a width and a height`);
+  const free = Number(margin);
+  if (margin && !(free >= 0)) throw new Error(`margin="${margin}": write the free space in units`);
+  return {
+    ...spec,
+    ...canvas ? { canvas: { width: Number(width2), ...height === void 0 ? {} : { height } } } : {},
+    ...margin ? { margin: free } : {}
+  };
+};
+
 // packages/frontend/src/components/diagram.ts
 var named = (source) => {
   let hash = 5381;
@@ -19322,6 +19350,8 @@ var SdsDiagram = class extends SdsElement {
     this.source = "";
     this.name = "";
     this.room = "";
+    this.canvas = "";
+    this.margin = "";
     this.zoomable = false;
   }
   static {
@@ -19329,6 +19359,8 @@ var SdsDiagram = class extends SdsElement {
       source: { type: String },
       name: { type: String },
       room: { type: String },
+      canvas: { type: String },
+      margin: { type: String },
       lent: { type: String, reflect: true },
       zoomable: { type: Boolean, reflect: true }
     };
@@ -19386,18 +19418,21 @@ var SdsDiagram = class extends SdsElement {
     const source = this.text;
     const name = this.name || named(source);
     try {
-      const spec = parsed(source);
+      const spec = sized(parsed(source), this.canvas, this.margin);
+      const size = `${this.canvas}/${this.margin}`;
       const slide = slideRoom(this.room) ?? (this.lent && !spec.slide ? this.fits(spec, name, this.lent) : void 0);
       const at = slide ? `${slide.width},${slide.height}` : "";
       const { svg: svg2, width: width2 } = once2(`draw
 ${name}
 ${at}
+${size}
 ${source}`, () => draw3(spec, slide ? { name, slide } : { name }));
       const drawn2 = slide || spec.slide ? nothing41 : `--sds-diagram-width: ${width2}px`;
       if (!this.zoomable) return html68`<div class="sds-diagram" style="${drawn2}" tabindex="${drawn2 === nothing41 ? nothing41 : "0"}">${unsafeHTML5(svg2)}</div>`;
       const large = () => html68`${unsafeHTML5(once2(`draw
 ${name}-large
 ${at}
+${size}
 ${source}`, () => draw3(spec, slide ? { name: `${name}-large`, slide } : { name: `${name}-large` })).svg)}`;
       const { trigger, viewer } = zoom(this, html68`${unsafeHTML5(svg2)}`, { src: "", alt: spec.title, caption: spec.title, content: large });
       return html68`<div class="sds-diagram" style="${drawn2}">${trigger}${viewer}</div>`;
@@ -20068,9 +20103,9 @@ var TURN = 0.15;
 var REACH = 120;
 var PICTURES = 6;
 var LIVE = /* @__PURE__ */ new Set(["a", "button", "input", "select", "textarea", "summary", "details", "label", "iframe", "video", "audio", "dialog"]);
-function picture(frame3, { sized = false } = {}) {
+function picture(frame3, { sized: sized2 = false } = {}) {
   const copy = frame3.cloneNode(true);
-  if (!sized) copy.style.removeProperty("zoom");
+  if (!sized2) copy.style.removeProperty("zoom");
   const from = [...frame3.querySelectorAll("*")];
   const to = [...copy.querySelectorAll("*")];
   for (let i = to.length - 1; i >= 0; i -= 1) {

@@ -33,6 +33,8 @@ use TYPO3\Soul\GuidesTheme\Nodes\DiagramNode;
 #[Attributes\Directive(name: 'diagram', rawContent: true, valueType: DirectiveValueType::Empty)]
 #[Attributes\Option(name: 'name', description: 'The prefix of the ids inside the drawing.')]
 #[Attributes\Option(name: 'file', description: 'A .diagram file to read the text from, relative to the document.')]
+#[Attributes\Option(name: 'canvas', description: 'The size of the drawing: a width, or a width and a height.')]
+#[Attributes\Option(name: 'margin', description: 'The free space on every side of the drawing.')]
 #[Attributes\Option(name: 'caption', description: 'The claim of the drawing: it then stands in a figure, with the caption under it.')]
 #[Attributes\Option(name: 'label', description: 'On a slide of the row layout: the word over the drawing.')]
 #[Attributes\Option(name: 'zoomable', type: OptionType::Boolean, description: 'A press opens the drawing at the size of the window.')]
@@ -48,6 +50,8 @@ final class DiagramDirective extends BaseDirective
         return (new DiagramNode([]))->withOptions([
             'source' => $file === '' ? $directiveNode->getRawContent() : $this->read($file, $compilerContext),
             'name' => $directive->getOption('name')->getValue(),
+            'canvas' => $directive->getOption('canvas')->getValue(),
+            'margin' => $directive->getOption('margin')->getValue(),
             'caption' => $directive->getOption('caption')->getValue(),
             'zoomable' => $directive->hasOption('zoomable'),
             'label' => $directive->getOption('label')->getValue(),

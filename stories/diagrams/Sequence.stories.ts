@@ -61,10 +61,12 @@ phase "Next request"
   site -> visitor "the live page"
 `;
 
+export const COLUMN = REVOKED.replace(/^sequence/, 'sequence canvas=940');
+
 const meta: Meta<DiagramProps> = {
   title: 'Diagrams/Sequence',
   tags: ['autodocs', '!dev'],
-  excludeStories: ['HANDOFF', 'REVOKED'],
+  excludeStories: ['HANDOFF', 'REVOKED', 'COLUMN'],
   render: (args) => diagramElement(args),
   argTypes: diagramArgTypes,
 };
@@ -85,3 +87,7 @@ export const AFailingStep: Story = {
 
 /** The handoff in the room of a slide, at its own pixels. */
 export const OnASlide: Story = { name: 'On a slide', args: { source: HANDOFF, room: '1640,760' } };
+
+/** A sequence for a column of 940. Lanes share the width, so the engine refuses
+    a canvas where a lane has no room for its name. */
+export const ForAColumn: Story = { name: 'For a column of 940', args: { source: COLUMN } };

@@ -43,6 +43,10 @@ type Story = StoryObj<DiagramProps>;
     turns with the mode. What it claims, the page around it says. */
 export const Default: Story = {};
 
+/** `canvas` and `margin` set the size and the free space from outside the text.
+    So one text draws for each place it stands in. They stand over the text. */
+export const Sized: Story = { name: 'With a canvas and a margin', args: { canvas: '940', margin: '16' } };
+
 /** In a figure. The figure takes the drawing between its tags and brings
     the frame and the caption, as it does for a picture. */
 export const InAFigure: Story = {

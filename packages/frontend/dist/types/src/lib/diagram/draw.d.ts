@@ -19,6 +19,14 @@ export interface Frame {
     /** The colour of the one emphasis: the accent, or a status colour where
         the drawing is about a failure or a degradation. */
     claim?: Claim;
+    /** The size of a page drawing: the width of its column, and a height where
+        the text states one. The type then stands at its size in that column. */
+    canvas?: {
+        width: number;
+        height?: number;
+    };
+    /** The free space on every side of a page drawing, in units. */
+    margin?: number;
     /** The room of the slide that the drawing is for, in its frame's pixels.
         A page drawing has none. */
     slide?: {

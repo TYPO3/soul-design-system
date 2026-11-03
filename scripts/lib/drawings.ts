@@ -15,6 +15,7 @@ import { dirname, join, relative, sep } from 'node:path';
 
 import { type DiagramSpec, draw } from '../../packages/frontend/src/lib/diagram/draw.ts';
 import { parse } from '../../packages/frontend/src/lib/diagram/parse.ts';
+import { sized } from '../../packages/frontend/src/lib/diagram/sized.ts';
 import { drawnOf, reference } from '../../packages/frontend/src/lib/diagram/reference.ts';
 import { closeOf } from './prerender.ts';
 import { artOf, headOf, roomOf } from './slide-room.ts';
@@ -135,7 +136,7 @@ export function drawings(page: string, file: string, root: string): string {
     if (!text) continue;
     let spec: DiagramSpec;
     try {
-      spec = parse(text);
+      spec = sized(parse(text), attr(one.run, 'canvas'), attr(one.run, 'margin'));
     } catch {
       continue;
     }

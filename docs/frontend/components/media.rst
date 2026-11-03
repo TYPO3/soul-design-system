@@ -204,6 +204,21 @@ tags as its picture.
    The room of a slide, ``width,height`` in its frame's pixels. The drawing
    then has no margin of its own, because the slide's margin is its margin.
 
+.. confval:: canvas
+   :name: sds-diagram-canvas
+   :type: string
+
+   The size of a page drawing: ``940``, or ``940,480`` for a height too. It
+   stands over ``canvas=`` in the text. A slide has its room, so it says nothing
+   there.
+
+.. confval:: margin
+   :name: sds-diagram-margin
+   :type: string
+
+   The free space on every side of a page drawing, in units. It stands over
+   ``margin=`` in the text.
+
 .. confval:: name
    :name: sds-diagram-name
    :type: string

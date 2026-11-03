@@ -12,6 +12,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import './lightbox.ts';
 import type { DiagramSpec } from '../lib/diagram/draw.ts';
 import { engine } from '../lib/diagram/load.ts';
+import { sized } from '../lib/diagram/sized.ts';
 import { define, SdsElement } from '../lib/element.ts';
 import { zoom } from '../lib/zoom.ts';
 
@@ -25,6 +26,10 @@ export interface DiagramProps {
   /** The room of a slide, `width,height` in its frame's pixels. The text's
       own `slide=` holds otherwise. */
   room?: string;
+  /** The size of a page drawing, `width` or `width,height`, over that of the text. */
+  canvas?: string;
+  /** The free space on every side of a page drawing, over that of the text. */
+  margin?: string;
   /** A press on the drawing opens it at the size of the window, in the
       page's tokens. For a drawing too dense to read in the column. */
   zoomable?: boolean;
@@ -90,6 +95,8 @@ export class SdsDiagram extends SdsElement {
     source: { type: String },
     name: { type: String },
     room: { type: String },
+    canvas: { type: String },
+    margin: { type: String },
     lent: { type: String, reflect: true },
     zoomable: { type: Boolean, reflect: true },
   };
@@ -97,6 +104,10 @@ export class SdsDiagram extends SdsElement {
   declare source: string;
   declare name: string;
   declare room: string;
+  /** The size of a page drawing, `width` or `width,height`, over that of the text. */
+  declare canvas: string;
+  /** The free space on every side of a page drawing, over that of the text. */
+  declare margin: string;
   /** The room a slide lends the drawing, where the author states none. The
       slide sets it. It stands in the markup, so a prerendered page starts
       with the room it drew for and draws nothing anew. */
@@ -136,6 +147,8 @@ export class SdsDiagram extends SdsElement {
     this.source = '';
     this.name = '';
     this.room = '';
+    this.canvas = '';
+    this.margin = '';
     this.zoomable = false;
   }
 
@@ -175,16 +188,17 @@ export class SdsDiagram extends SdsElement {
     const source = this.text;
     const name = this.name || named(source);
     try {
-      const spec = parsed(source);
+      const spec = sized(parsed(source), this.canvas, this.margin);
+      const size = `${this.canvas}/${this.margin}`;
       const slide = slideRoom(this.room) ?? (this.lent && !spec.slide ? this.fits(spec, name, this.lent) : undefined);
       const at = slide ? `${slide.width},${slide.height}` : '';
-      const { svg, width } = once(`draw\n${name}\n${at}\n${source}`, () => draw(spec, slide ? { name, slide } : { name }));
+      const { svg, width } = once(`draw\n${name}\n${at}\n${size}\n${source}`, () => draw(spec, slide ? { name, slide } : { name }));
       /* The drawn width, so the stylesheet stops the shrink where its type
          gets too small. A slide scales as a whole, so it has none. */
       const drawn = slide || spec.slide ? nothing : `--sds-diagram-width: ${width}px`;
       if (!this.zoomable) return html`<div class="sds-diagram" style="${drawn}" tabindex="${drawn === nothing ? nothing : '0'}">${unsafeHTML(svg)}</div>`;
       /* The viewer's drawing needs ids of its own, and only once it opens. */
-      const large = (): TemplateResult => html`${unsafeHTML(once(`draw\n${name}-large\n${at}\n${source}`, () => draw(spec, slide ? { name: `${name}-large`, slide } : { name: `${name}-large` })).svg)}`;
+      const large = (): TemplateResult => html`${unsafeHTML(once(`draw\n${name}-large\n${at}\n${size}\n${source}`, () => draw(spec, slide ? { name: `${name}-large`, slide } : { name: `${name}-large` })).svg)}`;
       const { trigger, viewer } = zoom(this, html`${unsafeHTML(svg)}`, { src: '', alt: spec.title, caption: spec.title, content: large });
       return html`<div class="sds-diagram" style="${drawn}">${trigger}${viewer}</div>`;
     } catch (error) {

@@ -223,7 +223,7 @@ from text, one statement per line, the way the manual shows each layout.
 JSON with the same fields does the same.
 
 `diagram()` returns the SVG file in the grammar of the system: the drawing
-alone, 1200 wide. The page around it says the claim and the consequence. On a slide it has no
+alone, 1200 wide, or the width that `canvas=` names. The page around it says the claim and the consequence. On a slide it has no
 margin, at the pixels of the slide's room. A `slide` room in the options
 sets it dense: the type at its sizes, the controls, rows and gaps lower.
 Every
@@ -273,7 +273,7 @@ cache => store "miss"             # => is the emphasis
 | Necessary | `title "…"`, the claim and the accessible name. `description "…"`, what the drawing shows |
 | Options | `key=value`, or `key value` on a line of its own. A value with a space stands in quotes |
 | Arrows | `->` a step, `-->` absent, `=>` the emphasis, `-x` fails, `<->` a question and its answer |
-| First line | `claim=error`, `warn` or `ok` for a drawing about a status. `slide=width,height` for the room of a slide |
+| First line | `claim=error`, `warn` or `ok` for a drawing about a status. `canvas=width` or `canvas=width,height` for the size of a page drawing, `margin=` for its free space on every side. `slide=width,height` for the room of a slide |
 
 [Writing a diagram](https://typo3.github.io/soul-design-system/design-system/diagrams/writing.html)
 in the manual has the statements of each layout, with a drawing of each.

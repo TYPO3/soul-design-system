@@ -33,6 +33,11 @@ export interface Frame {
   /** The colour of the one emphasis: the accent, or a status colour where
       the drawing is about a failure or a degradation. */
   claim?: Claim;
+  /** The size of a page drawing: the width of its column, and a height where
+      the text states one. The type then stands at its size in that column. */
+  canvas?: { width: number; height?: number };
+  /** The free space on every side of a page drawing, in units. */
+  margin?: number;
   /** The room of the slide that the drawing is for, in its frame's pixels.
       A page drawing has none. */
   slide?: { width: number; height: number };
@@ -82,7 +87,8 @@ export interface Diagram {
 
 const WIDTH = 1200;
 const MARGIN = 60;
-const BODY = WIDTH - 2 * MARGIN;
+/* A drawing for a column stands in a frame or beside text, and needs less air. */
+const COLUMN_MARGIN = 24;
 
 const layout = (spec: Layout, room: Room, ctx: Context): Drawn => {
   switch (spec.kind) {
@@ -196,10 +202,18 @@ export const draw = (spec: DiagramSpec, options: Options): Diagram => {
     fill = drawn.height / slide.height;
     body = drawn.svg;
   } else {
-    const drawn = layout(spec, { x: MARGIN, y: MARGIN, width: BODY }, ctx);
-    width = Math.max(WIDTH, (drawn.width ?? 0) + 2 * MARGIN);
-    height = Math.ceil(drawn.height + 2 * MARGIN);
-    body = [rect(0, 0, width, height, { fill: CANVAS }), drawn.svg].join('\n');
+    const canvas = spec.canvas?.width ?? WIDTH;
+    const margin = spec.margin ?? (spec.canvas ? COLUMN_MARGIN : MARGIN);
+    if (margin < 0) ctx.fail(`a margin of ${margin} is no free space`);
+    const drawn = layout(spec, { x: margin, y: margin, width: canvas - 2 * margin }, ctx);
+    width = Math.max(canvas, (drawn.width ?? 0) + 2 * margin);
+    const needs = Math.ceil(drawn.height + 2 * margin);
+    const stated = spec.canvas?.height;
+    if (stated !== undefined && needs > stated) ctx.fail(`the drawing needs ${needs} high, and its canvas is ${stated}`);
+    height = stated ?? needs;
+    /* A stated height centres the content, so the free space stays even. */
+    const content = height > needs ? `<g transform="translate(0 ${(height - needs) / 2})">${drawn.svg}</g>` : drawn.svg;
+    body = [rect(0, 0, width, height, { fill: CANVAS }), content].join('\n');
   }
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="${name}-title ${name}-desc">
 <title id="${name}-title">${escape(spec.title)}</title>

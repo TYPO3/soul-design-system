@@ -11,6 +11,10 @@ export interface DiagramProps {
     /** The room of a slide, `width,height` in its frame's pixels. The text's
         own `slide=` holds otherwise. */
     room?: string;
+    /** The size of a page drawing, `width` or `width,height`, over that of the text. */
+    canvas?: string;
+    /** The free space on every side of a page drawing, over that of the text. */
+    margin?: string;
     /** A press on the drawing opens it at the size of the window, in the
         page's tokens. For a drawing too dense to read in the column. */
     zoomable?: boolean;
@@ -26,6 +30,12 @@ export declare class SdsDiagram extends SdsElement {
         room: {
             type: StringConstructor;
         };
+        canvas: {
+            type: StringConstructor;
+        };
+        margin: {
+            type: StringConstructor;
+        };
         lent: {
             type: StringConstructor;
             reflect: boolean;
@@ -38,6 +48,10 @@ export declare class SdsDiagram extends SdsElement {
     source: string;
     name: string;
     room: string;
+    /** The size of a page drawing, `width` or `width,height`, over that of the text. */
+    canvas: string;
+    /** The free space on every side of a page drawing, over that of the text. */
+    margin: string;
     /** The room a slide lends the drawing, where the author states none. The
         slide sets it. It stands in the markup, so a prerendered page starts
         with the room it drew for and draws nothing anew. */

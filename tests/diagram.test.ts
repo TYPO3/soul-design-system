@@ -9,6 +9,8 @@ import { beforeAll, describe, expect, test } from 'vitest';
 import { type DiagramSpec, diagram, parse } from '../packages/frontend/src/lib/diagram/index.ts';
 import { measure, wrap } from '../packages/frontend/src/lib/diagram/text.ts';
 import { html, render } from 'lit';
+import type { DiagramProps } from '../packages/frontend/src/components/diagram.ts';
+import { sized } from '../packages/frontend/src/lib/diagram/sized.ts';
 import { diagramElement } from '../stories/lib/diagram.ts';
 import * as bars from '../stories/diagrams/Bars.stories.ts';
 import * as cellsStories from '../stories/diagrams/Cells.stories.ts';
@@ -417,6 +419,57 @@ test('a slide drawing has no margin, and says how much of the room it fills', ()
   expect(svg).not.toMatch(/<rect x="60" y="60"/);
   expect(fill).toBeGreaterThan(0);
   expect(fill).toBeLessThanOrEqual(1);
+});
+
+test('a page drawing takes the width its text names, with free space on every side', () => {
+  const { svg, width, height } = diagram({ ...BASE, canvas: { width: 900 } }, { name: 'narrow' });
+  expect(width).toBe(900);
+  expect(svg).toMatch(/<rect x="0" y="0" width="900"/);
+  expect(svg).toMatch(/<rect x="24" y="24"/);
+  expect(height).toBeGreaterThan(48);
+});
+
+test('a margin sets the free space, with a canvas and without one', () => {
+  expect(diagram({ ...BASE, canvas: { width: 900 }, margin: 8 }, { name: 'tight' }).svg).toMatch(/<rect x="8" y="8"/);
+  const wide = diagram({ ...BASE, margin: 16 }, { name: 'wide-tight' });
+  expect(wide.width).toBe(1200);
+  expect(wide.svg).toMatch(/<rect x="16" y="16"/);
+  expect(() => diagram({ ...BASE, margin: -1 }, { name: 'none' })).toThrow(/margin/);
+});
+
+test('a stated height is the height, centres the content, and refuses what does not fit', () => {
+  const free = diagram({ ...BASE, canvas: { width: 900 } }, { name: 'free' });
+  const tall = diagram({ ...BASE, canvas: { width: 900, height: free.height + 100 } }, { name: 'tall' });
+  expect(tall.height).toBe(free.height + 100);
+  expect(tall.svg).toContain('<g transform="translate(0 50)">');
+  expect(() => diagram({ ...BASE, canvas: { width: 900, height: 40 } }, { name: 'short' })).toThrow(/needs \d+ high/);
+});
+
+test('the size and the margin read from the first line, and a slide refuses both', () => {
+  const text = (head: string): string => `${head}\ntitle "A claim"\ndescription "Two nodes."\na "One" at=0,0\nb "Two" at=1,0`;
+  expect(parse(text('flow canvas=900')).canvas).toEqual({ width: 900 });
+  expect(parse(text('flow canvas=900,400 margin=16'))).toMatchObject({ canvas: { width: 900, height: 400 }, margin: 16 });
+  expect(() => parse(text('flow canvas=900 slide=900,400'))).toThrow(/canvas=/);
+  expect(() => parse(text('flow margin=16 slide=900,400'))).toThrow(/margin=/);
+  expect(() => parse(text('flow canvas=900,400,10'))).toThrow(/canvas=/);
+});
+
+test('without a canvas a page drawing keeps the width and the margin it always had', () => {
+  const { svg, width } = diagram(BASE, { name: 'wide' });
+  expect(width).toBe(1200);
+  expect(svg).toMatch(/<rect x="60" y="60"/);
+});
+
+test('a canvas too narrow: a flow grows past it, and a lane says that it has no room', () => {
+  const at = (text: string, width: number): string => text.replace(/^(\w+)/, `$1 canvas=${width}`);
+  expect(diagram(parse(at(flow.DECISION, 700)), { name: 'grows' }).width).toBeGreaterThan(700);
+  expect(() => diagram(parse(at(sequence.HANDOFF, 700)), { name: 'lanes' })).toThrow(/lane browser/);
+});
+
+test('a drawing for a column of 940 keeps that width in every layout', () => {
+  for (const text of [flow.COLUMN, matrix.COLUMN, sequence.COLUMN]) {
+    expect(diagram(parse(text), { name: 'column' }).width).toBe(940);
+  }
 });
 
 /* The same text at the same width. On a slide the controls, rows and gaps
@@ -839,5 +892,41 @@ describe('a drawing stands on the ground of what holds it', () => {
     } finally {
       host.remove();
     }
+  });
+});
+
+/* What the text says about its size, the element can say from outside it. */
+describe('the attributes of the element', () => {
+  const text = 'flow columns=1,1 canvas=800\ntitle "A claim"\ndescription "Two nodes."\na "One" at=0,0\nb "Two" at=1,0';
+  const drawn = async (attrs: Partial<DiagramProps>): Promise<HTMLElement> => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    render(diagramElement({ source: text, name: 'sized', ...attrs }), host);
+    await expect.poll(() => host.querySelector('svg, .sds-diagram__error')).not.toBeNull();
+    return host;
+  };
+
+  test('a canvas and a margin stand over those of the text', async () => {
+    const host = await drawn({ canvas: '640,400', margin: '16' });
+    expect(host.querySelector('svg')!.getAttribute('viewBox')).toBe('0 0 640 400');
+    expect(host.querySelector('svg')!.innerHTML).toMatch(/<rect x="16"/);
+    host.remove();
+  });
+
+  test('without them the text decides', async () => {
+    const host = await drawn({});
+    expect(host.querySelector('svg')!.getAttribute('viewBox')).toMatch(/^0 0 800 /);
+    host.remove();
+  });
+
+  test('a value that is no size draws the refusal, with its words', async () => {
+    const host = await drawn({ canvas: 'wide' });
+    expect(host.querySelector('.sds-diagram__error')?.textContent).toContain('canvas="wide"');
+    host.remove();
+  });
+
+  test('on a slide the room decides, and the attributes say nothing', () => {
+    const spec = parse('flow columns=1,1 slide=800,400\ntitle "A claim"\ndescription "Two nodes."\na "One" at=0,0\nb "Two" at=1,0');
+    expect(sized(spec, '640', '16')).toBe(spec);
   });
 });

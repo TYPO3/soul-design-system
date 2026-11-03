@@ -2134,6 +2134,17 @@ test.describe('the markdown twin', () => {
 /* The element draws a text live. A built page needs none of that: the finish
    step puts each drawing in a file and leaves a reference in its place. */
 test.describe('the drawings of a built page', () => {
+  test('the directive sets the size and the free space of a drawing', () => {
+    const page = readFileSync(join(ACCEPTANCE_DIR, 'index.html'), 'utf8');
+    const name = /<title>A drawing for a column of 640<\/title>/.test(page);
+    const files = readdirSync(join(ACCEPTANCE_DIR, '_diagrams')).map((file) => readFileSync(join(ACCEPTANCE_DIR, '_diagrams', file), 'utf8'));
+    const drawn = files.find((svg) => svg.includes('A drawing for a column of 640'));
+    expect(name, 'the page names the drawing').toBe(true);
+    expect(drawn, 'the drawing has its file').toBeDefined();
+    expect(drawn).toMatch(/viewBox="0 0 640 /);
+    expect(drawn).toMatch(/<rect x="16" y="16"/);
+  });
+
   /* Over a site of its own, because the two sites here hold no refused text. */
   for (const zoomable of ['', ' zoomable']) {
     test(`the finish step fails on a refused${zoomable} diagram, and names the page`, () => {

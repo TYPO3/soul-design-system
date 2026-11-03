@@ -124,10 +124,13 @@ row "Replace an image": path="Click the image › Pick a file › Check the crop
 row "Discard the changes": path="Click Discard › Confirm" \`F4.1\`
 `;
 
+export const COLUMN = PLACES.replace(/^matrix/, 'matrix canvas=940');
+export const NARROW = PLACES.replace(/^matrix/, 'matrix canvas=700');
+
 const meta: Meta<DiagramProps> = {
   title: 'Diagrams/Matrix',
   tags: ['autodocs', '!dev'],
-  excludeStories: ['PATHS', 'PLACES', 'PLAN', 'EDITING', 'TRACE'],
+  excludeStories: ['PATHS', 'PLACES', 'PLAN', 'EDITING', 'TRACE', 'COLUMN', 'NARROW'],
   render: (args) => diagramElement(args),
   argTypes: diagramArgTypes,
 };
@@ -160,3 +163,9 @@ export const Trace: Story = {
 /** A click path in a cell, its steps joined by ›, in a column with a
     larger weight. Rows that touch and share the emphasis share one frame. */
 export const Paths: Story = { name: 'Click paths', args: { source: PATHS } };
+
+/** The comparison for a column of 940, with its type at its size. */
+export const ForAColumn: Story = { name: 'For a column of 940', args: { source: COLUMN } };
+
+/** The same comparison for a column of 700. The labels wrap, and the signs keep their rows. */
+export const ForANarrowColumn: Story = { name: 'For a column of 700', args: { source: NARROW } };

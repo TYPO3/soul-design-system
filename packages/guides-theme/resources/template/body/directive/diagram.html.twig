@@ -11,6 +11,8 @@
 {%- set drawing -%}
 <sds-diagram
     {%- if node.option('name') %} name="{{ node.option('name') }}"{% endif %}
+    {%- if node.option('canvas') %} canvas="{{ node.option('canvas') }}"{% endif %}
+    {%- if node.option('margin') is not same as(null) and node.option('margin') != '' %} margin="{{ node.option('margin') }}"{% endif %}
     {%- if node.option('zoomable') %} zoomable{% endif %}>
 {{ node.option('source') }}
 </sds-diagram>

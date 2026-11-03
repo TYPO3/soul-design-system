@@ -1090,6 +1090,20 @@ says what it claims.
    or to the documentation root with a leading ``/``. The directive then
    has no body. A path that leads nowhere stops the render.
 
+.. confval:: canvas
+   :name: diagram-canvas
+   :type: string
+
+   The size of the drawing: ``940`` for the width of its column, ``940,480`` for
+   a height too. It stands over the size in the text.
+
+.. confval:: margin
+   :name: diagram-margin
+   :type: number
+
+   The free space on every side of the drawing. It stands over the margin in the
+   text.
+
 .. confval:: zoomable
    :name: diagram-zoomable
    :type: flag

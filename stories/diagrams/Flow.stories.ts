@@ -1,8 +1,8 @@
 /* Nodes on a grid, joined by connectors, inside boundaries.
 
    The layout the grammar reaches for last. The stories are a decision chain
-   in two rows, a system in its boundaries, and the system in the room of a
-   slide. Each has one emphasis, and the build refuses a second. Each story
+   in two rows and a system in its boundaries. The system also stands in a
+   narrower column and in the room of a slide. Each has one emphasis, and the build refuses a second. Each story
    is `<sds-diagram>` with its text in `source`, which the controls edit. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -95,6 +95,11 @@ service -> store
 middleware => service "redeem"
 middleware -> page
 `;
+
+export const COLUMN = SYSTEM.replace(/^flow/, 'flow canvas=940');
+export const NARROW = SYSTEM.replace(/^flow/, 'flow canvas=700');
+export const SPACED = SYSTEM.replace(/^flow/, 'flow canvas=940 margin=48');
+export const SIZED = SYSTEM.replace(/^flow/, 'flow canvas=940,560');
 
 export const FAN = `flow fan
   columns 1,1
@@ -201,7 +206,7 @@ core -> f3
 const meta: Meta<DiagramProps> = {
   title: 'Diagrams/Flow',
   tags: ['autodocs', '!dev'],
-  excludeStories: ['NESTED', 'DECISION', 'SYSTEM', 'FAN', 'HEADS'],
+  excludeStories: ['NESTED', 'DECISION', 'SYSTEM', 'COLUMN', 'NARROW', 'SPACED', 'SIZED', 'FAN', 'HEADS'],
   render: (args) => diagramElement(args),
   argTypes: diagramArgTypes,
 };
@@ -224,6 +229,20 @@ export const Fan: Story = { name: 'Rows and a fan', args: { source: FAN } };
 /** The same text in the room of a wide slide, 1640 by 560. It has no
     margin of its own, because the slide's margin is its margin. */
 export const OnASlide: Story = { name: 'On a slide', args: { source: SYSTEM, room: '1640,560' } };
+
+/** A column narrower than the canvas scales the drawing, and its type with it.
+    `canvas=` draws it for the width of the column, so the type stands at its
+    size. The free space is 24 on every side. */
+export const ForAColumn: Story = { name: 'For a column of 940', args: { source: COLUMN } };
+
+/** The same system for a column of 700. The rows grow, and the type keeps its size. */
+export const ForANarrowColumn: Story = { name: 'For a column of 700', args: { source: NARROW } };
+
+/** `margin=` sets the free space on every side, with a canvas and without one. */
+export const WithAMargin: Story = { name: 'With a margin of 48', args: { source: SPACED } };
+
+/** `canvas=width,height` states the height too. The content stands in the centre, and the engine refuses a drawing taller than that. */
+export const WithAHeight: Story = { name: 'With a width and a height', args: { source: SIZED } };
 
 /** A boundary declared under another stands inside it. With `fan`,
     `curve` draws each connector across a gap as a curve from the middle of
