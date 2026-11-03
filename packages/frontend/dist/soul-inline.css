@@ -455,6 +455,7 @@
     min-height:0;
     padding:var(--sds-lightbox-pad);
     overflow:hidden;
+    --surface-canvas: var(--sds-lightbox-stage-fill);
     background:var(--sds-lightbox-stage-fill);
     cursor:grab;
     touch-action:none;
@@ -1774,6 +1775,7 @@
   .sds-figure{--sds-figure-gap: var(--space-3);--sds-figure-border: var(--border-hairline);--sds-figure-radius: var(--radius-card);--sds-figure-edge: var(--border-subtle);--sds-figure-fill: var(--surface-sunken);--sds-figure-caption-size: var(--aside-size);--sds-figure-caption-leading: var(--aside-leading);--sds-figure-caption-ink: var(--text-muted);--sds-figure-caption-measure: var(--measure-prose);display:flex;flex-direction:column;gap:var(--sds-figure-gap)}
   .sds-figure__frame{
     >*{margin-block:0}
+    >:is(sds-diagram,.sds-diagram){--surface-canvas: var(--sds-figure-fill)}
     border:var(--sds-figure-border) solid var(--sds-figure-edge);
     border-radius:var(--sds-figure-radius);
     background:var(--sds-figure-fill);

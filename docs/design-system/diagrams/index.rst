@@ -66,9 +66,10 @@ The numbers
    reads them out from under for the specimen cards. :doc:`/design-system/artwork` holds
    the whole file contract.
 
-A diagram sits on ``--surface-sunken``. The drawing brings its own canvas,
-which makes it read as a figure with clear space. On ``--surface-canvas`` it
-dissolves into the page.
+A diagram sits on ``--surface-sunken``. In a figure, and in the viewer that
+zooms it, the canvas and the halo of the labels take the ground under the
+drawing. So a reader sees one surface, not a surface on a surface. A file on
+its own brings its canvas in ``--surface-canvas``.
 
 On a slide
 ==========

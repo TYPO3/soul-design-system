@@ -791,3 +791,71 @@ describe.each(SPECS)('%s', (name, spec) => {
     }
   });
 });
+
+/* The frame and the viewer each have a ground of their own. A drawing that
+   paints another one under its labels reads as a second surface in them. */
+describe('a drawing stands on the ground of what holds it', () => {
+  const text = 'flow columns=1,1 gap=200,40\ntitle "A claim"\ndescription "Two nodes."\na "One" at=0,0\nb "Two" at=1,0\na -> b "a label"';
+  const colours = (root: ParentNode): { canvas: string; label: string } => {
+    const svg = root.querySelector('svg')!;
+    const plate = [...svg.querySelectorAll('rect')].filter((r) => r.getAttribute('height') === '18')[0]!;
+    return {
+      canvas: getComputedStyle(svg.querySelector('rect')!).fill,
+      label: getComputedStyle(plate).fill,
+    };
+  };
+  const rgb = (el: Element): string => getComputedStyle(el).backgroundColor;
+
+  for (const theme of ['light', 'dark']) {
+    test(`in the frame of a figure, in the ${theme} mode`, async () => {
+      const host = document.createElement('div');
+      document.documentElement.dataset['theme'] = theme;
+      document.body.append(host);
+      try {
+        render(html`<sds-figure caption="A claim">${sdsDiagram({ source: text, name: 'framed' })}</sds-figure>`, host);
+        await customElements.whenDefined('sds-figure');
+        await expect.poll(() => host.querySelector('.sds-figure__frame svg')).not.toBeNull();
+        const frame = host.querySelector('.sds-figure__frame')!;
+        const { canvas, label } = colours(frame);
+        expect(canvas).toBe(rgb(frame));
+        expect(label).toBe(rgb(frame));
+      } finally {
+        host.remove();
+        delete document.documentElement.dataset['theme'];
+      }
+    });
+  }
+
+  test('on the page, without a frame, it keeps the canvas of the page', async () => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    try {
+      render(sdsDiagram({ source: text, name: 'bare' }), host);
+      await expect.poll(() => host.querySelector('svg')).not.toBeNull();
+      const probe = document.createElement('div');
+      probe.style.background = 'var(--surface-canvas)';
+      host.append(probe);
+      expect(colours(host).canvas).toBe(rgb(probe));
+    } finally {
+      host.remove();
+    }
+  });
+
+  test('in the viewer of a zoomed drawing', async () => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    try {
+      render(sdsDiagram({ source: text, name: 'zoomed', zoomable: true }), host);
+      await customElements.whenDefined('sds-lightbox');
+      await expect.poll(() => host.querySelector('button.sds-zoom')).not.toBeNull();
+      host.querySelector<HTMLButtonElement>('button.sds-zoom')!.click();
+      await expect.poll(() => host.querySelector('.sds-lightbox__canvas > svg')).not.toBeNull();
+      const stage = host.querySelector('.sds-lightbox__art')!;
+      const { canvas, label } = colours(host.querySelector('.sds-lightbox__canvas')!);
+      expect(canvas).toBe(rgb(stage));
+      expect(label).toBe(rgb(stage));
+    } finally {
+      host.remove();
+    }
+  });
+});

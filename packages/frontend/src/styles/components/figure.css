@@ -89,6 +89,12 @@
       margin-block: 0;
     }
 
+    /* A drawing paints its canvas and the halo of its labels in this token.
+       So it stands on the ground of the frame, and not on a second one. */
+    & > :is(sds-diagram, .sds-diagram) {
+      --surface-canvas: var(--sds-figure-fill);
+    }
+
     border: var(--sds-figure-border) solid var(--sds-figure-edge);
     border-radius: var(--sds-figure-radius);
     background: var(--sds-figure-fill);

@@ -72,6 +72,9 @@
     min-height: 0;
     padding: var(--sds-lightbox-pad);
     overflow: hidden;
+    /* The same reason as in the frame of a figure: one ground under a drawing. */
+    --surface-canvas: var(--sds-lightbox-stage-fill);
+
     background: var(--sds-lightbox-stage-fill);
     cursor: grab;
     touch-action: none;

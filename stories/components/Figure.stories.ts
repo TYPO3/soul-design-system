@@ -10,6 +10,7 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
+import { shipped } from '../lib/diagram.ts';
 import '../../packages/frontend/src/components/figure.ts';
 import { type FigureProps } from '../../packages/frontend/src/components/figure.ts';
 
@@ -69,6 +70,13 @@ export const Uncaptioned: Story = {
     the focus comes back. The trigger is a link to the file, so a surface with
     no script still opens it. The element takes the press over on upgrade. */
 export const Zoomable: Story = { args: { ...SOURCES, zoomable: true } };
+
+/** A drawing from a text stands on the ground of the frame. Its canvas and the
+    halo of its labels take the fill of the frame, so a reader sees one surface.
+    The viewer does the same for its stage. */
+export const Drawn: Story = {
+  render: () => html`<sds-figure caption="Both calls reach one slot, and the frame is the one ground under them.">${shipped('cache-key')}</sds-figure>`,
+};
 
 /** The picture a renderer wrote, kept. A renderer writes HTML and knows only
     the path an author pointed at, so it writes the `<img>` and the caption
