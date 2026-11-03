@@ -9,7 +9,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import '../../packages/frontend/src/components/figure.ts';
 import { type DiagramProps } from '../../packages/frontend/src/components/diagram.ts';
-import { diagramElement, download, sdsDiagram } from '../lib/diagram.ts';
+import { diagramArgTypes, diagramElement } from '../lib/diagram.ts';
 
 /** The text of the shipped drawing `cache-key.diagram`. */
 export const CACHE_KEY = `flow claim=error columns=350,560 gap=170,16
@@ -31,8 +31,8 @@ const meta: Meta<DiagramProps> = {
   title: 'Components/Content/Diagram',
   tags: ['autodocs', '!dev'],
   excludeStories: ['CACHE_KEY'],
-  render: (args) => sdsDiagram(args),
-  argTypes: { source: { control: 'text' }, room: { control: 'text' }, name: { control: 'text' }, zoomable: { control: 'boolean' } },
+  render: (args) => diagramElement(args),
+  argTypes: diagramArgTypes,
   args: { source: CACHE_KEY },
 };
 
@@ -49,7 +49,7 @@ export const InAFigure: Story = {
   name: 'In a figure',
   render: (args) => html`<sds-figure caption="A lookup after a language switch answers in the language before it."
     >${diagramElement(args)}</sds-figure
-  >${download(args)}`,
+  >`,
 };
 
 /** A press on the drawing opens it at the size of the window. The large
@@ -58,7 +58,7 @@ export const Zoomable: Story = {
   args: { zoomable: true },
   render: (args) => html`<sds-figure caption="A lookup after a language switch answers in the language before it."
     >${diagramElement(args)}</sds-figure
-  >${download(args)}`,
+  >`,
 };
 
 /** A text the grammar refuses. The refusal stands in the place of the

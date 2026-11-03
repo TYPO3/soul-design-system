@@ -222,10 +222,6 @@ export function readable(code: string): string {
 
   const fragment = parse(code);
   if (!fragment.firstElementChild) return code;
-  /* A story's own tool, such as a download of what it drew, is no markup
-     a reader copies. */
-  fragment.querySelectorAll('[data-story-chrome]').forEach((el) => el.remove());
-
   const kids = [...fragment.childNodes];
   const out = lay(kids, kids.map((k) => node(k, 0))).chunks.join('\n');
   return skeleton(parse(out)) === skeleton(fragment) ? out : code;

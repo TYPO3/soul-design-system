@@ -7,7 +7,7 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { type DiagramProps } from '../../packages/frontend/src/components/diagram.ts';
-import { sdsDiagram } from '../lib/diagram.ts';
+import { diagramArgTypes, diagramElement } from '../lib/diagram.ts';
 
 export const PLACES = `matrix
 title "Where a product lets an editor change a page"
@@ -128,8 +128,8 @@ const meta: Meta<DiagramProps> = {
   title: 'Diagrams/Matrix',
   tags: ['autodocs', '!dev'],
   excludeStories: ['PATHS', 'PLACES', 'PLAN', 'EDITING', 'TRACE'],
-  render: (args) => sdsDiagram(args),
-  argTypes: { source: { control: 'text' } },
+  render: (args) => diagramElement(args),
+  argTypes: diagramArgTypes,
 };
 
 export default meta;

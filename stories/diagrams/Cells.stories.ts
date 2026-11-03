@@ -7,7 +7,7 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { type DiagramProps } from '../../packages/frontend/src/components/diagram.ts';
-import { sdsDiagram } from '../lib/diagram.ts';
+import { diagramArgTypes, diagramElement } from '../lib/diagram.ts';
 
 export const GAPS = `cells
 title "Gap map"
@@ -73,8 +73,8 @@ const meta: Meta<DiagramProps> = {
   title: 'Diagrams/Cells',
   tags: ['autodocs', '!dev'],
   excludeStories: ['GAPS'],
-  render: (args) => sdsDiagram(args),
-  argTypes: { source: { control: 'text' } },
+  render: (args) => diagramElement(args),
+  argTypes: diagramArgTypes,
 };
 
 export default meta;

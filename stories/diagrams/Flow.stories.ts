@@ -7,7 +7,7 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { type DiagramProps } from '../../packages/frontend/src/components/diagram.ts';
-import { sdsDiagram } from '../lib/diagram.ts';
+import { diagramArgTypes, diagramElement } from '../lib/diagram.ts';
 
 export const DECISION = `flow
   columns 1,1,1,1,1,1
@@ -202,11 +202,8 @@ const meta: Meta<DiagramProps> = {
   title: 'Diagrams/Flow',
   tags: ['autodocs', '!dev'],
   excludeStories: ['NESTED', 'DECISION', 'SYSTEM', 'FAN', 'HEADS'],
-  render: (args) => sdsDiagram(args),
-  argTypes: {
-    source: { control: 'text' },
-    room: { control: 'text' },
-  },
+  render: (args) => diagramElement(args),
+  argTypes: diagramArgTypes,
 };
 
 export default meta;

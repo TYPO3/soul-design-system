@@ -9,8 +9,7 @@ import { beforeAll, describe, expect, test } from 'vitest';
 import { type DiagramSpec, diagram, parse } from '../packages/frontend/src/lib/diagram/index.ts';
 import { measure, wrap } from '../packages/frontend/src/lib/diagram/text.ts';
 import { html, render } from 'lit';
-import { readable } from '../.storybook/source.ts';
-import { diagramElement, sdsDiagram } from '../stories/lib/diagram.ts';
+import { diagramElement } from '../stories/lib/diagram.ts';
 import * as bars from '../stories/diagrams/Bars.stories.ts';
 import * as cellsStories from '../stories/diagrams/Cells.stories.ts';
 import * as chipsStories from '../stories/diagrams/Chips.stories.ts';
@@ -576,28 +575,11 @@ key "Each case" sign=any`);
   });
 });
 
-test('a story saves the file its text draws, and its source leaves the press out', async () => {
-  const host = document.createElement('div');
-  document.body.append(host);
-  try {
-    render(sdsDiagram({ source: flow.SYSTEM, name: 'system' }), host);
-    await customElements.whenDefined('sds-button');
-    await new Promise((r) => requestAnimationFrame(r));
-    const saved = host.querySelector<HTMLAnchorElement>('a[download]');
-    expect(saved?.getAttribute('download')).toBe('system.svg');
-    const svg = decodeURIComponent((saved?.getAttribute('href') ?? '').replace(/^data:image\/svg\+xml;charset=utf-8,/, ''));
-    expect(svg).toBe(diagram(parse(flow.SYSTEM), { name: 'system' }).svg);
-    expect(readable(host.innerHTML)).not.toContain('Download');
-  } finally {
-    host.remove();
-  }
-});
-
 test('a zoomable drawing opens at the size of the window, drawn inline with ids of its own', async () => {
   const host = document.createElement('div');
   document.body.append(host);
   try {
-    render(sdsDiagram({ source: flow.SYSTEM, name: 'system', zoomable: true }), host);
+    render(diagramElement({ source: flow.SYSTEM, name: 'system', zoomable: true }), host);
     await customElements.whenDefined('sds-lightbox');
     /* The first drawing fetches the engine: its update waits for it. */
     await host.querySelector<HTMLElement & { updateComplete: Promise<boolean> }>('sds-diagram')?.updateComplete;
@@ -619,7 +601,7 @@ test('the viewer opens the drawing fitted, and zooms, moves and fits it again', 
   const host = document.createElement('div');
   document.body.append(host);
   try {
-    render(sdsDiagram({ source: flow.SYSTEM, name: 'viewed', zoomable: true }), host);
+    render(diagramElement({ source: flow.SYSTEM, name: 'viewed', zoomable: true }), host);
     await customElements.whenDefined('sds-lightbox');
     /* The first drawing fetches the engine: its update waits for it. */
     await host.querySelector<HTMLElement & { updateComplete: Promise<boolean> }>('sds-diagram')?.updateComplete;
@@ -812,7 +794,7 @@ describe('a drawing stands on the ground of what holds it', () => {
       document.documentElement.dataset['theme'] = theme;
       document.body.append(host);
       try {
-        render(html`<sds-figure caption="A claim">${sdsDiagram({ source: text, name: 'framed' })}</sds-figure>`, host);
+        render(html`<sds-figure caption="A claim">${diagramElement({ source: text, name: 'framed' })}</sds-figure>`, host);
         await customElements.whenDefined('sds-figure');
         await expect.poll(() => host.querySelector('.sds-figure__frame svg')).not.toBeNull();
         const frame = host.querySelector('.sds-figure__frame')!;
@@ -830,7 +812,7 @@ describe('a drawing stands on the ground of what holds it', () => {
     const host = document.createElement('div');
     document.body.append(host);
     try {
-      render(sdsDiagram({ source: text, name: 'bare' }), host);
+      render(diagramElement({ source: text, name: 'bare' }), host);
       await expect.poll(() => host.querySelector('svg')).not.toBeNull();
       const probe = document.createElement('div');
       probe.style.background = 'var(--surface-canvas)';
@@ -845,7 +827,7 @@ describe('a drawing stands on the ground of what holds it', () => {
     const host = document.createElement('div');
     document.body.append(host);
     try {
-      render(sdsDiagram({ source: text, name: 'zoomed', zoomable: true }), host);
+      render(diagramElement({ source: text, name: 'zoomed', zoomable: true }), host);
       await customElements.whenDefined('sds-lightbox');
       await expect.poll(() => host.querySelector('button.sds-zoom')).not.toBeNull();
       host.querySelector<HTMLButtonElement>('button.sds-zoom')!.click();

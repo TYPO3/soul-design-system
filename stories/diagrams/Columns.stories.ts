@@ -6,7 +6,7 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { type DiagramProps } from '../../packages/frontend/src/components/diagram.ts';
-import { sdsDiagram } from '../lib/diagram.ts';
+import { diagramArgTypes, diagramElement } from '../lib/diagram.ts';
 
 export const PARTS = `columns
 title "Five parts, one chain"
@@ -333,8 +333,8 @@ const meta: Meta<DiagramProps> = {
   title: 'Diagrams/Columns',
   tags: ['autodocs', '!dev'],
   excludeStories: ['STAIRS', 'PARTS', 'STATES', 'CASES', 'VIEWPORTS', 'CONTROLS', 'MARKS', 'PICTURES'],
-  render: (args) => sdsDiagram(args),
-  argTypes: { source: { control: 'text' } },
+  render: (args) => diagramElement(args),
+  argTypes: diagramArgTypes,
 };
 
 export default meta;

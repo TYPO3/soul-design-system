@@ -135,9 +135,6 @@ Each way below writes the same bytes:
   stops with an error at the first text that the engine refuses.
 - **From a script.** ``parse()`` and ``diagram()`` from
   ``@typo3/soul-frontend/diagram`` run in Node and in a browser.
-- **From Storybook.** Each story under ``Diagrams`` has a
-  :guilabel:`Download SVG` press under the drawing. It saves the text in the
-  controls. Change the text there, look at the drawing, then save it.
 
 .. code-block:: js
 
