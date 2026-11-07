@@ -1,0 +1,83 @@
+/* sds-cta — the one next step: what the reader gets, and the press. */
+
+@layer base {
+  sds-cta {
+    display: block;
+    min-width: 0;
+    margin-block: var(--space-components);
+  }
+  sds-cta > .sds-cta {
+    margin-block: 0;
+  }
+  .sds-cta {
+    margin-block: var(--space-components);
+  }
+}
+
+@layer components {
+  /* The text keeps a line a reader can read. Where the presses leave it less,
+     they go under it, in any box and with no breakpoint. */
+  .sds-cta {
+    --sds-cta-pad-y: var(--space-6);
+    --sds-cta-pad-x: var(--space-6);
+    --sds-cta-gap: var(--space-6);
+    --sds-cta-text-gap: var(--space-2);
+    --sds-cta-text-min: 20rem;
+    --sds-cta-action-gap: var(--space-3);
+    --sds-cta-border: var(--border-hairline);
+    --sds-cta-radius: var(--radius-card);
+    --sds-cta-edge: var(--border-subtle);
+    --sds-cta-fill: var(--surface-raised);
+    --sds-cta-title-size: var(--font-size-h3);
+    --sds-cta-title-leading: var(--leading-heading);
+    --sds-cta-title-weight: var(--weight-semibold);
+    --sds-cta-title-ink: var(--text-primary);
+    --sds-cta-body-size: var(--block-body-size);
+    --sds-cta-body-leading: var(--leading-body);
+    --sds-cta-body-ink: var(--text-secondary);
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sds-cta-gap);
+    padding: var(--sds-cta-pad-y) var(--sds-cta-pad-x);
+    border: var(--sds-cta-border) solid var(--sds-cta-edge);
+    border-radius: var(--sds-cta-radius);
+    background: var(--sds-cta-fill);
+  }
+  .sds-cta__text {
+    display: flex;
+    flex: 1 1 var(--sds-cta-text-min);
+    flex-direction: column;
+    gap: var(--sds-cta-text-gap);
+    min-width: 0;
+  }
+  .sds-cta__title {
+    margin-block: 0;
+    font-size: var(--sds-cta-title-size);
+    line-height: var(--sds-cta-title-leading);
+    font-weight: var(--sds-cta-title-weight);
+    color: var(--sds-cta-title-ink);
+  }
+  .sds-cta__body {
+    margin-block: 0;
+    font-size: var(--sds-cta-body-size);
+    line-height: var(--sds-cta-body-leading);
+    color: var(--sds-cta-body-ink);
+
+    /* A paragraph a document writes between the tags is the line itself. */
+    > p {
+      margin-block: 0;
+      font-size: inherit;
+      line-height: inherit;
+      color: inherit;
+    }
+  }
+  .sds-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sds-cta-action-gap);
+  }
+}

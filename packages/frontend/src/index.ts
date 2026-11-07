@@ -11,6 +11,7 @@ import './components/icon.ts';
 import './components/search.ts';
 import './components/theme.ts';
 import './components/button.ts';
+import './components/cta.ts';
 import './components/dropdown.ts';
 import './components/badge.ts';
 import './components/eyebrow.ts';
@@ -85,6 +86,7 @@ export { SdsElement, define } from './lib/element.ts';
 export { SdsIcon, setIconSprites, inlineIcons, iconIds, type IconId, type IconSize } from './components/icon.ts';
 export { SdsTheme, themeBoot, type ThemeChoice, type ThemeChange } from './components/theme.ts';
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.ts';
+export { SdsCta, type CtaProps } from './components/cta.ts';
 export { SdsDropdown, type DropdownProps, type DropdownChoice, type DropdownChosen } from './components/dropdown.ts';
 export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.ts';
 export { SdsEyebrow, type EyebrowProps } from './components/eyebrow.ts';
@@ -186,6 +188,7 @@ export const TAGS = [
   'sds-icon',
   'sds-theme',
   'sds-button',
+  'sds-cta',
   'sds-dropdown',
   'sds-badge',
   'sds-eyebrow',

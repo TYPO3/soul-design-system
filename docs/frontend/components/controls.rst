@@ -137,6 +137,76 @@ mono, a count, or a glyph, and none of those fits in a string.
    <!-- The class equivalent, for a surface that runs no JavaScript. -->
    <button class="sds-btn sds-btn--primary" type="button">Send the message</button>
 
+.. _component-sds-cta:
+
+sds-cta
+=======
+
+The one thing a reader can do next. A heading says what the reader gets, a
+line says what it costs, and the press starts it.
+
+.. specimen:: components/core/cta.card.html
+   :viewport: 700x480
+   :title: Call to action
+
+.. code-block:: html
+
+   <sds-cta heading="Your first site in ten minutes"
+            body="Copy the example project and replace its content."
+            action="Publish a first site" href="quickstart.html"
+            second="Read the example" second-href="example.html"></sds-cta>
+
+**One per page.** The press is the page's one primary, at the large size. A
+second primary makes neither mean anything. A way into a chapter is
+``sds-card``, and a set of ways is a set of cards.
+
+**Every press is a link.** With no ``href`` no button draws, and a ``second``
+needs a first. The text and the presses share a row until the box has no room,
+and then the presses go under the text. No breakpoint says so.
+
+.. confval:: heading
+   :name: sds-cta-heading
+   :type: string
+
+   What the reader gets, as a claim and not as a command.
+
+.. confval:: body
+   :name: sds-cta-body
+   :type: string
+
+   The line under the heading. The same line can stand between the tags, where
+   it carries a link, and there it wins.
+
+.. confval:: action
+   :name: sds-cta-action
+   :type: string
+
+   The press, in words, with a verb first.
+
+.. confval:: href
+   :name: sds-cta-href
+   :type: string
+
+   Where the press goes.
+
+.. confval:: icon
+   :name: sds-cta-icon
+   :type: string
+
+   A glyph in front of the press.
+
+.. confval:: second
+   :name: sds-cta-second
+   :type: string
+
+   The way for a reader who is not ready, in the ``secondary`` variant.
+
+.. confval:: second-href
+   :name: sds-cta-second-href
+   :type: string
+
+   Where the second way goes.
+
 .. _component-sds-dropdown:
 
 sds-dropdown

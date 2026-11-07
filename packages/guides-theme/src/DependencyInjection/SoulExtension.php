@@ -26,6 +26,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\ButtonNode;
 use TYPO3\Soul\GuidesTheme\Nodes\BylineNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CodemodeNode;
+use TYPO3\Soul\GuidesTheme\Nodes\CtaNode;
 use TYPO3\Soul\GuidesTheme\Nodes\DecisionNode;
 use TYPO3\Soul\GuidesTheme\Nodes\DiagramNode;
 use TYPO3\Soul\GuidesTheme\Nodes\DirectoryTreeNode;
@@ -300,6 +301,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => PartNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => OutlineNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => BandNode::class, 'file' => 'body/directive/band.html.twig', 'format' => 'html'],
+                ['node' => CtaNode::class, 'file' => 'body/directive/cta.html.twig', 'format' => 'html'],
                 ['node' => GridNode::class, 'file' => 'body/directive/grid.html.twig', 'format' => 'html'],
                 ['node' => SplitNode::class, 'file' => 'body/directive/split.html.twig', 'format' => 'html'],
                 ['node' => HalfNode::class, 'file' => 'body/directive/half.html.twig', 'format' => 'html'],

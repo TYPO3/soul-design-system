@@ -47,6 +47,9 @@ group.
    * - ``sds-button``
      - the action that starts work, or the press that is a link
      - :ref:`Controls — sds-button <component-sds-button>`
+   * - ``sds-cta``
+     - the one thing a reader can do next
+     - :ref:`Controls — sds-cta <component-sds-cta>`
    * - ``sds-byline``
      - who wrote it, and when
      - :ref:`Content — sds-byline <component-sds-byline>`

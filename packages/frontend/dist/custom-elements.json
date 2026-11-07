@@ -2117,6 +2117,182 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/cta.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsCta",
+          "tagName": "sds-cta",
+          "summary": "The one thing a reader can do next, said in full.",
+          "description": "The one thing a reader can do next, said in full.\n\nA heading says what the reader gets, a line says what it costs, and the press starts it. One primary per view holds here too, so a page has one of these. A way into a chapter is `sds-card`, and a set of ways is a set of cards.\n\nEvery press is a link: an action with nowhere to go is not a call. So an `action` with no `href` draws no button, and a `second` needs a first.",
+          "attributes": [
+            {
+              "name": "heading",
+              "description": "What the reader gets, as a claim and not as a command: `Your first site in ten minutes`. The press says the command.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "heading"
+            },
+            {
+              "name": "body",
+              "description": "The line under the heading: what the step costs or asks for. The same line can stand between the tags, where it carries a link.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "body"
+            },
+            {
+              "name": "action",
+              "description": "The press, in words: `Publish a first site`. A verb first, and never `Click here`, because a reader who hears the links hears only this.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "action"
+            },
+            {
+              "name": "href",
+              "description": "Where the press goes. Without it the element draws no button.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "href"
+            },
+            {
+              "name": "icon",
+              "description": "A glyph in front of the press.",
+              "type": {
+                "text": "IconId"
+              },
+              "fieldName": "icon"
+            },
+            {
+              "name": "second",
+              "description": "The way for a reader who is not ready: `Read the example`. Quieter than the press, and only beside one.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "second"
+            },
+            {
+              "name": "second-href",
+              "description": "Where the second press goes. Written `second-href`.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "secondHref"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "What the reader gets, as a claim and not as a command: `Your first site in ten minutes`. The press says the command.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "body",
+              "privacy": "public",
+              "description": "The line under the heading: what the step costs or asks for. The same line can stand between the tags, where it carries a link.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "body"
+            },
+            {
+              "kind": "field",
+              "name": "action",
+              "privacy": "public",
+              "description": "The press, in words: `Publish a first site`. A verb first, and never `Click here`, because a reader who hears the links hears only this.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "action"
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "description": "Where the press goes. Without it the element draws no button.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "privacy": "public",
+              "description": "A glyph in front of the press.",
+              "type": {
+                "text": "IconId"
+              },
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "second",
+              "privacy": "public",
+              "description": "The way for a reader who is not ready: `Read the example`. Quieter than the press, and only beside one.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "second"
+            },
+            {
+              "kind": "field",
+              "name": "secondHref",
+              "privacy": "public",
+              "description": "Where the second press goes. Written `second-href`.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "second-href"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-cta",
+            "sds-cta__actions",
+            "sds-cta__body",
+            "sds-cta__text",
+            "sds-cta__title"
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "What an attribute cannot carry — prose, a block, a section of a document."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsCta",
+          "declaration": {
+            "name": "SdsCta",
+            "module": "src/components/cta.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-cta",
+          "declaration": {
+            "name": "SdsCta",
+            "module": "src/components/cta.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/decision.ts",
       "declarations": [
         {

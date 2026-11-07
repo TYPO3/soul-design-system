@@ -1,0 +1,22 @@
+{#
+    One call to action, and the element draws all of it.
+
+    **Every option is a property**, and the line under the heading stands
+    between the tags, because out of a document it carries links. Each path
+    resolves here: what a path means is the renderer's business.
+#}
+{%- set href = node.option('href') ? renderLink(node.option('href')) : '' -%}
+{%- set second = node.option('second-href') ? renderLink(node.option('second-href')) : '' -%}
+<sds-cta
+    heading="{{ node.option('heading') }}"
+    {%- if node.option('action') %} action="{{ node.option('action') }}"{% endif %}
+    {%- if href %} href="{{ href }}"{% endif %}
+    {%- if node.option('icon') %} icon="{{ node.option('icon') }}"{% endif %}
+    {%- if node.option('second') %} second="{{ node.option('second') }}"{% endif %}
+    {%- if second %} second-href="{{ second }}"{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
+>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</sds-cta>

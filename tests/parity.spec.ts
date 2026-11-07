@@ -125,6 +125,11 @@ const CASES: { name: string; markup: string; template: TemplateResult }[] = [
     template: html`<sds-badge label="answered" tone="ok"></sds-badge>`,
   },
   {
+    name: 'call to action, the press and the second way',
+    markup: '<sds-cta heading="Start" body="It takes a minute." action="Publish" href="#first" second="Read" second-href="#second"></sds-cta>',
+    template: html`<sds-cta heading="Start" body="It takes a minute." action="Publish" href="#first" second="Read" second-href="#second"></sds-cta>`,
+  },
+  {
     name: 'surface, the sunken plane',
     markup: '<sds-surface plane="sunken" heading="Sunken" body="For machine output."></sds-surface>',
     template: html`<sds-surface plane="sunken" heading="Sunken" body="For machine output."></sds-surface>`,

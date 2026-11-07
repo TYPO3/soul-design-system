@@ -1,0 +1,18 @@
+{#- The frame is the component's. What remains is a heading in bold, the line
+    under it, and each press as a link, on the terms the element draws them. -#}
+{%- autoescape false -%}
+{%- set href = node.option('href') ? renderLink(node.option('href')) : '' -%}
+{%- set second = node.option('second-href') ? renderLink(node.option('second-href')) : '' -%}
+**{{ node.option('heading')|md_escape }}**
+
+{% for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- if node.option('action') and href %}[{{ node.option('action')|md_escape }}]({{ href }})
+
+{% if node.option('second') and second %}[{{ node.option('second')|md_escape }}]({{ second }})
+
+{% endif -%}
+{%- endif -%}
+{%- endautoescape -%}

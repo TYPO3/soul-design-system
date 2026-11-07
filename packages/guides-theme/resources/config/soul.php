@@ -28,6 +28,7 @@ use TYPO3\Soul\GuidesTheme\Directives\ButtonDirective;
 use TYPO3\Soul\GuidesTheme\Directives\BylineDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CodemodeDirective;
+use TYPO3\Soul\GuidesTheme\Directives\CtaDirective;
 use TYPO3\Soul\GuidesTheme\Directives\DecisionDirective;
 use TYPO3\Soul\GuidesTheme\Directives\DiagramDirective;
 use TYPO3\Soul\GuidesTheme\Directives\DirectoryTreeDirective;
@@ -126,6 +127,8 @@ return static function (ContainerConfigurator $container): void {
             ->tag('phpdoc.guides.directive')
         /* A column of a split, and only there — see `HalfDirective`. */
         ->set(HalfDirective::class)
+            ->tag('phpdoc.guides.directive')
+        ->set(CtaDirective::class)
             ->tag('phpdoc.guides.directive')
         ->set(StatDirective::class)
             ->tag('phpdoc.guides.directive')

@@ -130,6 +130,11 @@ A break in one of these breaks the system, not the page.
 A container must not share its corner with its contents. That is why the card
 is one step larger.
 
+**The next step of a page.** `sds-cta` is the one thing a reader can do next:
+what they get, and the press. One per page, because the press is the page's
+one primary. A way into a chapter is `sds-card`, and a row of presses with no
+claim is `.sds-actions`.
+
 **Table density.** A density is room, not type. Every row is in the small
 register, and the air around it changes. Compact when the list *is* the work:
 the full tool table, label lists, changelogs. Airy when a reader reads the

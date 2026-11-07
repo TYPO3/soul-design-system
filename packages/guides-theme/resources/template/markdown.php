@@ -82,6 +82,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\ButtonNode;
 use TYPO3\Soul\GuidesTheme\Nodes\BylineNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CodemodeNode;
+use TYPO3\Soul\GuidesTheme\Nodes\CtaNode;
 use TYPO3\Soul\GuidesTheme\Nodes\DecisionNode;
 use TYPO3\Soul\GuidesTheme\Nodes\DiagramNode;
 use TYPO3\Soul\GuidesTheme\Nodes\DirectoryTreeNode;
@@ -183,6 +184,7 @@ return [
 
     // This theme's own directives
     BandNode::class => 'body/directive/band.md.twig',
+    CtaNode::class => 'body/directive/cta.md.twig',
     GridNode::class => 'body/directive/grid.md.twig',
     SplitNode::class => 'body/directive/split.md.twig',
     HalfNode::class => 'body/directive/half.md.twig',

@@ -46,6 +46,9 @@ copy.
    * - ``quote``
      - a sentence from somewhere else, with its source
      - ``sds-quote``
+   * - ``cta``
+     - the one thing a reader can do next: what they get, and the press
+     - ``sds-cta``
    * - ``button``
      - one press, and where it goes
      - ``sds-button``
@@ -831,6 +834,75 @@ The name is the argument. The options are the ones ``quote`` has: ``:as:``,
 from the name, and ``:initials:`` says it where the name does not. The
 element is ``sds-byline`` in :doc:`/frontend/components/content`. The
 Markdown twin writes the three parts on one line.
+
+cta
+===
+
+The one thing a reader can do next. A heading says what the reader gets, a
+line says what it costs, and the press starts it.
+
+.. example:: The press and a second way
+
+   .. cta:: Your first site in ten minutes
+      :action: Publish a first site
+      :href: /guides-theme/quickstart
+      :second: Read the example
+      :second-href: /guides-theme/example
+
+      Copy the example project and replace its content.
+
+.. confval:: the argument
+   :name: cta-heading
+   :type: string
+   :required: true
+
+   What the reader gets, as a claim and not as a command. The press says the
+   command.
+
+.. confval:: action
+   :name: cta-action
+   :type: string
+
+   The press, in words, with a verb first. A reader who hears the links hears
+   only this, so it never says "Click here".
+
+.. confval:: href
+   :name: cta-href
+   :type: string
+
+   Where the press goes. With no ``href`` no button draws, because a press
+   must go somewhere.
+
+.. confval:: icon
+   :name: cta-icon
+   :type: string
+
+   The name of a glyph in front of the press.
+
+.. confval:: second
+   :name: cta-second
+   :type: string
+
+   The way for a reader who is not ready, quieter than the press. It draws
+   only beside a press.
+
+.. confval:: second-href
+   :name: cta-second-href
+   :type: string
+
+   Where the second way goes.
+
+.. confval:: class
+   :name: cta-class
+   :type: string
+
+   Classes for the element.
+
+The body is the line under the heading. It is not an option, because out of a
+document it carries links.
+
+**One per page.** The press is the page's one primary. A way into a chapter
+is ``card``, and a row of presses with no claim is ``button-bar``.
 
 button
 ======

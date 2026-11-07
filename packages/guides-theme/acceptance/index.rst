@@ -556,6 +556,31 @@ none.
    Every source declares a precondition, so an answer is reachable before
    the question comes.
 
+Call to action
+==============
+
+The one thing a reader can do next. The first has a press and a second way,
+and the line under its heading carries a link. The second has one press. The
+third names a press with nowhere to go, so it draws no button.
+
+.. cta:: Your first page in ten minutes
+   :action: Read the nodes
+   :href: /nodes
+   :icon: actions-book
+   :second: See the renderer
+   :second-href: https://docs.phpdoc.org/components/guides/guides/
+
+   The :doc:`nodes` page lists what a document can write.
+
+.. cta:: One press, the first choice
+   :action: Read the nodes
+   :href: /nodes
+
+.. cta:: A press with nowhere to go
+   :action: Goes nowhere
+
+   The line stands, and no button draws.
+
 Presses
 =======
 
