@@ -345,6 +345,14 @@ to its own sentence. The element is ``sds-grid`` in
    takes fewer. For a set whose rows are the point: two by two, or three
    and two.
 
+.. confval:: align
+   :name: grid-align
+   :type: start | center | end
+
+   Where a shorter item stands in its row: at the top, level, or at the foot.
+   With nothing said, it fills the row, so feet line up. ``flush`` ignores it,
+   because a tile that stops short leaves a hole in the wall.
+
 .. confval:: class
    :name: grid-class
    :type: string
@@ -433,6 +441,13 @@ blocks it holds, in the rhythm a page keeps between them. Its optional
 argument becomes an ``h2`` inside the column. Use it when the heading names
 that side, not both sides of the split. A reStructuredText section heading
 has no place inside a directive.
+
+.. confval:: align
+   :name: half-align
+   :type: start | center | end
+
+   Where this half stands, top to foot, when it differs from the split's
+   ``align``. It is the same three positions, for one half.
 
 .. confval:: class
    :name: half-class

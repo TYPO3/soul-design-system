@@ -359,6 +359,15 @@ of six.
    fixed width. Each column keeps 150 px, so a narrower room takes fewer.
    Without it, the minimum width of the variant decides.
 
+.. confval:: valign
+   :name: sds-grid-valign
+   :type: "start" | "center" | "end"
+
+   Where a shorter item stands in its row: at the top, level, or at the foot.
+   With nothing said, it fills the row, so feet line up. ``flush`` ignores it,
+   because a tile that stops short leaves a hole in the wall. It is not
+   ``align``, because a browser reads that attribute as ``text-align``.
+
 .. note::
 
    **No breakpoint.** The grid reflows by a minimum width, so a page says

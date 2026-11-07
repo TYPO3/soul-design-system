@@ -8,6 +8,8 @@ import { SdsElement } from '../lib/element.js';
 export type GridVariant = 'default' | 'wide' | 'dense' | 'flush';
 /** How many items a row takes. */
 export type GridColumns = 2 | 3 | 4;
+/** Where a shorter item stands in its row, top to foot. */
+export type GridValign = 'start' | 'center' | 'end';
 export interface GridProps {
     /** How much room one item holds. `default` is the reading width. `wide` is
         for cards with a picture, `dense` for a set read as a list, `flush` for
@@ -16,6 +18,10 @@ export interface GridProps {
     /** This many across, while each keeps 150 px. A narrower room takes
         fewer. */
     columns?: GridColumns;
+    /** Where a shorter item stands in its row. With nothing said, it fills the
+        row, so feet line up. `flush` ignores it: a tile that stops short leaves a
+        hole in the wall. Not `align`: a browser reads that as `text-align`. */
+    valign?: GridValign;
 }
 /**
  * The columns a count of items can stand in.
@@ -36,6 +42,10 @@ export declare class SdsGrid extends SdsElement {
             type: NumberConstructor;
             reflect: boolean;
         };
+        valign: {
+            type: StringConstructor;
+            reflect: boolean;
+        };
         /** The columns the last measurement settled on. Zero is "not measured",
             which renders the grid the stylesheet declares. That is the state a
             page arrives in and the only one a reader with no script ever sees. */
@@ -46,6 +56,7 @@ export declare class SdsGrid extends SdsElement {
     };
     variant: GridVariant;
     columns: GridColumns | undefined;
+    valign: GridValign | undefined;
     settled: number;
     private taken;
     private watched;

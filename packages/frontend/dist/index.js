@@ -18785,6 +18785,11 @@ var CEILING = {
   3: "sds-grid--3",
   4: "sds-grid--4"
 };
+var VALIGN = {
+  start: "sds-grid--start",
+  center: "sds-grid--center",
+  end: "sds-grid--end"
+};
 function evenColumns(count, fits) {
   for (let columns3 = Math.min(fits, count); columns3 > 1; columns3--) {
     const rest = count % columns3;
@@ -18831,6 +18836,7 @@ var SdsGrid = class extends SdsElement {
     this.properties = {
       variant: { type: String },
       columns: { type: Number, reflect: true },
+      valign: { type: String, reflect: true },
       /** The columns the last measurement settled on. Zero is "not measured",
           which renders the grid the stylesheet declares. That is the state a
           page arrives in and the only one a reader with no script ever sees. */
@@ -18892,7 +18898,7 @@ var SdsGrid = class extends SdsElement {
     void this.updateComplete.then(() => this.ask());
   }
   render() {
-    const cls = ["sds-grid", VARIANT[this.variant] ?? "", this.columns ? CEILING[this.columns] ?? "" : ""].filter(Boolean).join(" ");
+    const cls = ["sds-grid", VARIANT[this.variant] ?? "", this.columns ? CEILING[this.columns] ?? "" : "", this.valign && this.variant !== "flush" ? VALIGN[this.valign] ?? "" : ""].filter(Boolean).join(" ");
     const settled2 = this.settled > 0 ? `grid-template-columns:repeat(${this.settled},minmax(0,1fr))` : nothing38;
     return html65`<div class="${cls}" style="${settled2}">${this.taken ?? this.content}</div>`;
   }

@@ -20,20 +20,25 @@ use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
  *        Its paragraph and the press under it are one side of the split
  *        rather than three of its columns.
  *
- * It has nothing to say on its own and takes no position. Where a half stands
- * is the split's decision, because the other half is what it stands against.
- * Anywhere else it is the run of blocks it holds, in the rhythm a page sets
- * between them.
+ * Where the halves stand is the split's decision, because each stands against
+ * the other. `:align:` is the one half that differs: at the top, level or at the
+ * foot. Anywhere else a half is the run of blocks it holds.
  */
 #[Attributes\Directive(name: 'half', valueType: DirectiveValueType::String)]
+#[Attributes\Option(name: 'align', description: 'Where this half stands, top to foot.')]
 #[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class HalfDirective extends SubDirective
 {
+    private const ALIGNMENTS = ['start', 'center', 'end'];
+
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
         $directive = $directiveNode->getDirective();
 
+        $align = (string)($directive->getOption('align')->getValue() ?? '');
+
         return (new HalfNode($directiveNode->getChildren()))->withOptions([
+            'align' => in_array($align, self::ALIGNMENTS, true) ? $align : null,
             /* A section title inside a directive parses as text. The
                argument gives the grouped side a real heading instead. */
             'heading' => $directive->getData(),

@@ -36,11 +36,15 @@ use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 #[Attributes\Directive(name: 'grid', valueType: DirectiveValueType::String)]
 #[Attributes\Option(name: 'variant', description: 'The width of an item.')]
 #[Attributes\Option(name: 'columns', description: 'This many across, while each item keeps its minimum.')]
+#[Attributes\Option(name: 'align', description: 'Where a shorter item stands in its row.')]
 #[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class GridDirective extends SubDirective
 {
     /** What the element answers to. See `GridVariant` in `grid.ts`. */
     private const VARIANTS = ['default', 'wide', 'dense', 'flush'];
+
+    /** Where a shorter item stands in its row. See `GridValign` in `grid.ts`. */
+    private const ALIGNMENTS = ['start', 'center', 'end'];
 
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
@@ -53,7 +57,10 @@ final class GridDirective extends SubDirective
             ? $directive->getData()
             : $directive->getOption('variant')->getValue();
 
+        $align = (string)($directive->getOption('align')->getValue() ?? '');
+
         return (new GridNode($directiveNode->getChildren()))->withOptions([
+            'align' => in_array($align, self::ALIGNMENTS, true) ? $align : null,
             'variant' => in_array($asked, self::VARIANTS, true) ? $asked : 'default',
             'columns' => $directive->getOption('columns')->getValue(),
             'class' => $directive->getOption('class')->getValue(),

@@ -80,6 +80,7 @@ const meta: Meta<GridProps> = {
   argTypes: {
     variant: { control: 'inline-radio', options: ['default', 'wide', 'dense', 'flush'] },
     columns: { control: 'inline-radio', options: [undefined, 2, 3, 4] },
+    valign: { control: 'inline-radio', options: [undefined, 'start', 'center', 'end'] },
   },
 };
 
@@ -117,6 +118,26 @@ export const Flush: Story = { args: { variant: 'flush' } };
 export const Four: Story = {
   args: { columns: 4 },
   render: ({ variant, columns }) => wall(variant, ENTRIES.slice(0, 4), columns),
+};
+
+/** Where a shorter item stands in its row. With nothing said, it fills the
+    row, so feet line up. These three stop at their own content. */
+export const TopToFoot: Story = {
+  name: 'Top to foot',
+  render: () => html`${(['start', 'center', 'end'] as const).map(
+    (valign) => html`<sds-grid valign="${valign}">${ENTRIES.slice(0, 3).map(sdsCard)}</sds-grid>`,
+  )}`,
+};
+
+/** One column on its own, in a split that says level for the rest. */
+export const OneColumn: Story = {
+  name: 'One column, top to foot',
+  render: () => html`<div class="sds-split sds-split--center">
+    <div class="sds-column"><p>${CHAPTERS[0]?.body} ${CHAPTERS[0]?.body} ${CHAPTERS[0]?.body}</p></div>
+    <div class="sds-column sds-column--start"><p>At the top.</p></div>
+    <div class="sds-column"><p>Level, as the split says.</p></div>
+    <div class="sds-column sds-column--end"><p>At the foot.</p></div>
+  </div>`,
 };
 
 /** Two across, for a set that reads as a pair of pairs. */

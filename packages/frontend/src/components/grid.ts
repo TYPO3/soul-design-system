@@ -22,6 +22,9 @@ export type GridVariant = 'default' | 'wide' | 'dense' | 'flush';
 /** How many items a row takes. */
 export type GridColumns = 2 | 3 | 4;
 
+/** Where a shorter item stands in its row, top to foot. */
+export type GridValign = 'start' | 'center' | 'end';
+
 export interface GridProps {
   /** How much room one item holds. `default` is the reading width. `wide` is
       for cards with a picture, `dense` for a set read as a list, `flush` for
@@ -30,6 +33,10 @@ export interface GridProps {
   /** This many across, while each keeps 150 px. A narrower room takes
       fewer. */
   columns?: GridColumns;
+  /** Where a shorter item stands in its row. With nothing said, it fills the
+      row, so feet line up. `flush` ignores it: a tile that stops short leaves a
+      hole in the wall. Not `align`: a browser reads that as `text-align`. */
+  valign?: GridValign;
 }
 
 /** The class each variant is. Written out rather than assembled from a
@@ -48,6 +55,13 @@ const CEILING: Record<GridColumns, string> = {
   2: 'sds-grid--2',
   3: 'sds-grid--3',
   4: 'sds-grid--4',
+};
+
+/** The class each position is, written out for the same reason. */
+const VALIGN: Record<GridValign, string> = {
+  start: 'sds-grid--start',
+  center: 'sds-grid--center',
+  end: 'sds-grid--end',
 };
 
 /**
@@ -106,6 +120,7 @@ export class SdsGrid extends SdsElement {
   static override properties = {
     variant: { type: String },
     columns: { type: Number, reflect: true },
+    valign: { type: String, reflect: true },
     /** The columns the last measurement settled on. Zero is "not measured",
         which renders the grid the stylesheet declares. That is the state a
         page arrives in and the only one a reader with no script ever sees. */
@@ -114,6 +129,7 @@ export class SdsGrid extends SdsElement {
 
   declare variant: GridVariant;
   declare columns: GridColumns | undefined;
+  declare valign: GridValign | undefined;
   declare settled: number;
 
   /* What a caller wrote between the tags, taken before Lit renders over it.
@@ -196,7 +212,7 @@ export class SdsGrid extends SdsElement {
   }
 
   protected override render(): TemplateResult {
-    const cls = ['sds-grid', VARIANT[this.variant] ?? '', this.columns ? (CEILING[this.columns] ?? '') : ''].filter(Boolean).join(' ');
+    const cls = ['sds-grid', VARIANT[this.variant] ?? '', this.columns ? (CEILING[this.columns] ?? '') : '', this.valign && this.variant !== 'flush' ? (VALIGN[this.valign] ?? '') : ''].filter(Boolean).join(' ');
     /* A style rather than a class, because it is a measurement and not a
        name. No page and no stylesheet can state it. */
     const settled = this.settled > 0 ? `grid-template-columns:repeat(${this.settled},minmax(0,1fr))` : nothing;

@@ -215,6 +215,16 @@
   .sds-split--end {
     align-items: flex-end;
   }
+  /* One half on its own, top to foot, whatever the split says for the rest. */
+  .sds-column--start {
+    align-self: flex-start;
+  }
+  .sds-column--center {
+    align-self: center;
+  }
+  .sds-column--end {
+    align-self: flex-end;
+  }
   /* Which half leads once there is no room for two. `wrap-reverse` turns the
      cross axis over with the lines. That is why the two below read inverted
      and land in the same three positions on the page. */
@@ -227,6 +237,12 @@
   }
   .sds-split--leads-end.sds-split--end {
     align-items: flex-start;
+  }
+  .sds-split--leads-end > .sds-column--start {
+    align-self: flex-end;
+  }
+  .sds-split--leads-end > .sds-column--end {
+    align-self: flex-start;
   }
 
   /* `.sds-stack` is the rhythm inside a section; this is the rhythm between. */
@@ -252,6 +268,16 @@
   /* A count: each track is its share of the row, so that many fit and no
      more. A share under `--grid-least` holds no text, so a narrow room
      reflows to fewer. */
+  /* Where a shorter item stands in its row. With nothing said, it fills the row. */
+  .sds-grid--start {
+    align-items: start;
+  }
+  .sds-grid--center {
+    align-items: center;
+  }
+  .sds-grid--end {
+    align-items: end;
+  }
   .sds-grid--2 {
     --grid-floor: max(var(--grid-least), (100% - var(--grid-gap)) / 2);
   }

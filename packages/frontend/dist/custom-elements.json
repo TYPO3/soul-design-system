@@ -5214,6 +5214,14 @@
                 "text": "2 | 3 | 4"
               },
               "fieldName": "columns"
+            },
+            {
+              "name": "valign",
+              "description": "Where a shorter item stands in its row. With nothing said, it fills the row, so feet line up. `flush` ignores it: a tile that stops short leaves a hole in the wall. Not `align`: a browser reads that as `text-align`.",
+              "type": {
+                "text": "'start' | 'center' | 'end'"
+              },
+              "fieldName": "valign"
             }
           ],
           "members": [
@@ -5236,6 +5244,16 @@
                 "text": "2 | 3 | 4"
               },
               "attribute": "columns"
+            },
+            {
+              "kind": "field",
+              "name": "valign",
+              "privacy": "public",
+              "description": "Where a shorter item stands in its row. With nothing said, it fills the row, so feet line up. `flush` ignores it: a tile that stops short leaves a hole in the wall. Not `align`: a browser reads that as `text-align`.",
+              "type": {
+                "text": "'start' | 'center' | 'end'"
+              },
+              "attribute": "valign"
             }
           ],
           "events": [],
@@ -5244,8 +5262,11 @@
             "sds-grid--2",
             "sds-grid--3",
             "sds-grid--4",
+            "sds-grid--center",
             "sds-grid--dense",
+            "sds-grid--end",
             "sds-grid--flush",
+            "sds-grid--start",
             "sds-grid--wide"
           ],
           "slots": [
