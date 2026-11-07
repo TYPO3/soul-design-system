@@ -134,6 +134,8 @@ sized by the level of the heading the next one opens. The last block inside
 a section owes its edge nothing. A `:class:` on a section goes
 through.
 
+### The shape of a page
+
 | Written | What it is |
 | --- | --- |
 | `:layout: marketing` | A document field, not a directive, at the top beside `:navigation-title:`. It renders the page as a run of full-bleed bands with no rail. Any other value, and a page with none, is the manual shape |
@@ -143,41 +145,81 @@ through.
 | `.. grid:: [width]` | A set read side by side, reflowed by its own minimum width, with no column count. The argument is `default`, `wide`, `dense` or `flush`, as what the items hold. `:variant:` says it as an option. `:columns:` is how many stand across, while each keeps its minimum. `:align:` (`start`, `center`, `end`) is where a shorter item stands in its row. `:class:` |
 | `.. split::` | Two of anything, side by side until there is no room for two. Every block in it is a column. `:align:` is where the shorter half stands against the taller one: `start`, `center`, `end`. `:leads:` is which half comes first once they stack: `start`, `end`. `:class:` |
 | `.. half:: [heading]` | One side of a split: the run of blocks that stands as one column. A heading, its paragraph and a press are three columns without it. The optional heading becomes an `h2` inside the column. The split decides where the halves stand. `:align:` (`start`, `center`, `end`) moves this one, top to foot. `:class:` |
+
+### Actions
+
+| Written | What it is |
+| --- | --- |
+| `.. cta:: <heading>` | The one thing a reader can do next, as `sds-cta`. The argument is what the reader gets, and the body is the line under it. `:action:` is the press in words and `:href:` is where it goes. With no `:href:` no button draws. `:icon:` stands in front of the press. `:second:` and `:second-href:` are a quieter way beside it. `:class:` lands on the element. One per page. A way into a chapter is `card` |
+| `.. button:: <label>` | One press. The label carries where it goes: a `:ref:`, a `:doc:` or a link. With a target, the control is a link, with the browser's middle click and status line. `:href:` says the target as a path instead. `:variant:` is `primary`, `secondary` or `ghost`. `:size:` is `md`, `sm` or `lg`; `lg` is the one action a page is for. `:icon:` is a glyph before the label. `:icon-only:` makes the glyph the whole control and the label its name. `:title:`, `:rel:`, `:disabled:`, `:class:`. `type`, `for` and `command` are not on offer. A document has no form to submit and no element to command |
+| `.. button-bar::` | The presses of a page on one line, centred against each other, so a link beside a button sits right. Named for what it holds. Layout, not a component, so it has no variant. `:class:` |
+
+### Content blocks
+
+| Written | What it is |
+| --- | --- |
 | `.. card:: <title>` | One card, whose title carries where it goes: a `:ref:`, a `:doc:` or a link. The whole frame becomes that one link. `:href:` says the target as a path instead. `:sign:` is the state of what it stands for, `yes`, `partly`, `no` or `unknown`, as the sign the drawings use. `:label:`, `:tag:`, `:icon:`, `:src:`, `:alt:`, `:footer:`, `:action:`, `:class:` |
-| `.. stat:: <figure>` | One number as a fact. The body is the line that bounds it, and in practice it is mandatory. A figure with no bound is a boast. `:unit:`, `:label:`, `:of:` for the whole it is a part of, `:bar:` to draw that share. `:list:` makes it one share of a list. `:icon:`, `:class:` |
-| `.. swatch:: <value>` | One colour of a palette: the chip, the name and the resolved value. The argument paints the chip, and a value that is not a colour drops out. No body. A colour that needs a paragraph carries a rule, and that is prose beside the palette. `:name:` is the name, `:resolved:` the resolved value in full. `:kind:` is `fill` or `line`, a hairline as its own edge. `:class:` |
 | `.. surface:: <title>` | One filled plane with a statement in place, and one of a set. It goes in a `grid` the way `stat` does. It states and does not go somewhere, which is the line between it and `card`. It is not `topic`: a digression in the reading flow stays an `<aside>`. `:plane:` is `raised`, or `sunken` for machine output. `:label:` is the tracked-out line over the title, `:icon:` a glyph above it. `:class:` |
 | `.. quote:: <who>` | A sentence from somewhere else, with its source. The attribution is the argument because the element demands one. The sentence goes between the tags, because out of a document it carries links. A block quote is not the spelling. The parser turns one into a definition list, so `<blockquote>` never reaches a template. `:as:` is what they are to the subject, `:meta:` when. `:initials:` is the monogram, drawn only with these given. `:href:` is where to read it in full. `:class:` |
 | `.. byline:: <name>` | Who wrote the page, what they are to it, and when, as `sds-byline`. `:as:`, `:meta:`, `:initials:` (taken from the name without it), `:href:`, `:class:` |
 | `.. logos:: [label]` | A wall of marks, as `sds-logos`, with one `logo` per mark in the body. The argument says what they have in common. `:class:` lands on the element |
 | `.. logo:: <image>` | One mark of a wall. `:alt:` is the name it stands for, and `:href:` is where it goes |
-| `.. cta:: <heading>` | The one thing a reader can do next, as `sds-cta`. The argument is what the reader gets, and the body is the line under it. `:action:` is the press in words and `:href:` is where it goes. With no `:href:` no button draws. `:icon:` stands in front of the press. `:second:` and `:second-href:` are a quieter way beside it. `:class:` lands on the element. One per page. A way into a chapter is `card` |
-| `.. button:: <label>` | One press. The label carries where it goes: a `:ref:`, a `:doc:` or a link. With a target, the control is a link, with the browser's middle click and status line. `:href:` says the target as a path instead. `:variant:` is `primary`, `secondary` or `ghost`. `:size:` is `md`, `sm` or `lg`; `lg` is the one action a page is for. `:icon:` is a glyph before the label. `:icon-only:` makes the glyph the whole control and the label its name. `:title:`, `:rel:`, `:disabled:`, `:class:`. `type`, `for` and `command` are not on offer. A document has no form to submit and no element to command |
-| `.. button-bar::` | The presses of a page on one line, centred against each other, so a link beside a button sits right. Named for what it holds. Layout, not a component, so it has no variant. `:class:` |
-| `.. directory-tree::` | A directory in the shape it has on disk, from a nested list. The name is the first literal in an item, and the rest of the line is what it is for. `:level:` is how deep it stands **open**. Nothing drops below it, unlike the theme this spelling comes from. `:show-file-icons:` marks a directory and a file as such. `:class:` |
-| `.. diagram::` | A drawing, from the text of a `.diagram` file as its body, taken raw. It draws `<sds-diagram>`, rendered before the page ships, with no frame and no caption of its own. `:name:` is the prefix of the ids inside it, and `:zoomable:` opens it at the size of the window. `:canvas:` is its size, `940` or `940,480`, and `:margin:` its free space on every side. `:file:` reads the text from a `.diagram` file beside the document instead of the body. `:caption:` puts the drawing in `<sds-figure>` with that caption. `:label:` is the word over it on a slide of the row layout |
+
+### Instructions and questions
+
+| Written | What it is |
+| --- | --- |
 | `.. accordion::` | A set of questions with their answers folded behind them, exclusive unless `:multiple:`. `:group:` is the group the answers fold in. Two sets on a page need different ones, and a set with none gets one. `:class:` |
 | `.. accordion-item:: <question>` | One question, and the blocks folded behind it. `:open:` stands it open; `:show:` is the Bootstrap theme's name for the same flag. `:name:` is the address of this one answer, and it lands on the answer. The platform opens a fold a fragment points into, and leaves one shut that it points at. `:class:`. `:header-level:` goes in and drops out |
+| `.. steps::` | An instruction read from the top, numbered down one rail, for work with an order. Things to do in any order are a bullet list. The number is the set's own count. A stop in the middle renumbers the rest, and no page states a figure. Nothing says how far along a reader is, because a rendered page does not know. `:class:` |
+| `.. step:: <title>` | One stop, and the blocks that do it. A command, a file to edit, the output that says it worked, which no attribute carries. `:optional:` marks a stop a reader can skip, with the disc unfilled and the word beside the title. `:name:` is its address, and it lands on the stop itself, with nothing to open first. `:class:`. The title takes no heading level. The number says where a reader is in an instruction |
+
+### Reference
+
+| Written | What it is |
+| --- | --- |
+| `.. swatch:: <value>` | One colour of a palette: the chip, the name and the resolved value. The argument paints the chip, and a value that is not a colour drops out. No body. A colour that needs a paragraph carries a rule, and that is prose beside the palette. `:name:` is the name, `:resolved:` the resolved value in full. `:kind:` is `fill` or `line`, a hairline as its own edge. `:class:` |
+| `.. directory-tree::` | A directory in the shape it has on disk, from a nested list. The name is the first literal in an item, and the rest of the line is what it is for. `:level:` is how deep it stands **open**. Nothing drops below it, unlike the theme this spelling comes from. `:show-file-icons:` marks a directory and a file as such. `:class:` |
+| `.. diagram::` | A drawing, from the text of a `.diagram` file as its body, taken raw. It draws `<sds-diagram>`, rendered before the page ships, with no frame and no caption of its own. `:name:` is the prefix of the ids inside it, and `:zoomable:` opens it at the size of the window. `:canvas:` is its size, `940` or `940,480`, and `:margin:` its free space on every side. `:file:` reads the text from a `.diagram` file beside the document instead of the body. `:caption:` puts the drawing in `<sds-figure>` with that caption. `:label:` is the word over it on a slide of the row layout |
 | `.. facts::` | A block of facts, scanned down the terms. The body is a field list: the field's name is the term, its body the value. `:class:` |
 | `.. register::` | A list a reader cites. The entries stand in the body in any order. The register numbers them when the page renders and groups them. Every one goes into one table first, and the work they ask for into a second. `:name:` starts the addresses, `:prefix:` stands before every number, `:todo-prefix:` before the work's. `:findings:` is a review's four groups; `:groups:` any other set, as JSON. `:class:` |
 | `.. entry:: <title>` | One entry of a register, and the blocks it holds. `:group:` names its group, `:origin:` where it came from. `:todo:` is what is to do about it, in one sentence; `:name:` its address. `:class:` |
-| `.. steps::` | An instruction read from the top, numbered down one rail, for work with an order. Things to do in any order are a bullet list. The number is the set's own count. A stop in the middle renumbers the rest, and no page states a figure. Nothing says how far along a reader is, because a rendered page does not know. `:class:` |
-| `.. list-table::` with `:class: compact` | Not the theme's directive but the core's. Its title is the caption, which the core drops and the theme keeps. The class sets the density of `sds-table`: tighter rows for a table a reader scans. `:columns:` gives each column its roles, comma by comma. A role is a cell class of `sds-table`: `name`, `meta`, `note`, `fit`, `end`, `into`, `sign`. `.. table::` takes the title and `:columns:` the same way. It holds a grid table, which spans a cell over columns |
+
+### Text roles
+
+| Written | What it is |
+| --- | --- |
 | `:anchor:` | A text role for an address in a line: ``:anchor:`P2 <step-p2>` ``. A word in a table cell gets an id that `:ref:` names. Without angle brackets, the words are the address |
 | `:id:` | A text role for a reference to an id, set in mono: ``:id:`B10 <feat-b10>` ``. The same as `:ref:`, with the link in the mono face |
 | `:badge:` | A text role for a short state in a line: ``:badge:`Closed <ok>` ``. The tone in angle brackets is `ok`, `warn`, `error` or `accent`; without one, neutral |
+
+### Papers and decks
+
+| Written | What it is |
+| --- | --- |
 | `.. part:: <name>` | Where a part of a paper begins, before its first heading. The name stands over that heading, and the outline of `:layout: paper` groups the sections under it. No body |
 | `.. outline:: <name>` | The short name of the next section in the outline of a paper, before its heading. No body |
 | `.. decision:: <question>` | The question a concept puts, with the answers it can take as `answer` between the tags. `:label:` is the word over it, `Open` or `Decided`. `:by:` says who decides, `:due:` by when, `:lead:` a sentence before the answers. `:name:` is its address. `:class:` |
 | `.. answer:: <answer>` | One answer and what it means. `:recommended:` marks the one the paper proposes, `:decided:` the one the decision took. `:key:` is its letter; without one, the decision counts. `:class:` |
 | `.. slide:: <heading>` | One frame of a deck in the text of a paper, as a picture at the width of the column. `:kind:` is `cover`, `section`, `statement`, `content`, `figure` or `closing`. A `section` slide named like a `part` lists the parts and marks its own. A `figure` slide holds its picture between the tags. `:eyebrow:`, `:lead:`, `:note:` for the speaker, `:layout:` (`wide`, `full`, `headed`, `row`, `text-start`), `:ground:`. `:legend:` is the key at the right of the heading. `:caption:` makes it a figure of the paper. `:page-only:` keeps it out of the deck. `:name:`, `:class:` |
+
+### The manual's own tools
+
+| Written | What it is |
+| --- | --- |
 | `.. codemode::` | HTML between the tags, passed through as its author wrote it. No argument and no option. Nothing checks it, so it is the way out, not the way in. The twin prints it as fenced HTML |
-| `.. step:: <title>` | One stop, and the blocks that do it. A command, a file to edit, the output that says it worked, which no attribute carries. `:optional:` marks a stop a reader can skip, with the disc unfilled and the word beside the title. `:name:` is its address, and it lands on the stop itself, with nothing to open first. `:class:`. The title takes no heading level. The number says where a reader is in an instruction |
+| `.. example:: [caption]` | A piece of markup and, under it, that markup rendered. The print is the lines the parser got, and the render comes from those same lines. So what a reader copies is what produced the thing below it. The argument is the caption over the block. `:language:` colours the print; `text` by default, since no highlighter here knows reStructuredText. `:class:` lands on the frame the render stands in, `.sds-example`. Its dashed, unfilled line says the box is not part of the page. Not for `band`, `hero` or `:layout:`. Those are the shape of a page, and a band inside anything stops at its parent's width |
+| `.. specimen:: <card>` | A rendered card of the project's own, in a frame at the size of its measurement. The argument is a path under `_cards/` in the documentation source. `:viewport:` (`700x260`), `:title:` |
+
+### Core directives, drawn differently
+
+| Written | What it is |
+| --- | --- |
+| `.. stat:: <figure>` | One number as a fact. The body is the line that bounds it, and in practice it is mandatory. A figure with no bound is a boast. `:unit:`, `:label:`, `:of:` for the whole it is a part of, `:bar:` to draw that share. `:list:` makes it one share of a list. `:icon:`, `:class:` |
+| `.. list-table::` with `:class: compact` | Not the theme's directive but the core's. Its title is the caption, which the core drops and the theme keeps. The class sets the density of `sds-table`: tighter rows for a table a reader scans. `:columns:` gives each column its roles, comma by comma. A role is a cell class of `sds-table`: `name`, `meta`, `note`, `fit`, `end`, `into`, `sign`. `.. table::` takes the title and `:columns:` the same way. It holds a grid table, which spans a cell over columns |
 | `.. figure::`, `.. image::` | Not the theme's directives but the core's, drawn differently. Both become `sds-figure`. So a picture has a frame, and a ground under one that does not fill its column. Its caption stands in a caption's register. The theme adds one option. `:zoomable:` makes the frame a press that opens the picture at full size. It is a choice, and the theme ignores it under a `:target:`, whose link already wraps the whole picture. `:target:` and `:class:` go through. `:align:` and `:title:` drop |
 | `.. configuration-block::` | Not the theme's directive but the core's, drawn differently. The same setting in several languages, one tab per block, with the block's language as the label. It becomes `sds-tabs` exactly as `.. tabs::` does, and carries `sync`. So every configuration block of a page follows one choice, and the choice outlives the page |
 | `.. code-block:: diff` | Not the theme's directive but the core's, drawn differently. A block whose language is `diff` becomes `sds-diff` instead of `sds-code`. The same frame and head, and rows with status colour. The server colours them, so a page needs no script. `:caption:` names the file. The format's `+++` and `---` headers stay context. `:linenos:` and `:emphasize-lines:` do not apply |
-| `.. example:: [caption]` | A piece of markup and, under it, that markup rendered. The print is the lines the parser got, and the render comes from those same lines. So what a reader copies is what produced the thing below it. The argument is the caption over the block. `:language:` colours the print; `text` by default, since no highlighter here knows reStructuredText. `:class:` lands on the frame the render stands in, `.sds-example`. Its dashed, unfilled line says the box is not part of the page. Not for `band`, `hero` or `:layout:`. Those are the shape of a page, and a band inside anything stops at its parent's width |
-| `.. specimen:: <card>` | A rendered card of the project's own, in a frame at the size of its measurement. The argument is a path under `_cards/` in the documentation source. `:viewport:` (`700x260`), `:title:` |
 | `.. code-block:: typoscript` | Not the theme's directive but the core's, with a language the highlighter lacks. `guides-code` colours a block with a PHP port of highlight.js, which has no TypoScript grammar. So the theme registers one, and a TypoScript block gets its colour on the server like any other. The object path, the object type, the value, a `{$constant}`, a `[condition]`, an `@import` and a comment. It is the same grammar the design system's own element uses in the browser. So the colour does not change when a script runs |
 
 A landing page, and the manual page beside it:

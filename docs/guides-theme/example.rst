@@ -59,7 +59,7 @@ The two page shapes
 of full-bleed bands with no rail. **Every other page** writes no such field
 and is the manual shape, a column beside a rail. Both carry the same bar and
 the same footer, because a reader must never have to work out which site
-they are on. :doc:`directives` has the parts of each shape.
+they are on. :doc:`directives/page-shape` has the parts of each shape.
 
 .. code-block:: text
    :caption: docs/index.rst
@@ -108,7 +108,7 @@ and writes no tree is a site whose every other page has no navigation.
 
 The rest of the shape follows from that opening. The hero makes the claim,
 and the row of presses is the way on. Everything after a ``band`` belongs to
-it until the next one starts. :doc:`directives` has each of them with its
+it until the next one starts. :doc:`directives/page-shape` has each of them with its
 options and a rendered example.
 
 Run it

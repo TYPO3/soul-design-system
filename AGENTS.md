@@ -414,7 +414,9 @@ these:
   `resources/template/markdown.php`**. A node with none renders as its own
   text;
 - a page of `packages/guides-theme/acceptance/` that uses it;
-- its section in `docs/guides-theme/directives.rst` with a rendered example;
+- its section with a rendered example, on the page of its group under
+  `docs/guides-theme/directives/`;
+- its row in the table of that group, in `index.rst` beside that page;
 - its row in the package's own README.
 
 Then `make guides` and `make verify`.

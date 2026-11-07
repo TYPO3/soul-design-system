@@ -29,6 +29,14 @@ cannot drift apart.
    screens
    slides
 
+.. cta:: Design with the rules in hand
+   :action: Start designing with Claude
+   :href: /design-system/design-with-claude
+   :second: See the colours
+   :second-href: /design-system/colours
+
+   Claude reads the same guidelines, components and screens as this manual.
+
 Non-negotiable
 ==============
 

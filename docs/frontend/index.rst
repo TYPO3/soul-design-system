@@ -17,10 +17,14 @@ The custom elements upgrade that markup where there is behaviour to add.
    components/index
    documents
 
-.. tip::
+.. cta:: A working surface on a page
+   :action: Build a first surface
+   :href: /frontend/quickstart
+   :second: Read about the page layout
+   :second-href: /frontend/layout
 
-   :doc:`quickstart` puts a working surface on a page from the package or
-   the drop-in, before the reference below explains each part.
+   Start from the package or the drop-in. The reference below explains each
+   part.
 
 Two shapes
 ==========

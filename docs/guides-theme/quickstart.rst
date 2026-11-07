@@ -96,7 +96,7 @@ Where to continue
    * - every setting in ``guides.xml``
      - :doc:`configuration`
    * - cards, grids, tabs, accordions and landing-page bands
-     - :doc:`directives`
+     - :doc:`directives/index`
    * - the build, the finishing step and the publication boundary
      - :doc:`publishing`
    * - the renderer's own reStructuredText and Markdown output

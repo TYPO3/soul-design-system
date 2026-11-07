@@ -445,7 +445,7 @@ which is what a misspelt field looks like.
 ``:layout: marketing`` builds the page as a run of full-bleed bands with no
 rail. Anything else, and a page with no such field, is the manual shape: a
 column beside the rail, held to the measure. It stands in
-:doc:`directives`, beside the directives that fill a marketing page, because
+:doc:`directives/page-shape`, beside the directives that fill a marketing page, because
 on its own it is a page shape with nothing in it.
 
 ``:layout: paper`` is a document that goes out on its own: a concept, a
@@ -494,5 +494,5 @@ fill the panel.
 The title in the panel is the ``:navigation-title:``, or the page title
 without one. A paper has no "On this page" beside the text, because its
 outline is in the panel. The foot holds the switch of the colour mode, and
-links the Markdown twin of the paper in a new window. ``.. part::`` in :doc:`directives`
+links the Markdown twin of the paper in a new window. ``.. part::`` in :doc:`directives/papers`
 groups the sections of the outline.

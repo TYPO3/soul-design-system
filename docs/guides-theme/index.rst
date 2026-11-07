@@ -18,13 +18,16 @@ renders with it, and so does the fixture the gate checks the theme against.
    example
    publishing
    configuration
-   directives
+   directives/index
    markup
 
-.. tip::
+.. cta:: A local site, from an empty directory
+   :action: Start the quick start
+   :href: /guides-theme/quickstart
+   :second: Copy the example project
+   :second-href: /guides-theme/example
 
-   :doc:`quickstart` starts from an empty directory and ends at a local
-   site. :doc:`example` is the complete project and workflow to copy.
+   The example is the complete project and its workflow.
 
 Two halves, and no third
 ========================
@@ -65,7 +68,7 @@ Every page is the shell every screen in this system uses, ``sds-app``,
 A **manual page** is a column beside a rail. A **landing page** is a run of
 full-bleed bands with no rail, because there is nothing to navigate on the
 way in. A page says which it is in the ``:layout:`` field at the top,
-beside its navigation title. :doc:`directives` holds that field, both shapes
+beside its navigation title. :doc:`directives/page-shape` holds that field, both shapes
 and the directives of a landing page.
 
 The bar is the same on both. It carries the mark, the sections of the site,

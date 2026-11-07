@@ -129,7 +129,7 @@ In a Guides document
 --------------------
 
 Write the text as the body of ``.. diagram::``. The directive takes the body
-as it is, and :doc:`/guides-theme/directives` lists its options. A text in a
+as it is, and :doc:`/guides-theme/directives/reference` lists its options. A text in a
 ``.diagram`` file of its own is ``:file: diagrams/flow.diagram``, relative
 to the document.
 

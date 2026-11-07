@@ -424,7 +424,7 @@ float beside.
 Embedded documents
 ==================
 
-``.. youtube::`` and this theme's own ``specimen`` (:doc:`directives`) are
+``.. youtube::`` and this theme's own ``specimen`` (:doc:`directives/tools`) are
 the same node, a document of somebody else's inside this one, and both
 become ``<sds-embed>``. As the renderer writes it, that node is a bare
 ``<iframe>``. The browser's own inset ridge around it, no ground under it,
@@ -525,11 +525,11 @@ Which template does which
    * - ``inline/footnote``
      - the mark that matches the note it points at
    * - ``body/directive/{band,grid}``
-     - the landing page; see :doc:`directives`
+     - the landing page; see :doc:`directives/page-shape`
    * - ``body/directive/card``
-     - the cards that signpost a manual; see :doc:`directives`
+     - the cards that signpost a manual; see :doc:`directives/content`
    * - ``body/directive/{accordion,accordion-item}``
-     - the questions a page folds its answers behind; see :doc:`directives`
+     - the questions a page folds its answers behind; see :doc:`directives/instructions`
 
 Anything not in that list is the renderer's own template, with the
 renderer's own markup, and it lands on the document layer.

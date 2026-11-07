@@ -243,7 +243,7 @@ const CHECKS: readonly Check[] = [
          its path in the repository — so the two meet at the tail. */
       const declared = new Map(all.map((c) => [c.rel.split('specimens/')[1] ?? c.rel, c.viewport]));
       /* What the directive draws where the page does not say — see
-         `docs/guides-theme/directives.rst`, which is where this number is the
+         `docs/guides-theme/directives/tools.rst`, which is where this number is the
          documented default rather than a guess. */
       const DEFAULT_VIEWPORT = '700x260';
       const problems: string[] = [];
