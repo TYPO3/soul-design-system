@@ -1,7 +1,7 @@
 /* A diagram from data, laid out: `draw(spec)` is the SVG of the drawing.
 
    The spec holds the claim, the texts and the structure. This draws them in
-   the grammar of `docs/design-system/diagrams/index.rst`. It refuses what the
+   the grammar of `docs/design-system/brand-and-imagery/diagrams/index.rst`. It refuses what the
    grammar forbids: a text too wide for its box, type under the floor, a
    second emphasis, a radius above 6. The file is the drawing alone: the
    page around it says the claim and its consequence, in its heading and its

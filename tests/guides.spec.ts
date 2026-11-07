@@ -139,7 +139,7 @@ test.describe('the render', () => {
     await expect(halves.first().locator(':scope > h2')).toHaveText('Built for community projects');
     await expect(halves.last().locator('sds-figure .sds-art')).toHaveAttribute(
       'src',
-      /community-bookshelf\.png$/,
+      /community-bookshelf-cutout\.png$/,
     );
 
     const centres = await halves.evaluateAll((nodes) =>

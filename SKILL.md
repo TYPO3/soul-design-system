@@ -191,7 +191,7 @@ escapes the register that owns it.
 
 ## Writing
 
-Every text follows ASD-STE100 and the terse rule. `docs/design-system/writing.rst`
+Every text follows ASD-STE100 and the terse rule. `docs/design-system/foundations/writing.rst`
 is the rule, `make verify ARGS=prose` is the check. The page holds the
 limits, the voice and the words; nothing here repeats them.
 
@@ -320,7 +320,7 @@ replaces the accent and orange stays out.
 
 A diagram is a text that the engine draws. Write the text, not the SVG. The
 engine holds every number below, and refuses a text that breaks one, with
-the line it names. `docs/design-system/diagrams/writing.rst` is the whole
+the line it names. `docs/design-system/brand-and-imagery/diagrams/writing.rst` is the whole
 syntax, with a drawing of each layout.
 
 ```html
@@ -396,7 +396,7 @@ attribute is the token with the light hex behind it:
 **Ship one file per drawing**, a viewBox on the root and every colour as a
 `var()` with a hex behind it. A page shows it as `<img>`, so a reader sees the
 hex: the same picture in light and in dark. The tokens are for the day a page
-can reach into the file. `docs/design-system/artwork.rst` says what ships
+can reach into the file. `docs/design-system/brand-and-imagery/illustrations.rst` says what ships
 first.
 
 `sds-figure` shows it in a frame with a claim under it. `sds-image` is the
@@ -408,7 +408,7 @@ a hole is not a failure a reader can see.
 every colour as a `var()` with a hex behind it. Never a `<style>` block and
 never a colour on the root. A comment must not contain a double dash. That is
 not valid XML, and the file then draws nothing, as an image and as a favicon.
-`docs/design-system/artwork.rst` is the whole rule.
+`docs/design-system/brand-and-imagery/illustrations.rst` is the whole rule.
 
 **Specimen cards are the one exception.** They open from disk with no server,
 and the card generator puts the drawing's shapes into the card itself. So a
@@ -495,7 +495,7 @@ from the nearest one.
 A deck is not a fourth body. A slide is `sds-slide`, the page at twice the
 size, and what it holds is the system's elements at the page's size. The
 deck stands on paper and its cover on the terminal. The slides under
-`specimens/screens/slide-*.html` are the layouts, and `docs/design-system/slides.rst`
+`specimens/screens/slide-*.html` are the layouts, and `docs/design-system/patterns/slides.rst`
 has the reason.
 
 A long document can sum up each part in a slide. The slide stands in its
@@ -506,7 +506,7 @@ each slide.
 
 A picture goes on a slide with `kind="figure"`, in the `figure` region:
 `<sds-image slot="figure" src="…" alt="…">`. It grows into the room its
-`layout` leaves. Draw it for that room. `docs/design-system/slides.rst`
+`layout` leaves. Draw it for that room. `docs/design-system/patterns/slides.rst`
 states each room in the frame's pixels. A picture for a slide has no title
 and no verdict of its own. Text beside a picture is `text-start`.
 
@@ -518,7 +518,7 @@ What does not fit shrinks, and a slide that shrinks far is two slides.
 Take an element before you draw. A matrix is `sds-table` with an `sds-icon` in each cell, figures are
 `sds-stat` in `sds-grid`. Three sketches side by side are three drawings in
 `row`, never one drawing with three panels. Only what has lines between its
-parts is a drawing. `docs/design-system/slides.rst` has the table.
+parts is a drawing. `docs/design-system/patterns/slides.rst` has the table.
 
 The lockup and the count never move. `plain` leaves the lockup out.
 

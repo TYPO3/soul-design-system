@@ -9,8 +9,8 @@ The split between the two type families is semantic, not decorative.
 **Source Sans 3** carries everything a person wrote. **Source Code Pro**
 carries everything the machine reads, writes or names, at every size: tool
 names, arguments, paths, versions, CLI fragments, headings included.
-``--font-size-body``, ``packages/frontend/src/tokens/colors.css``, ``make
-verify``. Never title case, never prettified.
+``--font-size-body``, ``packages/frontend/src/tokens/colors.css``,
+``make verify``. Never title case, never prettified.
 
 Both families ship under ``packages/frontend/fonts/``, not from a font host.
 So a design renders in the right type behind a strict content policy or with
@@ -118,7 +118,7 @@ That makes a second relation the register tokens cannot keep.
 Display and headings
 ====================
 
-Headings use sentence case. :doc:`writing` carries the rest of the voice.
+Headings use sentence case. :doc:`/design-system/foundations/writing` carries the rest of the voice.
 
 A heading sets itself. ``h1`` to ``h3`` carry the size of their level, so a
 plain HTML outline needs no class. Below ``h3`` everything is the UI
@@ -195,7 +195,7 @@ has the renderer's anchor: ``citation-<name>`` against ``footnote-<n>``.
 Mono and labels
 ===============
 
-**Everything in mono goes through ``--font-modifier-mono``.** Every glyph in
+**Everything in mono goes through** ``--font-modifier-mono``. Every glyph in
 Source Code Pro has the same advance, so a run at the size beside it reads a
 step larger. The token is a bare ratio, not a step or a length. Against
 ``1em`` it corrects a phrase in a sentence: ``code``, ``kbd``, ``samp``,

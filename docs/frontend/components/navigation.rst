@@ -160,7 +160,7 @@ reservation ``sds-icon`` makes for a glyph.
    :type: string
 
    The mark, as the file of its drawing. A link, like every other picture
-   in this system; see :doc:`/design-system/artwork`. It is the same
+   in this system; see :doc:`/design-system/brand-and-imagery/illustrations`. It is the same
    construction the footer draws, so the two ends of a site say the name one
    way.
 
@@ -332,7 +332,7 @@ and the page stops under it.
 An entry is **one line**, cut with an ellipsis where the column runs out. A
 reader scans a list of places down its left edge, and an entry on a second
 line is two places to that scan. So a heading is short enough to scan, and
-the cut says it was not; :doc:`/design-system/writing` has that rule.
+the cut says it was not; :doc:`/design-system/foundations/writing` has that rule.
 
 The mark is the **filled block in the accent** every current navigation
 item in this system gets. The row bleeds by exactly its padding, so the

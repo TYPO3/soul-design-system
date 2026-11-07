@@ -1016,6 +1016,6 @@ page with no script. A ``setFormValue`` as well sends every answer twice.
 
 .. seealso::
 
-   :doc:`/design-system/forms` is the same subject as a set of rules. Why
+   :doc:`/design-system/patterns/forms` is the same subject as a set of rules. Why
    the label is above, and why the summary is the part most forms skip.
    What a form owes a reader who cannot see all of it at once.

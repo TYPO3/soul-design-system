@@ -12,6 +12,7 @@ renders with it, and so does the fixture the gate checks the theme against.
 
 .. toctree::
    :titlesonly:
+   :hidden:
 
    quickstart
    installation
@@ -29,6 +30,44 @@ renders with it, and so does the fixture the gate checks the theme against.
 
    The example is the complete project and its workflow.
 
+.. grid::
+
+   .. card:: Installation
+      :href: /guides-theme/installation
+      :icon: actions-download
+
+      What the theme needs, and the shortest way to a rendered site.
+
+   .. card:: A project to copy
+      :href: /guides-theme/example
+      :icon: actions-template
+
+      A complete project with its workflow, ready to take over.
+
+   .. card:: Publishing
+      :href: /guides-theme/publishing
+      :icon: actions-upload
+
+      The build, the finishing step and the publication to Pages.
+
+   .. card:: Configuration
+      :href: /guides-theme/configuration
+      :icon: actions-cog
+
+      Every setting in ``guides.xml``, and what each one changes.
+
+   .. card:: Directives
+      :href: /guides-theme/directives/index
+      :icon: actions-extension
+
+      What an author can write: layout, actions, content and reference.
+
+   .. card:: Core markup
+      :href: /guides-theme/markup
+      :icon: actions-file-text
+
+      The renderer's own nodes, and what each one comes out as.
+
 Two halves, and no third
 ========================
 
@@ -37,8 +76,8 @@ override the renderer's own by path, and container configuration that
 registers them. This one adds directives and a document field the same way:
 a service with a tag the parser finds.
 
-What the renderer emits carries almost no names. It writes ``admonition
-note``, ``section``, ``toc``, ``confval``. For a paragraph, a list, a quote
+What the renderer emits carries almost no names. It writes
+``admonition note``, ``section``, ``toc``, ``confval``. For a paragraph, a list, a quote
 or an inline literal it writes nothing. The only class from the source is
 one an author put there. So a template can reach what corresponds to a
 directive and nothing else, and a stylesheet has to meet everything that

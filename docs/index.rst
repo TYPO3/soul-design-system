@@ -32,7 +32,7 @@ One system, from design to delivery
       frontend/index
       maintaining/index
 
-.. grid:: flush
+.. grid::
 
    .. card:: Design with Claude
       :href: /design-system/design-with-claude
@@ -83,7 +83,8 @@ One system, from design to delivery
 
    .. half::
 
-      .. figure:: /_images/community-bookshelf.png
+      .. figure:: /_images/community-bookshelf-cutout.png
+         :plain:
 
 .. band:: The same decisions survive every hand-off
    :quiet:
@@ -93,7 +94,7 @@ Design systems often stop at a design file or a component library. Soul keeps
 the design evidence, the documentation renderer, the class vocabulary and the
 elements connected to the same sources.
 
-.. grid:: flush
+.. grid::
 
    .. card:: Readers keep their bearings
       :label: Across community projects
@@ -138,7 +139,7 @@ surface takes.
 The system does not ask every project to adopt the same toolchain. It asks
 each toolchain to speak the same visual language.
 
-.. grid:: flush
+.. grid::
 
    .. card:: Explore the rules and their specimens
       :href: /design-system/index

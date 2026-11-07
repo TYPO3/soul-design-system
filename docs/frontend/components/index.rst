@@ -450,4 +450,4 @@ Guides site, a static export.
 .. seealso::
 
    :doc:`/frontend/layout` for the page these components stand in, and
-   :doc:`/design-system/screens` for finished pages built out of them.
+   :doc:`/design-system/patterns/screens` for finished pages built out of them.

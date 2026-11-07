@@ -212,7 +212,7 @@ builds its own tab bar and wires the arrow keys. With JavaScript off the
 bar is there and the panels stack open under it. A button that cannot
 switch anything must not hide what it switches.
 
-**What ``configuration-block`` is for, and ``.. tabs::`` is not.** The same
+**What** ``configuration-block`` **is for, and** ``.. tabs::`` **is not.** The same
 setting appears on a page four times, and the reader chooses a language
 once. Every block of a document follows the choice, and it outlives the
 page: a reader reads a manual across ten of them. That is ``sds-tabs`` with
@@ -397,7 +397,7 @@ under it.
 Every picture is a link, whatever is in the file: one ``<img>``, and a
 drawing in the colours of its file. So a picture dropped into a project
 arrives as it is. It is the same picture in light and in dark, on the one
-ground drawn for those colours. :doc:`/design-system/artwork` says why
+ground drawn for those colours. :doc:`/design-system/brand-and-imagery/illustrations` says why
 the page does not read it in, and what has to change.
 
 ``:zoomable:`` opens the picture at full size. The frame becomes a press,

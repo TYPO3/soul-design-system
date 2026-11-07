@@ -16,12 +16,45 @@ in this repository.
 
 .. toctree::
    :titlesonly:
+   :hidden:
 
    source-and-output
    package-splits
    component-evidence
    visual-review
    storybook-tests
+
+.. grid::
+
+   .. card:: Sources and generated output
+      :href: /maintaining/source-and-output
+      :icon: actions-code-merge
+
+      Where a source lives, and which output a task derives from it.
+
+   .. card:: Package splits
+      :href: /maintaining/package-splits
+      :icon: actions-upload
+
+      Why packages leave through mirrors, and how they stay installable.
+
+   .. card:: Component evidence
+      :href: /maintaining/component-evidence
+      :icon: actions-check-circle
+
+      The three places a component must have.
+
+   .. card:: Visual review
+      :href: /maintaining/visual-review
+      :icon: actions-eye
+
+      How a visual change gets its before and after.
+
+   .. card:: Testing Storybook
+      :href: /maintaining/storybook-tests
+      :icon: actions-play
+
+      What every story proves, and how to run one.
 
 Start with the source
 =====================

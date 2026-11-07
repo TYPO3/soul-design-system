@@ -22,8 +22,8 @@ What the renderer needs
 
    ``soul``. The attribute selects a theme. The ``<extension>`` element
    below makes one called ``soul`` exist, and a project that sets the
-   attribute without the extension stops on ``Theme "soul" is not
-   registered``. The selection puts the theme's templates in front of the
+   attribute without the extension stops on
+   ``Theme "soul" is not registered``. The selection puts the theme's templates in front of the
    packaged ones.
 
    A theme is not a list of template paths. The renderer searches paths
@@ -118,12 +118,12 @@ The mark
    The mark is a link like every other picture, so any format works. The
    file's own colours draw it: the same mark in light and in dark. Write
    an SVG's colours as ``var(--token, #hex)`` anyway.
-   :doc:`/design-system/artwork` says what that buys, and what Firefox and
+   :doc:`/design-system/brand-and-imagery/illustrations` says what that buys, and what Firefox and
    Safari have to ship before a mark can take the page's ink.
 
    A signet is not an icon. It ships at three optical sizes with different
    construction, and bar height is the small one's job.
-   :doc:`/design-system/brand` says which file to hand over.
+   :doc:`/design-system/brand-and-imagery/brand` says which file to hand over.
 
 .. confval:: favicon
    :type: href, sizes
@@ -284,8 +284,8 @@ The twin
 
    The dialect is GitHub Flavoured Markdown, the one with a table, a fenced
    block with its language, a footnote and an alert. An admonition comes out
-   as ``> [!WARNING]``. The document's own anchors go into it too, one ``<a
-   id>`` above every heading and wherever a label stands. A reader that
+   as ``> [!WARNING]``. The document's own anchors go into it too, one
+   ``<a id>`` above every heading and wherever a label stands. A reader that
    derives them from the words derives them its own way, and a reference
    with a fragment has to land.
 

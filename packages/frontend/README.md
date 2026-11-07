@@ -279,7 +279,7 @@ cache => store "miss"             # => is the emphasis
 | Arrows | `->` a step, `-->` absent, `=>` the emphasis, `-x` fails, `<->` a question and its answer |
 | First line | `claim=error`, `warn` or `ok` for a drawing about a status. `canvas=width` or `canvas=width,height` for the size of a page drawing, `margin=` for its free space on every side. `slide=width,height` for the room of a slide |
 
-[Writing a diagram](https://typo3.github.io/soul-design-system/design-system/diagrams/writing.html)
+[Writing a diagram](https://typo3.github.io/soul-design-system/design-system/brand-and-imagery/diagrams/writing.html)
 in the manual has the statements of each layout, with a drawing of each.
 It also says what to change when the engine refuses a text.
 

@@ -101,8 +101,8 @@ The first import
          make design-project ARGS=https://claude.ai/artifact/Xk2pQ9rTvB4nLm7sWc3dYe
 
       The link lands in ``.design-sync/config.local.json``, untracked. The
-      task refuses to replace a link this clone already has; ``ARGS="<url>
-      --force"`` is how you mean it.
+      task refuses to replace a link this clone already has;
+      ``ARGS="<url> --force"`` is how you mean it.
 
       Nothing set, and the reported line gone? Paste this into Claude Code:
 
@@ -149,7 +149,7 @@ How to ask for a surface
 
 **Name the surface and its job, not its markup.** "A get-started page for an
 extension: what it does, how it installs, the first command." The layout is
-a decision already made; :doc:`screens` says which shape answers which job.
+a decision already made; :doc:`/design-system/patterns/screens` says which shape answers which job.
 
 **Start from a layout where one fits.** It settles the shell, header,
 measure and footer in one move.
@@ -178,7 +178,7 @@ What to check in the result
      - Those draw the specimen cards' chrome and stop at the card.
    * - One accent, no emoji
      - ``--accent`` marks three things; status is a colour and a glyph.
-       :doc:`colours` carries the rest.
+       :doc:`/design-system/foundations/colours` carries the rest.
    * - It holds up in both modes
      - The tokens carry light and dark. Switch the mode and read it again.
 
@@ -186,8 +186,8 @@ A design in your project
 ========================
 
 Markup plus one stylesheet, so it moves as it stands. Install the package or
-copy the drop-in: :doc:`../frontend/quickstart`, and
-:doc:`../frontend/documents` for a page of prose.
+copy the drop-in: :doc:`/frontend/quickstart`, and
+:doc:`/frontend/documents` for a page of prose.
 
 A stylesheet of the design's own does not travel. If the design needed a
 declaration the system has no name for, close that gap in the component here.
@@ -269,8 +269,8 @@ link names.
 
          make design-synced
 
-Look at what moved. The gate checks mechanics, not judgement. When ``make
-design-status`` lists changed sections, run ``make baseline`` before the
+Look at what moved. The gate checks mechanics, not judgement. When
+``make design-status`` lists changed sections, run ``make baseline`` before the
 change and ``make shots && make diff`` after.
 
 .. note::
@@ -312,8 +312,8 @@ the screenshots of a visual review stay in the cache.
    :required: false
 
    The design system a sync updates, as the artifact's link, and the first
-   source read. Then ``.design-sync/config.local.json``, which ``make
-   design-project ARGS=<url>`` writes. Then the committed ``config.json``,
+   source read. Then ``.design-sync/config.local.json``, which
+   ``make design-project ARGS=<url>`` writes. Then the committed ``config.json``,
    which carries none, because a clone must not inherit somebody else's. An
    export outranks both files.
 
@@ -413,9 +413,9 @@ bundle in the artifact upgrades them.
 same entry as the drop-in's ``soul.js``. The artifact loads a classic script
 before every preview, and a module cannot be one. So this is the same code
 under the other format. It registers the elements as it loads and puts every
-class under ``window.SDS``. A project installs the module; ``make verify
-ARGS=dist`` checks that one against ``src/``. ``make build`` stops if ``make
-dist`` has not run, because the stylesheet ships from there.
+class under ``window.SDS``. A project installs the module;
+``make verify ARGS=dist`` checks that one against ``src/``. ``make build`` stops
+if ``make dist`` has not run, because the stylesheet ships from there.
 
 What the gate checks
 ====================

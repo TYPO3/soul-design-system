@@ -25,7 +25,7 @@ import type { TemplateResult } from 'lit';
 /* Where each slide layout's markup goes, as the example its page prints
    under the picture. A slide as a deck holds it: the deck says the lockup
    and the count once. */
-const EXAMPLES = join('docs', 'design-system', '_slides');
+const EXAMPLES = join('docs', 'design-system', 'patterns', '_slides');
 
 const STORIES = join(ROOT, 'stories');
 

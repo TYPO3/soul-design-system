@@ -12,30 +12,46 @@ cannot drift apart.
 
 .. toctree::
    :titlesonly:
+   :hidden:
 
    design-with-claude
-   colours
-   type
-   writing
-   spacing
-   states
-   accessibility
-   icons
-   illustrations
-   diagrams/index
-   artwork
-   brand
-   forms
-   screens
-   slides
+   foundations/index
+   brand-and-imagery/index
+   patterns/index
 
 .. cta:: Design with the rules in hand
    :action: Start designing with Claude
    :href: /design-system/design-with-claude
    :second: See the colours
-   :second-href: /design-system/colours
+   :second-href: /design-system/foundations/colours
 
    Claude reads the same guidelines, components and screens as this manual.
+
+.. grid::
+
+   .. card:: Foundations
+      :href: /design-system/foundations/index
+      :label: The rules
+      :icon: actions-template
+      :action: Read the foundations
+
+      Colour, type, spacing, states, writing and accessibility.
+
+   .. card:: Brand and imagery
+      :href: /design-system/brand-and-imagery/index
+      :label: The pictures
+      :icon: actions-image
+      :action: See the imagery
+
+      The brand, the icons, the illustrations and the diagrams.
+
+   .. card:: Patterns
+      :href: /design-system/patterns/index
+      :label: The compositions
+      :icon: actions-device-desktop
+      :action: See the patterns
+
+      Forms, whole screens and slides to start from.
 
 Non-negotiable
 ==============

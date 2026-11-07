@@ -13,12 +13,11 @@
     margin-block: var(--space-components);
   }
 
-  /* The admonition before its element upgrades, for the reason the code block
-     is: an undefined element is inline. Less comes back, and that is the
-     point — an admonition is paragraphs and paragraphs read. Only the box is
-     absent, so this draws the box and stops. A hairline that pretends to
-     carry a tone is the colour-only meaning the component avoids. */
-  sds-note:not(:defined) {
+  /* The admonition before its element upgrades: an undefined element is inline.
+     Only the box is absent, so this draws the box and stops. A hairline that
+     pretends to carry a tone is the colour-only meaning the component avoids. A
+     note the build already drew has its own box. */
+  sds-note:not(:defined):not(:has(> .sds-note)) {
     display: block;
     margin-block: var(--space-components);
     padding: var(--block-pad-y) var(--block-pad-x);

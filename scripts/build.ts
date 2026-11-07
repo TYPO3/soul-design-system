@@ -568,11 +568,11 @@ const drawings = [...walk(join(FRONTEND, 'assets', 'diagrams'))].filter((f) => f
 const SECTIONS: Section[] = [
   { file: '10-build-rules.md', text: prose('SKILL.md') },
   { file: '20-brand.md', text: '# Brand\n\nThe lockup, its clear space, its edges and its motion, and what breaks the mark.', group: 'Brand', heading: 'The rules' },
-  { file: '21-signet.md', text: prose('docs/design-system/signet-prompt.md'), group: 'Signet', heading: 'Worked examples' },
+  { file: '21-signet.md', text: prose('docs/design-system/brand-and-imagery/signet-prompt.md'), group: 'Signet', heading: 'Worked examples' },
   { file: '30-states.md', text: '# States\n\nWhat a surface says when it has less than an answer: empty, loading, failed, focused, and the tone of each.', group: 'States', heading: 'The rules' },
   { file: '40-icons.md', text: '# Icons\n\nThe set, and how a glyph stands beside its words.', group: 'Icons', heading: 'The rules' },
-  { file: '50-diagrams.md', text: prose('docs/design-system/diagrams/diagram-prompt.md'), heading: 'Worked examples', examples: drawings.map((d) => ({ label: d.label, subtitle: d.subtitle, name: d.name })) },
-  { file: '60-illustrations.md', text: prose('docs/design-system/illustration-prompt.md'), group: 'Illustrations', heading: 'Worked examples' },
+  { file: '50-diagrams.md', text: prose('docs/design-system/brand-and-imagery/diagrams/diagram-prompt.md'), heading: 'Worked examples', examples: drawings.map((d) => ({ label: d.label, subtitle: d.subtitle, name: d.name })) },
+  { file: '60-illustrations.md', text: prose('docs/design-system/brand-and-imagery/illustration-prompt.md'), group: 'Illustrations', heading: 'Worked examples' },
 ];
 const list = cards();
 const renderHashes: Record<string, string> = {};

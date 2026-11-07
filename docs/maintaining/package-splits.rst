@@ -78,8 +78,8 @@ frontend drop-in itself. ``soul-finish.js`` travels with that directory and
 does the post-render work in :doc:`/guides-theme/publishing`.
 
 This is a package boundary, not a second implementation.
-``scripts/lib/site.ts`` stays the source of the finishing step. ``make
-dist`` bundles it into the frontend drop-in, and the package assembly puts
+``scripts/lib/site.ts`` stays the source of the finishing step.
+``make dist`` bundles it into the frontend drop-in, and the package assembly puts
 that committed output where a Composer consumer gets it.
 
 Test the consumer path

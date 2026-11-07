@@ -37,7 +37,7 @@ is invisible to anything that reads the page as a document.
      required
    ></sds-field>
 
-**``required`` is a word on the page.** An asterisk needs a legend somewhere
+``required`` **is a word on the page.** An asterisk needs a legend somewhere
 on the page, and the legend is the first thing to go.
 
 ``type`` **is the browser's business.** ``email``, ``tel``, ``url``: it

@@ -11,7 +11,7 @@ element decides anything about what is in the file.
 A drawing as an image renders in a document of its own, where none of this
 system's tokens exists. It keeps whatever grey its author wrote as the
 fallback. A reference into the file lets it read the page's tokens.
-:doc:`/design-system/artwork` says what Firefox and Safari have to ship
+:doc:`/design-system/brand-and-imagery/illustrations` says what Firefox and Safari have to ship
 before a site can rest on that.
 
 **A picture with its own colours gets a ground drawn for them.** The
@@ -168,7 +168,7 @@ sds-diagram
 
 A drawing from the text that describes it, and only the drawing. The text
 stands between the tags as a ``.diagram`` file holds it, and
-:doc:`/design-system/diagrams/index` names its statements. The element draws it
+:doc:`/design-system/brand-and-imagery/diagrams/index` names its statements. The element draws it
 inline, so its colours are the page's tokens and it turns with the mode. The
 finishing step renders it before a page ships, so a reader with no script
 gets the drawing.
@@ -447,5 +447,5 @@ none of it. It owns its viewer and calls ``show()`` itself.
 
 .. seealso::
 
-   :doc:`/design-system/diagrams/index` for how to make a drawing a page can
-   reference, and :doc:`/design-system/artwork` for what belongs in one.
+   :doc:`/design-system/brand-and-imagery/diagrams/index` for how to make a drawing a page can
+   reference, and :doc:`/design-system/brand-and-imagery/illustrations` for what belongs in one.

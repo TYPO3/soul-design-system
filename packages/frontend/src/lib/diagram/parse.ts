@@ -4,7 +4,7 @@
    belongs to the statement above it, and `#` starts a comment. A text
    stands in double quotes, an identifier in backticks, an option is
    `key=value` and a flag is a bare word. A value with a space or a colon
-   stands in quotes. `docs/design-system/diagrams/index.rst`
+   stands in quotes. `docs/design-system/brand-and-imagery/diagrams/index.rst`
    shows each layout written out. */
 
 import type { DiagramSpec } from './index.ts';

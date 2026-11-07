@@ -145,7 +145,6 @@ export class SdsEmbed extends SdsElement {
     const scale = Math.min(1, frame.clientWidth / this.width);
     inner.style.transformOrigin = '0 0';
     inner.style.transform = scale < 1 ? `scale(${scale})` : '';
-    inner.style.margin = scale < 1 ? '0' : '';
     frame.style.height = scale < 1 ? `${Math.ceil(this.height * scale)}px` : '';
     frame.style.overflow = scale < 1 ? 'hidden' : '';
     frame.tabIndex = scale < 1 ? -1 : frame.tabIndex;

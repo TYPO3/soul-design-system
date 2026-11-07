@@ -138,7 +138,7 @@ at once, and the runner throws all of it away.
 **The Node version has a name.** Inherited, it is whatever the runner
 image ships this month.
 
-**``.nojekyll``.** Pages serves an uploaded artifact as it stands. But a
+``.nojekyll``. Pages serves an uploaded artifact as it stands. But a
 repository that ever goes back to the branch-based build runs Jekyll over
 it. Jekyll drops every path with a leading underscore, ``_search.json`` and
 ``_images/`` among them. The upload leaves a dotfile out unless

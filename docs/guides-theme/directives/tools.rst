@@ -123,8 +123,8 @@ nothing measured. :doc:`/guides-theme/markup` has the other half of that node: a
 the same directive's opposite, which fills the column instead.
 
 The cards have to be inside the documentation source. The renderer copies an
-asset a document points at and nothing else. This repository's ``make
-guides`` copies ``specimens/`` into ``docs/_cards/`` before each render and
+asset a document points at and nothing else. This repository's
+``make guides`` copies ``specimens/`` into ``docs/_cards/`` before each render and
 rewrites the stylesheet links inside each card on the way. That directory
 is a task's output, and git ignores it.
 

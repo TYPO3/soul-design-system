@@ -81,8 +81,8 @@ instead, with no error, and the site it renders breaks. Remove the pin.
 That is the smallest file that renders with this theme, and the
 ``<extension>`` element carries the weight: it registers the theme.
 ``theme="soul"`` selects a theme that has to exist first. Without the
-element the render stops with ``Theme "soul" is not registered, available
-themes are: default``.
+element the render stops with
+``Theme "soul" is not registered, available themes are: default``.
 
 That same element registers the highlighter and the Markdown parser. They
 are packages the theme depends on. A dependency a project has to name a

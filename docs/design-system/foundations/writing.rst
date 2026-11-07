@@ -38,8 +38,8 @@ page does not name. The rules below are the ones this tree holds a text to.
    * - Tense
      - Simple present. Simple past only for a thing that happened once.
    * - Verb forms
-     - No -ing verb forms: "when the gate runs", not ``when running the
-       gate``. A noun that ends in -ing is a name and stays.
+     - No -ing verb forms: "when the gate runs", not
+       ``when running the gate``. A noun that ends in -ing is a name and stays.
    * - Necessity
      - ``must`` for a rule, ``can`` for an ability, ``will`` for a future fact.
        Not ``shall``, ``should``, ``may``, ``might``, ``could`` or ``would``.
@@ -177,4 +177,4 @@ No emoji
 
 An emoji is a platform's drawing with a platform's meaning. Status is a named
 icon and text, or the mono check where that glyph is part of machine output.
-See :doc:`icons` and :doc:`accessibility`.
+See :doc:`/design-system/brand-and-imagery/icons` and :doc:`/design-system/foundations/accessibility`.

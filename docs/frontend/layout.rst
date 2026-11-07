@@ -100,7 +100,7 @@ The two bodies a page can have
 ==============================
 
 Every page is one of two layouts, and the choice is not decoration. It is
-the distinction :doc:`/design-system/screens` draws between a page that
+the distinction :doc:`/design-system/patterns/screens` draws between a page that
 reports and a page that argues. A document that goes out on its own has a
 third, below: a panel beside it.
 
@@ -434,7 +434,7 @@ named.
 .. note::
 
    **What this does not cover.** The type is not for Arabic or Hebrew.
-   :doc:`/design-system/type` ships a Latin pair, and a project with an RTL
+   :doc:`/design-system/foundations/type` ships a Latin pair, and a project with an RTL
    script supplies the face for it. Nothing in the system reorders a sentence
    or a date, because nothing in it writes one.
 
@@ -459,6 +459,6 @@ own name says which page it is.
 
 .. seealso::
 
-   :doc:`/design-system/brand` for which drawing to hand over at which size,
-   and :doc:`/design-system/screens` for the complete pages these parts come
+   :doc:`/design-system/brand-and-imagery/brand` for which drawing to hand over at which size,
+   and :doc:`/design-system/patterns/screens` for the complete pages these parts come
    from.

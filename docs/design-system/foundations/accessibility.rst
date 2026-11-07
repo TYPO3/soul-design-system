@@ -12,7 +12,7 @@ The ring is the only shadow on the page
 =======================================
 
 ``--border-emphasis`` of ``--accent`` at ``--focus-offset``, with a
-``--focus-halo`` of ``--accent-ring`` behind it; :doc:`states` has the
+``--focus-halo`` of ``--accent-ring`` behind it; :doc:`/design-system/foundations/states` has the
 values. It is the one ``box-shadow`` anything *in* the page draws, and it is
 a state, not depth. What stays on the page separates with a hairline. Only a
 surface that has left the page carries a shadow of its own. A ring nobody
@@ -41,7 +41,7 @@ A glyph says what it is
 =======================
 
 A few glyphs can stand without a label, because each appears in one meaning
-only, everywhere. :doc:`icons` names them. Everything else takes a label.
+only, everywhere. :doc:`/design-system/brand-and-imagery/icons` names them. Everything else takes a label.
 
 An icon-only control keeps its label as the control's accessible name, so a
 square button still announces what it does. See
@@ -83,7 +83,7 @@ from a lower contrast.
 
 A token change reaches every copy of its value. SVG diagrams carry a light
 fallback for a page without tokens, and a specimen can print a value as
-evidence. Update those with the token. :doc:`artwork` says when a drawing's
+evidence. Update those with the token. :doc:`/design-system/brand-and-imagery/illustrations` says when a drawing's
 fallback belongs to the artwork on purpose.
 
 Both modes are one declaration
@@ -138,11 +138,11 @@ without focus. A fail on ``minor`` trains everyone to ignore the run.
    **A green run is not a claim of conformance.** axe reaches contrast,
    names, roles and structure. It cannot judge if a label says the right
    thing, or if an order makes sense to a reader. It cannot judge if an empty
-   state answers the question. Those are the rules in :doc:`states`, and
+   state answers the question. Those are the rules in :doc:`/design-system/foundations/states`, and
    review holds them.
 
 .. seealso::
 
-   :doc:`states` for what each state has to say, :doc:`colours` for the
-   contrast the planes rest on, and :doc:`icons` for the set and the label
+   :doc:`/design-system/foundations/states` for what each state has to say, :doc:`/design-system/foundations/colours` for the
+   contrast the planes rest on, and :doc:`/design-system/brand-and-imagery/icons` for the set and the label
    rule.

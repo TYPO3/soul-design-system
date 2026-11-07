@@ -9,7 +9,7 @@ drawing claims and what it holds. The engine sets the geometry, the colours
 and the type, and refuses what the grammar forbids. So the work has three
 steps:
 
-#. Choose the layout from the shape of the claim. :doc:`index` lists the
+#. Choose the layout from the shape of the claim. :doc:`/design-system/brand-and-imagery/diagrams/index` lists the
    layouts and what each claims.
 #. Write the text in the syntax on this page.
 #. Put the text where the drawing goes: in a page, a slide, a Guides
@@ -90,7 +90,7 @@ On a slide
 Put the element in the ``figure`` region of
 :ref:`sds-slide <component-sds-slide>`. Write ``slide=width,height`` on the
 first line of the text, in the pixels of the room that the layout leaves.
-:doc:`/design-system/slides` states those rooms. The engine then draws with
+:doc:`/design-system/patterns/slides` states those rooms. The engine then draws with
 no margin, and refuses a drawing taller than the room. A slide has no zoom.
 
 A text without ``slide=`` gets the room from the slide. The slide measures
@@ -988,7 +988,7 @@ stop with the same message. The message names the line or the part.
    * - a diagram needs a ``title`` or a ``description`` line
      - Write both. They are the accessible name of the drawing.
    * - ``"…"`` is not a layout
-     - Write a layout from the table in :doc:`index` on the first line.
+     - Write a layout from the table in :doc:`/design-system/brand-and-imagery/diagrams/index` on the first line.
    * - a text is wider than its box, or a label has no room
      - Shorten the text, or widen the gap or the column on the first line.
    * - a second emphasis

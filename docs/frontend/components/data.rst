@@ -200,7 +200,7 @@ sds-table
    A skeleton is honest only where the shape is certain, and a table with
    declared columns has one. Where it is not, the answer is ``.sds-loading``
    with a spinner, which claims no shape. Nothing under 200ms; see
-   :doc:`/design-system/states`.
+   :doc:`/design-system/foundations/states`.
 
 .. confval:: loading-rows
    :name: sds-table-loading-rows
@@ -667,6 +667,6 @@ admonitions included.
 
 .. seealso::
 
-   :doc:`/design-system/type` for the register these blocks set in, and
+   :doc:`/design-system/foundations/type` for the register these blocks set in, and
    :doc:`/guides-theme/markup` for what a documentation renderer's own code
    nodes come out as.

@@ -76,7 +76,7 @@ longer resemble each other.
 The screens under `stories/pages/` are those surfaces, complete pages, and
 a consumer offers them as Starting Points.
 What a project sells itself with comes from the same tokens and classes as
-what it explains itself with. `docs/design-system/screens.rst` says which
+what it explains itself with. `docs/design-system/patterns/screens.rst` says which
 layouts they stand on.
 
 ## What comes from it

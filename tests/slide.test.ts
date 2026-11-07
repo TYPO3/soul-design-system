@@ -6,7 +6,7 @@
    is the one `slides.rst` states. A writer draws for that number. */
 
 import { expect, test } from 'vitest';
-import doc from '../docs/design-system/slides.rst?raw';
+import doc from '../docs/design-system/patterns/slides.rst?raw';
 import * as cards from '../stories/slides/Cards.stories.ts';
 import * as speaker from '../stories/slides/Speaker.stories.ts';
 import * as speakers from '../stories/slides/Speakers.stories.ts';

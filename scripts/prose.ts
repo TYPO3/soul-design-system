@@ -6,7 +6,7 @@
    sentence has a word limit, and a paragraph has a sentence limit. The check
    finds the passive voice, -ing verb forms, the modal verbs the standard does
    not approve and the words this tree replaced. The dictionary of the
-   standard holds the rest. `docs/design-system/writing.rst` is the rule. */
+   standard holds the rest. `docs/design-system/foundations/writing.rst` is the rule. */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { basename, extname, join, relative } from 'node:path';
 

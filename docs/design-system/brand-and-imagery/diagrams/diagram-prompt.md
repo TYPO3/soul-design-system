@@ -3,7 +3,7 @@
 A diagram carries a claim. An illustration only sets a register beside the
 heading it stands under. If a reader need not understand a position, a
 connection or a quantity in the image, draw an illustration instead:
-`docs/design-system/illustration-prompt.md` is that prompt.
+`docs/design-system/brand-and-imagery/illustration-prompt.md` is that prompt.
 
 A diagram does not come back as a picture. It is one SVG file in the grammar
 below, shipped as source. The colours in it are tokens a page can reach into,

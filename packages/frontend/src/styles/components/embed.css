@@ -77,17 +77,13 @@
     height: 100%;
   }
   /* The document's own size, in a frame as wide as the column, as a table is.
-     In a wider column the document stands in the middle, on the canvas it has
+     In a wider column the document starts at the left edge, on the canvas it has
      itself. In a narrower one the element scales it, and with no script the
      frame scrolls. */
   .sds-embed__frame--fixed {
     --sds-embed-fill: var(--surface-canvas);
 
     overflow: auto;
-
-    > iframe {
-      margin-inline: auto;
-    }
   }
   .sds-embed__caption {
     max-width: var(--sds-embed-caption-measure);

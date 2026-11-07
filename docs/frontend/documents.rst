@@ -104,7 +104,7 @@ exists to avoid.
    ``base.css``: the marker, the indent at the width of that marker, the
    muted marker colour. The step under the block is the flow contract's. So
    a screen has lists too. The air between items is what an author asks for,
-   with a class. See :doc:`/design-system/type` for ``.sds-list`` and
+   with a class. See :doc:`/design-system/foundations/type` for ``.sds-list`` and
    ``.sds-list--plain``.
 
 Where block spacing lives

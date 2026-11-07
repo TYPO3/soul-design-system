@@ -148,8 +148,8 @@ this system never heard of.
 
 A value that reaches a declaration without the set is what this prevents.
 ``line-height: 1.6`` in one component and ``var(--leading-body)`` in every
-other is drift nothing can see, for as long as the two agree. ``make verify
-ARGS=sets`` holds every component to it. Two things read straight, and only
+other is drift nothing can see, for as long as the two agree.
+``make verify ARGS=sets`` holds every component to it. Two things read straight, and only
 two: the focus ring, because there is one ring, and the colours that mean
 something. A component that can re-point those can draw an error green.
 

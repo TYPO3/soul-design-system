@@ -122,7 +122,7 @@ One press, and where it goes.
    :type: string
 
    A glyph before the label, an icon of this system; see
-   :doc:`/design-system/icons`.
+   :doc:`/design-system/brand-and-imagery/icons`.
 
 .. confval:: icon-only
    :type: flag

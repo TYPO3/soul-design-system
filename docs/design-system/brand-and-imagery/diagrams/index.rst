@@ -64,7 +64,7 @@ The numbers
    ``fill="var(--text-primary, #1C1A17)"``. The hex is what a page shows, and
    the token is ready for the day a page can read it. Ship that one file and
    wrap its shapes in ``<g id="soul-ref">``, the handle ``make diagrams``
-   reads them out from under for the specimen cards. :doc:`/design-system/artwork` holds
+   reads them out from under for the specimen cards. :doc:`/design-system/brand-and-imagery/illustrations` holds
    the whole file contract.
 
 A diagram sits on ``--surface-sunken``. In a figure, and in the viewer that
@@ -78,7 +78,7 @@ On a slide
 A drawing for a slide keeps the grammar and leaves the frame. It has no
 eyebrow, no title and no closing line: the slide's head says them. It has
 no margin, as the slide's margin is its margin. Its canvas is the room of
-its layout in the frame's pixels, which :doc:`/design-system/slides` states, and not 1200
+its layout in the frame's pixels, which :doc:`/design-system/patterns/slides` states, and not 1200
 wide. A drawing in parts is a row of drawings: the slide gives each its
 plane, its word and its caption as text. ``slide-lookup.svg`` is one
 drawing for ``wide``, the three ``slide-cache-*.svg`` a row.
@@ -90,7 +90,7 @@ A drawing comes from a text or from a hand. Both follow the grammar on this
 page, and both give the same file: an SVG in the tokens, 1200 wide.
 
 - **From a text.** The engine draws a ``.diagram`` text and holds the
-  numbers above for the author. :doc:`writing` is the whole of that path:
+  numbers above for the author. :doc:`/design-system/brand-and-imagery/diagrams/writing` is the whole of that path:
   where the text goes, its syntax, and a drawing of each layout.
 - **By hand.** A drawing the layouts cannot make comes from a hand, in a
   tool or in an editor. The author then holds every number and rule on this
@@ -213,7 +213,7 @@ of the room the drawing fills.
 
 In a room that a slide lends, the engine also sets the drawing dense. The
 type stays at its sizes, and the controls, rows, pads and gaps are lower.
-:doc:`/design-system/diagrams/writing` says when.
+:doc:`/design-system/brand-and-imagery/diagrams/writing` says when.
 
 .. _diagrams-by-hand:
 
@@ -238,7 +238,7 @@ which way a drawing came.
 - **One emphasis, one meaning per sign.** The signs above, and nothing new
   in their place.
 
-:doc:`/design-system/artwork` holds the whole file contract. The prompt at
+:doc:`/design-system/brand-and-imagery/illustrations` holds the whole file contract. The prompt at
 the foot of this page gives the same rules to a drawing tool. A file by hand
 has no ``.diagram`` beside it, so ``make diagrams`` reads its shapes and
 leaves the file as it is.
@@ -284,8 +284,8 @@ start a second grammar, and a set in two grammars costs a reader at every
 drawing.
 
 A diagram is the one drawing that does not come back as a picture. The
-result is the SVG itself, because its colours are tokens and ``make
-diagrams`` reads its shapes out for the cards above. A drawing that a layout
+result is the SVG itself, because its colours are tokens and
+``make diagrams`` reads its shapes out for the cards above. A drawing that a layout
 can make is a ``.diagram`` that the engine draws. The prompt is for a
 drawing that no layout makes.
 

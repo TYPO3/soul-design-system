@@ -10,7 +10,7 @@
    sits in. But it resolves only against a fragment that names an `id` inside
    the file. So every drawing needs that group, every renderer has to open it
    to check, and a file that never paid draws *nothing*, in silence.
-   `docs/design-system/artwork.rst` says what has to ship before SVG 2 makes
+   `docs/design-system/brand-and-imagery/illustrations.rst` says what has to ship before SVG 2 makes
    that a route a site can build on. Until then a picture that arrives beats
    a picture that follows the mode. */
 

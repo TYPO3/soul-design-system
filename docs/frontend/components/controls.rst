@@ -39,7 +39,7 @@ mono, a count, or a glyph, and none of those fits in a string.
    it. ``ghost`` belongs in a bar or a head, where a filled box is the
    loudest thing on the surface. ``danger`` is the press with no undo:
    status colour as ink and a hairline, never a fill, and a label that names
-   what goes. It stands last, after the way out. :doc:`/design-system/colours`
+   what goes. It stands last, after the way out. :doc:`/design-system/foundations/colours`
    says why it is the one control with a status colour.
 
 .. confval:: size
@@ -533,13 +533,13 @@ colour that says so is the one thing on the page that claims a fault.
 
    The stripes are the system's second and last gradient, beside the lit
    frame of a card under the pointer. One ink at two strengths, for motion,
-   not colour. See :doc:`/design-system/colours`.
+   not colour. See :doc:`/design-system/foundations/colours`.
 
 .. note::
 
    **Where the share is unknown, there is nothing to fill.** That is
    ``.sds-loading`` with a spinner, which claims no distance; see :doc:`the
-   states guideline </design-system/states>`. A bar that advances by itself
+   states guideline </design-system/foundations/states>`. A bar that advances by itself
    tells the reader something the work never said.
 
 .. _component-sds-run:
@@ -635,7 +635,7 @@ kept for as long as the run is on screen.
 
 **The mark has a name, not only a drawing.** A shape and a colour are one
 claim, and neither reaches a reader who hears the page. So every state
-carries its word; see :doc:`/design-system/accessibility`. The word is
+carries its word; see :doc:`/design-system/foundations/accessibility`. The word is
 English until ``state-words`` says otherwise. It is the only part of a run
 this element writes itself. Without the words, a page in another language
 draws its own labels and announces somebody else's.
@@ -699,7 +699,7 @@ A TYPO3 icon, in the document, not linked from it, so it inherits
 
 .. seealso::
 
-   :doc:`/design-system/icons` for the set, where a missing one comes from,
+   :doc:`/design-system/brand-and-imagery/icons` for the set, where a missing one comes from,
    and which state glyphs can stand alone in text.
 
 .. _component-sds-theme:

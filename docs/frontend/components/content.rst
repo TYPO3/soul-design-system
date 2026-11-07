@@ -99,7 +99,7 @@ region, and the statement as the rest.
    :name: sds-surface-icon
    :type: icon id
 
-   A glyph above the label, where a reader tells a set apart before they
+   A glyph at the left of the words, where a reader tells a set apart before they
    read it. It never stands alone.
 
 .. confval:: box-style
@@ -408,7 +408,7 @@ One 16:9 frame of a deck. The frame is 960 × 540 and the stylesheet doubles
 it, so a slide renders at 1920 × 1080. Every element between the tags keeps
 the set it has on a page. The element owns the frame, the ground, the head,
 the foot and the deck's outline. The body is the system's elements.
-:doc:`/design-system/slides` has the reason and the layouts.
+:doc:`/design-system/patterns/slides` has the reason and the layouts.
 
 .. code-block:: html
 
@@ -540,7 +540,7 @@ says stands between the tags, each line of the head in its region.
    On a figure slide: the picture, and what it shows, as the short form of
    ``<sds-image slot="figure">``. It grows or shrinks whole into the room
    its layout leaves.
-   :doc:`/design-system/slides` states each room, so a picture is drawn for
+   :doc:`/design-system/patterns/slides` states each room, so a picture is drawn for
    it. A picture for a slide has no title and no verdict of its own.
 
 .. confval:: drawings
@@ -561,7 +561,7 @@ says stands between the tags, each line of the head in its region.
    ``slot="figure"``, one for each drawing of a row. A ``<figure>`` brings
    its label as ``data-label`` and its caption as ``<figcaption>``. The
    ``text`` region is every child with no ``slot``, and a speaker takes its
-   picture from the ``portrait`` region. :doc:`/design-system/slides` has
+   picture from the ``portrait`` region. :doc:`/design-system/patterns/slides` has
    the regions of every layout.
 
 .. confval:: layout
@@ -652,7 +652,7 @@ Slides one after the other, at the window's size. It is the platform's
 ``<dialog>`` with one frame on a stage and the keys to go on. It has a list
 of every slide as a picture, and the full screen. The deck holds no copy. It
 lends a slide the stage and puts it back where it stood.
-:doc:`/design-system/slides` has the reason.
+:doc:`/design-system/patterns/slides` has the reason.
 
 Two ways in. Slides between the tags are a deck of its own. The page shows
 the cover, and under it the press that plays the deck and the one that
@@ -1503,8 +1503,8 @@ and hands it the kind. Alone, the entry takes all of that as attributes.
    :name: sds-entry-label
    :type: string
 
-   The kind of entry it is, as the word on its badge: ``blocks``, ``sent
-   back``. A register hands it down from its groups.
+   The kind of entry it is, as the word on its badge: ``blocks``,
+   ``sent back``. A register hands it down from its groups.
 
 .. confval:: tone
    :name: sds-entry-tone
@@ -1633,10 +1633,10 @@ numbers.
 
 .. seealso::
 
-   :doc:`/design-system/screens` for the review these stand in.
+   :doc:`/design-system/patterns/screens` for the review these stand in.
 
 .. seealso::
 
-   :doc:`/design-system/states` for what an empty, a failed and a loading
+   :doc:`/design-system/foundations/states` for what an empty, a failed and a loading
    surface each owe the reader, and :doc:`overlays` for the planes these
    blocks float over.

@@ -11,6 +11,7 @@ copy.
 
 .. toctree::
    :titlesonly:
+   :hidden:
 
    page-shape
    actions
@@ -20,6 +21,72 @@ copy.
    text-roles
    papers
    tools
+
+.. grid::
+
+   .. card:: The shape of a page
+      :href: /guides-theme/directives/page-shape
+      :label: Layout
+      :icon: actions-template
+      :action: See the layout
+
+      Bands, the hero, splits, grids and the page field.
+
+   .. card:: Actions
+      :href: /guides-theme/directives/actions
+      :label: Next step
+      :icon: actions-play
+      :action: See the actions
+
+      The call to action, a button and a row of buttons.
+
+   .. card:: Content blocks
+      :href: /guides-theme/directives/content
+      :label: One statement
+      :icon: actions-file-text
+      :action: See the blocks
+
+      Cards, figures, quotes, logos and lists with checks.
+
+   .. card:: Instructions and questions
+      :href: /guides-theme/directives/instructions
+      :label: Reader work
+      :icon: actions-list
+      :action: See the instructions
+
+      Numbered steps, and answers behind a fold.
+
+   .. card:: Reference
+      :href: /guides-theme/directives/reference
+      :label: Look it up
+      :icon: actions-book
+      :action: See the reference
+
+      Facts, directory trees, diagrams, swatches and registers.
+
+   .. card:: Text roles
+      :href: /guides-theme/directives/text-roles
+      :label: In a line
+      :icon: actions-tag
+      :action: See the text roles
+
+      Badges, states, anchors and ids in a line of text.
+
+   .. card:: Papers and decks
+      :href: /guides-theme/directives/papers
+      :label: Long documents
+      :icon: actions-document-edit
+      :action: See the papers
+
+      The parts of a paper, its decisions and its slides.
+
+   .. card:: The manual's own tools
+      :href: /guides-theme/directives/tools
+      :label: For a manual
+      :icon: actions-code
+      :action: See the tools
+
+      Raw markup, examples that print themselves, and rendered cards.
 
 .. list-table:: The shape of a page
    :header-rows: 1

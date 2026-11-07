@@ -1,6 +1,64 @@
-:navigation-title: Artwork
+:navigation-title: Illustrations and artwork
 
+=========================
+Illustrations and artwork
+=========================
+
+An illustration supports a tool or an article without an explanation. It
+gives a card a visual register after its heading and summary have named the
+subject. If a reader must understand a position, a connection, a quantity or
+a label in the picture, use a diagram.
+
+That separation makes an illustration safe to crop or reduce. The copy still
+carries the subject when a decorative edge leaves the frame. A diagram cannot
+make the same trade, because its positions and labels are the claim.
+
+An illustration sits in an explicit media slot. It is never a page ground
+behind text. Page surfaces stay flat, and the frame shows where decoration
+ends and content starts.
+
+The language
+============
+
+- One person, object or still-life gesture, reduced to five to eight broad,
+  hard-edged silhouettes.
+- A flat, almost orthographic view. Use overlap and at most two flat tones
+  per object instead of perspective, materials or light.
+- Near-black charcoal, warm greys and muted taupes on a quiet, almost neutral
+  warm-white ground.
+- One contained field of regular halftone dots and exactly one small
+  ``#FF8700`` detail. Neither carries a meaning.
+- No text, labels, arrows, charts, workflows, code or UI screens.
+
+Every illustration is a 1200 × 750 PNG with crop-safe space around its
+subject. The same file serves light and dark mode. Its warm-white ground is
+the canvas of the image, not a match for the page. A second dark rendering
+is a duplicate asset whose composition drifts.
+
+The set
 =======
+
+.. specimen:: guidelines/illustrations-set.card.html
+   :viewport: 1400x835
+   :title: Illustrations — the set
+
+Another one
+===========
+
+The rules above with the generator's vocabulary: the medium, the negative
+constraints, the choice of subject. It stands here in full because it is a
+thing to hand over. Copy the whole block and replace ``[SUBJECT]``, the one
+field that changes. A new medium or a new rendering language starts a second
+style, and a set in two styles is no set.
+
+The prompt carries no list of subjects already drawn.
+``packages/frontend/assets/placeholders/`` owns that list. A copy in the
+prompt is an inventory that falls behind the assets.
+
+.. literalinclude:: illustration-prompt.md
+   :language: markdown
+   :caption: The illustration prompt — replace only the subject
+
 Artwork
 =======
 
@@ -23,7 +81,7 @@ mode of its page. The fragment is the reason this is not the mechanism here.
 .. _artwork-reference:
 
 Why not a reference
-===================
+-------------------
 
 A reference resolves against a fragment that names an ``id`` inside the file.
 That puts two demands on a system, and the second one ends it:
@@ -43,7 +101,7 @@ stands, and the mode comes back for free.
 .. _artwork-file:
 
 What a file has to do
-=====================
+---------------------
 
 Two lines, and neither changes the drawing.
 
@@ -51,14 +109,14 @@ Two lines, and neither changes the drawing.
    :header-rows: 0
 
    * - Colour the shapes
-     - ``fill="var(--text-primary, #8A8378)"``, ``stroke="var(--accent,
-       #FF8700)"``: the token first, the hex behind it
+     - ``fill="var(--text-primary, #8A8378)"``,
+       ``stroke="var(--accent, #FF8700)"``: the token first, the hex behind it
    * - Nothing else colours it
      - no rule in a ``<style>`` block, and no ``fill`` or ``color`` on the
        root. A drawing from a spec carries its faces in one, and only faces
 
 A file written that way is ready for the day a page can reach into it, and it
-loses nothing until then. **The hex is what an ``<img>`` renders.** It is
+loses nothing until then. **The hex is what an** ``<img>`` **renders.** It is
 also what the file renders on its own: in a tab, from a README, in a favicon
 slot.
 The fallback belongs to the drawing, not to the text scale, so a contrast
@@ -66,7 +124,7 @@ adjustment does not redraw a brand mark.
 
 The drawings this system ships name a root as well, ``<g id="soul-ref">``.
 That is the card generator's handle: ``make diagrams`` reads the shapes out
-from under it for the specimen cards. See :doc:`diagrams/index`.
+from under it for the specimen cards. See :doc:`/design-system/brand-and-imagery/diagrams/index`.
 
 .. warning::
 
@@ -78,7 +136,7 @@ from under it for the specimen cards. See :doc:`diagrams/index`.
    hex fallback". ``make diagrams`` refuses a file with one.
 
 Where the colour has to live
-============================
+----------------------------
 
 These rules are about a reference, which is not how a page shows a picture
 today. They are the reason for the file contract, and what defeats it the
@@ -87,8 +145,8 @@ with them than it looks.
 
 **A rule in the file wins over the token.** A ``<style>`` block reaches the
 shapes it matches after a reference too, and a CSS rule beats a presentation
-attribute. So ``.ink { stroke: #8A8378 }`` defeats ``stroke="var(--text-primary,
-#8A8378)"`` on the same shape, and the mark is grey on every page.
+attribute. So ``.ink { stroke: #8A8378 }`` defeats
+``stroke="var(--text-primary, #8A8378)"`` on the same shape, and the mark is grey on every page.
 
 **A colour on the root wins too.** ``color`` or ``fill`` on the ``<svg>``
 lands on the clone and inherits down over what the page carries. So the
@@ -101,7 +159,7 @@ cannot bring its own mode switch, and does not need one. The hex covers the
 page that declares nothing, which today is every page.
 
 The tokens to use
-=================
+-----------------
 
 .. list-table::
    :header-rows: 0
@@ -117,10 +175,10 @@ The tokens to use
    * - ``--border-subtle``, ``--border-strong``
      - a hairline the drawing draws itself
 
-:doc:`diagrams/index` has the rest of what a diagram can use, and its numbers.
+:doc:`/design-system/brand-and-imagery/diagrams/index` has the rest of what a diagram can use, and its numbers.
 
 A signet of your own
-====================
+--------------------
 
 The mark in a documentation bar is a configuration, not a shipped file. It is
 a file in the documentation tree, and this system has no opinion about what
@@ -151,14 +209,14 @@ is crisp only in the box of its drawing. The 16 file scales by 1.5, which
 puts every straight edge on a half pixel. The other optical sizes belong in
 the tab, one ``<favicon>`` per slot; see :doc:`/guides-theme/configuration`.
 
-Draw the mark itself to the construction. :doc:`brand` has the rules, and
-``docs/design-system/signet-prompt.md`` is that construction as an
+Draw the mark itself to the construction. :doc:`/design-system/brand-and-imagery/brand` has the rules, and
+``docs/design-system/brand-and-imagery/signet-prompt.md`` is that construction as an
 instruction for a drawing tool.
 
 .. _artwork-ground:
 
 The ground it stands on
-=======================
+-----------------------
 
 A drawing arrives in the colours of its export, the one thing on the page that
 does not follow the reader into dark. **So its ground does not either.** A
@@ -168,7 +226,7 @@ ground is the page against its own picture. A photograph brings its own
 ground, and the page leaves it alone.
 
 A screenshot
-============
+------------
 
 A picture of a surface as it stands, in a document that discusses it: a
 concept paper's "where it stands", a review of a page. It is a link like
@@ -183,7 +241,7 @@ the illustrations. The design agent gets them beside the screen that shows
 them, and the drop-in does not carry them.
 
 When it draws nothing
-=====================
+---------------------
 
 A picture that does not appear has one cause left, and it is in the file.
 **A comment carries a double dash**, so the file is not well-formed. A

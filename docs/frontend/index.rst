@@ -10,6 +10,7 @@ The custom elements upgrade that markup where there is behaviour to add.
 
 .. toctree::
    :titlesonly:
+   :hidden:
 
    quickstart
    layout
@@ -25,6 +26,32 @@ The custom elements upgrade that markup where there is behaviour to add.
 
    Start from the package or the drop-in. The reference below explains each
    part.
+
+.. grid::
+
+   .. card:: Page layout
+      :href: /frontend/layout
+      :icon: actions-template
+
+      The shell, the bands, the columns and where each one sheds.
+
+   .. card:: Stylesheets
+      :href: /frontend/stylesheets
+      :icon: actions-file-text
+
+      Layers, property sets and how to write a sheet for this system.
+
+   .. card:: Components
+      :href: /frontend/components/index
+      :icon: actions-extension
+
+      Every element, its attributes, its properties and its events.
+
+   .. card:: Documents
+      :href: /frontend/documents
+      :icon: actions-book
+
+      What a page gets for its headings, lists and tables with no class.
 
 Two shapes
 ==========
@@ -129,7 +156,7 @@ and each of them carries weight:
      - What depends on it
    * - ``light-dark()``
      - every colour token. Both modes are one declaration, which is why they
-       cannot drift; see :doc:`/design-system/colours`
+       cannot drift; see :doc:`/design-system/foundations/colours`
    * - the ``lh`` unit
      - a glyph centred on the line beside it, at whatever line height that
        line has

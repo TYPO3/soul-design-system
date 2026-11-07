@@ -47,8 +47,8 @@ One card: a title that goes somewhere, and what is behind it.
 .. confval:: icon
    :type: string
 
-   A glyph above the label, for a set a reader tells apart before a read.
-   The name is an icon of this system; see :doc:`/design-system/icons`.
+   A glyph at the left of the words, for a set a reader tells apart before a read.
+   The name is an icon of this system; see :doc:`/design-system/brand-and-imagery/icons`.
 
 .. confval:: sign
    :name: card-sign
@@ -66,7 +66,7 @@ One card: a title that goes somewhere, and what is behind it.
    the documentation source into the output and resolves it per page. A URL
    somewhere else stays as it is. Either way it is one ``<img>``, so a
    drawing arrives in the colours its file declares.
-   :doc:`/design-system/artwork` says why, and what the file has to be ready
+   :doc:`/design-system/brand-and-imagery/illustrations` says why, and what the file has to be ready
    for.
 
    The name is ``src`` here and on the element, because everything in this
@@ -94,8 +94,8 @@ One card: a title that goes somewhere, and what is behind it.
    so, and the arrow after it leans out under the pointer. Drawn only where
    the card has somewhere to go.
 
-**The title carries the target.** ``.. card:: :ref:`Introduction
-<introduction>``` is how a TYPO3 manual writes a card. The words of the
+**The title carries the target.**
+``.. card:: :ref:`Introduction <introduction>``` is how a TYPO3 manual writes a card. The words of the
 reference become the heading, and the reference becomes where the card
 goes. A plain title with ``:href:`` says the same thing the other way round.
 
@@ -105,8 +105,8 @@ pointer hits the card. A second anchor inside it is a second destination
 under one frame, which is why there is no option for a button. A link in
 the prose of a card still works, and is a card that asks to be two cards.
 
-**The options are ``sds-card``'s properties, all of them, spelt the way the
-element spells them.** A directive that draws a component and answers for
+**The options are the properties of** ``sds-card``, **all of them, spelt the way
+the element spells them.** A directive that draws a component and answers for
 half of it sends the author to their own stylesheet for the other half.
 That is the one thing this system exists to prevent.
 
@@ -271,7 +271,7 @@ One filled plane, with a statement in place.
    :name: surface-icon
    :type: string
 
-   A glyph above the label, where a reader tells a set apart before a read.
+   A glyph at the left of the words, where a reader tells a set apart before a read.
    It stands beside the plane's own title, never alone, and takes the muted
    ink for the reason a card's does. A plane is a subject, not a result.
 
@@ -408,7 +408,7 @@ make sure that the licence of the mark lets the page show it.
 
       .. logo:: /_images/signet-l.svg
          :alt: Soul, at the large size
-         :href: /design-system/brand
+         :href: /design-system/brand-and-imagery/brand
 
 The argument says what the marks have in common, and it is optional. The wall
 grows by rows and has no limit. A short last row keeps the width of the cells.

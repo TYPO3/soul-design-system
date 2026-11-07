@@ -100,8 +100,8 @@ mark on a *thing*, a row, a card, a heading, and it draws a box. In the
 middle of a sentence or a cell, a box is furniture. The classes are the same
 three colours as the badge, without the box.
 
-They are the only way a page can colour a word. A page that writes ``color:
-var(--status-warn)`` into its own stylesheet holds a copy of this layer's
+They are the only way a page can colour a word. A page that writes
+``color: var(--status-warn)`` into its own stylesheet holds a copy of this layer's
 value. The two drift when the palette moves.
 
 .. specimen:: guidelines/states-tone.card.html

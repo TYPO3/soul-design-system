@@ -4,8 +4,8 @@
 Colours
 =======
 
-Every colour in this system is a semantic token, one ``light-dark(light,
-dark)`` against a ``:root`` that sets ``color-scheme``. There is no second
+Every colour in this system is a semantic token, one
+``light-dark(light, dark)`` against a ``:root`` that sets ``color-scheme``. There is no second
 block for dark mode. So light and dark **cannot drift**: they are one
 declaration.
 
@@ -42,7 +42,7 @@ Surfaces
 ========
 
 Each plane means something, and a thing that means nothing sits on the
-canvas. A **card** is a hairline and 6px with no fill of its own.
+canvas. A **card** is the raised plane, a hairline and 6px.
 
 .. list-table::
    :header-rows: 1
@@ -130,7 +130,7 @@ Borders
 
 Hairlines do the structural work. Nothing that stays on the page separates
 by elevation. So the focus halo is the only ``box-shadow`` a page draws, and
-it says keyboard state, not depth; see :doc:`accessibility`. What has left
+it says keyboard state, not depth; see :doc:`/design-system/foundations/accessibility`. What has left
 the page is the exception the shadow scale exists for, and the table above
 names those surfaces.
 
@@ -163,7 +163,7 @@ Accent
 ``--accent`` is ``#FF8700``, and it marks exactly three things. The active
 navigation item, the shell prompt in a code block, and the pipe in the
 wordmark. No second accent. On a slide, the eyebrow over a drawing is a
-fourth. :doc:`slides` says where.
+fourth. :doc:`/design-system/patterns/slides` says where.
 
 ``--accent-glow`` is one of the system's two gradients. Light falls across
 the top of a linked card's hairline under the pointer or keyboard focus, then

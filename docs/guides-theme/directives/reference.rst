@@ -88,7 +88,7 @@ diagram
 
 A drawing, written as the text that describes it. The body is the text of a
 ``.diagram`` file as it is, one statement per line, and
-:doc:`/design-system/diagrams/index` names its statements. The directive takes
+:doc:`/design-system/brand-and-imagery/diagrams/index` names its statements. The directive takes
 the body raw, so the parser of reStructuredText never reads it. It draws
 :ref:`sds-diagram <component-sds-diagram>`, and the finishing step renders
 the drawing before the page ships.

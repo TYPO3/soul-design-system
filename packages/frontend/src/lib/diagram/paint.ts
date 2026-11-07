@@ -3,7 +3,7 @@
    Every colour is an attribute: a token with the light hex behind it. So
    the file takes the mode of the page that references it, and still draws
    on its own. Every size is one of the grammar's:
-   `docs/design-system/diagrams/index.rst` holds them and the reason for each. */
+   `docs/design-system/brand-and-imagery/diagrams/index.rst` holds them and the reason for each. */
 
 import { measureSet } from './text.ts';
 
