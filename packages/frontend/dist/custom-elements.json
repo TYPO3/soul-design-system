@@ -3418,7 +3418,7 @@
           "name": "SdsEmbed",
           "tagName": "sds-embed",
           "summary": "A document from somewhere else, in a frame this page controls.",
-          "description": "A document from somewhere else, in a frame this page controls.\n\nAn iframe arrives with a size unrelated to the column it lands in, and browsers draw it with an inset border out of 1996. This gives it the hairline and sunken plane every other block here has.\n\nA video has a ratio and no size and fills the column, because a fixed 560 is a player with its side cut off. A specimen has a size and no ratio, measured at the viewport its card declares, so the frame keeps it and scrolls. An iframe a renderer wrote moves in, and nothing writes it again.",
+          "description": "A document from somewhere else, in a frame this page controls.\n\nAn iframe arrives with a size unrelated to the column it lands in, and browsers draw it with an inset border out of 1996. This gives it the hairline and sunken plane every other block here has.\n\nA video has a ratio and no size and fills the column, because a fixed 560 is a player with its side cut off. A specimen has a size and no ratio, measured at the viewport its card declares. The document keeps that size, and in a narrower column it scales down whole. An iframe a renderer wrote moves in.",
           "attributes": [
             {
               "name": "src",

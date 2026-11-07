@@ -200,7 +200,7 @@ Source Code Pro has the same advance, so a run at the size beside it reads a
 step larger. The token is a bare ratio, not a step or a length. Against
 ``1em`` it corrects a phrase in a sentence: ``code``, ``kbd``, ``samp``,
 ``.sds-mono``, an option name. Against a step it corrects a run set at one: a
-label, a table head, a badge, a nav item, a block the machine wrote.
+label, a badge, a nav item, a block the machine wrote.
 
 ``tokens/fonts.css`` states it once. A mono declaration that reaches a size
 without it draws a step larger than the sans beside it. A glyph on its own is

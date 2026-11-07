@@ -6,8 +6,8 @@
 
    A video has a ratio and no size and fills the column, because a fixed 560 is
    a player with its side cut off. A specimen has a size and no ratio, measured
-   at the viewport its card declares, so the frame keeps it and scrolls. An
-   iframe a renderer wrote moves in, and nothing writes it again. */
+   at the viewport its card declares. The document keeps that size, and in a
+   narrower column it scales down whole. An iframe a renderer wrote moves in. */
 
 import { html, nothing, type TemplateResult } from 'lit';
 import { onWritten } from '../lib/mode.ts';
@@ -118,6 +118,8 @@ export class SdsEmbed extends SdsElement {
   }
 
   override disconnectedCallback(): void {
+    this.#sizes?.disconnect();
+    this.#sizes = null;
     this.removeEventListener('load', this.#paint, true);
     this.#stop?.();
     this.#stop = null;
@@ -126,6 +128,27 @@ export class SdsEmbed extends SdsElement {
 
   protected override firstUpdated(): void {
     this.#paint();
+    const frame = this.querySelector<HTMLElement>('.sds-embed__frame--fixed');
+    if (!frame || typeof ResizeObserver === 'undefined') return;
+    this.#fit(frame);
+    this.#sizes = new ResizeObserver(() => this.#fit(frame));
+    this.#sizes.observe(frame);
+  }
+
+  #sizes: ResizeObserver | null = null;
+
+  /* The document keeps its measured size. So a narrower column shows it smaller
+     and whole, and never a sideways scroll. */
+  #fit(frame: HTMLElement): void {
+    const inner = frame.querySelector('iframe');
+    if (!inner || !(this.width > 0)) return;
+    const scale = Math.min(1, frame.clientWidth / this.width);
+    inner.style.transformOrigin = '0 0';
+    inner.style.transform = scale < 1 ? `scale(${scale})` : '';
+    inner.style.margin = scale < 1 ? '0' : '';
+    frame.style.height = scale < 1 ? `${Math.ceil(this.height * scale)}px` : '';
+    frame.style.overflow = scale < 1 ? 'hidden' : '';
+    frame.tabIndex = scale < 1 ? -1 : frame.tabIndex;
   }
 
   /* A frame is a document of its own and inherits nothing. A card made for

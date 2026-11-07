@@ -989,9 +989,9 @@
     --sds-table-rule: var(--border-subtle);
     --sds-table-rule-head: var(--border-strong);
     --sds-table-font: var(--font-mono);
-    --sds-table-head-size: calc(var(--table-head-size) * var(--font-modifier-mono));
-    --sds-table-head-tracking: var(--table-head-tracking);
-    --sds-table-head-ink: var(--text-muted);
+    --sds-table-head-font: var(--font-sans);
+    --sds-table-head-size: var(--font-size-small);
+    --sds-table-head-ink: var(--text-secondary);
     --sds-table-ink: var(--text-secondary);
     --sds-table-name-ink: var(--text-primary);
     --sds-table-meta-ink: var(--text-muted);
@@ -1032,7 +1032,7 @@
       >:is(sds-icon,.sds-icon){margin-inline-end:var(--sds-table-legend-word);vertical-align:middle}
       >:is(sds-icon,.sds-icon)~:is(sds-icon,.sds-icon){margin-inline-start:var(--sds-table-legend-gap)}
     }
-    th{text-align:start;font-family:var(--sds-table-font);font-size:var(--sds-table-head-size);letter-spacing:var(--sds-table-head-tracking);text-transform:uppercase;color:var(--sds-table-head-ink);font-weight:var(--sds-table-head-weight);padding-block:0 var(--sds-table-pad);padding-inline:0 var(--sds-table-cell-gap);border-bottom:var(--sds-table-border) solid var(--sds-table-rule-head);vertical-align:bottom}
+    th{text-align:start;font-family:var(--sds-table-head-font);font-size:var(--sds-table-head-size);color:var(--sds-table-head-ink);font-weight:var(--sds-table-head-weight);padding-block:0 var(--sds-table-pad);padding-inline:0 var(--sds-table-cell-gap);border-bottom:var(--sds-table-border) solid var(--sds-table-rule-head);vertical-align:bottom}
     td{
       padding-block:var(--sds-table-pad);
       padding-inline:0 var(--sds-table-cell-gap);
@@ -1923,7 +1923,11 @@
     >iframe{display:block;border:0}
   }
   .sds-embed__frame--fluid>iframe{width:100%;height:100%}
-  .sds-embed__frame--fixed{width:max-content;max-width:100%;overflow:auto}
+  .sds-embed__frame--fixed{
+    --sds-embed-fill: var(--surface-canvas);
+    overflow:auto;
+    >iframe{margin-inline:auto}
+  }
   .sds-embed__caption{max-width:var(--sds-embed-caption-measure);color:var(--sds-embed-caption-ink);font-size:var(--sds-embed-caption-size);line-height:var(--sds-embed-caption-leading)}
 }
 @layer base{

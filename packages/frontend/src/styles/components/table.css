@@ -41,9 +41,9 @@
     --sds-table-rule: var(--border-subtle);
     --sds-table-rule-head: var(--border-strong);
     --sds-table-font: var(--font-mono);
-    --sds-table-head-size: calc(var(--table-head-size) * var(--font-modifier-mono));
-    --sds-table-head-tracking: var(--table-head-tracking);
-    --sds-table-head-ink: var(--text-muted);
+    --sds-table-head-font: var(--font-sans);
+    --sds-table-head-size: var(--font-size-small);
+    --sds-table-head-ink: var(--text-secondary);
     --sds-table-ink: var(--text-secondary);
     /* The primary ink: the name is what a reader scans the column for. The
        link ink stood here once, and a page of real links read every name as
@@ -108,10 +108,8 @@
 
     th {
       text-align: start;
-      font-family: var(--sds-table-font);
+      font-family: var(--sds-table-head-font);
       font-size: var(--sds-table-head-size);
-      letter-spacing: var(--sds-table-head-tracking);
-      text-transform: uppercase;
       color: var(--sds-table-head-ink);
       font-weight: var(--sds-table-head-weight);
       padding-block: 0 var(--sds-table-pad);

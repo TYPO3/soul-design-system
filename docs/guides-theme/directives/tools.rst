@@ -113,12 +113,12 @@ A rendered card, at the size of its drawing.
    :type: string
    :default: "Specimen"
 
-   The caption under the frame, beside the viewport. It is also the frame's
+   The caption under the frame. It is also the frame's
    accessible name, the only thing a reader who cannot see the card gets.
 
 The frame is an ``sds-embed``, the element in
 :doc:`/frontend/components/media`, fixed at the viewport above. Where the
-column is narrower it scrolls, and does not squeeze the card into a width
+column is narrower the card scales down whole, and does not reflow into a width
 nothing measured. :doc:`/guides-theme/markup` has the other half of that node: a video,
 the same directive's opposite, which fills the column instead.
 

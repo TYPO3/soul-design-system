@@ -776,17 +776,12 @@ test.describe('what the theme repaired', () => {
 
     const frame = page.locator('.sds-embed__frame--fixed');
     await expect(frame).toHaveCount(1);
-    /* The card is at the viewport its `@dsCard` header declares and the caption
-       says so. The number comes off the caption rather than stands here. A
-       literal is a second copy of something the story already states. */
-    const caption = await page.locator('.sds-embed__caption').innerText();
-    const declared = caption.match(/(\d+)x(\d+)/);
-    expect(declared, `the caption names a viewport: ${caption}`).not.toBeNull();
-    const box = await frame.locator('iframe').evaluate((el) => {
-      const rect = el.getBoundingClientRect();
-      return { width: Math.round(rect.width), height: Math.round(rect.height) };
-    });
-    expect(box).toEqual({ width: Number(declared![1]), height: Number(declared![2]) });
+    /* The card keeps the viewport its `@dsCard` header declares, whatever the
+       column does to its picture. The number comes off the element rather than
+       stands here. A literal is a second copy of what the story states. */
+    const host = page.locator('sds-embed').filter({ has: frame });
+    const box = await frame.locator('iframe').evaluate((el) => ({ width: (el as HTMLElement).offsetWidth, height: (el as HTMLElement).offsetHeight }));
+    expect(box).toEqual({ width: Number(await host.getAttribute('width')), height: Number(await host.getAttribute('height')) });
   });
 
   test('the local contents is a table of contents, not the rail', async ({ page }) => {

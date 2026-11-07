@@ -76,7 +76,7 @@ export const Fixed: Story = {
     ratio: '',
     width: 700,
     height: 260,
-    caption: 'Surfaces · 700x260',
+    caption: 'Surfaces',
   },
 };
 
@@ -109,7 +109,7 @@ export const InAColumn: Story = {
       label: 'The type scale',
       width: 700,
       height: 230,
-      caption: 'Type scale · 700x230',
+      caption: 'Type scale',
     })}
   </div>`,
 };

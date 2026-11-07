@@ -270,7 +270,7 @@ plane every other block here has.
      allow="encrypted-media; picture-in-picture; web-share" allowfullscreen
      caption="Twelve minutes, from the 1.4 release."></sds-embed>
 
-   <!-- A card: made at a size, so the frame keeps it and scrolls. -->
+   <!-- A card: made at a size, and it scales down in a narrower column. -->
    <sds-embed src="/_cards/…" label="Surfaces" width="700" height="420"></sds-embed>
 
 .. confval:: src
@@ -307,8 +307,8 @@ plane every other block here has.
    :type: number
 
    The size of the document, in pixels. Both together, and **without a
-   ratio**, make the frame fixed. It is exactly this wide, and it scrolls
-   instead of a reflow of what it holds.
+   ratio**, make the frame fixed. The document keeps this size, and in a
+   narrower column it scales down whole. With no script the frame scrolls.
 
 .. confval:: caption
    :name: sds-embed-caption

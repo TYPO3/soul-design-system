@@ -19,7 +19,7 @@ import * as table from '../stories/components/Table.stories.ts';
 import * as surface from '../stories/components/Surface.stories.ts';
 import * as quote from '../stories/components/Quote.stories.ts';
 import * as timeline from '../stories/components/Timeline.stories.ts';
-import { box, clipboard, mount, q, qa, shown, stories } from './lib/frame.ts';
+import { box, clipboard, mount, q, qa, shown, stories, frames } from './lib/frame.ts';
 
 const Code = stories(code);
 const Embed = stories(embed);
@@ -145,12 +145,12 @@ test('an embed holds its ratio where it is fluid and its size where it stays fix
   await mount(Embed.Fixed);
 
   const fixed = q('.sds-embed__frame--fixed');
-  const inner = box(q('iframe', fixed)).width;
-  /* Narrower than the card, so the frame scrolls and the card keeps the width
-     its `@dsCard` header declares. A frame that squeezed it reports the
-     column's width here. */
-  expect(Math.round(inner)).toBe(700);
-  expect(fixed.scrollWidth > fixed.clientWidth).toBe(true);
+  await frames();
+  /* Narrower than the card, so the card keeps the width its `@dsCard` header
+     declares and scales down whole. Nothing scrolls sideways. */
+  expect(q('iframe', fixed).offsetWidth).toBe(700);
+  expect(box(q('iframe', fixed)).width).toBeLessThanOrEqual(fixed.clientWidth + 1);
+  expect(getComputedStyle(fixed).overflow).toBe('hidden');
 
   await mount(Embed.Default);
   const fluid = q('.sds-embed__frame--fluid');

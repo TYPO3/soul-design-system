@@ -76,15 +76,18 @@
     width: 100%;
     height: 100%;
   }
-  /* The document's own size, and no other. A card measured at the viewport its
-     header declares, so a frame that narrows it shows a layout nothing ever
-     checked. Below that width it scrolls, which is what a wide table gets here
-     for the same reason. Above it the frame stops at the document rather than
-     stretches a plane out beside it. */
+  /* The document's own size, in a frame as wide as the column, as a table is.
+     In a wider column the document stands in the middle, on the canvas it has
+     itself. In a narrower one the element scales it, and with no script the
+     frame scrolls. */
   .sds-embed__frame--fixed {
-    width: max-content;
-    max-width: 100%;
+    --sds-embed-fill: var(--surface-canvas);
+
     overflow: auto;
+
+    > iframe {
+      margin-inline: auto;
+    }
   }
   .sds-embed__caption {
     max-width: var(--sds-embed-caption-measure);

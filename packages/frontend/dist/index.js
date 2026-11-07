@@ -18280,6 +18280,7 @@ var SdsEmbed = class extends SdsElement {
     this.captioned = null;
     /* The page's mode, heard so the frame follows a switch. */
     this.#stop = null;
+    this.#sizes = null;
     /* A frame is a document of its own and inherits nothing. A card made for
        both modes carries no `data-theme`. On its own it then answers the
        machine's setting inside a page that chose the other one. The
@@ -18331,6 +18332,8 @@ var SdsEmbed = class extends SdsElement {
     this.addEventListener("load", this.#paint, true);
   }
   disconnectedCallback() {
+    this.#sizes?.disconnect();
+    this.#sizes = null;
     this.removeEventListener("load", this.#paint, true);
     this.#stop?.();
     this.#stop = null;
@@ -18338,6 +18341,25 @@ var SdsEmbed = class extends SdsElement {
   }
   firstUpdated() {
     this.#paint();
+    const frame3 = this.querySelector(".sds-embed__frame--fixed");
+    if (!frame3 || typeof ResizeObserver === "undefined") return;
+    this.#fit(frame3);
+    this.#sizes = new ResizeObserver(() => this.#fit(frame3));
+    this.#sizes.observe(frame3);
+  }
+  #sizes;
+  /* The document keeps its measured size. So a narrower column shows it smaller
+     and whole, and never a sideways scroll. */
+  #fit(frame3) {
+    const inner = frame3.querySelector("iframe");
+    if (!inner || !(this.width > 0)) return;
+    const scale = Math.min(1, frame3.clientWidth / this.width);
+    inner.style.transformOrigin = "0 0";
+    inner.style.transform = scale < 1 ? `scale(${scale})` : "";
+    inner.style.margin = scale < 1 ? "0" : "";
+    frame3.style.height = scale < 1 ? `${Math.ceil(this.height * scale)}px` : "";
+    frame3.style.overflow = scale < 1 ? "hidden" : "";
+    frame3.tabIndex = scale < 1 ? -1 : frame3.tabIndex;
   }
   #paint;
   /** If the frame has the document's own size rather than the column's. A

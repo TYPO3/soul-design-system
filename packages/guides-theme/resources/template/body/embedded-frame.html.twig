@@ -3,8 +3,7 @@
 
     Two nodes share this template because they are the same thing: a document
     of somebody else's, shown inside this one. A video has a title and nothing
-    else to say. A specimen names the card and the size of its measurement,
-    because `make fit` checks that number. A reader who wants to know what
+    else to say. A specimen names the card. A reader who wants to know what
     they look at must not have to open the source.
 
     **The element, and nothing but the address of it.** What the two need is a
@@ -26,14 +25,14 @@
 #}
 {%- if node.hasOption('specimen') -%}
 {#- Fixed. The card declares the viewport of its measurement and this is that
-    number. So the frame keeps it and scrolls where the column is narrower. A
-    card reflowed to fit documents a layout nothing checked.
+    number. So the document keeps it, and the element scales it down in a
+    narrower column. A card reflowed to fit documents a layout nothing checked.
 
     The caption is a sentence and arrives as one. What a caption says belongs
     to the document, and how it sets belongs to the component. -#}
 <sds-embed src="{{ asset(node.url) }}"
     label="{{ node.option('title')|default('Specimen') }}"
-    caption="{{ node.option('title')|default('Specimen') }} · {{ node.option('viewport') }}"
+    caption="{{ node.option('title')|default('Specimen') }}"
     {%- if node.hasOption('width') %} width="{{ node.option('width') }}"{% endif -%}
     {%- if node.hasOption('height') %} height="{{ node.option('height') }}"{% endif -%}
 ></sds-embed>
