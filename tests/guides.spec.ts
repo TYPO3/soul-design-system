@@ -531,6 +531,14 @@ test.describe('what the theme repaired', () => {
     await expect(grid.locator('thead th').last()).toHaveClass('sds-td-meta');
   });
 
+  /* `:widths:` with spaces, as reStructuredText permits, and each share out of the sum. */
+  test('a list table gives each column the share its widths name', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    const cols = page.locator('sds-table:has(caption:text("Each column takes its share")) col');
+    await expect(cols).toHaveCount(3);
+    expect(await cols.evaluateAll((all) => all.map((col) => (col as HTMLElement).style.width))).toEqual(['12%', '38%', '50%']);
+  });
+
   /* A card that carries a state draws the sign of the drawings for it and
      says its meaning, on the page and in the twin. */
   test('a state in a table is a glyph with its name and its colour', async ({ page }) => {

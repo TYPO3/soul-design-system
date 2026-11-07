@@ -43,11 +43,14 @@
     --sds-mono-font-size: calc(1em * var(--font-modifier-mono));
     --sds-mono-weight: var(--weight-medium);
     --sds-mono-ink: var(--text-primary);
+    /* A long value in a line of text breaks where it must, so it never pushes
+       the column open. A table cell holds it whole instead, see `table.css`. */
+    --sds-mono-wrap: anywhere;
 
     font-family: var(--sds-mono-font);
     font-size: var(--sds-mono-font-size);
     font-weight: var(--sds-mono-weight);
-    overflow-wrap: anywhere;
+    overflow-wrap: var(--sds-mono-wrap);
   }
   /* The ink, unless the word is a link or stands in one. Colour is what says
      a word is a link, at rest, under the pointer and on a tinted plane, and

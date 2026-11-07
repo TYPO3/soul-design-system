@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TYPO3\Soul\GuidesTheme\Directives;
 
 use phpDocumentor\Guides\Nodes\Node;
+use phpDocumentor\Guides\Nodes\TableNode;
 use phpDocumentor\Guides\RestructuredText\Directives\BaseDirective;
 use phpDocumentor\Guides\RestructuredText\Parser\BlockContext;
 use phpDocumentor\Guides\RestructuredText\Parser\Directive;
@@ -45,11 +46,40 @@ final class ListTableDirective extends BaseDirective
             $node = $node->withOptions(['caption' => $title]);
         }
 
+        if ($node instanceof TableNode && $directive->hasOption('widths')) {
+            $widths = self::widths((string)$directive->getOption('widths')->getValue());
+            if ($widths !== []) {
+                $node = $node->withColumnWidth($widths);
+            }
+        }
+
         if ($directive->hasOption('columns')) {
             $node = $node->withOptions(['columns' => self::columns((string)$directive->getOption('columns')->getValue())]);
         }
 
         return $node;
+    }
+
+    /**
+     * The share of each column, out of `:widths:` as reStructuredText writes
+     * it: whole numbers apart by commas or spaces, in proportion to each
+     * other. The renderer reads commas only, so `12 38 50` was one column of
+     * 12. `auto` and `grid` are no list, and the renderer keeps those.
+     *
+     * @return list<int>
+     */
+    public static function widths(string $written): array
+    {
+        $parts = preg_split('/[\s,]+/', trim($written), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        if ($parts === [] || array_filter($parts, static fn(string $part): bool => !ctype_digit($part)) !== []) {
+            return [];
+        }
+
+        $total = array_sum(array_map('intval', $parts));
+
+        return $total > 0
+            ? array_map(static fn(string $part): int => (int)round((int)$part * 100 / $total), $parts)
+            : [];
     }
 
     /**

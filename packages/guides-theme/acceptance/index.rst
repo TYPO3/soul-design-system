@@ -316,6 +316,17 @@ Tables
      - :ref:`P2 <step-p2>`, from anywhere on the page, or :id:`P2 <step-p2>`
        in mono
 
+.. list-table:: Each column takes its share of the width
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Method
+     - Path
+     - Description
+   * - ``GET``
+     - ``records/{schema}/{identifier}``
+     - Gets a record by its uid, with all fields that the user can read.
+
 .. table:: A grid table, whose group rows span the columns
    :columns: name fit, , meta
 

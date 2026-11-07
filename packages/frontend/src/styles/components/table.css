@@ -130,6 +130,13 @@
          as one fact beside another. */
       vertical-align: middle;
 
+      /* A value in a cell stays whole: a path that breaks inside its
+         placeholders reads as two values. The prose beside it wraps instead,
+         and a table wider than its column scrolls. */
+      :is(code, .sds-mono, kbd, samp) {
+        --sds-mono-wrap: break-word;
+      }
+
       /* A cell of several paragraphs, as a document writes a line break in
          one. They set in the cell's size, a small step apart. */
       > p {

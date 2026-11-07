@@ -345,6 +345,12 @@ the theme puts it back.
 ``:class: compact`` on a table sets the element's density: tighter rows,
 for a table a reader scans rather than reads.
 
+``:widths:`` on a ``list-table`` gives each column its share of the width:
+whole numbers, apart by commas or spaces, in proportion to each other. So
+``12 38 50`` and ``12, 38, 50`` are the same table. A code value in a cell
+stays whole. The text beside it wraps instead, and a table wider than the
+column scrolls.
+
 ``:columns:`` on a ``list-table`` gives each column its role, one column
 after the other, with commas between them. ``name`` is the identifier the
 machine owns, ``meta`` anything secondary, and ``note`` a line about the
