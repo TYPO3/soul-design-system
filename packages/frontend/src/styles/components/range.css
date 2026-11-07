@@ -21,7 +21,7 @@
     --sds-range-radius: 999px;
     --sds-range-border: var(--border-hairline);
     --sds-range-fill: var(--surface-sunken);
-    --sds-range-edge: var(--border-strong);
+    --sds-range-edge: var(--border-control);
     --sds-range-thumb-fill: var(--text-primary);
     --sds-range-value-font: var(--font-mono);
     --sds-range-value-size: calc(var(--font-size-small) * var(--font-modifier-mono));

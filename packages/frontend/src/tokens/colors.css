@@ -14,18 +14,18 @@
 
     /* Surfaces — light: warm paper. dark: the terminal. */
     --surface-canvas: light-dark(#fbfaf7, #131210);
-    --surface-raised: light-dark(#ffffff, #171614);
+    --surface-raised: light-dark(#ffffff, #1d1b18);
     --surface-sunken: light-dark(#f4f2ee, #0c0b0a);
-    --surface-inset: light-dark(#efebe3, #221f1b);
-    --surface-accent-quiet: light-dark(#fff6ec, #1c1a16);
+    --surface-inset: light-dark(#efebe3, #2a2722);
+    --surface-accent-quiet: light-dark(#fff6ec, #231f19);
     /* The plane under a note that says a thing failed. A pair of its own,
        because the status red is ink. A wash of it over paper goes grey before
        it goes red. */
-    --surface-error-quiet: light-dark(#fcefec, #211715);
+    --surface-error-quiet: light-dark(#fcefec, #2a1b18);
     /* The same wash for a thing that passed and one that half did. A phase
        of a diagram stands on it when it ends in its result or a warning. */
-    --surface-ok-quiet: light-dark(#eef3ea, #141a12);
-    --surface-warn-quiet: light-dark(#fbf3e4, #1d1810);
+    --surface-ok-quiet: light-dark(#eef3ea, #1a2216);
+    --surface-warn-quiet: light-dark(#fbf3e4, #261f13);
     --surface-overlay: light-dark(rgba(28, 26, 23, 0.45), rgba(6, 6, 5, 0.62));
 
     /* Depth, for the surfaces that leave the page — everything that stays on
@@ -69,16 +69,18 @@
     --surface-art: #f4f2ee;
 
     /* Borders — hairlines do the structural work. */
-    --border-subtle: light-dark(#e3dfd6, #2b2823);
-    --border-strong: light-dark(#c9c3b7, #37332c);
-    --border-accent-quiet: light-dark(#f0c089, #4a4437);
-    --border-error-quiet: light-dark(#e9aca4, #4f312d);
+    --border-subtle: light-dark(#e3dfd6, #3d3932);
+    --border-strong: light-dark(#c9c3b7, #57524a);
+    /* The edge that alone says a control is there: 3:1 against its ground. */
+    --border-control: light-dark(#8e8980, #807869);
+    --border-accent-quiet: light-dark(#f0c089, #5f5644);
+    --border-error-quiet: light-dark(#e9aca4, #66403a);
 
     /* Text */
-    --text-primary: light-dark(#1c1a17, #ede9e2);
-    --text-secondary: light-dark(#4a453d, #a9a299);
-    --text-muted: light-dark(#726c63, #878076);
-    --text-link: light-dark(#b35a00, #ffa338);
+    --text-primary: light-dark(#1c1a17, #f1ede6);
+    --text-secondary: light-dark(#4a453d, #bab3a8);
+    --text-muted: light-dark(#68635b, #a1998e);
+    --text-link: light-dark(#9c4f00, #ffa338);
     --text-link-hover: light-dark(#7a3d00, #ffc27a);
     --text-accent-quiet: light-dark(#8a4b00, #ffa338);
     --text-on-accent: #131210;
@@ -98,16 +100,15 @@
     --accent-glow: light-dark(rgba(255, 135, 0, 0.3), rgba(255, 163, 56, 0.26));
 
     /* Status and syntax — only inside code, badges and result rows. */
-    --status-ok: light-dark(#4f7a3a, #7fa96b);
-    --status-warn: light-dark(#986200, #d9a441);
-    --status-error: light-dark(#a33328, #d4685c);
+    --status-ok: light-dark(#476d34, #93bd7e);
+    --status-warn: light-dark(#8b5900, #d9a441);
+    --status-error: light-dark(#a33328, #e8877b);
     --syntax-string: light-dark(#3f6b2b, #9cc27f);
-    /* #A85400 and not the link's #B35A00. A keyword sits on the sunken plane
-       rather than on the canvas, where that orange lands at 4.24:1 — under the
-       line, on product text. An axe run over a whole page found it, which a
-       run over a specimen never did. */
-    --syntax-key: light-dark(#a85400, #ffa338);
-    --syntax-comment: light-dark(#726c63, #878076);
+    /* The link's value. A keyword sits on the sunken plane, and this orange
+       keeps its 4.5:1 there. An axe run over a whole page found a lighter one
+       under the line, which a run over a specimen never did. */
+    --syntax-key: light-dark(#9c4f00, #ffa338);
+    --syntax-comment: light-dark(#68635b, #a1998e);
     /* Code that is not one of the three: a number, a name, a brace. The
        highlighter emits a class for those too. The palette has to name the
        ordinary case, or a theme is three colours and a raw value. */

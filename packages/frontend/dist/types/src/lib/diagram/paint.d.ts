@@ -1,6 +1,6 @@
 export declare const INK = "var(--text-primary, #1C1A17)";
 export declare const SECONDARY = "var(--text-secondary, #4A453D)";
-export declare const MUTED = "var(--text-muted, #726C63)";
+export declare const MUTED = "var(--text-muted, #68635B)";
 export declare const CANVAS = "var(--surface-canvas, #FBFAF7)";
 export declare const RAISED = "var(--surface-raised, #FFFFFF)";
 export declare const SUNKEN = "var(--surface-sunken, #F3F1EC)";
@@ -8,8 +8,8 @@ export declare const INSET = "var(--surface-inset, #EFEBE3)";
 export declare const SUBTLE = "var(--border-subtle, #E3DFD6)";
 export declare const STRONG = "var(--border-strong, #C9C3B7)";
 export declare const ACCENT = "var(--accent, #FF8700)";
-export declare const OK = "var(--status-ok, #4F7A3A)";
-export declare const WARN = "var(--status-warn, #986200)";
+export declare const OK = "var(--status-ok, #476D34)";
+export declare const WARN = "var(--status-warn, #8B5900)";
 export declare const ERROR = "var(--status-error, #A33328)";
 export declare const QUIET: Readonly<Record<'ok' | 'warn' | 'error', string>>;
 /** The colour a drawing says its one claim in. The accent, or a status

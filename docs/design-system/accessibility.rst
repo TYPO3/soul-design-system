@@ -72,6 +72,10 @@ system permits it on, in light and dark. The weakest permitted pair is the
 test, not the canvas alone. Token values keep headroom above the minimum, so
 rounding and a nearby surface do not turn a pass into a borderline.
 
+An edge that alone says a control is there meets 3:1 against its ground. That
+is ``--border-control``, on a field, a check, a switch and a range. The rule
+does not bind a hairline that only divides a surface.
+
 Quiet text is still text. ``--text-muted`` carries metadata and placeholders,
 ``--syntax-comment`` carries code comments, and a status token can carry a
 label in a result or a badge. Their lower rank comes from the hierarchy, not

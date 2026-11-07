@@ -28,10 +28,10 @@ export const sdsSwatch = ({ value, name, resolved, kind }: SwatchProps) =>
 export const PALETTE: readonly SwatchProps[] = [
   { value: 'var(--accent)', name: '--accent', resolved: '#FF8700' },
   { value: 'var(--surface-canvas)', name: '--surface-canvas', resolved: 'light-dark(#FBFAF7, #131210)' },
-  { value: 'var(--surface-raised)', name: '--surface-raised', resolved: 'light-dark(#FFFFFF, #171614)' },
-  { value: 'var(--text-primary)', name: '--text-primary', resolved: 'light-dark(#1C1A17, #EDE9E2)' },
-  { value: 'var(--text-muted)', name: '--text-muted', resolved: 'light-dark(#726C63, #878076)' },
-  { value: 'var(--border-subtle)', name: '--border-subtle', resolved: 'light-dark(#E3DFD6, #2B2823)', kind: 'line' },
+  { value: 'var(--surface-raised)', name: '--surface-raised', resolved: 'light-dark(#FFFFFF, #1D1B18)' },
+  { value: 'var(--text-primary)', name: '--text-primary', resolved: 'light-dark(#1C1A17, #F1EDE6)' },
+  { value: 'var(--text-muted)', name: '--text-muted', resolved: 'light-dark(#68635B, #A1998E)' },
+  { value: 'var(--border-subtle)', name: '--border-subtle', resolved: 'light-dark(#E3DFD6, #3D3932)', kind: 'line' },
 ];
 
 const meta: Meta<SwatchProps> = {

@@ -63,17 +63,17 @@ Shapes: node radius 6, bar radius 4, unit square radius 2, never above 6. A
 node is var(--surface-raised, #FFFFFF) behind a 1-unit
 var(--border-subtle, #E3DFD6) outline. A boundary is a hairline with no fill —
 a filled container makes depth out of colour. A connector is 1.5 units,
-orthogonal, one arrowhead, var(--text-muted, #726C63), and never curved.
+orthogonal, one arrowhead, var(--text-muted, #68635B), and never curved.
 
 The two states: a filled shape is what you get. A dashed outline of that same
 shape, in that same place, is what is missing or not yet reachable, drawn in
-var(--text-muted, #726C63). Dashed carries no other meaning. Where the missing
+var(--text-muted, #68635B). Dashed carries no other meaning. Where the missing
 part is a degradation rather than a precondition, the dashed outline takes
-var(--status-warn, #986200) instead.
+var(--status-warn, #8B5900) instead.
 
 Colour: peers share one treatment and are distinguished by their names, never
 by hue. Ink is var(--text-primary, #1C1A17), a quieter line
-var(--text-secondary, #4A453D), a label var(--text-muted, #726C63). Exactly
+var(--text-secondary, #4A453D), a label var(--text-muted, #68635B). Exactly
 one element in the whole drawing carries var(--accent, #FF8700), and it is the
 one thing the diagram is about. Where the diagram is about degradation or
 failure, status colour replaces the accent and orange stays out entirely.

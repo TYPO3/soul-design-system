@@ -9,7 +9,7 @@ import { measureSet } from './text.ts';
 
 export const INK = 'var(--text-primary, #1C1A17)';
 export const SECONDARY = 'var(--text-secondary, #4A453D)';
-export const MUTED = 'var(--text-muted, #726C63)';
+export const MUTED = 'var(--text-muted, #68635B)';
 export const CANVAS = 'var(--surface-canvas, #FBFAF7)';
 export const RAISED = 'var(--surface-raised, #FFFFFF)';
 export const SUNKEN = 'var(--surface-sunken, #F3F1EC)';
@@ -17,8 +17,8 @@ export const INSET = 'var(--surface-inset, #EFEBE3)';
 export const SUBTLE = 'var(--border-subtle, #E3DFD6)';
 export const STRONG = 'var(--border-strong, #C9C3B7)';
 export const ACCENT = 'var(--accent, #FF8700)';
-export const OK = 'var(--status-ok, #4F7A3A)';
-export const WARN = 'var(--status-warn, #986200)';
+export const OK = 'var(--status-ok, #476D34)';
+export const WARN = 'var(--status-warn, #8B5900)';
 export const ERROR = 'var(--status-error, #A33328)';
 /* The quiet wash under a band that ends in a status. */
 export const QUIET: Readonly<Record<'ok' | 'warn' | 'error', string>> = {

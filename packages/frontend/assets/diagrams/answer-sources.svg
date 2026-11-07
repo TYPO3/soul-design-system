@@ -8,10 +8,10 @@
 <line x1="709.7" y1="88" x2="709.7" y2="337" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1"></line>
 <line x1="494.6" y1="88" x2="494.6" y2="337" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1"></line>
 <text x="60" y="74" fill="var(--text-secondary, #4A453D)" font-family="&#39;Soul Diagram Sans&#39;,&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13" font-weight="600">Required machine state</text>
-<text x="287.5" y="74" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">nothing running</text>
-<text x="502.6" y="74" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">files on disk</text>
-<text x="717.7" y="74" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">a booted installation</text>
-<text x="932.9" y="74" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">network reach</text>
+<text x="287.5" y="74" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">nothing running</text>
+<text x="502.6" y="74" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">files on disk</text>
+<text x="717.7" y="74" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">a booted installation</text>
+<text x="932.9" y="74" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">network reach</text>
 <text x="60" y="112" fill="var(--text-primary, #1C1A17)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="14" font-weight="600">knowledge</text>
 <text x="60" y="129" fill="var(--text-secondary, #4A453D)" font-family="&#39;Soul Diagram Sans&#39;,&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">Bundled and version-bound.</text>
 <clipPath id="answer-sources-bar-0-279"><rect x="279.5" y="108.5" width="860.5" height="16" rx="4" fill="none"></rect></clipPath>

@@ -6,14 +6,14 @@
 <line x1="428.5" y1="45" x2="428.5" y2="294" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1"></line>
 <line x1="338" y1="45" x2="338" y2="294" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1"></line>
 <line x1="247.5" y1="45" x2="247.5" y2="294" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1"></line>
-<text x="165" y="14" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">nothing</text>
-<text x="165" y="31" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">running</text>
-<text x="255.5" y="14" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">files on</text>
-<text x="255.5" y="31" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">disk</text>
-<text x="346" y="14" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">a booted</text>
-<text x="346" y="31" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">site</text>
-<text x="436.5" y="14" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">network</text>
-<text x="436.5" y="31" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">reach</text>
+<text x="165" y="14" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">nothing</text>
+<text x="165" y="31" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">running</text>
+<text x="255.5" y="14" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">files on</text>
+<text x="255.5" y="31" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">disk</text>
+<text x="346" y="14" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">a booted</text>
+<text x="346" y="31" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">site</text>
+<text x="436.5" y="14" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">network</text>
+<text x="436.5" y="31" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">reach</text>
 <text x="0" y="69" fill="var(--text-primary, #1C1A17)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="14" font-weight="600">knowledge</text>
 <text x="0" y="86" fill="var(--text-secondary, #4A453D)" font-family="&#39;Soul Diagram Sans&#39;,&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">bundled, versioned</text>
 <clipPath id="slide-sources-bar-0-157"><rect x="157" y="65.5" width="362" height="16" rx="4" fill="none"></rect></clipPath>

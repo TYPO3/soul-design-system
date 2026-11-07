@@ -21,7 +21,7 @@
     --sds-switch-inset: 2px;
     --sds-switch-gap: var(--space-3);
     --sds-switch-border: var(--border-hairline);
-    --sds-switch-edge: var(--border-strong);
+    --sds-switch-edge: var(--border-control);
     --sds-switch-edge-hover: var(--text-muted);
     --sds-switch-fill: var(--surface-sunken);
     --sds-switch-fill-hover: var(--surface-inset);

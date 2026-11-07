@@ -129,18 +129,18 @@ second colour. Every other slide is paper, whatever the reader's mode.
 | Token | Paper | Terminal |
 |---|---|---|
 | `--surface-canvas`, the slide | `#fbfaf7` | `#131210` |
-| `--surface-raised`, a card | `#ffffff` | `#171614` |
+| `--surface-raised`, a card | `#ffffff` | `#1d1b18` |
 | `--surface-sunken`, a code block | `#f4f2ee` | `#0c0b0a` |
-| `--surface-inset`, a monogram | `#efebe3` | `#221f1b` |
-| `--text-primary`, a title | `#1c1a17` | `#ede9e2` |
-| `--text-secondary`, a sentence | `#4a453d` | `#a9a299` |
-| `--text-muted`, a label, a count, a source | `#726c63` | `#878076` |
-| `--border-subtle`, a hairline | `#e3dfd6` | `#2b2823` |
-| `--border-strong`, a quote's rule | `#c9c3b7` | `#37332c` |
+| `--surface-inset`, a monogram | `#efebe3` | `#2a2722` |
+| `--text-primary`, a title | `#1c1a17` | `#f1ede6` |
+| `--text-secondary`, a sentence | `#4a453d` | `#bab3a8` |
+| `--text-muted`, a label, a count, a source | `#68635b` | `#a1998e` |
+| `--border-subtle`, a hairline | `#e3dfd6` | `#3d3932` |
+| `--border-strong`, a quote's rule | `#c9c3b7` | `#57524a` |
 | `--accent` | `#ff8700` | `#ff8700` |
-| `--syntax-key` | `#a85400` | `#ffa338` |
+| `--syntax-key` | `#9c4f00` | `#ffa338` |
 | `--syntax-string` | `#3f6b2b` | `#9cc27f` |
-| `--syntax-comment` | `#726c63` | `#878076` |
+| `--syntax-comment` | `#68635b` | `#a1998e` |
 
 **The accent marks three things on a slide**, as on a page. The pipe in the
 lockup, the prompt in a code block, and the rule under the current entry of

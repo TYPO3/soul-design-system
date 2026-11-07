@@ -131,7 +131,7 @@
 
   /* A link *inside* prose has nothing to stand apart from, so it carries an
      underline at rest. It must: against body text the link ink stands at
-     1.3:1 in dark, and no token reaches 3:1 while there is one accent. Colour
+     1.1:1 in dark, and no token reaches 3:1 while there is one accent. Colour
      alone is then the only thing that says a word is a link. */
   :is(p, li, dd, td, th, blockquote) a {
     text-decoration: underline;

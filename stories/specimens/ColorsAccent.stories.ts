@@ -26,8 +26,8 @@ const COLUMNS: readonly Column[] = [
   { paint: 'var(--accent-active)', name: '--accent-active', hex: '#FFB866' },
   /* Literal, and deliberately: this is the link colour on paper, and the card
      is dark. A token here would draw the dark value and name the light one. */
-  { paint: '#B35A00', name: '--text-link (light)', hex: '#B35A00' },
-  { paint: 'var(--border-accent-quiet)', name: '--border-accent-quiet', hex: '#4A4437' },
+  { paint: '#9C4F00', name: '--text-link (light)', hex: '#9C4F00' },
+  { paint: 'var(--border-accent-quiet)', name: '--border-accent-quiet', hex: '#5F5644' },
 ];
 
 const MONO = 'font-family:var(--font-mono); font-size:11px;';

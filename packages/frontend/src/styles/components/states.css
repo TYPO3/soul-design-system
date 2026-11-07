@@ -183,7 +183,14 @@
     --sds-note-edge: var(--border-error-quiet);
     --sds-note-fill: var(--surface-error-quiet);
     --sds-note-mark-ink: var(--status-error);
-    --sds-note-link-ink: var(--text-link-hover);
+    /* Orange on the red plane reads as a second alarm. So the link takes the
+       full ink, and the line says what the colour no longer says. */
+    --sds-note-link-ink: var(--text-primary);
+    --sds-note-link-ink-hover: var(--text-primary);
+
+    a:not(.sds-btn) {
+      text-decoration-line: underline;
+    }
   }
   .sds-note--ok {
     --sds-note-mark-ink: var(--status-ok);

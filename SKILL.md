@@ -377,9 +377,9 @@ dissolves into the page.
 **Colour is an attribute**, never a `<style>` block, which GitHub strips. Each
 attribute is the token with the light hex behind it:
 `fill="var(--text-primary, #1C1A17)"` (ink), `--text-secondary, #4A453D`,
-`--text-muted, #726C63`, `--surface-canvas, #FBFAF7`,
+`--text-muted, #68635B`, `--surface-canvas, #FBFAF7`,
 `--surface-raised, #FFFFFF`, `--border-subtle, #E3DFD6`,
-`--border-strong, #C9C3B7`, `--status-warn, #986200`, `--accent, #FF8700`.
+`--border-strong, #C9C3B7`, `--status-warn, #8B5900`, `--accent, #FF8700`.
 
 **Ship one file per drawing**, a viewBox on the root and every colour as a
 `var()` with a hex behind it. A page shows it as `<img>`, so a reader sees the

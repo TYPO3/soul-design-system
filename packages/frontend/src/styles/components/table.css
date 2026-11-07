@@ -262,11 +262,8 @@
       text-align: end;
     }
 
-    /* The selected row leaves the scan register. `--text-muted` sits against
-       the canvas, and the accent fill moves the ground under it: it lands a
-       hair under 4.5:1 on it. Nothing is wrong with the token or with the
-       fill. The pair only meets on this row, which is also the one row with
-       no reason to set for a scan. */
+    /* The selected row leaves the scan register. It is the one row with no
+       reason to set for a scan, so its metadata takes the full ink. */
     tbody tr.is-selected {
       --sds-table-meta-ink: var(--text-primary);
 

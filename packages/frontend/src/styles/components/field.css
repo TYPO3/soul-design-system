@@ -37,7 +37,7 @@
     --sds-field-leading: var(--control-leading);
     --sds-field-border: var(--border-hairline);
     --sds-field-radius: var(--radius-control);
-    --sds-field-edge: var(--border-strong);
+    --sds-field-edge: var(--border-control);
     --sds-field-fill: var(--surface-sunken);
     --sds-field-ink: var(--text-muted);
     --sds-field-ink-filled: var(--text-primary);
@@ -216,7 +216,7 @@
     --sds-check-line-gap: var(--space-0-5);
     --sds-check-border: var(--border-hairline);
     --sds-check-radius: var(--radius-control);
-    --sds-check-edge: var(--border-strong);
+    --sds-check-edge: var(--border-control);
     --sds-check-fill: var(--surface-sunken);
     --sds-check-fill-hover: var(--surface-inset);
     --sds-check-fill-on: var(--text-primary);
@@ -380,7 +380,10 @@
      focusable because a summary nobody lands on is a summary nobody reads.
      The ring as everywhere, on the radius this box draws at. */
   .sds-form-errors {
-    --sds-form-errors-gap: var(--space-1);
+    /* A failure that wraps stays one thing: its lines stand closer than the
+       failures do. */
+    --sds-form-errors-gap: var(--space-0-5);
+    --sds-form-errors-leading: var(--leading-snug);
     --sds-form-errors-lead: var(--space-1-5);
     --sds-form-errors-radius: var(--radius-card);
 
@@ -400,6 +403,7 @@
     flex-direction: column;
     gap: var(--sds-form-errors-gap);
     padding-block-start: var(--sds-form-errors-lead);
+    line-height: var(--sds-form-errors-leading);
 
     a {
       width: fit-content;

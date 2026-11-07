@@ -105,9 +105,7 @@
     font-size: var(--sds-footer-link-size);
   }
   /* A footer is a directory, not a place the accent appears. `--accent` marks
-     three things and a list of every page is not one of them. It is also what
-     the ground costs. The link orange is 4.29:1 on the sunken plane, which is
-     the finding `--syntax-key` already carries for the same colour. */
+     three things and a list of every page is not one of them. */
   .sds-footer :is(a, .sds-link) {
     color: var(--sds-footer-ink);
   }

@@ -8,12 +8,12 @@
 <text x="207.7" y="128" fill="var(--text-secondary, #4A453D)" font-family="&#39;Soul Diagram Sans&#39;,&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">an array on the service, alive for one request</text>
 <text x="60" y="201" fill="var(--text-secondary, #4A453D)" font-family="&#39;Soul Diagram Sans&#39;,&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="14" font-weight="600">Second lookup</text>
 <text x="207.7" y="242" fill="var(--text-secondary, #4A453D)" font-family="&#39;Soul Diagram Sans&#39;,&#39;Source Sans 3&#39;,system-ui,sans-serif" font-size="13">Both lookups answer the same label. The second answers from the array, and the file stays closed.</text>
-<path d="M392.8 82 L456.8 82" fill="none" stroke="var(--text-muted, #726C63)" stroke-width="1.5"></path><path d="M447.8 86 L456.8 82 L447.8 78Z" fill="var(--text-muted, #726C63)"></path>
-<path d="M641.8 82 L705.8 82" fill="none" stroke="var(--text-muted, #726C63)" stroke-width="1.5"></path><path d="M696.8 86 L705.8 82 L696.8 78Z" fill="var(--text-muted, #726C63)"></path>
-<path d="M890.9 82 L954.9 82" fill="none" stroke="var(--text-muted, #726C63)" stroke-width="1.5"></path><path d="M945.9 86 L954.9 82 L945.9 78Z" fill="var(--text-muted, #726C63)"></path>
+<path d="M392.8 82 L456.8 82" fill="none" stroke="var(--text-muted, #68635B)" stroke-width="1.5"></path><path d="M447.8 86 L456.8 82 L447.8 78Z" fill="var(--text-muted, #68635B)"></path>
+<path d="M641.8 82 L705.8 82" fill="none" stroke="var(--text-muted, #68635B)" stroke-width="1.5"></path><path d="M696.8 86 L705.8 82 L696.8 78Z" fill="var(--text-muted, #68635B)"></path>
+<path d="M890.9 82 L954.9 82" fill="none" stroke="var(--text-muted, #68635B)" stroke-width="1.5"></path><path d="M945.9 86 L954.9 82 L945.9 78Z" fill="var(--text-muted, #68635B)"></path>
 <path d="M392.8 196 L456.8 196" fill="none" stroke="var(--accent, #FF8700)" stroke-width="2"></path><path d="M447.8 200 L456.8 196 L447.8 192Z" fill="var(--accent, #FF8700)"></path>
-<path d="M641.8 196 L705.8 196" fill="none" stroke="var(--text-muted, #726C63)" stroke-width="1.5" stroke-dasharray="5 4"></path><path d="M696.8 200 L705.8 196 L696.8 192Z" fill="var(--text-muted, #726C63)"></path>
-<path d="M890.9 196 L954.9 196" fill="none" stroke="var(--text-muted, #726C63)" stroke-width="1.5" stroke-dasharray="5 4"></path><path d="M945.9 200 L954.9 196 L945.9 192Z" fill="var(--text-muted, #726C63)"></path>
+<path d="M641.8 196 L705.8 196" fill="none" stroke="var(--text-muted, #68635B)" stroke-width="1.5" stroke-dasharray="5 4"></path><path d="M696.8 200 L705.8 196 L696.8 192Z" fill="var(--text-muted, #68635B)"></path>
+<path d="M890.9 196 L954.9 196" fill="none" stroke="var(--text-muted, #68635B)" stroke-width="1.5" stroke-dasharray="5 4"></path><path d="M945.9 200 L954.9 196 L945.9 192Z" fill="var(--text-muted, #68635B)"></path>
 <rect x="207.7" y="60" width="185.1" height="44" rx="6" fill="var(--text-primary, #1C1A17)"></rect>
 <text x="223.7" y="87" fill="var(--surface-canvas, #FBFAF7)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="16" font-weight="600">resolve()</text>
 <rect x="456.8" y="60" width="185.1" height="44" rx="6" fill="var(--surface-raised, #FFFFFF)" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1"></rect>
@@ -30,10 +30,10 @@
 <text x="721.8" y="201" fill="var(--text-primary, #1C1A17)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="16" font-weight="600">CatalogueReader</text>
 <rect x="954.9" y="174" width="185.1" height="44" rx="6" fill="var(--surface-raised, #FFFFFF)" stroke="var(--border-subtle, #E3DFD6)" stroke-width="1"></rect>
 <text x="970.9" y="201" fill="var(--text-primary, #1C1A17)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="16" font-weight="600">locallang.xlf</text>
-<rect x="405.8" y="61" width="38" height="18" fill="var(--surface-canvas, #FBFAF7)"></rect><text x="408.8" y="74" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">miss</text>
-<rect x="654.8" y="61" width="38" height="18" fill="var(--surface-canvas, #FBFAF7)"></rect><text x="657.8" y="74" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">read</text>
-<rect x="903.9" y="61" width="38" height="18" fill="var(--surface-canvas, #FBFAF7)"></rect><text x="906.9" y="74" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">3 ms</text>
+<rect x="405.8" y="61" width="38" height="18" fill="var(--surface-canvas, #FBFAF7)"></rect><text x="408.8" y="74" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">miss</text>
+<rect x="654.8" y="61" width="38" height="18" fill="var(--surface-canvas, #FBFAF7)"></rect><text x="657.8" y="74" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">read</text>
+<rect x="903.9" y="61" width="38" height="18" fill="var(--surface-canvas, #FBFAF7)"></rect><text x="906.9" y="74" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">3 ms</text>
 <rect x="409.8" y="175" width="30" height="18" fill="var(--surface-canvas, #FBFAF7)"></rect><text x="412.8" y="188" fill="var(--accent, #FF8700)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">hit</text>
-<rect x="642.8" y="175" width="62" height="18" fill="var(--surface-canvas, #FBFAF7)"></rect><text x="645.8" y="188" fill="var(--text-muted, #726C63)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">no read</text>
+<rect x="642.8" y="175" width="62" height="18" fill="var(--surface-canvas, #FBFAF7)"></rect><text x="645.8" y="188" fill="var(--text-muted, #68635B)" font-family="&#39;Soul Diagram Mono&#39;,&#39;Source Code Pro&#39;,ui-monospace,monospace" font-size="13">no read</text>
 </g>
 </svg>

@@ -165,7 +165,7 @@ var init_paint = __esm({
     init_text();
     INK = "var(--text-primary, #1C1A17)";
     SECONDARY = "var(--text-secondary, #4A453D)";
-    MUTED = "var(--text-muted, #726C63)";
+    MUTED = "var(--text-muted, #68635B)";
     CANVAS = "var(--surface-canvas, #FBFAF7)";
     RAISED = "var(--surface-raised, #FFFFFF)";
     SUNKEN = "var(--surface-sunken, #F3F1EC)";
@@ -173,8 +173,8 @@ var init_paint = __esm({
     SUBTLE = "var(--border-subtle, #E3DFD6)";
     STRONG = "var(--border-strong, #C9C3B7)";
     ACCENT = "var(--accent, #FF8700)";
-    OK = "var(--status-ok, #4F7A3A)";
-    WARN = "var(--status-warn, #986200)";
+    OK = "var(--status-ok, #476D34)";
+    WARN = "var(--status-warn, #8B5900)";
     ERROR = "var(--status-error, #A33328)";
     QUIET = {
       ok: "var(--surface-ok-quiet, #EEF3EA)",

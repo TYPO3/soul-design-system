@@ -143,8 +143,11 @@ names those surfaces.
      - the structural hairline: a card's frame, a table's rules, the gaps of
        a grid
    * - ``--border-strong``
-     - the frame a control carries, a secondary button, a badge, a field, and
-       the line under a table head
+     - the frame of a secondary button and a badge, and the line under a table
+       head
+   * - ``--border-control``
+     - the edge that alone says a control is there: a field, a check, a switch
+       and a range
    * - ``--border-accent-quiet``
      - the frame of the tinted plane, and nothing else
    * - ``--border-error-quiet``
