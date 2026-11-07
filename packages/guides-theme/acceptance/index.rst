@@ -574,6 +574,16 @@ stands in a column, because this page is not a run of bands.
 
    The claim stands here, and the press stands under it.
 
+A hero under its heading
+========================
+
+.. hero:: /_images/placeholder.svg
+   :plain:
+   :align: start
+
+   A hero right under a heading takes the heading into its first column,
+   beside the picture, as on a marketing page.
+
 Cards with a glyph and a state
 ==============================
 

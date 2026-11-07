@@ -2,8 +2,9 @@
    property.** Each path resolves here, because what a path means is the
    renderer's business.
 
-   The first child stands between the tags, with the title in it, so the page
-   keeps its one `h1`. What follows it stands under the hero and not in it. #}
+   The first child stands between the tags. Right under a heading, `Bands`
+   puts the heading in it, so the page keeps its one `h1` in every layout.
+   What follows it stands under the hero and not in it. #}
 {%- set href = node.option('href') ? renderLink(node.option('href')) : '' -%}
 {%- set second = node.option('second-href') ? renderLink(node.option('second-href')) : '' -%}
 <div class="sds-sections">

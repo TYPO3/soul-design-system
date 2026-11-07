@@ -56,22 +56,10 @@ final class Bands
     private function fill(array $nodes): void
     {
         foreach ($nodes as $node) {
-            if ($node instanceof SectionNode && $this->opensWithHero($node)) {
-                $children = $node->getChildren();
-                /** @var HeroNode $hero */
-                $hero = $children[1];
-                $copy = new SectionNode($node->getTitle());
-                foreach ($hero->getChildren() as $child) {
-                    $copy->addChildNode($child);
-                }
-
-                $tail = array_slice($children, 2);
-                $content = [$copy];
-                while ($tail !== [] && !$this->holdsBand($tail[0])) {
-                    $content[] = array_shift($tail);
-                }
-
-                $this->open[] = (new HeroNode($content))->withOptions($hero->getOptions());
+            $opening = $node instanceof SectionNode ? self::opening($node) : null;
+            if ($opening !== null) {
+                [$hero, $tail] = $opening;
+                $this->open[] = $hero;
                 $this->fill($tail);
 
                 continue;
@@ -85,13 +73,13 @@ final class Bands
                 continue;
             }
 
-            if ($node instanceof SectionNode && $this->holdsBand($node)) {
+            if ($node instanceof SectionNode && self::holdsBand($node)) {
                 /* The title is already the section's first child, so the head
                    starts from the title and fills from the second one on. */
                 $head = new SectionNode($node->getTitle());
                 $tail = [];
                 foreach (array_slice($node->getChildren(), 1) as $child) {
-                    if ($tail !== [] || $this->holdsBand($child)) {
+                    if ($tail !== [] || self::holdsBand($child)) {
                         $tail[] = $child;
 
                         continue;
@@ -110,12 +98,37 @@ final class Bands
         }
     }
 
-    private function opensWithHero(SectionNode $node): bool
+    /**
+     * A section whose heading a hero follows, as the hero that holds the
+     * heading. The heading and the copy share the first column, beside the
+     * picture, in every layout. What follows stands under the hero, up to
+     * the first band. That and what comes after it are the tail.
+     *
+     * @return array{0: HeroNode, 1: Node[]}|null
+     */
+    public static function opening(SectionNode $node): ?array
     {
-        return ($node->getChildren()[1] ?? null) instanceof HeroNode;
+        $children = $node->getChildren();
+        $hero = $children[1] ?? null;
+        if (!$hero instanceof HeroNode) {
+            return null;
+        }
+
+        $copy = new SectionNode($node->getTitle());
+        foreach ($hero->getChildren() as $child) {
+            $copy->addChildNode($child);
+        }
+
+        $tail = array_slice($children, 2);
+        $content = [$copy];
+        while ($tail !== [] && !self::holdsBand($tail[0])) {
+            $content[] = array_shift($tail);
+        }
+
+        return [(new HeroNode($content))->withOptions($hero->getOptions()), $tail];
     }
 
-    private function holdsBand(Node $node): bool
+    private static function holdsBand(Node $node): bool
     {
         if ($node instanceof BandNode) {
             return true;
@@ -126,7 +139,7 @@ final class Bands
         }
 
         foreach ($node->getChildren() as $child) {
-            if ($this->holdsBand($child)) {
+            if (self::holdsBand($child)) {
                 return true;
             }
         }

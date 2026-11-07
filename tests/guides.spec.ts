@@ -131,6 +131,16 @@ test.describe('the render', () => {
     await expect(page.locator('.sds-band').first().locator('.sds-sections > sds-grid > .sds-grid')).toBeVisible();
   });
 
+  test('a hero right under a heading takes the heading into its copy, in a manual page too', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+
+    const hero = page.locator('sds-hero:has(h2:text-is("A hero under its heading")) > .sds-split');
+    await expect(hero.locator(':scope > div').first().locator('h2')).toHaveText(/^A hero under its heading/);
+    await expect(hero.locator('sds-figure')).toHaveCount(1);
+    /* And the heading is there once: not above the hero as well. */
+    await expect(page.locator('h2', { hasText: 'A hero under its heading' })).toHaveCount(1);
+  });
+
   test('the community boundary keeps its heading beside a centred picture', async ({ page }) => {
     await page.goto(`${SITE_URL}/index.html`, { waitUntil: 'load' });
 

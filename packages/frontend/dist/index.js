@@ -13722,7 +13722,7 @@ function pressRow({ action, href, icon, second, secondHref }, cls) {
   if (!action || !href) return "";
   const label = icon ? html10`<sds-icon name="${icon}"></sds-icon>${buttonLabel(action)}` : action;
   const first = buttonMarkup({ variant: "primary", size: "lg", href }, label);
-  const quieter = second && secondHref ? buttonMarkup({ variant: "secondary", href: secondHref }, second) : "";
+  const quieter = second && secondHref ? buttonMarkup({ variant: "secondary", size: "lg", href: secondHref }, second) : "";
   return html10`<div class="${cls}">${first}${quieter}</div>`;
 }
 var SdsCta = class extends SdsElement {

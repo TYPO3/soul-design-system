@@ -72,8 +72,11 @@ browser title and source for navigation.
 
       Copy the example project and replace its content.
 
-The document title stands above it in the source and is not part of it. The
-argument is the image source. The theme writes ``sds-hero``. At a narrow
+The document title stands above it in the source and is not part of it. On the
+page the hero takes the title into its first column, beside the picture. That
+holds in every layout, and for any heading the hero follows directly.
+
+The argument is the image source. The theme writes ``sds-hero``. At a narrow
 viewport the two halves become a column by the rule of every split in the
 system. Content after the hero and
 before the next band stays part of the opening section.

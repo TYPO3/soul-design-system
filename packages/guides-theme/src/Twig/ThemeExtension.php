@@ -99,6 +99,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
     {
         return [
             new TwigFunction('bands', Bands::of(...)),
+            new TwigFunction('opening', Bands::opening(...)),
             new TwigFunction('terms', Terms::of(...)),
             new TwigFunction('menu', $this->menu(...), ['needs_context' => true]),
             new TwigFunction('rail', $this->rail(...), ['needs_context' => true]),

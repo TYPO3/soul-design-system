@@ -44,7 +44,7 @@ export function pressRow(
   if (!action || !href) return '';
   const label = icon ? html`<sds-icon name="${icon}"></sds-icon>${buttonLabel(action)}` : action;
   const first = buttonMarkup({ variant: 'primary', size: 'lg', href }, label);
-  const quieter = second && secondHref ? buttonMarkup({ variant: 'secondary', href: secondHref }, second) : '';
+  const quieter = second && secondHref ? buttonMarkup({ variant: 'secondary', size: 'lg', href: secondHref }, second) : '';
   return html`<div class="${cls}">${first}${quieter}</div>`;
 }
 

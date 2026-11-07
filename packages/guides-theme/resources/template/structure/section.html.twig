@@ -15,7 +15,15 @@
 
     `:class:` travels through. To drop what a theme does not understand is
     the one thing it must not do.
+
+    A hero right under the heading takes the heading into its copy, as a
+    marketing page does. So a hero looks the same in every layout.
 #}
+{%- set opening = opening(node) -%}
+{%- if opening -%}
+    {{- renderNode(opening[0]) -}}
+    {%- for childNode in opening[1] %}{{ renderNode(childNode) }}{% endfor -%}
+{%- else -%}
 <section class="sds-section{% if node.classes %} {{ node.classesString }}{% endif %}" id="{{ node.title.id }}">
     {%- for childNode in node.children -%}
         {#- The part a section begins, named over its heading and after any
@@ -24,3 +32,4 @@
         {{ renderNode(childNode) }}
     {%- endfor -%}
 </section>
+{%- endif -%}

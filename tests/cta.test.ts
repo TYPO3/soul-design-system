@@ -27,6 +27,12 @@ test('each press is a link, the first one primary and the second one quieter', (
   expect(second.getAttribute('href')).toBe('#second');
 });
 
+test('the two presses stand at one height side by side', () => {
+  const heights = [...document.querySelectorAll<HTMLElement>('#both .sds-btn')].map((b) => b.getBoundingClientRect().height);
+  expect(heights).toHaveLength(2);
+  expect(heights[0]).toBe(heights[1]);
+});
+
 test('an action with nowhere to go draws no button', () => {
   expect(document.querySelector('#nowhere .sds-btn')).toBeNull();
 });
