@@ -27,6 +27,7 @@ use TYPO3\Soul\GuidesTheme\Directives\ButtonBarDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ButtonDirective;
 use TYPO3\Soul\GuidesTheme\Directives\BylineDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CardDirective;
+use TYPO3\Soul\GuidesTheme\Directives\ChecksDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CodemodeDirective;
 use TYPO3\Soul\GuidesTheme\Directives\CtaDirective;
 use TYPO3\Soul\GuidesTheme\Directives\DecisionDirective;
@@ -68,6 +69,7 @@ use TYPO3\Soul\GuidesTheme\Renderer\MarkdownRenderer;
 use TYPO3\Soul\GuidesTheme\TextRoles\AnchorTextRole;
 use TYPO3\Soul\GuidesTheme\TextRoles\BadgeTextRole;
 use TYPO3\Soul\GuidesTheme\TextRoles\IdTextRole;
+use TYPO3\Soul\GuidesTheme\TextRoles\StateTextRole;
 use TYPO3\Soul\GuidesTheme\Twig\AnchorExtension;
 use TYPO3\Soul\GuidesTheme\Twig\DiffExtension;
 use TYPO3\Soul\GuidesTheme\Twig\LinkExtension;
@@ -129,6 +131,8 @@ return static function (ContainerConfigurator $container): void {
             ->tag('phpdoc.guides.directive')
         /* A column of a split, and only there — see `HalfDirective`. */
         ->set(HalfDirective::class)
+            ->tag('phpdoc.guides.directive')
+        ->set(ChecksDirective::class)
             ->tag('phpdoc.guides.directive')
         ->set(LogosDirective::class)
             ->tag('phpdoc.guides.directive')
@@ -216,6 +220,9 @@ return static function (ContainerConfigurator $container): void {
 
         /* `:badge:`, a short state in a line — see `BadgeTextRole`. */
         ->set(BadgeTextRole::class)
+        ->tag('phpdoc.guides.parser.rst.text_role')
+        /* `:state:`, a state as a glyph — see `StateTextRole`. */
+        ->set(StateTextRole::class)
         ->tag('phpdoc.guides.parser.rst.text_role')
 
         /* `:anchor:`, an address in a line — see `AnchorTextRole`. */

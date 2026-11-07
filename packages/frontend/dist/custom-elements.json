@@ -1462,6 +1462,71 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/checks.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsChecks",
+          "tagName": "sds-checks",
+          "summary": "A list whose items each carry a check.",
+          "description": "A list whose items each carry a check.\n\nThe list stands between the tags, as a page or a renderer wrote it, so a reader with no script gets the same list. The check is `actions-check` of the icon set, drawn by the stylesheet. `tone` colours the check and nothing else.",
+          "attributes": [
+            {
+              "name": "tone",
+              "description": "`ok` draws the checks in the status green. Without it they take the ink of the text.",
+              "type": {
+                "text": "'ok'"
+              },
+              "fieldName": "tone"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "`ok` draws the checks in the status green. Without it they take the ink of the text.",
+              "type": {
+                "text": "'ok'"
+              },
+              "attribute": "tone"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-checks",
+            "sds-checks--ok"
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "What an attribute cannot carry — prose, a block, a section of a document."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsChecks",
+          "declaration": {
+            "name": "SdsChecks",
+            "module": "src/components/checks.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-checks",
+          "declaration": {
+            "name": "SdsChecks",
+            "module": "src/components/checks.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/code.ts",
       "declarations": [
         {
@@ -4580,6 +4645,14 @@
                 "text": "boolean"
               },
               "fieldName": "zoomable"
+            },
+            {
+              "name": "plain",
+              "description": "No frame and no ground, for an illustration with no edge of its own. A screenshot or a drawing keeps its frame: its colours are for that ground.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "plain"
             }
           ],
           "members": [
@@ -4642,6 +4715,16 @@
                 "text": "boolean"
               },
               "attribute": "zoomable"
+            },
+            {
+              "kind": "field",
+              "name": "plain",
+              "privacy": "public",
+              "description": "No frame and no ground, for an illustration with no edge of its own. A screenshot or a drawing keeps its frame: its colours are for that ground.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "plain"
             }
           ],
           "events": [],
@@ -4649,7 +4732,8 @@
             "sds-figure",
             "sds-figure__caption",
             "sds-figure__frame",
-            "sds-figure__frame--exported"
+            "sds-figure__frame--exported",
+            "sds-figure__frame--plain"
           ],
           "slots": [
             {
@@ -5389,6 +5473,14 @@
               "fieldName": "alt"
             },
             {
+              "name": "plain",
+              "description": "No frame around the picture, for an illustration with no edge of its own.",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "plain"
+            },
+            {
               "name": "valign",
               "description": "Where the copy and the picture stand against each other, top to foot. Not `align`: a browser reads that attribute as `text-align` on any host.",
               "type": {
@@ -5505,6 +5597,16 @@
                 "text": "string"
               },
               "attribute": "alt"
+            },
+            {
+              "kind": "field",
+              "name": "plain",
+              "privacy": "public",
+              "description": "No frame around the picture, for an illustration with no edge of its own.",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "plain"
             },
             {
               "kind": "field",
@@ -5717,6 +5819,14 @@
                 "text": "string"
               },
               "fieldName": "label"
+            },
+            {
+              "name": "tone",
+              "description": "The status a state icon reports: `ok`, `warn` or `error`. Only for an icon that is a result, such as a cell of a matrix. Anything else follows the text.",
+              "type": {
+                "text": "'ok' | 'warn' | 'error'"
+              },
+              "fieldName": "tone"
             }
           ],
           "members": [
@@ -5749,11 +5859,24 @@
                 "text": "string"
               },
               "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "The status a state icon reports: `ok`, `warn` or `error`. Only for an icon that is a result, such as a cell of a matrix. Anything else follows the text.",
+              "type": {
+                "text": "'ok' | 'warn' | 'error'"
+              },
+              "attribute": "tone"
             }
           ],
           "events": [],
           "cssClasses": [
-            "sds-icon"
+            "sds-icon",
+            "sds-icon--error",
+            "sds-icon--ok",
+            "sds-icon--warn"
           ],
           "slots": []
         }

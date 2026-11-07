@@ -81,6 +81,13 @@ before the next band stays part of the opening section.
    for a decorative illustration whose subject already has its name beside
    it.
 
+.. confval:: plain
+   :name: hero-plain
+   :type: flag
+
+   Takes the frame off the picture, for an illustration with no edge of its
+   own. A screenshot or a drawing keeps its frame.
+
 .. confval:: eyebrow
    :name: hero-eyebrow
    :type: string

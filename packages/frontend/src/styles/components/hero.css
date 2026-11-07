@@ -28,13 +28,6 @@
       line-height: var(--sds-hero-title-leading);
       letter-spacing: var(--sds-hero-title-tracking);
     }
-
-    /* A picture that brought its own ground needs no frame around it. A drawing
-       keeps its ground: its colours are for that ground. */
-    .sds-figure__frame:not(.sds-figure__frame--exported) {
-      --sds-figure-fill: transparent;
-      --sds-figure-border: 0;
-    }
   }
   .sds-hero__actions {
     display: flex;

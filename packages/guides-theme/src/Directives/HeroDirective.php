@@ -8,6 +8,7 @@ use phpDocumentor\Guides\Compiler\CompilerContextInterface;
 use phpDocumentor\Guides\Nodes\Node;
 use phpDocumentor\Guides\RestructuredText\Directives\Attributes;
 use phpDocumentor\Guides\RestructuredText\Directives\DirectiveValueType;
+use phpDocumentor\Guides\RestructuredText\Directives\OptionType;
 use phpDocumentor\Guides\RestructuredText\Directives\SubDirective;
 use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
@@ -23,6 +24,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
  */
 #[Attributes\Directive(name: 'hero', valueType: DirectiveValueType::Path)]
 #[Attributes\Option(name: 'alt', description: 'The text of the picture.')]
+#[Attributes\Option(name: 'plain', type: OptionType::Boolean, description: 'No frame around the picture.')]
 #[Attributes\Option(name: 'eyebrow', description: 'The line over the title.')]
 #[Attributes\Option(name: 'action', description: 'The press, in words.')]
 #[Attributes\Option(name: 'href', description: 'Where the press goes.')]
@@ -47,6 +49,7 @@ final class HeroDirective extends SubDirective
         return (new HeroNode($directiveNode->getChildren()))->withOptions([
             'src' => $directive->getData(),
             'alt' => $directive->getOption('alt')->getValue(),
+            'plain' => $directive->hasOption('plain'),
             'eyebrow' => $directive->getOption('eyebrow')->getValue(),
             'action' => $directive->getOption('action')->getValue(),
             'href' => $directive->getOption('href')->getValue(),

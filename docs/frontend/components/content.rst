@@ -194,7 +194,7 @@ removes the travel and keeps the visual response.
    :type: yes | partly | no | unknown
 
    The state of what the card stands for, measured. The drawings use the
-   same sign for the same state. It stands at the end of the line over the
+   same sign for the same state. It stands at the left of the line over the
    title, and its meaning reaches a reader who hears it. It is the only part of a
    card in a status colour, because it is a result. Its shape says the same
    in greyscale.
@@ -275,7 +275,7 @@ its own heading there leaves ``heading`` out.
    :type: string
 
    The picture. ``alt`` says what it shows, and stays empty for decoration.
-   Without ``src`` the copy stands alone.
+   Without ``src`` the copy stands alone. ``plain`` takes the frame off it.
 
 .. confval:: valign
    :name: sds-hero-valign
@@ -292,6 +292,30 @@ its own heading there leaves ``heading`` out.
    :default: "start"
 
    Which half comes first once the two have stacked.
+
+.. _component-sds-checks:
+
+sds-checks
+==========
+
+A list whose items each carry a check. The check is ``actions-check`` of the icon
+set. The list stands between the tags, so a reader with no script gets the same
+list. A list inside an item keeps its own mark.
+
+.. code-block:: html
+
+   <sds-checks tone="ok">
+     <ul>
+       <li><strong>One overview:</strong> One module shows all applications.</li>
+     </ul>
+   </sds-checks>
+
+.. confval:: tone
+   :name: sds-checks-tone
+   :type: "ok"
+
+   ``ok`` draws the checks in ``--status-ok``, for a list of what a reader gets.
+   Without it they take the ink of the text.
 
 .. _component-sds-logos:
 

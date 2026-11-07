@@ -151,13 +151,18 @@ Two classes say what the element cannot. ``sds-list`` puts air between items
 that are a sentence or two each. ``sds-list--plain`` takes the markers and
 the top-level indent off a list of links.
 
+``sds-checks`` around a list gives each item a check, ``actions-check`` of the
+icon set. The check takes the ink of the text. ``tone="ok"`` draws it in
+``--status-ok``, for a list of what a reader gets. Use icons here, not emoji and
+not a character.
+
 An ordered list is the right shape for steps of one line each. A step with a
 command, a file to edit and a line that says it worked is an instruction:
 :ref:`sds-steps <component-sds-steps>`, numbered stops down one rail, each
 with blocks.
 
 .. specimen:: guidelines/type-lists.card.html
-   :viewport: 700x248
+   :viewport: 700x256
    :title: Lists
 
 .. note::

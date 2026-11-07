@@ -1,0 +1,4 @@
+{#- A state as a glyph. The tone came in angle brackets after the words — see
+    `StateTextRole`. It picks the glyph, so the shape says it in greyscale too. -#}
+{%- set glyph = {ok: 'actions-check-circle', warn: 'actions-exclamation-triangle', error: 'actions-exclamation-circle'}[node.class] ?? 'actions-info-circle' -%}
+<sds-icon name="{{ glyph }}" label="{{ node.content }}"{% if node.class %} tone="{{ node.class }}"{% endif %}></sds-icon>

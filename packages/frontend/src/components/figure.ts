@@ -25,6 +25,9 @@ export interface FigureProps {
       element only takes the press over once it has upgraded. Worth it for
       anything drawn wider than its column, pointless for a photograph. */
   zoomable?: boolean;
+  /** No frame and no ground, for an illustration with no edge of its own. A
+      screenshot or a drawing keeps its frame: its colours are for that ground. */
+  plain?: boolean;
 }
 
 /* A caption between the tags, told apart from the picture by the class the
@@ -47,6 +50,7 @@ export class SdsFigure extends SdsElement {
     width: { type: Number },
     height: { type: Number },
     zoomable: { type: Boolean, reflect: true },
+    plain: { type: Boolean, reflect: true },
   };
 
   declare src: string;
@@ -61,6 +65,7 @@ export class SdsFigure extends SdsElement {
       it loads and does not jump under the reader. */
   declare height?: number;
   declare zoomable: boolean;
+  declare plain: boolean;
 
   /* The picture a renderer wrote, taken before Lit renders over it. `src` is
      the form a story or a product surface uses. A renderer that writes HTML
@@ -80,6 +85,7 @@ export class SdsFigure extends SdsElement {
     this.alt = '';
     this.caption = '';
     this.zoomable = false;
+    this.plain = false;
   }
 
   override connectedCallback(): void {
@@ -123,7 +129,7 @@ export class SdsFigure extends SdsElement {
         : '';
 
     return html`<figure class="sds-figure">
-  <div class="sds-figure__frame${exported(this.src) ? ' sds-figure__frame--exported' : ''}">
+  <div class="sds-figure__frame${exported(this.src) ? ' sds-figure__frame--exported' : ''}${this.plain ? ' sds-figure__frame--plain' : ''}">
     ${press ? press.trigger : picture}
   </div>
   ${caption}

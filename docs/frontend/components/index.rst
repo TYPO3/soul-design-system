@@ -62,6 +62,9 @@ group.
    * - ``sds-checkbox-group``
      - tick any of these, under one question
      - :ref:`Forms — sds-checkbox-group <component-sds-checkbox-group>`
+   * - ``sds-checks``
+     - a list whose items each carry a check
+     - :ref:`Content — sds-checks <component-sds-checks>`
    * - ``sds-code``
      - a fenced block, its head and its copy button
      - :ref:`Data — sds-code <component-sds-code>`

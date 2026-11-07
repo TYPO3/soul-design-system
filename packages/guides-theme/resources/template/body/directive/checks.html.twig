@@ -1,0 +1,9 @@
+{#
+    A list whose items each carry a check, and the element draws them. The list
+    is the renderer's own, so it stands between the tags.
+#}
+<sds-checks{% if node.option('tone') == 'ok' %} tone="ok"{% endif %}>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</sds-checks>

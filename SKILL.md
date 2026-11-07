@@ -131,10 +131,14 @@ A container must not share its corner with its contents. That is why the card
 is one step larger.
 
 **The opening of a page.** `sds-hero` is the claim, its press and one picture,
-and it holds the page's only `h1`.
+and it holds the page's only `h1`. `plain` takes the frame off an illustration.
+A screenshot or a drawing keeps its frame.
 
 **Who stands behind a claim.** `sds-logos` is a wall of marks, each on
 `--surface-art`, each `alt` a name.
+
+**A list of what a reader gets.** `sds-checks` around a `ul`, the check from
+the icon set, `tone="ok"` for the status green. A plain list keeps its disc.
 
 **The next step of a page.** `sds-cta` is the one thing a reader can do next:
 what they get, and the press. One per page, because the press is the page's
@@ -266,7 +270,8 @@ These state icons can stand without visible text: `actions-check-circle`
 (answered), `actions-exclamation-triangle` (version-bound),
 `actions-exclamation-circle` (installation not bootable),
 `actions-info-circle` (a stated boundary). Give a standalone `sds-icon` a
-`label`. Every other icon sits beside visible text.
+`label`, and a `tone` (`ok`, `warn`, `error`) where it reports a status. Every
+other icon sits beside visible text.
 
 Inline the SVG wherever colour must follow the UI. An `<img>` cannot inherit
 `currentColor`.
@@ -593,7 +598,7 @@ with a review use the same elements. What it has of its own:
 | the contents | `<sds-nav-outline label="Contents" numbered>` with `entries` nested as the parts nest. The whole tree, numbered, and the mark on the part under the reader. It scrolls on its own, and on a phone it folds behind the press in the head. Never `sds-nav-toc`, which is the contents beside a column and has its own place |
 | the numbers | as text in every heading, `<h2><span class="sds-section__number">4</span> Options weighed</h2>` and `4.2` on a section, counted the way the contents counts them. Never a counter the stylesheet draws: a screen reader never says one. The register's own sections carry the register's numbers, so they stay out of the contents |
 | where it stands | `sds-compare` with the two pages as screenshots, `zoomable`, the claim of each in its caption. Or one `sds-figure`, with `width` and `height` as the file has them. A table after it of what the page says and what the reader asks |
-| the evidence | a matrix of things against criteria: an `sds-icon` with a `label` in every cell, under `sds-td-sign`. Its legend is the caption. Other verdicts in `sds-badge`; what people said as `sds-quote` with `by` and `as` |
+| the evidence | a matrix of things against criteria: an `sds-icon` with a `label` and a `tone` in every cell, under `sds-td-sign`. Its legend is the caption. Other verdicts in `sds-badge`; what people said as `sds-quote` with `by` and `as` |
 | the findings | `sds-register` with groups of the paper's own, as `.groups`: a gap, a cost, what works. `prefix="F"`, `todo-prefix="W"` |
 | a file the proposal adds | `sds-tree` of the directory it lands in, the file with a `note` |
 | a setting it adds | `sds-confval` with `name`, `type`, `default` and its facts |

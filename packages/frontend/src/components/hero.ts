@@ -37,6 +37,8 @@ export interface HeroProps {
   src?: string;
   /** What the picture shows. Empty for decoration. */
   alt?: string;
+  /** No frame around the picture, for an illustration with no edge of its own. */
+  plain?: boolean;
   /** Where the copy and the picture stand against each other, top to foot.
       Not `align`: a browser reads that attribute as `text-align` on any host. */
   valign?: HeroAlign;
@@ -58,6 +60,7 @@ export class SdsHero extends SdsElement {
     secondHref: { type: String, attribute: 'second-href' },
     src: { type: String },
     alt: { type: String },
+    plain: { type: Boolean },
     valign: { type: String },
     leads: { type: String },
   };
@@ -72,6 +75,7 @@ export class SdsHero extends SdsElement {
   declare secondHref: string;
   declare src: string;
   declare alt: string;
+  declare plain: boolean;
   declare valign: HeroAlign;
   declare leads: HeroLeads;
 
@@ -89,6 +93,7 @@ export class SdsHero extends SdsElement {
     this.secondHref = '';
     this.src = '';
     this.alt = '';
+    this.plain = false;
     this.valign = 'center';
     this.leads = 'start';
   }
@@ -109,7 +114,7 @@ export class SdsHero extends SdsElement {
     ${written ?? (this.lead ? html`<p class="sds-lead">${this.lead}</p>` : '')}
     ${pressRow(this, 'sds-hero__actions')}
   </div>
-  ${this.src ? html`<div class="sds-column"><sds-figure src="${this.src}" alt="${this.alt}"></sds-figure></div>` : ''}
+  ${this.src ? html`<div class="sds-column"><sds-figure src="${this.src}" alt="${this.alt}" ?plain="${this.plain}"></sds-figure></div>` : ''}
 </div>`;
   }
 }

@@ -134,6 +134,16 @@ function spriteFor(id: string): string {
   return `${spriteDir}${category ?? ICON_CATEGORIES[0]}.svg`;
 }
 
+export type IconTone = 'ok' | 'warn' | 'error';
+
+/* The class each tone is, written out: a word from an attribute becomes no class
+   nothing defines. */
+const TONE: Record<IconTone, string> = {
+  ok: ' sds-icon--ok',
+  warn: ' sds-icon--warn',
+  error: ' sds-icon--error',
+};
+
 export class SdsIcon extends SdsElement {
   static override properties = {
     name: { type: String, reflect: true },
@@ -143,6 +153,7 @@ export class SdsIcon extends SdsElement {
         Everything else sits beside its own text and hides from assistive
         tech rather than reads out twice. */
     label: { type: String },
+    tone: { type: String },
   };
 
   /** Which icon, by its TYPO3 identifier — `actions-play`,
@@ -155,6 +166,10 @@ export class SdsIcon extends SdsElement {
       assistive technology rather than reads out beside text that already
       says it. */
   declare label?: string;
+  /** The status a state icon reports: `ok`, `warn` or `error`. Only for an icon
+      that is a result, such as a cell of a matrix. Anything else follows the
+      text. */
+  declare tone?: IconTone;
 
   constructor() {
     super();
@@ -177,7 +192,7 @@ export class SdsIcon extends SdsElement {
        thing, which is the whole contract between the element and the class
        layer. The attribute and not `className`: the static render has no
        `className`, and the card loses the class a page wrote. */
-    const cls = this.getAttribute('class') || 'sds-icon';
+    const cls = `${this.getAttribute('class') || 'sds-icon'}${(this.tone && TONE[this.tone]) || ''}`;
     /* A size in pixels is a style, not only an attribute: `.sds-icon` sets a
        width from a token and a class beats a presentation attribute. Only on
        request — written always, it overrides `sds-icon--24`, which is how

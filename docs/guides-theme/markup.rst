@@ -415,6 +415,9 @@ them offers the same answer down a whole page.
 
       What the drawing claims, in the caption the viewer takes with it.
 
+``:plain:`` takes the frame off the picture, for an illustration with no edge
+of its own. A screenshot or a drawing keeps its frame.
+
 ``:target:`` stays a link around the picture, and it is the one place the
 theme ignores ``:zoomable:``. The author's link already wraps the whole
 picture, and the press is a second anchor inside it. ``:align:`` drops, for

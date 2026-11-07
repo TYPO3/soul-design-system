@@ -6,7 +6,7 @@
     Always a column, even where the half holds one thing. A split lays out
     columns and nothing else, so there is no shape it has to recognise.
 #}
-<div class="sds-column{{ node.option('align') ? ' sds-column--' ~ node.option('align') : '' }}{{ node.option('class') ? ' ' ~ node.option('class') : '' }}">
+<div class="sds-column{{ {start: ' sds-column--start', center: ' sds-column--center', end: ' sds-column--end'}[node.option('align')] ?? '' }}{{ node.option('class') ? ' ' ~ node.option('class') : '' }}">
     {%- if node.option('heading') -%}
         <h2>{{ node.option('heading') }}</h2>
     {%- endif -%}

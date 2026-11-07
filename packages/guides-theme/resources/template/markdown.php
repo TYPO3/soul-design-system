@@ -81,6 +81,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\ButtonBarNode;
 use TYPO3\Soul\GuidesTheme\Nodes\ButtonNode;
 use TYPO3\Soul\GuidesTheme\Nodes\BylineNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
+use TYPO3\Soul\GuidesTheme\Nodes\ChecksNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CodemodeNode;
 use TYPO3\Soul\GuidesTheme\Nodes\CtaNode;
 use TYPO3\Soul\GuidesTheme\Nodes\DecisionNode;
@@ -186,6 +187,7 @@ return [
 
     // This theme's own directives
     BandNode::class => 'body/directive/band.md.twig',
+    ChecksNode::class => 'body/directive/checks.md.twig',
     LogosNode::class => 'body/directive/logos.md.twig',
     LogoNode::class => 'body/directive/logo.md.twig',
     CtaNode::class => 'body/directive/cta.md.twig',

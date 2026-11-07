@@ -25,6 +25,8 @@ export interface HeroProps {
     src?: string;
     /** What the picture shows. Empty for decoration. */
     alt?: string;
+    /** No frame around the picture, for an illustration with no edge of its own. */
+    plain?: boolean;
     /** Where the copy and the picture stand against each other, top to foot.
         Not `align`: a browser reads that attribute as `text-align` on any host. */
     valign?: HeroAlign;
@@ -64,6 +66,9 @@ export declare class SdsHero extends SdsElement {
         alt: {
             type: StringConstructor;
         };
+        plain: {
+            type: BooleanConstructor;
+        };
         valign: {
             type: StringConstructor;
         };
@@ -81,6 +86,7 @@ export declare class SdsHero extends SdsElement {
     secondHref: string;
     src: string;
     alt: string;
+    plain: boolean;
     valign: HeroAlign;
     leads: HeroLeads;
     private taken;

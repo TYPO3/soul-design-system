@@ -6,12 +6,12 @@
    nothing at all. */
 
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html, type TemplateResult } from 'lit';
+import { html, nothing, type TemplateResult } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '../../packages/frontend/src/components/table.ts';
 import { type Column, type TableProps } from '../../packages/frontend/src/components/table.ts';
-import { type IconId } from '../../packages/frontend/src/components/icon.ts';
+import { type IconId, type IconTone } from '../../packages/frontend/src/components/icon.ts';
 import '../../packages/frontend/src/components/badge.ts';
 import '../../packages/frontend/src/components/button.ts';
 import '../../packages/frontend/src/components/icon.ts';
@@ -90,11 +90,11 @@ const sdsBadge = ({ label, tone = 'default' }: { label: string; tone?: string })
 /** The signs of a matrix: the glyph, what a screen reader hears, and the
     word the legend shows. One place, so every matrix says the same. */
 export const SIGNS = {
-  yes: { icon: 'actions-check', label: 'Yes', word: 'available' },
-  partly: { icon: 'actions-circle', label: 'Partly', word: 'partly, see the notes' },
-  no: { icon: 'actions-minus', label: 'No', word: 'not available' },
+  yes: { icon: 'actions-check', tone: 'ok', label: 'Yes', word: 'available' },
+  partly: { icon: 'actions-circle', tone: 'warn', label: 'Partly', word: 'partly, see the notes' },
+  no: { icon: 'actions-minus', tone: 'error', label: 'No', word: 'not available' },
   unknown: { icon: 'actions-question', label: 'Not known', word: 'not documented' },
-} satisfies Record<string, { icon: IconId; label: string; word: string }>;
+} satisfies Record<string, { icon: IconId; tone?: IconTone; label: string; word: string }>;
 
 type Sign = keyof typeof SIGNS;
 
@@ -114,11 +114,11 @@ const MATRIX: { criteria: string[]; rows: { name: string; cells: Sign[] }[] } = 
     `sds-td-sign`. The legend is the caption: each glyph, then its word. */
 export const matrix = (): TemplateResult =>
   html`<sds-table><table>
-  <caption>${Object.values(SIGNS).map((sign) => html`<sds-icon name="${sign.icon}"></sds-icon>${sign.word} `)}</caption>
+  <caption>${Object.values(SIGNS).map((sign) => html`<sds-icon name="${sign.icon}" tone="${(sign as { tone?: IconTone }).tone ?? nothing}"></sds-icon>${sign.word} `)}</caption>
   <thead><tr><th>Product</th>${MATRIX.criteria.map((head) => html`<th class="sds-td-sign">${head}</th>`)}</tr></thead>
   <tbody>${MATRIX.rows.map(
     (row) => html`<tr><td class="sds-td-name">${row.name}</td>${row.cells.map(
-      (value) => html`<td class="sds-td-sign"><sds-icon name="${SIGNS[value].icon}" label="${SIGNS[value].label}"></sds-icon></td>`,
+      (value) => html`<td class="sds-td-sign"><sds-icon name="${SIGNS[value].icon}" tone="${(SIGNS[value] as { tone?: IconTone }).tone ?? nothing}" label="${SIGNS[value].label}"></sds-icon></td>`,
     )}</tr>`,
   )}</tbody>
 </table></sds-table>`;

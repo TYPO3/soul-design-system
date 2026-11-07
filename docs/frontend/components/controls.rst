@@ -690,6 +690,13 @@ A TYPO3 icon, in the document, not linked from it, so it inherits
    For an icon without text beside it, and only for that. An icon beside its
    own label hides from assistive technology, so nothing reads twice.
 
+.. confval:: tone
+   :name: sds-icon-tone
+   :type: "ok" | "warn" | "error"
+
+   The status a state icon reports, such as a cell of a matrix. The colour is
+   the status token. Every other icon follows the text.
+
 .. seealso::
 
    :doc:`/design-system/icons` for the set, where a missing one comes from,

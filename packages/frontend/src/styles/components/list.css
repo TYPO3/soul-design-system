@@ -133,11 +133,10 @@
     }
   }
 
-  /* What the element cannot say: the items stand apart. The document's own
-     reset stays tight on purpose. A list of flags under a field is one block
-     of text, and air between its lines makes it two. */
+  /* What the element cannot say: the items stand apart, at the step every list
+     item has. */
   .sds-list {
-    --sds-list-gap: var(--space-1);
+    --sds-list-gap: var(--space-2);
 
     > li:not(:last-child) {
       margin-bottom: var(--sds-list-gap);

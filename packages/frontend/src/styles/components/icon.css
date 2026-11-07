@@ -18,6 +18,9 @@
        class, and the reserved box comes from the same name either way. */
     --sds-icon-size: 1em;
     --sds-icon-ink-muted: var(--text-secondary);
+    --sds-icon-ink-ok: var(--status-ok);
+    --sds-icon-ink-warn: var(--status-warn);
+    --sds-icon-ink-error: var(--status-error);
 
     flex: none;
   }
@@ -38,6 +41,16 @@
   /* A standalone icon that is not inside a coloured control. */
   .sds-icon--muted {
     color: var(--sds-icon-ink-muted);
+  }
+  /* A state icon that is a result. The status colours belong to these alone. */
+  .sds-icon--ok {
+    color: var(--sds-icon-ink-ok);
+  }
+  .sds-icon--warn {
+    color: var(--sds-icon-ink-warn);
+  }
+  .sds-icon--error {
+    color: var(--sds-icon-ink-error);
   }
 
   /* Before the script lands there is no element, only a tag that says which

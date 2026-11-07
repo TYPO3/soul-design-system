@@ -23,6 +23,7 @@ use phpDocumentor\Guides\RestructuredText\Nodes\DirectiveNode;
  */
 #[Attributes\Directive(name: 'figure')]
 #[Attributes\Option(name: 'zoomable', type: OptionType::Boolean, description: 'A press opens the picture at full size.')]
+#[Attributes\Option(name: 'plain', type: OptionType::Boolean, description: 'No frame around the picture.')]
 final class FigureDirective extends BaseDirective
 {
     public function __construct(private readonly BaseDirective $figure) {}
@@ -30,10 +31,18 @@ final class FigureDirective extends BaseDirective
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
     {
         $node = $this->figure->createNode($directiveNode, $compilerContext);
-        if ($node === null || !$directiveNode->getDirective()->hasOption('zoomable')) {
-            return $node;
+        if ($node === null) {
+            return null;
         }
 
-        return $node->withOptions(['zoomable' => true]);
+        $directive = $directiveNode->getDirective();
+        $flags = [];
+        foreach (['zoomable', 'plain'] as $flag) {
+            if ($directive->hasOption($flag)) {
+                $flags[$flag] = true;
+            }
+        }
+
+        return $flags === [] ? $node : $node->withOptions($flags);
     }
 }

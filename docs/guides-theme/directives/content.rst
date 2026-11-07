@@ -396,6 +396,27 @@ from the name, and ``:initials:`` says it where the name does not. The
 element is ``sds-byline`` in :doc:`/frontend/components/content`. The
 Markdown twin writes the three parts on one line.
 
+checks
+======
+
+A list whose items each carry a check. The glyph is ``actions-check`` of the icon
+set. The body is an ordinary list, so a reader with no script gets the same list.
+
+.. example:: The checks in the status green
+
+   .. checks::
+      :tone: ok
+
+      - **One overview:** One module shows all applications with access.
+      - **Known standards:** The API uses OAuth 2.0 and OpenAPI.
+
+.. confval:: tone
+   :name: checks-tone
+   :type: ok
+
+   ``ok`` draws the checks in the status green. Without it they take the ink of
+   the text.
+
 logos
 =====
 

@@ -33,7 +33,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\CtaNode;
 #[Attributes\Option(name: 'icon', description: 'The name of an icon.')]
 #[Attributes\Option(name: 'second', description: 'The quieter way, in words.')]
 #[Attributes\Option(name: 'second-href', description: 'Where the quieter way goes.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class CtaDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -47,7 +46,6 @@ final class CtaDirective extends SubDirective
             'icon' => $directive->getOption('icon')->getValue(),
             'second' => $directive->getOption('second')->getValue(),
             'second-href' => $directive->getOption('second-href')->getValue(),
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

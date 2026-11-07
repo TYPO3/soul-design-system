@@ -63,12 +63,6 @@ line says what it costs, and the press starts it.
 
    Where the second way goes.
 
-.. confval:: class
-   :name: cta-class
-   :type: string
-
-   Classes for the element.
-
 The body is the line under the heading. It is not an option, because out of a
 document it carries links.
 

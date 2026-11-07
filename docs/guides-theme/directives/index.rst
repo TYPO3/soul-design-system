@@ -81,6 +81,9 @@ copy.
    * - ``quote``
      - a sentence from somewhere else, with its source
      - ``sds-quote``
+   * - ``checks``
+     - a list whose items each carry a check
+     - ``sds-checks``
    * - ``logos``, ``logo``
      - a wall of marks, each on the ground its colours are for
      - ``sds-logos``

@@ -160,10 +160,9 @@
   .sds-card__lead > .sds-card__icon {
     margin-bottom: 0;
   }
-  /* The state at the end of the label line, at the size of a glyph. */
+  /* The state beside the glyph or the label, at the left where a reader scans. */
   .sds-card__sign {
     flex: none;
-    margin-inline-start: auto;
     inline-size: var(--sds-card-sign-size);
     block-size: var(--sds-card-sign-size);
   }

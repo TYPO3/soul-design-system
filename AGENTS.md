@@ -304,6 +304,8 @@ Each file guards what the others cannot see:
 | `logos` | a wall of marks: each keeps its name, and its ground does not follow the mode |
 | `hero` | the opening of a page: where the `h1` comes from, which presses draw, and a hero with no picture |
 | `card` | a sign with no words beside it shares the line of the glyph. No hole opens over the title |
+| `checks` | a list with checks: the icon is a mask, and the tone colours the check alone |
+| `icon` | a state icon takes its status colour from `tone`, and every other icon follows the text |
 | `cta` | a call to action: each press a link, none with nowhere to go, and the line between the tags |
 | `copy` | a value carried off: what reaches the clipboard, the button names, and a press that says so in words |
 | `table` | the way into a row: an anchor at its end, one stop per row, a column at its edge. No bar down the side |
@@ -600,6 +602,14 @@ So a rule moves inside a block only if the flat selector had that
 specificity. A variant stays a top-level rule under its full name, and
 `:where()` stays written out. `docs/frontend/stylesheets.rst` carries the
 reason.
+
+### No new class is public
+
+A page reaches the system through an element, its attributes and a directive's
+options. A new choice is a property or an option, never a class a page writes.
+No new directive takes `:class:`. A class stays the element's own name for its
+own node. The class layer and the `:class:` options that stand today are older
+than this rule.
 
 ### Address a component, never rebuild one
 

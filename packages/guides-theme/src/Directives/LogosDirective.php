@@ -24,7 +24,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\LogosNode;
  * The argument is what the marks have in common, and it is optional.
  */
 #[Attributes\Directive(name: 'logos', valueType: DirectiveValueType::String)]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class LogosDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -33,7 +32,6 @@ final class LogosDirective extends SubDirective
 
         return (new LogosNode($directiveNode->getChildren()))->withOptions([
             'label' => $directive->getData(),
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

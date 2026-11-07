@@ -14,6 +14,7 @@ export declare const setIconSprites: (dir: string) => void;
     sandboxed preview, a document opened from disk. Takes the map
     `icons.svg.generated.ts` exports, or any subset of it. */
 export declare const inlineIcons: (svgs: Partial<Record<string, string>>) => void;
+export type IconTone = 'ok' | 'warn' | 'error';
 export declare class SdsIcon extends SdsElement {
     static properties: {
         name: {
@@ -31,6 +32,9 @@ export declare class SdsIcon extends SdsElement {
         label: {
             type: StringConstructor;
         };
+        tone: {
+            type: StringConstructor;
+        };
     };
     /** Which icon, by its TYPO3 identifier — `actions-play`,
         `actions-chevron-down`. */
@@ -42,6 +46,10 @@ export declare class SdsIcon extends SdsElement {
         assistive technology rather than reads out beside text that already
         says it. */
     label?: string;
+    /** The status a state icon reports: `ok`, `warn` or `error`. Only for an icon
+        that is a result, such as a cell of a matrix. Anything else follows the
+        text. */
+    tone?: IconTone;
     constructor();
     protected render(): TemplateResult;
 }

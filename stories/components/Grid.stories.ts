@@ -129,13 +129,14 @@ export const TopToFoot: Story = {
   )}`,
 };
 
-/** One column on its own, in a split that says level for the rest. */
+/** One column on its own, in a split that says level for the rest. A document
+    says this with `:align:` on a half. */
 export const OneColumn: Story = {
   name: 'One column, top to foot',
   render: () => html`<div class="sds-split sds-split--center">
     <div class="sds-column"><p>${CHAPTERS[0]?.body} ${CHAPTERS[0]?.body} ${CHAPTERS[0]?.body}</p></div>
     <div class="sds-column sds-column--start"><p>At the top.</p></div>
-    <div class="sds-column"><p>Level, as the split says.</p></div>
+    <div class="sds-column sds-column--center"><p>Level.</p></div>
     <div class="sds-column sds-column--end"><p>At the foot.</p></div>
   </div>`,
 };

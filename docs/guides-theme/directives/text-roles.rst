@@ -21,6 +21,25 @@ no tone stays part of the label.
 The element is ``sds-badge``. The Markdown twin writes the label in square
 brackets.
 
+state
+=====
+
+A state as a glyph, for a cell of a matrix: ``:state:`Available <ok>```. The
+words name the glyph for a reader who cannot see it, and they do not show. The
+word in angle brackets picks the glyph and its colour: ``ok``, ``warn`` or
+``error``. Without one, the glyph is the stated boundary, in the ink of the text.
+
+.. example:: A matrix
+
+   ============  =========================  =======================
+   Source        In CI                      From a checkout
+   ============  =========================  =======================
+   Package       :state:`Available <ok>`    :state:`In part <warn>`
+   Installation  :state:`Missing <error>`   :state:`Not stated`
+   ============  =========================  =======================
+
+The element is ``sds-icon`` with its ``tone``. The Markdown twin writes the words.
+
 anchor
 ======
 

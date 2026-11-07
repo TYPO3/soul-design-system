@@ -10,7 +10,7 @@ import '../../packages/frontend/src/components/hero.ts';
 import { type HeroProps } from '../../packages/frontend/src/components/hero.ts';
 import { dsCard, part, spec, specCap } from '../lib/specimen.ts';
 
-const sdsHero = ({ heading, eyebrow, lead, action, href, icon, second, secondHref, src, alt, valign, leads }: HeroProps) =>
+const sdsHero = ({ heading, eyebrow, lead, action, href, icon, second, secondHref, src, alt, plain, valign, leads }: HeroProps) =>
   html`<sds-hero
     heading="${heading ?? ''}"
     eyebrow="${eyebrow ?? ''}"
@@ -22,6 +22,7 @@ const sdsHero = ({ heading, eyebrow, lead, action, href, icon, second, secondHre
     second-href="${secondHref ?? ''}"
     src="${src ?? ''}"
     alt="${alt ?? ''}"
+    ?plain="${Boolean(plain)}"
     valign="${valign ?? 'center'}"
     leads="${leads ?? 'start'}"
   ></sds-hero>`;
@@ -52,6 +53,7 @@ const meta: Meta<HeroProps> = {
     secondHref: { control: 'text' },
     src: { control: 'text' },
     alt: { control: 'text' },
+    plain: { control: 'boolean' },
     valign: { control: 'inline-radio', options: ['start', 'center', 'end'] },
     leads: { control: 'inline-radio', options: ['start', 'end'] },
   },
@@ -74,6 +76,9 @@ export const Default: Story = {};
 
 /** The copy alone. With no picture there is no second half. */
 export const NoPicture: Story = { name: 'No picture', args: { ...WHOLE, src: '' } };
+
+/** An illustration with no edge of its own: no frame. A screenshot keeps one. */
+export const Plain: Story = { args: { ...WHOLE, plain: true } };
 
 /** The picture over the copy, once the two have stacked. */
 export const PictureLeads: Story = { name: 'Picture leads', args: { ...WHOLE, leads: 'end' } };

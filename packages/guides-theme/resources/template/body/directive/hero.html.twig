@@ -8,6 +8,7 @@
 {%- set second = node.option('second-href') ? renderLink(node.option('second-href')) : '' -%}
 <div class="sds-sections">
     <sds-hero src="{{ asset(node.option('src')) }}" alt="{{ node.option('alt') }}"
+        {%- if node.option('plain') %} plain{% endif %}
         {%- if node.option('eyebrow') %} eyebrow="{{ node.option('eyebrow') }}"{% endif %}
         {%- if node.option('action') %} action="{{ node.option('action') }}"{% endif %}
         {%- if href %} href="{{ href }}"{% endif %}

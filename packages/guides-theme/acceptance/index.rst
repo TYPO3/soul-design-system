@@ -84,6 +84,9 @@ The words a manual has to say with precision. Press :kbd:`Ctrl-K`, choose
 specific here. A formula can carry :sup:`superscript` and :sub:`subscript`.
 :dfn:`A term with a definition` gets its mark at its first use.
 
+A state as a glyph is :state:`Available <ok>`, :state:`In part <warn>`,
+:state:`Missing <error>` and :state:`Not stated`.
+
 A state in a line is a badge: :badge:`Closed <ok>`, :badge:`Under review
 <warn>`, :badge:`Blocked <error>`, :badge:`Source <accent>` and
 :badge:`New`.
@@ -602,6 +605,22 @@ itself. The grid under it stands its shorter items level.
    .. surface:: A short one
 
       It is short.
+
+Checks
+======
+
+A list whose items each carry a check, first in the ink of the text and then in
+the status green.
+
+.. checks::
+
+   - **Faster integrations:** The API gives access to records and files.
+   - **One overview:** One module shows all applications with access.
+
+.. checks::
+   :tone: ok
+
+   - **Known standards:** The API uses OAuth 2.0, OpenAPI and JSON Schema.
 
 Logos
 =====

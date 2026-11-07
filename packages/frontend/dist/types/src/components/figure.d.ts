@@ -12,6 +12,9 @@ export interface FigureProps {
         element only takes the press over once it has upgraded. Worth it for
         anything drawn wider than its column, pointless for a photograph. */
     zoomable?: boolean;
+    /** No frame and no ground, for an illustration with no edge of its own. A
+        screenshot or a drawing keeps its frame: its colours are for that ground. */
+    plain?: boolean;
 }
 export declare class SdsFigure extends SdsElement {
     static properties: {
@@ -34,6 +37,10 @@ export declare class SdsFigure extends SdsElement {
             type: BooleanConstructor;
             reflect: boolean;
         };
+        plain: {
+            type: BooleanConstructor;
+            reflect: boolean;
+        };
     };
     src: string;
     alt: string;
@@ -47,6 +54,7 @@ export declare class SdsFigure extends SdsElement {
         it loads and does not jump under the reader. */
     height?: number;
     zoomable: boolean;
+    plain: boolean;
     private taken;
     private captioned;
     constructor();

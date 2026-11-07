@@ -136,6 +136,15 @@ for.
    The picture's own size, where a document declared one. A figure fills its
    column and needs neither.
 
+.. confval:: plain
+   :name: sds-figure-plain
+   :type: boolean
+   :default: false
+
+   No frame and no ground, for an illustration with no edge of its own. A
+   screenshot or a drawing keeps its frame, because its colours are for that
+   ground.
+
 .. confval:: zoomable
    :name: sds-figure-zoomable
    :type: boolean

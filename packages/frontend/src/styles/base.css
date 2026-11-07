@@ -202,8 +202,10 @@
   ol {
     padding-inline-start: var(--space-5);
   }
+  /* Punctuation: small and muted, so it divides the items and draws no eye. */
   li::marker {
     color: var(--text-muted);
+    font-size: 0.8em;
   }
 
   /* The marker is the browser's everywhere it already escalates — disc, circle,
@@ -307,14 +309,14 @@
      words says so with a class. A nested list is part of the item it hangs
      under, so it opens with that same air and adds no step below itself. */
   li {
-    margin-bottom: var(--space-1);
+    margin-bottom: var(--space-2);
   }
   li:last-child {
     margin-bottom: 0;
   }
   li > ul,
   li > ol {
-    margin: var(--space-1) 0 0;
+    margin: var(--space-2) 0 0;
   }
 
   /* Far more air than any block carries. A rule separates two sections of a

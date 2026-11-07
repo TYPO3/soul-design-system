@@ -130,7 +130,7 @@ export class SdsCard extends SdsElement {
     /* The kind and the label on one line, and the line goes rather than stays
        empty. A card whose first row is blank has a hole where a set of them
        lines up. */
-    /* The sign closes the line. It is the one part of a card in a status
+    /* The sign follows on the line. It is the one part of a card in a status
        colour, because it is a result: the shape says the same in greyscale. */
     const state = this.sign && SIGNS.includes(this.sign) ? this.sign : undefined;
     const mark = state

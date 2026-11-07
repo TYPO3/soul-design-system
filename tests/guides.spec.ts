@@ -99,6 +99,12 @@ test.describe('the render', () => {
     }
   });
 
+  test('the finish runs once over a page: no element keeps a second copy of its content', async () => {
+    for (const page of [join(ACCEPTANCE_DIR, '..', 'site', 'index.html'), join(ACCEPTANCE_DIR, 'index.html')]) {
+      expect(readFileSync(page, 'utf8')).not.toContain('<template data-sds-content><template data-sds-content>');
+    }
+  });
+
   test('a marketing hero composes the existing layout vocabulary', async ({ page }) => {
     await page.goto(`${SITE_URL}/index.html`, { waitUntil: 'load' });
 
@@ -513,6 +519,16 @@ test.describe('what the theme repaired', () => {
 
   /* A card that carries a state draws the sign of the drawings for it and
      says its meaning, on the page and in the twin. */
+  test('a state in a table is a glyph with its name and its colour', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    const ok = page.locator('sds-icon[tone="ok"][label="Available"] svg');
+    await expect(ok).toHaveAttribute('data-icon', 'actions-check-circle');
+    await expect(ok).toHaveAttribute('aria-label', 'Available');
+    await expect(page.locator('sds-icon[label="Not stated"]')).not.toHaveAttribute('tone');
+    const twin = readFileSync(join(ACCEPTANCE_DIR, 'index.md'), 'utf8');
+    expect(twin).toContain('A state as a glyph is Available, In part,');
+  });
+
   test('a card with a sign says its state', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
     const sign = page.locator('#cards-that-carry-a-state sds-card[sign="partly"] svg.sds-card__sign');

@@ -35,12 +35,12 @@ test('a heading a renderer wrote stands at the display step, as the property doe
   expect(getComputedStyle(q('#b h1')).fontSize).toBe(getComputedStyle(q('#a h1')).fontSize);
 });
 
-test('a raster picture has no frame, and a drawing keeps its ground', async () => {
-  await write('<sds-hero id="r" src="a.webp"></sds-hero><sds-hero id="d" src="a.svg"></sds-hero>');
+test('a picture keeps its frame until the page says plain', async () => {
+  await write('<sds-hero id="f" src="a.webp"></sds-hero><sds-hero id="p" plain src="a.webp"></sds-hero>');
   const frame = (id: string): CSSStyleDeclaration => getComputedStyle(q(`#${id} .sds-figure__frame`));
-  expect(frame('r').borderTopWidth).toBe('0px');
-  expect(frame('r').backgroundColor).toBe('rgba(0, 0, 0, 0)');
-  expect(frame('d').backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
+  expect(frame('f').borderTopWidth).not.toBe('0px');
+  expect(frame('p').borderTopWidth).toBe('0px');
+  expect(frame('p').backgroundColor).toBe('rgba(0, 0, 0, 0)');
 });
 
 test('with no picture there is no second half, and with no href no button', () => {

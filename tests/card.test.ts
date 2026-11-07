@@ -6,12 +6,13 @@ import { box, q, write } from './lib/frame.ts';
 
 const middle = (el: Element): number => box(el).top + box(el).height / 2;
 
-test('a sign and a glyph share one line, and the sign keeps the far end', async () => {
+test('a sign and a glyph share one line, and the sign stands beside the glyph', async () => {
   await write('<div style="width:300px"><sds-card id="c" heading="T" body="B" icon="actions-cog" sign="yes"></sds-card></div>');
   const glyph = q('#c .sds-card__icon svg');
   const sign = q('#c .sds-card__sign');
   expect(Math.abs(middle(glyph) - middle(sign))).toBeLessThanOrEqual(1);
-  expect(box(sign).right).toBeGreaterThan(box(q('#c .sds-card__title')).left + 150);
+  expect(box(sign).left).toBeGreaterThanOrEqual(box(glyph).right);
+  expect(box(sign).left - box(glyph).right).toBeLessThan(32);
   expect(document.querySelectorAll('#c .sds-card__body > .sds-row')).toHaveLength(1);
 });
 

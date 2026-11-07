@@ -1,0 +1,53 @@
+/* sds-checks — a list whose items each carry a check. */
+
+@layer base {
+  sds-checks {
+    display: block;
+    min-width: 0;
+    margin-block: var(--space-flow);
+  }
+  sds-checks > .sds-checks {
+    margin-block: 0;
+  }
+  .sds-checks {
+    margin-block: var(--space-flow);
+  }
+}
+
+@layer components {
+  /* Each item carries `actions-check` of the icon set, as a mask. So the colour
+     is a property, and no script draws it. The marker is empty and not `none`:
+     a screen reader drops a list with `none`. */
+  .sds-checks {
+    --sds-checks-size: var(--space-4);
+    --sds-checks-indent: var(--space-6);
+    --sds-checks-ink: var(--text-primary);
+
+    > ul {
+      margin-block: 0;
+      list-style-type: "";
+      padding-inline-start: var(--sds-checks-indent);
+
+      > li {
+        position: relative;
+
+        &::before {
+          content: "";
+          position: absolute;
+          inset-inline-start: calc(-1 * var(--sds-checks-indent));
+          inset-block-start: calc((1lh - var(--sds-checks-size)) / 2);
+          inline-size: var(--sds-checks-size);
+          block-size: var(--sds-checks-size);
+          background: var(--sds-checks-ink);
+          forced-color-adjust: none;
+          mask:
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m13.3 4.8-.7-.7c-.2-.2-.5-.2-.7 0L6.5 9.5 4 6.9c-.2-.2-.5-.2-.7 0l-.6.7c-.2.2-.2.5 0 .7l3.6 3.6c.2.2.5.2.7 0l6.4-6.4c.1-.2.1-.5-.1-.7z'/%3E%3C/svg%3E")
+            center / contain no-repeat;
+        }
+      }
+    }
+  }
+  .sds-checks--ok {
+    --sds-checks-ink: var(--status-ok);
+  }
+}

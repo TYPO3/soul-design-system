@@ -108,6 +108,12 @@
     --sds-figure-fill: var(--surface-art);
   }
 
+  /* An illustration with no edge of its own. Written after the ground above. */
+  .sds-figure__frame--plain {
+    --sds-figure-fill: transparent;
+    --sds-figure-border: 0;
+  }
+
   .sds-figure__caption {
     max-width: var(--sds-figure-caption-measure);
     color: var(--sds-figure-caption-ink);

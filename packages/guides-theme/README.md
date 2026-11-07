@@ -140,7 +140,7 @@ through.
 | --- | --- |
 | `:layout: marketing` | A document field, not a directive, at the top beside `:navigation-title:`. It renders the page as a run of full-bleed bands with no rail. Any other value, and a page with none, is the manual shape |
 | `:layout: paper` | A document field like `:layout: marketing`. The page is a paper, such as a concept or a review. It has no bar and no footer. A panel beside the text holds the outline of the document. `:eyebrow:` is the line over the title, in the panel and on the page. `:foot:` is a line under the outline, once for each line. The title is the `:navigation-title:`. The foot holds the colour mode switch and links the Markdown twin, in a new window. `:numbered: yes` counts the sections, figures, tables and decisions, and a reference names the number. A reference whose words are `#` names the number alone. `:deck:` names the slides of the page, and a press under the title plays them as a deck |
-| `.. hero:: <image>` | The opening copy of a landing page beside one decorative image. Right after the document title, which stays the page's heading. It draws `sds-hero`. `:alt:`, `:eyebrow:`, `:icon:`. `:action:` and `:href:` are the press. `:second:` and `:second-href:` are a quieter way. `:align:` is `start`, `center` or `end`. `:leads:` is `start` or `end` |
+| `.. hero:: <image>` | The opening copy of a landing page beside one decorative image. Right after the document title, which stays the page's heading. It draws `sds-hero`. `:plain:` takes the frame off the picture. `:alt:`, `:eyebrow:`, `:icon:`. `:action:` and `:href:` are the press. `:second:` and `:second-href:` are a quieter way. `:align:` is `start`, `center` or `end`. `:leads:` is `start` or `end` |
 | `.. band:: [heading]` | A full-bleed section. It *opens* a section and does not wrap one. What follows belongs to it until the next band. `:quiet:` is the second ground, `:id:` an anchor |
 | `.. grid:: [width]` | A set read side by side, reflowed by its own minimum width, with no column count. The argument is `default`, `wide`, `dense` or `flush`, as what the items hold. `:variant:` says it as an option. `:columns:` is how many stand across, while each keeps its minimum. `:align:` (`start`, `center`, `end`) is where a shorter item stands in its row. `:class:` |
 | `.. split::` | Two of anything, side by side until there is no room for two. Every block in it is a column. `:align:` is where the shorter half stands against the taller one: `start`, `center`, `end`. `:leads:` is which half comes first once they stack: `start`, `end`. `:class:` |
@@ -150,7 +150,7 @@ through.
 
 | Written | What it is |
 | --- | --- |
-| `.. cta:: <heading>` | The one thing a reader can do next, as `sds-cta`. The argument is what the reader gets, and the body is the line under it. `:action:` is the press in words and `:href:` is where it goes. With no `:href:` no button draws. `:icon:` stands in front of the press. `:second:` and `:second-href:` are a quieter way beside it. `:class:` lands on the element. One per page. A way into a chapter is `card` |
+| `.. cta:: <heading>` | The one thing a reader can do next, as `sds-cta`. The argument is what the reader gets, and the body is the line under it. `:action:` is the press in words and `:href:` is where it goes. With no `:href:` no button draws. `:icon:` stands in front of the press. `:second:` and `:second-href:` are a quieter way beside it. One per page. A way into a chapter is `card` |
 | `.. button:: <label>` | One press. The label carries where it goes: a `:ref:`, a `:doc:` or a link. With a target, the control is a link, with the browser's middle click and status line. `:href:` says the target as a path instead. `:variant:` is `primary`, `secondary` or `ghost`. `:size:` is `md`, `sm` or `lg`; `lg` is the one action a page is for. `:icon:` is a glyph before the label. `:icon-only:` makes the glyph the whole control and the label its name. `:title:`, `:rel:`, `:disabled:`, `:class:`. `type`, `for` and `command` are not on offer. A document has no form to submit and no element to command |
 | `.. button-bar::` | The presses of a page on one line, centred against each other, so a link beside a button sits right. Named for what it holds. Layout, not a component, so it has no variant. `:class:` |
 
@@ -162,7 +162,8 @@ through.
 | `.. surface:: <title>` | One filled plane with a statement in place, and one of a set. It goes in a `grid` the way `stat` does. It states and does not go somewhere, which is the line between it and `card`. It is not `topic`: a digression in the reading flow stays an `<aside>`. `:plane:` is `raised`, or `sunken` for machine output. `:label:` is the tracked-out line over the title, `:icon:` a glyph above it. `:class:` |
 | `.. quote:: <who>` | A sentence from somewhere else, with its source. The attribution is the argument because the element demands one. The sentence goes between the tags, because out of a document it carries links. A block quote is not the spelling. The parser turns one into a definition list, so `<blockquote>` never reaches a template. `:as:` is what they are to the subject, `:meta:` when. `:initials:` is the monogram, drawn only with these given. `:href:` is where to read it in full. `:class:` |
 | `.. byline:: <name>` | Who wrote the page, what they are to it, and when, as `sds-byline`. `:as:`, `:meta:`, `:initials:` (taken from the name without it), `:href:`, `:class:` |
-| `.. logos:: [label]` | A wall of marks, as `sds-logos`, with one `logo` per mark in the body. The argument says what they have in common. `:class:` lands on the element |
+| `.. checks::` | A list whose items each carry a check, from the icon set. The body is an ordinary list. It draws `sds-checks`. `:tone: ok` draws the checks in the status green |
+| `.. logos:: [label]` | A wall of marks, as `sds-logos`, with one `logo` per mark in the body. The argument says what they have in common |
 | `.. logo:: <image>` | One mark of a wall. `:alt:` is the name it stands for, and `:href:` is where it goes |
 
 ### Instructions and questions
@@ -191,6 +192,7 @@ through.
 | --- | --- |
 | `:anchor:` | A text role for an address in a line: ``:anchor:`P2 <step-p2>` ``. A word in a table cell gets an id that `:ref:` names. Without angle brackets, the words are the address |
 | `:id:` | A text role for a reference to an id, set in mono: ``:id:`B10 <feat-b10>` ``. The same as `:ref:`, with the link in the mono face |
+| `:state:` | A text role for a state as a glyph, for a cell of a matrix: ``:state:`Available <ok>` ``. The words name it for a reader who cannot see it. `ok`, `warn` or `error` picks the glyph and its colour |
 | `:badge:` | A text role for a short state in a line: ``:badge:`Closed <ok>` ``. The tone in angle brackets is `ok`, `warn`, `error` or `accent`; without one, neutral |
 
 ### Papers and decks

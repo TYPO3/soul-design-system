@@ -30,7 +30,7 @@ const TRAIL: readonly Crumb[] = [{ label: 'Overview', href: '#' }, { label: 'Whi
 
 /** Present, and said so to anything that cannot see the glyph. */
 const yes = (what: string): TemplateResult =>
-  html`<sds-icon name="actions-check-circle" label="${what}: yes"></sds-icon>`;
+  html`<sds-icon name="actions-check-circle" tone="ok" label="${what}: yes"></sds-icon>`;
 
 /** Absent. An em dash rather than a cross: nothing failed here, the capability
     is simply not part of this way to run it. */
