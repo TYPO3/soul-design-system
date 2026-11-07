@@ -6,6 +6,8 @@ Instructions and questions
 
 Work with an order, and answers behind a fold.
 
+.. _directive-steps:
+
 steps
 =====
 
@@ -43,6 +45,8 @@ list. A numbered list from ``#.`` is the right shape for steps of one line
 each. This one is for stops with a command, a file to edit and the output
 that says it worked. The element is ``sds-steps`` in
 :doc:`/frontend/components/content`.
+
+.. _directive-step:
 
 step
 ====
@@ -89,6 +93,8 @@ line that says it worked are what no attribute carries. The title takes no
 heading level either. The number says where a reader is in an instruction,
 and a page whose outline is its steps has buried its own sections.
 
+.. _directive-accordion:
+
 accordion
 =========
 
@@ -134,6 +140,8 @@ reaches it, find-in-page opens the answer it lands in, and the platform
 closes the others. That is why the answers carry the set's name, and why a
 page never writes one on an item. The element is ``sds-accordion`` in
 :doc:`/frontend/components/navigation`.
+
+.. _directive-accordion-item:
 
 accordion-item
 ==============

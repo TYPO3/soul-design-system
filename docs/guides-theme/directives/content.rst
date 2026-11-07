@@ -6,6 +6,8 @@ Content blocks
 
 One thing a page states, alone or in a set.
 
+.. _directive-card:
+
 card
 ====
 
@@ -129,6 +131,8 @@ the summary are in the document with no script. In a browser the element
 upgrades over that rendering. This is the theme-wide arrangement,
 not the card's own; see :doc:`/guides-theme/markup`.
 
+.. _directive-stat:
+
 stat
 ====
 
@@ -221,6 +225,8 @@ The frame in a wall is the wall's. So a figure anywhere else stays bare, and
 a row of numbers on a page is not a row of boxes. The element is
 ``sds-stat`` in :doc:`/frontend/components/content`, beside its grid.
 
+.. _directive-surface:
+
 surface
 =======
 
@@ -285,6 +291,8 @@ outline does not list stays an ``<aside>``, and is not one of a set.
 statements hold. A plane on its own is a plane in the flow and renders, but
 a single one says nothing the paragraph above it did not. The element is
 ``sds-surface`` in :doc:`/frontend/components/content`.
+
+.. _directive-quote:
 
 quote
 =====
@@ -354,6 +362,8 @@ quotes anything. The element is ``sds-quote`` in
 ``sds-byline``, which is why there is no option here for the order of that
 row.
 
+.. _directive-byline:
+
 byline
 ======
 
@@ -371,6 +381,8 @@ The name is the argument. The options are the ones ``quote`` has: ``:as:``,
 from the name, and ``:initials:`` says it where the name does not. The
 element is ``sds-byline`` in :doc:`/frontend/components/content`. The
 Markdown twin writes the three parts on one line.
+
+.. _directive-checks:
 
 checks
 ======
@@ -393,6 +405,8 @@ set. The body is an ordinary list, so a reader with no script gets the same list
    ``ok`` draws the checks in the status green. Without it they take the ink of
    the text.
 
+.. _directive-logos:
+
 logos
 =====
 
@@ -412,6 +426,8 @@ make sure that the licence of the mark lets the page show it.
 
 The argument says what the marks have in common, and it is optional. The wall
 grows by rows and has no limit. A short last row keeps the width of the cells.
+
+.. _directive-logo:
 
 logo
 ====

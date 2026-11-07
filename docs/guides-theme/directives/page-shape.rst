@@ -6,6 +6,8 @@ The shape of a page
 
 What a page consists of, and where its columns stand.
 
+.. _directive-layout:
+
 layout
 ======
 
@@ -39,6 +41,8 @@ never have to work out which site they are on. The body changes.
    claims renders as a definition list in the body, which is what a
    misspelt field looks like. ``:laoyut: marketing`` prints the word and the
    value above the title of a page that is still a manual.
+
+.. _directive-hero:
 
 hero
 ====
@@ -143,6 +147,8 @@ before the next band stays part of the opening section.
    Which half comes first once the two have stacked. ``end`` puts the picture
    above the copy on a phone.
 
+.. _directive-band:
+
 band
 ====
 
@@ -213,6 +219,8 @@ A page with no band at all is the single band it looks like.
 The landing page of :doc:`the example project </guides-theme/example>` is the same
 directive at home, with the run of them at work.
 
+.. _directive-split:
+
 split
 =====
 
@@ -259,6 +267,8 @@ own minimum, the way every set in this system reflows. The class is
    reader reads is not the source order at every width, and the layout
    cannot work that one out itself.
 
+.. _directive-half:
+
 half
 ====
 
@@ -295,6 +305,8 @@ has no place inside a directive.
 
    Where this half stands, top to foot, when it differs from the split's
    ``align``. It is the same three positions, for one half.
+
+.. _directive-grid:
 
 grid
 ====

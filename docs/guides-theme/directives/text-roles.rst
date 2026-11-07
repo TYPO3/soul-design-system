@@ -6,6 +6,8 @@ Text roles
 
 What stands inside a line of text.
 
+.. _directive-badge:
+
 badge
 =====
 
@@ -20,6 +22,8 @@ no tone stays part of the label.
 
 The element is ``sds-badge``. The Markdown twin writes the label in square
 brackets.
+
+.. _directive-state:
 
 state
 =====
@@ -39,6 +43,8 @@ word in angle brackets picks the glyph and its colour: ``ok``, ``warn`` or
    ============  =========================  =======================
 
 The element is ``sds-icon`` with its ``tone``. The Markdown twin writes the words.
+
+.. _directive-anchor:
 
 anchor
 ======

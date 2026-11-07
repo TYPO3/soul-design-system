@@ -6,6 +6,8 @@ Reference
 
 What a reader looks up and cites.
 
+.. _directive-facts:
+
 facts
 =====
 
@@ -23,6 +25,8 @@ is the shape a name-and-value pair already has in the source.
 The field's name is the term and its body the value, and a value carries a
 link, a literal or a badge. The element is ``sds-facts`` in
 :doc:`/frontend/components/data`.
+
+.. _directive-directory-tree:
 
 directory-tree
 ==============
@@ -82,6 +86,8 @@ window never sees it straight.
    is which wherever there is anything to fold, and a wall of glyphs down a
    short tree is decoration. The slash in its name tells an empty directory
    apart.
+
+.. _directive-diagram:
 
 diagram
 =======
@@ -161,6 +167,8 @@ says what it claims.
    A press on the drawing opens it at the size of the window, in the
    page's tokens. For a drawing too dense to read in the column.
 
+.. _directive-swatch:
+
 swatch
 ======
 
@@ -226,6 +234,8 @@ entry of it.
 **A palette is a set**, so it goes in ``grid`` like any other. At ``wide``,
 the width a name and a ``light-dark()`` pair under it hold. The element is
 ``sds-swatch`` in :doc:`/frontend/components/content`.
+
+.. _directive-register:
 
 register
 ========
@@ -298,6 +308,8 @@ work the list asks for. No line of the document says a number.
 
 The element is ``sds-register`` in :doc:`/frontend/components/content`,
 which says how it numbers and what it draws.
+
+.. _directive-entry:
 
 entry
 =====

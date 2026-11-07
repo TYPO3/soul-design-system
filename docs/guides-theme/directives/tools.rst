@@ -6,6 +6,8 @@ The manual's own tools
 
 What a page about a system needs to show that system.
 
+.. _directive-codemode:
+
 codemode
 ========
 
@@ -23,6 +25,8 @@ theme passes it through. It takes no argument and no option.
 **It is the way out, not the way in.** The gate checks a directive that
 draws the element: its options, its names, its twin. Nothing checks the
 markup here. The Markdown twin prints the block as fenced HTML.
+
+.. _directive-example:
 
 example
 =======
@@ -79,6 +83,8 @@ that opens two of them renders here as two sections with
 the text loose between them. That one stays a ``code-block`` beside prose
 that says so. ``:layout:`` is a field, not a directive, and has nowhere to
 go in a body.
+
+.. _directive-specimen:
 
 specimen
 ========

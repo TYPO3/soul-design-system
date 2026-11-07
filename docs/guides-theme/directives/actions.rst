@@ -6,6 +6,8 @@ Actions
 
 What a reader can do next.
 
+.. _directive-cta:
+
 cta
 ===
 
@@ -68,6 +70,8 @@ document it carries links.
 
 **One per page.** The press is the page's one primary. A way into a chapter
 is ``card``, and a row of presses with no claim is ``button-bar``.
+
+.. _directive-button:
 
 button
 ======
@@ -169,6 +173,8 @@ both come off the node, not out of a template.
 
 The element is ``sds-button`` in :doc:`/frontend/components/controls`, with
 the properties this leaves out and the ones above.
+
+.. _directive-button-bar:
 
 button-bar
 ==========

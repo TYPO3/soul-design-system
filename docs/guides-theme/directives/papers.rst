@@ -6,6 +6,8 @@ Papers and decks
 
 The parts of a long document, and its frames.
 
+.. _directive-part:
+
 part
 ====
 
@@ -23,6 +25,8 @@ The name stands over that heading. In ``:layout: paper``, the outline in the
 panel groups the sections under it, up to the next part. See
 :doc:`/guides-theme/configuration`.
 
+.. _directive-outline:
+
 outline
 =======
 
@@ -38,6 +42,8 @@ before the heading, as ``part`` does, and takes no body.
 
 A heading says what a section claims. A list of claims reads slowly, so the
 outline can name a section in a word.
+
+.. _directive-decision:
 
 decision
 ========
@@ -101,6 +107,8 @@ letter. So an answer put in the middle renames the ones after it, and no
 page changes in two places. The element is ``sds-decision`` in
 :ref:`component-sds-decision`.
 
+.. _directive-answer:
+
 answer
 ======
 
@@ -126,6 +134,8 @@ words is the argument.
 
    The letter or number the paper cites the answer by. Without it, the
    decision counts.
+
+.. _directive-slide:
 
 slide
 =====

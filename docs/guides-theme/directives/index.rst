@@ -74,120 +74,170 @@ copy.
 
 .. list-table:: The shape of a page
    :header-rows: 1
+   :columns: name, , meta
 
    * - Written
      - What it is for
      - Draws
-   * - ``:layout:``
+   * - :ref:`layout <directive-layout>`
      - a field, not a directive: which of the two shapes the page takes
      - —
-   * - ``hero``
+   * - :ref:`hero <directive-hero>`
      - the opening claim of a landing page, its press, and one image
      - ``sds-hero``
-   * - ``band``
+   * - :ref:`band <directive-band>`
      - a full-bleed section of a landing page, and everything after it
      - ``.sds-band``
-   * - ``split``
+   * - :ref:`split <directive-split>`
      - two of anything, side by side until there is no room for two
      - ``.sds-split``
-   * - ``half``
+   * - :ref:`half <directive-half>`
      - one side of a split, where that side is several blocks
      - ``.sds-stack``
-   * - ``grid``
+   * - :ref:`grid <directive-grid>`
      - a set read side by side, reflowed by its own minimum width
      - ``sds-grid``
 
 .. list-table:: Actions
    :header-rows: 1
+   :columns: name, , meta
 
    * - Written
      - What it is for
      - Draws
-   * - ``cta``
+   * - :ref:`cta <directive-cta>`
      - the one thing a reader can do next: what they get, and the press
      - ``sds-cta``
-   * - ``button``
+   * - :ref:`button <directive-button>`
      - one press, and where it goes
      - ``sds-button``
-   * - ``button-bar``
+   * - :ref:`button-bar <directive-button-bar>`
      - the presses of a page, in one row
      - ``.sds-actions``
 
 .. list-table:: Content blocks
    :header-rows: 1
+   :columns: name, , meta
 
    * - Written
      - What it is for
      - Draws
-   * - ``card``
-     - a way into something: a title that goes somewhere, and what is
-       behind it
+   * - :ref:`card <directive-card>`
+     - a way into something: a title that goes somewhere, and what is behind it
      - ``sds-card``
-   * - ``stat``
+   * - :ref:`stat <directive-stat>`
      - one number as a fact
      - ``sds-stat``
-   * - ``surface``
+   * - :ref:`surface <directive-surface>`
      - one filled plane, with a statement in place
      - ``sds-surface``
-   * - ``quote``
+   * - :ref:`quote <directive-quote>`
      - a sentence from somewhere else, with its source
      - ``sds-quote``
-   * - ``checks``
+   * - :ref:`byline <directive-byline>`
+     - who wrote the page, and when
+     - ``sds-byline``
+   * - :doc:`figure </guides-theme/markup>`
+     - a picture with its caption, in a frame or plain
+     - ``sds-figure``
+   * - :ref:`checks <directive-checks>`
      - a list whose items each carry a check
      - ``sds-checks``
-   * - ``logos``, ``logo``
+   * - :ref:`logos <directive-logos>`, :ref:`logo <directive-logo>`
      - a wall of marks, each in the ink of the page
      - ``sds-logos``
 
 .. list-table:: Instructions and questions
    :header-rows: 1
+   :columns: name, , meta
 
    * - Written
      - What it is for
      - Draws
-   * - ``steps``, ``step``
+   * - :ref:`steps <directive-steps>`, :ref:`step <directive-step>`
      - an instruction read from the top, numbered down one rail
      - ``sds-steps``
-   * - ``accordion``, ``accordion-item``
+   * - :ref:`accordion <directive-accordion>`, :ref:`accordion-item <directive-accordion-item>`
      - questions with their answers folded behind them
      - ``sds-accordion``
 
 .. list-table:: Reference
    :header-rows: 1
+   :columns: name, , meta
 
    * - Written
      - What it is for
      - Draws
-   * - ``facts``
+   * - :ref:`facts <directive-facts>`
      - a block of facts, scanned down the terms
      - ``sds-facts``
-   * - ``register``, ``entry``
+   * - :doc:`table </guides-theme/markup>`
+     - a table with a title, and a role for each column
+     - ``sds-table``
+   * - :ref:`directory-tree <directive-directory-tree>`
+     - a directory, in the shape it has on disk
+     - ``sds-tree``
+   * - :ref:`diagram <directive-diagram>`
+     - a drawing, written as the text that describes it
+     - ``sds-diagram``
+   * - :ref:`swatch <directive-swatch>`
+     - one colour of a palette: the chip, its name, its value
+     - ``sds-swatch``
+   * - :ref:`register <directive-register>`, :ref:`entry <directive-entry>`
      - a list a reader cites: numbered, addressed, and the work it asks for
      - ``sds-register``
 
-.. list-table:: Papers and decks
+.. list-table:: Text roles
    :header-rows: 1
+   :columns: name, , meta
 
    * - Written
      - What it is for
      - Draws
-   * - ``slide``
+   * - :ref:`badge <directive-badge>`
+     - a short state in a line
+     - ``sds-badge``
+   * - :ref:`state <directive-state>`
+     - a state as a glyph, for a cell of a matrix
+     - ``sds-icon``
+   * - :ref:`anchor <directive-anchor>`
+     - an address in a line, for a word in a table cell
+     - an id
+
+.. list-table:: Papers and decks
+   :header-rows: 1
+   :columns: name, , meta
+
+   * - Written
+     - What it is for
+     - Draws
+   * - :ref:`part <directive-part>`
+     - where a part of a paper begins
+     - what the paper reads
+   * - :ref:`outline <directive-outline>`
+     - the short name the outline gives the next section
+     - what the paper reads
+   * - :ref:`decision <directive-decision>`, :ref:`answer <directive-answer>`
+     - the question a concept puts, and the answers it can take
+     - ``sds-decision``
+   * - :ref:`slide <directive-slide>`
      - one frame of a deck, in the text of a paper
      - ``sds-slide``
 
 .. list-table:: The manual's own tools
    :header-rows: 1
+   :columns: name, , meta
 
    * - Written
      - What it is for
      - Draws
-   * - ``codemode``
+   * - :ref:`codemode <directive-codemode>`
      - markup that stands in the page as its author wrote it
      - what it holds
-   * - ``example``
+   * - :ref:`example <directive-example>`
      - a piece of markup and, under it, what it renders as
      - ``sds-code`` in ``.sds-example``
-   * - ``specimen``
+   * - :ref:`specimen <directive-specimen>`
      - a rendered card, at the size of its measurement
      - ``sds-embed``
 
