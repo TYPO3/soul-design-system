@@ -140,11 +140,14 @@ export type Props = readonly Record<string, unknown>[];
 
 const MARK = /\bdata-sds-prop="(\d+)"/;
 
-function revive(v: unknown): unknown {
-  if (Array.isArray(v)) return v.map(revive);
+/* Markup under `$html` is complete, and it goes aside for the reason `prerender`
+   states. SSR otherwise draws each element in it again, with no properties, in
+   front of the one that stands there. */
+function revive(v: unknown, aside: (markup: string) => string): unknown {
+  if (Array.isArray(v)) return v.map((x) => revive(x, aside));
   if (typeof v === 'object' && v !== null) {
-    if ('$html' in v) return html`${unsafeHTML(String((v as { $html: string }).$html))}`;
-    return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, revive(x)]));
+    if ('$html' in v) return html`${unsafeHTML(aside(String((v as { $html: string }).$html)))}`;
+    return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, revive(x, aside)]));
   }
   return v;
 }
@@ -205,7 +208,7 @@ const lazily = (made: () => Record<string, Region[]>): Record<string, Region[]> 
     them renders them itself from that. `unsafeHTML` is a child binding and
     a property binding is not one. So the content goes over as a one-hole
     template, which is exactly what a story gives it. */
-function one(tag: string, attrs: string, written: string, authored: string, props: Props, resolve: (at: number) => string = () => '', kept: string = authored): string {
+function one(tag: string, attrs: string, written: string, authored: string, props: Props, resolve: (at: number) => string = () => '', kept: string = authored, aside: (markup: string) => string = (markup) => markup): string {
   const marked = MARK.exec(attrs);
   /* The text region goes over as the content, and every region with a name
      beside it. Content with no slot in it arrives as it always did. */
@@ -222,7 +225,7 @@ function one(tag: string, attrs: string, written: string, authored: string, prop
     /* Always, so an element that reads its text region finds it in Node as
        it does in a browser. */
     regions: written ? lazily(regions) : undefined,
-    ...(marked ? (revive(props[Number(marked[1])] ?? {}) as Record<string, unknown>) : {}),
+    ...(marked ? (revive(props[Number(marked[1])] ?? {}, aside) as Record<string, unknown>) : {}),
   }));
 
   /* SSR renders the element with its own tag, and that tag is the one already
@@ -356,7 +359,7 @@ export function prerender(page: string, tags: readonly string[] = TAGS, props: P
       const inner = walk(closed.inner);
       const held = inner.kept.trim();
       const before = rest.slice(0, found.index);
-      done += before + aside(one(tag, attrs, inner.done.trim(), closed.inner.trim(), props, (at) => put[at] ?? '', held));
+      done += before + aside(one(tag, attrs, inner.done.trim(), closed.inner.trim(), props, (at) => put[at] ?? '', held, aside));
       kept += `${before}<${tag}${attrs}><template ${CONTENT}>${held}</template></${tag}>`;
       rest = rest.slice(closed.end);
     }

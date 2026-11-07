@@ -237,6 +237,12 @@ for (const c of REGIONS) {
   });
 }
 
+test('an element handed over in a property draws once, with its own properties', () => {
+  const card = renderCard(html`<sds-grid .content="${[html`<sds-stat value="5" label="sources" .note="${'A line'}"></sds-stat>`]}"></sds-grid><sds-note heading="H"><p>x</p></sds-note>`);
+  expect(card.match(/class="sds-stat"/g)).toHaveLength(1);
+  expect(card).toContain('A line');
+});
+
 /* Every element is the box it draws.
 
    A block that stands in a flow is a block: it carries the step, and what it
