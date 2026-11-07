@@ -64,6 +64,7 @@ const TASKS: Record<string, Task> = {
   baseline: { cmd: node('scripts/shoot.ts', '.design-sync/.cache/baseline'), help: 'screenshot every card as the before' },
   shots: { cmd: node('scripts/shoot.ts'), help: 'screenshot every card as the after' },
   diff: { cmd: node('scripts/diff.ts'), help: 'compare after against baseline' },
+  webp: { cmd: node('scripts/webp.ts'), help: 'write the WebP the tree keeps beside each PNG named — make webp ARGS=assets/placeholders/x.png' },
   look: { cmd: node('scripts/look.ts'), help: 'photograph one page in both modes — make look ARGS=screens/feature.html' },
 
   /* Sync to the Design System artifact, and every one of them says so in its name.

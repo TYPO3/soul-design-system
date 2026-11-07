@@ -38,7 +38,7 @@ RUN := $(TASK) node scripts/task.ts
 # Every task that is just "run this in the container". Keep in step with the
 # TASKS map in scripts/task.ts, which is where they live.
 TASKS := verify test cards embed chrome typecheck fit ssr coverage prose php css build dist split guides fonts icons \
-         diagrams baseline shots diff look design-project design-sync design-status design-plan design-index design-synced
+         diagrams baseline shots diff look webp design-project design-sync design-status design-plan design-index design-synced
 
 # The long-running ones. `app` is among them: it holds the environment every
 # task above runs in, so a task is an `exec` rather than a new container.
@@ -85,6 +85,7 @@ help:
 	@echo
 	@echo '  make baseline shots diff     screenshot before, after, compare'
 	@echo '  make look ARGS=screens/x.html  photograph one page in both modes'
+	@echo '  make webp ARGS=x.png  the WebP the tree keeps, beside the PNG'
 	@echo '  make fonts icons     regenerate from the npm packages'
 	@echo '  make coverage        is every component shown in a story, a class and the render'
 	@echo '  make php             format the theme’s PHP; ARGS=--check to only report'
