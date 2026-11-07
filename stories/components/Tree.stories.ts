@@ -67,7 +67,7 @@ const meta: Meta<TreeProps> = {
       path: 'components/data/tree.card.html',
       name: 'Directory tree',
       subtitle: 'A nested list, folded — what a document draws as preformatted text with the spaces counted by hand',
-      viewport: '700x602',
+      viewport: '700x628',
     }),
   },
 };

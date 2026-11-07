@@ -70,7 +70,7 @@ const failed = (label: string): TemplateResult => html`<sds-badge label="${label
 
 /** What the paper is, as the head states it. */
 const FACTS: readonly FactsEntry[] = [
-  { term: 'State', value: html`<span class="sds-row"><sds-badge label="draft for discussion" tone="warn"></sds-badge><span>not a decision</span></span>` },
+  { term: 'State', value: html`<span class="sds-row"><sds-badge label="draft" tone="warn"></sds-badge><span>for discussion, not a decision</span></span>` },
   { term: 'Date', value: mono('2026-09-15') },
   { term: 'Audience', value: 'The maintainers of the server, the writers of the status pages' },
   { term: 'Subject', value: html`The status page and the page of a source in ${mono('dev-companion 1.4')}` },

@@ -9,7 +9,7 @@ small, appears in a bar or a row of actions, and is a real ``<button>`` or
 ``<a>`` underneath.
 
 .. specimen:: components/core/buttons.card.html
-   :viewport: 700x410
+   :viewport: 700x421
    :title: Buttons & links
 
 .. _component-sds-button:
@@ -146,7 +146,7 @@ The one thing a reader can do next. A heading says what the reader gets, a
 line says what it costs, and the press starts it.
 
 .. specimen:: components/core/cta.card.html
-   :viewport: 700x480
+   :viewport: 700x486
    :title: Call to action
 
 .. code-block:: html
@@ -215,7 +215,7 @@ sds-dropdown
 A button, and the short list it opens under itself.
 
 .. specimen:: components/core/dropdown.card.html
-   :viewport: 700x546
+   :viewport: 700x586
    :title: Dropdown
 
 The card draws the control open, the button pressed and its list under it,
@@ -443,7 +443,7 @@ It never passes through red or amber. A job at a fifth is not a failure. A
 colour that says so is the one thing on the page that claims a fault.
 
 .. specimen:: components/core/progress.card.html
-   :viewport: 700x515
+   :viewport: 700x574
    :title: Progress
 
 .. code-block:: html

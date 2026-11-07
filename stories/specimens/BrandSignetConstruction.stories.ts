@@ -213,7 +213,7 @@ const meta: Meta = {
       group: 'Signet',
       name: 'Signet — construction',
       subtitle: 'How a signet is built for this system — one rounding throughout: half the stroke',
-      viewport: '700x2193',
+      viewport: '700x2220',
     }),
   },
 };

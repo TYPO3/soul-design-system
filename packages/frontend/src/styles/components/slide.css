@@ -140,7 +140,7 @@
     /* The foot: one row, and how far off the bottom edge it stands. */
     --sds-slide-foot: var(--space-8);
     --sds-slide-count-font: var(--font-mono);
-    --sds-slide-count-size: calc(var(--font-size-body) * var(--font-modifier-mono));
+    --sds-slide-count-size: var(--font-size-mono);
     --sds-slide-count-ink: var(--text-muted);
     /* The lockup on a cover, larger than the foot's. */
     --sds-slide-lockup-size: var(--font-size-h3);
@@ -257,7 +257,7 @@
         --sds-card-title-size: var(--font-size-lead);
       }
       .sds-card__body > .sds-row > .sds-label {
-        --sds-label-font-size: calc(var(--font-size-body) * var(--font-modifier-mono));
+        --sds-label-font-size: var(--font-size-mono);
         --sds-label-tracking: var(--tracking-body);
       }
     }

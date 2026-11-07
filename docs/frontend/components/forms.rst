@@ -11,7 +11,7 @@ and the read-out arrive with it. A drawn control looks right in a screenshot
 and takes no input.
 
 .. specimen:: components/core/input.card.html
-   :viewport: 700x422
+   :viewport: 700x434
    :title: Fields & search
 
 .. _component-sds-field:
@@ -381,7 +381,7 @@ leaves the reading and the tab order. Its ``required`` moves to the
 element's own validity, reported on the visible button.
 
 .. specimen:: components/core/select.card.html
-   :viewport: 700x651
+   :viewport: 700x719
    :title: A select
 
 .. code-block:: html
@@ -671,7 +671,7 @@ sds-switch
 A setting that takes effect where it stands.
 
 .. specimen:: components/core/form-controls.card.html
-   :viewport: 700x437
+   :viewport: 700x445
    :title: Beyond the text field
 
 A checkbox answers a question the form asks, and the submit sends it. A

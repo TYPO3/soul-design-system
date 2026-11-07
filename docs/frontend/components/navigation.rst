@@ -10,7 +10,7 @@ pressable, and it announces ``sds-change`` when it becomes current. An item
 that goes somewhere says ``href``, and the browser handles it.
 
 .. specimen:: components/navigation/navigation.card.html
-   :viewport: 700x163
+   :viewport: 700x188
    :title: Tabs & tool rail
 
 .. _menu-entry:

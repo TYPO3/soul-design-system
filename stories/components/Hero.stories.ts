@@ -64,7 +64,7 @@ const meta: Meta<HeroProps> = {
       path: 'components/content/hero.card.html',
       name: 'Hero',
       subtitle: 'The opening of a page: the claim, its press and one picture',
-      viewport: '900x480',
+      viewport: '900x368',
     }),
   },
 };

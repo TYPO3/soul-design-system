@@ -98,7 +98,7 @@
   }
   h6 {
     font-family: var(--font-mono);
-    font-size: calc(var(--font-size-small) * var(--font-modifier-mono));
+    font-size: var(--font-size-mono);
     font-weight: var(--weight-medium);
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
@@ -183,7 +183,7 @@
   math:not(:has(*)) {
     display: inline;
     font-family: var(--font-mono);
-    font-size: calc(1em * var(--font-modifier-mono));
+    font-size: var(--font-size-mono);
     color: var(--text-primary);
   }
   /* And the directive stands on a line of its own. */

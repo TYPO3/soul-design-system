@@ -29,8 +29,8 @@
     --sds-table-pad: var(--row-pad-medium);
     /* Read off the row rather than named again per density: a mono cell is
        the row's own size through the ratio, whichever size that is. */
-    --sds-table-name-size: calc(var(--sds-table-font-size) * var(--font-modifier-mono));
-    --sds-table-meta-size: calc(var(--sds-table-font-size) * var(--font-modifier-mono));
+    --sds-table-name-size: var(--font-size-mono);
+    --sds-table-meta-size: var(--font-size-mono);
     /* The air between two columns. Nobody saw it while every column took its
        share of the table and stood in the middle of it. A column held to its
        content stands at the edge of its own. 12px between a hash and the
@@ -163,6 +163,11 @@
       font-family: var(--sds-table-font);
       font-size: var(--sds-table-meta-size);
       color: var(--sds-table-meta-ink);
+    }
+    /* A cell in mono already took the ratio, so what it holds in mono stands at
+       its size. Twice over it is a size under the floor. */
+    :is(td.sds-td-name, td.sds-td-meta) :is(code, .sds-mono, kbd, samp) {
+      --sds-mono-font-size: 1em;
     }
 
     /* What is true about a row right now, under the name a reader reads it

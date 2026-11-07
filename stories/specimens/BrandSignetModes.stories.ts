@@ -107,7 +107,7 @@ const meta: Meta = {
       group: 'Signet',
       name: 'Signet — modes & context',
       subtitle: 'Inline follows the UI, linked follows the OS — and the 16px floor in place',
-      viewport: '700x666',
+      viewport: '700x669',
     }),
   },
 };

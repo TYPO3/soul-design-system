@@ -43,7 +43,7 @@
     --sds-decision-key-column: var(--space-8);
     --sds-decision-key-ring: var(--space-6);
     --sds-decision-key-font: var(--font-mono);
-    --sds-decision-key-size: calc(var(--font-size-small) * var(--font-modifier-mono));
+    --sds-decision-key-size: var(--font-size-mono);
     --sds-decision-key-weight: var(--weight-semibold);
     --sds-decision-key-ink: var(--text-muted);
     --sds-decision-key-edge: var(--border-strong);

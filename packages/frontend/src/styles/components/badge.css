@@ -18,7 +18,7 @@
     --sds-badge-border: var(--border-hairline);
     --sds-badge-radius: var(--radius-control);
     --sds-badge-font: var(--font-mono);
-    --sds-badge-font-size: calc(var(--badge-font-size) * var(--font-modifier-mono));
+    --sds-badge-font-size: var(--font-size-mono);
     /* The icon's box and not the font's. A badge with a glyph and one without
        are then the same height. That is what lets a tone be the only thing
        that differs between them. */

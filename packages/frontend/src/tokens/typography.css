@@ -13,8 +13,13 @@
     --font-size-body: 1rem;
     /* Two sizes carry text a person reads, and there is nothing under them.
        The box and the face separate a nav item from a button label, or a
-       table head from the meta beside it — not the size. */
+       table head from the meta beside it — not the size. Mono alone leaves the
+       steps, in `em` against the step it stands in; see fonts.css. */
     --font-size-small: 0.875rem;
+    /* Mono, against the size it stands in: the ratio of fonts.css on `1em`,
+       and never under the small step. A token resolves `em` where it is used,
+       so this stays relative to each run's own context. */
+    --font-size-mono: max(calc(1em * var(--font-modifier-mono)), var(--font-size-small));
 
     /* Openness, closed to open, and every role binds to one of these rather
        than writes its own. `tight` is in use: a row's height comes from it,

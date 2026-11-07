@@ -252,7 +252,7 @@ Drawing rules
 =============
 
 .. specimen:: guidelines/diagrams-rules.card.html
-   :viewport: 980x674
+   :viewport: 980x677
    :title: Drawing rules
 
 Worked examples
@@ -262,15 +262,15 @@ Different shapes of claim need different structures. The examples below use
 an axis, a sequence and containment instead of boxes joined by arrows.
 
 .. specimen:: guidelines/diagrams-overview.card.html
-   :viewport: 1400x759
+   :viewport: 1400x760
    :title: System overview — a map with no axis
 
 .. specimen:: guidelines/diagrams-example.card.html
-   :viewport: 1400x683
+   :viewport: 1400x686
    :title: Worked example
 
 .. specimen:: guidelines/diagrams-fallback.card.html
-   :viewport: 1400x790
+   :viewport: 1400x792
    :title: Fallback — a sequence without a flowchart
 
 For a drawing tool

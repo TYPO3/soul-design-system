@@ -82,7 +82,7 @@ const meta: Meta = {
       group: 'Signet',
       name: 'Signet — sizes',
       subtitle: 'A drawing per size, each on that size’s pixel grid — the size is chosen at the link',
-      viewport: '700x1016',
+      viewport: '700x1021',
     }),
   },
 };

@@ -20,7 +20,7 @@
     --sds-footnote-size: var(--font-size-small);
     --sds-footnote-ink: var(--text-secondary);
     --sds-footnote-label-font: var(--font-mono);
-    --sds-footnote-label-size: calc(1em * var(--font-modifier-mono));
+    --sds-footnote-label-size: var(--font-size-mono);
     --sds-footnote-label-ink: var(--text-muted);
     --sds-footnote-label-ink-target: var(--text-accent-quiet);
 

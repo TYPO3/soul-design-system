@@ -22,7 +22,7 @@
     --sds-rail-radius: var(--radius-control);
     --sds-rail-glyph: var(--control-icon-size);
     --sds-rail-font: var(--font-mono);
-    --sds-rail-font-size: calc(var(--nav-font-size) * var(--font-modifier-mono));
+    --sds-rail-font-size: var(--font-size-mono);
     --sds-rail-ink: var(--text-secondary);
     --sds-rail-ink-hover: var(--text-primary);
     --sds-rail-ink-quiet: var(--text-muted);
@@ -88,7 +88,7 @@
   sds-nav-rail:not(:defined) {
     --sds-rail-step: var(--border-hairline);
     --sds-rail-font: var(--font-mono);
-    --sds-rail-font-size: calc(var(--nav-font-size) * var(--font-modifier-mono));
+    --sds-rail-font-size: var(--font-size-mono);
 
     display: flex;
     flex-direction: column;
@@ -96,8 +96,20 @@
     font-family: var(--sds-rail-font);
     font-size: var(--sds-rail-font-size);
   }
+
+  /* The rail the server drew already takes the ratio against the host. So
+     it stands at the host's size, or the first paint is a step smaller than
+     the rail after the upgrade, and the menu jumps. */
+  sds-nav-rail:not(:defined) > .sds-rail {
+    --sds-rail-font-size: 1em;
+  }
+
   /* And where the section it names is a page, the heading is the way to it, as
      a footer column's heading is. */
+  /* The rail is mono already, so its label stands at the rail's size. */
+  .sds-rail .sds-label {
+    --sds-label-font-size: 1em;
+  }
   .sds-rail__heading {
     text-decoration: none;
     transition: color var(--sds-rail-duration) var(--sds-rail-ease);

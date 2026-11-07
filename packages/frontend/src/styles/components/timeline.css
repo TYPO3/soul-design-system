@@ -37,7 +37,7 @@
     --sds-timeline-gap: var(--space-4);
     --sds-timeline-stop-gap: var(--space-6);
     --sds-timeline-when-font: var(--font-mono);
-    --sds-timeline-when-size: calc(var(--font-size-small) * var(--font-modifier-mono));
+    --sds-timeline-when-size: var(--font-size-mono);
     --sds-timeline-when-ink: var(--text-muted);
     --sds-timeline-when-gap: var(--space-1);
     --sds-timeline-title-size: var(--block-title-size);

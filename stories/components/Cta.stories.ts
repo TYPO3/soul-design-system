@@ -55,7 +55,7 @@ const meta: Meta<CtaProps> = {
       path: 'components/core/cta.card.html',
       name: 'Call to action',
       subtitle: 'What the reader gets, and the one press that starts it',
-      viewport: '700x480',
+      viewport: '700x486',
     }),
   },
 };

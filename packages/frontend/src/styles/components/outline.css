@@ -34,7 +34,7 @@
     --sds-outline-ink-active: var(--text-on-accent);
     --sds-outline-fill-active: var(--accent);
     --sds-outline-number-font: var(--font-mono);
-    --sds-outline-number-size: calc(var(--sds-outline-font-size) * var(--font-modifier-mono));
+    --sds-outline-number-size: var(--font-size-mono);
     --sds-outline-number-ink: var(--text-muted);
     --sds-outline-number-gap: var(--space-1);
     /* Room for two digits at the top, and for a part and a section below it.

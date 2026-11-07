@@ -67,7 +67,7 @@ const meta: Meta<DecisionProps> = {
       path: 'components/content/decision.card.html',
       name: 'The question a paper asks',
       subtitle: 'The answers it can take, the one it recommends, who decides, by when',
-      viewport: '700x530',
+      viewport: '700x538',
     }),
   },
 };

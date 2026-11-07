@@ -74,12 +74,12 @@ The set
 =======
 
 .. specimen:: guidelines/icons-set.card.html
-   :viewport: 700x289
+   :viewport: 700x295
    :title: The set
 
 Usage
 =====
 
 .. specimen:: guidelines/icons-usage.card.html
-   :viewport: 700x513
+   :viewport: 700x516
    :title: Usage

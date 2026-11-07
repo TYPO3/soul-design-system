@@ -190,6 +190,11 @@ destination, a card, a result, is `--entry-title-size` over the same body.
 Never set one half from `--font-size-*` directly. That is how the pair
 escapes the register that owns it.
 
+**Every size is a step of the scale, and mono alone leaves it in `em`.** A
+mono run takes `var(--font-size-mono)`: the ratio against the size it stands
+in, never under the small step. Never a step times the ratio: that is a second
+scale, and on the small step it falls under 14px.
+
 ## Writing
 
 Every text follows ASD-STE100 and the terse rule. `docs/design-system/foundations/writing.rst`

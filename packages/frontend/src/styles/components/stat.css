@@ -50,7 +50,7 @@
     --sds-stat-name-size: var(--font-size-body);
     --sds-stat-name-ink: var(--text-primary);
     --sds-stat-count-font: var(--font-mono);
-    --sds-stat-count-size: calc(var(--font-size-small) * var(--font-modifier-mono));
+    --sds-stat-count-size: var(--font-size-mono);
     --sds-stat-count-ink: var(--text-secondary);
     --sds-stat-head-gap: var(--space-3);
 

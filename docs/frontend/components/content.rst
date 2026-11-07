@@ -229,7 +229,7 @@ The opening of a page: the claim, its press and one picture. The page's only
 ``h1`` stands here, so a page has one hero.
 
 .. specimen:: components/content/hero.card.html
-   :viewport: 900x480
+   :viewport: 900x368
    :title: Hero
 
 .. code-block:: html
@@ -327,7 +327,7 @@ follow the mode. The element draws each one in the ink of the page, with no box
 around it, in light and in dark. So a mark loses its colours here.
 
 .. specimen:: components/content/logos.card.html
-   :viewport: 700x620
+   :viewport: 700x650
    :title: Logos
 
 .. code-block:: html
@@ -780,7 +780,7 @@ not the stat's.** A figure anywhere else stays bare, so a set of numbers on
 a page is not a row of boxes.
 
 .. specimen:: components/data/stat.card.html
-   :viewport: 700x890
+   :viewport: 700x933
    :title: Figures read as a set
 
 .. confval:: value
@@ -1456,7 +1456,7 @@ origin, and what the entry holds as paragraphs, evidence, a table. The
 indent is the scope: a reader sees where an entry begins and ends.
 
 .. specimen:: components/content/register.card.html
-   :viewport: 700x1673
+   :viewport: 700x1712
    :title: Register
 
 .. code-block:: html

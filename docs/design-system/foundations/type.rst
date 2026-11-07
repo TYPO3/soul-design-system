@@ -53,7 +53,7 @@ Scale
 =====
 
 .. specimen:: guidelines/type-scale.card.html
-   :viewport: 700x331
+   :viewport: 700x333
    :title: Type scale
 
 Two sizes carry text a person reads: ``--font-size-body`` is normal and
@@ -129,14 +129,14 @@ thing on the page. The level is the document's, the size is the page's.
 ``sds-display`` is the opening line of a page, not a step in the outline.
 
 .. specimen:: guidelines/type-display.card.html
-   :viewport: 700x200
+   :viewport: 700x206
    :title: Display & headings
 
 Body and lead
 =============
 
 .. specimen:: guidelines/type-body.card.html
-   :viewport: 700x209
+   :viewport: 700x215
    :title: Body & lead
 
 Lists
@@ -162,7 +162,7 @@ command, a file to edit and a line that says it worked is an instruction:
 with blocks.
 
 .. specimen:: guidelines/type-lists.card.html
-   :viewport: 700x256
+   :viewport: 700x259
    :title: Lists
 
 .. note::
@@ -183,7 +183,7 @@ carries a work's name instead of a number. A page that needs the two apart
 has the renderer's anchor: ``citation-<name>`` against ``footnote-<n>``.
 
 .. specimen:: guidelines/type-notes.card.html
-   :viewport: 700x288
+   :viewport: 700x324
    :title: Notes at the foot
 
 .. note::
@@ -195,16 +195,21 @@ has the renderer's anchor: ``citation-<name>`` against ``footnote-<n>``.
 Mono and labels
 ===============
 
-**Everything in mono goes through** ``--font-modifier-mono``. Every glyph in
-Source Code Pro has the same advance, so a run at the size beside it reads a
-step larger. The token is a bare ratio, not a step or a length. Against
-``1em`` it corrects a phrase in a sentence: ``code``, ``kbd``, ``samp``,
-``.sds-mono``, an option name. Against a step it corrects a run set at one: a
-label, a badge, a nav item, a block the machine wrote.
+**Every size is a step of the scale.** Text a person reads stands at
+``--font-size-body`` or ``--font-size-small``. A heading stands at its own
+step. Nothing stands between two steps or under the small one.
 
-``tokens/fonts.css`` states it once. A mono declaration that reaches a size
-without it draws a step larger than the sans beside it. A glyph on its own is
-the exception: a permalink mark is a character, and its size is an optical
+**Mono is the one exception, and it takes** ``em``. Every glyph in Source Code
+Pro has the same advance, so a run at the size beside it reads a step larger.
+``--font-size-mono`` corrects that against the size the run stands in. It is
+``--font-modifier-mono`` times ``1em``, and never less than the small step. In
+body copy that is 14.4px. A step times the ratio is a second scale nobody
+chose, and on the small step it falls under the floor.
+
+``tokens/fonts.css`` states the ratio once. A mono declaration that reaches a
+size without it draws a step larger than the sans beside it. A mark on its own
+is the other exception, and it takes ``em`` too. A permalink, a section number,
+a list marker and a raised figure are characters. Their size is an optical
 choice.
 
 Inline code has no box and no colour of its own. A tinted, padded chip breaks
@@ -224,5 +229,5 @@ holds for a name cell in a table: the primary ink, never the link ink,
 because ``--text-link`` says link and nothing else.
 
 .. specimen:: guidelines/type-mono.card.html
-   :viewport: 700x230
+   :viewport: 700x235
    :title: Mono & labels

@@ -46,7 +46,7 @@ const meta: Meta = {
       group: 'States',
       name: 'Loading',
       subtitle: 'The server is a subprocess — say what is being waited on, not just that something is',
-      viewport: '700x273',
+      viewport: '700x275',
     }),
   },
 };

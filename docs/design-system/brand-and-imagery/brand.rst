@@ -46,7 +46,7 @@ Those are units of the file, and a unit is a pixel. The drawing lives in the
 box it is for, so every straight edge lands on a whole device pixel.
 
 .. specimen:: guidelines/brand-signet-construction.card.html
-   :viewport: 700x2193
+   :viewport: 700x2220
    :title: Signet — construction
 
 Optical sizes and their boxes
@@ -80,11 +80,11 @@ matching file. So the size stands where the box is certain, and a brand mark
 does not become a UI glyph.
 
 .. specimen:: guidelines/brand-signet-sizes.card.html
-   :viewport: 700x1016
+   :viewport: 700x1021
    :title: Signet — sizes
 
 .. specimen:: guidelines/brand-signet-modes.card.html
-   :viewport: 700x666
+   :viewport: 700x669
    :title: Signet — modes & context
 
 The family
@@ -96,7 +96,7 @@ gap. And the single orange in the top-right corner. Not shared: the
 interior, one idea per product.
 
 .. specimen:: guidelines/brand-signet-family.card.html
-   :viewport: 700x716
+   :viewport: 700x721
    :title: Signet — the family
 
 A new one
@@ -124,7 +124,7 @@ word. The bar at its narrowest hides the brand and the pipe and arrives at
 the same place.
 
 .. specimen:: guidelines/brand-lockup.card.html
-   :viewport: 700x213
+   :viewport: 700x216
    :title: Primary lockup
 
 .. specimen:: guidelines/brand-lockup-light.card.html
@@ -132,18 +132,18 @@ the same place.
    :title: Primary lockup — light
 
 .. specimen:: guidelines/brand-lockup-stacked.card.html
-   :viewport: 700x169
+   :viewport: 700x172
    :title: Stacked lockup & app icon
 
 Clear space, edges, motion
 ==========================
 
 .. specimen:: guidelines/brand-clearspace.card.html
-   :viewport: 700x203
+   :viewport: 700x205
    :title: Clear space & minimum size
 
 .. specimen:: guidelines/brand-edges.card.html
-   :viewport: 700x172
+   :viewport: 700x220
    :title: Edges & radii
 
 .. specimen:: guidelines/brand-motion.card.html
@@ -161,5 +161,5 @@ Never
 - the marker in anything but orange.
 
 .. specimen:: guidelines/brand-misuse.card.html
-   :viewport: 700x259
+   :viewport: 700x267
    :title: Misuse

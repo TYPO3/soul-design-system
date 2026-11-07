@@ -99,7 +99,7 @@ canvas. A **card** is the raised plane, a quiet hairline and 10px.
        page is
 
 .. specimen:: guidelines/colors-surfaces.card.html
-   :viewport: 700x277
+   :viewport: 700x338
    :title: Surfaces
 
 Text
@@ -157,7 +157,7 @@ names those surfaces.
      - the frame of the plane under a failure, and nothing else
 
 .. specimen:: guidelines/colors-borders.card.html
-   :viewport: 700x238
+   :viewport: 700x249
    :title: Borders
 
 Accent
@@ -217,5 +217,5 @@ answer with a filled disc is the one a reader came to find. The word after
 its name says the same, for a reader who cannot tell the disc apart.
 
 .. specimen:: guidelines/colors-status.card.html
-   :viewport: 700x226
+   :viewport: 700x237
    :title: Status and syntax

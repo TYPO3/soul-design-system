@@ -9,7 +9,7 @@ here is about one question: can somebody who does not see the whole form at
 once answer it?
 
 .. specimen:: components/core/form.card.html
-   :viewport: 700x725
+   :viewport: 700x762
    :title: A field in a form
 
 A placeholder is not a label
@@ -121,7 +121,7 @@ A switch is not a checkbox
 ==========================
 
 .. specimen:: components/core/form-controls.card.html
-   :viewport: 700x437
+   :viewport: 700x445
    :title: Beyond the text field
 
 ``sds-checkbox`` answers a question the form asks, and the submit sends it.

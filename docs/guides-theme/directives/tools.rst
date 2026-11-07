@@ -94,7 +94,7 @@ A rendered card, at the size of its drawing.
 .. example:: The same file Storybook opens, and the design pane exports
 
    .. specimen:: guidelines/colors-surfaces.card.html
-      :viewport: 700x277
+      :viewport: 700x338
       :title: Surfaces
 
 .. confval:: the card

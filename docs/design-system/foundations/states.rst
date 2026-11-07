@@ -20,7 +20,7 @@ must not leave a ring behind.
 Nothing in this system is reachable by pointer only.
 
 .. specimen:: guidelines/states-focus.card.html
-   :viewport: 700x230
+   :viewport: 700x234
    :title: Focus & keyboard
 
 Interaction
@@ -74,7 +74,7 @@ the hatch and stops its movement. Work that reports nothing gets the spinner:
 a bar on a timer tells the reader something nothing measured.
 
 .. specimen:: guidelines/states-loading.card.html
-   :viewport: 700x273
+   :viewport: 700x275
    :title: Loading
 
 Empty and not found
@@ -87,7 +87,7 @@ Empty and not found
    a failure. It gets ``actions-info-circle``, not an error colour.
 
 .. specimen:: guidelines/states-empty.card.html
-   :viewport: 700x419
+   :viewport: 700x422
    :title: Empty & not found
 
 A status on a word
@@ -107,7 +107,7 @@ They are the only way a page can colour a word. A page that writes
 value. The two drift when the palette moves.
 
 .. specimen:: guidelines/states-tone.card.html
-   :viewport: 700x345
+   :viewport: 700x353
    :title: Status on a word
 
 Errors and degraded answers

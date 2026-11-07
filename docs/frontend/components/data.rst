@@ -9,7 +9,7 @@ it sets in Source Code Pro at every size, verbatim. Nothing here gets title
 case or a prettier form on the way in.
 
 .. specimen:: components/data/data.card.html
-   :viewport: 700x346
+   :viewport: 700x389
    :title: Table, badges & status
 
 .. _component-sds-table:
@@ -237,7 +237,7 @@ sds-table
    JavaScript. By hand, use the properties.
 
 .. specimen:: components/data/density.card.html
-   :viewport: 700x887
+   :viewport: 700x895
    :title: Table density
 
 .. warning::
@@ -287,7 +287,7 @@ column scrolls inside the block. The block is a keyboard stop, so a reader
 with no pointer reaches the end of the line too.
 
 .. specimen:: components/code/code.card.html
-   :viewport: 700x370
+   :viewport: 700x403
    :title: Code block & diff
 
 .. code-block:: html
@@ -412,7 +412,7 @@ with no pointer reaches the end of the line too.
    is decoration on the surface with the least room for it.
 
 .. specimen:: components/data/tree.card.html
-   :viewport: 700x602
+   :viewport: 700x628
    :title: Directory tree
 
 .. _component-sds-tree:
@@ -598,7 +598,7 @@ One configuration value in a reference: the name a reader searches for, the
 facts a machine checks against, and prose that runs to whole blocks.
 
 .. specimen:: components/data/confval.card.html
-   :viewport: 700x388
+   :viewport: 700x419
    :title: Configuration values
 
 .. code-block:: html

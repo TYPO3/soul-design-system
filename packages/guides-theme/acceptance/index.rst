@@ -1192,7 +1192,7 @@ A document inside this one
 ==========================
 
 .. specimen:: guidelines/colors-surfaces.card.html
-   :viewport: 700x277
+   :viewport: 700x338
    :title: Surfaces
 
 The embedded frame, which arrives here as a specimen and on a manual page

@@ -49,7 +49,7 @@
     --sds-entry-rail: var(--space-10);
     --sds-entry-rail-gap: var(--space-3);
     --sds-entry-number-font: var(--font-mono);
-    --sds-entry-number-size: calc(var(--sds-entry-title-size) * var(--font-modifier-mono));
+    --sds-entry-number-size: var(--font-size-mono);
     --sds-entry-number-ink: var(--text-muted);
     --sds-entry-number-weight: var(--weight-regular);
     --sds-entry-title-size: var(--entry-title-size);
@@ -63,7 +63,7 @@
     --sds-entry-todo-lead: var(--space-3);
     --sds-entry-todo-gap: var(--space-2);
     --sds-entry-todo-ink: var(--text-primary);
-    --sds-entry-todo-number-size: calc(var(--sds-entry-body-size) * var(--font-modifier-mono));
+    --sds-entry-todo-number-size: var(--font-size-mono);
 
     /* The rail and the block beside it. The column is the number's width
        with a floor. A prefix and a longer number widen it rather than run

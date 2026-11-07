@@ -62,7 +62,7 @@ const meta: Meta<TimelineProps> = {
       path: 'components/content/timeline.card.html',
       name: 'A plan on the calendar',
       subtitle: 'Dated stops down one rail: what has passed, where the plan is, what lies ahead',
-      viewport: '700x783',
+      viewport: '700x811',
     }),
   },
 };

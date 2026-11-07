@@ -24,7 +24,7 @@
     --sds-deck-rule: var(--border-hairline);
     --sds-deck-edge: var(--border-subtle);
     --sds-deck-count-font: var(--font-mono);
-    --sds-deck-count-size: calc(var(--font-size-small) * var(--font-modifier-mono));
+    --sds-deck-count-size: var(--font-size-mono);
     --sds-deck-count-ink: var(--text-muted);
     --sds-deck-goto-rule: var(--border-hairline);
     /* The list: one column of pictures, each a fifth of the frame. The

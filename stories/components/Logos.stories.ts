@@ -32,7 +32,7 @@ const meta: Meta<LogosProps> = {
       path: 'components/content/logos.card.html',
       name: 'Logos',
       subtitle: 'A wall of marks, each in the ink of the page',
-      viewport: '700x620',
+      viewport: '700x650',
     }),
   },
 };

@@ -5,7 +5,7 @@
   /* A section label: mono, uppercase, tracked out. */
   .sds-label {
     --sds-label-font: var(--font-mono);
-    --sds-label-font-size: calc(var(--font-size-small) * var(--font-modifier-mono));
+    --sds-label-font-size: var(--font-size-mono);
     --sds-label-tracking: var(--tracking-label);
     --sds-label-ink: var(--text-muted);
 
@@ -40,7 +40,7 @@
   kbd,
   samp {
     --sds-mono-font: var(--font-mono);
-    --sds-mono-font-size: calc(1em * var(--font-modifier-mono));
+    --sds-mono-font-size: var(--font-size-mono);
     --sds-mono-weight: var(--weight-medium);
     --sds-mono-ink: var(--text-primary);
     /* A long value in a line of text breaks where it must, so it never pushes

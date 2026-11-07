@@ -49,7 +49,7 @@ const meta: Meta = {
       group: 'States',
       name: 'Status on a word',
       subtitle: 'The three status colours without the box — and the badge, for what the box is for',
-      viewport: '700x345',
+      viewport: '700x353',
     }),
   },
 };

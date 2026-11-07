@@ -62,7 +62,7 @@ const meta: Meta<CompareProps> = {
       path: 'components/content/compare.card.html',
       name: 'Two pictures, read against each other',
       subtitle: 'Each a figure with its claim, under the word that says which is which',
-      viewport: '900x420',
+      viewport: '900x422',
     }),
   },
 };

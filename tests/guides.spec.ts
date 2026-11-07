@@ -131,6 +131,23 @@ test.describe('the render', () => {
     await expect(page.locator('.sds-band').first().locator('.sds-sections > sds-grid > .sds-grid')).toBeVisible();
   });
 
+  /* The rail the server drew and the rail after the upgrade are one size, or the
+     menu jumps on every page a reader opens. */
+  test('the rail keeps its size when its element upgrades', async ({ browser }) => {
+    const sizes: string[] = [];
+    for (const javaScriptEnabled of [false, true]) {
+      const context = await browser.newContext({ javaScriptEnabled });
+      const page = await context.newPage();
+      await page.goto(`${SITE_URL}/design-system/design-with-claude.html`, { waitUntil: 'load' });
+      const items = page.locator('#page-rail .sds-rail__item');
+      await items.first().waitFor();
+      sizes.push(JSON.stringify(await items.evaluateAll((all) => all.map((item) => getComputedStyle(item).fontSize))));
+      await context.close();
+    }
+    expect(sizes[0]).toBe(sizes[1]);
+    expect(JSON.parse(sizes[1] as string)).not.toContain('14px');
+  });
+
   test('a hero right under a heading takes the heading into its copy, in a manual page too', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
 

@@ -64,7 +64,7 @@ const meta: Meta<RunProps> = {
       path: 'components/core/run-checks.card.html',
       name: 'Many jobs at once',
       subtitle: 'Nothing waits for anything, so the state sorts them and the group carries the count',
-      viewport: '760x901',
+      viewport: '760x911',
     }),
   },
 };

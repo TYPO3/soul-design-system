@@ -96,7 +96,7 @@ const meta: Meta<RunProps> = {
       path: 'components/core/run.card.html',
       name: 'Work being done',
       subtitle: 'The row in hand carries a band, what wrote something opens, the durations line up',
-      viewport: '760x860',
+      viewport: '760x844',
     }),
   },
 };

@@ -11,7 +11,7 @@ overlay *of* something. That is also why the specimen draws the modal
 inside a bordered box, not over the page.
 
 .. specimen:: components/surfaces/surfaces.card.html
-   :viewport: 700x428
+   :viewport: 700x431
    :title: The planes, and what floats over them
 
 Surface and behaviour, apart

@@ -55,7 +55,7 @@ const meta: Meta = {
       group: 'Icons',
       name: 'The set',
       subtitle: 'TYPO3.Icons — the core’s own, 16×16, solid, currentColor',
-      viewport: '700x289',
+      viewport: '700x295',
     }),
   },
 };
