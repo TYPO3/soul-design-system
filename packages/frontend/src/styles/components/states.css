@@ -278,6 +278,7 @@
        the distance it draws from; the fill and the hairline still answer. */
     .sds-card:has(> .sds-card__body) {
       --sds-card-lift: 0px;
+      --sds-card-shadow: 0 0 transparent;
       transition: none;
     }
     .sds-card:has(> .sds-card__body)::before {

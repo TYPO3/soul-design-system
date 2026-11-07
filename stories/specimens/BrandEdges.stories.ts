@@ -25,7 +25,7 @@ const CARD = `<div class="spec">
   <div style="display:flex; gap:14px; align-items:stretch;">
     <div style="flex:1; border:1px solid var(--border-subtle); background:var(--surface-raised); padding:13px 15px; border-radius:var(--radius-card);">
       <div class="sds-note__title">Card</div>
-      <div class="spec-cap" style="margin-top:6px;">--radius-card · 6px</div>
+      <div class="spec-cap" style="margin-top:6px;">--radius-card · 10px</div>
     </div>
     <div style="flex:1; border:1px solid var(--border-strong); background:var(--surface-sunken); padding:11px 13px; border-radius:var(--radius-control); font-family:var(--font-mono); font-size:13px; color:var(--text-muted);">
       13.4<span style="color:var(--accent);">|</span>

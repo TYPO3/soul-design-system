@@ -931,7 +931,7 @@
             },
             {
               "name": "icon",
-              "description": "A glyph at the left of the words, where a set tells its cards apart at a glance.",
+              "description": "A glyph above the title, where a set tells its cards apart at a glance.",
               "type": {
                 "text": "IconId"
               },
@@ -1037,7 +1037,7 @@
               "kind": "field",
               "name": "icon",
               "privacy": "public",
-              "description": "A glyph at the left of the words, where a set tells its cards apart at a glance.",
+              "description": "A glyph above the title, where a set tells its cards apart at a glance.",
               "type": {
                 "text": "IconId"
               },
@@ -10357,7 +10357,7 @@
             },
             {
               "name": "icon",
-              "description": "A glyph at the left of the words, where a set of cards tells its cards apart at a glance. It stands beside the card's own title, never alone.",
+              "description": "A glyph above the title, where a set of cards tells its cards apart at a glance. It stands beside the card's own title, never alone.",
               "type": {
                 "text": "IconId"
               },
@@ -10413,7 +10413,7 @@
               "kind": "field",
               "name": "icon",
               "privacy": "public",
-              "description": "A glyph at the left of the words, where a set of cards tells its cards apart at a glance. It stands beside the card's own title, never alone.",
+              "description": "A glyph above the title, where a set of cards tells its cards apart at a glance. It stands beside the card's own title, never alone.",
               "type": {
                 "text": "IconId"
               },

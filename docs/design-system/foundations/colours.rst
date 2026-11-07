@@ -42,7 +42,7 @@ Surfaces
 ========
 
 Each plane means something, and a thing that means nothing sits on the
-canvas. A **card** is the raised plane, a hairline and 6px.
+canvas. A **card** is the raised plane, a quiet hairline and 10px.
 
 .. list-table::
    :header-rows: 1
@@ -132,8 +132,8 @@ Borders
 =======
 
 Hairlines do the structural work. Nothing that stays on the page separates
-by elevation. So the focus halo is the only ``box-shadow`` a page draws, and
-it says keyboard state, not depth; see :doc:`/design-system/foundations/accessibility`. What has left
+by elevation. So at rest the focus halo is the only ``box-shadow`` a page
+draws, and it says keyboard state, not depth; see :doc:`/design-system/foundations/accessibility`. What has left
 the page is the exception the shadow scale exists for, and the table above
 names those surfaces.
 

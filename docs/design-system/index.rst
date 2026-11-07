@@ -31,25 +31,19 @@ cannot drift apart.
 
    .. card:: Foundations
       :href: /design-system/foundations/index
-      :label: The rules
       :icon: actions-template
-      :action: Read the foundations
 
       Colour, type, spacing, states, writing and accessibility.
 
    .. card:: Brand and imagery
       :href: /design-system/brand-and-imagery/index
-      :label: The pictures
       :icon: actions-image
-      :action: See the imagery
 
       The brand, the icons, the illustrations and the diagrams.
 
    .. card:: Patterns
       :href: /design-system/patterns/index
-      :label: The compositions
       :icon: actions-device-desktop
-      :action: See the patterns
 
       Forms, whole screens and slides to start from.
 
@@ -66,8 +60,8 @@ worse in a way that took time to see.
   ``--shadow-flyout`` under what the bar opens over the text. The named steps
   beside it, ``basic``, ``strong``, ``tooltip``, ``dialog``, ``window``, for
   whatever else floats. Everything on the page separates
-  with a hairline plus ``--surface-overlay``. The focus ring is a state, not
-  depth.
+  with a hairline plus ``--surface-overlay``. A linked card leaves the page
+  for as long as the pointer is on it. The focus ring is a state, not depth.
 - **No emoji.** Status is a colour plus a glyph from
   ``packages/frontend/assets/icons/``.
 - **Mono is semantic.** Everything the machine reads, writes or names is

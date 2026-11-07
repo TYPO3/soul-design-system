@@ -22,7 +22,7 @@ export interface SurfaceProps {
     /** The tracked-out line over the title, where a set of these has numbers
         or names as a set — `AUDIENCE 01`, `SOURCE`, `STEP 02`. */
     label?: string;
-    /** A glyph at the left of the words, where a set of cards tells its cards apart at a
+    /** A glyph above the title, where a set of cards tells its cards apart at a
         glance. It stands beside the card's own title, never alone. */
     icon?: IconId;
 }

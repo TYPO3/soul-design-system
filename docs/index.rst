@@ -36,27 +36,21 @@ One system, from design to delivery
 
    .. card:: Design with Claude
       :href: /design-system/design-with-claude
-      :label: Design system
       :icon: actions-brush
-      :action: Start designing with Claude
 
       Give Claude the written guidelines, rendered components and finished
       screens it needs to design with the same system developers ship.
 
    .. card:: Publish documentation as part of the product
       :href: /guides-theme/quickstart
-      :label: For documentation teams
       :icon: actions-book
-      :action: Publish a first site
 
       Turn reStructuredText or Markdown into a site whose navigation, search
       and content components already belong to the interface around it.
 
    .. card:: Ship the interface without a framework
       :href: /frontend/quickstart
-      :label: For developers
       :icon: actions-code
-      :action: Build a first surface
 
       Link the class layer directly, then add the custom elements where a
       surface needs behaviour. Server-rendered markup remains the contract.
@@ -97,7 +91,6 @@ elements connected to the same sources.
 .. grid::
 
    .. card:: Readers keep their bearings
-      :label: Across community projects
       :icon: actions-eye
 
       Product pages, guides and interfaces use the same navigation, type,
@@ -105,7 +98,6 @@ elements connected to the same sources.
       content is familiar.
 
    .. card:: Changes keep their source
-      :label: Across design and code
       :icon: actions-code-merge
 
       A colour changes in a token, a component changes in its element, and
@@ -143,18 +135,14 @@ each toolchain to speak the same visual language.
 
    .. card:: Explore the rules and their specimens
       :href: /design-system/index
-      :label: Design system
       :icon: actions-eye-link
-      :action: Explore the design system
 
       See the colour, type, spacing, state and brand decisions beside the
       rendered evidence that keeps each rule concrete.
 
    .. card:: Render a project of your own
       :href: /guides-theme/example
-      :label: Put it to work
       :icon: actions-template
-      :action: Copy the example project
 
       Start from a complete Guides project, then replace its content. The
       shell, search, navigation and publish workflow stay in place.

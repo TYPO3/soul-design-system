@@ -8,14 +8,14 @@ What the system answers for, and what it leaves to the page. Most of it is
 not a feature on top. It is the reason a rule elsewhere in this manual reads
 the way it does, collected here because a project asks this first.
 
-The ring is the only shadow on the page
-=======================================
+The ring is the shadow of a state
+=================================
 
 ``--border-emphasis`` of ``--accent`` at ``--focus-offset``, with a
 ``--focus-halo`` of ``--accent-ring`` behind it; :doc:`/design-system/foundations/states` has the
-values. It is the one ``box-shadow`` anything *in* the page draws, and it is
-a state, not depth. What stays on the page separates with a hairline. Only a
-surface that has left the page carries a shadow of its own. A ring nobody
+values. It is a state, not depth. What stays on the page separates with a
+hairline. Only a surface that has left the page carries a shadow of its own, and
+a linked card does so under the pointer. A ring nobody
 mistakes for a raised surface still reads on a page full of surfaces.
 
 Always ``:focus-visible``, never ``:focus``: a pointer must not leave a ring

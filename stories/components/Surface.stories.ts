@@ -81,7 +81,7 @@ export const Raised: Story = { args: { plane: 'raised', title: 'Raised', body: '
 /** Machine output: code, logs, structured content. */
 export const Sunken: Story = { args: { plane: 'sunken', title: 'Sunken', body: 'For machine output: code, logs, structured content.' } };
 
-/** A glyph at the left of the words, for a set of cards a reader scans before they
+/** A glyph above the title, for a set of cards a reader scans before they
     read. It sits over the label rather than on the title's line. A reader
     scans a set down its left edge, and a glyph beside a title competes with
     it. Muted, never in a status colour: a card is a subject, not a result. */

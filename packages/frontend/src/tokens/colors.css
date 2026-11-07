@@ -97,9 +97,9 @@
     --accent-active: light-dark(#cc6d00, #ffb866);
     --accent-ring: light-dark(rgba(255, 135, 0, 0.35), rgba(255, 135, 0, 0.45));
     /* The accent as light rather than as ink: what lights a hairline where a
-       surface answers a pointer. Carried at part strength so the frame it
-       starts is a glow and not a drawn orange line. */
-    --accent-glow: light-dark(rgba(255, 135, 0, 0.3), rgba(255, 163, 56, 0.26));
+       surface answers a pointer. Strong at the top, so it reads as light and
+       not as a tint of the frame. */
+    --accent-glow: rgba(255, 135, 0, 0.85);
 
     /* Status and syntax — only inside code, badges and result rows. */
     --status-ok: light-dark(#136c33, #4ade80);

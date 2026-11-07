@@ -139,7 +139,7 @@ Radius follows what a thing *is*, not how loud it looks.
      - ``--radius-control`` 4px
      - buttons, fields, selects, tabs, badges, **code blocks**
    * - Container
-     - ``--radius-card`` 6px
+     - ``--radius-card`` 10px
      - cards, panels, modals
 
 A container must not share its corner with its contents. That is the whole

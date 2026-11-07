@@ -45,7 +45,7 @@ export interface SurfaceProps {
   /** The tracked-out line over the title, where a set of these has numbers
       or names as a set — `AUDIENCE 01`, `SOURCE`, `STEP 02`. */
   label?: string;
-  /** A glyph at the left of the words, where a set of cards tells its cards apart at a
+  /** A glyph above the title, where a set of cards tells its cards apart at a
       glance. It stands beside the card's own title, never alone. */
   icon?: IconId;
 }
@@ -106,8 +106,7 @@ export class SdsSurface extends SdsElement {
        number reads as part of the sentence. */
     const said = this.region('label')[0]?.inner ?? this.label;
     const label = said ? html`<div class="sds-label">${said}</div>` : undefined;
-    /* At the left of the words, the stylesheet's grid places it. A reader scans
-       a set down its left edge. */
+    /* Above the words, where a reader scans a set down its left edge. */
     const icon = this.icon
       ? html`<div class="sds-surface-icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>`
       : undefined;

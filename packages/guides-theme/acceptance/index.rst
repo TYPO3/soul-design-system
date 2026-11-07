@@ -574,6 +574,32 @@ stands in a column, because this page is not a run of bands.
 
    The claim stands here, and the press stands under it.
 
+Cards with a glyph and a state
+==============================
+
+A glyph and a sign with no label share one line, so no hole opens over the
+title.
+
+.. grid::
+
+   .. card:: Automation and monitoring
+      :icon: actions-cog
+      :sign: yes
+
+      Each token gives access only to the necessary actions.
+
+   .. card:: Imports and migrations
+      :icon: actions-upload
+      :sign: partly
+
+      Move content with the same validation as in the backend.
+
+   .. card:: Applications for editors
+      :icon: actions-user
+      :sign: no
+
+      Editors use external tools. The permissions of each editor apply.
+
 Columns, top to foot
 ====================
 

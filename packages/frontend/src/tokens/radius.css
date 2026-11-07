@@ -10,7 +10,7 @@
     /* a card is one step larger than the controls it contains — a container
        must not share its corner with its contents. Code blocks are
        control-scale objects and use --radius-control, not this. */
-    --radius-card: 6px;
+    --radius-card: 10px;
     --radius-pill: 999px;
 
     --border-hairline: 1px;

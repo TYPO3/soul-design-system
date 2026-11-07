@@ -49,7 +49,7 @@ export interface CardProps {
   /** What kind of entry it is. A badge, because it is a fact about the entry
       rather than a result — no tone. It shares the line with the label. */
   tag?: string;
-  /** A glyph at the left of the words, where a set tells its cards apart at a glance. */
+  /** A glyph above the title, where a set tells its cards apart at a glance. */
   icon?: IconId;
   /** The state of what the card stands for, measured: `yes`, `partly`, `no`
       or `unknown`. The sign the drawings use for it, at the end of the label
@@ -122,8 +122,7 @@ export class SdsCard extends SdsElement {
   </div>`
       : '';
 
-    /* At the left of the words, the stylesheet's grid places it. A reader scans
-       a set down its left edge. */
+    /* Above the words, where a reader scans a set down its left edge. */
     const icon = this.icon
       ? html`<div class="sds-card__icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>`
       : '';

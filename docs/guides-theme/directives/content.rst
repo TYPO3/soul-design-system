@@ -47,7 +47,7 @@ One card: a title that goes somewhere, and what is behind it.
 .. confval:: icon
    :type: string
 
-   A glyph at the left of the words, for a set a reader tells apart before a read.
+   A glyph above the title, for a set a reader tells apart before a read.
    The name is an icon of this system; see :doc:`/design-system/brand-and-imagery/icons`.
 
 .. confval:: sign
@@ -271,7 +271,7 @@ One filled plane, with a statement in place.
    :name: surface-icon
    :type: string
 
-   A glyph at the left of the words, where a reader tells a set apart before a read.
+   A glyph above the title, where a reader tells a set apart before a read.
    It stands beside the plane's own title, never alone, and takes the muted
    ink for the reason a card's does. A plane is a subject, not a result.
 

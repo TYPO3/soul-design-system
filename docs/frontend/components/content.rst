@@ -99,7 +99,7 @@ region, and the statement as the rest.
    :name: sds-surface-icon
    :type: icon id
 
-   A glyph at the left of the words, where a reader tells a set apart before they
+   A glyph above the title, where a reader tells a set apart before they
    read it. It never stands alone.
 
 .. confval:: box-style
