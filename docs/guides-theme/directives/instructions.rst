@@ -31,12 +31,6 @@ An instruction read from the top, numbered down one rail.
          A project with no mark takes its title in the bar, which is where a
          name belongs when there is only one.
 
-.. confval:: class
-   :name: steps-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.
-
 **No option numbers a stop, and there is none to add.** The number is the
 set's own count. So a step in the middle renumbers everything under it, and
 no page changes in two places. That is the whole reason to write a set, not
@@ -89,12 +83,6 @@ was going to be.
    open first. A step has no fold, which is the one thing that made
    ``accordion-item`` put its address on the answer instead.
 
-.. confval:: class
-   :name: step-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.
-
 **The title is the argument, and the work follows it**, for the reason a
 question and its answer stand that way. A command, a file to edit and the
 line that says it worked are what no attribute carries. The title takes no
@@ -141,12 +129,6 @@ manual already uses.
    compares. Without it a set is exclusive, because a list is easier to read
    than a wall.
 
-.. confval:: class
-   :name: accordion-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.
-
 **The fold is a** ``<details>``. It works before a script runs, the keyboard
 reaches it, find-in-page opens the answer it lands in, and the platform
 closes the others. That is why the answers carry the set's name, and why a
@@ -190,12 +172,6 @@ One question, and the blocks folded behind it.
    which is why a link that has to show the answer aims inside it. The
    reader still arrives at the question. The answer keeps the head's height
    as scroll margin, so the row stands at the line and not behind the bar.
-
-.. confval:: class
-   :name: accordion-item-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.
 
 **The question is the argument, and the answer follows it.** That is not a
 preference. An answer is paragraphs, lists and code blocks, which no

@@ -26,7 +26,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\RegisterNode;
 #[Attributes\Option(name: 'todo-prefix', description: 'The prefix of an open entry.')]
 #[Attributes\Option(name: 'findings', type: OptionType::Boolean, description: 'The groups of a review.')]
 #[Attributes\Option(name: 'groups', description: 'The groups, as JSON.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class RegisterDirective extends SubDirective
 {
     /** A review's findings, in the order a review reads them. */
@@ -49,7 +48,6 @@ final class RegisterDirective extends SubDirective
             'prefix' => $directive->getOption('prefix')->getValue(),
             'todo-prefix' => $directive->getOption('todo-prefix')->getValue(),
             'groups' => $groups,
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

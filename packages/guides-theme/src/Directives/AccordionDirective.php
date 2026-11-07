@@ -49,7 +49,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\AccordionNode;
 #[Attributes\Directive(name: 'accordion', valueType: DirectiveValueType::Empty)]
 #[Attributes\Option(name: 'multiple', type: OptionType::Boolean, description: 'More than one answer can stand open.')]
 #[Attributes\Option(name: 'group', description: 'The name the answers share.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class AccordionDirective extends SubDirective
 {
     /** Sets rendered so far, for the ones with no name. */
@@ -77,7 +76,6 @@ final class AccordionDirective extends SubDirective
         return (new AccordionNode($children))->withOptions([
             'name' => $name,
             'multiple' => $multiple,
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

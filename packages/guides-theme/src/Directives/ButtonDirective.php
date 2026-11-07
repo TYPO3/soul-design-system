@@ -46,7 +46,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\ButtonNode;
 #[Attributes\Option(name: 'title', description: 'The name a reader hears.')]
 #[Attributes\Option(name: 'rel', description: 'The relation of the link.')]
 #[Attributes\Option(name: 'disabled', type: OptionType::Boolean, description: 'The button does nothing.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class ButtonDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -68,10 +67,6 @@ final class ButtonDirective extends SubDirective
             'title' => $directive->getOption('title')->getValue(),
             'rel' => $directive->getOption('rel')->getValue(),
             'disabled' => $directive->hasOption('disabled'),
-            /* An author who wrote `:class:` meant it for their own stylesheet.
-               To drop what a theme does not understand is the one thing it
-               must not do. Carried the way `card` carries it. */
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

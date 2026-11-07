@@ -30,7 +30,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\AnswerNode;
 #[Attributes\Option(name: 'key', description: 'The letter or number the paper cites the answer by.')]
 #[Attributes\Option(name: 'recommended', type: OptionType::Boolean, description: 'The answer the paper proposes.')]
 #[Attributes\Option(name: 'decided', type: OptionType::Boolean, description: 'The answer the decision took.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class AnswerDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -42,7 +41,6 @@ final class AnswerDirective extends SubDirective
             'key' => $directive->getOption('key')->getValue(),
             'recommended' => $directive->hasOption('recommended'),
             'decided' => $directive->hasOption('decided'),
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

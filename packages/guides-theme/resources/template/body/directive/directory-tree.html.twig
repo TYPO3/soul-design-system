@@ -11,6 +11,5 @@
 <sds-tree
     level="{{ node.option('level') }}"
     {%- if node.option('icons') %} icons{% endif %}
-    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
     entries="{{ node.option('entries')|json_encode }}"
 ></sds-tree>

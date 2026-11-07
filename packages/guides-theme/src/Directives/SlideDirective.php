@@ -41,7 +41,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\SlideNode;
 #[Attributes\Option(name: 'ground', description: 'The ground of the slide: paper, or terminal for a dark one.')]
 #[Attributes\Option(name: 'caption', description: 'The claim of a figure slide: the slide then stands in a figure, with the caption under it.')]
 #[Attributes\Option(name: 'name', description: 'The address of the slide.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class SlideDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -65,7 +64,6 @@ final class SlideDirective extends SubDirective
             'ground' => $option('ground'),
             'caption' => $option('caption'),
             'anchor' => $option('name'),
-            'class' => $option('class'),
         ]);
     }
 }

@@ -6,7 +6,7 @@
     badge, and no property can. The `<dl>` itself, its columns and its step
     are the element's.
 #}
-<sds-facts{% if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
+<sds-facts>
     {%- for list in node.children -%}
         {%- for item in list.children -%}
     <dt>{{ item.term }}</dt>

@@ -15,7 +15,6 @@
     {%- if node.option('bar') %} bar{% endif %}
     {%- if node.option('list') %} list{% endif %}
     {%- if node.option('icon') %} icon="{{ node.option('icon') }}"{% endif %}
-    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
 >
     {%- for child in node.children -%}
         {{ renderNode(child) }}

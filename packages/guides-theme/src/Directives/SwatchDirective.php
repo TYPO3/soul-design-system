@@ -37,7 +37,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\SwatchNode;
 #[Attributes\Option(name: 'name', description: 'The name of the colour.')]
 #[Attributes\Option(name: 'resolved', description: 'The value it resolves to.')]
 #[Attributes\Option(name: 'kind', description: 'The kind of colour.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class SwatchDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -49,10 +48,6 @@ final class SwatchDirective extends SubDirective
             'name' => $directive->getOption('name')->getValue(),
             'resolved' => $directive->getOption('resolved')->getValue(),
             'kind' => $directive->getOption('kind')->getValue(),
-            /* An author who wrote `:class:` meant it for their own stylesheet.
-               To drop what a theme does not understand is the one thing it
-               must not do. Carried the way `card` carries it. */
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

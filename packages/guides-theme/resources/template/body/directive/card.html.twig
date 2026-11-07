@@ -46,7 +46,6 @@
     {%- if source %} src="{{ source }}" alt="{{ node.option('alt')|default('') }}"{% endif %}
     {%- if node.option('footer') %} footer="{{ node.option('footer') }}"{% endif %}
     {%- if node.option('action') %} action="{{ node.option('action') }}"{% endif %}
-    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
 >
     {%- for child in node.children -%}
         {{ renderNode(child) }}

@@ -24,12 +24,6 @@ The field's name is the term and its body the value, and a value carries a
 link, a literal or a badge. The element is ``sds-facts`` in
 :doc:`/frontend/components/data`.
 
-.. confval:: class
-   :name: facts-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.
-
 directory-tree
 ==============
 
@@ -88,11 +82,6 @@ window never sees it straight.
    is which wherever there is anything to fold, and a wall of glyphs down a
    short tree is decoration. The slash in its name tells an empty directory
    apart.
-
-.. confval:: class
-   :name: directory-tree-class
-
-   Passed to the element, for the surface that has to place one.
 
 diagram
 =======
@@ -230,12 +219,6 @@ One colour of a palette: the chip, its name, and what it resolves to.
    different job by the same number. ``line`` makes the chip its own edge,
    with the page's ground inside it.
 
-.. confval:: class
-   :name: swatch-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.
-
 **There is no body.** A colour that needs a paragraph carries a rule about
 where it can appear. That rule is prose beside the palette, not inside one
 entry of it.
@@ -313,12 +296,6 @@ work the list asks for. No line of the document says a number.
    entry whose group the register does not name stands last, in the order
    written. Without groups the entries count up as written.
 
-.. confval:: class
-   :name: register-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.
-
 The element is ``sds-register`` in :doc:`/frontend/components/content`,
 which says how it numbers and what it draws.
 
@@ -365,8 +342,3 @@ body, and everything that fits in a string an option.
    The address of this one entry, where the register's own, made from the
    number, is not the one a page wants to cite.
 
-.. confval:: class
-   :name: entry-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.

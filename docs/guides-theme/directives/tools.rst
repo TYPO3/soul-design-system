@@ -60,13 +60,6 @@ does that for a card, a level up.
    colour is better said than faked. A project whose examples are in
    something it does know says so here.
 
-.. confval:: class
-   :name: example-class
-   :type: string
-
-   Carried onto the frame the render stands in, for the reason the grid's
-   is.
-
 **The frame has a dashed line, the only one in the system.** That is what
 it is for. A solid one is a box on the page. What is inside this one is not
 part of the page: a thing shown, at the end of a run of things read. It is

@@ -38,7 +38,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\StepNode;
 #[Attributes\Directive(name: 'step', valueType: DirectiveValueType::String)]
 #[Attributes\Option(name: 'optional', type: OptionType::Boolean, description: 'A reader can skip the step.')]
 #[Attributes\Option(name: 'name', description: 'The address of the step.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class StepDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -50,7 +49,6 @@ final class StepDirective extends SubDirective
             'optional' => $directive->hasOption('optional'),
             'anchor' => $directive->getOption('name')->getValue(),
             /* Carried for the reason `steps` carries it. */
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

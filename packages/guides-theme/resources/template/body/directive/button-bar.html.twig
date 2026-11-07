@@ -11,7 +11,7 @@
     is a button. A link beside one is a line of text in a box that height. The
     row is the whole of what this adds; every control in it draws itself.
 #}
-<div class="sds-actions{% if node.option('class') %} {{ node.option('class') }}{% endif %}">
+<div class="sds-actions">
     {%- for child in node.children -%}
         {{ renderNode(child) }}
     {%- endfor -%}

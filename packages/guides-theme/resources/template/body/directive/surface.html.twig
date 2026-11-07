@@ -12,7 +12,6 @@
     {%- if node.option('plane') %} plane="{{ node.option('plane') }}"{% endif %}
     {%- if node.option('label') %} label="{{ node.option('label') }}"{% endif %}
     {%- if node.option('icon') %} icon="{{ node.option('icon') }}"{% endif %}
-    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
 >
     {%- for child in node.children -%}
         {{ renderNode(child) }}

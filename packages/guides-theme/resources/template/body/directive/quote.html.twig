@@ -19,7 +19,6 @@
     {%- if node.option('meta') %} meta="{{ node.option('meta') }}"{% endif %}
     {%- if node.option('initials') %} initials="{{ node.option('initials') }}"{% endif %}
     {%- if href %} href="{{ href }}"{% endif %}
-    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
 >
     {%- for child in node.children -%}
         {{ renderNode(child) }}

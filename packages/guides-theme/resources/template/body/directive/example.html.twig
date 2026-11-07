@@ -14,7 +14,7 @@
     a heading and a paragraph alike, and mostly wraps a single child.
 #}
 {{ renderNode(node.source) }}
-<div class="sds-example{% if node.option('class') %} {{ node.option('class') }}{% endif %}">
+<div class="sds-example">
     {%- for child in node.children -%}
         {{ renderNode(child) }}
     {%- endfor -%}

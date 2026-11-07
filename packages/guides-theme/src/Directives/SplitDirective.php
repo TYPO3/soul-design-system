@@ -42,7 +42,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\SplitNode;
 #[Attributes\Directive(name: 'split', valueType: DirectiveValueType::Empty)]
 #[Attributes\Option(name: 'align', description: 'How the halves align.')]
 #[Attributes\Option(name: 'leads', description: 'The half that comes first.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class SplitDirective extends SubDirective
 {
     /** Where the shorter half sits against the taller one. */
@@ -71,7 +70,6 @@ final class SplitDirective extends SubDirective
                not one of these is the position every split gets anyway. */
             'align' => in_array($align, self::ALIGNMENTS, true) ? $align : 'start',
             'leads' => in_array($leads, self::LEADS, true) ? $leads : 'start',
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

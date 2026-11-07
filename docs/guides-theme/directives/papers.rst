@@ -96,12 +96,6 @@ what it means.
    The address of the decision, and a target of ``:ref:``, as the
    ``:name:`` of every directive here is.
 
-.. confval:: class
-   :name: decision-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.
-
 **The letters count themselves.** An answer with no ``:key:`` takes the next
 letter. So an answer put in the middle renames the ones after it, and no
 page changes in two places. The element is ``sds-decision`` in
@@ -132,12 +126,6 @@ words is the argument.
 
    The letter or number the paper cites the answer by. Without it, the
    decision counts.
-
-.. confval:: class
-   :name: answer-class
-   :type: string
-
-   Carried onto the element.
 
 slide
 =====
@@ -244,12 +232,6 @@ A label in front of it is the target of ``:ref:``.
    :type: string
 
    The address of the slide.
-
-.. confval:: class
-   :name: slide-class
-   :type: string
-
-   Carried onto the element.
 
 The element is ``sds-slide`` in :ref:`component-sds-slide`. The Markdown
 twin writes the heading in bold, the lead and what the slide holds.

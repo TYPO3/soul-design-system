@@ -6,8 +6,7 @@
     key="{{ node.option('key') }}"
     heading="{{ node.option('heading') }}"
     {%- if node.option('recommended') %} recommended{% endif %}
-    {%- if node.option('decided') %} decided{% endif %}
-    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
+    {%- if node.option('decided') %} decided{% endif %}>
     {%- for child in node.children -%}
         {{ renderNode(child) }}
     {%- endfor -%}

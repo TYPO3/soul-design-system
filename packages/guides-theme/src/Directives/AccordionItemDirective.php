@@ -38,7 +38,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\AccordionItemNode;
 #[Attributes\Option(name: 'open', type: OptionType::Boolean, description: 'The answer stands open.')]
 #[Attributes\Option(name: 'show', type: OptionType::Boolean, description: 'The same as open.')]
 #[Attributes\Option(name: 'name', description: 'The address of the answer.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 #[Attributes\Option(name: 'header-level', type: OptionType::Integer, description: 'Read, and not used.')]
 final class AccordionItemDirective extends SubDirective
 {
@@ -50,10 +49,6 @@ final class AccordionItemDirective extends SubDirective
             'question' => $directive->getData(),
             'open' => $directive->hasOption('open') || $directive->hasOption('show'),
             'anchor' => $directive->getOption('name')->getValue(),
-            /* An author who wrote `:class:` meant it for their own stylesheet.
-               To drop what a theme does not understand is the one thing it
-               must not do. Carried the way `card` carries it. */
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

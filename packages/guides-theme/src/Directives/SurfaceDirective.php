@@ -29,7 +29,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\SurfaceNode;
  * **This is not what `topic` is.** A topic is a digression in the flow of the
  * text that the outline does not list. It stays the `<aside>` on
  * `.sds-panel` the three templates draw; see `GAPS.md`. A component fitted to
- * that node has to give up its host, and the author's `:class:` with it.
+ * that node has to give up its host.
  *
  * **The options cover that element and leave nothing of it out**, spelt the
  * way the element spells them — see `CardDirective` for why both hold.
@@ -42,7 +42,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\SurfaceNode;
 #[Attributes\Option(name: 'plane', description: 'The ground of the plane.')]
 #[Attributes\Option(name: 'label', description: 'The label above the title.')]
 #[Attributes\Option(name: 'icon', description: 'The name of an icon.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class SurfaceDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -57,10 +56,6 @@ final class SurfaceDirective extends SubDirective
             'plane' => $directive->getOption('plane')->getValue(),
             'label' => $directive->getOption('label')->getValue(),
             'icon' => $directive->getOption('icon')->getValue(),
-            /* An author who wrote `:class:` meant it for their own stylesheet.
-               To drop what a theme does not understand is the one thing it
-               must not do. Carried the way `card` carries it. */
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

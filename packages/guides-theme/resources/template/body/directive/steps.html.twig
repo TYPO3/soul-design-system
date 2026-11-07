@@ -9,8 +9,7 @@
     No option numbers a stop. The set counts its own, so a step inserted in the
     middle renumbers what follows it.
 #}
-<sds-steps
-    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
+<sds-steps>
     {%- for child in node.children -%}
         {{ renderNode(child) }}
     {%- endfor -%}

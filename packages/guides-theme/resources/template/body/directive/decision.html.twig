@@ -12,8 +12,7 @@
     {%- if node.option('by') %} by="{{ node.option('by') }}"{% endif %}
     {%- if node.option('due') %} due="{{ node.option('due') }}"{% endif %}
     {%- if node.option('lead') %} lead="{{ node.option('lead') }}"{% endif %}
-    {%- if node.option('anchor') %} id="{{ node.option('anchor') }}"{% endif %}
-    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
+    {%- if node.option('anchor') %} id="{{ node.option('anchor') }}"{% endif %}>
     {%- for child in node.children -%}
         {{ renderNode(child) }}
     {%- endfor -%}

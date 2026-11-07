@@ -42,7 +42,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\DecisionNode;
 #[Attributes\Option(name: 'due', description: 'By when, as written. Once an answer carries decided, the day it fell.')]
 #[Attributes\Option(name: 'lead', description: 'A sentence about the question, before the answers.')]
 #[Attributes\Option(name: 'name', description: 'The address of the decision.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class DecisionDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -67,7 +66,6 @@ final class DecisionDirective extends SubDirective
             'lead' => $directive->getOption('lead')->getValue(),
             'anchor' => $directive->getOption('name')->getValue(),
             /* Carried for the reason `steps` carries it. */
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

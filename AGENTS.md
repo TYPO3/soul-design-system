@@ -603,13 +603,13 @@ specificity. A variant stays a top-level rule under its full name, and
 `:where()` stays written out. `docs/frontend/stylesheets.rst` carries the
 reason.
 
-### No new class is public
+### No class is public
 
 A page reaches the system through an element, its attributes and a directive's
-options. A new choice is a property or an option, never a class a page writes.
-No new directive takes `:class:`. A class stays the element's own name for its
-own node. The class layer and the `:class:` options that stand today are older
-than this rule.
+options. A choice is a property or an option, never a class a page writes. No
+directive takes `:class:`. A class stays the element's own name for its own
+node. The layout and text classes that stand today are older than this rule, and
+they go, one layer after the other.
 
 ### Address a component, never rebuild one
 

@@ -257,12 +257,6 @@ own minimum, the way every set in this system reflows. The class is
    reader reads is not the source order at every width, and the layout
    cannot work that one out itself.
 
-.. confval:: class
-   :name: split-class
-   :type: string
-
-   Carried onto the split, for the reason the grid's is.
-
 half
 ====
 
@@ -299,12 +293,6 @@ has no place inside a directive.
 
    Where this half stands, top to foot, when it differs from the split's
    ``align``. It is the same three positions, for one half.
-
-.. confval:: class
-   :name: half-class
-   :type: string
-
-   Carried onto the column, for the reason ``split`` carries it.
 
 grid
 ====
@@ -369,9 +357,3 @@ to its own sentence. The element is ``sds-grid`` in
    With nothing said, it fills the row, so feet line up. ``flush`` ignores it,
    because a tile that stops short leaves a hole in the wall.
 
-.. confval:: class
-   :name: grid-class
-   :type: string
-
-   Carried onto the element. An author who wrote it meant it for their own
-   stylesheet, and a theme must not drop what it does not understand.

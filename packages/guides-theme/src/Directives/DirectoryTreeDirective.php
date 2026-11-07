@@ -46,7 +46,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\DirectoryTreeNode;
 #[Attributes\Directive(name: 'directory-tree', valueType: DirectiveValueType::Empty)]
 #[Attributes\Option(name: 'level', type: OptionType::Integer, default: 2, description: 'How deep the tree stands open.')]
 #[Attributes\Option(name: 'show-file-icons', type: OptionType::Boolean, description: 'An icon before each name.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class DirectoryTreeDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -66,7 +65,6 @@ final class DirectoryTreeDirective extends SubDirective
             'entries' => $entries,
             'level' => max(0, $level),
             'icons' => $directive->hasOption('show-file-icons'),
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 

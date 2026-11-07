@@ -11,8 +11,7 @@
 #}
 <sds-accordion
     name="{{ node.option('name') }}"
-    {%- if node.option('multiple') %} multiple{% endif %}
-    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
+    {%- if node.option('multiple') %} multiple{% endif %}>
     {%- for child in node.children -%}
         {{ renderNode(child) }}
     {%- endfor -%}

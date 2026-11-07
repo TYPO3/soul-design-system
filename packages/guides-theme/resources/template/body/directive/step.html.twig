@@ -12,8 +12,7 @@
 <sds-step
     heading="{{ node.option('heading') }}"
     {%- if node.option('anchor') %} anchor="{{ node.option('anchor') }}"{% endif %}
-    {%- if node.option('optional') %} optional{% endif %}
-    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}>
+    {%- if node.option('optional') %} optional{% endif %}>
     {%- for child in node.children -%}
         {{ renderNode(child) }}
     {%- endfor -%}

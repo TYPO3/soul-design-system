@@ -26,7 +26,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
  */
 #[Attributes\Directive(name: 'half', valueType: DirectiveValueType::String)]
 #[Attributes\Option(name: 'align', description: 'Where this half stands, top to foot.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class HalfDirective extends SubDirective
 {
     private const ALIGNMENTS = ['start', 'center', 'end'];
@@ -42,10 +41,6 @@ final class HalfDirective extends SubDirective
             /* A section title inside a directive parses as text. The
                argument gives the grouped side a real heading instead. */
             'heading' => $directive->getData(),
-            /* An author who wrote `:class:` meant it for their own stylesheet.
-               To drop what a theme does not understand is the one thing it
-               must not do. Carried the way `card` carries it. */
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

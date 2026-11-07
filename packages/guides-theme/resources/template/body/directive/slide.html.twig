@@ -20,7 +20,6 @@
     {%- for name in ['eyebrow', 'lead', 'legend', 'note', 'layout', 'ground'] %}{% if node.option(name) %} {{ name }}="{{ node.option(name) }}"{% endif %}{% endfor %}
     {%- if parts %} sections="{{ parts|json_encode }}"{% if current is not null %} current="{{ current }}"{% endif %}{% endif %}
     {%- if node.option('anchor') %} id="{{ node.option('anchor') }}"{% endif %}
-    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
     {%- if node.option('page-only') %} page-only{% endif %}
     {%- if picture %} src="{{ picture.value is external_target ? picture.value : asset(picture.value) }}" alt="{{ picture.option('alt')|default('') }}"{% endif %}>
     {#- A row stands its drawings side by side, each with its label over it. -#}

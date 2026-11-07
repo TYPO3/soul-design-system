@@ -152,12 +152,6 @@ One press, and where it goes.
    somewhere. A link has no disabled state, and a grey one the browser
    follows anyway is worse than none.
 
-.. confval:: class
-   :name: button-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.
-
 **A press on a rendered page is a link.** With somewhere to go, the element
 draws an ``<a>``. That gives the reader the middle click, the hover target
 and the status line the browser already has. A control with a listener has
@@ -191,12 +185,6 @@ The controls of a page, in one row.
          :href: https://docs.phpdoc.org/components/guides/guides/
          :variant: secondary
          :rel: external
-
-.. confval:: class
-   :name: button-bar-class
-   :type: string
-
-   Carried onto the row, for the reason the grid's is.
 
 Named for what it holds and the shape it holds them in. A row of controls
 is layout, not a component, so it has no variant. What stands in it sits on

@@ -56,7 +56,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
 #[Attributes\Option(name: 'alt', description: 'The text of the picture.')]
 #[Attributes\Option(name: 'footer', description: 'The line under the body.')]
 #[Attributes\Option(name: 'action', description: 'The words of the action.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class CardDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -76,10 +75,6 @@ final class CardDirective extends SubDirective
             'alt' => $directive->getOption('alt')->getValue(),
             'footer' => $directive->getOption('footer')->getValue(),
             'action' => $directive->getOption('action')->getValue(),
-            /* An author who wrote `:class:` meant it for their own stylesheet.
-               To drop what a theme does not understand is the one thing it
-               must not do. Carried the way `topic` carries it. */
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

@@ -18,7 +18,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\FactsNode;
  * is the term, and its body the value.
  */
 #[Attributes\Directive(name: 'facts', valueType: DirectiveValueType::Empty)]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class FactsDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -26,10 +25,6 @@ final class FactsDirective extends SubDirective
         $directive = $directiveNode->getDirective();
 
         return (new FactsNode($directiveNode->getChildren()))->withOptions([
-            /* An author who wrote `:class:` meant it for their own stylesheet.
-               To drop what a theme does not understand is the one thing it
-               must not do. Carried the way `card` carries it. */
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

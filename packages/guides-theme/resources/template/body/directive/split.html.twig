@@ -10,8 +10,7 @@
 #}
 {%- set align = node.option('align') != 'start' ? ' sds-split--' ~ node.option('align') : '' -%}
 {%- set leads = node.option('leads') == 'end' ? ' sds-split--leads-end' : '' -%}
-{%- set given = node.option('class') ? ' ' ~ node.option('class') : '' -%}
-<div class="sds-split{{ align }}{{ leads }}{{ given }}">
+<div class="sds-split{{ align }}{{ leads }}">
     {%- for child in node.children -%}
         {{ renderNode(child) }}
     {%- endfor -%}

@@ -43,7 +43,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\StatNode;
 #[Attributes\Option(name: 'bar', type: OptionType::Boolean, description: 'With :of:, the share as a bar under the figure.')]
 #[Attributes\Option(name: 'list', type: OptionType::Boolean, description: 'With :of:, one share of a list: the label and the count over the bar.')]
 #[Attributes\Option(name: 'icon', description: 'The name of an icon.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class StatDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -58,10 +57,6 @@ final class StatDirective extends SubDirective
             'bar' => $directive->hasOption('bar'),
             'list' => $directive->hasOption('list'),
             'icon' => $directive->getOption('icon')->getValue(),
-            /* An author who wrote `:class:` meant it for their own stylesheet.
-               To drop what a theme does not understand is the one thing it
-               must not do. Carried the way `card` carries it. */
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

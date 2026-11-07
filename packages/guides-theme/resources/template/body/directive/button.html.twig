@@ -33,5 +33,4 @@
     {%- if title %} title="{{ title }}"{% endif %}
     {%- if node.option('rel') %} rel="{{ node.option('rel') }}"{% endif %}
     {%- if node.option('disabled') %} disabled{% endif %}
-    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
 >{% if glyph %}<sds-icon name="{{ glyph }}"></sds-icon>{% endif %}{% if not only %}{{ label }}{% endif %}</sds-button>

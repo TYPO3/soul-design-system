@@ -22,7 +22,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\EntryNode;
 #[Attributes\Option(name: 'origin', description: 'Where the entry comes from.')]
 #[Attributes\Option(name: 'todo', description: 'What there is to do.')]
 #[Attributes\Option(name: 'name', description: 'The address of the entry.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class EntryDirective extends SubDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -35,7 +34,6 @@ final class EntryDirective extends SubDirective
             'origin' => $directive->getOption('origin')->getValue(),
             'todo' => $directive->getOption('todo')->getValue(),
             'anchor' => $directive->getOption('name')->getValue(),
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

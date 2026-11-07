@@ -28,7 +28,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\BylineNode;
 #[Attributes\Option(name: 'meta', description: 'When, and the rest of the label line.')]
 #[Attributes\Option(name: 'initials', description: 'The initials of the monogram.')]
 #[Attributes\Option(name: 'href', description: 'Where the name leads.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class BylineDirective extends BaseDirective
 {
     public function createNode(DirectiveNode $directiveNode, CompilerContextInterface $compilerContext): ?Node
@@ -41,7 +40,6 @@ final class BylineDirective extends BaseDirective
             'meta' => $directive->getOption('meta')->getValue(),
             'initials' => $directive->getOption('initials')->getValue(),
             'href' => $directive->getOption('href')->getValue(),
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 }

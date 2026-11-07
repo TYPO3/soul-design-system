@@ -46,7 +46,6 @@ use TYPO3\Soul\GuidesTheme\Nodes\ExampleNode;
  */
 #[Attributes\Directive(name: 'example', valueType: DirectiveValueType::String)]
 #[Attributes\Option(name: 'language', default: 'text', description: 'The language of the print.')]
-#[Attributes\Option(name: 'class', description: 'Classes for the frame.')]
 final class ExampleDirective extends SubDirective
 {
     /* No highlighter here knows reStructuredText, and a language the server
@@ -71,10 +70,6 @@ final class ExampleDirective extends SubDirective
         }
 
         return (new ExampleNode($source, $directiveNode->getChildren()))->withOptions([
-            /* An author who wrote `:class:` meant it for their own stylesheet.
-               To drop what a theme does not understand is the one thing it
-               must not do. Carried the way `card` carries it. */
-            'class' => $directive->getOption('class')->getValue(),
         ]);
     }
 

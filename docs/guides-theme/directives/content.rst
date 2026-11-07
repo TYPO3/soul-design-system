@@ -94,12 +94,6 @@ One card: a title that goes somewhere, and what is behind it.
    so, and the arrow after it leans out under the pointer. Drawn only where
    the card has somewhere to go.
 
-.. confval:: class
-   :name: card-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.
-
 **The title carries the target.** ``.. card:: :ref:`Introduction
 <introduction>``` is how a TYPO3 manual writes a card. The words of the
 reference become the heading, and the reference becomes where the card
@@ -213,12 +207,6 @@ bounds it.
    status colour, for the reason a card's is. A figure is a subject, not a
    result.
 
-.. confval:: class
-   :name: stat-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.
-
 **The body is the bound, and in practice it is mandatory.** "5 sources" says
 nothing until it says which five. A figure with no bound is a claim, not a
 fact, which is the whole reason ``sds-stat`` is a component. It stands
@@ -286,12 +274,6 @@ One filled plane, with a statement in place.
    A glyph above the label, where a reader tells a set apart before a read.
    It stands beside the plane's own title, never alone, and takes the muted
    ink for the reason a card's does. A plane is a subject, not a result.
-
-.. confval:: class
-   :name: surface-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.
 
 **A plane states, a card goes somewhere.** That is the whole line between
 the two, and it decides which one a page wants. A card's frame is the link
@@ -362,12 +344,6 @@ A sentence from somewhere else, with its source.
    outside the site stays as it is, and one inside it resolves like any
    other reference.
 
-.. confval:: class
-   :name: quote-class
-   :type: string
-
-   Carried onto the element, for the reason the grid's is.
-
 **The sentence goes between the tags**, because out of a document it carries
 links and emphasis, which an attribute cannot hold. A block quote is the
 spelling to reach for, and it is not available. The parser resolves an
@@ -391,7 +367,7 @@ title.
       :meta: version 1.0
 
 The name is the argument. The options are the ones ``quote`` has: ``:as:``,
-``:meta:``, ``:initials:``, ``:href:`` and ``:class:``. The monogram comes
+``:meta:``, ``:initials:`` and ``:href:``. The monogram comes
 from the name, and ``:initials:`` says it where the name does not. The
 element is ``sds-byline`` in :doc:`/frontend/components/content`. The
 Markdown twin writes the three parts on one line.
