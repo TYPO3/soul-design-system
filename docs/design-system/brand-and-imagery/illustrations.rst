@@ -30,8 +30,9 @@ The language
   ``#FF8700`` detail. Neither carries a meaning.
 - No text, labels, arrows, charts, workflows, code or UI screens.
 
-Every illustration is a 1200 × 750 PNG with crop-safe space around its
-subject. The same file serves light and dark mode. Its warm-white ground is
+Every illustration is a 1200 × 750 WebP with crop-safe space around its
+subject. An image tool hands over a PNG, and the tree keeps the WebP at quality
+0.86, with its transparency. The same file serves light and dark mode. Its warm-white ground is
 the canvas of the image, not a match for the page. A second dark rendering
 is a duplicate asset whose composition drifts.
 

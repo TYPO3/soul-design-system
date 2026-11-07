@@ -48,7 +48,7 @@ const HITS: readonly (SearchResultProps & { kind: string })[] = [
     snippet:
       'The fallback returns every declared entry — labels among them — and none of the dynamically registered ones. The shortfall travels with the result.',
     meta: '24 July 2026',
-    src: 'placeholders/tool-package-registry.png',
+    src: 'placeholders/tool-package-registry.webp',
   },
   {
     kind: 'changelog',
@@ -57,7 +57,7 @@ const HITS: readonly (SearchResultProps & { kind: string })[] = [
     snippet:
       'A label from TypoScript that an extension overrides now resolves in the order the core documents, which changed in 13.4.',
     meta: '13.4',
-    src: 'placeholders/tool-changelog-history.png',
+    src: 'placeholders/tool-changelog-history.webp',
   },
   {
     kind: 'reference',

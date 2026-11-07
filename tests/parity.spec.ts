@@ -216,7 +216,7 @@ const REGIONS: { name: string; markup: string }[] = [
   },
   {
     name: 'slide, a portrait element in the portrait region',
-    markup: '<sds-slide kind="speaker" heading="Somebody"><sds-image slot="portrait" src="assets/portraits/benjamin-kott.png" alt="A face"></sds-image><p>Says a thing.</p></sds-slide>',
+    markup: '<sds-slide kind="speaker" heading="Somebody"><sds-image slot="portrait" src="assets/portraits/benjamin-kott.webp" alt="A face"></sds-image><p>Says a thing.</p></sds-slide>',
   },
   {
     name: 'surface, its label and its heading in regions',
@@ -301,8 +301,8 @@ const WALLS: readonly (readonly [set: string, frame: string, long: string, short
     '<sds-surface plane="raised" heading="One answer, one origin" body="Two answers that disagree are told apart by where they came from rather than by which was asked for last."></sds-surface>',
     '<sds-surface plane="raised" heading="Read, never write" body="Nothing is written back."></sds-surface>'],
   ['drawings', '.sds-figure',
-    '<sds-figure src="/assets/placeholders/tool-registration.png" alt="" caption="A caption that runs to two lines at this width, which is what makes this cell the taller of the two."></sds-figure>',
-    '<sds-figure src="/assets/placeholders/tool-search.png" alt="" caption="One line."></sds-figure>'],
+    '<sds-figure src="/assets/placeholders/tool-registration.webp" alt="" caption="A caption that runs to two lines at this width, which is what makes this cell the taller of the two."></sds-figure>',
+    '<sds-figure src="/assets/placeholders/tool-search.webp" alt="" caption="One line."></sds-figure>'],
   ['swatches', '.sds-swatch',
     '<sds-swatch value="var(--text-primary)" name="--text-primary" resolved="light-dark(#18181B, #FAFAFA)"></sds-swatch>',
     '<sds-swatch value="var(--accent)" name="--accent"></sds-swatch>'],

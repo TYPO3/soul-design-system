@@ -120,7 +120,7 @@ export const Speaker: Story = {
     eyebrow: place(0),
     heading: 'Benjamin Kott',
     lead: 'Maintainer · Soul Design System',
-    portrait: 'assets/portraits/benjamin-kott.png',
+    portrait: 'assets/portraits/benjamin-kott.webp',
     alt: 'Benjamin Kott, drawn: cap, beard, hands in the pockets',
     body: html`<p>Answers for the tokens, the elements and the gate that holds them together.</p>`,
     number: '02',

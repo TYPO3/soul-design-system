@@ -48,7 +48,7 @@ export const Default: Story = { args: MARK };
     Every picture is a link, and the file name is not a decision it makes. */
 export const Photograph: Story = {
   args: {
-    src: 'assets/placeholders/tool-search.png',
+    src: 'assets/placeholders/tool-search.webp',
     alt: 'A cut-paper magnifier across three paper squares that overlap, one of them a field of halftone dots. A single orange ring at the end of the handle.',
     width: 240,
     height: 240,

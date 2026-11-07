@@ -54,7 +54,7 @@ export const Default: Story = { args: SOURCES };
     where a drawing is wider than its column, and this shows whole. */
 export const Photograph: Story = {
   args: {
-    src: 'assets/placeholders/tool-search.png',
+    src: 'assets/placeholders/tool-search.webp',
     alt: 'A cut-paper magnifier across three paper squares that overlap, one of them a field of halftone dots. A single orange ring at the end of the handle.',
     caption: 'One prompt makes the whole set, so a new subject joins the others instead of starting a second style.',
   },
@@ -92,7 +92,7 @@ export const DrawnForAColumn: Story = {
     lifts both into its frame rather than fetches the file again. */
 export const Given: Story = {
   render: () => html`<sds-figure
-    ><img class="sds-art" src="assets/placeholders/tool-search.png" alt="A cut-paper magnifier lying across three overlapping paper squares."
+    ><img class="sds-art" src="assets/placeholders/tool-search.webp" alt="A cut-paper magnifier lying across three overlapping paper squares."
     ><figcaption class="sds-figure__caption"><p>The caption a document wrote, with its markup — a <code>literal</code> in it — intact.</p></figcaption></sds-figure
   >`,
 };

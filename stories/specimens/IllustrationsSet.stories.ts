@@ -11,20 +11,20 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { dsCard, indent, spec, specRule } from '../lib/specimen.ts';
 
 const IMAGES: readonly { file: string; subject: string }[] = [
-  { file: 'tool-source-answer.png', subject: 'person at a computer' },
-  { file: 'tool-package-registry.png', subject: 'physical card index' },
-  { file: 'tool-external-path.png', subject: 'one external cable' },
-  { file: 'tool-changelog-history.png', subject: 'historical strata' },
-  { file: 'tool-registration.png', subject: 'module outside its socket' },
-  { file: 'tool-written-record.png', subject: 'lamp and folded sheet' },
-  { file: 'tool-search.png', subject: 'search ring and cards' },
-  { file: 'tool-compare.png', subject: 'two material swatches' },
-  { file: 'project-organizer.png', subject: 'folders in an organizer' },
-  { file: 'community-reference.png', subject: 'shared reference board' },
-  { file: 'community-worktable.png', subject: 'shared worktable' },
-  { file: 'modular-typesetter.png', subject: 'reusable forms and publications' },
-  { file: 'community-folders.png', subject: 'project folders on one surface' },
-  { file: 'community-bookshelf.png', subject: 'one book chosen from a shelf' },
+  { file: 'tool-source-answer.webp', subject: 'person at a computer' },
+  { file: 'tool-package-registry.webp', subject: 'physical card index' },
+  { file: 'tool-external-path.webp', subject: 'one external cable' },
+  { file: 'tool-changelog-history.webp', subject: 'historical strata' },
+  { file: 'tool-registration.webp', subject: 'module outside its socket' },
+  { file: 'tool-written-record.webp', subject: 'lamp and folded sheet' },
+  { file: 'tool-search.webp', subject: 'search ring and cards' },
+  { file: 'tool-compare.webp', subject: 'two material swatches' },
+  { file: 'project-organizer.webp', subject: 'folders in an organizer' },
+  { file: 'community-reference.webp', subject: 'shared reference board' },
+  { file: 'community-worktable.webp', subject: 'shared worktable' },
+  { file: 'modular-typesetter.webp', subject: 'reusable forms and publications' },
+  { file: 'community-folders.webp', subject: 'project folders on one surface' },
+  { file: 'community-bookshelf.webp', subject: 'one book chosen from a shelf' },
 ];
 
 const RULES: readonly string[] = [

@@ -53,7 +53,7 @@ browser title and source for navigation.
 
 .. example:: The opening claim, beside its one image
 
-   .. hero:: /_images/design-system-workbench-cutout.png
+   .. hero:: /_images/design-system-workbench-cutout.webp
       :plain:
 
       The opening summary belongs inside the directive.
@@ -62,7 +62,7 @@ browser title and source for navigation.
 
 .. example:: The claim with its press and a quieter way
 
-   .. hero:: /_images/design-system-workbench-cutout.png
+   .. hero:: /_images/design-system-workbench-cutout.webp
       :plain:
       :eyebrow: Guides theme
       :action: Publish a first site
@@ -235,7 +235,7 @@ Two of anything, side by side until there is no room for two.
       so they stand as two columns and nothing
       here says which is which.
 
-      .. figure:: /_images/design-system-workbench.png
+      .. figure:: /_images/design-system-workbench.webp
          :alt: The workbench, beside the paragraph
 
 **Every block in it is a column.** That is the whole rule, and why the
@@ -289,7 +289,7 @@ One side of a split: the blocks that stand together as one column.
 
       .. half::
 
-         .. figure:: /_images/design-system-workbench.png
+         .. figure:: /_images/design-system-workbench.webp
             :alt: The workbench, read before the text on a phone
 
 It takes no position of its own. The split decides where a half stands,

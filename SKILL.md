@@ -285,7 +285,7 @@ claim. If the reader must understand the picture for the copy to work, use a
 diagram.
 
 The shipped set under `packages/frontend/assets/placeholders/` is
-mode-neutral: one 1200 × 750 PNG in light and in dark. Each image has one
+mode-neutral: one 1200 × 750 WebP in light and in dark. Each image has one
 person, object or still-life gesture, and five to eight broad hard-edged
 silhouettes. The view is flat and almost orthographic, with one contained
 halftone field and exactly one small orange detail. Use overlap and at most two flat tones

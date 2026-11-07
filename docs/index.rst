@@ -5,7 +5,7 @@
 One system, from design to delivery
 ===================================
 
-.. hero:: /_images/design-system-workbench-cutout.png
+.. hero:: /_images/design-system-workbench-cutout.webp
    :plain:
    :action: Publish a first site
    :href: /guides-theme/quickstart
@@ -77,7 +77,7 @@ One system, from design to delivery
 
    .. half::
 
-      .. figure:: /_images/community-bookshelf-cutout.png
+      .. figure:: /_images/community-bookshelf-cutout.webp
          :plain:
 
 .. band:: The same decisions survive every hand-off

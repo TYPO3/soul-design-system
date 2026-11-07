@@ -86,7 +86,7 @@ export const Bare: Story = {
 export const Thumbnail: Story = {
   args: {
     ...HIT,
-    src: 'assets/placeholders/tool-package-registry.png',
+    src: 'assets/placeholders/tool-package-registry.webp',
     alt: '',
   },
 };

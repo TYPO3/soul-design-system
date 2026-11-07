@@ -65,9 +65,9 @@ interface Upload {
 const GROUPS: readonly (readonly [RegExp, string, string])[] = [
   [/^icons\/svgs\/(.+\.svg)$/, 'Icons', 'xs'],
   [/^(diagrams\/.+\.svg)$/, 'Fixtures', 'm'],
-  [/^(portraits\/.+\.png)$/, 'Fixtures', 'm'],
+  [/^(portraits\/.+\.webp)$/, 'Fixtures', 'm'],
   [/^(screenshots\/.+\.png)$/, 'Fixtures', 'm'],
-  [/^(placeholders\/.+\.png)$/, 'Fixtures', 'm'],
+  [/^(placeholders\/.+\.webp)$/, 'Fixtures', 'm'],
   [/^([^/]+\.svg)$/, 'Logos', 'm'],
 ];
 const TILE = new Map(GROUPS.map(([, group, tile]) => [group, tile]));

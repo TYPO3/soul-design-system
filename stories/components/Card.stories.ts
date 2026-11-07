@@ -48,7 +48,7 @@ const PROMOTIONAL: CardProps = {
   label: 'Package',
   heading: 'Render your manual with it',
   body: 'One Composer package, three commands, and a documentation site set with this system. The same components as the product surface.',
-  src: 'assets/placeholders/tool-registration.png',
+  src: 'assets/placeholders/tool-registration.webp',
   alt: '',
   action: 'Start here',
 };
@@ -60,7 +60,7 @@ const ENTRY: CardProps = {
   label: '9 August 2026 · 1.4.0',
   heading: 'Answers now name the source that answered',
   body: 'Every tool declares what it can read, and the result says which of the five reached it. So a partial answer stands apart from a complete one, and nobody asks twice.',
-  src: 'assets/placeholders/tool-source-answer.png',
+  src: 'assets/placeholders/tool-source-answer.webp',
   alt: '',
 };
 

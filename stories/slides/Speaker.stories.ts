@@ -19,7 +19,7 @@ export function speakerSlide({ flat = false, bare = false }: DeckMode = {}): Tem
       eyebrow: place(0),
       heading: 'Benjamin Kott',
       lead: 'Maintainer · Soul Design System',
-      portrait: 'assets/portraits/benjamin-kott.png',
+      portrait: 'assets/portraits/benjamin-kott.webp',
       alt: 'Benjamin Kott, drawn: cap, beard, hands in the pockets',
       number: '02',
     },

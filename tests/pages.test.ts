@@ -255,7 +255,7 @@ test('the landing story opens with the composed hero', async () => {
   expect(columns).toHaveLength(2);
   const widths = columns.map((node) => box(node).width);
   expect(Math.abs((widths[0] as number) - (widths[1] as number))).toBeLessThan(2);
-  expect(q('sds-figure .sds-art', hero).getAttribute('src')).toMatch(/design-system-workbench\.png$/);
+  expect(q('sds-figure .sds-art', hero).getAttribute('src')).toMatch(/design-system-workbench\.webp$/);
   expect(q('sds-figure .sds-art', hero).getAttribute('alt')).toBe('');
 });
 

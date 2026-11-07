@@ -44,7 +44,7 @@ const ENTRIES: readonly Entry[] = [
     label: '9 August 2026 · 1.4.0',
     heading: 'Answers now name the source that answered',
     body: 'Every tool declares what it can read, and the result says which of the five reached it. So a partial answer stands apart from a complete one, and nobody asks twice.',
-    src: 'placeholders/tool-source-answer.png',
+    src: 'placeholders/tool-source-answer.webp',
     alt: '',
   },
   {
@@ -52,7 +52,7 @@ const ENTRIES: readonly Entry[] = [
     label: '24 July 2026',
     heading: 'The package registry, read while the installation will not boot',
     body: 'The fallback returns every declared entry and none of the dynamically registered ones. What makes it usable is that the shortfall travels with the result.',
-    src: 'placeholders/tool-package-registry.png',
+    src: 'placeholders/tool-package-registry.webp',
     alt: '',
   },
   {
@@ -60,7 +60,7 @@ const ENTRIES: readonly Entry[] = [
     label: '2 July 2026',
     heading: 'One line leaves the machine, and it draws as the exception',
     body: 'Everything that answers a question is already on the developer’s disk. The single read-only path to the documentation is in the diagram rather than in a footnote.',
-    src: 'placeholders/tool-external-path.png',
+    src: 'placeholders/tool-external-path.webp',
     alt: '',
   },
   {
@@ -68,7 +68,7 @@ const ENTRIES: readonly Entry[] = [
     label: '18 June 2026 · 1.3.0',
     heading: 'Changelog lookups bind down to 7.0',
     body: 'A question about an old installation gets the answer that held then, or none. Where the bundled knowledge stops, the tool says so instead of an answer from the nearest release it has.',
-    src: 'placeholders/tool-changelog-history.png',
+    src: 'placeholders/tool-changelog-history.webp',
     alt: '',
   },
   {
@@ -76,7 +76,7 @@ const ENTRIES: readonly Entry[] = [
     label: '30 May 2026',
     heading: 'Writing a task skill that fails at registration',
     body: 'A skill declares the sources it needs. One that cannot reach any of them says so when the server starts. That is the difference between a broken setup and a wrong answer.',
-    src: 'placeholders/tool-registration.png',
+    src: 'placeholders/tool-registration.webp',
     alt: '',
   },
   {
@@ -84,7 +84,7 @@ const ENTRIES: readonly Entry[] = [
     label: '12 May 2026',
     heading: 'What stands written down, and what does not',
     body: 'The decisions in the repository, the ones in the knowledge base, and why the two lists differ on purpose.',
-    src: 'placeholders/tool-written-record.png',
+    src: 'placeholders/tool-written-record.webp',
     alt: '',
   },
   {
@@ -92,7 +92,7 @@ const ENTRIES: readonly Entry[] = [
     label: '28 April 2026',
     heading: 'A search of all sources that keeps where the answer came from',
     body: 'A broad search can reach several bundled indexes. The result keeps each match beside its source, so overlap is visible instead of silently merged away.',
-    src: 'placeholders/tool-search.png',
+    src: 'placeholders/tool-search.webp',
     alt: '',
   },
   {
@@ -100,7 +100,7 @@ const ENTRIES: readonly Entry[] = [
     label: '15 April 2026',
     heading: 'Two answers compared, with their differences intact',
     body: 'The comparison holds each result to the release and source that produced it. An absent field stays a gap rather than becomes an empty value that looks equal.',
-    src: 'placeholders/tool-compare.png',
+    src: 'placeholders/tool-compare.webp',
     alt: '',
   },
 ];

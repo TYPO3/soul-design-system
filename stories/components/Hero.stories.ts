@@ -35,7 +35,7 @@ const WHOLE: HeroProps = {
   href: '#publish',
   second: 'Read the example',
   secondHref: '#example',
-  src: 'assets/placeholders/design-system-workbench-cutout.png',
+  src: 'assets/placeholders/design-system-workbench-cutout.webp',
   plain: true,
 };
 
@@ -79,7 +79,7 @@ export const Default: Story = {};
 export const NoPicture: Story = { name: 'No picture', args: { ...WHOLE, src: '' } };
 
 /** A picture that keeps its frame: a screenshot, or a drawing with a ground. */
-export const Framed: Story = { args: { ...WHOLE, src: 'assets/placeholders/design-system-workbench.png', plain: false } };
+export const Framed: Story = { args: { ...WHOLE, src: 'assets/placeholders/design-system-workbench.webp', plain: false } };
 
 /** The picture over the copy, once the two have stacked. */
 export const PictureLeads: Story = { name: 'Picture leads', args: { ...WHOLE, leads: 'end' } };
