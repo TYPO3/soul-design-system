@@ -1,0 +1,20 @@
+{
+  "design-system/accessibility.html": "design-system/foundations/accessibility.html",
+  "design-system/artwork.html": "design-system/brand-and-imagery/illustrations.html",
+  "design-system/brand.html": "design-system/brand-and-imagery/brand.html",
+  "design-system/colours.html": "design-system/foundations/colours.html",
+  "design-system/diagrams/index.html": "design-system/brand-and-imagery/diagrams/index.html",
+  "design-system/diagrams/writing.html": "design-system/brand-and-imagery/diagrams/writing.html",
+  "design-system/forms.html": "design-system/patterns/forms.html",
+  "design-system/icons.html": "design-system/brand-and-imagery/icons.html",
+  "design-system/illustrations.html": "design-system/brand-and-imagery/illustrations.html",
+  "design-system/patterns/screens.html": "design-system/patterns/screens/index.html",
+  "design-system/patterns/slides.html": "design-system/patterns/slides/index.html",
+  "design-system/screens.html": "design-system/patterns/screens/index.html",
+  "design-system/slides.html": "design-system/patterns/slides/index.html",
+  "design-system/spacing.html": "design-system/foundations/spacing.html",
+  "design-system/states.html": "design-system/foundations/states.html",
+  "design-system/type.html": "design-system/foundations/type.html",
+  "design-system/writing.html": "design-system/foundations/writing.html",
+  "guides-theme/directives.html": "guides-theme/directives/index.html"
+}

@@ -288,6 +288,9 @@ for the room the slide gives it, so the browser draws none. It copies the
 drop-in into `styles/` and leaves out each fixture, example drawing and
 single icon file that no page names.
 
+With `--redirects=<file>`, a JSON object of old address to new address,
+`soul-finish.js` writes a stub at each old address that sends the reader on.
+
 ## What is in the package
 
 | Path | |

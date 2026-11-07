@@ -28,12 +28,16 @@ const REFERENCE = `${ACCEPTANCE_URL}/nodes.html`;
    both are the column and the difference disappears. */
 test.use({ viewport: { width: 1440, height: 1000 } });
 
+/* The addresses that moved. A stub at one is no page, so no page's rule reads it. */
+const MOVED = JSON.parse(readFileSync('docs/redirects.json', 'utf8')) as Record<string, string>;
+
 function pages(dir: string, root = dir): string[] {
   const out: string[] = [];
   for (const entry of readdirSync(dir)) {
     const path = join(dir, entry);
+    const address = relative(root, path).split(sep).join('/');
     if (statSync(path).isDirectory()) out.push(...pages(path, root));
-    else if (entry.endsWith('.html')) out.push(relative(root, path).split(sep).join('/'));
+    else if (entry.endsWith('.html') && !(root === SITE_DIR && address in MOVED)) out.push(address);
   }
   return out;
 }
@@ -1918,6 +1922,25 @@ test.describe('what a page measures for', () => {
    whose alternate points at nothing, a twin that lost its document, a link
    inside one that leads back into the HTML. Each of those is a reader that is
    a program, and it follows a link into nothing. */
+test.describe('an address that moved', () => {
+  const moved = Object.entries(MOVED);
+
+  test('every old address sends the reader to the page, with the fragment', async ({ page }) => {
+    for (const [from, to] of moved) {
+      await page.goto(`${SITE_URL}/${from}#a-section`);
+      await page.waitForURL(`${SITE_URL}/${to}#a-section`);
+    }
+  });
+
+  test('a stub works with no script, and stays out of the search', () => {
+    const index = readFileSync(join(SITE_DIR, '_search.json'), 'utf8');
+    for (const [from] of moved) {
+      expect(readFileSync(join(SITE_DIR, from), 'utf8')).toContain('http-equiv="refresh"');
+      expect(index).not.toContain(`"${from}"`);
+    }
+  });
+});
+
 test.describe('the markdown twin', () => {
   const rendered = pages(SITE_DIR).filter((path) => !path.startsWith('_cards/'));
   const twin = (path: string): string => path.replace(/\.html$/, '.md');

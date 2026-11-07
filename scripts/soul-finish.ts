@@ -26,6 +26,7 @@ const OPTIONS: readonly (readonly [flag: string, what: string])[] = [
   ['--styles=<name>', 'the directory\'s name at the site root (default: styles — the theme links this name)'],
   ['--search=<name>', 'the index the bar fetches (default: _search.json)'],
   ['--no-search', 'write no index; the field then finds nothing'],
+  ['--redirects=<file>', 'a JSON object of old address to new address, each from the site root; a stub stands at each old one'],
 ];
 
 report.open('soul-finish', 'turn rendered documents into the site');
@@ -57,10 +58,11 @@ if (drop && !existsSync(join(drop, 'soul.css'))) {
   process.exit(1);
 }
 
-const { drawn, pruned, indexed, broken, refused } = finish(root, {
+const { drawn, pruned, indexed, broken, refused, moved, unmoved } = finish(root, {
   drop,
   styles: flag('styles'),
   search: argv.includes('--no-search') ? false : flag('search'),
+  redirects: flag('redirects'),
 });
 
 const problems = [
@@ -72,9 +74,10 @@ const problems = [
     ]
     : []),
   ...refused.map((found) => `the grammar refuses a diagram on ${found}`),
+  ...unmoved,
 ];
 report.summary(
-  `${drawn} page(s) carry their elements already rendered${pruned ? ` \u00b7 ${pruned} file(s) no page names left out` : ''}${indexed === null ? '' : ` \u00b7 ${indexed} indexed for search`}`
+  `${drawn} page(s) carry their elements already rendered${pruned ? ` \u00b7 ${pruned} file(s) no page names left out` : ''}${indexed === null ? '' : ` \u00b7 ${indexed} indexed for search`}${moved ? ` \u00b7 ${moved} moved address(es) kept` : ''}`
     + (broken.length ? ` \u00b7 ${broken.length} reference(s) do not resolve inside ${root}` : '')
     + (refused.length ? ` \u00b7 ${refused.length} diagram(s) refused` : ''),
   problems,

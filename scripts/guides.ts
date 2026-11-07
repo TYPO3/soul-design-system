@@ -125,7 +125,7 @@ for (const project of rendering) {
     FINISH, project.out,
     /* An index is a thing a reader searches, and a reader reads only one of
        these. */
-    ...(project.name === 'docs' ? [] : ['--no-search']),
+    ...(project.name === 'docs' ? ['--redirects=docs/redirects.json'] : ['--no-search']),
   ]);
   if (finished !== 0) process.exit(1);
 }

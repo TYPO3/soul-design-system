@@ -96,6 +96,14 @@ bundled file for the Node that is on every CI image already.
    The index the bar fetches. ``--no-search`` writes none. The field then
    opens, finds nothing and says so, on every page of a site.
 
+.. confval:: --redirects
+   :type: string
+
+   A JSON file that names the pages that moved: an object of old address to
+   new address, each from the site root. A stub stands at each old address and
+   sends the reader on, with the fragment. An old address that is still a page
+   and a new one that is not are failures.
+
 It exits non-zero on the two failures that are otherwise silent. The first is
 a diagram that the grammar refuses. The refusal stands on the page, and a build
 reads no page.

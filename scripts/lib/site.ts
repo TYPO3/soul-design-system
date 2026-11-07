@@ -195,6 +195,39 @@ export function refusals(root: string): string[] {
   return found;
 }
 
+/* An address a reader kept outlives the page. A stub stands at the old one and
+   sends the reader on, with the fragment. A stub over a real page, or one that
+   points at nothing, is a broken link written twice, so this refuses both. */
+export function redirects(root: string, file: string): { written: number; wrong: string[] } {
+  const moved = JSON.parse(readFileSync(file, 'utf8')) as Record<string, string>;
+  const wrong: string[] = [];
+  let written = 0;
+  for (const [from, to] of Object.entries(moved)) {
+    const stub = join(root, from);
+    if (existsSync(stub)) {
+      wrong.push(`${from} is a page of this site, so nothing moved away from it`);
+    } else if (!existsSync(join(root, to))) {
+      wrong.push(`${from} → ${to}, which is no page of this site`);
+    } else {
+      const href = relative(dirname(stub), join(root, to)).split(sep).join('/');
+      mkdirSync(dirname(stub), { recursive: true });
+      writeFileSync(stub, `<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>This page moved</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="${href}">
+<meta http-equiv="refresh" content="0; url=${href}">
+<script>location.replace(${JSON.stringify(href)} + location.hash);</script>
+<p>This page moved to <a href="${href}">a new address</a>.</p>
+</html>
+`);
+      written += 1;
+    }
+  }
+  return { written, wrong };
+}
+
 export interface Finished {
   /** Pages that carry their elements already rendered. */
   drawn: number;
@@ -206,18 +239,24 @@ export interface Finished {
   broken: string[];
   /** Diagrams the grammar refuses: the page and the message. */
   refused: string[];
+  /** Stubs written at addresses that moved. */
+  moved: number;
+  /** Entries of the redirect list that cannot hold. */
+  unmoved: string[];
 }
 
 /** The steps between a render and a site, in the one order that works. The
     render first, because a card's title lives in the element until it draws
     and the index reads the drawn page. The check last, because the copy step
     is one of the things that can break a reference. */
-export function finish(root: string, options: { drop?: string; styles?: string; search?: string | false } = {}): Finished {
-  const { drop, styles = 'styles', search = '_search.json' } = options;
+export function finish(root: string, options: { drop?: string; styles?: string; search?: string | false; redirects?: string } = {}): Finished {
+  const { drop, styles = 'styles', search = '_search.json', redirects: list } = options;
   const cdn = fromCdn(root);
   if (drop) dropIn(drop, join(root, styles), cdn);
   const drawn = draw(root);
   const pruned = drop ? prune(root, styles, drop, cdn) : 0;
   const indexed = search === false ? null : index(root, search);
-  return { drawn, pruned, indexed, broken: escapes(root), refused: refusals(root) };
+  /* After the index, because a stub is nothing a reader searches for. */
+  const { written: moved, wrong: unmoved } = list ? redirects(root, list) : { written: 0, wrong: [] };
+  return { drawn, pruned, indexed, broken: escapes(root), refused: refusals(root), moved, unmoved };
 }
