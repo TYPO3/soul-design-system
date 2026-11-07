@@ -46,3 +46,15 @@ for (const [wall, story, halo] of RINGED) {
     expect(Math.sign(parseFloat(drawn.outlineOffset)), `the ring stands ${halo ? 'off' : 'inside'} the box`).toBe(halo ? 1 : -1);
   });
 }
+
+test('a tile under the pointer still drops the halo when the keyboard reaches it', async () => {
+  await mount(Flush);
+  const tile = document.querySelector<HTMLElement>('.sds-card') as HTMLElement;
+  await userEvent.hover(tile);
+  for (let press = 0; press < 6; press++) {
+    await userEvent.tab();
+    if (document.activeElement?.closest('.sds-card__title')) break;
+  }
+  /* Read at once: a shadow that fades out still reads as one here. */
+  expect(getComputedStyle(tile).boxShadow).toBe('none');
+});

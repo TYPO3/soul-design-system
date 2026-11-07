@@ -1768,7 +1768,7 @@
     --sds-card-radius: 0px;
     --sds-card-fill: var(--surface-canvas);
     --sds-card-lift: 0px;
-    --sds-card-shadow: 0 0 transparent;
+    --sds-card-shadow: none;
     &:before{content:none}
   }
   .sds-grid--flush .sds-card:has(>.sds-card__body>.sds-card__title a:focus-visible){outline-offset:calc(-1 * (var(--border-emphasis) + var(--focus-offset)));box-shadow:none}

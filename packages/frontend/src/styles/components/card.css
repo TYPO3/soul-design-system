@@ -271,7 +271,7 @@
        shares, and a lit frame is a frame. The fill under the pointer is what
        remains to say the tile answers. */
     --sds-card-lift: 0px;
-    --sds-card-shadow: 0 0 transparent;
+    --sds-card-shadow: none;
 
     &::before {
       content: none;
