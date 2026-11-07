@@ -610,6 +610,10 @@ class the document writes. No directive of the theme takes `:class:`. A new
 choice on an element is a property too. The class layer itself stays: a page
 writes `sds-split`, `sds-lead` and `sds-btn` as it always has.
 
+The renderer's own `.. container::`, and `:class:` on a section, an
+`admonition` or a table, stay. They are reStructuredText, and the theme does
+not own them. `docs/guides-theme/markup.rst` says what each one gets.
+
 ### Address a component, never rebuild one
 
 Everything that fits in a string is a property. Between the tags goes only

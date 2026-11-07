@@ -479,6 +479,11 @@ with no JavaScript is what it exists for. So ``.. container:: sds-panel``
 works and is honest about what it gets. The class layer's drawing of a
 panel, and not one thing a component adds on top.
 
+Two directives of the renderer read a class as a choice, as in Sphinx.
+``:class: warning`` on an ``admonition`` is its type, and ``:class: compact``
+on a table is its density. No directive of this theme takes ``:class:``. A
+choice there is an option.
+
 Which template does which
 =========================
 
