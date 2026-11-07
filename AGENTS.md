@@ -546,6 +546,12 @@ lists, grouped by that scope and read by people who never open this tree.
 `make notes` is that page. The sentence says what the work does for whoever
 installs it. The scope is the part of the system it did it to.
 
+**Finished work goes to `main`.** A branch is a step on the way, never where
+work stays. When the gate and the suite are green over it, merge it into
+`main` by fast-forward and push `main`. Delete a branch that `main` holds.
+Work that stays on a branch is work nobody installs, and the next change starts
+from a `main` that lacks it.
+
 ## What fails review
 
 ### A component has three places
