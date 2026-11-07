@@ -152,7 +152,7 @@ release:
 	 $(MAKE) --no-print-directory ARGS= verify test && \
 	 paths=$$($(TASK) node scripts/release.ts --paths 2>/dev/null) && \
 	 $(RUN) release $(ARGS) && \
-	 git commit -q -m 'release: $(ARGS)' -- $$paths && \
+	 git commit -q -m '[RELEASE] Release version $(ARGS)' -- $$paths && \
 	 git tag -a 'v$(ARGS)' -m '$(ARGS)' && \
 	 printf '\n  committed and tagged v%s. Nothing was pushed:\n\n    git push origin main --follow-tags\n\n' '$(ARGS)'
 

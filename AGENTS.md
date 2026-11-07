@@ -541,10 +541,27 @@ rendered page, or the generated side beside the source that moved it. At that
 size a message can name what changed, and a bisect lands on something small
 enough to read.
 
-**A subject reaches the public.** `<scope>: <sentence>` is what the release page
-lists, grouped by that scope and read by people who never open this tree.
-`make notes` is that page. The sentence says what the work does for whoever
-installs it. The scope is the part of the system it did it to.
+**A subject reaches the public.** It follows the TYPO3 format, and the release
+page lists it under its type, for readers who never open this tree. `make
+notes` is that page.
+
+```text
+[BUGFIX] Place the heading inside the hero in every layout
+
+On a manual page the heading stood above the hero, so the picture
+started below it. The hero now takes the heading into its copy.
+```
+
+- The type is one of `[FEATURE]`, `[BUGFIX]`, `[TASK]`, `[DOCS]`,
+  `[SECURITY]` and `[RELEASE]`. `make release` writes the last one.
+- `[!!!]` stands before the type when a project that uses a package must
+  change something: `[!!!][TASK] Ship illustrations as WebP`. The body then
+  says what to change.
+- The subject is an imperative sentence of about 52 characters, 72 at most,
+  with no full stop. It says what the commit does for whoever installs it.
+- The body says why, in lines of 72 characters. A small change needs none.
+- No trailer names a tool or an assistant. The author is the person who
+  commits.
 
 **Finished work goes to `main`.** A branch is a step on the way, never where
 work stays. When the gate and the suite are green over it, merge it into

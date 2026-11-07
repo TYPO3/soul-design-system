@@ -26,28 +26,38 @@ const FIELD = '\x1f';
 
 /** A tag this repository releases under, told apart from any other tag. */
 const RELEASED = /^v\d/;
-/** `<scope>: <sentence>`, which is the shape of every commit here. */
-const SCOPE = /^([a-z][a-z0-9-]*): (.+)$/;
-/** The version bump: what the tag points at, not something that changed. The
-    digit is the whole test. `release:` is a scope like any other, and only a
-    subject that is a version is the commit `make release` wrote. */
-const BUMP = /^release: \d/;
+/** `[!!!][TYPE] Subject`, the TYPO3 format every commit here follows. */
+const TYPED = /^(\[!!!\])?\[([A-Z]+)\] (.+)$/;
+/** The format before it, `<scope>: <sentence>`, which older tags still hold. */
+const SCOPED = /^[a-z][a-z0-9-, ]*: (.+)$/;
+/** The version bump: what the tag points at, not something that changed. */
+const BUMP = /^(\[RELEASE\] |release: \d)/;
 
-/** The scopes that are about this repository rather than about the system
-    somebody installs. They come last, in this order; every other scope is a
-    part of the system and sorts above them by name. */
-const LAST = ['docs', 'tooling', 'test', 'chore', 'ci', 'design-sync'];
-const rank = (scope: string): string => {
-  const at = LAST.indexOf(scope);
-  return at < 0 ? `0${scope}` : `1${at}`;
+/** The heading of each group, in the order the page lists them. A change
+    that breaks a project comes first, whatever its type. */
+const GROUPS: readonly (readonly [key: string, heading: string])[] = [
+  ['!!!', 'Breaking changes'],
+  ['SECURITY', 'Security'],
+  ['FEATURE', 'Features'],
+  ['BUGFIX', 'Bugfixes'],
+  ['TASK', 'Tasks'],
+  ['DOCS', 'Documentation'],
+  ['', 'Other changes'],
+];
+const rank = (key: string): number => {
+  const at = GROUPS.findIndex(([group]) => group === key);
+  return at < 0 ? GROUPS.length : at;
 };
 
 interface Commit {
   sha: string;
   tags: string[];
+  /** The group it lists under: `!!!`, a type, or empty. */
   scope: string;
-  /** The subject with its scope taken off — the sentence the commit wrote. */
+  /** The subject with its type taken off — the sentence the commit wrote. */
   text: string;
+  /** The whole subject, as git has it. */
+  subject: string;
 }
 
 report.open('notes', 'what a release says on its page');
@@ -59,8 +69,11 @@ if (process.stdin.isTTY) {
 
 const log: Commit[] = readFileSync(0, 'utf8').split('\n').filter(Boolean).map((line) => {
   const [sha = '', refs = '', subject = ''] = line.split(FIELD);
-  const [, scope = '', text = subject] = SCOPE.exec(subject) ?? [];
-  return { sha, scope, text, tags: refs.split(', ').filter((r) => r.startsWith('tag: ')).map((r) => r.slice(5)) };
+  const typed = TYPED.exec(subject);
+  const type = typed?.[2] ?? '';
+  const scope = typed?.[1] ? '!!!' : GROUPS.some(([key]) => key === type) ? type : '';
+  const text = typed ? (typed[3] ?? subject) : (SCOPED.exec(subject)?.[1] ?? subject);
+  return { sha, scope, text, subject, tags: refs.split(', ').filter((r) => r.startsWith('tag: ')).map((r) => r.slice(5)) };
 });
 
 const argv = process.argv.slice(2);
@@ -83,10 +96,10 @@ for (const commit of log.slice(Math.max(at, 0))) {
   range.push(commit);
 }
 
-const changes = range.filter((commit) => !BUMP.test(`${commit.scope}: ${commit.text}`));
+const changes = range.filter((commit) => !BUMP.test(commit.subject));
 const groups = new Map<string, Commit[]>();
 for (const commit of changes) groups.set(commit.scope, [...(groups.get(commit.scope) ?? []), commit]);
-const ordered = [...groups].sort(([a], [b]) => rank(a).localeCompare(rank(b)));
+const ordered = [...groups].sort(([a], [b]) => rank(a) - rank(b));
 
 /* Every package, as the command that installs it and the page it ships to.
    Read from the manifests rather than spelt here, so a package added to
@@ -135,7 +148,7 @@ const body = [
 if (ordered.length) {
   body.push('## What changed', '');
   for (const [scope, commits] of ordered) {
-    if (scope) body.push(`### ${scope}`, '');
+    body.push(`### ${GROUPS.find(([key]) => key === scope)?.[1] ?? 'Other changes'}`, '');
     for (const commit of commits) body.push(`- ${commit.text} ([\`${commit.sha}\`](${repo}/commit/${commit.sha}))`);
     body.push('');
   }
