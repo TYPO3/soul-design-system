@@ -304,7 +304,7 @@ const WALLS: readonly (readonly [set: string, frame: string, long: string, short
     '<sds-figure src="/assets/placeholders/tool-registration.png" alt="" caption="A caption that runs to two lines at this width, which is what makes this cell the taller of the two."></sds-figure>',
     '<sds-figure src="/assets/placeholders/tool-search.png" alt="" caption="One line."></sds-figure>'],
   ['swatches', '.sds-swatch',
-    '<sds-swatch value="var(--text-primary)" name="--text-primary" resolved="light-dark(#1C1A17, #F1EDE6)"></sds-swatch>',
+    '<sds-swatch value="var(--text-primary)" name="--text-primary" resolved="light-dark(#18181B, #FAFAFA)"></sds-swatch>',
     '<sds-swatch value="var(--accent)" name="--accent"></sds-swatch>'],
 ];
 

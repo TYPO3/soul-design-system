@@ -77,7 +77,7 @@ Pick the stroke, and the rest follows:
 ## Colour
 
 - The ink is a mid warm grey, a token with a hex behind it:
-  `fill="var(--text-primary, #8A8378)"`. A page that declares the tokens
+  `fill="var(--text-primary, #18181B)"`. A page that declares the tokens
   gets its own ink. The file still renders on its own, in the hex.
 - The accent is flat `var(--accent, #FF8700)`.
 - **Orange appears exactly once, in the top-right corner.** That position is

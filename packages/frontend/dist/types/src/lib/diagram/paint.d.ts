@@ -1,16 +1,16 @@
-export declare const INK = "var(--text-primary, #1C1A17)";
-export declare const SECONDARY = "var(--text-secondary, #4A453D)";
-export declare const MUTED = "var(--text-muted, #68635B)";
-export declare const CANVAS = "var(--surface-canvas, #FBFAF7)";
+export declare const INK = "var(--text-primary, #18181B)";
+export declare const SECONDARY = "var(--text-secondary, #52525B)";
+export declare const MUTED = "var(--text-muted, #63636B)";
+export declare const CANVAS = "var(--surface-canvas, #FFFFFF)";
 export declare const RAISED = "var(--surface-raised, #FFFFFF)";
-export declare const SUNKEN = "var(--surface-sunken, #F3F1EC)";
-export declare const INSET = "var(--surface-inset, #EFEBE3)";
-export declare const SUBTLE = "var(--border-subtle, #E3DFD6)";
-export declare const STRONG = "var(--border-strong, #C9C3B7)";
+export declare const SUNKEN = "var(--surface-sunken, #F5F5F5)";
+export declare const INSET = "var(--surface-inset, #ECECEE)";
+export declare const SUBTLE = "var(--border-subtle, #E4E4E7)";
+export declare const STRONG = "var(--border-strong, #D4D4D8)";
 export declare const ACCENT = "var(--accent, #FF8700)";
-export declare const OK = "var(--status-ok, #476D34)";
-export declare const WARN = "var(--status-warn, #8B5900)";
-export declare const ERROR = "var(--status-error, #A33328)";
+export declare const OK = "var(--status-ok, #136C33)";
+export declare const WARN = "var(--status-warn, #8A5A00)";
+export declare const ERROR = "var(--status-error, #B91C1C)";
 export declare const QUIET: Readonly<Record<'ok' | 'warn' | 'error', string>>;
 /** The colour a drawing says its one claim in. The accent, or a status
     colour where the drawing is about a failure or a degradation. */

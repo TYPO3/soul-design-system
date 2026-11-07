@@ -109,7 +109,7 @@ Two lines, and neither changes the drawing.
    :header-rows: 0
 
    * - Colour the shapes
-     - ``fill="var(--text-primary, #8A8378)"``,
+     - ``fill="var(--text-primary, #18181B)"``,
        ``stroke="var(--accent, #FF8700)"``: the token first, the hex behind it
    * - Nothing else colours it
      - no rule in a ``<style>`` block, and no ``fill`` or ``color`` on the
@@ -146,7 +146,7 @@ with them than it looks.
 **A rule in the file wins over the token.** A ``<style>`` block reaches the
 shapes it matches after a reference too, and a CSS rule beats a presentation
 attribute. So ``.ink { stroke: #8A8378 }`` defeats
-``stroke="var(--text-primary, #8A8378)"`` on the same shape, and the mark is grey on every page.
+``stroke="var(--text-primary, #18181B)"`` on the same shape, and the mark is grey on every page.
 
 **A colour on the root wins too.** ``color`` or ``fill`` on the ``<svg>``
 lands on the clone and inherits down over what the page carries. So the

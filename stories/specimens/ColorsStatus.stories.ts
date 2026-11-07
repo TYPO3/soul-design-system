@@ -14,9 +14,9 @@ import { dsCard } from '../lib/specimen.ts';
 import { modes, swatch } from '../lib/swatch.ts';
 
 const MARKS: readonly { token: string; light: string; dark: string }[] = [
-  { token: '--status-ok', light: '#476D34', dark: '#93BD7E' },
-  { token: '--status-warn', light: '#8B5900', dark: '#D9A441' },
-  { token: '--status-error', light: '#A33328', dark: '#E8877B' },
+  { token: '--status-ok', light: '#136C33', dark: '#4ADE80' },
+  { token: '--status-warn', light: '#8A5A00', dark: '#FBBF24' },
+  { token: '--status-error', light: '#B91C1C', dark: '#F87171' },
   { token: '--syntax-string', light: '#3F6B2B', dark: '#9CC27F' },
 ];
 

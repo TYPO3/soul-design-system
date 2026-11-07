@@ -13,8 +13,8 @@ import { dsCard } from '../lib/specimen.ts';
 import { hairline, modes, swatch } from '../lib/swatch.ts';
 
 const LINES: readonly { token: string; light: string; dark: string }[] = [
-  { token: '--border-subtle', light: '#E3DFD6', dark: '#2B2823' },
-  { token: '--border-strong', light: '#C9C3B7', dark: '#37332C' },
+  { token: '--border-subtle', light: '#E4E4E7', dark: '#27272A' },
+  { token: '--border-strong', light: '#D4D4D8', dark: '#3F3F46' },
   { token: '--border-accent-quiet', light: '#F0C089', dark: '#4A4437' },
 ];
 

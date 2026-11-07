@@ -176,11 +176,11 @@ One colour of a palette: the chip, its name, and what it resolves to.
 
       .. swatch:: var(--text-primary)
          :name: --text-primary
-         :resolved: light-dark(#1C1A17, #F1EDE6)
+         :resolved: light-dark(#18181B, #FAFAFA)
 
       .. swatch:: var(--border-subtle)
          :name: --border-subtle
-         :resolved: light-dark(#E3DFD6, #3D3932)
+         :resolved: light-dark(#E4E4E7, #27272A)
          :kind: line
 
 .. confval:: the argument
@@ -208,7 +208,7 @@ One colour of a palette: the chip, its name, and what it resolves to.
 
    What that name resolves to, in full. A token alone documents half the
    system. The value is the half that says what the mode did with it, and a
-   pair stands as the pair: ``light-dark(#FFFFFF, #1D1B18)``.
+   pair stands as the pair: ``light-dark(#FFFFFF, #141414)``.
 
 .. confval:: kind
    :name: swatch-kind

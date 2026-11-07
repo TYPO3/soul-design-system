@@ -331,7 +331,7 @@
   /* Without the rules, a quiet band against the canvas is a fill whose edge is
      the only thing that announces it. Where two meet, nothing at all. */
   .sds-band--quiet {
-    background: var(--surface-raised);
+    background: var(--surface-quiet);
     border-block: var(--border-hairline) solid var(--border-subtle);
   }
   .sds-band--quiet + .sds-band--quiet {

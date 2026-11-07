@@ -128,19 +128,19 @@ second colour. Every other slide is paper, whatever the reader's mode.
 
 | Token | Paper | Terminal |
 |---|---|---|
-| `--surface-canvas`, the slide | `#fbfaf7` | `#131210` |
-| `--surface-raised`, a card | `#ffffff` | `#1d1b18` |
-| `--surface-sunken`, a code block | `#f4f2ee` | `#0c0b0a` |
-| `--surface-inset`, a monogram | `#efebe3` | `#2a2722` |
-| `--text-primary`, a title | `#1c1a17` | `#f1ede6` |
-| `--text-secondary`, a sentence | `#4a453d` | `#bab3a8` |
-| `--text-muted`, a label, a count, a source | `#68635b` | `#a1998e` |
-| `--border-subtle`, a hairline | `#e3dfd6` | `#3d3932` |
-| `--border-strong`, a quote's rule | `#c9c3b7` | `#57524a` |
+| `--surface-canvas`, the slide | `#ffffff` | `#0a0a0a` |
+| `--surface-raised`, a card | `#ffffff` | `#141414` |
+| `--surface-sunken`, a code block | `#f5f5f5` | `#050505` |
+| `--surface-inset`, a monogram | `#ececee` | `#1f1f1f` |
+| `--text-primary`, a title | `#18181b` | `#fafafa` |
+| `--text-secondary`, a sentence | `#52525b` | `#b4b4bd` |
+| `--text-muted`, a label, a count, a source | `#63636b` | `#9e9ea8` |
+| `--border-subtle`, a hairline | `#e4e4e7` | `#27272a` |
+| `--border-strong`, a quote's rule | `#d4d4d8` | `#3f3f46` |
 | `--accent` | `#ff8700` | `#ff8700` |
 | `--syntax-key` | `#9c4f00` | `#ffa338` |
 | `--syntax-string` | `#3f6b2b` | `#9cc27f` |
-| `--syntax-comment` | `#68635b` | `#a1998e` |
+| `--syntax-comment` | `#63636b` | `#9e9ea8` |
 
 **The accent marks three things on a slide**, as on a page. The pipe in the
 lockup, the prompt in a code block, and the rule under the current entry of

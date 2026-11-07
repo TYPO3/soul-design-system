@@ -163,23 +163,23 @@ var init_paint = __esm({
   "packages/frontend/src/lib/diagram/paint.ts"() {
     "use strict";
     init_text();
-    INK = "var(--text-primary, #1C1A17)";
-    SECONDARY = "var(--text-secondary, #4A453D)";
-    MUTED = "var(--text-muted, #68635B)";
-    CANVAS = "var(--surface-canvas, #FBFAF7)";
+    INK = "var(--text-primary, #18181B)";
+    SECONDARY = "var(--text-secondary, #52525B)";
+    MUTED = "var(--text-muted, #63636B)";
+    CANVAS = "var(--surface-canvas, #FFFFFF)";
     RAISED = "var(--surface-raised, #FFFFFF)";
-    SUNKEN = "var(--surface-sunken, #F3F1EC)";
-    INSET = "var(--surface-inset, #EFEBE3)";
-    SUBTLE = "var(--border-subtle, #E3DFD6)";
-    STRONG = "var(--border-strong, #C9C3B7)";
+    SUNKEN = "var(--surface-sunken, #F5F5F5)";
+    INSET = "var(--surface-inset, #ECECEE)";
+    SUBTLE = "var(--border-subtle, #E4E4E7)";
+    STRONG = "var(--border-strong, #D4D4D8)";
     ACCENT = "var(--accent, #FF8700)";
-    OK = "var(--status-ok, #476D34)";
-    WARN = "var(--status-warn, #8B5900)";
-    ERROR = "var(--status-error, #A33328)";
+    OK = "var(--status-ok, #136C33)";
+    WARN = "var(--status-warn, #8A5A00)";
+    ERROR = "var(--status-error, #B91C1C)";
     QUIET = {
-      ok: "var(--surface-ok-quiet, #EEF3EA)",
-      warn: "var(--surface-warn-quiet, #FBF3E4)",
-      error: "var(--surface-error-quiet, #FCEFEC)"
+      ok: "var(--surface-ok-quiet, #F0FDF4)",
+      warn: "var(--surface-warn-quiet, #FEFCE8)",
+      error: "var(--surface-error-quiet, #FEF2F2)"
     };
     CLAIM = { accent: ACCENT, error: ERROR, warn: WARN, ok: OK };
     TONE2 = { ink: INK, muted: MUTED, ok: OK, warn: WARN, error: ERROR };

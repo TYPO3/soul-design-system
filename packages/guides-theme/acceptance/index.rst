@@ -495,15 +495,15 @@ the same number.
 
    .. swatch:: var(--surface-raised)
       :name: --surface-raised
-      :resolved: light-dark(#FFFFFF, #1D1B18)
+      :resolved: light-dark(#FFFFFF, #141414)
 
    .. swatch:: var(--text-primary)
       :name: --text-primary
-      :resolved: light-dark(#1C1A17, #F1EDE6)
+      :resolved: light-dark(#18181B, #FAFAFA)
 
    .. swatch:: var(--border-subtle)
       :name: --border-subtle
-      :resolved: light-dark(#E3DFD6, #3D3932)
+      :resolved: light-dark(#E4E4E7, #27272A)
       :kind: line
 
 Planes

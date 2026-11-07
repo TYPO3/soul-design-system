@@ -880,7 +880,7 @@ more than that and costs a track wherever the column is narrow.
    <sds-grid>
      <sds-swatch value="var(--accent)" name="--accent" resolved="#FF8700"></sds-swatch>
      <sds-swatch value="var(--border-subtle)" name="--border-subtle"
-       resolved="light-dark(#E3DFD6, #3D3932)" kind="line"></sds-swatch>
+       resolved="light-dark(#E4E4E7, #27272A)" kind="line"></sds-swatch>
    </sds-grid>
 
 .. confval:: value
@@ -906,7 +906,7 @@ more than that and costs a track wherever the column is narrow.
    :type: string
 
    What that name resolves to, in full. A pair stands as the pair,
-   ``light-dark(#FFFFFF, #1D1B18)``. One half of a token documents one mode
+   ``light-dark(#FFFFFF, #141414)``. One half of a token documents one mode
    and claims the system.
 
 .. confval:: kind

@@ -7,24 +7,24 @@
 
 import { measureSet } from './text.ts';
 
-export const INK = 'var(--text-primary, #1C1A17)';
-export const SECONDARY = 'var(--text-secondary, #4A453D)';
-export const MUTED = 'var(--text-muted, #68635B)';
-export const CANVAS = 'var(--surface-canvas, #FBFAF7)';
+export const INK = 'var(--text-primary, #18181B)';
+export const SECONDARY = 'var(--text-secondary, #52525B)';
+export const MUTED = 'var(--text-muted, #63636B)';
+export const CANVAS = 'var(--surface-canvas, #FFFFFF)';
 export const RAISED = 'var(--surface-raised, #FFFFFF)';
-export const SUNKEN = 'var(--surface-sunken, #F3F1EC)';
-export const INSET = 'var(--surface-inset, #EFEBE3)';
-export const SUBTLE = 'var(--border-subtle, #E3DFD6)';
-export const STRONG = 'var(--border-strong, #C9C3B7)';
+export const SUNKEN = 'var(--surface-sunken, #F5F5F5)';
+export const INSET = 'var(--surface-inset, #ECECEE)';
+export const SUBTLE = 'var(--border-subtle, #E4E4E7)';
+export const STRONG = 'var(--border-strong, #D4D4D8)';
 export const ACCENT = 'var(--accent, #FF8700)';
-export const OK = 'var(--status-ok, #476D34)';
-export const WARN = 'var(--status-warn, #8B5900)';
-export const ERROR = 'var(--status-error, #A33328)';
+export const OK = 'var(--status-ok, #136C33)';
+export const WARN = 'var(--status-warn, #8A5A00)';
+export const ERROR = 'var(--status-error, #B91C1C)';
 /* The quiet wash under a band that ends in a status. */
 export const QUIET: Readonly<Record<'ok' | 'warn' | 'error', string>> = {
-  ok: 'var(--surface-ok-quiet, #EEF3EA)',
-  warn: 'var(--surface-warn-quiet, #FBF3E4)',
-  error: 'var(--surface-error-quiet, #FCEFEC)',
+  ok: 'var(--surface-ok-quiet, #F0FDF4)',
+  warn: 'var(--surface-warn-quiet, #FEFCE8)',
+  error: 'var(--surface-error-quiet, #FEF2F2)',
 };
 
 /** The colour a drawing says its one claim in. The accent, or a status

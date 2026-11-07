@@ -211,7 +211,7 @@ describe('the build refuses what the grammar forbids', () => {
     const filled = diagram(parse('sketch\n  height 120\ntitle "t"\ndescription "d"\nscreen\n  region\n    chip "A1" "Text" emphasis fill\n    chip "A2" "Media"\n'), { name: 'fill' });
     expect(filled.svg).toMatch(/fill="var\(--accent, #FF8700\)" stroke="var\(--accent/);
     const strong = diagram(parse('flow\n  columns 1\ntitle "t"\ndescription "d"\na "One"\n  at 0,0\n  strong\n'), { name: 'strong' });
-    expect(strong.svg).toMatch(/stroke="var\(--text-primary, #1C1A17\)" stroke-width="2"/);
+    expect(strong.svg).toMatch(/stroke="var\(--text-primary, #18181B\)" stroke-width="2"/);
   });
 
   test('a staircase, a click path, a nested boundary, a curved fan and one legend', () => {

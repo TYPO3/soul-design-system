@@ -61,7 +61,7 @@ The numbers
 
    **Colour is an attribute**, never a rule in a ``<style>`` block, which
    GitHub strips. Each attribute is the token with the light hex behind it,
-   ``fill="var(--text-primary, #1C1A17)"``. The hex is what a page shows, and
+   ``fill="var(--text-primary, #18181B)"``. The hex is what a page shows, and
    the token is ready for the day a page can read it. Ship that one file and
    wrap its shapes in ``<g id="soul-ref">``, the handle ``make diagrams``
    reads them out from under for the specimen cards. :doc:`/design-system/brand-and-imagery/illustrations` holds
@@ -226,7 +226,7 @@ which way a drawing came.
 - **Canvas and margin.** ``viewBox="0 0 1200 H"``, 60 units free on every
   side. For a slide, the room of its layout and no margin.
 - **Colour as an attribute.** Every fill and stroke is the token with the
-  light hex behind it, ``fill="var(--text-primary, #1C1A17)"``. No colour
+  light hex behind it, ``fill="var(--text-primary, #18181B)"``. No colour
   goes into a ``<style>`` block, and no gradient, shadow or texture goes
   anywhere.
 - **The handle.** The shapes stand in ``<g id="soul-ref">``. A page

@@ -27,11 +27,11 @@ export const sdsSwatch = ({ value, name, resolved, kind }: SwatchProps) =>
     the page composes these rather than keeps a copy of its own. */
 export const PALETTE: readonly SwatchProps[] = [
   { value: 'var(--accent)', name: '--accent', resolved: '#FF8700' },
-  { value: 'var(--surface-canvas)', name: '--surface-canvas', resolved: 'light-dark(#FBFAF7, #131210)' },
-  { value: 'var(--surface-raised)', name: '--surface-raised', resolved: 'light-dark(#FFFFFF, #1D1B18)' },
-  { value: 'var(--text-primary)', name: '--text-primary', resolved: 'light-dark(#1C1A17, #F1EDE6)' },
-  { value: 'var(--text-muted)', name: '--text-muted', resolved: 'light-dark(#68635B, #A1998E)' },
-  { value: 'var(--border-subtle)', name: '--border-subtle', resolved: 'light-dark(#E3DFD6, #3D3932)', kind: 'line' },
+  { value: 'var(--surface-canvas)', name: '--surface-canvas', resolved: 'light-dark(#FFFFFF, #0a0a0a)' },
+  { value: 'var(--surface-raised)', name: '--surface-raised', resolved: 'light-dark(#FFFFFF, #141414)' },
+  { value: 'var(--text-primary)', name: '--text-primary', resolved: 'light-dark(#18181B, #FAFAFA)' },
+  { value: 'var(--text-muted)', name: '--text-muted', resolved: 'light-dark(#63636B, #9E9EA8)' },
+  { value: 'var(--border-subtle)', name: '--border-subtle', resolved: 'light-dark(#E4E4E7, #27272A)', kind: 'line' },
 ];
 
 const meta: Meta<SwatchProps> = {
@@ -66,7 +66,7 @@ export const Hairline: Story = { args: PALETTE[5] as SwatchProps };
     rather than white. */
 export const SameAsThePage: Story = {
   name: 'The colour of the page',
-  args: { value: 'var(--surface-canvas)', name: '--surface-canvas', resolved: '#131210' },
+  args: { value: 'var(--surface-canvas)', name: '--surface-canvas', resolved: '#0a0a0a' },
 };
 
 /** A pair of values that hold both modes at once. The token is the pair. In

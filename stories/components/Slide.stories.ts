@@ -271,7 +271,7 @@ export const FigureInline: Story = {
     eyebrow: place(2),
     heading: 'One slot for each key',
     body: html`<svg slot="figure" viewBox="0 0 877 354" role="img" aria-label="Three slots of an array, one for each key.">
-      ${['answer.empty', 'answer.none', 'label.tool'].map((key, i) => svg`<rect x="0.5" y="${24 + i * 108}" width="876" height="84" rx="6" fill="var(--surface-raised, #FFFFFF)" stroke="var(--border-strong, #C9C3B7)"></rect><text x="32" y="${75 + i * 108}" font-family="var(--font-mono)" font-size="26" fill="var(--text-primary, #1C1A17)">${key}</text>`)}
+      ${['answer.empty', 'answer.none', 'label.tool'].map((key, i) => svg`<rect x="0.5" y="${24 + i * 108}" width="876" height="84" rx="6" fill="var(--surface-raised, #FFFFFF)" stroke="var(--border-strong, #D4D4D8)"></rect><text x="32" y="${75 + i * 108}" font-family="var(--font-mono)" font-size="26" fill="var(--text-primary, #18181B)">${key}</text>`)}
     </svg>`,
     number: '07',
   },

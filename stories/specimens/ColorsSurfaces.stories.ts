@@ -14,11 +14,12 @@ import { fill, modes, swatch, type Swatch } from '../lib/swatch.ts';
 
 /** The planes, in the order a surface stacks them. */
 const PLANES: readonly (Omit<Swatch, 'hex' | 'style'> & { light: string; dark: string })[] = [
-  { token: '--surface-canvas', light: '#FBFAF7', dark: '#131210' },
-  { token: '--surface-raised', light: '#FFFFFF', dark: '#171614' },
-  { token: '--surface-sunken', light: '#F4F2EE', dark: '#0C0B0A' },
-  { token: '--surface-inset', light: '#EFEBE3', dark: '#221F1B' },
-  { token: '--surface-accent-quiet', light: '#FFF6EC', dark: '#1C1A16' },
+  { token: '--surface-canvas', light: '#FFFFFF', dark: '#0A0A0A' },
+  { token: '--surface-raised', light: '#FFFFFF', dark: '#141414' },
+  { token: '--surface-quiet', light: '#F5F5F5', dark: '#141414' },
+  { token: '--surface-sunken', light: '#F5F5F5', dark: '#050505' },
+  { token: '--surface-inset', light: '#ECECEE', dark: '#1F1F1F' },
+  { token: '--surface-accent-quiet', light: '#FFF7ED', dark: '#1C1712' },
 ];
 
 const row = (mode: 'light' | 'dark'): readonly string[] =>

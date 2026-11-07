@@ -12,7 +12,7 @@ and `make diagrams` reads the shapes back out for the specimen cards.
 ## The fixed language
 
 - **Canvas:** `viewBox="0 0 1200 H"`, always 1200 wide, the height to fit. A
-  flat rectangle at `var(--surface-canvas, #FBFAF7)` fills it. No radius,
+  flat rectangle at `var(--surface-canvas, #FFFFFF)` fills it. No radius,
   shadow, gradient or texture.
 - **Margin:** 60 units every side. Nothing enters it, labels included.
 - **Type:** Source Sans 3, with identifiers, paths and flags in Source Code
@@ -41,7 +41,7 @@ Primary request: Draw a diagram that makes this single claim visible:
 [CLAIM]. The line it closes on is: [CONSEQUENCE].
 
 Canvas: viewBox="0 0 1200 H", H chosen to fit the drawing. A flat rectangle at
-var(--surface-canvas, #FBFAF7) fills it. 60 units of margin on every side, and
+var(--surface-canvas, #FFFFFF) fills it. 60 units of margin on every side, and
 nothing enters that margin, labels included. No outer radius, no shadow, no
 gradient, no texture anywhere in the file.
 
@@ -61,19 +61,19 @@ semibold, node body 14, label 13. 13 is the floor and nothing goes under it.
 
 Shapes: node radius 6, bar radius 4, unit square radius 2, never above 6. A
 node is var(--surface-raised, #FFFFFF) behind a 1-unit
-var(--border-subtle, #E3DFD6) outline. A boundary is a hairline with no fill —
+var(--border-subtle, #E4E4E7) outline. A boundary is a hairline with no fill —
 a filled container makes depth out of colour. A connector is 1.5 units,
-orthogonal, one arrowhead, var(--text-muted, #68635B), and never curved.
+orthogonal, one arrowhead, var(--text-muted, #63636B), and never curved.
 
 The two states: a filled shape is what you get. A dashed outline of that same
 shape, in that same place, is what is missing or not yet reachable, drawn in
-var(--text-muted, #68635B). Dashed carries no other meaning. Where the missing
+var(--text-muted, #63636B). Dashed carries no other meaning. Where the missing
 part is a degradation rather than a precondition, the dashed outline takes
-var(--status-warn, #8B5900) instead.
+var(--status-warn, #8A5A00) instead.
 
 Colour: peers share one treatment and are distinguished by their names, never
-by hue. Ink is var(--text-primary, #1C1A17), a quieter line
-var(--text-secondary, #4A453D), a label var(--text-muted, #68635B). Exactly
+by hue. Ink is var(--text-primary, #18181B), a quieter line
+var(--text-secondary, #52525B), a label var(--text-muted, #63636B). Exactly
 one element in the whole drawing carries var(--accent, #FF8700), and it is the
 one thing the diagram is about. Where the diagram is about degradation or
 failure, status colour replaces the accent and orange stays out entirely.

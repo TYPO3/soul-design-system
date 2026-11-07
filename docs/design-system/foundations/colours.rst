@@ -9,8 +9,8 @@ Every colour in this system is a semantic token, one
 block for dark mode. So light and dark **cannot drift**: they are one
 declaration.
 
-Light and dark are equal surfaces. Light is warm paper, not pure white. Dark
-is the terminal, not a dimmed copy of the light palette. With no
+Light and dark are equal surfaces, in neutral grey, so the one accent stands
+alone. Dark is not a dimmed copy of the light palette. With no
 ``data-theme`` the reader's operating system decides, so neither mode is the
 exception.
 
@@ -53,6 +53,9 @@ canvas. A **card** is the raised plane, a hairline and 6px.
    * - ``--surface-canvas``
      - the ground
      - ``.sds-app`` puts it under the page, and everything else sits on it
+   * - ``--surface-quiet``
+     - the second ground of a run of bands
+     - a band reads as a step off the canvas, in both modes
    * - ``--surface-raised``
      - lifted off that ground
      - a panel or a modal reads as a plane of its own, a table row answers a

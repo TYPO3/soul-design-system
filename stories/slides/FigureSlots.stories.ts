@@ -15,10 +15,10 @@ const TABS = ['Pages', 'Structure', 'Library'];
 
 /** One state of a side column: the tabs, the one that is open, its rows. */
 const column = (open: number, rows: readonly string[], marked: number): TemplateResult => html`<svg viewBox="0 0 320 220" role="img" aria-label="${TABS[open]} open: ${rows.join(', ')}">
-  ${TABS.map((tab, i) => svg`<rect x="${i * 106 + 1}" y="1" width="104" height="30" rx="4" fill="${i === open ? 'var(--surface-sunken, #F4F2EE)' : 'none'}" stroke="${i === open ? 'var(--text-primary, #1C1A17)' : 'var(--border-subtle, #E3DFD6)'}"></rect>
-  <text x="${i * 106 + 53}" y="21" text-anchor="middle" font-size="13" font-weight="${i === open ? 600 : 400}" fill="var(--text-primary, #1C1A17)">${tab}</text>`)}
-  ${rows.map((row, i) => svg`<rect x="1" y="${46 + i * 34}" width="318" height="28" rx="4" fill="${i === marked ? 'var(--surface-sunken, #F4F2EE)' : 'none'}"></rect>
-  <text x="14" y="${65 + i * 34}" font-size="13" fill="var(--text-secondary, #4A453D)">${row}</text>`)}
+  ${TABS.map((tab, i) => svg`<rect x="${i * 106 + 1}" y="1" width="104" height="30" rx="4" fill="${i === open ? 'var(--surface-sunken, #F5F5F5)' : 'none'}" stroke="${i === open ? 'var(--text-primary, #18181B)' : 'var(--border-subtle, #E4E4E7)'}"></rect>
+  <text x="${i * 106 + 53}" y="21" text-anchor="middle" font-size="13" font-weight="${i === open ? 600 : 400}" fill="var(--text-primary, #18181B)">${tab}</text>`)}
+  ${rows.map((row, i) => svg`<rect x="1" y="${46 + i * 34}" width="318" height="28" rx="4" fill="${i === marked ? 'var(--surface-sunken, #F5F5F5)' : 'none'}"></rect>
+  <text x="14" y="${65 + i * 34}" font-size="13" fill="var(--text-secondary, #52525B)">${row}</text>`)}
 </svg>`;
 
 const DRAWINGS = [

@@ -187,7 +187,7 @@ test('a control change rebuilds the story in its docs page', async ({ page }) =>
 });
 
 test('the docs preview sits on the themed canvas', async ({ page }) => {
-  const CANVAS = { dark: 'rgb(19, 18, 16)', light: 'rgb(251, 250, 247)' };
+  const CANVAS = { dark: 'rgb(10, 10, 10)', light: 'rgb(255, 255, 255)' };
 
   for (const theme of ['dark', 'light'] as const) {
     await page.goto(`/iframe.html?viewMode=docs&id=components-actions-button--docs&globals=theme:${theme}`);
