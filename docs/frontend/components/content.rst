@@ -323,8 +323,8 @@ sds-logos
 =========
 
 A wall of marks. A mark is a picture with colours of its own, so it does not
-follow the mode. Each one stands on ``--surface-art``, the ground those colours
-are for, in light and in dark.
+follow the mode. The element draws each one in the ink of the page, with no box
+around it, in light and in dark. So a mark loses its colours here.
 
 .. specimen:: components/content/logos.card.html
    :viewport: 700x620
@@ -342,7 +342,7 @@ nothing to a reader who cannot see it. Before a mark goes in, make sure that
 its licence lets the page show it.
 
 **The wall grows by rows, and it has no limit.** The width of the box decides how
-many marks stand across. Every tile keeps one width, a short last row too, so
+many marks stand across. Every cell keeps one width, a short last row too, so
 the columns stay straight. In a narrow box fewer stand across.
 
 .. confval:: label

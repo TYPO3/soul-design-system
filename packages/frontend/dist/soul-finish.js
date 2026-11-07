@@ -695,21 +695,21 @@ ${o}`}};z("sds-image",Aa);function Ca({signet:e="",brand:t="",product:s="",href:
   </tbody>
 </table>`;return this.scrollable?p`<div class="sds-table-scroll">${a}</div>`:a}};z("sds-table",to);var Cr=class extends Us{};Cr.directiveName="unsafeSVG",Cr.resultType=2;var t2=pn(Cr);mt();var I6=["yes","partly","no","unknown"],so=class extends U{constructor(){super();this.taken=null;this.heading="",this.body="",this.href="",this.src="",this.alt="",this.label="",this.tag="",this.footer="",this.action=""}static{this.properties={heading:{type:String},body:{type:String},href:{type:String},src:{type:String},alt:{type:String},label:{type:String},tag:{type:String},icon:{type:String},sign:{type:String},footer:{type:String},action:{type:String}}}connectedCallback(){let s=this.lifted().filter(n=>!tt(n));s.length&&(this.taken=s),super.connectedCallback()}render(){let s=this.src?p`<div class="sds-card__media${Ss(this.src)?" sds-card__media--exported":""}">
     ${Jt(this.src,this.alt)}
-  </div>`:"",n=this.icon?p`<div class="sds-card__icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>`:"",r=this.sign&&I6.includes(this.sign)?this.sign:void 0,i=r?p`<svg class="sds-card__sign" viewBox="-14 -14 28 28" role="img" aria-label="${an[r]}">${nd`${t2(St(r,0,0))}`}</svg>`:"",o=!!(this.tag||this.label),a=o||i&&!this.icon?p`<div class="sds-row">
+  </div>`:"",n=this.icon?p`<div class="sds-card__icon"><sds-icon name="${this.icon}" size="20"></sds-icon></div>`:"",r=this.sign&&I6.includes(this.sign)?this.sign:void 0,i=r?p`<svg class="sds-card__sign" viewBox="-14 -14 28 28" role="img" aria-label="${an[r]}">${nd`${t2(St(r,0,0))}`}</svg>`:"",o=!!(this.tag||this.label),a=o?p`<div class="sds-row">
       ${this.tag?p`<sds-badge label="${this.tag}"></sds-badge>`:""}
       ${this.label?p`<span class="sds-label">${this.label}</span>`:""}${i}
-    </div>`:"",c=this.icon&&i&&!o?p`<div class="sds-row sds-card__lead">${n}${i}</div>`:n,m=this.taken??this.content??(typeof this.body=="string"?void 0:this.body),u=m?p`<div class="sds-card__text">${m}</div>`:p`<p class="sds-card__text">${this.body}</p>`,h=this.href?p`<a href="${this.href}">${this.heading}</a>`:p`${this.heading}`,g=this.heading?p`<h3 class="sds-card__title">${h}</h3>`:"",f=this.action&&this.href?p`<span class="sds-card__action">${this.action}<sds-icon name="actions-arrow-right" size="16"></sds-icon></span>`:"",v=this.footer||f?p`<div class="sds-card__foot">
+    </div>`:"",d=this.taken??this.content??(typeof this.body=="string"?void 0:this.body),m=d?p`<div class="sds-card__text">${d}</div>`:p`<p class="sds-card__text">${this.body}</p>`,u=this.href?p`<a href="${this.href}">${this.heading}</a>`:p`${this.heading}`,h=this.heading?p`<h3 class="sds-card__title">${u}</h3>`:"",g=this.action&&this.href?p`<span class="sds-card__action">${this.action}<sds-icon name="actions-arrow-right" size="16"></sds-icon></span>`:"",f=this.footer||g?p`<div class="sds-card__foot">
     ${this.footer?p`<span class="sds-card__note">${this.footer}</span>`:""}
-    ${f}
+    ${g}
   </div>`:"";return p`<article class="sds-card">
   ${s}
   <div class="sds-card__body">
-    ${c}
+    ${n}
     ${a}
-    ${g}
-    ${u}
+    ${i&&!o?p`<div class="sds-row sds-card__lead">${h}${i}</div>`:h}
+    ${m}
   </div>
-  ${v}
+  ${f}
 </article>`}};z("sds-card",so);var $6=32,no=class extends U{static{this.properties={name:{type:String,reflect:!0},caption:{type:String},href:{type:String},tag:{type:String}}}constructor(){super(),this.caption="",this.href="",this.tag=""}render(){let t=this.name?p`<sds-icon name="${this.name}" size="${$6}"></sds-icon>`:y,s=p`<span class="sds-icon-tile__art">
     ${t}
   </span>

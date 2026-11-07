@@ -134,8 +134,8 @@ is one step larger.
 and it holds the page's only `h1`. `plain` takes the frame off an illustration.
 A screenshot or a drawing keeps its frame.
 
-**Who stands behind a claim.** `sds-logos` is a wall of marks, each on
-`--surface-art`, each `alt` a name.
+**Who stands behind a claim.** `sds-logos` is a wall of marks, each in the ink
+of the page, each `alt` a name.
 
 **A list of what a reader gets.** `sds-checks` around a `ul`, the check from
 the icon set, `tone="ok"` for the status green. A plain list keeps its disc.
@@ -160,8 +160,8 @@ page furniture. One exception, and it is the whole of it. A press with no
 undo takes `--status-error` as ink and a hairline, never as a fill, and its
 label names what goes.
 
-**A card is a raised fill, a hairline and 6px.** Its glyph stands in a tile,
-always above the title, as on a surface. A panel is a raised fill with no
+**A card is a raised fill, a hairline and 6px.** Its glyph stands at the left
+of the words, with no ground of its own, as on a surface. A panel is a raised fill with no
 frame of its own. Sunken is machine output.
 
 **The step around a thing says what it is.** Every block carries its step

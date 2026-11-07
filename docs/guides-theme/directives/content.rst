@@ -411,7 +411,7 @@ make sure that the licence of the mark lets the page show it.
          :href: /design-system/brand
 
 The argument says what the marks have in common, and it is optional. The wall
-grows by rows and has no limit. A short last row keeps the width of the tiles.
+grows by rows and has no limit. A short last row keeps the width of the cells.
 
 logo
 ====

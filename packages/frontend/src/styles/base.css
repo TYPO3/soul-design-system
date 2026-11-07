@@ -200,7 +200,7 @@
      marker's own width, so an item lines up with the paragraph above it. */
   ul,
   ol {
-    padding-inline-start: var(--space-5);
+    padding-inline-start: var(--space-4);
   }
   /* Punctuation: small and muted, so it divides the items and draws no eye. */
   li::marker {

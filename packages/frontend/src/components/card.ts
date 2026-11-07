@@ -136,17 +136,15 @@ export class SdsCard extends SdsElement {
     const mark = state
       ? html`<svg class="sds-card__sign" viewBox="-14 -14 28 28" role="img" aria-label="${SIGN_MEANING[state]}">${svg`${unsafeSVG(drawSign(state, 0, 0))}`}</svg>`
       : '';
-    /* With no words on the label line, the sign goes up beside the glyph. Alone
-       on a line of its own it leaves a hole over the title. */
+    /* With no words on the label line, the sign goes up to the title. Alone on a
+       line of its own it leaves a hole over the title. */
     const worded = Boolean(this.tag || this.label);
-    const label =
-      worded || (mark && !this.icon)
-        ? html`<div class="sds-row">
+    const label = worded
+      ? html`<div class="sds-row">
       ${this.tag ? html`<sds-badge label="${this.tag}"></sds-badge>` : ''}
       ${this.label ? html`<span class="sds-label">${this.label}</span>` : ''}${mark}
     </div>`
-        : '';
-    const lead = this.icon && mark && !worded ? html`<div class="sds-row sds-card__lead">${icon}${mark}</div>` : icon;
+      : '';
 
     /* Blocks go in a `div` and a sentence in the `p` a sentence belongs in.
        The caller's hand-over decides which: a string is a sentence, and markup
@@ -190,9 +188,9 @@ export class SdsCard extends SdsElement {
     return html`<article class="sds-card">
   ${medium}
   <div class="sds-card__body">
-    ${lead}
+    ${icon}
     ${label}
-    ${title}
+    ${mark && !worded ? html`<div class="sds-row sds-card__lead">${title}${mark}</div>` : title}
     ${text}
   </div>
   ${foot}

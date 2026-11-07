@@ -625,7 +625,7 @@ the status green.
 Logos
 =====
 
-A wall of marks, the second one a link. The ground stays light in both modes.
+A wall of marks, the second one a link. Each takes the ink of the page.
 
 .. logos:: Used by
 

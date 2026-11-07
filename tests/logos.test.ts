@@ -20,15 +20,14 @@ test('the marks stand directly in the list, each with its name', () => {
   expect(list.querySelector(':scope > a > img')?.getAttribute('alt')).toBe('Tryout');
 });
 
-test('the ground under a mark does not follow the mode', () => {
-  const ground = (mode: string): string => {
-    document.documentElement.dataset.theme = mode;
-    return getComputedStyle(q('#wall .sds-logos__list > img')).backgroundColor;
-  };
-  const light = ground('light');
-  const dark = ground('dark');
-  delete document.documentElement.dataset.theme;
-  expect(dark).toBe(light);
+test('a mark stands free, in an ink that follows the mode', async () => {
+  const mark = (): CSSStyleDeclaration => getComputedStyle(q('#wall .sds-logos__list > img'));
+  await write(PAGE, { theme: 'light' });
+  const light = mark().filter;
+  expect(mark().backgroundColor).toBe('rgba(0, 0, 0, 0)');
+  await write(PAGE, { theme: 'dark' });
+  expect(mark().filter).not.toBe(light);
+  expect(mark().filter).toContain('invert');
 });
 
 const many = (width: number): string =>

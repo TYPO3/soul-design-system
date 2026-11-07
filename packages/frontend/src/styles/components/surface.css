@@ -115,25 +115,31 @@
       margin-block-end: 0;
     }
   }
-  /* A glyph above the label, in the tile a card draws, so a page that mixes the
-     two has one rule for its glyphs. Never in a status colour: a plane is a
-     subject, not a result. */
-  .sds-surface-icon {
+  /* A glyph at the left, as on a card, so a page that mixes the two has one
+     rule for its glyphs. Never in a status colour: a plane is a subject,
+     not a result. */
+  :is(.sds-plane, .sds-panel, .sds-sunken):has(> .sds-surface-icon) {
     --sds-surface-icon-ink: var(--text-primary);
-    --sds-surface-icon-gap: var(--space-3);
-    --sds-surface-icon-tile: var(--control-height-lg);
-    --sds-surface-icon-fill: var(--surface-inset);
-    --sds-surface-icon-radius: var(--radius-control);
+    --sds-surface-icon-tile: var(--space-6);
+    --sds-surface-icon-gap: var(--space-4);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    inline-size: var(--sds-surface-icon-tile);
-    block-size: var(--sds-surface-icon-tile);
-    border-radius: var(--sds-surface-icon-radius);
-    background: var(--sds-surface-icon-fill);
-    color: var(--sds-surface-icon-ink);
-    margin-bottom: var(--sds-surface-icon-gap);
+    display: grid;
+    grid-template-columns: var(--sds-surface-icon-tile) minmax(0, 1fr);
+    column-gap: var(--sds-surface-icon-gap);
+
+    > * {
+      grid-column: 2;
+    }
+    > .sds-surface-icon {
+      grid-column: 1;
+      grid-row: 1 / span 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      inline-size: var(--sds-surface-icon-tile);
+      block-size: var(--sds-surface-icon-tile);
+      color: var(--sds-surface-icon-ink);
+    }
   }
   /* The glyph carries the gap on its own. So a card with no label between them
      has the same distance as one that has a label. */

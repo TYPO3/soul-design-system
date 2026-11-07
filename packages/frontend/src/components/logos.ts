@@ -5,7 +5,7 @@
    who cannot see it.
 
    A mark is a picture with colours of its own, and it does not follow the mode.
-   So each one stands on `--surface-art`, the ground those colours are for. */
+   So the stylesheet draws each one in the ink of the page. */
 
 import { html, type TemplateResult } from 'lit';
 import { define, SdsElement } from '../lib/element.ts';

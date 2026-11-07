@@ -29,6 +29,10 @@ a position, a connection or a quantity in the image, draw a diagram instead.
 - **Accessibility:** the files are decorative support. Use an empty `alt`
   when the copy beside it already names the subject.
 
+A hero uses a cut-out of the same language, with `plain`. It is a transparent
+PNG with no ground and no wash. Its tones are warm off-white, warm grey and
+taupe, with no near-black plane. So it reads on the page in both modes.
+
 ## Prompt
 
 Replace `[SUBJECT]` and leave the rest unchanged:

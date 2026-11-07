@@ -35,7 +35,8 @@ const WHOLE: HeroProps = {
   href: '#publish',
   second: 'Read the example',
   secondHref: '#example',
-  src: 'assets/placeholders/design-system-workbench.png',
+  src: 'assets/placeholders/design-system-workbench-cutout.png',
+  plain: true,
 };
 
 const meta: Meta<HeroProps> = {
@@ -77,8 +78,8 @@ export const Default: Story = {};
 /** The copy alone. With no picture there is no second half. */
 export const NoPicture: Story = { name: 'No picture', args: { ...WHOLE, src: '' } };
 
-/** An illustration with no edge of its own: no frame. A screenshot keeps one. */
-export const Plain: Story = { args: { ...WHOLE, plain: true } };
+/** A picture that keeps its frame: a screenshot, or a drawing with a ground. */
+export const Framed: Story = { args: { ...WHOLE, src: 'assets/placeholders/design-system-workbench.png', plain: false } };
 
 /** The picture over the copy, once the two have stacked. */
 export const PictureLeads: Story = { name: 'Picture leads', args: { ...WHOLE, leads: 'end' } };

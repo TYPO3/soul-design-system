@@ -18711,11 +18711,10 @@ var SdsCard = class extends SdsElement {
     const state2 = this.sign && SIGNS.includes(this.sign) ? this.sign : void 0;
     const mark = state2 ? html63`<svg class="sds-card__sign" viewBox="-14 -14 28 28" role="img" aria-label="${SIGN_MEANING[state2]}">${svg`${unsafeSVG(sign(state2, 0, 0))}`}</svg>` : "";
     const worded = Boolean(this.tag || this.label);
-    const label = worded || mark && !this.icon ? html63`<div class="sds-row">
+    const label = worded ? html63`<div class="sds-row">
       ${this.tag ? html63`<sds-badge label="${this.tag}"></sds-badge>` : ""}
       ${this.label ? html63`<span class="sds-label">${this.label}</span>` : ""}${mark}
     </div>` : "";
-    const lead = this.icon && mark && !worded ? html63`<div class="sds-row sds-card__lead">${icon}${mark}</div>` : icon;
     const written2 = this.taken ?? this.content;
     const blocks = written2 ?? (typeof this.body === "string" ? void 0 : this.body);
     const text2 = blocks ? html63`<div class="sds-card__text">${blocks}</div>` : html63`<p class="sds-card__text">${this.body}</p>`;
@@ -18729,9 +18728,9 @@ var SdsCard = class extends SdsElement {
     return html63`<article class="sds-card">
   ${medium}
   <div class="sds-card__body">
-    ${lead}
+    ${icon}
     ${label}
-    ${title}
+    ${mark && !worded ? html63`<div class="sds-row sds-card__lead">${title}${mark}</div>` : title}
     ${text2}
   </div>
   ${foot}

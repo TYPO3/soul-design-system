@@ -301,7 +301,7 @@ Each file guards what the others cannot see:
 | `tree` | a directory: a level is how deep it stands open, and the fold works with no script |
 | `diagram` | a diagram from a spec: what the engine refuses, and no text wider in the browser than the engine counted |
 | `align` | where a column stands, top to foot, in a split and in a grid. The text in it does not move |
-| `logos` | a wall of marks: each keeps its name, and its ground does not follow the mode |
+| `logos` | a wall of marks: each keeps its name, and its ink follows the mode |
 | `hero` | the opening of a page: where the `h1` comes from, which presses draw, and a hero with no picture |
 | `card` | a sign with no words beside it shares the line of the glyph. No hole opens over the title |
 | `checks` | a list with checks: the icon is a mask, and the tone colours the check alone |
@@ -603,13 +603,12 @@ specificity. A variant stays a top-level rule under its full name, and
 `:where()` stays written out. `docs/frontend/stylesheets.rst` carries the
 reason.
 
-### No class is public
+### A directive takes no class
 
-A page reaches the system through an element, its attributes and a directive's
-options. A choice is a property or an option, never a class a page writes. No
-directive takes `:class:`. A class stays the element's own name for its own
-node. The layout and text classes that stand today are older than this rule, and
-they go, one layer after the other.
+An author chooses through a directive's options. A choice is an option, never a
+class the document writes. No directive of the theme takes `:class:`. A new
+choice on an element is a property too. The class layer itself stays: a page
+writes `sds-split`, `sds-lead` and `sds-btn` as it always has.
 
 ### Address a component, never rebuild one
 

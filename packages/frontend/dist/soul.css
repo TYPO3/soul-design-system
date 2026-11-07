@@ -91,7 +91,7 @@
   abbr[title]{text-decoration:underline dotted;text-underline-offset:2px;cursor:help}
   math:not(:has(*)){display:inline;font-family:var(--font-mono);font-size:calc(1em * var(--font-modifier-mono));color:var(--text-primary)}
   .sds-section>math:not(:has(*)),.sds-prose>math:not(:has(*)){display:block;margin-block:var(--space-flow)}
-  ul,ol{padding-inline-start:var(--space-5)}
+  ul,ol{padding-inline-start:var(--space-4)}
   li::marker{color:var(--text-muted);font-size:.8em}
   ol ol:not([type]){list-style-type:lower-alpha}
   dt{font-weight:var(--weight-semibold);color:var(--text-primary)}
@@ -505,14 +505,27 @@
   .sds-logos{margin-block:var(--space-components)}
 }
 @layer components{
-  .sds-logos{--sds-logos-gap: var(--space-3);--sds-logos-step: var(--space-3);--sds-logos-min: 9rem;--sds-logos-height: var(--space-10);--sds-logos-pad-y: var(--space-4);--sds-logos-pad-x: var(--space-5);--sds-logos-radius: var(--radius-control);--sds-logos-fill: var(--surface-art);display:flex;flex-direction:column;gap:var(--sds-logos-step)}
+  .sds-logos{
+    --sds-logos-gap: var(--space-8);
+    --sds-logos-step: var(--space-4);
+    --sds-logos-min: 9rem;
+    --sds-logos-height: var(--space-8);
+    --sds-logos-ink: brightness(0) opacity(.7);
+    display:flex;
+    flex-direction:column;
+    gap:var(--sds-logos-step);
+    :root[data-theme=dark] &{--sds-logos-ink: brightness(0) invert(1) opacity(.8)}
+    @media(prefers-color-scheme:dark){
+      :root:not([data-theme=light]) &{--sds-logos-ink: brightness(0) invert(1) opacity(.8)}
+    }
+  }
   .sds-logos__list{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(min(100%,var(--sds-logos-min)),1fr));
     gap:var(--sds-logos-gap);
-    >:is(a,img){display:flex;align-items:center;justify-content:center;min-width:0;padding:var(--sds-logos-pad-y) var(--sds-logos-pad-x);border-radius:var(--sds-logos-radius);background:var(--sds-logos-fill);box-sizing:content-box}
-    >img{width:calc(100% - 2 * var(--sds-logos-pad-x));height:var(--sds-logos-height);object-fit:contain}
-    >a>img{width:100%;height:var(--sds-logos-height);object-fit:contain}
+    align-items:center;
+    >a{display:flex;min-width:0}
+    img{width:100%;height:var(--sds-logos-height);object-fit:contain;object-position:left center;filter:var(--sds-logos-ink)}
   }
 }
 @layer base{
@@ -1113,7 +1126,16 @@
     >:first-child{margin-block-start:0}
     >:last-child{margin-block-end:0}
   }
-  .sds-surface-icon{--sds-surface-icon-ink: var(--text-primary);--sds-surface-icon-gap: var(--space-3);--sds-surface-icon-tile: var(--control-height-lg);--sds-surface-icon-fill: var(--surface-inset);--sds-surface-icon-radius: var(--radius-control);display:flex;align-items:center;justify-content:center;inline-size:var(--sds-surface-icon-tile);block-size:var(--sds-surface-icon-tile);border-radius:var(--sds-surface-icon-radius);background:var(--sds-surface-icon-fill);color:var(--sds-surface-icon-ink);margin-bottom:var(--sds-surface-icon-gap)}
+  :is(.sds-plane,.sds-panel,.sds-sunken):has(>.sds-surface-icon){
+    --sds-surface-icon-ink: var(--text-primary);
+    --sds-surface-icon-tile: var(--space-6);
+    --sds-surface-icon-gap: var(--space-4);
+    display:grid;
+    grid-template-columns:var(--sds-surface-icon-tile) minmax(0,1fr);
+    column-gap:var(--sds-surface-icon-gap);
+    >*{grid-column:2}
+    >.sds-surface-icon{grid-column:1;grid-row:1 / span 3;display:flex;align-items:center;justify-content:center;inline-size:var(--sds-surface-icon-tile);block-size:var(--sds-surface-icon-tile);color:var(--sds-surface-icon-ink)}
+  }
   .sds-surface-icon+.sds-surface-title{margin-top:0}
 }
 @layer base{
@@ -1671,13 +1693,13 @@
     --sds-card-lift: -2px;
     --sds-card-pad-y: var(--space-6);
     --sds-card-pad-x: var(--space-6);
-    --sds-card-gap: var(--space-3);
+    --sds-card-gap: var(--space-2);
+    --sds-card-label-gap: var(--space-1);
+    --sds-card-item-gap: var(--space-1);
     --sds-card-foot-gap: var(--space-3);
-    --sds-card-icon-gap: var(--space-3);
     --sds-card-icon-ink: var(--text-primary);
-    --sds-card-tile: var(--control-height-lg);
-    --sds-card-tile-fill: var(--surface-inset);
-    --sds-card-tile-radius: var(--radius-control);
+    --sds-card-tile: var(--space-6);
+    --sds-card-row-gap: var(--space-4);
     --sds-card-sign-size: var(--space-6);
     --sds-card-action-gap: var(--space-1-5);
     --sds-card-action-weight: var(--weight-semibold);
@@ -1722,10 +1744,17 @@
     gap:var(--sds-card-gap);
     padding:var(--sds-card-pad-y) var(--sds-card-pad-x);
     >.sds-row{margin-block:0}
-    >.sds-card__lead{margin-block-end:var(--sds-card-icon-gap)}
+    >.sds-row+.sds-card__title{margin-block-start:calc(var(--sds-card-label-gap) - var(--sds-card-gap))}
+    &:has(>.sds-card__icon){
+      display:grid;
+      grid-template-columns:var(--sds-card-tile) minmax(0,1fr);
+      column-gap:var(--sds-card-row-gap);
+      >*{grid-column:2}
+      >.sds-card__icon{grid-column:1;grid-row:1 / span 3}
+    }
   }
-  .sds-card__icon{display:flex;align-items:center;justify-content:center;inline-size:var(--sds-card-tile);block-size:var(--sds-card-tile);border-radius:var(--sds-card-tile-radius);background:var(--sds-card-tile-fill);color:var(--sds-card-icon-ink);margin-bottom:var(--sds-card-icon-gap)}
-  .sds-card__lead>.sds-card__icon{margin-bottom:0}
+  .sds-card__icon{display:flex;align-items:center;justify-content:center;inline-size:var(--sds-card-tile);block-size:var(--sds-card-tile);color:var(--sds-card-icon-ink)}
+  .sds-card__lead{flex-wrap:nowrap}
   .sds-card__sign{flex:none;inline-size:var(--sds-card-sign-size);block-size:var(--sds-card-sign-size)}
   .sds-card__title{
     margin:0;
@@ -1745,6 +1774,7 @@
     :is(a,button){position:relative}
     >:first-child{margin-block-start:0}
     >:last-child{margin-block-end:0}
+    li{margin-block-end:var(--sds-card-item-gap)}
   }
   .sds-card__foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:var(--sds-card-foot-gap);padding:0 var(--sds-card-pad-x) var(--sds-card-pad-y)}
   .sds-card__note{font-size:var(--sds-card-note-size);line-height:var(--sds-card-note-leading);color:var(--sds-card-note-ink)}

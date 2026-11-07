@@ -15,45 +15,46 @@
 }
 
 @layer components {
-  /* `auto-fill`, so a short last row keeps the width of the tiles above it. */
+  /* `auto-fill`, so a short last row keeps the width of the cells above it. A
+     mark has colours of its own and does not follow the mode. So the filter
+     turns each one into the ink of the page, and every wall reads in both modes. */
   .sds-logos {
-    --sds-logos-gap: var(--space-3);
-    --sds-logos-step: var(--space-3);
+    --sds-logos-gap: var(--space-8);
+    --sds-logos-step: var(--space-4);
     --sds-logos-min: 9rem;
-    --sds-logos-height: var(--space-10);
-    --sds-logos-pad-y: var(--space-4);
-    --sds-logos-pad-x: var(--space-5);
-    --sds-logos-radius: var(--radius-control);
-    --sds-logos-fill: var(--surface-art);
+    --sds-logos-height: var(--space-8);
+    --sds-logos-ink: brightness(0) opacity(0.7);
 
     display: flex;
     flex-direction: column;
     gap: var(--sds-logos-step);
+
+    :root[data-theme="dark"] & {
+      --sds-logos-ink: brightness(0) invert(1) opacity(0.8);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) & {
+        --sds-logos-ink: brightness(0) invert(1) opacity(0.8);
+      }
+    }
   }
   .sds-logos__list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--sds-logos-min)), 1fr));
     gap: var(--sds-logos-gap);
+    align-items: center;
 
-    > :is(a, img) {
+    > a {
       display: flex;
-      align-items: center;
-      justify-content: center;
       min-width: 0;
-      padding: var(--sds-logos-pad-y) var(--sds-logos-pad-x);
-      border-radius: var(--sds-logos-radius);
-      background: var(--sds-logos-fill);
-      box-sizing: content-box;
     }
-    > img {
-      width: calc(100% - 2 * var(--sds-logos-pad-x));
-      height: var(--sds-logos-height);
-      object-fit: contain;
-    }
-    > a > img {
+    img {
       width: 100%;
       height: var(--sds-logos-height);
       object-fit: contain;
+      object-position: left center;
+      filter: var(--sds-logos-ink);
     }
   }
 }

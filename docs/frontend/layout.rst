@@ -394,6 +394,8 @@ name.
    * - ``.sds-split--center``, ``.sds-split--end``
      - where the shorter half stands against the taller one: level with it,
        or at its foot. With nothing said, it stands at the top
+   * - ``.sds-column--start``, ``.sds-column--center``, ``.sds-column--end``
+     - one half on its own, top to foot, whatever the split says for the rest
    * - ``.sds-split--leads-end``
      - the second half read first once the two have stacked. A picture
        beside the sentence on a page and above it on a phone

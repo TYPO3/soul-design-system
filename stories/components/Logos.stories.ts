@@ -31,7 +31,7 @@ const meta: Meta<LogosProps> = {
     dsCard: dsCard({
       path: 'components/content/logos.card.html',
       name: 'Logos',
-      subtitle: 'A wall of marks, each on the ground its colours are for',
+      subtitle: 'A wall of marks, each in the ink of the page',
       viewport: '700x620',
     }),
   },
@@ -46,7 +46,7 @@ export const Default: Story = {};
 /** No label, where the heading above already says it. */
 export const NoLabel: Story = { name: 'No label', args: { label: '' } };
 
-/** Many marks. The wall grows by rows. Every tile keeps one width, and a short
+/** Many marks. The wall grows by rows. Every cell keeps one width, and a short
     last row keeps it too, so the columns stay straight. */
 export const Many: Story = {
   render: () => html`<sds-logos label="Used by">${MANY}</sds-logos>`,
@@ -61,9 +61,9 @@ export const ManyInANarrowBox: Story = {
 export const specimenHtml = (): string =>
   spec([
     part(html`<sds-logos label="Used by">${MARKS}</sds-logos>`),
-    specCap('A MARK IS A PICTURE · ITS GROUND STAYS LIGHT IN BOTH MODES · ALT IS ITS NAME'),
+    specCap('A MARK IS A PICTURE · IT TAKES THE INK OF THE PAGE IN BOTH MODES · ALT IS ITS NAME'),
     part(html`<sds-logos label="Used by">${MANY}</sds-logos>`),
-    specCap('MANY MARKS · THE WALL GROWS BY ROWS · A SHORT LAST ROW KEEPS THE WIDTH OF THE TILES', DIVIDER),
+    specCap('MANY MARKS · THE WALL GROWS BY ROWS · A SHORT LAST ROW KEEPS THE WIDTH OF THE CELLS', DIVIDER),
   ]);
 
 export const Specimen: Story = {

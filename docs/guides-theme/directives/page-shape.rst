@@ -49,7 +49,8 @@ browser title and source for navigation.
 
 .. example:: The opening claim, beside its one image
 
-   .. hero:: /_images/design-system-workbench.png
+   .. hero:: /_images/design-system-workbench-cutout.png
+      :plain:
 
       The opening summary belongs inside the directive.
 
@@ -57,7 +58,8 @@ browser title and source for navigation.
 
 .. example:: The claim with its press and a quieter way
 
-   .. hero:: /_images/design-system-workbench.png
+   .. hero:: /_images/design-system-workbench-cutout.png
+      :plain:
       :eyebrow: Guides theme
       :action: Publish a first site
       :href: /guides-theme/quickstart

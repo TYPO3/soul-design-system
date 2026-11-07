@@ -119,7 +119,7 @@ test.describe('the render', () => {
     );
     expect(Math.abs(widths[0]! - widths[1]!)).toBeLessThan(2);
     await expect(hero.locator('h1')).toHaveText('One system, from design to delivery');
-    await expect(hero.locator('sds-figure .sds-art')).toHaveAttribute('src', /design-system-workbench\.png$/);
+    await expect(hero.locator('sds-figure .sds-art')).toHaveAttribute('src', /design-system-workbench-cutout\.png$/);
     await expect(hero.locator('sds-figure .sds-art')).toHaveAttribute('alt', '');
     /* And the one picture that does not open: it stands beside the claim as
        decoration, where every other picture is something to read closer. */

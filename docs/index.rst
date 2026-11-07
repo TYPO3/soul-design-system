@@ -5,7 +5,8 @@
 One system, from design to delivery
 ===================================
 
-.. hero:: /_images/design-system-workbench.png
+.. hero:: /_images/design-system-workbench-cutout.png
+   :plain:
    :action: Publish a first site
    :href: /guides-theme/quickstart
    :second: Explore the design system

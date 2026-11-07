@@ -85,7 +85,7 @@ copy.
      - a list whose items each carry a check
      - ``sds-checks``
    * - ``logos``, ``logo``
-     - a wall of marks, each on the ground its colours are for
+     - a wall of marks, each in the ink of the page
      - ``sds-logos``
 
 .. list-table:: Instructions and questions
