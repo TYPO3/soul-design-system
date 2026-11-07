@@ -1932,6 +1932,11 @@ test.describe('an address that moved', () => {
     }
   });
 
+  /* This job renders the published site and calls the finish itself. */
+  test('the published site gets the stubs too', () => {
+    expect(readFileSync('.github/workflows/documentation.yml', 'utf8')).toContain('--redirects=docs/redirects.json');
+  });
+
   test('a stub works with no script, and stays out of the search', () => {
     const index = readFileSync(join(SITE_DIR, '_search.json'), 'utf8');
     for (const [from] of moved) {

@@ -66,8 +66,9 @@ jobs:
       # and so arrives from nowhere else.
       - run: node scripts/chrome.ts .out/site
 
+      # The list of moved addresses is this site's own: a reader's project has none.
       - name: Finish the site
-        run: node ${{ runner.temp }}/renderer/vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js .out/site
+        run: node ${{ runner.temp }}/renderer/vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js .out/site --redirects=docs/redirects.json
 
       # Storybook, below the documentation at `storybook/`: a repository has
       # one Pages site, and this is it. Not built here — the gate built it in
