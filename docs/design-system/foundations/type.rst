@@ -229,5 +229,5 @@ holds for a name cell in a table: the primary ink, never the link ink,
 because ``--text-link`` says link and nothing else.
 
 .. specimen:: guidelines/type-mono.card.html
-   :viewport: 700x235
+   :viewport: 700x229
    :title: Mono & labels

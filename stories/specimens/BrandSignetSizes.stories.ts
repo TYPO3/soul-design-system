@@ -14,11 +14,11 @@ import { dsCard } from '../lib/specimen.ts';
 
 /** The Dev Companion mark, from the file, at one size. */
 const at = (variant: 'l' | 'm' | 's', size: number, label = String(size)): string =>
-  `<div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="${size}" height="${size}" aria-hidden="true"><use href="assets/dev-companion-signet-${variant}.svg#${REF}"></use></svg><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">${label}</span></div>`;
+  `<div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><svg class="sds-signet" width="${size}" height="${size}" aria-hidden="true"><use href="assets/dev-companion-signet-${variant}.svg#${REF}"></use></svg><span style="font-family:var(--font-mono); font-size:var(--font-size-mono); color:var(--text-muted);">${label}</span></div>`;
 
 const heading = (title: string, aside: string): string =>
   `<div style="display:flex; align-items:baseline; gap:12px; padding-bottom:9px; margin-bottom:14px; border-bottom:1px solid var(--border-subtle);">
-      <span style="font-size:14px; font-weight:600;">${title}</span><span style="font-size:12px; color:var(--text-muted);">${aside}</span>
+      <span style="font-size:var(--font-size-small); font-weight:600;">${title}</span><span style="font-size:var(--font-size-small); color:var(--text-muted);">${aside}</span>
     </div>`;
 
 const row = (marks: string, note: string): string =>
@@ -82,7 +82,7 @@ const meta: Meta = {
       group: 'Signet',
       name: 'Signet — sizes',
       subtitle: 'A drawing per size, each on that size’s pixel grid — the size is chosen at the link',
-      viewport: '700x1021',
+      viewport: '700x1115',
     }),
   },
 };

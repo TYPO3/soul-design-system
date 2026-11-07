@@ -46,7 +46,7 @@ Those are units of the file, and a unit is a pixel. The drawing lives in the
 box it is for, so every straight edge lands on a whole device pixel.
 
 .. specimen:: guidelines/brand-signet-construction.card.html
-   :viewport: 700x2220
+   :viewport: 700x2270
    :title: Signet — construction
 
 Optical sizes and their boxes
@@ -80,11 +80,11 @@ matching file. So the size stands where the box is certain, and a brand mark
 does not become a UI glyph.
 
 .. specimen:: guidelines/brand-signet-sizes.card.html
-   :viewport: 700x1021
+   :viewport: 700x1115
    :title: Signet — sizes
 
 .. specimen:: guidelines/brand-signet-modes.card.html
-   :viewport: 700x669
+   :viewport: 700x672
    :title: Signet — modes & context
 
 The family
@@ -143,7 +143,7 @@ Clear space, edges, motion
    :title: Clear space & minimum size
 
 .. specimen:: guidelines/brand-edges.card.html
-   :viewport: 700x220
+   :viewport: 700x222
    :title: Edges & radii
 
 .. specimen:: guidelines/brand-motion.card.html

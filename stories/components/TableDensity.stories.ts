@@ -58,8 +58,8 @@ const props = (density: Density): TableProps => ({ density, columns: COLUMNS, ro
 function densityRow({ density, label, note }: DensitySpec): string {
   return `<div style="display:flex; gap:22px; align-items:flex-start;">
   <div style="width:190px; flex:none;">
-    <div style="font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; color:var(--text-primary);">${esc(label)}</div>
-    <div style="font-size:11px; line-height:1.45; color:var(--text-secondary); margin-top:5px;">${note}</div>
+    <div style="font-family:var(--font-mono); font-size:var(--font-size-mono); letter-spacing:0.1em; color:var(--text-primary);">${esc(label)}</div>
+    <div style="font-size:var(--font-size-small); line-height:1.45; color:var(--text-secondary); margin-top:5px;">${note}</div>
   </div>
   <div style="flex:1;">${indent(part(sdsTable(props(density))), 0)}</div>
 </div>`;

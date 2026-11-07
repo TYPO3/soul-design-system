@@ -22,7 +22,7 @@ const token = (px: number): string => `--space-${String(px / 4).replace('.', '-'
 const step = (px: number): string =>
   `<div style="display:flex; flex-direction:column; align-items:flex-start; gap:6px;">
   <div style="width:var(${token(px)}); height:var(${token(px)}); background:var(--accent);"></div>
-  <div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">${px}</div>
+  <div style="font-family:var(--font-mono); font-size:var(--font-size-mono); color:var(--text-muted);">${px}</div>
 </div>`;
 
 const meta: Meta = {
@@ -34,7 +34,7 @@ const meta: Meta = {
       group: 'Spacing',
       name: 'Space scale',
       subtitle: 'A 4px base, halved below 16 and thinning out above 24',
-      viewport: '700x125',
+      viewport: '700x132',
     }),
   },
 };

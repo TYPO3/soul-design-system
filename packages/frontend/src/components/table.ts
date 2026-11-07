@@ -4,7 +4,7 @@
    nowhere else — that is what makes a filled row mean something.
 
    Density is a judgement about the reader, not about the data. Compact (30px
-   rows, 13px type) when the list *is* the work. Airy (48px, 14px) when a
+   rows, 14px type) when the list *is* the work. Airy (48px, 16px) when a
    reader reads the rows. Medium (38px) when one has to serve both. */
 
 import { html, nothing, type TemplateResult } from 'lit';

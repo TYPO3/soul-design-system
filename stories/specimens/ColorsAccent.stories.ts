@@ -30,7 +30,7 @@ const COLUMNS: readonly Column[] = [
   { paint: 'var(--border-accent-quiet)', name: '--border-accent-quiet', hex: '#5F5644' },
 ];
 
-const MONO = 'font-family:var(--font-mono); font-size:11px;';
+const MONO = 'font-family:var(--font-mono); font-size:var(--font-size-mono);';
 
 const column = ({ paint, name, hex }: Column): string =>
   `<div style="display:flex; flex-direction:column; gap:7px; min-width:104px;">
@@ -48,7 +48,7 @@ const meta: Meta = {
       group: 'Colors',
       name: 'Accent',
       subtitle: 'TYPO3 orange is the only accent — used sparingly',
-      viewport: '700x134',
+      viewport: '700x261',
     }),
   },
 };

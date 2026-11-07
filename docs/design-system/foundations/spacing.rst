@@ -36,7 +36,7 @@ pixel figure in this manual is what a token draws at the browser's default,
 hairline, a radius, a focus ring, a viewport width a layout changes at.
 
 .. specimen:: guidelines/spacing-scale.card.html
-   :viewport: 700x125
+   :viewport: 700x132
    :title: Space scale
 
 Distances with a name

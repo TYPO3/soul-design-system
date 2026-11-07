@@ -50,13 +50,13 @@ const mark = (size: number, o: Mark = {}): string => {
 const panel = (chosen: boolean, value: string, note: string, o: Mark): string =>
   `<div style="display:flex; flex-direction:column; gap:10px; padding:13px; border:1px solid var(--${chosen ? 'accent' : 'border-subtle'}); border-radius:var(--radius-card);">
       <div style="display:flex; align-items:center; gap:14px; min-height:50px;">${mark(64, o)}${mark(32, o)}</div>
-      <div><div style="font-family:var(--font-mono); font-size:10px; color:var(--${chosen ? 'text-accent-quiet' : 'text-muted'});">${value}</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">${note}</div></div>
+      <div><div style="font-family:var(--font-mono); font-size:var(--font-size-mono); color:var(--${chosen ? 'text-accent-quiet' : 'text-muted'});">${value}</div><div style="font-size:11px; line-height:1.4; color:var(--text-secondary); margin-top:3px;">${note}</div></div>
     </div>`;
 
 const group = (title: string, aside: string, panels: string): string =>
   `<div>
     <div style="display:flex; align-items:baseline; gap:12px; padding-bottom:10px; margin-bottom:12px; border-bottom:1px solid var(--border-subtle);">
-      <span style="font-size:14px; font-weight:600;">${title}</span><span style="font-size:12px; color:var(--text-muted);">${aside}</span>
+      <span style="font-size:var(--font-size-small); font-weight:600;">${title}</span><span style="font-size:var(--font-size-small); color:var(--text-muted);">${aside}</span>
     </div>
     <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">${panels}</div>
   </div>`;
@@ -213,7 +213,7 @@ const meta: Meta = {
       group: 'Signet',
       name: 'Signet — construction',
       subtitle: 'How a signet is built for this system — one rounding throughout: half the stroke',
-      viewport: '700x2220',
+      viewport: '700x2270',
     }),
   },
 };

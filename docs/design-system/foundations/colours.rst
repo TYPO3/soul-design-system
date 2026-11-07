@@ -184,7 +184,7 @@ Use ``--accent``, never the raw ``--orange-*`` scale. That scale derives the
 token and appears in no design.
 
 .. specimen:: guidelines/colors-accent.card.html
-   :viewport: 700x134
+   :viewport: 700x261
    :title: Accent
 
 Status and syntax

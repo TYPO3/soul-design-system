@@ -14,7 +14,7 @@ import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { dsCard } from '../lib/specimen.ts';
 
-const MONO = 'font-family:var(--font-mono); font-size:12px;';
+const MONO = 'font-family:var(--font-mono); font-size:var(--font-size-mono);';
 
 const rail = (): string =>
   `<div style="border-right:1px solid var(--border-subtle); background:var(--surface-raised); padding:12px; display:flex; flex-direction:column; gap:7px;">
@@ -25,9 +25,9 @@ const rail = (): string =>
 
 const column = (): string =>
   `<div style="padding:14px 18px;">
-  <div style="font-family:var(--font-mono); font-size:18px; color:var(--text-primary);">typo3_rule_lookup</div>
+  <div style="font-size:var(--font-size-lead);"><div style="font-family:var(--font-mono); font-size:var(--font-size-mono); color:var(--text-primary);">typo3_rule_lookup</div></div>
   <div style="height:1px; background:var(--border-subtle); margin:12px 0;"></div>
-  <div class="spec-cap" style="font-size:11px;">--width-sidebar 210 · --gutter-page 48 · --width-page 1200</div>
+  <div class="spec-cap">--width-sidebar 210 · --gutter-page 48 · --width-page 1200</div>
 </div>`;
 
 const meta: Meta = {

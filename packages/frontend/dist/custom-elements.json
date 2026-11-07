@@ -10875,7 +10875,7 @@
           "name": "SdsTable",
           "tagName": "sds-table",
           "summary": "Table, badges and status.",
-          "description": "Table, badges and status.\n\nNever zebra stripes. A row's background changes on hover or on selection and nowhere else — that is what makes a filled row mean something.\n\nDensity is a judgement about the reader, not about the data. Compact (30px rows, 13px type) when the list *is* the work. Airy (48px, 14px) when a reader reads the rows. Medium (38px) when one has to serve both.",
+          "description": "Table, badges and status.\n\nNever zebra stripes. A row's background changes on hover or on selection and nowhere else — that is what makes a filled row mean something.\n\nDensity is a judgement about the reader, not about the data. Compact (30px rows, 14px type) when the list *is* the work. Airy (48px, 16px) when a reader reads the rows. Medium (38px) when one has to serve both.",
           "attributes": [
             {
               "name": "density",

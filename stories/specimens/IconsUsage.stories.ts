@@ -96,12 +96,12 @@ ${indent(
 
 /* ------------------------------------------------------ beside a label -- */
 
-const CHIP = 'display:inline-flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:13px;';
+const CHIP = 'display:inline-flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:var(--font-size-mono);';
 
 const labelled = (): string =>
   `<span style="${CHIP} color:var(--text-on-accent); background:var(--accent); border-radius:var(--radius-control); padding:6px 11px;">${icon('actions-play')}Run the checks</span>
 <span style="${CHIP} color:var(--text-primary); border:1px solid var(--border-strong); border-radius:var(--radius-control); padding:5px 10px;">${icon('actions-duplicate')}Copy</span>
-<span style="display:inline-flex; align-items:center; gap:6px; font-size:14px; color:var(--text-link);">Read the tool surface ${icon('actions-arrow-right')}</span>
+<span style="display:inline-flex; align-items:center; gap:6px; font-size:var(--font-size-small); color:var(--text-link);">Read the tool surface ${icon('actions-arrow-right')}</span>
 <span class="spec-note" style="max-width:24ch;">Icon before a label, 8${NNBSP}px gap — except a direction icon, which follows it.</span>`;
 
 const meta: Meta = {

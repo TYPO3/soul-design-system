@@ -13,7 +13,7 @@ import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { dsCard, specCap, specPad } from '../lib/specimen.ts';
 
-const NAME = 'font-family:var(--font-mono); font-size:26px; font-weight:500; letter-spacing:-0.01em;';
+const NAME = 'font-family:var(--font-mono); font-size:var(--font-size-mono); font-weight:500; letter-spacing:-0.01em;';
 const BLOCK =
   'margin:0; font-family:var(--font-mono); font-size:var(--font-size-small); line-height:var(--leading-code); color:var(--text-secondary); background:var(--surface-sunken); border:1px solid var(--border-subtle); border-radius:var(--radius-card); padding:12px 14px;';
 
@@ -32,7 +32,7 @@ const meta: Meta = {
       group: 'Type',
       name: 'Mono & labels',
       subtitle: 'Source Code Pro carries tool names, labels and every code block',
-      viewport: '700x235',
+      viewport: '700x229',
     }),
   },
 };
@@ -43,7 +43,7 @@ type Story = StoryObj;
 export const specimenHtml = (): string =>
   specPad(
     [
-      `<div style="${NAME}">typo3_icon_lookup</div>`,
+      `<div style="font-size:var(--font-size-h3);"><div style="${NAME}">typo3_icon_lookup</div></div>`,
       `<div class="sds-label">Tool surface</div>`,
       specCap('.sds-label · --font-size-small · --tracking-label · uppercase'),
       block(),
