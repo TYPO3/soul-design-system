@@ -133,6 +133,9 @@ is one step larger.
 **The opening of a page.** `sds-hero` is the claim, its press and one picture,
 and it holds the page's only `h1`.
 
+**Who stands behind a claim.** `sds-logos` is a wall of marks, each on
+`--surface-art`, each `alt` a name.
+
 **The next step of a page.** `sds-cta` is the one thing a reader can do next:
 what they get, and the press. One per page, because the press is the page's
 one primary. A way into a chapter is `sds-card`, and a row of presses with no

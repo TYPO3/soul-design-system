@@ -1,0 +1,10 @@
+{# One mark, as the parts `sds-logos` takes between its tags. Each path resolves
+   here, because what a path means is the renderer's business. #}
+{%- set src = node.option('src') -%}
+{%- set source = src is external_target ? src : asset(src) -%}
+{%- set href = node.option('href') ? renderLink(node.option('href')) : '' -%}
+{%- if href -%}
+<a href="{{ href }}"><img src="{{ source }}" alt="{{ node.option('alt') }}"></a>
+{%- else -%}
+<img src="{{ source }}" alt="{{ node.option('alt') }}">
+{%- endif -%}

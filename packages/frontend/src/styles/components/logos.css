@@ -1,0 +1,59 @@
+/* sds-logos — a wall of marks, each on the ground its colours are for. */
+
+@layer base {
+  sds-logos {
+    display: block;
+    min-width: 0;
+    margin-block: var(--space-components);
+  }
+  sds-logos > .sds-logos {
+    margin-block: 0;
+  }
+  .sds-logos {
+    margin-block: var(--space-components);
+  }
+}
+
+@layer components {
+  /* `auto-fill`, so a short last row keeps the width of the tiles above it. */
+  .sds-logos {
+    --sds-logos-gap: var(--space-3);
+    --sds-logos-step: var(--space-3);
+    --sds-logos-min: 9rem;
+    --sds-logos-height: var(--space-10);
+    --sds-logos-pad-y: var(--space-4);
+    --sds-logos-pad-x: var(--space-5);
+    --sds-logos-radius: var(--radius-control);
+    --sds-logos-fill: var(--surface-art);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--sds-logos-step);
+  }
+  .sds-logos__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--sds-logos-min)), 1fr));
+    gap: var(--sds-logos-gap);
+
+    > :is(a, img) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      padding: var(--sds-logos-pad-y) var(--sds-logos-pad-x);
+      border-radius: var(--sds-logos-radius);
+      background: var(--sds-logos-fill);
+      box-sizing: content-box;
+    }
+    > img {
+      width: calc(100% - 2 * var(--sds-logos-pad-x));
+      height: var(--sds-logos-height);
+      object-fit: contain;
+    }
+    > a > img {
+      width: 100%;
+      height: var(--sds-logos-height);
+      object-fit: contain;
+    }
+  }
+}

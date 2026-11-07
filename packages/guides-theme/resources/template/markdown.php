@@ -92,6 +92,8 @@ use TYPO3\Soul\GuidesTheme\Nodes\FactsNode;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
+use TYPO3\Soul\GuidesTheme\Nodes\LogoNode;
+use TYPO3\Soul\GuidesTheme\Nodes\LogosNode;
 use TYPO3\Soul\GuidesTheme\Nodes\OutlineNode;
 use TYPO3\Soul\GuidesTheme\Nodes\PartNode;
 use TYPO3\Soul\GuidesTheme\Nodes\QuoteNode as SoulQuoteNode;
@@ -184,6 +186,8 @@ return [
 
     // This theme's own directives
     BandNode::class => 'body/directive/band.md.twig',
+    LogosNode::class => 'body/directive/logos.md.twig',
+    LogoNode::class => 'body/directive/logo.md.twig',
     CtaNode::class => 'body/directive/cta.md.twig',
     GridNode::class => 'body/directive/grid.md.twig',
     SplitNode::class => 'body/directive/split.md.twig',

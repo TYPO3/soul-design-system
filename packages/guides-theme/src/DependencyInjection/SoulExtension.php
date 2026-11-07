@@ -37,6 +37,8 @@ use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
+use TYPO3\Soul\GuidesTheme\Nodes\LogoNode;
+use TYPO3\Soul\GuidesTheme\Nodes\LogosNode;
 use TYPO3\Soul\GuidesTheme\Nodes\OutlineNode;
 use TYPO3\Soul\GuidesTheme\Nodes\PaperFieldNode;
 use TYPO3\Soul\GuidesTheme\Nodes\PartNode;
@@ -301,6 +303,8 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => PartNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => OutlineNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => BandNode::class, 'file' => 'body/directive/band.html.twig', 'format' => 'html'],
+                ['node' => LogosNode::class, 'file' => 'body/directive/logos.html.twig', 'format' => 'html'],
+                ['node' => LogoNode::class, 'file' => 'body/directive/logo.html.twig', 'format' => 'html'],
                 ['node' => CtaNode::class, 'file' => 'body/directive/cta.html.twig', 'format' => 'html'],
                 ['node' => GridNode::class, 'file' => 'body/directive/grid.html.twig', 'format' => 'html'],
                 ['node' => SplitNode::class, 'file' => 'body/directive/split.html.twig', 'format' => 'html'],

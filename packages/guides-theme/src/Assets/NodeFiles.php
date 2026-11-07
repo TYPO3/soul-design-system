@@ -14,6 +14,7 @@ use phpDocumentor\Guides\ReferenceResolvers\DocumentNameResolverInterface;
 use phpDocumentor\Guides\RenderContext;
 use TYPO3\Soul\GuidesTheme\Nodes\CardNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
+use TYPO3\Soul\GuidesTheme\Nodes\LogoNode;
 
 /**
  * The files a node of this theme points at, copied before the node renders.
@@ -35,7 +36,8 @@ final class NodeFiles implements PreNodeRenderer
         return $node instanceof EmbeddedFrame
             || $node instanceof FigureNode
             || $node instanceof CardNode
-            || $node instanceof HeroNode;
+            || $node instanceof HeroNode
+            || $node instanceof LogoNode;
     }
 
     public function execute(Node $node, RenderContext $renderContext): Node

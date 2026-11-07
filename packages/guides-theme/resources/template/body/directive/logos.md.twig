@@ -1,0 +1,10 @@
+{#- A wall is a frame around a run of pictures. The line and the pictures stay. -#}
+{%- autoescape false -%}
+{%- if node.option('label') %}**{{ node.option('label')|md_escape }}**
+
+{% endif -%}
+{%- for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

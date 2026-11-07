@@ -293,6 +293,40 @@ its own heading there leaves ``heading`` out.
 
    Which half comes first once the two have stacked.
 
+.. _component-sds-logos:
+
+sds-logos
+=========
+
+A wall of marks. A mark is a picture with colours of its own, so it does not
+follow the mode. Each one stands on ``--surface-art``, the ground those colours
+are for, in light and in dark.
+
+.. specimen:: components/content/logos.card.html
+   :viewport: 700x620
+   :title: Logos
+
+.. code-block:: html
+
+   <sds-logos label="Used by">
+     <img src="one.svg" alt="One">
+     <a href="https://example.org"><img src="two.svg" alt="Two"></a>
+   </sds-logos>
+
+The marks go between the tags. Each ``alt`` is a name, because a mark says
+nothing to a reader who cannot see it. Before a mark goes in, make sure that
+its licence lets the page show it.
+
+**The wall grows by rows, and it has no limit.** The width of the box decides how
+many marks stand across. Every tile keeps one width, a short last row too, so
+the columns stay straight. In a narrow box fewer stand across.
+
+.. confval:: label
+   :name: sds-logos-label
+   :type: string
+
+   What the marks have in common: ``Used by``, ``Maintained with``.
+
 .. _component-sds-grid:
 
 sds-grid

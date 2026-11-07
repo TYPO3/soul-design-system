@@ -1,0 +1,10 @@
+{# A wall of marks, and the element draws it. The marks stand between the tags,
+   because a list of pictures does not fit in an attribute. #}
+<sds-logos
+    {%- if node.option('label') %} label="{{ node.option('label') }}"{% endif %}
+    {%- if node.option('class') %} class="{{ node.option('class') }}"{% endif %}
+>
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</sds-logos>

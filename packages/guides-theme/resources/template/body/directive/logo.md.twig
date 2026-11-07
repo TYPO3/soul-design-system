@@ -1,0 +1,13 @@
+{#- A mark is a picture, and its name as a link where it goes somewhere. A link
+    around a picture is a target the twin cannot follow. -#}
+{%- autoescape false -%}
+{%- set src = node.option('src') -%}
+{%- set source = src is external_target ? src : asset(src) -%}
+{%- set href = node.option('href') ? renderLink(node.option('href')) : '' -%}
+{%- set name = node.option('alt')|default('')|md_escape -%}
+![{{ name }}]({{ source }})
+
+{% if href %}[{{ name ?: href }}]({{ href }})
+
+{% endif -%}
+{%- endautoescape -%}

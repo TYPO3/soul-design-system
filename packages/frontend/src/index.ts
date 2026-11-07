@@ -13,6 +13,7 @@ import './components/theme.ts';
 import './components/button.ts';
 import './components/cta.ts';
 import './components/hero.ts';
+import './components/logos.ts';
 import './components/dropdown.ts';
 import './components/badge.ts';
 import './components/eyebrow.ts';
@@ -89,6 +90,7 @@ export { SdsTheme, themeBoot, type ThemeChoice, type ThemeChange } from './compo
 export { SdsButton, buttonClass, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button.ts';
 export { SdsCta, type CtaProps } from './components/cta.ts';
 export { SdsHero, type HeroProps } from './components/hero.ts';
+export { SdsLogos, type LogosProps } from './components/logos.ts';
 export { SdsDropdown, type DropdownProps, type DropdownChoice, type DropdownChosen } from './components/dropdown.ts';
 export { SdsBadge, type BadgeProps, type BadgeTone } from './components/badge.ts';
 export { SdsEyebrow, type EyebrowProps } from './components/eyebrow.ts';
@@ -192,6 +194,7 @@ export const TAGS = [
   'sds-button',
   'sds-cta',
   'sds-hero',
+  'sds-logos',
   'sds-dropdown',
   'sds-badge',
   'sds-eyebrow',

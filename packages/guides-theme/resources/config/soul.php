@@ -40,6 +40,8 @@ use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HalfDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HeroDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ListTableDirective;
+use TYPO3\Soul\GuidesTheme\Directives\LogoDirective;
+use TYPO3\Soul\GuidesTheme\Directives\LogosDirective;
 use TYPO3\Soul\GuidesTheme\Directives\OutlineDirective;
 use TYPO3\Soul\GuidesTheme\Directives\PartDirective;
 use TYPO3\Soul\GuidesTheme\Directives\QuoteDirective;
@@ -127,6 +129,10 @@ return static function (ContainerConfigurator $container): void {
             ->tag('phpdoc.guides.directive')
         /* A column of a split, and only there — see `HalfDirective`. */
         ->set(HalfDirective::class)
+            ->tag('phpdoc.guides.directive')
+        ->set(LogosDirective::class)
+            ->tag('phpdoc.guides.directive')
+        ->set(LogoDirective::class)
             ->tag('phpdoc.guides.directive')
         ->set(CtaDirective::class)
             ->tag('phpdoc.guides.directive')

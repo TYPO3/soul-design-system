@@ -6170,6 +6170,72 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/logos.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsLogos",
+          "tagName": "sds-logos",
+          "summary": "Who stands behind a claim, as a wall of their marks.",
+          "description": "Who stands behind a claim, as a wall of their marks.\n\nThe marks go between the tags: an `img`, or an `a` around one where the mark goes somewhere. Each `alt` is a name, because a mark says nothing to a reader who cannot see it.\n\nA mark is a picture with colours of its own, and it does not follow the mode. So each one stands on `--surface-art`, the ground those colours are for.",
+          "attributes": [
+            {
+              "name": "label",
+              "description": "What the marks have in common: `Used by`, `Maintained with`.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "label"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "What the marks have in common: `Used by`, `Maintained with`.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "label"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-eyebrow",
+            "sds-logos",
+            "sds-logos__list"
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "What an attribute cannot carry — prose, a block, a section of a document."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsLogos",
+          "declaration": {
+            "name": "SdsLogos",
+            "module": "src/components/logos.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-logos",
+          "declaration": {
+            "name": "SdsLogos",
+            "module": "src/components/logos.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/modal.ts",
       "declarations": [
         {

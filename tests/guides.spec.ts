@@ -1421,15 +1421,15 @@ test.describe('what the theme repaired', () => {
        of them says what it is for. The core writes the second as a bare `<img>`
        on the page ground, which is a drawing exported on white in a hole in
        dark. So both are the element. The only pictures outside a frame are a
-       card's, which has a ground of its own, and the viewer's copy, which has
-       one too. */
-    await expect(page.locator('.sds-prose img:not(.sds-figure__frame img):not(.sds-lightbox__art img):not(.sds-card__media img)')).toHaveCount(0);
-    const framed = page.locator('.sds-prose sds-figure:not(:has(.sds-diagram)) .sds-figure__frame');
+       card's, a mark on a wall and the viewer's copy, each on a ground of its
+       own. */
+    await expect(page.locator('.sds-prose img:not(.sds-figure__frame img):not(.sds-lightbox__art img):not(.sds-card__media img):not(.sds-logos__list img)')).toHaveCount(0);
+    const framed = page.locator('.sds-prose sds-figure:not(:has(.sds-diagram)):not(sds-hero sds-figure) .sds-figure__frame');
     await expect(framed).toHaveCount(6);
 
     /* And what separates them. The caption is the claim, so the one picture
        that makes none draws without one rather than under an empty line. */
-    await expect(page.locator('.sds-prose sds-figure:not(:has(.sds-diagram)) .sds-figure__caption')).toHaveCount((await framed.count()) - 1);
+    await expect(page.locator('.sds-prose sds-figure:not(:has(.sds-diagram)):not(sds-hero sds-figure) .sds-figure__caption')).toHaveCount((await framed.count()) - 1);
   });
 
   test('a picture opens at full size only where the page asked for it', async ({ page }) => {

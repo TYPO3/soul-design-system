@@ -46,6 +46,9 @@ copy.
    * - ``quote``
      - a sentence from somewhere else, with its source
      - ``sds-quote``
+   * - ``logos``, ``logo``
+     - a wall of marks, each on the ground its colours are for
+     - ``sds-logos``
    * - ``cta``
      - the one thing a reader can do next: what they get, and the press
      - ``sds-cta``
@@ -898,6 +901,44 @@ The name is the argument. The options are the ones ``quote`` has: ``:as:``,
 from the name, and ``:initials:`` says it where the name does not. The
 element is ``sds-byline`` in :doc:`/frontend/components/content`. The
 Markdown twin writes the three parts on one line.
+
+logos
+=====
+
+A wall of marks, with one ``logo`` per mark in the body. Before a mark goes in,
+make sure that the licence of the mark lets the page show it.
+
+.. example:: Two marks, the second one a link
+
+   .. logos:: Used by
+
+      .. logo:: /_images/signet.svg
+         :alt: Soul
+
+      .. logo:: /_images/signet-l.svg
+         :alt: Soul, at the large size
+         :href: /design-system/brand
+
+The argument says what the marks have in common, and it is optional.
+
+logo
+====
+
+One mark of a wall. The argument is the file.
+
+.. confval:: alt
+   :name: logo-alt
+   :type: string
+   :required: true
+
+   The name the mark stands for. A mark says nothing to a reader who cannot
+   see it.
+
+.. confval:: href
+   :name: logo-href
+   :type: string
+
+   Where the mark goes.
 
 cta
 ===

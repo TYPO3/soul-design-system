@@ -128,6 +128,9 @@ group.
    * - ``sds-modal``
      - the surface alone, with nothing that opens or closes it
      - :ref:`Overlays — sds-modal <component-sds-modal>`
+   * - ``sds-logos``
+     - a wall of marks, each on the ground its colours are for
+     - :ref:`Content — sds-logos <component-sds-logos>`
    * - ``sds-nav-breadcrumb``
      - where the page sits, as a trail
      - :ref:`Navigation — sds-nav-breadcrumb <component-sds-nav-breadcrumb>`
