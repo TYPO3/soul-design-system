@@ -35,6 +35,19 @@ export interface CtaProps {
   secondHref?: string;
 }
 
+/** The press and the quieter way, in the one form a page states them.
+    `sds-hero` draws the same two. */
+export function pressRow(
+  { action, href, icon, second, secondHref }: Pick<CtaProps, 'action' | 'href' | 'icon' | 'second' | 'secondHref'>,
+  cls: string,
+): TemplateResult | string {
+  if (!action || !href) return '';
+  const label = icon ? html`<sds-icon name="${icon}"></sds-icon>${buttonLabel(action)}` : action;
+  const first = buttonMarkup({ variant: 'primary', size: 'lg', href }, label);
+  const quieter = second && secondHref ? buttonMarkup({ variant: 'secondary', href: secondHref }, second) : '';
+  return html`<div class="${cls}">${first}${quieter}</div>`;
+}
+
 export class SdsCta extends SdsElement {
   static override properties = {
     heading: { type: String },
@@ -73,18 +86,6 @@ export class SdsCta extends SdsElement {
     super.connectedCallback();
   }
 
-  private presses(): TemplateResult | string {
-    if (!this.action || !this.href) return '';
-    const label = this.icon
-      ? html`<sds-icon name="${this.icon}"></sds-icon>${buttonLabel(this.action)}`
-      : this.action;
-    const first = buttonMarkup({ variant: 'primary', size: 'lg', href: this.href }, label);
-    const second = this.second && this.secondHref
-      ? buttonMarkup({ variant: 'secondary', href: this.secondHref }, this.second)
-      : '';
-    return html`<div class="sds-cta__actions">${first}${second}</div>`;
-  }
-
   protected override render(): TemplateResult {
     const written = this.taken ?? this.content;
     const line = written
@@ -97,7 +98,7 @@ export class SdsCta extends SdsElement {
     ${this.heading ? html`<h3 class="sds-cta__title">${this.heading}</h3>` : ''}
     ${line}
   </div>
-  ${this.presses()}
+  ${pressRow(this, 'sds-cta__actions')}
 </section>`;
   }
 }

@@ -300,6 +300,8 @@ Each file guards what the others cannot see:
 | `run` | work in progress: which rows are a control, the name of every state, and a fold that survives |
 | `tree` | a directory: a level is how deep it stands open, and the fold works with no script |
 | `diagram` | a diagram from a spec: what the engine refuses, and no text wider in the browser than the engine counted |
+| `hero` | the opening of a page: where the `h1` comes from, which presses draw, and a hero with no picture |
+| `card` | a sign with no words beside it shares the line of the glyph. No hole opens over the title |
 | `cta` | a call to action: each press a link, none with nowhere to go, and the line between the tags |
 | `copy` | a value carried off: what reaches the clipboard, the button names, and a press that says so in words |
 | `table` | the way into a row: an anchor at its end, one stop per row, a column at its edge. No bar down the side |

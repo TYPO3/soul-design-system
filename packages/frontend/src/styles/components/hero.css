@@ -1,0 +1,46 @@
+/* sds-hero — the opening of a page. The split and the type are the system's.
+   What stands here is the row of presses and the host's own step. */
+
+@layer base {
+  sds-hero {
+    display: block;
+    min-width: 0;
+    margin-block: var(--space-components);
+  }
+  sds-hero > .sds-hero {
+    margin-block: 0;
+  }
+}
+
+@layer components {
+  .sds-hero {
+    --sds-hero-action-gap: var(--space-3);
+    --sds-hero-action-step: var(--space-6);
+    --sds-hero-title-size: var(--font-size-display);
+    --sds-hero-title-leading: var(--leading-display);
+    --sds-hero-title-tracking: var(--tracking-display);
+    --sds-hero-title-measure: var(--measure-display);
+
+    /* The display step, also where a renderer writes the heading itself. */
+    h1 {
+      max-width: var(--sds-hero-title-measure);
+      font-size: var(--sds-hero-title-size);
+      line-height: var(--sds-hero-title-leading);
+      letter-spacing: var(--sds-hero-title-tracking);
+    }
+
+    /* A picture that brought its own ground needs no frame around it. A drawing
+       keeps its ground: its colours are for that ground. */
+    .sds-figure__frame:not(.sds-figure__frame--exported) {
+      --sds-figure-fill: transparent;
+      --sds-figure-border: 0;
+    }
+  }
+  .sds-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sds-hero-action-gap);
+    margin-block-start: var(--sds-hero-action-step);
+  }
+}

@@ -115,13 +115,23 @@
       margin-block-end: 0;
     }
   }
-  /* A glyph above the label, where a set of cards tells its cards apart at a
-     glance. Muted, and never in a status colour: a card is a subject, not a
-     result, and colour here says something the words do not. */
+  /* A glyph above the label, in the tile a card draws, so a page that mixes the
+     two has one rule for its glyphs. Never in a status colour: a plane is a
+     subject, not a result. */
   .sds-surface-icon {
-    --sds-surface-icon-ink: var(--text-secondary);
-    --sds-surface-icon-gap: var(--space-2-5);
+    --sds-surface-icon-ink: var(--text-primary);
+    --sds-surface-icon-gap: var(--space-3);
+    --sds-surface-icon-tile: var(--control-height-lg);
+    --sds-surface-icon-fill: var(--surface-inset);
+    --sds-surface-icon-radius: var(--radius-control);
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--sds-surface-icon-tile);
+    block-size: var(--sds-surface-icon-tile);
+    border-radius: var(--sds-surface-icon-radius);
+    background: var(--sds-surface-icon-fill);
     color: var(--sds-surface-icon-ink);
     margin-bottom: var(--sds-surface-icon-gap);
   }

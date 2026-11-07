@@ -36,8 +36,8 @@ moves under the finger. No specimen can hold that state, and a reader notices
 it soonest. A control that looks the same under a press reads as dead on
 every page that takes longer than a frame to answer.
 
-A linked card is the one positional exception. It rises 2px, takes the raised
-fill and lights the top of its frame with ``--accent-glow``. Keyboard focus
+A linked card is the one positional exception. It rises 2px, takes a stronger
+edge and lights the top of its frame with ``--accent-glow``. Keyboard focus
 gets the same response, because the whole card is the target. A card in a
 flush wall stays put, so it does not tear the shared hairlines. Reduced
 motion holds every card still and keeps the fill, border and glow.

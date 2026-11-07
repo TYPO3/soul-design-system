@@ -1081,6 +1081,7 @@
             "sds-card__body",
             "sds-card__foot",
             "sds-card__icon",
+            "sds-card__lead",
             "sds-card__media",
             "sds-card__media--exported",
             "sds-card__note",
@@ -5270,6 +5271,276 @@
           "declaration": {
             "name": "SdsGrid",
             "module": "src/components/grid.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/hero.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "name": "SdsHero",
+          "tagName": "sds-hero",
+          "summary": "The opening of a page: the claim, its press and one picture.",
+          "description": "The opening of a page: the claim, its press and one picture.\n\nIt composes what the system has: a split, the display step, the lead, a figure and the presses of `sds-cta`. The picture stands beside the claim as decoration, so it does not open at full size.\n\nBlocks between the tags replace the lead. A renderer that writes its own heading there leaves `heading` out, so a page keeps one `h1`.",
+          "attributes": [
+            {
+              "name": "heading",
+              "description": "The claim, as the `h1` of the page.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "heading"
+            },
+            {
+              "name": "eyebrow",
+              "description": "The line over the title: what kind of page this is.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "eyebrow"
+            },
+            {
+              "name": "lead",
+              "description": "The sentence under the title.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "lead"
+            },
+            {
+              "name": "action",
+              "description": "The press, in words. Without `href` no button draws.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "action"
+            },
+            {
+              "name": "href",
+              "description": "Where the press goes.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "href"
+            },
+            {
+              "name": "icon",
+              "description": "A glyph in front of the press.",
+              "type": {
+                "text": "IconId"
+              },
+              "fieldName": "icon"
+            },
+            {
+              "name": "second",
+              "description": "The quieter way beside the press. Written `second-href` for its target.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "second"
+            },
+            {
+              "name": "second-href",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "secondHref"
+            },
+            {
+              "name": "src",
+              "description": "The picture. Without it the copy stands alone.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "src"
+            },
+            {
+              "name": "alt",
+              "description": "What the picture shows. Empty for decoration.",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "alt"
+            },
+            {
+              "name": "valign",
+              "description": "Where the copy and the picture stand against each other, top to foot. Not `align`: a browser reads that attribute as `text-align` on any host.",
+              "type": {
+                "text": "'start' | 'center' | 'end'"
+              },
+              "fieldName": "valign"
+            },
+            {
+              "name": "leads",
+              "description": "Which half comes first once the two have stacked.",
+              "type": {
+                "text": "'start' | 'end'"
+              },
+              "fieldName": "leads"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "The claim, as the `h1` of the page.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "eyebrow",
+              "privacy": "public",
+              "description": "The line over the title: what kind of page this is.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "eyebrow"
+            },
+            {
+              "kind": "field",
+              "name": "lead",
+              "privacy": "public",
+              "description": "The sentence under the title.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "lead"
+            },
+            {
+              "kind": "field",
+              "name": "action",
+              "privacy": "public",
+              "description": "The press, in words. Without `href` no button draws.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "action"
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "description": "Where the press goes.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "privacy": "public",
+              "description": "A glyph in front of the press.",
+              "type": {
+                "text": "IconId"
+              },
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "second",
+              "privacy": "public",
+              "description": "The quieter way beside the press. Written `second-href` for its target.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "second"
+            },
+            {
+              "kind": "field",
+              "name": "secondHref",
+              "privacy": "public",
+              "description": "",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "second-href"
+            },
+            {
+              "kind": "field",
+              "name": "src",
+              "privacy": "public",
+              "description": "The picture. Without it the copy stands alone.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "src"
+            },
+            {
+              "kind": "field",
+              "name": "alt",
+              "privacy": "public",
+              "description": "What the picture shows. Empty for decoration.",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "alt"
+            },
+            {
+              "kind": "field",
+              "name": "valign",
+              "privacy": "public",
+              "description": "Where the copy and the picture stand against each other, top to foot. Not `align`: a browser reads that attribute as `text-align` on any host.",
+              "type": {
+                "text": "'start' | 'center' | 'end'"
+              },
+              "attribute": "valign"
+            },
+            {
+              "kind": "field",
+              "name": "leads",
+              "privacy": "public",
+              "description": "Which half comes first once the two have stacked.",
+              "type": {
+                "text": "'start' | 'end'"
+              },
+              "attribute": "leads"
+            }
+          ],
+          "events": [],
+          "cssClasses": [
+            "sds-column",
+            "sds-display",
+            "sds-hero",
+            "sds-hero__actions",
+            "sds-lead",
+            "sds-split",
+            "sds-split--center",
+            "sds-split--end",
+            "sds-split--leads-end"
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "What an attribute cannot carry — prose, a block, a section of a document."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SdsHero",
+          "declaration": {
+            "name": "SdsHero",
+            "module": "src/components/hero.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sds-hero",
+          "declaration": {
+            "name": "SdsHero",
+            "module": "src/components/hero.ts"
           }
         }
       ]

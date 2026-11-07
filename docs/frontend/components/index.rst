@@ -107,6 +107,9 @@ group.
    * - ``sds-grid``
      - the wall a reader reads a set in
      - :ref:`Content — sds-grid <component-sds-grid>`
+   * - ``sds-hero``
+     - the opening of a page: the claim, its press and one picture
+     - :ref:`Content — sds-hero <component-sds-hero>`
    * - ``sds-icon``
      - one icon from the set, in the document rather than linked
      - :ref:`Controls — sds-icon <component-sds-icon>`

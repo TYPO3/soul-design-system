@@ -105,7 +105,7 @@ test.describe('the render', () => {
     /* Neither half is a stack: the claim is a flow of blocks that carry their
        own step, and the picture is one thing. What the split lays out is the
        wrapper on one side and, through the host on the other, the figure. */
-    const hero = page.locator('.sds-band').first().locator('.sds-sections > .sds-split');
+    const hero = page.locator('.sds-band').first().locator('.sds-sections > sds-hero > .sds-split');
     const halves = hero.locator(':scope > div, :scope > sds-figure > .sds-figure');
     await expect(halves).toHaveCount(2);
     const widths = await halves.evaluateAll((nodes) =>
@@ -515,10 +515,10 @@ test.describe('what the theme repaired', () => {
      says its meaning, on the page and in the twin. */
   test('a card with a sign says its state', async ({ page }) => {
     await page.goto(FIXTURE, { waitUntil: 'load' });
-    const sign = page.locator('sds-card[sign="partly"] svg.sds-card__sign');
+    const sign = page.locator('#cards-that-carry-a-state sds-card[sign="partly"] svg.sds-card__sign');
     await expect(sign).toHaveAttribute('role', 'img');
     await expect(sign).toHaveAttribute('aria-label', 'in part');
-    await expect(page.locator('sds-grid:has(sds-card[sign])')).toHaveAttribute('columns', '2');
+    await expect(page.locator('#cards-that-carry-a-state sds-grid:has(sds-card[sign])')).toHaveAttribute('columns', '2');
     const twin = readFileSync(join(ACCEPTANCE_DIR, 'index.md'), 'utf8');
     expect(twin).toContain('P6 · **Set headings and the alignment** (in part)');
   });

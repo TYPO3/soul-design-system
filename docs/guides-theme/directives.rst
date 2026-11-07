@@ -19,8 +19,8 @@ copy.
      - a field, not a directive: which of the two shapes the page takes
      - —
    * - ``hero``
-     - the opening claim of a landing page, beside one image
-     - ``.sds-split`` and ``sds-figure``
+     - the opening claim of a landing page, its press, and one image
+     - ``sds-hero``
    * - ``band``
      - a full-bleed section of a landing page, and everything after it
      - ``.sds-band``
@@ -138,10 +138,21 @@ browser title and source for navigation.
 
       A second paragraph can make the promise concrete.
 
+.. example:: The claim with its press and a quieter way
+
+   .. hero:: /_images/design-system-workbench.png
+      :eyebrow: Guides theme
+      :action: Publish a first site
+      :href: /guides-theme/quickstart
+      :second: Read the example
+      :second-href: /guides-theme/example
+
+      Copy the example project and replace its content.
+
 The document title stands above it in the source and is not part of it. The
-argument is the image source. The theme composes the split, the stack and
-the figure it already has. At a narrow viewport that split becomes a column
-by the rule of every other split in the system. Content after the hero and
+argument is the image source. The theme writes ``sds-hero``. At a narrow
+viewport the two halves become a column by the rule of every split in the
+system. Content after the hero and
 before the next band stays part of the opening section.
 
 .. confval:: alt
@@ -152,6 +163,59 @@ before the next band stays part of the opening section.
    What the image shows, when it adds a meaning the copy lacks. Leave it out
    for a decorative illustration whose subject already has its name beside
    it.
+
+.. confval:: eyebrow
+   :name: hero-eyebrow
+   :type: string
+
+   The line over the title: what kind of page this is.
+
+.. confval:: action
+   :name: hero-action
+   :type: string
+
+   The press, in words, with a verb first. With no ``href`` no button draws.
+
+.. confval:: href
+   :name: hero-href
+   :type: string
+
+   Where the press goes.
+
+.. confval:: icon
+   :name: hero-icon
+   :type: string
+
+   The name of a glyph in front of the press.
+
+.. confval:: second
+   :name: hero-second
+   :type: string
+
+   The way for a reader who is not ready, quieter than the press. It draws
+   only beside a press.
+
+.. confval:: second-href
+   :name: hero-second-href
+   :type: string
+
+   Where the second way goes.
+
+.. confval:: align
+   :name: hero-align
+   :type: start | center | end
+   :default: center
+
+   Where the copy and the picture stand against each other: at the top, level,
+   or at the foot.
+
+.. confval:: leads
+   :name: hero-leads
+   :type: start | end
+   :default: start
+
+   Which half comes first once the two have stacked. ``end`` puts the picture
+   above the copy on a phone.
 
 band
 ====

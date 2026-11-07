@@ -6,6 +6,10 @@ One system, from design to delivery
 ===================================
 
 .. hero:: /_images/design-system-workbench.png
+   :action: Publish a first site
+   :href: /guides-theme/quickstart
+   :second: Explore the design system
+   :second-href: /design-system/index
 
    Soul gives TYPO3 community projects a shared visual language for product
    pages, documentation and interface code — so every hand-off starts from the

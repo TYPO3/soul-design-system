@@ -111,7 +111,7 @@ A break in one of these breaks the system, not the page.
   whose it is. The system's *name* is Soul. The Association's *asset* is the
   TYPO3 Soul. The name never takes `TYPO3` in front of it.
 - **Interaction never changes size.** A linked card alone can lift 2px, take
-  the raised fill and light its top frame. Keyboard focus gets the same
+  the strong edge and light its top frame. Keyboard focus gets the same
   answer. A flush wall and reduced motion hold it still. Nothing scales or
   bounces. A transition is 140ms `--ease-out`.
 - **Sentence case headings.** No marketing superlatives: no "powerful",
@@ -129,6 +129,9 @@ A break in one of these breaks the system, not the page.
 
 A container must not share its corner with its contents. That is why the card
 is one step larger.
+
+**The opening of a page.** `sds-hero` is the claim, its press and one picture,
+and it holds the page's only `h1`.
 
 **The next step of a page.** `sds-cta` is the one thing a reader can do next:
 what they get, and the press. One per page, because the press is the page's
@@ -150,8 +153,9 @@ page furniture. One exception, and it is the whole of it. A press with no
 undo takes `--status-error` as ink and a hairline, never as a fill, and its
 label names what goes.
 
-**A card is a hairline and 6px, no fill.** A panel is a raised fill. Sunken
-is machine output.
+**A card is a raised fill, a hairline and 6px.** Its glyph stands in a tile,
+always above the title, as on a surface. A panel is a raised fill with no
+frame of its own. Sunken is machine output.
 
 **The step around a thing says what it is.** Every block carries its step
 on both sides, and two that meet collapse into the larger. A paragraph and a

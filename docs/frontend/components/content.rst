@@ -220,6 +220,79 @@ removes the travel and keeps the visual response.
    :doc:`navigation`. One entry in a list of them is this element too, turned
    down to the badge, the date and the two lines that decide the open.
 
+.. _component-sds-hero:
+
+sds-hero
+========
+
+The opening of a page: the claim, its press and one picture. The page's only
+``h1`` stands here, so a page has one hero.
+
+.. specimen:: components/content/hero.card.html
+   :viewport: 900x480
+   :title: Hero
+
+.. code-block:: html
+
+   <sds-hero eyebrow="Guides theme" heading="Your first site in ten minutes"
+             lead="Copy the example project and replace its content."
+             action="Publish a first site" href="quickstart.html"
+             second="Read the example" second-href="example.html"
+             src="workbench.png" alt=""></sds-hero>
+
+The picture is decoration beside the claim, so it does not open at full size.
+Blocks between the tags take the place of ``lead``, and a renderer that writes
+its own heading there leaves ``heading`` out.
+
+.. confval:: heading
+   :name: sds-hero-heading
+   :type: string
+
+   The claim, as the ``h1`` of the page.
+
+.. confval:: eyebrow
+   :name: sds-hero-eyebrow
+   :type: string
+
+   The line over the title.
+
+.. confval:: lead
+   :name: sds-hero-lead
+   :type: string
+
+   The sentence under the title.
+
+.. confval:: action
+   :name: sds-hero-action
+   :type: string
+
+   The press, in words. ``href`` is where it goes, and without one no button
+   draws. ``icon`` is a glyph in front of it. ``second`` and ``second-href`` are
+   the quieter way beside it.
+
+.. confval:: src
+   :name: sds-hero-src
+   :type: string
+
+   The picture. ``alt`` says what it shows, and stays empty for decoration.
+   Without ``src`` the copy stands alone.
+
+.. confval:: valign
+   :name: sds-hero-valign
+   :type: "start" | "center" | "end"
+   :default: "center"
+
+   Where the copy and the picture stand against each other: at the top, level,
+   or at the foot. It is not ``align``, because a browser reads that attribute
+   as ``text-align`` on any element.
+
+.. confval:: leads
+   :name: sds-hero-leads
+   :type: "start" | "end"
+   :default: "start"
+
+   Which half comes first once the two have stacked.
+
 .. _component-sds-grid:
 
 sds-grid

@@ -1,9 +1,17 @@
-{#- The claim, and the picture beside it. In a column of text there is no
-    beside, so the picture follows what it illustrates. -#}
+{#- The claim, its presses and the picture beside it. In a column of text there
+    is no beside, so the picture follows what it illustrates. -#}
 {%- autoescape false -%}
+{%- set href = node.option('href') ? renderLink(node.option('href')) : '' -%}
+{%- set second = node.option('second-href') ? renderLink(node.option('second-href')) : '' -%}
 {{ renderNode(node.children|first)|md_tidy }}
 
-{% if node.option('src') %}![{{ node.option('alt')|default('')|md_escape }}]({{ asset(node.option('src')) }})
+{% if node.option('action') and href %}[{{ node.option('action')|md_escape }}]({{ href }})
+
+{% if node.option('second') and second %}[{{ node.option('second')|md_escape }}]({{ second }})
+
+{% endif -%}
+{%- endif -%}
+{%- if node.option('src') %}![{{ node.option('alt')|default('')|md_escape }}]({{ asset(node.option('src')) }})
 
 {% endif -%}
 {%- endautoescape -%}

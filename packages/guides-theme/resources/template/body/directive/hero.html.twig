@@ -1,22 +1,24 @@
-{# The existing split and figure compose the page's opening claim. Its picture
-   is the one that does not open at full size. It stands beside the claim as
-   decoration, and there is nothing in it to read closer.
+{# The opening claim, and the element draws all of it. **Every option is a
+   property.** Each path resolves here, because what a path means is the
+   renderer's business.
 
-   The two are level and not top-aligned. Decoration that hangs from the
-   first line of a claim reads as a column that ran out of words.
-
-   Neither half is a stack. The claim is a flow of blocks that carry their own
-   step. The picture is one thing — a container that spaces a single child
-   spaces nothing. #}
+   The first child stands between the tags, with the title in it, so the page
+   keeps its one `h1`. What follows it stands under the hero and not in it. #}
+{%- set href = node.option('href') ? renderLink(node.option('href')) : '' -%}
+{%- set second = node.option('second-href') ? renderLink(node.option('second-href')) : '' -%}
 <div class="sds-sections">
-    <div class="sds-split sds-split--center">
-        <div class="sds-column">
-            {{- renderNode(node.children|first) -}}
-        </div>
-        <div class="sds-column">
-            <sds-figure src="{{ asset(node.option('src')) }}" alt="{{ node.option('alt') }}"></sds-figure>
-        </div>
-    </div>
+    <sds-hero src="{{ asset(node.option('src')) }}" alt="{{ node.option('alt') }}"
+        {%- if node.option('eyebrow') %} eyebrow="{{ node.option('eyebrow') }}"{% endif %}
+        {%- if node.option('action') %} action="{{ node.option('action') }}"{% endif %}
+        {%- if href %} href="{{ href }}"{% endif %}
+        {%- if node.option('icon') %} icon="{{ node.option('icon') }}"{% endif %}
+        {%- if node.option('second') %} second="{{ node.option('second') }}"{% endif %}
+        {%- if second %} second-href="{{ second }}"{% endif %}
+        {%- if node.option('align') %} valign="{{ node.option('align') }}"{% endif %}
+        {%- if node.option('leads') %} leads="{{ node.option('leads') }}"{% endif %}
+    >
+        {{- renderNode(node.children|first) -}}
+    </sds-hero>
     {%- for child in node.children|slice(1) -%}
         {{ renderNode(child) }}
     {%- endfor -%}

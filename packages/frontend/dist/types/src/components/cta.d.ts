@@ -22,6 +22,9 @@ export interface CtaProps {
     /** Where the second press goes. Written `second-href`. */
     secondHref?: string;
 }
+/** The press and the quieter way, in the one form a page states them.
+    `sds-hero` draws the same two. */
+export declare function pressRow({ action, href, icon, second, secondHref }: Pick<CtaProps, 'action' | 'href' | 'icon' | 'second' | 'secondHref'>, cls: string): TemplateResult | string;
 export declare class SdsCta extends SdsElement {
     static properties: {
         heading: {
@@ -57,6 +60,5 @@ export declare class SdsCta extends SdsElement {
     private taken;
     constructor();
     connectedCallback(): void;
-    private presses;
     protected render(): TemplateResult;
 }

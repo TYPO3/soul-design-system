@@ -112,6 +112,13 @@ export const WithFoot: Story = { args: WITH_FOOT };
     same component turned up, not a second one. */
 export const Promotional: Story = { args: { ...PROMOTIONAL, icon: 'actions-extension' } };
 
+/** A glyph and a state, with no words on the label line. The two share one
+    line, so no hole opens over the title. */
+export const GlyphAndSign: Story = {
+  name: 'Glyph and sign',
+  args: { heading: 'Imports and migrations', body: 'Move content with the same validation as in the backend.', icon: 'actions-cog', sign: 'yes', href: '' },
+};
+
 /** Where there is nowhere to go, the title is a title, the card is not a
     target and the action does not draw. Nothing here answers a press. */
 export const NoTarget: Story = { args: { ...WITH_FOOT, href: '' } };

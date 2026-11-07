@@ -556,6 +556,93 @@ none.
    Every source declares a precondition, so an answer is reachable before
    the question comes.
 
+Hero
+====
+
+The opening claim with its press, a quieter way and a picture. On this page it
+stands in a column, because this page is not a run of bands.
+
+.. hero:: /_images/placeholder.svg
+   :eyebrow: The opening
+   :action: Read the nodes
+   :href: /nodes
+   :second: See the renderer
+   :second-href: https://docs.phpdoc.org/components/guides/guides/
+
+   The claim stands here, and the press stands under it.
+
+Cards with a glyph and a state
+==============================
+
+A glyph and a sign with no label share one line, so no hole opens over the
+title.
+
+.. grid::
+
+   .. card:: Automation and monitoring
+      :icon: actions-cog
+      :sign: yes
+
+      Each token gives access only to the necessary actions.
+
+   .. card:: Imports and migrations
+      :icon: actions-upload
+      :sign: partly
+
+      Move content with the same validation as in the backend.
+
+   .. card:: Applications for editors
+      :icon: actions-user
+      :sign: no
+
+      Editors use external tools. The permissions of each editor apply.
+
+Columns, top to foot
+====================
+
+The split says level for both halves, and the second half says the foot for
+itself. The grid under it stands its shorter items level.
+
+.. split::
+   :align: center
+
+   .. half:: The tall half
+
+      It holds enough words to stand taller than the half beside it, so the
+      reader sees where the short half stands against this one. A second
+      sentence makes the difference plain at any width of the column.
+
+   .. half::
+      :align: end
+
+      The short half, at the foot.
+
+.. grid::
+   :align: center
+
+   .. surface:: A tall one
+
+      It holds enough words to stand taller than the item beside it, so the
+      reader sees where the short item stands in its row.
+
+   .. surface:: A short one
+
+      It is short.
+
+Logos
+=====
+
+A wall of marks, the second one a link. The ground stays light in both modes.
+
+.. logos:: Used by
+
+   .. logo:: /_images/placeholder.svg
+      :alt: The placeholder
+
+   .. logo:: /_images/unprepared.svg
+      :alt: The unprepared drawing
+      :href: /nodes
+
 Call to action
 ==============
 

@@ -130,6 +130,11 @@ const CASES: { name: string; markup: string; template: TemplateResult }[] = [
     template: html`<sds-cta heading="Start" body="It takes a minute." action="Publish" href="#first" second="Read" second-href="#second"></sds-cta>`,
   },
   {
+    name: 'hero, the claim and its press',
+    markup: '<sds-hero heading="Start" lead="It takes a minute." action="Publish" href="#first"></sds-hero>',
+    template: html`<sds-hero heading="Start" lead="It takes a minute." action="Publish" href="#first"></sds-hero>`,
+  },
+  {
     name: 'surface, the sunken plane',
     markup: '<sds-surface plane="sunken" heading="Sunken" body="For machine output."></sds-surface>',
     template: html`<sds-surface plane="sunken" heading="Sunken" body="For machine output."></sds-surface>`,
