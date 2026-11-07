@@ -100,7 +100,7 @@ The two bodies a page can have
 ==============================
 
 Every page is one of two layouts, and the choice is not decoration. It is
-the distinction :doc:`/design-system/patterns/screens` draws between a page that
+the distinction :doc:`/design-system/patterns/screens/index` draws between a page that
 reports and a page that argues. A document that goes out on its own has a
 third, below: a panel beside it.
 
@@ -460,5 +460,5 @@ own name says which page it is.
 .. seealso::
 
    :doc:`/design-system/brand-and-imagery/brand` for which drawing to hand over at which size,
-   and :doc:`/design-system/patterns/screens` for the complete pages these parts come
+   and :doc:`/design-system/patterns/screens/index` for the complete pages these parts come
    from.

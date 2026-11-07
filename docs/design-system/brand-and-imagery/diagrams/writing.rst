@@ -90,7 +90,7 @@ On a slide
 Put the element in the ``figure`` region of
 :ref:`sds-slide <component-sds-slide>`. Write ``slide=width,height`` on the
 first line of the text, in the pixels of the room that the layout leaves.
-:doc:`/design-system/patterns/slides` states those rooms. The engine then draws with
+:doc:`/design-system/patterns/slides/figures` states those rooms. The engine then draws with
 no margin, and refuses a drawing taller than the room. A slide has no zoom.
 
 A text without ``slide=`` gets the room from the slide. The slide measures

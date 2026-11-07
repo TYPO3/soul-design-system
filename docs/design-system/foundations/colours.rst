@@ -166,7 +166,7 @@ Accent
 ``--accent`` is ``#FF8700``, and it marks exactly three things. The active
 navigation item, the shell prompt in a code block, and the pipe in the
 wordmark. No second accent. On a slide, the eyebrow over a drawing is a
-fourth. :doc:`/design-system/patterns/slides` says where.
+fourth. :doc:`/design-system/patterns/slides/index` says where.
 
 ``--accent-glow`` is one of the system's two gradients. Light falls across
 the top of a linked card's hairline under the pointer or keyboard focus, then

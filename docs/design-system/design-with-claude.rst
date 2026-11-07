@@ -149,7 +149,7 @@ How to ask for a surface
 
 **Name the surface and its job, not its markup.** "A get-started page for an
 extension: what it does, how it installs, the first command." The layout is
-a decision already made; :doc:`/design-system/patterns/screens` says which shape answers which job.
+a decision already made; :doc:`/design-system/patterns/screens/index` says which shape answers which job.
 
 **Start from a layout where one fits.** It settles the shell, header,
 measure and footer in one move.

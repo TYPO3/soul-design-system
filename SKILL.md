@@ -496,7 +496,7 @@ from the nearest one.
 A deck is not a fourth body. A slide is `sds-slide`, the page at twice the
 size, and what it holds is the system's elements at the page's size. The
 deck stands on paper and its cover on the terminal. The slides under
-`specimens/screens/slide-*.html` are the layouts, and `docs/design-system/patterns/slides.rst`
+`specimens/screens/slide-*.html` are the layouts, and `docs/design-system/patterns/slides/index.rst`
 has the reason.
 
 A long document can sum up each part in a slide. The slide stands in its
@@ -507,7 +507,7 @@ each slide.
 
 A picture goes on a slide with `kind="figure"`, in the `figure` region:
 `<sds-image slot="figure" src="…" alt="…">`. It grows into the room its
-`layout` leaves. Draw it for that room. `docs/design-system/patterns/slides.rst`
+`layout` leaves. Draw it for that room. `docs/design-system/patterns/slides/figures.rst`
 states each room in the frame's pixels. A picture for a slide has no title
 and no verdict of its own. Text beside a picture is `text-start`.
 
@@ -519,7 +519,7 @@ What does not fit shrinks, and a slide that shrinks far is two slides.
 Take an element before you draw. A matrix is `sds-table` with an `sds-icon` in each cell, figures are
 `sds-stat` in `sds-grid`. Three sketches side by side are three drawings in
 `row`, never one drawing with three panels. Only what has lines between its
-parts is a drawing. `docs/design-system/patterns/slides.rst` has the table.
+parts is a drawing. `docs/design-system/patterns/slides/figures.rst` has the table.
 
 The lockup and the count never move. `plain` leaves the lockup out.
 
