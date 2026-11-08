@@ -136,9 +136,9 @@ export class SdsSearchResult extends SdsElement {
 
   /** The whole hit is the link, so the hit *is* an anchor. One element rather
       than a title's anchor stretched over the row by a pseudo-element. That
-      is what a card does, and it costs a reader the text selection. Named by
-      its heading: without that the link's name is everything in the row read
-      out at once. Nowhere to go, no anchor. */
+      is what a card does, and it costs a reader the text selection. Its name
+      is what it shows, so a reader who speaks the visible words reaches it.
+      Nowhere to go, no anchor. */
   protected override render(): TemplateResult {
     const body = html`${this.thumb()}
   <span class="sds-result__body">
@@ -148,7 +148,7 @@ export class SdsSearchResult extends SdsElement {
   </span>`;
 
     return this.href
-      ? html`<a class="sds-result" href="${this.href}" aria-label="${this.heading}">${body}</a>`
+      ? html`<a class="sds-result" href="${this.href}">${body}</a>`
       : html`<article class="sds-result">${body}</article>`;
   }
 }

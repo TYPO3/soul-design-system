@@ -78,8 +78,8 @@ export declare class SdsSearchResult extends SdsElement {
     private above;
     /** The whole hit is the link, so the hit *is* an anchor. One element rather
         than a title's anchor stretched over the row by a pseudo-element. That
-        is what a card does, and it costs a reader the text selection. Named by
-        its heading: without that the link's name is everything in the row read
-        out at once. Nowhere to go, no anchor. */
+        is what a card does, and it costs a reader the text selection. Its name
+        is what it shows, so a reader who speaks the visible words reaches it.
+        Nowhere to go, no anchor. */
     protected render(): TemplateResult;
 }

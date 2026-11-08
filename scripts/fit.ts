@@ -62,6 +62,8 @@ const results = await withPage(async ({ map }) =>
       for (const el of document.body.querySelectorAll('*')) {
         const e = el as HTMLElement;
         if (getComputedStyle(e).overflowX === 'visible') continue;
+        /* Said, not drawn: the smallest box a browser still reads, on purpose. */
+        if (e.classList.contains('sds-said-only')) continue;
         if (e.clientWidth > 0 && e.scrollWidth > e.clientWidth + 2) {
           const text = (e.textContent ?? '').trim().replace(/\s+/g, ' ').slice(0, 40);
           hits.push(`${e.clientWidth}px box holding ${e.scrollWidth}px — "${text}"`);

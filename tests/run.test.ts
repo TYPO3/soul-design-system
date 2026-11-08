@@ -48,13 +48,13 @@ test('every state has words, not only a mark', async () => {
   await mount(Run.Default);
 
   /* The mark is a shape and a colour and neither is a sentence. What a reader
-     who hears rather than sees gets is the row's own name. */
+     who hears rather than sees gets is the state in words, in the row. */
   for (const [label, said] of [
     ['Fetch the sitemap', 'Done'],
     ['Build the index', 'Running'],
     ['Swap it in', 'Not started'],
   ] as const) {
-    expect(q('.sds-run__row', row(label)).getAttribute('aria-label'), `${label} must say it is ${said}`).toMatch(new RegExp(said));
+    expect(q('.sds-run__row', row(label)).textContent, `${label} must say it is ${said}`).toMatch(new RegExp(said));
   }
 
   /* And the whole says what became of it, beside the heading. */
@@ -70,10 +70,10 @@ test("the words for a state are the page's", async () => {
      keep the English they had. */
   (q('sds-run') as HTMLElement & { stateWords: unknown }).stateWords = { running: 'Läuft', done: 'Fertig' };
 
-  await expect.element(q('.sds-run__row', row('Fetch the sitemap'))).toHaveAttribute('aria-label', expect.stringMatching(/Fertig/));
-  await expect.element(q('.sds-run__row', row('Build the index'))).toHaveAttribute('aria-label', expect.stringMatching(/Läuft/));
+  await expect.element(q('.sds-run__row', row('Fetch the sitemap'))).toHaveTextContent(/Fertig/);
+  await expect.element(q('.sds-run__row', row('Build the index'))).toHaveTextContent(/Läuft/);
   await expect.element(q('.sds-run__row', row('Swap it in')), { message: 'a state the page named nothing for keeps the word it had' })
-    .toHaveAttribute('aria-label', expect.stringMatching(/Not started/));
+    .toHaveTextContent(/Not started/);
 
   /* The verdict is a state too, and it reads the same words. */
   await expect.element(q('.sds-run__verdict sds-icon')).toHaveAttribute('label', 'Läuft');

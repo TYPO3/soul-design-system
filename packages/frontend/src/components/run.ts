@@ -167,24 +167,25 @@ export class SdsRun extends SdsElement {
   private row(step: RunStep & { at: number }): TemplateResult {
     const mark = MARKS[step.state];
     const word = this.said(step.state);
-    const said = step.note ? `${step.label} — ${word}. ${step.note}` : `${step.label} — ${word}`;
     const face = html`<span
       class="sds-run__mark sds-run__mark--${step.state}${step.state === 'running' ? ' sds-spinner' : ''}"
     ><sds-icon name="${mark.icon}"></sds-icon></span>`;
-    const words = html`${face}<span class="sds-run__label">${step.label}</span>${
+    /* The state as words in the row, heard and not drawn: the mark is a shape
+       and a colour. The row's name is then what it shows, plus the state. */
+    const words = html`${face}<span class="sds-run__label">${step.label}</span><span class="sds-said-only"> — ${word}.</span>${
       step.note ? html`<span class="sds-run__said">${step.note}</span>` : nothing
     }<span class="sds-run__meta">${step.meta ?? ''}</span>`;
 
     /* Nothing written, nothing to open — and it does not offer to be. */
     if (!step.output) {
       return html`<li class="sds-run__step sds-run__step--${step.state}">
-      <div class="sds-run__row" aria-label="${said}">${words}</div>
+      <div class="sds-run__row">${words}</div>
     </li>`;
     }
     const open = this.#decided.get(step.at) ?? step.state !== 'done';
     return html`<li class="sds-run__step sds-run__step--${step.state}">
       <details class="sds-run__fold" ?open="${open}" @click="${(e: Event) => this.decide(e, step.at, open)}">
-        <summary class="sds-run__row" aria-label="${said}"><sds-icon
+        <summary class="sds-run__row"><sds-icon
           class="sds-run__chevron" name="actions-chevron-end"></sds-icon>${words}</summary>
         <pre class="sds-run__output">${lines(step.output)}</pre>
       </details>
