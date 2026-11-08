@@ -11,8 +11,8 @@ Finished compositions of the foundations and the components. Start from one of t
    :hidden:
 
    forms
-   screens
-   slides
+   screens/index
+   slides/index
 
 .. grid::
 
