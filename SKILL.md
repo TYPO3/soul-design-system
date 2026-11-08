@@ -237,7 +237,7 @@ out. The UI states carry exactly that.
 `typo3_icon_lookup` returns, so design and runtime name the same thing.
 
 **Where they come from.** `scripts/icons.ts` copies the categories it
-declares out of the `@typo3/icons` npm package (`^5.2.0`, MIT), and `make
+declares out of the `@typo3/icons` npm package (`^5.3.0`, MIT), and `make
 icons` writes them into the tree. Git keeps them because the package
 publishes them and a mirror replays what git has. A file missing under
 `packages/frontend/assets/icons/` means `make icons` did not run after a
@@ -254,7 +254,7 @@ One file without the package, both raw SVG:
 
 ```
 https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/src/<category>/<identifier>.svg
-https://cdn.jsdelivr.net/npm/@typo3/icons@5.2.0/src/<category>/<identifier>.svg
+https://cdn.jsdelivr.net/npm/@typo3/icons@5.3.0/src/<category>/<identifier>.svg
 ```
 
 The first is the upstream tip, the second the version this system ships.

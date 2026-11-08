@@ -288,14 +288,14 @@ another icon set. A category goes into `CATEGORIES` in `scripts/icons.ts`
 and ships whole. These return the raw SVG:
 
 ```
-https://cdn.jsdelivr.net/npm/@typo3/icons@5.2.0/src/<category>/<identifier>.svg   # the version this system ships
+https://cdn.jsdelivr.net/npm/@typo3/icons@5.3.0/src/<category>/<identifier>.svg   # the version this system ships
 https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/src/<category>/<identifier>.svg   # upstream tip
 ```
 
 Every category is available that way: `actions`, `apps`, `avatar`,
 `content`, `default`, `files`, `form`, `information`, `install`,
 `mimetypes`, `miscellaneous`, `module`, `overlay`, `spinner`, `status`. To
-look one up, `…/@typo3/icons@5.2.0/dist/icons.json` maps every identifier
+look one up, `…/@typo3/icons@5.3.0/dist/icons.json` maps every identifier
 to its category and every deprecated alias to its current name. The set is
 at <https://typo3.github.io/TYPO3.Icons/>. A 404 means the identifier does
 not exist. That is the answer, not a reason to substitute something.

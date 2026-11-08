@@ -23,8 +23,8 @@ repository, and on any CDN that serves either.
 
 | | |
 | --- | --- |
-| Package | `@typo3/icons@5.2.0`, `src/<category>/<identifier>.svg` inside it |
-| Pinned URL | `https://cdn.jsdelivr.net/npm/@typo3/icons@5.2.0/src/<category>/<identifier>.svg` |
+| Package | `@typo3/icons@5.3.0`, `src/<category>/<identifier>.svg` inside it |
+| Pinned URL | `https://cdn.jsdelivr.net/npm/@typo3/icons@5.3.0/src/<category>/<identifier>.svg` |
 | Upstream tip | `https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/src/<category>/<identifier>.svg` |
 | Manifest | `dist/icons.json` inside that package — every identifier with its category, and every deprecated alias with its current name. Not copied into this tree; `packages/frontend/assets/icons/icons.json` lists what is actually carried here |
 | Overview | <https://typo3.github.io/TYPO3.Icons/> |
