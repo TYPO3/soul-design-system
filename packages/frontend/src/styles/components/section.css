@@ -17,12 +17,13 @@
     /* One rule and one distance, stated above the section itself. Whatever
        stood before it, a section that is not the first in its box stands off
        by the same step. No selector asks a neighbour anything. */
-    &:not(:first-child) {
+    &:not(:nth-child(1 of :not(a[id]:empty))) {
       margin-block-start: var(--sds-section-step);
     }
     /* The blocks at either edge owe the section nothing: the step is the
-       section's, and a block that still carries its own adds to it. */
-    > :first-child {
+       section's, and a block that still carries its own adds to it. An empty
+       anchor a label writes is an address and no block, so it never counts. */
+    > :nth-child(1 of :not(a[id]:empty)) {
       margin-block-start: 0;
     }
     > :last-child {

@@ -168,6 +168,30 @@ test.describe('the render', () => {
     await expect(hero.locator('a[href$="#hero-label"]')).toHaveCount(1);
   });
 
+  test('a label before a heading adds no air above the heading', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    const section = page.locator('section.sds-section:has(> h2:text-is("A section under a label"))');
+    await expect(section.locator(':scope > a#section-label')).toHaveCount(1);
+    const tops = await section.evaluate((node) => {
+      const heading = node.querySelector(':scope > h2') as HTMLElement;
+      const plain = document.querySelector('#a-hero-under-its-heading')?.closest('.sds-sections')?.nextElementSibling as HTMLElement | null;
+      return { heading: getComputedStyle(heading).marginBlockStart, section: getComputedStyle(node).marginBlockStart, plain: plain ? getComputedStyle(plain).marginBlockStart : '' };
+    });
+    expect(tops.heading).toBe('0px');
+    expect(tops.section).not.toBe('0px');
+  });
+
+  test('a label before the title leaves the contents list under the title', async ({ page }) => {
+    await page.goto(`${ACCEPTANCE_URL}/labelled.html`, { waitUntil: 'load' });
+    const order = await page.evaluate(() => {
+      const h1 = document.querySelector('main h1');
+      const list = document.querySelector('main sds-nav-toc');
+      return h1 && list ? h1.compareDocumentPosition(list) & Node.DOCUMENT_POSITION_FOLLOWING : -1;
+    });
+    expect(order, 'the list follows the title').toBeGreaterThan(0);
+    await expect(page.locator('#labelled-page')).toHaveCount(1);
+  });
+
   test('the community boundary keeps its heading beside a centred picture', async ({ page }) => {
     await page.goto(`${SITE_URL}/index.html`, { waitUntil: 'load' });
 

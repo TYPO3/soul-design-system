@@ -19,6 +19,7 @@ because navigation is the one thing a page cannot show about itself.
 
    nodes
    paper
+   labelled
    depth/index
 
 .. note::
@@ -620,6 +621,14 @@ A hero under a label
 
    A label before the heading stays an address. :ref:`This section
    <hero-label>` still lands here.
+
+.. _section-label:
+
+A section under a label
+=======================
+
+A label before a heading is an address, not a block. The heading opens the
+section with no air of its own above it, as every other heading does.
 
 Cards with a glyph and a state
 ==============================

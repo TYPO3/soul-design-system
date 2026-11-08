@@ -138,8 +138,11 @@ final class OnThisPage implements NodeTransformer
      */
     private function with(SectionNode $section, DocumentNode $document): SectionNode
     {
+        /* After the title, wherever it stands. A label before the title is an
+           anchor ahead of it. A list under that anchor stands over the heading. */
         $children = $section->getChildren();
-        array_splice($children, 1, 0, [new ContentMenuNode([new SectionMenuEntryNode($document->getFilePath())])]);
+        $title = array_search($section->getTitle(), $children, true);
+        array_splice($children, $title === false ? 1 : (int)$title + 1, 0, [new ContentMenuNode([new SectionMenuEntryNode($document->getFilePath())])]);
 
         $written = clone $section;
         $written->setValue($children);
