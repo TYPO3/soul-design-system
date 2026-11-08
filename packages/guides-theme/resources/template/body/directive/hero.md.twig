@@ -5,13 +5,17 @@
 {%- set second = node.option('second-href') ? renderLink(node.option('second-href')) : '' -%}
 {{ renderNode(node.children|first)|md_tidy }}
 
+{% for child in node.children|slice(1) %}{% if child is hero_figure %}{{ renderNode(child) }}
+{% endif %}{% endfor -%}
+
 {% if node.option('action') and href %}[{{ node.option('action')|md_escape }}]({{ href }})
 
 {% if node.option('second') and second %}[{{ node.option('second')|md_escape }}]({{ second }})
 
 {% endif -%}
 {%- endif -%}
-{%- if node.option('src') %}![{{ node.option('alt')|default('')|md_escape }}]({{ asset(node.option('src')) }})
+{%- set figured = node.children|filter(child => child is hero_figure)|length > 0 -%}
+{%- if node.option('src') and not figured %}![{{ node.option('alt')|default('')|md_escape }}]({{ asset(node.option('src')) }})
 
 {% endif -%}
 {%- endautoescape -%}

@@ -21,7 +21,7 @@ export interface HeroProps {
     /** The quieter way beside the press. Written `second-href` for its target. */
     second?: string;
     secondHref?: string;
-    /** The picture. Without it the copy stands alone. */
+    /** The picture. Without it, and with no `slot="figure"`, the copy stands alone. */
     src?: string;
     /** What the picture shows. Empty for decoration. */
     alt?: string;
@@ -34,6 +34,7 @@ export interface HeroProps {
     leads?: HeroLeads;
 }
 export declare class SdsHero extends SdsElement {
+    static regions: readonly string[];
     static properties: {
         heading: {
             type: StringConstructor;

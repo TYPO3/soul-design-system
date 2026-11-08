@@ -92,6 +92,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\ExampleNode;
 use TYPO3\Soul\GuidesTheme\Nodes\FactsNode;
 use TYPO3\Soul\GuidesTheme\Nodes\GridNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HalfNode;
+use TYPO3\Soul\GuidesTheme\Nodes\HeroFigureNode;
 use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LogoNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LogosNode;
@@ -195,6 +196,7 @@ return [
     SplitNode::class => 'body/directive/split.md.twig',
     HalfNode::class => 'body/directive/half.md.twig',
     HeroNode::class => 'body/directive/hero.md.twig',
+    HeroFigureNode::class => 'body/directive/hero-figure.md.twig',
     StatNode::class => 'body/directive/stat.md.twig',
     SurfaceNode::class => 'body/directive/surface.md.twig',
     SwatchNode::class => 'body/directive/swatch.md.twig',

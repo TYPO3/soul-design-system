@@ -1,0 +1,7 @@
+{# The other half of a hero. The hero places it beside the copy, as the one
+   child of `sds-hero` that names the figure region. #}
+<div slot="figure">
+    {%- for child in node.children -%}
+        {{ renderNode(child) }}
+    {%- endfor -%}
+</div>

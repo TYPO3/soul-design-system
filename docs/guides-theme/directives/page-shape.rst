@@ -150,6 +150,33 @@ before the next band stays part of the opening section.
    Which half comes first once the two have stacked. ``end`` puts the picture
    above the copy on a phone.
 
+.. _directive-hero-figure:
+
+hero-figure
+===========
+
+The other half of a hero, written rather than named as a file. It stands in the
+body of a ``hero``. What it holds is the half beside the copy: a diagram, code, a
+card or a picture. An element there reads the page's tokens and follows
+the colour mode a reader chooses. A picture file cannot do that. The image
+argument of the hero can then stay away, and a ``hero-figure`` wins over it.
+
+.. example:: The claim beside a code block
+
+   .. hero::
+      :align: start
+
+      Copy the example project and replace its content.
+
+      .. hero-figure::
+
+         .. code-block:: bash
+
+            composer require typo3/soul-guides-theme
+
+The theme writes it as the child of ``sds-hero`` with ``slot="figure"``. It takes
+no options. The hero's ``:align:`` and ``:leads:`` place it.
+
 .. _directive-band:
 
 band

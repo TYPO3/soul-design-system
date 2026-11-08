@@ -5,14 +5,16 @@
    decoration, so it does not open at full size.
 
    Blocks between the tags replace the lead. A renderer that writes its own
-   heading there leaves `heading` out, so a page keeps one `h1`. */
+   heading there leaves `heading` out, so a page keeps one `h1`. A child with
+   `slot="figure"` is the other half instead of the picture: a diagram, code, a
+   card. An element there reads the page's tokens and follows its mode. */
 
 import { html, type TemplateResult } from 'lit';
 import './eyebrow.ts';
 import './figure.ts';
 import { type IconId } from './icon.ts';
 import { pressRow } from './cta.ts';
-import { define, isBlank, SdsElement } from '../lib/element.ts';
+import { define, SdsElement, TEXT } from '../lib/element.ts';
 
 export type HeroAlign = 'start' | 'center' | 'end';
 export type HeroLeads = 'start' | 'end';
@@ -33,7 +35,7 @@ export interface HeroProps {
   /** The quieter way beside the press. Written `second-href` for its target. */
   second?: string;
   secondHref?: string;
-  /** The picture. Without it the copy stands alone. */
+  /** The picture. Without it, and with no `slot="figure"`, the copy stands alone. */
   src?: string;
   /** What the picture shows. Empty for decoration. */
   alt?: string;
@@ -49,6 +51,9 @@ export interface HeroProps {
 const ALIGN: Record<HeroAlign, string> = { start: '', center: ' sds-split--center', end: ' sds-split--end' };
 
 export class SdsHero extends SdsElement {
+  /* The other half, when a caller writes it rather than names a file. */
+  static override regions: readonly string[] = ['figure'];
+
   static override properties = {
     heading: { type: String },
     eyebrow: { type: String },
@@ -99,22 +104,28 @@ export class SdsHero extends SdsElement {
   }
 
   override connectedCallback(): void {
-    const written = this.lifted().filter((node) => !isBlank(node));
-    if (written.length) this.taken = written;
+    /* The regions leave the element before its first render. Read here, both
+       stay: the text as the copy, the figure in the cache `region` keeps. */
+    const text = this.region(TEXT).map((one) => one.node as Node);
+    if (text.length) this.taken = text;
+    this.region('figure');
     super.connectedCallback();
   }
 
   protected override render(): TemplateResult {
-    const written = this.taken ?? this.content;
+    const copy = this.taken ?? this.content;
+    const figure = this.region('figure');
     const reversed = this.leads === 'end' ? ' sds-split--leads-end' : '';
     return html`<div class="sds-hero sds-split${ALIGN[this.valign] ?? ALIGN.center}${reversed}">
   <div class="sds-column">
     ${this.eyebrow ? html`<sds-eyebrow label="${this.eyebrow}"></sds-eyebrow>` : ''}
     ${this.heading ? html`<h1 class="sds-display">${this.heading}</h1>` : ''}
-    ${written ?? (this.lead ? html`<p class="sds-lead">${this.lead}</p>` : '')}
+    ${copy ?? (this.lead ? html`<p class="sds-lead">${this.lead}</p>` : '')}
     ${pressRow(this, 'sds-hero__actions')}
   </div>
-  ${this.src ? html`<div class="sds-column"><sds-figure src="${this.src}" alt="${this.alt}" ?plain="${this.plain}"></sds-figure></div>` : ''}
+  ${figure.length
+    ? html`<div class="sds-column">${figure.map((one) => one.node)}</div>`
+    : this.src ? html`<div class="sds-column"><sds-figure src="${this.src}" alt="${this.alt}" ?plain="${this.plain}"></sds-figure></div>` : ''}
 </div>`;
   }
 }

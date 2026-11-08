@@ -82,8 +82,8 @@ copy.
    * - :ref:`layout <directive-layout>`
      - a field, not a directive: which of the two shapes the page takes
      - —
-   * - :ref:`hero <directive-hero>`
-     - the opening claim of a landing page, its press, and one image
+   * - :ref:`hero <directive-hero>`, :ref:`hero-figure <directive-hero-figure>`
+     - the opening claim of a page, its press, and one image or what stands beside it
      - ``sds-hero``
    * - :ref:`band <directive-band>`
      - a full-bleed section of a landing page, and everything after it

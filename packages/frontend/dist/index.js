@@ -14185,6 +14185,10 @@ var SdsHero = class extends SdsElement {
     this.leads = "start";
   }
   static {
+    /* The other half, when a caller writes it rather than names a file. */
+    this.regions = ["figure"];
+  }
+  static {
     this.properties = {
       heading: { type: String },
       eyebrow: { type: String },
@@ -14202,21 +14206,23 @@ var SdsHero = class extends SdsElement {
     };
   }
   connectedCallback() {
-    const written2 = this.lifted().filter((node) => !isBlank(node));
-    if (written2.length) this.taken = written2;
+    const text2 = this.region(TEXT).map((one) => one.node);
+    if (text2.length) this.taken = text2;
+    this.region("figure");
     super.connectedCallback();
   }
   render() {
-    const written2 = this.taken ?? this.content;
+    const copy = this.taken ?? this.content;
+    const figure = this.region("figure");
     const reversed = this.leads === "end" ? " sds-split--leads-end" : "";
     return html15`<div class="sds-hero sds-split${ALIGN[this.valign] ?? ALIGN.center}${reversed}">
   <div class="sds-column">
     ${this.eyebrow ? html15`<sds-eyebrow label="${this.eyebrow}"></sds-eyebrow>` : ""}
     ${this.heading ? html15`<h1 class="sds-display">${this.heading}</h1>` : ""}
-    ${written2 ?? (this.lead ? html15`<p class="sds-lead">${this.lead}</p>` : "")}
+    ${copy ?? (this.lead ? html15`<p class="sds-lead">${this.lead}</p>` : "")}
     ${pressRow(this, "sds-hero__actions")}
   </div>
-  ${this.src ? html15`<div class="sds-column"><sds-figure src="${this.src}" alt="${this.alt}" ?plain="${this.plain}"></sds-figure></div>` : ""}
+  ${figure.length ? html15`<div class="sds-column">${figure.map((one) => one.node)}</div>` : this.src ? html15`<div class="sds-column"><sds-figure src="${this.src}" alt="${this.alt}" ?plain="${this.plain}"></sds-figure></div>` : ""}
 </div>`;
   }
 };

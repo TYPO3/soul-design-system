@@ -10,12 +10,14 @@ use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use Twig\TwigTest;
 use TYPO3\Soul\GuidesTheme\Navigation\Menu;
 use TYPO3\Soul\GuidesTheme\Navigation\Numbers;
 use TYPO3\Soul\GuidesTheme\Navigation\Pager;
 use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Navigation\Sections;
 use TYPO3\Soul\GuidesTheme\Nodes\Bands;
+use TYPO3\Soul\GuidesTheme\Nodes\HeroFigureNode;
 use TYPO3\Soul\GuidesTheme\Nodes\Terms;
 
 /**
@@ -92,6 +94,15 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
     public function plain(string $rendered): string
     {
         return trim(html_entity_decode(strip_tags($rendered), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+    }
+
+    /** @return TwigTest[] */
+    public function getTests(): array
+    {
+        return [
+            /* The other half of a hero, told apart from the copy beside it. */
+            new TwigTest('hero_figure', static fn(mixed $node): bool => $node instanceof HeroFigureNode),
+        ];
     }
 
     /** @return TwigFunction[] */

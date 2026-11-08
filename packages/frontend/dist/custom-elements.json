@@ -5390,7 +5390,7 @@
           "name": "SdsHero",
           "tagName": "sds-hero",
           "summary": "The opening of a page: the claim, its press and one picture.",
-          "description": "The opening of a page: the claim, its press and one picture.\n\nIt composes what the system has: a split, the display step, the lead, a figure and the presses of `sds-cta`. The picture stands beside the claim as decoration, so it does not open at full size.\n\nBlocks between the tags replace the lead. A renderer that writes its own heading there leaves `heading` out, so a page keeps one `h1`.",
+          "description": "The opening of a page: the claim, its press and one picture.\n\nIt composes what the system has: a split, the display step, the lead, a figure and the presses of `sds-cta`. The picture stands beside the claim as decoration, so it does not open at full size.\n\nBlocks between the tags replace the lead. A renderer that writes its own heading there leaves `heading` out, so a page keeps one `h1`. A child with `slot=\"figure\"` is the other half instead of the picture: a diagram, code, a card. An element there reads the page's tokens and follows its mode.",
           "attributes": [
             {
               "name": "heading",
@@ -5458,7 +5458,7 @@
             },
             {
               "name": "src",
-              "description": "The picture. Without it the copy stands alone.",
+              "description": "The picture. Without it, and with no `slot=\"figure\"`, the copy stands alone.",
               "type": {
                 "text": "string"
               },
@@ -5582,7 +5582,7 @@
               "kind": "field",
               "name": "src",
               "privacy": "public",
-              "description": "The picture. Without it the copy stands alone.",
+              "description": "The picture. Without it, and with no `slot=\"figure\"`, the copy stands alone.",
               "type": {
                 "text": "string"
               },

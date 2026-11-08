@@ -4,11 +4,13 @@
 
    The first child stands between the tags. Right under a heading, `Bands`
    puts the heading in it, so the page keeps its one `h1` in every layout.
-   What follows it stands under the hero and not in it. #}
+   What follows it stands under the hero and not in it, except a
+   `hero-figure`: that is the other half, so it stands in the hero. #}
 {%- set href = node.option('href') ? renderLink(node.option('href')) : '' -%}
 {%- set second = node.option('second-href') ? renderLink(node.option('second-href')) : '' -%}
 <div class="sds-sections">
-    <sds-hero src="{{ asset(node.option('src')) }}" alt="{{ node.option('alt') }}"
+    <sds-hero
+        {%- if node.option('src') %} src="{{ asset(node.option('src')) }}" alt="{{ node.option('alt') }}"{% endif %}
         {%- if node.option('plain') %} plain{% endif %}
         {%- if node.option('eyebrow') %} eyebrow="{{ node.option('eyebrow') }}"{% endif %}
         {%- if node.option('action') %} action="{{ node.option('action') }}"{% endif %}
@@ -20,8 +22,9 @@
         {%- if node.option('leads') %} leads="{{ node.option('leads') }}"{% endif %}
     >
         {{- renderNode(node.children|first) -}}
+        {%- for child in node.children|slice(1) %}{% if child is hero_figure %}{{ renderNode(child) }}{% endif %}{% endfor -%}
     </sds-hero>
     {%- for child in node.children|slice(1) -%}
-        {{ renderNode(child) }}
+        {%- if child is not hero_figure %}{{ renderNode(child) }}{% endif -%}
     {%- endfor -%}
 </div>

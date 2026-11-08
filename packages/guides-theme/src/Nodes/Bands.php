@@ -142,12 +142,21 @@ final class Bands
             return null;
         }
 
+        /* The other half stays a child of the hero, beside the copy, so the
+           element finds it as its figure region. */
         $copy = new SectionNode($node->getTitle());
+        $figures = [];
         foreach ([...$anchors, ...$hero->getChildren()] as $child) {
+            if ($child instanceof HeroFigureNode) {
+                $figures[] = $child;
+
+                continue;
+            }
+
             $copy->addChildNode($child);
         }
 
-        $content = [$copy];
+        $content = [$copy, ...$figures];
         while ($rest !== [] && !self::holdsBand($rest[0])) {
             $content[] = array_shift($rest);
         }

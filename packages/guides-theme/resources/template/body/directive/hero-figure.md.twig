@@ -1,0 +1,8 @@
+{#- The other half of a hero. In a column of text there is no beside, so it
+    follows the copy. -#}
+{%- autoescape false -%}
+{% for child in node.children -%}
+{{ renderNode(child)|md_tidy }}
+
+{% endfor -%}
+{%- endautoescape -%}

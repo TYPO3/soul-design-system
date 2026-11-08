@@ -40,6 +40,7 @@ use TYPO3\Soul\GuidesTheme\Directives\FigureDirective;
 use TYPO3\Soul\GuidesTheme\Directives\GridDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HalfDirective;
 use TYPO3\Soul\GuidesTheme\Directives\HeroDirective;
+use TYPO3\Soul\GuidesTheme\Directives\HeroFigureDirective;
 use TYPO3\Soul\GuidesTheme\Directives\ListTableDirective;
 use TYPO3\Soul\GuidesTheme\Directives\LogoDirective;
 use TYPO3\Soul\GuidesTheme\Directives\LogosDirective;
@@ -126,6 +127,8 @@ return static function (ContainerConfigurator $container): void {
         ->set(GridDirective::class)
             ->tag('phpdoc.guides.directive')
         ->set(HeroDirective::class)
+            ->tag('phpdoc.guides.directive')
+        ->set(HeroFigureDirective::class)
             ->tag('phpdoc.guides.directive')
         ->set(SplitDirective::class)
             ->tag('phpdoc.guides.directive')

@@ -595,6 +595,21 @@ A hero under its heading
    A hero right under a heading takes the heading into its first column,
    beside the picture, as on a marketing page.
 
+A hero with a written figure
+============================
+
+.. hero::
+   :align: start
+
+   The other half is whatever stands in ``hero-figure``: here a code block,
+   which follows the colour mode of the page.
+
+   .. hero-figure::
+
+      .. code-block:: bash
+
+         composer require typo3/soul-guides-theme
+
 .. _hero-label:
 
 A hero under a label

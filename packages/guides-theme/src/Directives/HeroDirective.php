@@ -19,6 +19,9 @@ use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
  * The document title remains the page heading, and `Bands` joins it to this
  * node in every layout, so navigation and document structure keep their source.
  *
+ * The image is the short form of the other half. A `hero-figure` in the body
+ * is the long one, and it wins.
+ *
  * The options are the rest of `sds-hero`, spelt the way the element spells
  * them. A name the element does not have is the position every hero gets.
  */

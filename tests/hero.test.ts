@@ -24,6 +24,19 @@ test('the heading is the h1, and the press and the quieter way are links', () =>
   expect(document.querySelector('#whole sds-figure')).not.toBeNull();
 });
 
+test('a figure between the tags is the other half, and wins over the picture', async () => {
+  await write(`<sds-hero id="figured" heading="Start" src="assets/typo3-logo.svg">
+    <p>The copy.</p>
+    <div slot="figure"><pre id="side">a drawing</pre></div>
+  </sds-hero>`);
+  const halves = document.querySelectorAll('#figured .sds-hero > .sds-column');
+  expect(halves).toHaveLength(2);
+  expect(halves[0]?.textContent).toContain('The copy.');
+  expect(halves[0]?.querySelector('#side')).toBeNull();
+  expect(halves[1]?.querySelector('#side')).not.toBeNull();
+  expect(document.querySelector('#figured sds-figure')).toBeNull();
+});
+
 test('where the halves stand is not where the text stands', async () => {
   await write('<sds-hero id="low" heading="Start" valign="end"></sds-hero>');
   expect(getComputedStyle(q('#low h1')).textAlign).toBe('start');
