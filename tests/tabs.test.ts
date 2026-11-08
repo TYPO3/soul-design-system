@@ -38,7 +38,7 @@ test('each tab names its panel, one carries the selection, and one panel shows',
 test('a press picks a tab, and its panel is the one that shows', async () => {
   await mount(Default);
   await userEvent.click(tab(2));
-  await expect.poll(chosen).toEqual(['ddev']);
+  await expect.poll(() => chosen()).toEqual(['ddev']);
   expect(open()).toEqual(['ddev']);
 });
 
@@ -47,21 +47,21 @@ test('the arrows walk the row, wrap at the ends, and the focus follows', async (
   tab(0).focus();
 
   await userEvent.keyboard('{ArrowRight}');
-  await expect.poll(chosen).toEqual(['as a dependency']);
+  await expect.poll(() => chosen()).toEqual(['as a dependency']);
   await expect.poll(() => document.activeElement).toBe(tab(1));
 
   await userEvent.keyboard('{ArrowLeft}');
   await userEvent.keyboard('{ArrowLeft}');
-  await expect.poll(chosen, { message: 'left from the first wraps to the last' }).toEqual(['ddev']);
+  await expect.poll(() => chosen(), { message: 'left from the first wraps to the last' }).toEqual(['ddev']);
   await expect.poll(() => document.activeElement).toBe(tab(2));
 
   await userEvent.keyboard('{ArrowRight}');
-  await expect.poll(chosen, { message: 'right from the last wraps to the first' }).toEqual(['standalone']);
+  await expect.poll(() => chosen(), { message: 'right from the last wraps to the first' }).toEqual(['standalone']);
 
   await userEvent.keyboard('{End}');
-  await expect.poll(chosen).toEqual(['ddev']);
+  await expect.poll(() => chosen()).toEqual(['ddev']);
   await userEvent.keyboard('{Home}');
-  await expect.poll(chosen).toEqual(['standalone']);
+  await expect.poll(() => chosen()).toEqual(['standalone']);
   /* And a key that is none of these moves nothing. */
   await userEvent.keyboard('{ArrowDown}');
   expect(chosen()).toEqual(['standalone']);

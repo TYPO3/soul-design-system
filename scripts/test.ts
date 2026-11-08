@@ -29,7 +29,8 @@ const RUNNERS = {
   },
   playwright: {
     label: 'the tests against a server',
-    cmd: ['node_modules/.bin/playwright', 'test', ...flags],
+    /* Coverage is Vitest's measure. Playwright refuses an option it has not got. */
+    cmd: ['node_modules/.bin/playwright', 'test', ...flags.filter((f) => f !== '--coverage')],
   },
 } as const;
 

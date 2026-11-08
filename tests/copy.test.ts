@@ -32,11 +32,11 @@ beforeEach(async () => {
 test('the press puts the value on the clipboard, and nothing that frames it', async () => {
   await clipboard(async () => {
     await userEvent.click(q('#dir button'));
-    await expect.poll(read, { message: 'the value whole, with no term and no chrome around it' })
+    await expect.poll(() => read(), { message: 'the value whole, with no term and no chrome around it' })
       .toBe('~/projects/blog/.worktrees/14-3-dev');
 
     await userEvent.click(q('#db button'));
-    await expect.poll(read).toBe('companion_14_3_dev');
+    await expect.poll(() => read()).toBe('companion_14_3_dev');
   });
 });
 
@@ -173,7 +173,7 @@ describe('a value cut instead of wrapped', () => {
       expect(q('#dir .sds-copy__value').getAttribute('title') ?? '').toBe('');
 
       await userEvent.click(q('#head button'));
-      await expect.poll(read, { message: 'the press writes the property, never the visible text' })
+      await expect.poll(() => read(), { message: 'the press writes the property, never the visible text' })
         .toBe('~/projects/blog/.worktrees/14-3-dev');
     });
   });

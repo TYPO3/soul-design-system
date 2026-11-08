@@ -222,7 +222,7 @@ test('the bar eases across the step between layout bands rather than jumps it', 
   expect(mid).toBeGreaterThan(16);
   expect(mid).toBeLessThan(24);
 
-  await expect.poll(inset).toBe('16px');
+  await expect.poll(() => inset()).toBe('16px');
 });
 
 /* The bar stays at the top of the page as the page moves under it.
@@ -329,7 +329,7 @@ test('a form that fails says what, and sends the reader to it', async () => {
   await userEvent.fill(q('#email'), 'you@example.org');
   await userEvent.fill(q('#message'), 'typo3_icon_lookup answered “not registered” for an icon that is.');
   await page.getByRole('button', { name: 'Send the report' }).click();
-  await expect.element(q('.sds-note--ok')).toHaveTextContent(/The report went out/);
+  await expect.element(q('.sds-note--ok')).toMatchTextContent(/The report went out/);
 });
 
 /* A set of cards, at the widths where the row runs out. `auto-fit` fills a row

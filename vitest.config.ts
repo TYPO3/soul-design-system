@@ -60,6 +60,9 @@ const browser = () => ({
      test that asks about another width sets it. */
   viewport: { width: 1280, height: 900 },
   instances: [{ browser: 'chromium' as const }],
+  /* A name finds a control by part of what it says, as a reader looks for
+     it. A test that needs the whole name says `exact: true`. */
+  locators: { exact: false },
   commands: { hold, release, wheel, takeClipboard, giveClipboard },
   screenshotFailures: false,
 });

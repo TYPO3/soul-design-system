@@ -67,7 +67,7 @@ test('the head carries the language and a working copy button', async () => {
        `toContain` passes while the head comes with it, and a paste then begins
        `json copy` and then the first line. What frames a block is not part of
        it, and the element renders that frame into its own light DOM. */
-    await expect.poll(read).toBe('{\n  "domains": ["labels", "xlf"],\n  "versions": ["12.4", "13.4", "14.3"]\n}');
+    await expect.poll(() => read()).toBe('{\n  "domains": ["labels", "xlf"],\n  "versions": ["12.4", "13.4", "14.3"]\n}');
 
     /* The class alone is not enough. A stylesheet that hides the duplicate on
        `is-copied` and never shows the check leaves a button that lost a glyph
@@ -106,7 +106,7 @@ test('a caption between the tags stays, above the frame and off the clipboard', 
     expect(body.textContent).toContain('composer require typo3/cms-core');
 
     await userEvent.click(q('.sds-code__copy'));
-    await expect.poll(read).toBe('composer require typo3/cms-core\nvendor/bin/typo3 cache:flush');
+    await expect.poll(() => read()).toBe('composer require typo3/cms-core\nvendor/bin/typo3 cache:flush');
   });
 });
 

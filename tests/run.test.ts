@@ -70,10 +70,10 @@ test("the words for a state are the page's", async () => {
      keep the English they had. */
   (q('sds-run') as HTMLElement & { stateWords: unknown }).stateWords = { running: 'Läuft', done: 'Fertig' };
 
-  await expect.element(q('.sds-run__row', row('Fetch the sitemap'))).toHaveTextContent(/Fertig/);
-  await expect.element(q('.sds-run__row', row('Build the index'))).toHaveTextContent(/Läuft/);
+  await expect.element(q('.sds-run__row', row('Fetch the sitemap'))).toMatchTextContent(/Fertig/);
+  await expect.element(q('.sds-run__row', row('Build the index'))).toMatchTextContent(/Läuft/);
   await expect.element(q('.sds-run__row', row('Swap it in')), { message: 'a state the page named nothing for keeps the word it had' })
-    .toHaveTextContent(/Not started/);
+    .toMatchTextContent(/Not started/);
 
   /* The verdict is a state too, and it reads the same words. */
   await expect.element(q('.sds-run__verdict sds-icon')).toHaveAttribute('label', 'Läuft');

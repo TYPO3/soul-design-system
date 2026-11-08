@@ -55,16 +55,16 @@ test('every word must occur in any order, the title ranks above the text, and ea
   const titles = (): (string | undefined)[] => qa('.sds-search__panel .sds-result__title').map((h) => h.textContent?.trim());
 
   await userEvent.type(field(), 'skill writing');
-  await expect.poll(titles, { message: 'two words, in the other order' }).toEqual(['Writing a skill']);
+  await expect.poll(() => titles(), { message: 'two words, in the other order' }).toEqual(['Writing a skill']);
   expect(qa('.sds-search__panel .sds-result__title mark').map((m) => m.textContent), 'a mark for each word').toEqual(['Writing', 'skill']);
 
   await userEvent.clear(field());
   await userEvent.type(field(), 'status');
-  await expect.poll(titles, { message: 'the title before the text, against the index order' }).toEqual(['The status page', 'Pages']);
+  await expect.poll(() => titles(), { message: 'the title before the text, against the index order' }).toEqual(['The status page', 'Pages']);
 
   await userEvent.clear(field());
   await userEvent.type(field(), 'page');
-  await expect.poll(titles, { message: 'a title that starts with the query before one that holds it' }).toEqual(['Pages', 'The status page']);
+  await expect.poll(() => titles(), { message: 'a title that starts with the query before one that holds it' }).toEqual(['Pages', 'The status page']);
 });
 
 test('down goes into the drop, the arrows walk it, up from the first comes back, and Escape leaves', async () => {

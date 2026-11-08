@@ -30,12 +30,12 @@ test('the button reads the document, and says where it is and where a press goes
   await write('<sds-theme></sds-theme>', { theme: 'dark' });
   expect(said()).toBe('Colour mode: dark. Switch to the machine’s setting.');
   expect(button().getAttribute('title'), 'the words under the pointer name the press, not a mode').toBe('Switch colour mode');
-  await expect.poll(shownMark, { message: 'the mark is the mode the page is in' }).toBe('dark');
+  await expect.poll(() => shownMark(), { message: 'the mark is the mode the page is in' }).toBe('dark');
 
   /* Written by somebody else — the boot line, another tab — it follows. */
   document.documentElement.dataset['theme'] = 'light';
-  await expect.poll(said).toBe('Colour mode: light. Switch to dark.');
-  await expect.poll(shownMark, { message: 'one mark fades out and the other in' }).toBe('light');
+  await expect.poll(() => said()).toBe('Colour mode: light. Switch to dark.');
+  await expect.poll(() => shownMark(), { message: 'one mark fades out and the other in' }).toBe('light');
 });
 
 test('one press steps round three states, writes the choice, and says so', async () => {
@@ -43,7 +43,7 @@ test('one press steps round three states, writes the choice, and says so', async
   await write('<sds-theme></sds-theme>', { theme: 'dark' });
   delete document.documentElement.dataset['theme'];
   await settle();
-  await expect.poll(said).toBe('Colour mode: the machine’s setting. Switch to light.');
+  await expect.poll(() => said()).toBe('Colour mode: the machine’s setting. Switch to light.');
 
   await userEvent.click(button());
   expect(document.documentElement.dataset['theme']).toBe('light');
@@ -58,7 +58,7 @@ test('one press steps round three states, writes the choice, and says so', async
   await userEvent.click(button());
   expect(document.documentElement.dataset['theme']).toBeUndefined();
   expect(localStorage.getItem('soul-theme'), 'and nothing stored says otherwise').toBeNull();
-  await expect.poll(shownMark).toBe('machine');
+  await expect.poll(() => shownMark()).toBe('machine');
 
   expect(heard, 'every press says what it chose, and null for the machine’s').toEqual(['light', 'dark', null]);
 });

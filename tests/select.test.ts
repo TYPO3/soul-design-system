@@ -42,7 +42,7 @@ beforeEach(async () => {
 test('the button says what it opens, and what is open', async () => {
   await expect.element(button()).toHaveAttribute('aria-haspopup', 'listbox');
   await expect.element(button()).toHaveAttribute('aria-expanded', 'false');
-  await expect.poll(listed).toBe(false);
+  await expect.poll(() => listed()).toBe(false);
 
   await button().click();
   await expect.element(button()).toHaveAttribute('aria-expanded', 'true');
@@ -86,8 +86,8 @@ test('a typed word goes to the answer, open or closed', async () => {
   /* Closed, typing moves the answer without opening anything, the way a native
      select does. */
   await userEvent.keyboard('m');
-  await expect.poll(listed).toBe(false);
-  await expect.poll(says).toBe('main');
+  await expect.poll(() => listed()).toBe(false);
+  await expect.poll(() => says()).toBe('main');
 
   /* Typed in one breath is one word. `m` then `a` is "ma" and not a second
      search for `a`, which is what makes a list of near-identical labels
@@ -107,14 +107,14 @@ test('Enter takes what the keys are on, Escape leaves the answer alone', async (
   await userEvent.keyboard('{ArrowDown}');
   await userEvent.keyboard('{ArrowUp}');
   await userEvent.keyboard('{Enter}');
-  await expect.poll(listed).toBe(false);
-  await expect.poll(says).toBe('14.3');
+  await expect.poll(() => listed()).toBe(false);
+  await expect.poll(() => says()).toBe('14.3');
 
   await userEvent.keyboard('{ArrowDown}');
   await userEvent.keyboard('{ArrowDown}');
   await userEvent.keyboard('{Escape}');
-  await expect.poll(listed).toBe(false);
-  await expect.poll(says, { message: 'walked past and left' }).toBe('14.3');
+  await expect.poll(() => listed()).toBe(false);
+  await expect.poll(() => says(), { message: 'walked past and left' }).toBe('14.3');
 });
 
 test('an answer on the list and not on offer refuses the press', async () => {
@@ -125,7 +125,7 @@ test('an answer on the list and not on offer refuses the press', async () => {
   /* Forced, because the pointer does not reach it. The press is what has to
      fail, and a control the pointer cannot reach is only half of that. */
   await closed.click({ force: true });
-  await expect.poll(says, { message: 'the answer did not move' }).toBe('13.4');
+  await expect.poll(() => says(), { message: 'the answer did not move' }).toBe('13.4');
   await expect.element(list(), { message: 'and the list stayed open' }).toBeVisible();
 });
 
