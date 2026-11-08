@@ -50,6 +50,19 @@ else decides a version. The mirrors carry the tag over, Packagist reads the
 theme's version off it, and npm reads the frontend's out of a manifest. That
 manifest is the only reason a version stands in this tree at all.
 
+Before it, check the packages this tree copies its assets from. The icons
+and the faces are files git keeps, so a newer upstream reaches no project
+until somebody takes it:
+
+```sh
+make shell
+npm outdated @typo3/icons @fontsource-variable/source-sans-3 @fontsource-variable/source-code-pro
+```
+
+A newer version goes in on its own commit before the release: `npm install`
+of it in the container, then `make icons` or `make fonts`, then the gate. A
+removed icon that the tree names fails there, rather than in a project.
+
 ```sh
 make release ARGS=0.2.0
 ```

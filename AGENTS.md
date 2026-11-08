@@ -465,7 +465,11 @@ unbuilt change reaches this site as the old one. What a project runs is
 `docs/guides-theme/_starter/publish.yml`, quoted whole into the manual and
 taken command for command by `make guides`.
 
-**Cut a release.** `make release ARGS=<version>`, and nothing before it. It
+**Cut a release.** First check that `@typo3/icons` and the faces are the
+newest upstream, and take a newer one on its own commit. `MAINTAINERS.md`
+has the commands.
+
+Then `make release ARGS=<version>`, and nothing else before it. It
 runs the gate and the suite, and it refuses a dirty tree or an existing tag.
 It writes the number into every file that carries it, commits those files and
 makes the tag. It pushes nothing. Both packages take the same version, because

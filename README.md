@@ -295,7 +295,7 @@ To add a font family or style, edit the `FAMILIES` list in
 
 The icon's identifier is also its path, by its first segment:
 `actions-search` → `src/actions/actions-search.svg` in `@typo3/icons`, and
-at the same path under `https://cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/`
+at the same path under `https://cdn.jsdelivr.net/npm/@typo3/icons@5.2.0/`
 or `https://raw.githubusercontent.com/TYPO3/TYPO3.Icons/main/`. That is how
 a surface pulls one this set does not cover. `dist/icons.json` in that
 package lists every identifier and the deprecated aliases.

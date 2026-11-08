@@ -42,7 +42,7 @@ const NOTE =
   'A category ships whole — <span class="sds-mono">actions</span> and <span class="sds-mono">spinner</span> are the ones here, and a sample of them is shown. ' +
   'The identifiers are the core’s own — <span class="sds-mono">actions-search</span>, <span class="sds-mono">spinner-circle</span> — ' +
   'so an agent resolving one through <span class="sds-mono">typo3_icon_lookup</span> gets the same name the design uses, and the first segment is the path: ' +
-  '<span class="sds-mono">src/actions/actions-search.svg</span>, in the package or under <span class="sds-mono">cdn.jsdelivr.net/npm/@typo3/icons@5.0.3/src/</span>. ' +
+  '<span class="sds-mono">src/actions/actions-search.svg</span>, in the package or under <span class="sds-mono">cdn.jsdelivr.net/npm/@typo3/icons@5.2.0/src/</span>. ' +
   'Anything outside the shipped categories is fetched from there — never drawn locally, never taken from another set. ' +
   'Missing upstream too, it is contributed to <span class="sds-mono">TYPO3/TYPO3.Icons</span>.';
 
