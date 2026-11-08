@@ -44,7 +44,7 @@
      small step is the heading's, and a block's own step wins it otherwise.
      A heading after a heading opens a level of its own and keeps its air. */
   :is(h1, h2, h3, h4, h5, h6, .sds-h1, .sds-h2, .sds-h3, .sds-display)
-  + :not(h1, h2, h3, h4, h5, h6, .sds-h1, .sds-h2, .sds-h3, .sds-display),
+    + :not(h1, h2, h3, h4, h5, h6, .sds-h1, .sds-h2, .sds-h3, .sds-display),
   :is(sds-eyebrow, .sds-eyebrow) + * {
     margin-block-start: 0;
   }

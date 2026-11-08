@@ -675,7 +675,20 @@ var require_core = __commonJS({
       const match = re && re.exec(lexeme);
       return match && match.index === 0;
     }
-    var BACKREF_RE = /\[(?:[^\\\]]|\\.)*\]|\(\??|\\([1-9][0-9]*)|\\./;
+    var BACKREF_RE = new RegExp(either(
+      /\[(?:[^\\\]]|\\.)*\]/,
+      // a character class, inside which ( and \ lose their meaning
+      /\(\?<(?![=!])[^>]+>/,
+      // a named capture group `(?<name>` (not a lookbehind `(?<=` / `(?<!`)
+      /\(\?'[^']+'/,
+      // a named capture group `(?'name'`
+      /\(\??/,
+      // an opening parenthesis, capturing or non-capturing / lookahead
+      /\\([1-9][0-9]*)/,
+      // a backreference like `\1`
+      /\\./
+      // any other escape sequence
+    ));
     function _rewriteBackreferences(regexps, { joinWith }) {
       let numCaptures = 0;
       return regexps.map((regex) => {
@@ -695,7 +708,7 @@ var require_core = __commonJS({
             out += "\\" + String(Number(match[1]) + offset);
           } else {
             out += match[0];
-            if (match[0] === "(") {
+            if (match[0] === "(" || /^\(\?[<']/.test(match[0])) {
               numCaptures++;
             }
           }
@@ -1283,7 +1296,7 @@ var require_core = __commonJS({
       }
       return mode;
     }
-    var version = "11.11.1";
+    var version = "11.12.0";
     var HTMLInjectionError = class extends Error {
       constructor(reason, html82) {
         super(reason);
@@ -1597,7 +1610,10 @@ var require_core = __commonJS({
             }
           }
           if (match.type === "illegal" && lexeme === "") {
-            modeBuffer += "\n";
+            if (match.index === codeToHighlight.length) ;
+            else {
+              modeBuffer += "\n";
+            }
             return 1;
           }
           if (iterations > 1e5 && iterations > match.index * 3) {
@@ -2406,9 +2422,10 @@ function css(hljs) {
           modes.HEXCOLOR,
           modes.IMPORTANT,
           modes.CSS_NUMBER_MODE,
+          modes.UNICODE_RANGE,
           ...STRINGS,
           // needed to highlight these as strings and to avoid issues with
-          // illegal characters that might be inside urls that would tigger the
+          // illegal characters that might be inside urls that would trigger the
           // languages illegal stack
           {
             begin: /(url|data-uri)\(/,
@@ -2483,6 +2500,10 @@ var init_css = __esm({
         HEXCOLOR: {
           scope: "number",
           begin: /#(([0-9a-fA-F]{3,4})|(([0-9a-fA-F]{2}){3,4}))\b/
+        },
+        UNICODE_RANGE: {
+          scope: "number",
+          begin: /\b[Uu]\+[0-9A-Fa-f][0-9A-Fa-f?]{0,5}(-[0-9A-Fa-f][0-9A-Fa-f]{0,5})?/
         },
         FUNCTION_DISPATCH: {
           className: "built_in",
@@ -2911,6 +2932,11 @@ var init_css = __esm({
       "container-type",
       "content",
       "content-visibility",
+      "corner-bottom-left-shape",
+      "corner-bottom-right-shape",
+      "corner-shape",
+      "corner-top-left-shape",
+      "corner-top-right-shape",
       "counter-increment",
       "counter-reset",
       "counter-set",
@@ -3247,6 +3273,7 @@ var init_css = __esm({
       "transition-timing-function",
       "translate",
       "unicode-bidi",
+      "unicode-range",
       "user-modify",
       "user-select",
       "vector-effect",
@@ -3294,6 +3321,13 @@ function diff(hljs) {
         relevance: 10,
         match: regex.either(
           /^@@ +-\d+,\d+ +\+\d+,\d+ +@@/,
+          // @@ -1,2 +1,2 @@
+          /^@@ +-\d+ +\+\d+,\d+ +@@/,
+          // @@ -1 +1,2 @@
+          /^@@ +-\d+,\d+ +\+\d+ +@@/,
+          // @@ -1,2 +1 @@
+          /^@@ +-\d+ +\+\d+ +@@/,
+          // @@ -1 +1 @@
           /^\*\*\* +\d+,\d+ +\*\*\*\*$/,
           /^--- +\d+,\d+ +----$/
         )
@@ -3674,7 +3708,8 @@ function javascript(hljs) {
       noneOf([
         ...BUILT_IN_GLOBALS,
         "super",
-        "import"
+        "import",
+        "await"
       ].map((x) => `${x}\\s*\\(`)),
       IDENT_RE$1,
       regex.lookahead(/\s*\(/)
@@ -3738,7 +3773,7 @@ function javascript(hljs) {
     keywords: KEYWORDS$1,
     // this will be extended by TypeScript
     exports: { PARAMS_CONTAINS, CLASS_REFERENCE },
-    illegal: /#(?![$_A-z])/,
+    illegal: /#(?![$_A-Za-z])/,
     contains: [
       hljs.SHEBANG({
         label: "shebang",
@@ -4034,6 +4069,7 @@ var init_javascript = __esm({
       "localStorage",
       "sessionStorage",
       "module",
+      "self",
       "global"
       // Node.js
     ];
@@ -4049,7 +4085,7 @@ var init_javascript = __esm({
 function json(hljs) {
   const ATTRIBUTE = {
     className: "attr",
-    begin: /"(\\.|[^\\"\r\n])*"(?=\s*:)/,
+    begin: /(("(\\.|[^\\"\r\n])*")|('(\\.|[^\\'\r\n])*'))(?=\s*:)/,
     relevance: 1.01
   };
   const PUNCTUATION = {
@@ -4068,24 +4104,32 @@ function json(hljs) {
   };
   return {
     name: "JSON",
-    aliases: ["jsonc"],
+    aliases: ["jsonc", "json5"],
     keywords: {
       literal: LITERALS3
     },
     contains: [
       ATTRIBUTE,
       PUNCTUATION,
+      hljs.APOS_STRING_MODE,
       hljs.QUOTE_STRING_MODE,
       LITERALS_MODE,
-      hljs.C_NUMBER_MODE,
+      EXTENDED_NUMBER_MODE,
       hljs.C_LINE_COMMENT_MODE,
       hljs.C_BLOCK_COMMENT_MODE
     ],
     illegal: "\\S"
   };
 }
+var EXTENDED_NUMBER_RE, EXTENDED_NUMBER_MODE;
 var init_json = __esm({
   "node_modules/highlight.js/es/languages/json.js"() {
+    EXTENDED_NUMBER_RE = "([-+]?)(\\b0[xX][a-fA-F0-9]+|(\\b\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)|NaN|[-+]?Infinity";
+    EXTENDED_NUMBER_MODE = {
+      scope: "number",
+      match: EXTENDED_NUMBER_RE,
+      relevance: 0
+    };
   }
 });
 
@@ -4098,10 +4142,7 @@ function markdown(hljs) {
     subLanguage: "xml",
     relevance: 0
   };
-  const HORIZONTAL_RULE = {
-    begin: "^[-\\*]{3,}",
-    end: "$"
-  };
+  const HORIZONTAL_RULE = { match: /^ {0,3}([-*_])[ \t]*(?:\1[ \t]*){2,}$/ };
   const CODE = {
     className: "code",
     variants: [
@@ -4309,11 +4350,13 @@ function markdown(hljs) {
       HEADER,
       INLINE_HTML,
       LIST,
+      // must come before BOLD/ITALIC so that a `***` or `___` thematic break
+      // isn't mistaken for the start of bold text
+      HORIZONTAL_RULE,
       BOLD,
       ITALIC,
       BLOCKQUOTE,
       CODE,
-      HORIZONTAL_RULE,
       LINK,
       LINK_REFERENCE,
       ENTITY
@@ -4719,6 +4762,8 @@ function php(hljs) {
       VARIABLE,
       LEFT_AND_RIGHT_SIDE_OF_DOUBLE_COLON,
       hljs.C_BLOCK_COMMENT_MODE,
+      hljs.C_LINE_COMMENT_MODE,
+      hljs.HASH_COMMENT_MODE,
       STRING,
       NUMBER,
       CONSTRUCTOR_CALL
@@ -4742,6 +4787,8 @@ function php(hljs) {
     NAMED_ARGUMENT,
     LEFT_AND_RIGHT_SIDE_OF_DOUBLE_COLON,
     hljs.C_BLOCK_COMMENT_MODE,
+    hljs.C_LINE_COMMENT_MODE,
+    hljs.HASH_COMMENT_MODE,
     STRING,
     NUMBER,
     CONSTRUCTOR_CALL
@@ -4870,6 +4917,8 @@ function php(hljs) {
               VARIABLE,
               LEFT_AND_RIGHT_SIDE_OF_DOUBLE_COLON,
               hljs.C_BLOCK_COMMENT_MODE,
+              hljs.C_LINE_COMMENT_MODE,
+              hljs.HASH_COMMENT_MODE,
               STRING,
               NUMBER
             ]
@@ -5016,6 +5065,7 @@ function scss(hljs) {
           VARIABLE,
           modes.HEXCOLOR,
           modes.CSS_NUMBER_MODE,
+          modes.UNICODE_RANGE,
           hljs.QUOTE_STRING_MODE,
           hljs.APOS_STRING_MODE,
           modes.IMPORTANT,
@@ -5074,6 +5124,10 @@ var init_scss = __esm({
         HEXCOLOR: {
           scope: "number",
           begin: /#(([0-9a-fA-F]{3,4})|(([0-9a-fA-F]{2}){3,4}))\b/
+        },
+        UNICODE_RANGE: {
+          scope: "number",
+          begin: /\b[Uu]\+[0-9A-Fa-f][0-9A-Fa-f?]{0,5}(-[0-9A-Fa-f][0-9A-Fa-f]{0,5})?/
         },
         FUNCTION_DISPATCH: {
           className: "built_in",
@@ -5502,6 +5556,11 @@ var init_scss = __esm({
       "container-type",
       "content",
       "content-visibility",
+      "corner-bottom-left-shape",
+      "corner-bottom-right-shape",
+      "corner-shape",
+      "corner-top-left-shape",
+      "corner-top-right-shape",
       "counter-increment",
       "counter-reset",
       "counter-set",
@@ -5838,6 +5897,7 @@ var init_scss = __esm({
       "transition-timing-function",
       "translate",
       "unicode-bidi",
+      "unicode-range",
       "user-modify",
       "user-select",
       "vector-effect",
@@ -7098,7 +7158,8 @@ function javascript2(hljs) {
       noneOf([
         ...BUILT_IN_GLOBALS2,
         "super",
-        "import"
+        "import",
+        "await"
       ].map((x) => `${x}\\s*\\(`)),
       IDENT_RE$1,
       regex.lookahead(/\s*\(/)
@@ -7162,7 +7223,7 @@ function javascript2(hljs) {
     keywords: KEYWORDS$1,
     // this will be extended by TypeScript
     exports: { PARAMS_CONTAINS, CLASS_REFERENCE },
-    illegal: /#(?![$_A-z])/,
+    illegal: /#(?![$_A-Za-z])/,
     contains: [
       hljs.SHEBANG({
         label: "shebang",
@@ -7571,6 +7632,7 @@ var init_typescript = __esm({
       "localStorage",
       "sessionStorage",
       "module",
+      "self",
       "global"
       // Node.js
     ];
@@ -7730,10 +7792,7 @@ function xml(hljs) {
         starts: {
           end: /<\/style>/,
           returnEnd: true,
-          subLanguage: [
-            "css",
-            "xml"
-          ]
+          subLanguage: "css"
         }
       },
       {
@@ -7746,11 +7805,7 @@ function xml(hljs) {
         starts: {
           end: /<\/script>/,
           returnEnd: true,
-          subLanguage: [
-            "javascript",
-            "handlebars",
-            "xml"
-          ]
+          subLanguage: "javascript"
         }
       },
       // we need this for now for jSX
@@ -13181,9 +13236,9 @@ var SdsSearchResult = class extends SdsElement {
   }
   /** The whole hit is the link, so the hit *is* an anchor. One element rather
       than a title's anchor stretched over the row by a pseudo-element. That
-      is what a card does, and it costs a reader the text selection. Named by
-      its heading: without that the link's name is everything in the row read
-      out at once. Nowhere to go, no anchor. */
+      is what a card does, and it costs a reader the text selection. Its name
+      is what it shows, so a reader who speaks the visible words reaches it.
+      Nowhere to go, no anchor. */
   render() {
     const body = html4`${this.thumb()}
   <span class="sds-result__body">
@@ -13191,7 +13246,7 @@ var SdsSearchResult = class extends SdsElement {
     <h3 class="sds-result__title">${this.marked(this.heading)}</h3>
     ${this.snippet ? html4`<p class="sds-result__text">${this.marked(this.snippet)}</p>` : nothing}
   </span>`;
-    return this.href ? html4`<a class="sds-result" href="${this.href}" aria-label="${this.heading}">${body}</a>` : html4`<article class="sds-result">${body}</article>`;
+    return this.href ? html4`<a class="sds-result" href="${this.href}">${body}</a>` : html4`<article class="sds-result">${body}</article>`;
   }
 };
 define("sds-search-result", SdsSearchResult);
@@ -16892,20 +16947,19 @@ var SdsRun = class extends SdsElement {
   row(step) {
     const mark = MARKS[step.state];
     const word = this.said(step.state);
-    const said = step.note ? `${step.label} \u2014 ${word}. ${step.note}` : `${step.label} \u2014 ${word}`;
     const face = html43`<span
       class="sds-run__mark sds-run__mark--${step.state}${step.state === "running" ? " sds-spinner" : ""}"
     ><sds-icon name="${mark.icon}"></sds-icon></span>`;
-    const words = html43`${face}<span class="sds-run__label">${step.label}</span>${step.note ? html43`<span class="sds-run__said">${step.note}</span>` : nothing22}<span class="sds-run__meta">${step.meta ?? ""}</span>`;
+    const words = html43`${face}<span class="sds-run__label">${step.label}</span><span class="sds-said-only"> — ${word}.</span>${step.note ? html43`<span class="sds-run__said">${step.note}</span>` : nothing22}<span class="sds-run__meta">${step.meta ?? ""}</span>`;
     if (!step.output) {
       return html43`<li class="sds-run__step sds-run__step--${step.state}">
-      <div class="sds-run__row" aria-label="${said}">${words}</div>
+      <div class="sds-run__row">${words}</div>
     </li>`;
     }
     const open = this.#decided.get(step.at) ?? step.state !== "done";
     return html43`<li class="sds-run__step sds-run__step--${step.state}">
       <details class="sds-run__fold" ?open="${open}" @click="${(e) => this.decide(e, step.at, open)}">
-        <summary class="sds-run__row" aria-label="${said}"><sds-icon
+        <summary class="sds-run__row"><sds-icon
           class="sds-run__chevron" name="actions-chevron-end"></sds-icon>${words}</summary>
         <pre class="sds-run__output">${lines2(step.output)}</pre>
       </details>
