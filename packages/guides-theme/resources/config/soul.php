@@ -64,6 +64,7 @@ use TYPO3\Soul\GuidesTheme\Navigation\Rail;
 use TYPO3\Soul\GuidesTheme\Navigation\Sections;
 use TYPO3\Soul\GuidesTheme\NodeRenderers\GeneralDirectiveMarkdownRenderer;
 use TYPO3\Soul\GuidesTheme\Parser\LayoutFieldListItemRule;
+use TYPO3\Soul\GuidesTheme\Parser\OnThisPageFieldListItemRule;
 use TYPO3\Soul\GuidesTheme\Parser\PaperFieldListItemRule;
 use TYPO3\Soul\GuidesTheme\Renderer\LlmsRenderer;
 use TYPO3\Soul\GuidesTheme\Renderer\MarkdownRenderer;
@@ -219,6 +220,9 @@ return static function (ContainerConfigurator $container): void {
            is. Tagged the same way, so a project writes the field and nothing
            else. */
         ->set(LayoutFieldListItemRule::class)
+        ->tag('phpdoc.guides.parser.rst.fieldlist')
+        /* `:on-this-page: no`, a manual page with no list of its headings. */
+        ->set(OnThisPageFieldListItemRule::class)
         ->tag('phpdoc.guides.parser.rst.fieldlist')
 
         /* `:badge:`, a short state in a line — see `BadgeTextRole`. */

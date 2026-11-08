@@ -448,6 +448,17 @@ column beside the rail, held to the measure. It stands in
 :doc:`directives/page-shape`, beside the directives that fill a marketing page, because
 on its own it is a page shape with nothing in it.
 
+``:on-this-page: no`` keeps a manual page in its shape, with the rail and its
+headings, and leaves out the list of those headings beside the text. A page
+with two headings or more gets that list by itself. A way in for one audience,
+with a hero and a few sections, has no reader who navigates them. The list then
+takes width from the hero and the cards.
+
+.. code-block:: text
+
+   :navigation-title: Developers
+   :on-this-page: no
+
 ``:layout: paper`` is a document that goes out on its own: a concept, a
 review, a report. It has no bar and no footer of a site. A panel beside the
 text holds the outline of the document, from its headings. Two more fields

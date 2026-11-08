@@ -192,6 +192,15 @@ test.describe('the render', () => {
     await expect(page.locator('#labelled-page')).toHaveCount(1);
   });
 
+  test('a page with :on-this-page: no keeps its headings and lists none', async ({ page }) => {
+    await page.goto(`${ACCEPTANCE_URL}/quiet.html`, { waitUntil: 'load' });
+    await expect(page.locator('h2')).toHaveCount(2);
+    await expect(page.locator('#first-section')).toHaveCount(1);
+    await expect(page.locator('sds-nav-toc, .sds-toc')).toHaveCount(0);
+    /* And the field draws nothing of its own. */
+    await expect(page.locator('main')).not.toContainText('on-this-page');
+  });
+
   test('the community boundary keeps its heading beside a centred picture', async ({ page }) => {
     await page.goto(`${SITE_URL}/index.html`, { waitUntil: 'load' });
 

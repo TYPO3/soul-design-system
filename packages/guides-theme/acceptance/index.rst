@@ -19,6 +19,7 @@ because navigation is the one thing a page cannot show about itself.
 
    nodes
    paper
+   quiet
    labelled
    depth/index
 

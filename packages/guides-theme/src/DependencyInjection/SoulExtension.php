@@ -41,6 +41,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\HeroNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LogoNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LogosNode;
+use TYPO3\Soul\GuidesTheme\Nodes\OnThisPageNode;
 use TYPO3\Soul\GuidesTheme\Nodes\OutlineNode;
 use TYPO3\Soul\GuidesTheme\Nodes\PaperFieldNode;
 use TYPO3\Soul\GuidesTheme\Nodes\PartNode;
@@ -300,6 +301,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
             'templates' => [
                 ['node' => NavigationTitleNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => LayoutNode::class, 'file' => $blank, 'format' => 'html'],
+                ['node' => OnThisPageNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => PaperFieldNode::class, 'file' => $blank, 'format' => 'html'],
                 /* A part with no section after it names nothing. */
                 ['node' => PartNode::class, 'file' => $blank, 'format' => 'html'],

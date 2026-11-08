@@ -13,6 +13,7 @@ use phpDocumentor\Guides\Nodes\Menu\SectionMenuEntryNode;
 use phpDocumentor\Guides\Nodes\Node;
 use phpDocumentor\Guides\Nodes\SectionNode;
 use TYPO3\Soul\GuidesTheme\Nodes\LayoutNode;
+use TYPO3\Soul\GuidesTheme\Nodes\OnThisPageNode;
 
 /**
  * The contents an author did not write.
@@ -53,7 +54,7 @@ final class OnThisPage implements NodeTransformer
             return $node;
         }
 
-        if ($this->marketing($document) || $this->written($document) || $this->headings($node) < self::LEAST) {
+        if ($this->marketing($document) || $this->declined($document) || $this->written($document) || $this->headings($node) < self::LEAST) {
             return $node;
         }
 
@@ -90,6 +91,18 @@ final class OnThisPage implements NodeTransformer
     {
         foreach ($document->getHeaderNodes() as $header) {
             if ($header instanceof LayoutNode && in_array($header->getValue(), [LayoutNode::MARKETING, LayoutNode::PAPER], true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /** `:on-this-page: no` at the top: the page keeps its headings and no list. */
+    private function declined(DocumentNode $document): bool
+    {
+        foreach ($document->getHeaderNodes() as $header) {
+            if ($header instanceof OnThisPageNode && $header->isOff()) {
                 return true;
             }
         }
