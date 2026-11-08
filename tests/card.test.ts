@@ -32,12 +32,17 @@ test('the label stands closer to the title than the title to its text', async ()
   expect(title.top - label.bottom).toBeLessThan(text.top - title.bottom);
 });
 
-test('a linked card takes a shadow under the pointer, and only there', async () => {
-  await write('<sds-card id="c" heading="T" body="B" href="#a"></sds-card>');
+test('a linked card lies on the page at rest, and a card with no link stays flat', async () => {
+  await write(`<sds-card id="c" heading="T" body="B" href="#a"></sds-card>
+    <sds-card id="flat" heading="T" body="B"></sds-card>`);
   const frame = q('#c .sds-card');
-  expect(getComputedStyle(frame).boxShadow).toBe('none');
+  const flat = q('#flat .sds-card');
+  expect(getComputedStyle(flat).boxShadow).toBe('none');
+  const rest = getComputedStyle(frame).boxShadow;
+  expect(rest).not.toBe('none');
+  /* And the pointer takes it further off the page than rest does. */
   await userEvent.hover(frame);
-  await expect.poll(() => getComputedStyle(frame).boxShadow).not.toBe('none');
+  await expect.poll(() => getComputedStyle(frame).boxShadow).not.toBe(rest);
 });
 
 test('with no glyph the words take the whole card', async () => {

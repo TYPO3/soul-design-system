@@ -1685,6 +1685,8 @@
   .sds-card{
     --sds-card-lift: -2px;
     --sds-card-shadow: var(--shadow-tooltip);
+    --sds-card-rest-shadow: var(--shadow-strong);
+    --sds-card-rest-edge: light-dark(var(--border-subtle), var(--border-strong));
     --sds-card-pad-y: var(--space-5);
     --sds-card-pad-x: var(--space-5);
     --sds-card-gap: var(--space-1-5);
@@ -1727,6 +1729,7 @@
     transition:border-color var(--sds-card-duration) var(--sds-card-ease),background var(--sds-card-duration) var(--sds-card-ease),box-shadow var(--sds-card-duration) var(--sds-card-ease),transform var(--sds-card-duration) var(--sds-card-ease);
     &:before{content:"";position:absolute;inset:calc(-1 * var(--sds-card-border));z-index:1;border-radius:var(--sds-card-radius);padding:var(--sds-card-border);background:linear-gradient(var(--sds-card-glow),transparent var(--sds-card-glow-reach));mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;opacity:0;pointer-events:none;transition:opacity var(--sds-card-duration) var(--sds-card-ease)}
   }
+  .sds-card:has(>.sds-card__body>.sds-card__title a){border-color:var(--sds-card-rest-edge);box-shadow:var(--sds-card-rest-shadow)}
   .sds-card:has(>.sds-card__body>.sds-card__title a):hover,.sds-card:has(>.sds-card__body>.sds-card__title a:focus-visible){border-color:var(--sds-card-edge-hover);background:var(--sds-card-fill-hover);transform:translateY(var(--sds-card-lift));box-shadow:var(--sds-card-shadow)}
   .sds-card:has(>.sds-card__body>.sds-card__title a):hover:before,.sds-card:has(>.sds-card__body>.sds-card__title a:focus-visible):before{opacity:1}
   .sds-card:has(>.sds-card__body>.sds-card__title a:focus-visible){outline:var(--border-emphasis) solid var(--accent);outline-offset:var(--focus-offset);box-shadow:0 0 0 var(--focus-halo) var(--accent-ring),var(--sds-card-shadow);border-radius:var(--sds-card-radius)}
@@ -1772,6 +1775,7 @@
     --sds-card-fill: var(--surface-canvas);
     --sds-card-lift: 0px;
     --sds-card-shadow: none;
+    --sds-card-rest-shadow: none;
     &:before{content:none}
   }
   .sds-grid--flush .sds-card:has(>.sds-card__body>.sds-card__title a:focus-visible){outline-offset:calc(-1 * (var(--border-emphasis) + var(--focus-offset)));box-shadow:none}

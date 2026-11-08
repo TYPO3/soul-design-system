@@ -14,8 +14,9 @@ The ring is the shadow of a state
 ``--border-emphasis`` of ``--accent`` at ``--focus-offset``, with a
 ``--focus-halo`` of ``--accent-ring`` behind it; :doc:`/design-system/foundations/states` has the
 values. It is a state, not depth. What stays on the page separates with a
-hairline. Only a surface that has left the page carries a shadow of its own, and
-a linked card does so under the pointer. A ring nobody
+hairline. Only a surface that has left the page carries a shadow of its own. A
+linked card lies on the page with a quiet one, so a reader sees what goes
+somewhere before any pointer. A ring nobody
 mistakes for a raised surface still reads on a page full of surfaces.
 
 Always ``:focus-visible``, never ``:focus``: a pointer must not leave a ring

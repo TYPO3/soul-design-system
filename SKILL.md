@@ -110,6 +110,9 @@ A break in one of these breaks the system, not the page.
 - **The TYPO3 Soul is not in use.** A footer says what the product is, never
   whose it is. The system's *name* is Soul. The Association's *asset* is the
   TYPO3 Soul. The name never takes `TYPO3` in front of it.
+- **A linked card says so at rest.** It lies on the page with
+  `--shadow-strong`, and in dark with the strong edge, where a shadow does not
+  read. A card with no link stays flat on its hairline.
 - **Interaction never changes size.** A linked card alone can lift 2px, take
   the strong edge, light its top frame and carry `--shadow-tooltip`. Under the
   pointer it has left the page. Keyboard focus gets the same answer. A flush

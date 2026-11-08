@@ -24,6 +24,11 @@
        reduced-motion block can hold it still in one place. */
     --sds-card-lift: -2px;
     --sds-card-shadow: var(--shadow-tooltip);
+    /* A linked card at rest, before any pointer: it lies on the page, so a
+       reader sees which card goes somewhere, on a phone too. In dark a shadow
+       does not read on the canvas, so the stronger edge says it there. */
+    --sds-card-rest-shadow: var(--shadow-strong);
+    --sds-card-rest-edge: light-dark(var(--border-subtle), var(--border-strong));
     --sds-card-pad-y: var(--space-5);
     --sds-card-pad-x: var(--space-5);
     --sds-card-gap: var(--space-1-5);
@@ -91,6 +96,10 @@
       pointer-events: none;
       transition: opacity var(--sds-card-duration) var(--sds-card-ease);
     }
+  }
+  .sds-card:has(> .sds-card__body > .sds-card__title a) {
+    border-color: var(--sds-card-rest-edge);
+    box-shadow: var(--sds-card-rest-shadow);
   }
   /* A rise, a fill, and the accent lit into the top of the frame and let go of
      on the way down. Light falls on the card from where the reader is, which is
@@ -272,6 +281,7 @@
        remains to say the tile answers. */
     --sds-card-lift: 0px;
     --sds-card-shadow: none;
+    --sds-card-rest-shadow: none;
 
     &::before {
       content: none;

@@ -36,7 +36,12 @@ moves under the finger. No specimen can hold that state, and a reader notices
 it soonest. A control that looks the same under a press reads as dead on
 every page that takes longer than a frame to answer.
 
-A linked card is the one positional exception. It rises 2px, takes a stronger
+A linked card says so at rest. It lies on the page with ``--shadow-strong``,
+and in dark with the strong edge, as a shadow does not read on the dark
+canvas. A card with no link stays flat on its hairline. So a reader sees which
+card goes somewhere on a phone too, where no pointer hovers.
+
+It is also the one positional exception. Under the pointer it rises 2px, takes a stronger
 edge, lights the top of its frame with ``--accent-glow`` and carries
 ``--shadow-tooltip``. Under the pointer it leaves the page for that moment. Keyboard focus
 gets the same response, because the whole card is the target. A card in a

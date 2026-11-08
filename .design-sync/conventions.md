@@ -307,7 +307,9 @@ not exist. That is the answer, not a reason to substitute something.
   `--shadow-dialog`, `--shadow-window`, never the raw `--shadow-2…64`
   behind them. Nothing that stays on the page takes one. It separates with
   a hairline plus `--surface-overlay`, and the focus ring is a state, not
-  depth.
+  depth. A linked card lies on the page with a quiet
+  `--shadow-strong`, and in dark with the strong edge. So a reader sees it
+  goes somewhere.
 - **One accent.** `--accent` marks exactly three things. The active nav
   item, the shell prompt in a code block, the pipe in the wordmark. No
   second accent. The only gradients are the card's lit frame and the hatch
