@@ -67,7 +67,12 @@ if (process.stdin.isTTY) {
   process.exit(1);
 }
 
-const log: Commit[] = readFileSync(0, 'utf8').split('\n').filter(Boolean).map((line) => {
+/* The log as a stream. One read of a pipe that `docker compose exec` hands
+   over non-blocking fails with EAGAIN while the data is still on its way. */
+let piped = '';
+for await (const chunk of process.stdin) piped += chunk;
+
+const log: Commit[] = piped.split('\n').filter(Boolean).map((line) => {
   const [sha = '', refs = '', subject = ''] = line.split(FIELD);
   const typed = TYPED.exec(subject);
   const type = typed?.[2] ?? '';
