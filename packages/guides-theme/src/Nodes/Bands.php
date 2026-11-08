@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Nodes;
 
+use phpDocumentor\Guides\Nodes\AnchorNode;
 use phpDocumentor\Guides\Nodes\CompoundNode;
 use phpDocumentor\Guides\Nodes\Node;
 use phpDocumentor\Guides\Nodes\SectionNode;
@@ -108,24 +109,50 @@ final class Bands
      */
     public static function opening(SectionNode $node): ?array
     {
-        $children = $node->getChildren();
-        $hero = $children[1] ?? null;
-        if (!$hero instanceof HeroNode) {
+        /* A label before the title or after it is an anchor, not content. It
+           stays on the page, in the copy, so every `:ref:` to it still lands. */
+        $anchors = [];
+        $rest = [];
+        $hero = null;
+        foreach ($node->getChildren() as $child) {
+            if ($child === $node->getTitle()) {
+                continue;
+            }
+
+            if ($hero === null && $child instanceof AnchorNode) {
+                $anchors[] = $child;
+
+                continue;
+            }
+
+            if ($hero === null) {
+                if (!$child instanceof HeroNode) {
+                    return null;
+                }
+
+                $hero = $child;
+
+                continue;
+            }
+
+            $rest[] = $child;
+        }
+
+        if ($hero === null) {
             return null;
         }
 
         $copy = new SectionNode($node->getTitle());
-        foreach ($hero->getChildren() as $child) {
+        foreach ([...$anchors, ...$hero->getChildren()] as $child) {
             $copy->addChildNode($child);
         }
 
-        $tail = array_slice($children, 2);
         $content = [$copy];
-        while ($tail !== [] && !self::holdsBand($tail[0])) {
-            $content[] = array_shift($tail);
+        while ($rest !== [] && !self::holdsBand($rest[0])) {
+            $content[] = array_shift($rest);
         }
 
-        return [(new HeroNode($content))->withOptions($hero->getOptions()), $tail];
+        return [(new HeroNode($content))->withOptions($hero->getOptions()), $rest];
     }
 
     private static function holdsBand(Node $node): bool

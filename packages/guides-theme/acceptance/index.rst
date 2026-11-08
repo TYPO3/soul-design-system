@@ -595,6 +595,17 @@ A hero under its heading
    A hero right under a heading takes the heading into its first column,
    beside the picture, as on a marketing page.
 
+.. _hero-label:
+
+A hero under a label
+====================
+
+.. hero:: /_images/placeholder.svg
+   :plain:
+
+   A label before the heading stays an address. :ref:`This section
+   <hero-label>` still lands here.
+
 Cards with a glyph and a state
 ==============================
 

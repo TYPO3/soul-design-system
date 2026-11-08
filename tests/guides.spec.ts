@@ -158,6 +158,16 @@ test.describe('the render', () => {
     await expect(page.locator('h2', { hasText: 'A hero under its heading' })).toHaveCount(1);
   });
 
+  test('a label before the heading keeps the hero join and its address', async ({ page }) => {
+    await page.goto(FIXTURE, { waitUntil: 'load' });
+    const hero = page.locator('sds-hero:has(h2:text-is("A hero under a label")) > .sds-split');
+    await expect(hero.locator(':scope > div').first().locator('h2')).toHaveText(/^A hero under a label/);
+    await expect(page.locator('h2', { hasText: 'A hero under a label' })).toHaveCount(1);
+    /* The label is still a target, and the reference to it lands there. */
+    await expect(page.locator('#hero-label')).toHaveCount(1);
+    await expect(hero.locator('a[href$="#hero-label"]')).toHaveCount(1);
+  });
+
   test('the community boundary keeps its heading beside a centred picture', async ({ page }) => {
     await page.goto(`${SITE_URL}/index.html`, { waitUntil: 'load' });
 
