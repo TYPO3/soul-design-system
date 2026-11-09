@@ -1,10 +1,9 @@
 {#
     A band: the ground runs edge to edge, the content does not.
 
-    `.sds-bands` on the page draws the hairline between two of them and makes
-    consecutive bands share one line rather than each drawing its own. The
-    quiet variant is the second ground — what makes a run of bands read as
-    alternating instead of as a wall.
+    The quiet variant is the second ground, with a hairline at each edge, and
+    two quiet bands in a row share one. `:rule:` is the line between two
+    bands on the same ground.
 
     The document's nodes stand in the band itself. A box between the two takes
     the band's own rule off them. The last block gives its step up at the edge
@@ -13,7 +12,7 @@
     layer is what sets a heading, and a class here is the one `h2` on the page
     that ignores it.
 #}
-<section class="sds-band{% if node.option('quiet') %} sds-band--quiet{% endif %}"
+<section class="sds-band{% if node.option('quiet') %} sds-band--quiet{% endif %}{% if node.option('rule') %} sds-band--ruled{% endif %}"
          {%- if node.option('id') %} id="{{ node.option('id') }}"{% endif %}>
     {%- if node.option('title') %}
         <h2>{{ node.option('title') }}</h2>

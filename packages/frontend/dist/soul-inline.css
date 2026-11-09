@@ -170,6 +170,9 @@
   .sds-band>:last-child{margin-block-end:0}
   .sds-band--quiet{background:var(--surface-quiet);border-block:var(--border-hairline) solid var(--border-subtle)}
   .sds-band--quiet+.sds-band--quiet{border-top:0}
+  .sds-band+.sds-band--ruled{border-top:var(--border-hairline) solid var(--border-subtle)}
+  .sds-band--quiet+.sds-band--ruled{border-top:0}
+  .sds-band:not(.sds-band--quiet)+.sds-band:not(.sds-band--quiet,.sds-band--ruled){padding-block-start:0}
   @media(max-width:1140px){
     :root{--gutter-page: var(--space-6)}
     .sds-body{gap:var(--space-8)}

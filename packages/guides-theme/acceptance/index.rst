@@ -21,6 +21,7 @@ because navigation is the one thing a page cannot show about itself.
    paper
    quiet
    labelled
+   bands
    depth/index
 
 .. note::

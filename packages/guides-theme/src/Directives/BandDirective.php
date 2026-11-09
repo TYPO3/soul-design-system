@@ -23,15 +23,17 @@ use TYPO3\Soul\GuidesTheme\Nodes\BandNode;
  *        Anything at all.
  *
  * Bands are what a marketing page consists of. The ground runs edge to edge,
- * the content inside stays on the page measure, and two of them share one
- * hairline rather than draw two. `:quiet:` is the second ground — the one
- * that makes a run of bands read as alternate rather than as a wall.
+ * and the content inside stays on the page measure. `:quiet:` is the second
+ * ground, with a hairline at each edge, and two quiet bands share one.
+ * `:rule:` draws a line above a band that follows another, where the ground
+ * does not change.
  *
  * On a page whose layout is not `marketing` a band still works. It is simply
  * a section inside a column, which is what it looks like.
  */
 #[Attributes\Directive(name: 'band', valueType: DirectiveValueType::String)]
 #[Attributes\Option(name: 'quiet', type: OptionType::Boolean, description: 'The second ground.')]
+#[Attributes\Option(name: 'rule', type: OptionType::Boolean, description: 'A line above the band.')]
 #[Attributes\Option(name: 'id', description: 'The anchor of the band.')]
 final class BandDirective extends SubDirective
 {
@@ -45,6 +47,7 @@ final class BandDirective extends SubDirective
            in here ships the line and the equals signs as text. */
         return (new BandNode($directiveNode->getChildren()))->withOptions([
             'quiet' => $directive->hasOption('quiet'),
+            'rule' => $directive->hasOption('rule'),
             'id' => $directive->getOption('id')->getValue(),
             'title' => $directive->getData(),
         ]);

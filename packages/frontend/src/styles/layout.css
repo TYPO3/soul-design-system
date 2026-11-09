@@ -337,6 +337,21 @@
   .sds-band--quiet + .sds-band--quiet {
     border-top: 0;
   }
+  /* A line where the ground does not change: between two plain bands, it is
+     the one thing that says a new part starts. Only after a band, so the
+     first one does not draw a second edge under the bar. After a quiet band,
+     the quiet band's own line is the rule. */
+  .sds-band + .sds-band--ruled {
+    border-top: var(--border-hairline) solid var(--border-subtle);
+  }
+  .sds-band--quiet + .sds-band--ruled {
+    border-top: 0;
+  }
+  /* Two plain bands with no line between them are one ground. The space
+     between them is the first band's, once, and not twice. */
+  .sds-band:not(.sds-band--quiet) + .sds-band:not(.sds-band--quiet, .sds-band--ruled) {
+    padding-block-start: 0;
+  }
 
   /* ----------------------------------------------------- what it sheds -- */
 

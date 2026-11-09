@@ -268,8 +268,17 @@ A page with no band at all is the single band it looks like.
 .. confval:: quiet
    :type: flag
 
-   The second ground. Quiet and plain in turn make a run of bands read as a
-   sequence, not as a wall. Two bands in a row share one hairline.
+   The second ground, with a hairline at each edge. Quiet and plain in turn
+   make a run of bands read as a sequence, not as a wall. Two quiet bands in
+   a row share one hairline.
+
+.. confval:: rule
+   :type: flag
+
+   A hairline above the band, where the ground does not change. Two plain
+   bands in a row are one ground, and the space between them stands once.
+   The rule says that a new part starts, and each band keeps its own space. The first band of a page draws none, because the bar is
+   its edge. After a quiet band the quiet band's own line is the rule.
 
 .. confval:: id
    :type: string

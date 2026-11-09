@@ -191,7 +191,10 @@ third, below: a panel beside it.
 
    One full-bleed section. ``.sds-band--quiet`` is the second ground, with
    the hairlines that keep two of them apart. Two quiet bands in a row share
-   one line.
+   one line. Two plain bands in a row are one ground, and the space between
+   them stands once. ``.sds-band--ruled`` draws a hairline above a band that
+   follows another on the same ground, and each band keeps its own space.
+   After a quiet band it draws none.
 
 A document with its panel
 =========================
