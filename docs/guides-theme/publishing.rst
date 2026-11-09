@@ -96,6 +96,18 @@ bundled file for the Node that is on every CI image already.
    The index the bar fetches. ``--no-search`` writes none. The field then
    opens, finds nothing and says so, on every page of a site.
 
+.. confval:: --url
+   :type: string
+
+   Where the target serves the site. A crawler reads the title, the
+   description and the picture of a page only at a whole address, and only
+   the target knows it. So the head
+   writes ``og:url`` and ``og:image`` relative to the page, and this makes
+   them absolute. The canonical, the link to the Markdown twin and the
+   ``canonical:`` the twin opens with become absolute too. Without it all of
+   them stay relative, and the summary says so. A picture that is not in the
+   site is a failure.
+
 .. confval:: --redirects
    :type: string
 
@@ -151,6 +163,10 @@ repository that ever goes back to the branch-based build runs Jekyll over
 it. Jekyll drops every path with a leading underscore, ``_search.json`` and
 ``_images/`` among them. The upload leaves a dotfile out unless
 ``include-hidden-files`` says otherwise, and the marker is one.
+
+**The address comes from Pages.** ``configure-pages`` in the render job reads
+where Pages serves the site, with ``pages: read``. The finishing step takes
+it as ``--url``. A render for another target names that target's address.
 
 **Two jobs, not one.** The deploy is the only step that writes anything
 outside the run. So it is the only one with ``pages: write``, and it waits

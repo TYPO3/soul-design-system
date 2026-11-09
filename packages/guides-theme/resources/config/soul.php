@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use TYPO3\Soul\GuidesTheme\Assets\Files;
 use TYPO3\Soul\GuidesTheme\Assets\MarkFiles;
 use TYPO3\Soul\GuidesTheme\Assets\NodeFiles;
+use TYPO3\Soul\GuidesTheme\Assets\Preview;
 use TYPO3\Soul\GuidesTheme\Code\Grammars;
 use TYPO3\Soul\GuidesTheme\Compiler\Addresses;
 use TYPO3\Soul\GuidesTheme\Compiler\Counting;
@@ -66,6 +67,7 @@ use TYPO3\Soul\GuidesTheme\NodeRenderers\GeneralDirectiveMarkdownRenderer;
 use TYPO3\Soul\GuidesTheme\Parser\LayoutFieldListItemRule;
 use TYPO3\Soul\GuidesTheme\Parser\OnThisPageFieldListItemRule;
 use TYPO3\Soul\GuidesTheme\Parser\PaperFieldListItemRule;
+use TYPO3\Soul\GuidesTheme\Parser\PreviewFieldListItemRule;
 use TYPO3\Soul\GuidesTheme\Renderer\LlmsRenderer;
 use TYPO3\Soul\GuidesTheme\Renderer\MarkdownRenderer;
 use TYPO3\Soul\GuidesTheme\TextRoles\AnchorTextRole;
@@ -119,8 +121,10 @@ return static function (ContainerConfigurator $container): void {
         ->set(NodeFiles::class)
         ->tag('phpdoc.guides.prerenderer')
         ->set(MarkFiles::class)
-        ->args(['$signet' => '%soul.signet%', '$favicons' => '%soul.favicons%'])
+        ->args(['$signet' => '%soul.signet%', '$favicons' => '%soul.favicons%', '$image' => '%soul.image%'])
         ->tag('event_listener', ['event' => PreRenderProcess::class])
+        ->set(Preview::class)
+        ->args(['$image' => '%soul.image%'])
 
         /* The marketing blocks share the node shape described by `BlockNode`. */
         ->set(BandDirective::class)
@@ -243,6 +247,9 @@ return static function (ContainerConfigurator $container): void {
         /* `:eyebrow:` and `:foot:`, the lines of a paper's panel. */
         ->set(PaperFieldListItemRule::class)
         ->tag('phpdoc.guides.parser.rst.fieldlist')
+        /* `:image:` and `:image-alt:`, the picture of a link to the page. */
+        ->set(PreviewFieldListItemRule::class)
+        ->tag('phpdoc.guides.parser.rst.fieldlist')
 
         /* What is on a page, written into every page that has headings to
            list and no contents of its own — see `OnThisPage`. Tagged by hand:
@@ -361,7 +368,7 @@ return static function (ContainerConfigurator $container): void {
             '%soul.signet%', '%soul.favicons%', '%soul.product%', '%soul.brand%', '%soul.home%',
             '%soul.footer%', '%soul.navigation%', '%soul.pager%', '%soul.markdown%', '%soul.cdn%',
             service(Menu::class), service(Rail::class), service(Pager::class), service(Sections::class),
-            service(Numbers::class),
+            service(Numbers::class), service(Preview::class),
         ])
         ->tag('twig.extension');
 };

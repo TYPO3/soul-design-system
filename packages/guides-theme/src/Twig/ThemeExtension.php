@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TYPO3\Soul\GuidesTheme\Twig;
 
+use phpDocumentor\Guides\Nodes\DocumentNode;
 use phpDocumentor\Guides\Nodes\Menu\ContentMenuNode;
 use phpDocumentor\Guides\RenderContext;
 use Twig\Extension\AbstractExtension;
@@ -11,6 +12,7 @@ use Twig\Extension\GlobalsInterface;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Twig\TwigTest;
+use TYPO3\Soul\GuidesTheme\Assets\Preview;
 use TYPO3\Soul\GuidesTheme\Navigation\Menu;
 use TYPO3\Soul\GuidesTheme\Navigation\Numbers;
 use TYPO3\Soul\GuidesTheme\Navigation\Pager;
@@ -55,6 +57,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
         private readonly Pager $pages,
         private readonly Sections $sections,
         private readonly Numbers $numbers,
+        private readonly Preview $preview,
     ) {}
 
     /** @return array<string, mixed> */
@@ -120,6 +123,7 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
             new TwigFunction('number_of', $this->numbers->of(...)),
             new TwigFunction('number_at', $this->numbers->at(...)),
             new TwigFunction('part_names', $this->partNames(...), ['needs_context' => true]),
+            new TwigFunction('preview', $this->preview(...), ['needs_context' => true]),
         ];
     }
 
@@ -186,6 +190,19 @@ final class ThemeExtension extends AbstractExtension implements GlobalsInterface
             $this->product ?? $renderContext->getProjectNode()->getTitle() ?? '',
             $this->navigation['links'] ?? [],
         );
+    }
+
+    /**
+     * The picture a link to the page in hand shows on another site, or
+     * nothing where neither the page nor the project names one.
+     *
+     * @param array{env?: RenderContext} $context
+     *
+     * @return array{src: string, alt: string|null, width: int|null, height: int|null}|null
+     */
+    public function preview(array $context, DocumentNode $document): ?array
+    {
+        return $this->preview->of($this->context($context, 'A preview is the picture of a page'), $document);
     }
 
     /**

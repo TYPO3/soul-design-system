@@ -23,6 +23,9 @@
     <project title="Soul — Guides fixture" version="0.1.0-dev" copyright="© 2026 The fixture"/>
     <extension class="TYPO3\Soul\GuidesTheme\DependencyInjection\SoulExtension">
         <product>Acceptance</product>
+        <!-- The picture of a link to a page, for every page that names
+             none. `quiet.rst` names its own. -->
+        <image href="_images/preview.webp" alt="Folders on a table"/>
         <!-- The sections in the bar, which the fixture carries so the suite
              can open one: they are the part of the header a server resolves
              and hands over, and a bar rendered with none of them is a bar

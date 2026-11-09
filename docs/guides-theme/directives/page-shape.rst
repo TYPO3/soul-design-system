@@ -42,6 +42,44 @@ never have to work out which site they are on. The body changes.
    misspelt field looks like. ``:laoyut: marketing`` prints the word and the
    value above the title of a page that is still a manual.
 
+.. _directive-image:
+
+image
+=====
+
+Not a directive either. Two fields at the top of a document, and they name
+the picture a link to this page shows on another site.
+
+.. code-block:: text
+
+   :navigation-title: Overview
+   :image: /_images/overview-preview.webp
+   :image-alt: A desk with an open folder and a notebook
+
+   ========
+   Overview
+   ========
+
+.. confval:: image
+   :type: string
+   :default: the ``<image>`` setting
+
+   A raster file, PNG, JPEG or WebP, that resolves from the document like
+   the file of a ``figure``. It replaces the project's ``<image>`` for this
+   page. The head writes ``og:image`` with the size the file
+   says it has.
+
+.. confval:: image-alt
+   :type: string
+   :default: the ``alt`` of the ``<image>`` setting
+
+   What the picture shows, as ``og:image:alt``.
+
+The head writes the rest of Open Graph from what the page has already. The
+title is ``og:title``. The description of the twin is ``og:description`` and
+``description``: the ``:abstract:``, a ``meta`` description, or the first
+sentence. :doc:`/guides-theme/configuration` has the default picture.
+
 .. _directive-hero:
 
 hero

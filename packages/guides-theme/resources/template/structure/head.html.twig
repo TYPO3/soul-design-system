@@ -36,6 +36,34 @@
 <link rel="alternate" type="text/markdown" href="{{ twin }}.md" />
 <link rel="canonical" href="{{ twin }}.html" />
 {%- endif %}
+{#- What a link to this page shows on another site. The same line the twin
+    opens with, so both say one thing. A path here is relative to the page:
+    the address of the site is the target's, not the source's. So
+    `soul-finish.js --url=<address>` makes it absolute on the way out. -#}
+{%- set description = node is defined ? node|md_opening : '' %}
+{%- set picture = node is defined ? preview(node) : null %}
+{%- if description %}
+<meta name="description" content="{{ description }}" />
+{%- endif %}
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="{{ soul.product ?: env.projectNode.title }}" />
+<meta property="og:title" content="{{ title }}" />
+{%- if description %}
+<meta property="og:description" content="{{ description }}" />
+{%- endif %}
+{%- if env.hasCurrentFileName %}
+<meta property="og:url" content="{{ env.currentFileName|split('/')|last }}.html" />
+{%- endif %}
+{%- if picture %}
+<meta property="og:image" content="{{ picture.src matches '{^[a-z][a-z0-9+.-]*://}i' ? picture.src : asset(picture.src) }}" />
+{%- if picture.width and picture.height %}
+<meta property="og:image:width" content="{{ picture.width }}" />
+<meta property="og:image:height" content="{{ picture.height }}" />
+{%- endif %}
+{%- if picture.alt %}
+<meta property="og:image:alt" content="{{ picture.alt }}" />
+{%- endif %}
+{%- endif %}
 {#- The drop-in beside the site, or the same release on a CDN. A file from
     elsewhere runs only with the hash this render took of it. -#}
 {%- set from = soul.cdn ? soul.cdn.base : root ~ 'styles/' %}

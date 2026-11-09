@@ -181,6 +181,50 @@ export function escapes(root: string): string[] {
   return bad;
 }
 
+/* The addresses another site reads off a page: `og:url`, `og:image`, the
+   canonical and the twin, and the `canonical:` the twin opens with. The theme
+   writes each relative, because the address of the site belongs to the
+   target. With `base` they become absolute here. A picture not in the site
+   fails; `escapes` already holds the links. */
+const SHARED = /(<meta property="og:(?:url|image)" content="|<link rel="(?:canonical|alternate)"[^>]*? href=")([^"]*)(")/g;
+const TWIN = /^(---\n[\s\S]*?^canonical: )(\S+)$/m;
+
+function* twins(dir: string): Generator<string> {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, entry.name);
+    if (entry.isDirectory()) yield* twins(p);
+    else if (entry.name.endsWith('.md')) yield p;
+  }
+}
+
+export function shared(root: string, base?: string): { pages: number; missing: string[] } {
+  const site = base ? new URL(base.endsWith('/') ? base : `${base}/`) : undefined;
+  const whole = (ref: string, path: string): string => (site ? new URL(ref, new URL(path, site)).href : ref);
+  let count = 0;
+  const missing: string[] = [];
+  for (const file of pages(root)) {
+    const text = readFileSync(file, 'utf8');
+    if (!text.includes('<meta property="og:')) continue;
+    const path = relative(root, file).split(sep).join('/');
+    const out = text.replace(SHARED, (all, open: string, ref: string, close: string) => {
+      if (/^[a-z][a-z0-9+.-]*:/i.test(ref)) return all;
+      if (open.startsWith('<meta') && !existsSync(resolve(dirname(file), ref.split('#')[0] ?? ref))) missing.push(`${path} → ${ref}`);
+      return `${open}${whole(ref, path)}${close}`;
+    });
+    count += 1;
+    if (out !== text) writeFileSync(file, out);
+  }
+  if (site) {
+    for (const file of twins(root)) {
+      const text = readFileSync(file, 'utf8');
+      const path = relative(root, file).split(sep).join('/');
+      const out = text.replace(TWIN, (all, open: string, ref: string) => (/^[a-z][a-z0-9+.-]*:/i.test(ref) ? all : `${open}${whole(ref, path)}`));
+      if (out !== text) writeFileSync(file, out);
+    }
+  }
+  return { pages: count, missing };
+}
+
 /* A refusal stands on the page where the author reads it. A build reads no
    page, so this reads them all. A path with a leading underscore is no document. */
 export function refusals(root: string): string[] {
@@ -243,20 +287,26 @@ export interface Finished {
   moved: number;
   /** Entries of the redirect list that cannot hold. */
   unmoved: string[];
+  /** Pages whose `og:` addresses are absolute, or `null` with no address. */
+  shared: number | null;
+  /** `og:` addresses that name no file in the site. */
+  unshared: string[];
 }
 
 /** The steps between a render and a site, in the one order that works. The
     render first, because a card's title lives in the element until it draws
     and the index reads the drawn page. The check last, because the copy step
     is one of the things that can break a reference. */
-export function finish(root: string, options: { drop?: string; styles?: string; search?: string | false; redirects?: string } = {}): Finished {
-  const { drop, styles = 'styles', search = '_search.json', redirects: list } = options;
+export function finish(root: string, options: { drop?: string; styles?: string; search?: string | false; redirects?: string; url?: string } = {}): Finished {
+  const { drop, styles = 'styles', search = '_search.json', redirects: list, url } = options;
   const cdn = fromCdn(root);
   if (drop) dropIn(drop, join(root, styles), cdn);
   const drawn = draw(root);
   const pruned = drop ? prune(root, styles, drop, cdn) : 0;
   const indexed = search === false ? null : index(root, search);
+  /* Before the stubs, because a stub is nothing anybody shares. */
+  const { pages: sharedPages, missing: unshared } = shared(root, url);
   /* After the index, because a stub is nothing a reader searches for. */
   const { written: moved, wrong: unmoved } = list ? redirects(root, list) : { written: 0, wrong: [] };
-  return { drawn, pruned, indexed, broken: escapes(root), refused: refusals(root), moved, unmoved };
+  return { drawn, pruned, indexed, broken: escapes(root), refused: refusals(root), moved, unmoved, shared: url ? sharedPages : null, unshared };
 }

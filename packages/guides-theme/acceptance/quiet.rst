@@ -1,5 +1,7 @@
 :navigation-title: No list
 :on-this-page: no
+:image: _images/preview-quiet.webp
+:image-alt: A magnifying glass over a page
 
 ======================
 A page with no list

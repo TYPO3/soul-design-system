@@ -142,6 +142,25 @@ The mark
    favicon slot cannot scale one. A media query inside the file cannot pick
    either. As a link, an SVG only sees its own viewport.
 
+.. confval:: image
+   :type: href, alt
+   :default: none
+
+   The picture a link to a page shows on another site: ``og:image``, with
+   its size read out of the file. The path follows the signet's
+   rule. It must be a raster file, PNG, JPEG or WebP, because a crawler reads
+   no SVG. 1200 by 630 pixels fills the card of most sites. ``alt`` says what
+   the picture shows.
+
+   .. code-block:: xml
+
+      <image href="_images/preview.webp" alt="What the picture shows"/>
+
+   A page names its own with ``:image:`` and ``:image-alt:`` at the top.
+   With neither, a link to a page shows the title and the description
+   alone. :doc:`/guides-theme/publishing` says how the address becomes
+   absolute.
+
 .. confval:: product
    :type: string
    :default: the project title

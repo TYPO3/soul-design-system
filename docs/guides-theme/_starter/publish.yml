@@ -25,6 +25,10 @@ concurrency:
 jobs:
   render:
     runs-on: ubuntu-latest
+    # To read where Pages serves the site, and nothing more.
+    permissions:
+      contents: read
+      pages: read
     steps:
       - uses: actions/checkout@v7
 
@@ -63,8 +67,14 @@ jobs:
       # index written, and a refusal to publish a reference that leaves the
       # output. The file sits inside the theme package and copies what is
       # beside it, so the `require` above brought it.
+      # Where the target serves the site. A link to a page on another site
+      # needs the whole address for its title and picture, and only the
+      # target knows it.
+      - id: pages
+        uses: actions/configure-pages@v6
+
       - name: Finish the site
-        run: node ${{ runner.temp }}/renderer/vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site
+        run: node ${{ runner.temp }}/renderer/vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js site --url=${{ steps.pages.outputs.base_url }}
 
       # Pages serves this artifact as it stands, but a repository on the
       # branch-based build runs Jekyll, which drops every path with a leading

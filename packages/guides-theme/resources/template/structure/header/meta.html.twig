@@ -1,0 +1,5 @@
+{#- A `.. meta::` key, in the head. Not the description: the head writes
+    that one itself, from the same field, so a page carries it once. -#}
+{%- if node.key != 'description' %}
+<meta name="{{ node.key }}" content="{{ node.value }}" />
+{%- endif %}

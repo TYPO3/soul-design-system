@@ -1,4 +1,5 @@
 :navigation-title: Near
+:abstract: A page one level down, with no page under it.
 
 =========================
 A page inside the section

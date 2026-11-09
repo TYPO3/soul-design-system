@@ -82,6 +82,9 @@ copy.
    * - :ref:`layout <directive-layout>`
      - a field, not a directive: which of the two shapes the page takes
      - —
+   * - :ref:`image <directive-image>`
+     - two fields, not a directive: the picture a link to the page shows on another site
+     - —
    * - :ref:`hero <directive-hero>`, :ref:`hero-figure <directive-hero-figure>`
      - the opening claim of a page, its press, and one image or what stands beside it
      - ``sds-hero``

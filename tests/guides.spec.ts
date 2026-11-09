@@ -271,6 +271,82 @@ test.describe('the mark in the tab', () => {
   });
 });
 
+test.describe('what a link to a page shows', () => {
+  const og = (path: string): Record<string, string[]> => {
+    const html = readFileSync(join(ACCEPTANCE_DIR, path), 'utf8');
+    const out: Record<string, string[]> = {};
+    for (const [, key = '', value = ''] of html.matchAll(/<meta (?:property|name)="((?:og:[\w:]+)|description)" content="([^"]*)"/g)) {
+      (out[key] ??= []).push(value);
+    }
+    return out;
+  };
+
+  test('a page with no picture of its own takes the project\'s, resolved from its depth', () => {
+    const tags = og('depth/near.html');
+    expect(tags['og:title']).toEqual(['A page inside the section']);
+    expect(tags['og:url']).toEqual(['near.html']);
+    expect(tags['og:image']).toEqual(['../_images/preview.webp']);
+    expect(tags['og:image:alt']).toEqual(['Folders on a table']);
+    expect(tags['og:image:type'], 'a crawler reads the type out of the file').toBeUndefined();
+    expect(existsSync(join(ACCEPTANCE_DIR, '_images/preview.webp')), 'the picture is in the site').toBe(true);
+  });
+
+  test('a page that names a picture takes its own, with its size', () => {
+    const tags = og('quiet.html');
+    expect(tags['og:image']).toEqual(['_images/preview-quiet.webp']);
+    expect(tags['og:image:alt']).toEqual(['A magnifying glass over a page']);
+    expect(tags['og:image:width']).toEqual(['1200']);
+    expect(tags['og:image:height']).toEqual(['750']);
+  });
+
+  for (const [path, field, said] of [
+    ['depth/near.html', ':abstract:', 'A page one level down, with no page under it.'],
+    ['nodes.html', 'a meta description', 'The nodes that appear only in software documentation, each one rendered as a page and as a twin.'],
+  ] as const) {
+    test(`${field} is the description, once`, () => {
+      const tags = og(path);
+      expect(tags.description).toEqual([said]);
+      expect(tags['og:description']).toEqual([said]);
+    });
+  }
+
+  test('the finish step keeps the addresses relative, makes them whole with --url, the twin too, and fails on a picture not in the site', () => {
+    const root = mkdtempSync(join(tmpdir(), 'finish-'));
+    const finish = (image: string, url?: string): SpawnSyncReturns<string> => {
+      writeFileSync(join(root, 'page.html'), `<!doctype html><title>A page</title><link rel="alternate" type="text/markdown" href="page.md" /><link rel="canonical" href="page.html" /><meta property="og:url" content="page.html" /><meta property="og:image" content="${image}" />`);
+      writeFileSync(join(root, 'page.md'), '---\ntitle: "A page"\ncanonical: page.html\n---\n\nA page.\n');
+      return spawnSync('node', ['scripts/soul-finish.ts', root, '--no-drop-in', '--no-search', ...(url ? [`--url=${url}`] : [])], { encoding: 'utf8' });
+    };
+    try {
+      writeFileSync(join(root, 'preview.webp'), '');
+      /* With no address nothing names the target, so both stay as the theme
+         wrote them, and the run still passes. */
+      const relative = finish('preview.webp');
+      expect(relative.status).toBe(0);
+      expect(relative.stdout).toContain('og: addresses and the canonical stay relative');
+      const kept = readFileSync(join(root, 'page.html'), 'utf8');
+      expect(kept).toContain('<meta property="og:url" content="page.html" />');
+      expect(kept).toContain('<meta property="og:image" content="preview.webp" />');
+      expect(kept).toContain('<link rel="canonical" href="page.html" />');
+      expect(readFileSync(join(root, 'page.md'), 'utf8')).toContain('canonical: page.html\n');
+      expect(finish('absent.webp').status, 'a missing picture fails with no address too').toBe(1);
+
+      expect(finish('preview.webp', 'https://example.org/docs').status).toBe(0);
+      const html = readFileSync(join(root, 'page.html'), 'utf8');
+      expect(html).toContain('content="https://example.org/docs/page.html"');
+      expect(html).toContain('content="https://example.org/docs/preview.webp"');
+      expect(html).toContain('<link rel="canonical" href="https://example.org/docs/page.html" />');
+      expect(html).toContain('<link rel="alternate" type="text/markdown" href="https://example.org/docs/page.md" />');
+      expect(readFileSync(join(root, 'page.md'), 'utf8')).toContain('canonical: https://example.org/docs/page.html\n');
+      const missing = finish('absent.webp', 'https://example.org/docs/');
+      expect(missing.status).toBe(1);
+      expect(missing.stdout).toContain('a preview names no file in the site: page.html → absent.webp');
+    } finally {
+      rmSync(root, { recursive: true });
+    }
+  });
+});
+
 test.describe('the index the search reads', () => {
   test('every entry is the page speaking, not the furniture around it', async ({ page }) => {
     const index = await (await page.request.get(`${SITE_URL}/_search.json`)).json();

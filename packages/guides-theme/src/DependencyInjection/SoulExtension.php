@@ -45,6 +45,7 @@ use TYPO3\Soul\GuidesTheme\Nodes\OnThisPageNode;
 use TYPO3\Soul\GuidesTheme\Nodes\OutlineNode;
 use TYPO3\Soul\GuidesTheme\Nodes\PaperFieldNode;
 use TYPO3\Soul\GuidesTheme\Nodes\PartNode;
+use TYPO3\Soul\GuidesTheme\Nodes\PreviewNode;
 use TYPO3\Soul\GuidesTheme\Nodes\QuoteNode;
 use TYPO3\Soul\GuidesTheme\Nodes\RegisterNode;
 use TYPO3\Soul\GuidesTheme\Nodes\SlideNode;
@@ -135,6 +136,15 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                                whatever a browser did not find a size for. */
                             ->scalarNode('sizes')->defaultNull()->end()
                         ->end()
+                    ->end()
+                ->end()
+                /* The picture a link to a page shows on another site, for
+                   every page that names none with `:image:`. A raster file
+                   in the documentation tree: a crawler reads no SVG. */
+                ->arrayNode('image')
+                    ->children()
+                        ->scalarNode('href')->isRequired()->end()
+                        ->scalarNode('alt')->defaultNull()->end()
                     ->end()
                 ->end()
                 /* The name in the bar, when it is not the project's own title.
@@ -303,6 +313,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
                 ['node' => LayoutNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => OnThisPageNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => PaperFieldNode::class, 'file' => $blank, 'format' => 'html'],
+                ['node' => PreviewNode::class, 'file' => $blank, 'format' => 'html'],
                 /* A part with no section after it names nothing. */
                 ['node' => PartNode::class, 'file' => $blank, 'format' => 'html'],
                 ['node' => OutlineNode::class, 'file' => $blank, 'format' => 'html'],
@@ -362,6 +373,7 @@ final class SoulExtension extends Extension implements ConfigurationInterface, P
 
         $container->setParameter('soul.signet', $config['signet']);
         $container->setParameter('soul.favicons', $this->favicons($config));
+        $container->setParameter('soul.image', $config['image'] ?? null);
         $container->setParameter('soul.product', $config['product']);
         $container->setParameter('soul.brand', $config['brand']);
         $container->setParameter('soul.home', $config['home']);

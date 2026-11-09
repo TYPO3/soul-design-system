@@ -40,6 +40,14 @@ before the browser, so the pages read with no script. It writes the search
 index the bar fetches. It refuses to finish on a reference that leaves the
 output, and on a diagram that the grammar refuses. It is one bundled file and needs nothing installed.
 
+Every page carries Open Graph in its head: `og:title`, `og:description`,
+`og:site_name`, `og:url` and, with a picture, `og:image`. A crawler reads
+the last two only as whole addresses, and only the target knows the
+address. So the head writes them relative to the page, and
+`--url=<address>` on the second command makes them absolute. The
+canonical, the link to the twin and the twin's `canonical:` with them. On GitHub
+Pages that is the `base_url` of `actions/configure-pages`.
+
 `guides.xml` beside the documents selects the theme and registers it:
 
 ```xml
@@ -65,6 +73,7 @@ project's own title.
 | --- | --- |
 | `<signet>` | A path to the mark in the bar, relative to the documentation root, where the renderer can read it. The render copies it into the output with the documents |
 | `<favicon href sizes>` | The mark in the tab, one element per file. A mark at three optical sizes is three files, and the browser picks by `sizes`. With none, the signet is the tab icon |
+| `<image href alt>` | The picture a link to a page shows on another site, where the page names none with `:image:`. A PNG, JPEG or WebP file, relative to the documentation root. 1200 by 630 pixels fills most cards. `alt` says what it shows. With none, a link shows the title and the description alone |
 | `<product>` | The name in the bar where it is not the project's own title. A manual for one product inside a larger project |
 | `<brand>` | Whose product it is, as the first half of a lockup with the accent rule between the two |
 | `<home>` | What the bar links back to, where that is not the project's index |
@@ -140,6 +149,7 @@ through.
 | `:layout: marketing` | A document field, not a directive, at the top beside `:navigation-title:`. It renders the page as a run of full-bleed bands with no rail. Any other value, and a page with none, is the manual shape |
 | `:layout: paper` | A document field like `:layout: marketing`. The page is a paper, such as a concept or a review. It has no bar and no footer. A panel beside the text holds the outline of the document. `:eyebrow:` is the line over the title, in the panel and on the page. `:foot:` is a line under the outline, once for each line. The title is the `:navigation-title:`. The foot holds the colour mode switch and links the Markdown twin, in a new window. `:numbered: yes` counts the sections, figures, tables and decisions, and a reference names the number. A reference whose words are `#` names the number alone. `:deck:` names the slides of the page, and a press under the title plays them as a deck |
 | `:on-this-page: no` | A document field beside `:navigation-title:`. A manual page keeps the rail and its headings, and gets no list of them beside the text. Without it, a page with two headings or more gets that list |
+| `:image: <file>` | A document field beside `:navigation-title:`. The picture a link to this page shows elsewhere, as `og:image` with the size of the file. A PNG, JPEG or WebP file that resolves from the document. It replaces the `<image>` setting for this page. `:image-alt:` says what it shows |
 | `.. hero:: <image>` | The opening copy of a landing page beside one decorative image. Right after the document title, which stays the page's heading and stands in the hero's first column, in every layout. It draws `sds-hero`. `:plain:` takes the frame off the picture. `:alt:`, `:eyebrow:`, `:icon:`. `:action:` and `:href:` are the press. `:second:` and `:second-href:` are a quieter way. `:align:` is `start`, `center` or `end`. `:leads:` is `start` or `end` |
 | `.. hero-figure::` | In the body of a `hero`: the other half, written rather than named as a file. A diagram, code, a card or a picture, which follows the page's colour mode. It wins over the hero's image argument, and takes no options |
 | `.. band:: [heading]` | A full-bleed section. It *opens* a section and does not wrap one. What follows belongs to it until the next band. `:quiet:` is the second ground, `:id:` an anchor |

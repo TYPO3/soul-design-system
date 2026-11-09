@@ -22,6 +22,10 @@ jobs:
   render:
     name: render the site
     runs-on: ubuntu-latest
+    # To read where Pages serves the site, and nothing more.
+    permissions:
+      contents: read
+      pages: read
     steps:
       - uses: actions/checkout@v7
 
@@ -66,9 +70,14 @@ jobs:
       # and so arrives from nowhere else.
       - run: node scripts/chrome.ts .out/site
 
+      # Where the target serves the site. A link to a page on another site
+      # needs the whole address, and only the target knows it.
+      - id: pages
+        uses: actions/configure-pages@v6
+
       # The list of moved addresses is this site's own: a reader's project has none.
       - name: Finish the site
-        run: node ${{ runner.temp }}/renderer/vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js .out/site --redirects=docs/redirects.json
+        run: node ${{ runner.temp }}/renderer/vendor/typo3/soul-guides-theme/resources/dist/soul-finish.js .out/site --redirects=docs/redirects.json --url=${{ steps.pages.outputs.base_url }}
 
       # Storybook, below the documentation at `storybook/`: a repository has
       # one Pages site, and this is it. Not built here — the gate built it in

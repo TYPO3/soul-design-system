@@ -32,6 +32,11 @@
         <signet>_images/signet.svg</signet>
         <favicon href="_images/signet-s.svg" sizes="16x16"/>
         <favicon href="_images/signet-l.svg" sizes="32x32"/>
+        <!-- The picture a link to a page shows on another site, where the
+             page names none with :image:. A raster file, because a crawler
+             reads no SVG. -->
+        <image href="_images/design-system-workbench.webp"
+               alt="An open folder, a notebook with an orange dot and a metal frame on a desk"/>
         <brand>TYPO3</brand>
         <product>Soul Design System</product>
         <navigation>
