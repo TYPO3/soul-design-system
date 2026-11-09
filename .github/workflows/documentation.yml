@@ -1,9 +1,9 @@
 # The site, rendered and published.
 #
-# `ci.yml` calls this on `main`, behind the gate and behind the mirror — and
-# behind it for two reasons. This site is the manual that tells a reader to
-# install those packages, and its build *installs* them: the theme the job
-# before this one pushed is what renders these pages.
+# `ci.yml` calls this on `main`, behind the gate and behind the mirror. This
+# site is the manual that tells a reader to install those packages, so it
+# goes out once they are there. Its build installs the theme the way a
+# reader does, but from this commit: the site is the render of this tree.
 #
 # No container, therefore. A PHP, a Node and Composer are what a reader has, and
 # they are all this needs.
@@ -44,21 +44,27 @@ jobs:
       # writing a card needs Lit, copying one needs a Node.
       - run: node scripts/embed.ts
 
-      # A reader's, verbatim — `docs/guides-theme/_starter/publish.yml` prints
-      # these three and this job runs them. The theme is the one the mirror
-      # pushed a job ago, and it brings the renderer, the templates and the
-      # drop-in with it.
+      # The theme as this commit has it, assembled the way the mirror gets it.
+      # This job is the render of this tree. A theme from the mirror or from
+      # Packagist is a theme from another commit, as soon as either lags.
+      - name: The theme
+        run: node scripts/split.ts guides-theme --into=${{ runner.temp }}/theme
+
+      # A reader's — `docs/guides-theme/_starter/publish.yml` prints these
+      # three, and this job runs them with the theme above as the source. It
+      # brings the renderer, the templates and the drop-in with it.
       - name: The renderer
         env:
           RENDERER: ${{ runner.temp }}/renderer
+          THEME: ${{ runner.temp }}/theme
         run: |
           mkdir -p "$RENDERER"
           cd "$RENDERER"
           composer init --no-interaction --name=typo3/soul-documentation
-          # The branch, not the released constraint a reader gets. These
-          # pages describe `main`, and a render with the last release shows
-          # a theme that does not have what they document.
-          composer require --no-interaction --no-progress typo3/soul-guides-theme:dev-main
+          composer config repositories.soul path "$THEME"
+          # A path repository takes its version from the directory, which is
+          # no checkout. `*@dev` takes what is there.
+          composer require --no-interaction --no-progress 'typo3/soul-guides-theme:*@dev'
 
       # `docs` and not the theme's control surface: this job renders what it
       # uploads.

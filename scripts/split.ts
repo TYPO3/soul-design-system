@@ -4,6 +4,7 @@
      make split ARGS=guides-theme   replay its commits into .out/split/guides-theme
      make split ARGS=frontend       the same, for the npm package
      make split ARGS=--check        assemble both and prove they are whole
+     node scripts/split.ts guides-theme --into=<dir>   this tree's package, no history
 
    Packagist reads the `composer.json` at the root of a repository, and npm
    installs from one. So everything under `packages/` goes to a repository of
@@ -51,6 +52,25 @@ const size = (pkg: string): string => {
 if (argv.includes('--remotes')) {
   for (const pack of PACKAGES) console.log(`${pack.name} ${pack.remote}`);
   process.exit(0);
+}
+
+/* ---- one package as this commit has it, for a render that installs it ---- */
+
+const INTO = flag('into');
+if (INTO) {
+  report.open('split', 'assemble a package from this tree');
+  const named = argv.filter((a) => !a.startsWith('--'));
+  const pack = PACKAGES.find((p) => named.length === 1 && p.name === named[0]);
+  if (!pack) {
+    report.summary('--into takes the name of one package', [`there is ${PACKAGES.map((p) => p.name).join(' and ')}`]);
+    process.exit(1);
+  }
+  rmSync(INTO, { recursive: true, force: true });
+  mkdirSync(INTO, { recursive: true });
+  pack.assemble(ROOT, INTO);
+  const missing = pack.incomplete(INTO, ROOT);
+  report.summary(`${pack.name} in ${INTO} \u00b7 ${size(INTO)}`, missing);
+  process.exit(missing.length ? 1 : 0);
 }
 
 /* ---- the gate's question: do these trees make packages that stand alone ---- */

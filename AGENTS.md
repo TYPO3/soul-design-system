@@ -371,7 +371,7 @@ is a step, never the answer to "is it green".
 
 `.github/workflows/ci.yml` runs `make verify` and `make test` on every push,
 in the same image. On `main` and behind that gate it mirrors the packages,
-then renders and deploys `.out/site/` from the theme it has just pushed. The
+then renders and deploys `.out/site/` with the theme of the same commit. The
 Storybook the suite built on the way, `.out/storybook/`, goes out under that
 site at `storybook/`. One Pages site per repository, and one build of it, the
 one the suite tested. That is why every path a story writes is relative to
